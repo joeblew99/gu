@@ -134,7 +134,7 @@ func main() {
 package elems
 
 import (
-	"github.com/influx6/faux/domtrees"
+	"github.com/influx6/gu/gutrees"
 )
 
 // Text provides the concrete implementation for using the domtrees.Text struct

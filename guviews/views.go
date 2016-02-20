@@ -1,4 +1,4 @@
-package domviews
+package guviews
 
 import (
 	"errors"
@@ -8,11 +8,12 @@ import (
 
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/faux/domevents"
-	"github.com/influx6/faux/domtrees"
-	"github.com/influx6/faux/domtrees/attrs"
-	"github.com/influx6/faux/domtrees/elems"
 	"github.com/influx6/faux/pub"
+	"github.com/influx6/gu/gutrees/attrs"
+	"github.com/influx6/gu/gutrees/elems"
 )
+
+//==============================================================================
 
 // MarkupRenderer provides a interface for a types capable of rendering dom markup.
 type MarkupRenderer interface {
@@ -20,10 +21,14 @@ type MarkupRenderer interface {
 	RenderHTML(...string) template.HTML
 }
 
+//==============================================================================
+
 // Renderable provides a interface for a renderable type.
 type Renderable interface {
 	Render(...string) domtrees.Markup
 }
+
+//==============================================================================
 
 // ReactiveRenderable provides a interface for a reactive renderable type.
 type ReactiveRenderable interface {
@@ -31,11 +36,15 @@ type ReactiveRenderable interface {
 	Renderable
 }
 
+//==============================================================================
+
 // Behaviour provides a state changers for haiku.
 type Behaviour interface {
 	Hide()
 	Show()
 }
+
+//==============================================================================
 
 // Views define a Haiku Component
 type Views interface {
@@ -51,10 +60,14 @@ type Views interface {
 	History() (*HistoryProvider, error)
 }
 
+//==============================================================================
+
 // ViewStates defines the two possible behavioral state of a view's markup
 type ViewStates interface {
 	Render(domtrees.Markup)
 }
+
+//==============================================================================
 
 // HideView provides a ViewStates for Views inactive state
 type HideView struct{}
@@ -81,6 +94,8 @@ func (v *ShowView) Render(m domtrees.Markup) {
 		}
 	}
 }
+
+//==============================================================================
 
 // View represent a basic Haiku view
 type View struct {
@@ -253,6 +268,8 @@ func (v *View) RenderHTML(m ...string) template.HTML {
 	return template.HTML(ma)
 }
 
+//==============================================================================
+
 // SequenceMeta  provides a configuration object for SequenceRenderer.
 type SequenceMeta struct {
 	Tag   string   // Name of the root tag.
@@ -310,3 +327,5 @@ func (s *SequenceRenderer) Render(m ...string) domtrees.Markup {
 
 	return root
 }
+
+//==============================================================================

@@ -1,4 +1,4 @@
-package domevents
+package guevents
 
 import (
 	"log"

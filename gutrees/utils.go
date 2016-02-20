@@ -1,4 +1,4 @@
-package domtrees
+package gutrees
 
 import "crypto/rand"
 

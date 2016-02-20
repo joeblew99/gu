@@ -148,7 +148,7 @@ func main() {
 package events
 
 import (
-	"github.com/influx6/faux/domtrees"
+	"github.com/influx6/gu/gutrees"
 )
 `)
 

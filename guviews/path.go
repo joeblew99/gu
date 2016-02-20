@@ -1,4 +1,4 @@
-package domviews
+package guviews
 
 import (
 	"errors"
