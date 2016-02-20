@@ -7,8 +7,8 @@ import (
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/faux/domevents"
 	"github.com/influx6/faux/pub"
+	"github.com/influx6/gu/guevents"
 )
 
 // PathSpec represent the current path and hash values
@@ -180,7 +180,7 @@ func NewPage(p *HistoryProvider) *Pages {
 // Mount adds a component into the page for handling/managing of visiblity and
 // gets the dom referenced by the selector using QuerySelector and returns an error if selector gave no result
 func (p *Pages) Mount(selector, addr string, v Views) error {
-	n := domevents.GetDocument().Call("querySelector", selector)
+	n := guevents.GetDocument().Call("querySelector", selector)
 
 	if n == nil || n == js.Undefined {
 		return ErrBadSelector

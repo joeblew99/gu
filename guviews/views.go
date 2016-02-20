@@ -7,8 +7,9 @@ import (
 	"sync/atomic"
 
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/faux/domevents"
 	"github.com/influx6/faux/pub"
+	"github.com/influx6/gu/guevents"
+	"github.com/influx6/gu/gutrees"
 	"github.com/influx6/gu/gutrees/attrs"
 	"github.com/influx6/gu/gutrees/elems"
 )
@@ -17,7 +18,7 @@ import (
 
 // MarkupRenderer provides a interface for a types capable of rendering dom markup.
 type MarkupRenderer interface {
-	Render(...string) domtrees.Markup
+	Render(...string) gutrees.Markup
 	RenderHTML(...string) template.HTML
 }
 
@@ -25,7 +26,7 @@ type MarkupRenderer interface {
 
 // Renderable provides a interface for a renderable type.
 type Renderable interface {
-	Render(...string) domtrees.Markup
+	Render(...string) gutrees.Markup
 }
 
 //==============================================================================
@@ -53,7 +54,7 @@ type Views interface {
 	Behaviour
 	MarkupRenderer
 
-	Events() domevents.EventManagers
+	Events() guevents.EventManagers
 	Mount(*js.Object)
 	BindView(Views)
 	UseHistory(*HistoryProvider)
@@ -64,7 +65,7 @@ type Views interface {
 
 // ViewStates defines the two possible behavioral state of a view's markup
 type ViewStates interface {
-	Render(domtrees.Markup)
+	Render(gutrees.Markup)
 }
 
 //==============================================================================
@@ -73,9 +74,9 @@ type ViewStates interface {
 type HideView struct{}
 
 // Render marks the given markup as display:none
-func (v *HideView) Render(m domtrees.Markup) {
+func (v *HideView) Render(m gutrees.Markup) {
 	//if we are allowed to query for styles then check and change display
-	if ds, err := domtrees.GetStyle(m, "display"); err == nil {
+	if ds, err := gutrees.GetStyle(m, "display"); err == nil {
 		if !strings.Contains(ds.Value, "none") {
 			ds.Value = "none"
 		}
@@ -86,9 +87,9 @@ func (v *HideView) Render(m domtrees.Markup) {
 type ShowView struct{}
 
 // Render marks the given markup with a display: block
-func (v *ShowView) Render(m domtrees.Markup) {
+func (v *ShowView) Render(m gutrees.Markup) {
 	//if we are allowed to query for styles then check and change display
-	if ds, err := domtrees.GetStyle(m, "display"); err == nil {
+	if ds, err := gutrees.GetStyle(m, "display"); err == nil {
 		if strings.Contains(ds.Value, "none") {
 			ds.Value = "block"
 		}
@@ -105,13 +106,13 @@ type View struct {
 	ShowState   ViewStates
 	activeState ViewStates
 	history     *HistoryProvider
-	encoder     domtrees.MarkupWriter
-	events      domevents.EventManagers
+	encoder     gutrees.MarkupWriter
+	events      guevents.EventManagers
 	dom         *js.Object
 	rview       Renderable
-	liveMarkup  domtrees.Markup //liveMarkup represent the current rendered markup
-	backdoor    domtrees.MutableBackdoor
-	loaded      int32
+	liveMarkup  gutrees.Markup //liveMarkup represent the current rendered markup
+	backdoor    gutrees.MutableBackdoor
+	loaded      int64
 	uid         string
 }
 
@@ -119,7 +120,7 @@ type View struct {
 // which it will generate itself. Use NewScopedView for more control especially
 // when rendering from server.
 func NewView(view Renderable) *View {
-	return MakeView("", domtrees.SimpleMarkupWriter, view)
+	return MakeView("", gutrees.SimpleMarkupWriter, view)
 }
 
 // NewScopedView returns a View instance with a custom UID.
@@ -128,18 +129,18 @@ func NewView(view Renderable) *View {
 // of the server-rendered dom node the view is concerned about and it loads off
 // that dom node on the client side to ensure correct transition.
 func NewScopedView(uid string, view Renderable) *View {
-	return MakeView(uid, domtrees.SimpleMarkupWriter, view)
+	return MakeView(uid, gutrees.SimpleMarkupWriter, view)
 }
 
 // SequenceView returns a new  View instance rendered through a sequence renderer.
 func SequenceView(meta SequenceMeta, rs ...Renderable) *View {
-	return MakeView(meta.UID, domtrees.SimpleMarkupWriter, Sequence(meta, rs...))
+	return MakeView(meta.UID, gutrees.SimpleMarkupWriter, Sequence(meta, rs...))
 }
 
 // MakeView returns a Components style
-func MakeView(uid string, writer domtrees.MarkupWriter, vw Renderable) (vm *View) {
+func MakeView(uid string, writer gutrees.MarkupWriter, vw Renderable) (vm *View) {
 	if uid == "" {
-		uid = domtrees.RandString(8)
+		uid = gutrees.RandString(8)
 	}
 
 	vm = &View{
@@ -147,7 +148,7 @@ func MakeView(uid string, writer domtrees.MarkupWriter, vw Renderable) (vm *View
 		States:    NewState(),
 		HideState: &HideView{},
 		ShowState: &ShowView{},
-		events:    domevents.NewEventManager(),
+		events:    guevents.NewEventManager(),
 		encoder:   writer,
 		rview:     vw,
 		uid:       uid,
@@ -162,7 +163,7 @@ func MakeView(uid string, writer domtrees.MarkupWriter, vw Renderable) (vm *View
 	vm.React(func(r pub.Publisher, _ error, _ interface{}) {
 		//if we are not domless then patch
 		if vm.dom != nil {
-			replaceOnly := atomic.LoadInt32(&vm.loaded) == 0
+			replaceOnly := atomic.LoadInt64(&vm.loaded) == 0
 			html := vm.RenderHTML()
 			Patch(CreateFragment(string(html)), vm.dom, replaceOnly)
 		}
@@ -203,7 +204,7 @@ func (v *View) Mount(dom *js.Object) {
 	v.events.OffloadDOM()
 	v.events.LoadDOM(dom)
 	v.Send(true)
-	atomic.StoreInt32(&v.loaded, 1)
+	atomic.StoreInt64(&v.loaded, 1)
 }
 
 // Show activates the view to generate a visible markup
@@ -223,12 +224,12 @@ func (v *View) Hide() {
 }
 
 // Events returns the views events manager
-func (v *View) Events() domevents.EventManagers {
+func (v *View) Events() guevents.EventManagers {
 	return v.events
 }
 
 // Render renders the generated markup for this view
-func (v *View) Render(m ...string) domtrees.Markup {
+func (v *View) Render(m ...string) gutrees.Markup {
 	if len(m) <= 0 {
 		m = []string{"."}
 	}
@@ -315,8 +316,8 @@ func (s *SequenceRenderer) Add(r ...Renderable) {
 }
 
 // Render renders the giving giving lists of views.
-func (s *SequenceRenderer) Render(m ...string) domtrees.Markup {
-	root := domtrees.NewElement(s.Tag, false)
+func (s *SequenceRenderer) Render(m ...string) gutrees.Markup {
+	root := gutrees.NewElement(s.Tag, false)
 
 	attrs.Class(strings.Join(s.Class, " ")).Apply(root)
 	attrs.ID(s.ID).Apply(root)

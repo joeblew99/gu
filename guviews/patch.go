@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/faux/domevents"
+	"github.com/influx6/gu/guevents"
 )
 
 // CreateFragment returns a DocumentFragment with the given html dom
@@ -17,24 +17,24 @@ func CreateFragment(html string) *js.Object {
 	//a discardable div
 
 	// div := doc.CreateElement("div")
-	div := domevents.CreateElement("div")
+	div := guevents.CreateElement("div")
 
 	//build up the html right in the div
-	domevents.SetInnerHTML(div, html)
+	guevents.SetInnerHTML(div, html)
 
 	//unwrap all the special Text UnknownELement we are using
-	// domevents.UnWrapSpecialTextElements(div)
+	// guevents.UnWrapSpecialTextElements(div)
 
 	//create the document fragment
-	fragment := domevents.CreateDocumentFragment()
+	fragment := guevents.CreateDocumentFragment()
 
 	//add the nodes from the div into the fragment
-	nodes := domevents.ChildNodeList(div)
+	nodes := guevents.ChildNodeList(div)
 
-	domevents.AppendChild(fragment, nodes...)
+	guevents.AppendChild(fragment, nodes...)
 
 	//unwrap all the special Text UnknownELement we are using
-	// domevents.UnWrapSpecialTextElements(fragment)
+	// guevents.UnWrapSpecialTextElements(fragment)
 
 	return fragment
 }
@@ -42,20 +42,20 @@ func CreateFragment(html string) *js.Object {
 // AddNodeIfNone uses the dom.Node.IsEqualNode method to check if not already exist and if so swap them else just add
 // NOTE: bad way of doing it use it as last option
 func AddNodeIfNone(dest, src *js.Object) {
-	AddNodeIfNoneInList(dest, domevents.ChildNodeList(dest), src)
+	AddNodeIfNoneInList(dest, guevents.ChildNodeList(dest), src)
 }
 
 // AddNodeIfNoneInList checks a node in a node list if it finds an equal it replaces only else does nothing
 func AddNodeIfNoneInList(dest *js.Object, against []*js.Object, with *js.Object) bool {
 	for _, no := range against {
-		if domevents.IsEqualNode(no, with) {
+		if guevents.IsEqualNode(no, with) {
 			// if no.IsEqualNode(with) {
-			domevents.ReplaceNode(dest, with, no)
+			guevents.ReplaceNode(dest, with, no)
 			return true
 		}
 	}
 	//not matching, add it
-	domevents.AppendChild(dest, with)
+	guevents.AppendChild(dest, with)
 	// dest.AppendChild(with)
 	return false
 }
@@ -67,15 +67,15 @@ func Patch(fragment, live *js.Object, onlyReplace bool) {
 		// if the live element is actually empty, then just append the fragment which
 		// actually appends the nodes within it efficiently
 
-		domevents.AppendChild(live, fragment)
+		guevents.AppendChild(live, fragment)
 		return
 	}
 
 	// log.Printf("doing patching")
 	// shadowNodes := fragment.ChildNodes()
 
-	shadowNodes := domevents.ChildNodeList(fragment)
-	liveNodes := domevents.ChildNodeList(live)
+	shadowNodes := guevents.ChildNodeList(fragment)
+	liveNodes := guevents.ChildNodeList(live)
 
 	// FIXED: instead of going through the children which may be many,
 	// liveNodes := fragment.ChildNodes()
@@ -93,8 +93,8 @@ patchloop:
 		if node.Get("constructor") == js.Global.Get("Text") {
 			// log.Printf("text %+s %s %s %d", node, node.Get("nodeName"), node.Get("innerText"), node.Get("nodeType").Int())
 
-			if _, empty := domevents.EmptyTextNode(node); empty {
-				domevents.AppendChild(live, node)
+			if _, empty := guevents.EmptyTextNode(node); empty {
+				guevents.AppendChild(live, node)
 				continue patchloop
 			}
 
@@ -105,37 +105,37 @@ patchloop:
 			}
 
 			if liveNodeAt == nil || liveNodeAt == js.Undefined {
-				domevents.AppendChild(live, node)
+				guevents.AppendChild(live, node)
 			} else {
-				domevents.InsertBefore(live, liveNodeAt, node)
+				guevents.InsertBefore(live, liveNodeAt, node)
 			}
 
 			continue patchloop
 		}
 
 		//get the tagname
-		tagname := domevents.GetTag(node)
+		tagname := guevents.GetTag(node)
 		// log.Printf("Working with tag %s -> %+s", tagname, nchildren)
 
 		// get the basic attrs
 		var id, hash, class, uid string
 
 		// do we have 'id' attribute? if so its a awesome chance to simplify
-		if domevents.HasAttribute(node, "id") {
-			id = domevents.GetAttribute(node, "id")
+		if guevents.HasAttribute(node, "id") {
+			id = guevents.GetAttribute(node, "id")
 		}
 
-		if domevents.HasAttribute(node, "class") {
-			id = domevents.GetAttribute(node, "class")
+		if guevents.HasAttribute(node, "class") {
+			id = guevents.GetAttribute(node, "class")
 		}
 
 		// lets check for the hash and uid, incase its a pure template based script
-		if domevents.HasAttribute(node, "hash") {
-			hash = domevents.GetAttribute(node, "hash")
+		if guevents.HasAttribute(node, "hash") {
+			hash = guevents.GetAttribute(node, "hash")
 		}
 
-		if domevents.HasAttribute(node, "uid") {
-			uid = domevents.GetAttribute(node, "uid")
+		if guevents.HasAttribute(node, "uid") {
+			uid = guevents.GetAttribute(node, "uid")
 		}
 
 		// if tagname == "tmlview" {
@@ -156,11 +156,11 @@ patchloop:
 			if allEmpty(id) {
 				// log.Printf("adding since class")
 				// class is it and we only want those that match narrowing our set
-				no := domevents.QuerySelectorAll(live, class)
+				no := guevents.QuerySelectorAll(live, class)
 
 				// if none found we add else we replace
 				if len(no) <= 0 {
-					domevents.AppendChild(live, node)
+					guevents.AppendChild(live, node)
 				} else {
 					// check the available sets and replace else just add it
 					AddNodeIfNoneInList(live, no, node)
@@ -169,13 +169,13 @@ patchloop:
 			} else {
 				// id is it and we only want one
 				// log.Printf("adding since id")
-				no := domevents.QuerySelector(live, fmt.Sprintf("#%s", id))
+				no := guevents.QuerySelector(live, fmt.Sprintf("#%s", id))
 
 				// if none found we add else we replace
 				if no == nil || no != js.Undefined {
-					domevents.AppendChild(live, node)
+					guevents.AppendChild(live, node)
 				} else {
-					domevents.ReplaceNode(live, node, no)
+					guevents.ReplaceNode(live, node, no)
 				}
 			}
 
@@ -186,66 +186,66 @@ patchloop:
 		sel := fmt.Sprintf(`%s[uid='%s']`, strings.ToLower(tagname), uid)
 
 		// we know hash and uid are not empty so we kick ass the easy way
-		target := domevents.QuerySelector(live, sel)
+		target := guevents.QuerySelector(live, sel)
 
 		// log.Printf("textElem %s -> %s -> %s : target -> %+s", node, node.Get("tagName"), sel, target)
 
 		// if we are nil then its a new node add it and return
 		if target == nil || target == js.Undefined {
-			domevents.AppendChild(live, node)
+			guevents.AppendChild(live, node)
 			continue patchloop
 		}
 
 		if onlyReplace {
-			domevents.ReplaceNode(live, node, target)
+			guevents.ReplaceNode(live, node, target)
 			continue patchloop
 		}
 
 		//if we are to be removed then remove the target
-		if domevents.HasAttribute(node, "haikuRemoved") {
+		if guevents.HasAttribute(node, "haikuRemoved") {
 			// log.Printf("removed node: %+s", node)
 			// target.ParentNode().RemoveChild(target)
-			domevents.RemoveChild(target, target)
+			guevents.RemoveChild(target, target)
 			continue patchloop
 		}
 
 		// if the target hash is exactly the same with ours skip it
-		if domevents.GetAttribute(target, "hash") == hash {
+		if guevents.GetAttribute(target, "hash") == hash {
 			continue patchloop
 		}
 
-		nchildren := domevents.ChildNodeList(node)
+		nchildren := guevents.ChildNodeList(node)
 		// log.Printf("Checking size of children %s %d", sel, len(nchildren))
 		//if the new node has no children, then just replace it
 		// if len(elem.ChildNodes()) <= 0 {
 		if len(nchildren) <= 0 {
 			// live.ReplaceChild(node, target)
-			domevents.ReplaceNode(live, node, target)
+			guevents.ReplaceNode(live, node, target)
 			continue patchloop
 		}
 
 		//here we are not be removed and we do have kids
 
 		//cleanout all the targets text-nodes
-		domevents.CleanAllTextNode(target)
+		guevents.CleanAllTextNode(target)
 
 		//so we got this dude, are we already one level deep ? if so swap else
 		// run through the children with Patch
 		// if level >= 1 {
 		// live.ReplaceChild(node, target)
-		attrs := domevents.Attributes(node)
+		attrs := guevents.Attributes(node)
 
 		for key, value := range attrs {
-			domevents.SetAttribute(target, key, value)
+			guevents.SetAttribute(target, key, value)
 		}
 
-		children := domevents.ChildNodeList(target)
+		children := guevents.ChildNodeList(target)
 
 		// log.Printf("checking targets children %+s %d", target, len(children))
 		if len(children) <= 1 {
-			domevents.SetInnerHTML(target, "")
+			guevents.SetInnerHTML(target, "")
 
-			domevents.AppendChild(target, nchildren...)
+			guevents.AppendChild(target, nchildren...)
 
 			// for _, enode := range nchildren {
 			// 	target.AppendChild(enode)
@@ -259,7 +259,7 @@ patchloop:
 
 		// default:
 		// 	// add it if its not an element
-		// 	domevents.AppendChild(live, node)
+		// 	guevents.AppendChild(live, node)
 		// live.AppendChild(node)
 		// }
 	}

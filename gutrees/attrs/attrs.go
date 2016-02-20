@@ -2,9 +2,7 @@
 
 package attrs
 
-import (
-	"github.com/influx6/faux/domtrees"
-)
+import "github.com/influx6/gu/gutrees"
 
 // InputType defines the set type of input values for the input elements
 type InputType string
@@ -67,71 +65,71 @@ const (
 )
 
 // Name defines attributes of type "Name" for html element types
-func Name(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "name", Value: val}
+func Name(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "name", Value: val}
 }
 
 // Checked defines attributes of type "Checked" for html element types
-func Checked(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "checked", Value: val}
+func Checked(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "checked", Value: val}
 }
 
 // ClassName defines attributes of type "ClassName" for html element types
-func ClassName(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "className", Value: val}
+func ClassName(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "className", Value: val}
 }
 
 // Autofocus defines attributes of type "Autofocus" for html element types
-func Autofocus(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "autofocus", Value: val}
+func Autofocus(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "autofocus", Value: val}
 }
 
 // ID defines attributes of type "Id" for html element types
-func ID(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "id", Value: val}
+func ID(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "id", Value: val}
 }
 
 // HTMLFor defines attributes of type "HtmlFor" for html element types
-func HTMLFor(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "htmlFor", Value: val}
+func HTMLFor(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "htmlFor", Value: val}
 }
 
 // Class defines attributes of type "Class" for html element types
-func Class(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "class", Value: val}
+func Class(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "class", Value: val}
 }
 
 // Src defines attributes of type "Src" for html element types
-func Src(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "src", Value: val}
+func Src(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "src", Value: val}
 }
 
 // Href defines attributes of type "Href" for html element types
-func Href(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "href", Value: val}
+func Href(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "href", Value: val}
 }
 
 // Rel defines attributes of type "Rel" for html element types
-func Rel(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "rel", Value: val}
+func Rel(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "rel", Value: val}
 }
 
 // IType defines attributes of type "Type" for html element types
-func IType(val InputType) *domtrees.Attribute {
+func IType(val InputType) *gutrees.Attribute {
 	return Type(string(val))
 }
 
 // Type defines attributes of type "Type" for html element types
-func Type(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "type", Value: val}
+func Type(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "type", Value: val}
 }
 
 // Placeholder defines attributes of type "Placeholder" for html element types
-func Placeholder(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "placeholder", Value: val}
+func Placeholder(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "placeholder", Value: val}
 }
 
 // Value defines attributes of type "Value" for html element types
-func Value(val string) *domtrees.Attribute {
-	return &domtrees.Attribute{Name: "value", Value: val}
+func Value(val string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "value", Value: val}
 }
