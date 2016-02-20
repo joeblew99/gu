@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/influx6/faux/domevents"
+	"github.com/influx6/gu/guevents"
 )
 
 // Mutation defines the capability of an element to state its
@@ -23,7 +23,7 @@ type Mutation interface {
 // event managers.
 type Eventers interface {
 	LoadEvents()
-	UseEventManager(domevents.EventManagers) bool
+	UseEventManager(guevents.EventManagers) bool
 }
 
 // Markup provide a basic specification type of how a element resolves its content
@@ -128,7 +128,7 @@ type Element struct {
 	allowChildren   bool
 	allowStyles     bool
 	allowAttributes bool
-	eventManager    domevents.EventManagers
+	eventManager    guevents.EventManagers
 }
 
 // NewText returns a new Text instance element
@@ -160,7 +160,7 @@ func NewElement(tag string, hasNoEndingTag bool) *Element {
 
 // UseEventManager adds a eventmanager into the markup and if not available before automatically registers
 // the events with it,once an event manager is registered to it,it will and can not be changed
-func (e *Element) UseEventManager(man domevents.EventManagers) bool {
+func (e *Element) UseEventManager(man guevents.EventManagers) bool {
 	if man == nil {
 		return true
 	}
@@ -181,11 +181,10 @@ func (e *Element) UseEventManager(man domevents.EventManagers) bool {
 func (e *Element) LoadEvents() {
 	if e.eventManager != nil {
 		e.eventManager.DisconnectRemoved()
-		// log.Printf("will load events: %s %+s", e.Name(), e.events)
 
 		for _, ev := range e.events {
 			if es, _ := e.eventManager.NewEventMeta(ev.Meta); es != nil {
-				es.Bind(ev.Fx)
+				es.Q(ev.Fx)
 			}
 		}
 
@@ -495,23 +494,23 @@ type Events interface {
 // Event provide a meta registry for helps in registering events for dom markups
 // which is translated to the nodes themselves
 type Event struct {
-	Meta *domevents.EventMetable
-	Fx   domevents.EventHandler
+	Meta *guevents.EventMetable
+	Fx   guevents.EventHandler
 	tree Markup
 }
 
 // EventHandler provides a custom event handler which allows access to the
 // markup producing the event.
-type EventHandler func(domevents.Event, Markup)
+type EventHandler func(guevents.Event, Markup)
 
 // NewEvent returns a event object that allows registering events to eventlisteners
 func NewEvent(etype, eselector string, efx EventHandler) *Event {
 	ex := Event{
-		Meta: &domevents.EventMetable{EventType: etype, EventTarget: eselector},
+		Meta: &guevents.EventMetable{EventType: etype, EventTarget: eselector},
 	}
 
 	// wireup the function to get the ev and tree.
-	ex.Fx = func(ev domevents.Event) {
+	ex.Fx = func(ev guevents.Event) {
 		if efx != nil {
 			efx(ev, ex.tree)
 		}
@@ -615,7 +614,7 @@ type Clonable interface {
 //Clone replicates the style into a unique instance
 func (e *Event) Clone() *Event {
 	return &Event{
-		Meta: &domevents.EventMetable{EventType: e.Meta.EventType, EventTarget: e.Meta.EventTarget},
+		Meta: &guevents.EventMetable{EventType: e.Meta.EventType, EventTarget: e.Meta.EventTarget},
 		Fx:   e.Fx,
 	}
 }
