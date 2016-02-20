@@ -160,8 +160,8 @@ import (
 // https://developer.mozilla.org%s
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func %s(fx domtrees.EventHandler,selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("%s",selectorOverride,fx)
+func %s(fx gutrees.EventHandler,selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("%s",selectorOverride,fx)
 }
 `, name, e.Desc, e.Link[6:], name, e.Name)
 	}

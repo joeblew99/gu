@@ -138,8 +138,8 @@ import (
 )
 
 // Text provides the concrete implementation for using the domtrees.Text struct
-func Text(txt string) *domtrees.Element {
-	return domtrees.NewText(txt)
+func Text(txt string) *gutrees.Element {
+	return gutrees.NewText(txt)
 }
 `)
 
@@ -187,8 +187,8 @@ func writeElem(w io.Writer, name, desc, link string) {
 // %s provides the following for html elements ->
 // %s
 // https://developer.mozilla.org%s
-func %s(markup ...domtrees.Appliable) *domtrees.Element {
-	e := domtrees.NewElement("%s",%t)
+func %s(markup ...gutrees.Appliable) *gutrees.Element {
+	e := gutrees.NewElement("%s",%t)
 	for _, m := range markup {
 		m.Apply(e)
 	}

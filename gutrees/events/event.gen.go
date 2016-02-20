@@ -4,11 +4,11 @@
 
 // Documentation source: "Event reference" by Mozilla Contributors, https://developer.mozilla.org/en-US/docs/Web/Events, licensed under CC-BY-SA 2.5.
 
-//Package events defines the event binding system for Haiku(https://github.com/influx6/Haiku)
+//Package events defines the event binding system that combines different libraries to create a interesting event system.
 package events
 
 import (
-	"github.com/influx6/faux/domtrees"
+	"github.com/influx6/gu/gutrees"
 )
 
 // Abort Documentation is as below:
@@ -16,8 +16,8 @@ import (
 // https://developer.mozilla.org/docs/Web/Reference/Events/abort_indexedDB
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Abort(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("abort", selectorOverride, fx)
+func Abort(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("abort", selectorOverride, fx)
 }
 
 // AfterPrint Documentation is as below:
@@ -25,8 +25,8 @@ func Abort(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/afterprint
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func AfterPrint(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("afterprint", selectorOverride, fx)
+func AfterPrint(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("afterprint", selectorOverride, fx)
 }
 
 // AnimationEnd Documentation is as below:
@@ -34,8 +34,8 @@ func AfterPrint(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/animationend
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func AnimationEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("animationend", selectorOverride, fx)
+func AnimationEnd(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("animationend", selectorOverride, fx)
 }
 
 // AnimationIteration Documentation is as below:
@@ -43,8 +43,8 @@ func AnimationEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.E
 // https://developer.mozilla.org/docs/Web/Events/animationiteration
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func AnimationIteration(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("animationiteration", selectorOverride, fx)
+func AnimationIteration(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("animationiteration", selectorOverride, fx)
 }
 
 // AnimationStart Documentation is as below:
@@ -52,8 +52,8 @@ func AnimationIteration(fx domtrees.EventHandler, selectorOverride string) *domt
 // https://developer.mozilla.org/docs/Web/Events/animationstart
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func AnimationStart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("animationstart", selectorOverride, fx)
+func AnimationStart(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("animationstart", selectorOverride, fx)
 }
 
 // AudioProcess Documentation is as below:
@@ -61,8 +61,8 @@ func AnimationStart(fx domtrees.EventHandler, selectorOverride string) *domtrees
 // https://developer.mozilla.org/docs/Web/Events/audioprocess
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func AudioProcess(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("audioprocess", selectorOverride, fx)
+func AudioProcess(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("audioprocess", selectorOverride, fx)
 }
 
 // Audioend Documentation is as below:
@@ -70,8 +70,8 @@ func AudioProcess(fx domtrees.EventHandler, selectorOverride string) *domtrees.E
 // https://developer.mozilla.org/docs/Web/Events/audioend
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Audioend(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("audioend", selectorOverride, fx)
+func Audioend(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("audioend", selectorOverride, fx)
 }
 
 // Audiostart Documentation is as below:
@@ -79,8 +79,8 @@ func Audioend(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/audiostart
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Audiostart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("audiostart", selectorOverride, fx)
+func Audiostart(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("audiostart", selectorOverride, fx)
 }
 
 // BeforePrint Documentation is as below:
@@ -88,8 +88,8 @@ func Audiostart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/beforeprint
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func BeforePrint(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("beforeprint", selectorOverride, fx)
+func BeforePrint(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("beforeprint", selectorOverride, fx)
 }
 
 // BeforeUnload Documentation is as below:
@@ -97,8 +97,8 @@ func BeforePrint(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/beforeunload
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func BeforeUnload(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("beforeunload", selectorOverride, fx)
+func BeforeUnload(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("beforeunload", selectorOverride, fx)
 }
 
 // BeginEvent Documentation is as below:
@@ -106,8 +106,8 @@ func BeforeUnload(fx domtrees.EventHandler, selectorOverride string) *domtrees.E
 // https://developer.mozilla.org/docs/Web/Events/beginEvent
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func BeginEvent(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("beginEvent", selectorOverride, fx)
+func BeginEvent(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("beginEvent", selectorOverride, fx)
 }
 
 // Blocked Documentation is as below:
@@ -115,8 +115,8 @@ func BeginEvent(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Reference/Events/blocked_indexedDB
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Blocked(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("blocked", selectorOverride, fx)
+func Blocked(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("blocked", selectorOverride, fx)
 }
 
 // Blur Documentation is as below:
@@ -124,8 +124,8 @@ func Blocked(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/blur
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Blur(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("blur", selectorOverride, fx)
+func Blur(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("blur", selectorOverride, fx)
 }
 
 // Boundary Documentation is as below:
@@ -133,8 +133,8 @@ func Blur(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/boundary
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Boundary(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("boundary", selectorOverride, fx)
+func Boundary(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("boundary", selectorOverride, fx)
 }
 
 // Cached Documentation is as below:
@@ -142,8 +142,8 @@ func Boundary(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/cached
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Cached(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("cached", selectorOverride, fx)
+func Cached(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("cached", selectorOverride, fx)
 }
 
 // CanPlay Documentation is as below:
@@ -151,8 +151,8 @@ func Cached(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/canplay
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func CanPlay(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("canplay", selectorOverride, fx)
+func CanPlay(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("canplay", selectorOverride, fx)
 }
 
 // CanPlayThrough Documentation is as below:
@@ -160,17 +160,17 @@ func CanPlay(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/canplaythrough
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func CanPlayThrough(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("canplaythrough", selectorOverride, fx)
+func CanPlayThrough(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("canplaythrough", selectorOverride, fx)
 }
 
 // Change Documentation is as below:
-// An element loses focus and its value changed since gaining focus.
+// The change event is fired for <input>, <select>, and <textarea> elements when a change to the element's value is committed by the user.
 // https://developer.mozilla.org/docs/Web/Events/change
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Change(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("change", selectorOverride, fx)
+func Change(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("change", selectorOverride, fx)
 }
 
 // ChargingChange Documentation is as below:
@@ -178,8 +178,8 @@ func Change(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/chargingchange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func ChargingChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("chargingchange", selectorOverride, fx)
+func ChargingChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("chargingchange", selectorOverride, fx)
 }
 
 // ChargingTimeChange Documentation is as below:
@@ -187,8 +187,8 @@ func ChargingChange(fx domtrees.EventHandler, selectorOverride string) *domtrees
 // https://developer.mozilla.org/docs/Web/Events/chargingtimechange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func ChargingTimeChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("chargingtimechange", selectorOverride, fx)
+func ChargingTimeChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("chargingtimechange", selectorOverride, fx)
 }
 
 // Checking Documentation is as below:
@@ -196,8 +196,8 @@ func ChargingTimeChange(fx domtrees.EventHandler, selectorOverride string) *domt
 // https://developer.mozilla.org/docs/Web/Events/checking
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Checking(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("checking", selectorOverride, fx)
+func Checking(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("checking", selectorOverride, fx)
 }
 
 // Click Documentation is as below:
@@ -205,8 +205,8 @@ func Checking(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/click
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Click(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("click", selectorOverride, fx)
+func Click(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("click", selectorOverride, fx)
 }
 
 // Close Documentation is as below:
@@ -214,8 +214,8 @@ func Click(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Reference/Events/close_websocket
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Close(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("close", selectorOverride, fx)
+func Close(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("close", selectorOverride, fx)
 }
 
 // Complete Documentation is as below:
@@ -223,8 +223,8 @@ func Close(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/complete
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Complete(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("complete", selectorOverride, fx)
+func Complete(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("complete", selectorOverride, fx)
 }
 
 // CompositionEnd Documentation is as below:
@@ -232,8 +232,8 @@ func Complete(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/compositionend
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func CompositionEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("compositionend", selectorOverride, fx)
+func CompositionEnd(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("compositionend", selectorOverride, fx)
 }
 
 // CompositionStart Documentation is as below:
@@ -241,8 +241,8 @@ func CompositionEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees
 // https://developer.mozilla.org/docs/Web/Events/compositionstart
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func CompositionStart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("compositionstart", selectorOverride, fx)
+func CompositionStart(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("compositionstart", selectorOverride, fx)
 }
 
 // CompositionUpdate Documentation is as below:
@@ -250,8 +250,8 @@ func CompositionStart(fx domtrees.EventHandler, selectorOverride string) *domtre
 // https://developer.mozilla.org/docs/Web/Events/compositionupdate
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func CompositionUpdate(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("compositionupdate", selectorOverride, fx)
+func CompositionUpdate(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("compositionupdate", selectorOverride, fx)
 }
 
 // ContextMenu Documentation is as below:
@@ -259,8 +259,8 @@ func CompositionUpdate(fx domtrees.EventHandler, selectorOverride string) *domtr
 // https://developer.mozilla.org/docs/Web/Events/contextmenu
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func ContextMenu(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("contextmenu", selectorOverride, fx)
+func ContextMenu(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("contextmenu", selectorOverride, fx)
 }
 
 // Copy Documentation is as below:
@@ -268,8 +268,8 @@ func ContextMenu(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/copy
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Copy(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("copy", selectorOverride, fx)
+func Copy(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("copy", selectorOverride, fx)
 }
 
 // Cut Documentation is as below:
@@ -277,8 +277,8 @@ func Copy(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/cut
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Cut(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("cut", selectorOverride, fx)
+func Cut(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("cut", selectorOverride, fx)
 }
 
 // DOMContentLoaded Documentation is as below:
@@ -286,8 +286,8 @@ func Cut(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/DOMContentLoaded
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DOMContentLoaded(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("DOMContentLoaded", selectorOverride, fx)
+func DOMContentLoaded(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("DOMContentLoaded", selectorOverride, fx)
 }
 
 // DblClick Documentation is as below:
@@ -295,8 +295,8 @@ func DOMContentLoaded(fx domtrees.EventHandler, selectorOverride string) *domtre
 // https://developer.mozilla.org/docs/Web/Events/dblclick
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DblClick(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("dblclick", selectorOverride, fx)
+func DblClick(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("dblclick", selectorOverride, fx)
 }
 
 // DeviceLight Documentation is as below:
@@ -304,8 +304,8 @@ func DblClick(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/devicelight
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DeviceLight(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("devicelight", selectorOverride, fx)
+func DeviceLight(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("devicelight", selectorOverride, fx)
 }
 
 // DeviceMotion Documentation is as below:
@@ -313,8 +313,8 @@ func DeviceLight(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/devicemotion
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DeviceMotion(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("devicemotion", selectorOverride, fx)
+func DeviceMotion(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("devicemotion", selectorOverride, fx)
 }
 
 // DeviceOrientation Documentation is as below:
@@ -322,8 +322,8 @@ func DeviceMotion(fx domtrees.EventHandler, selectorOverride string) *domtrees.E
 // https://developer.mozilla.org/docs/Web/Events/deviceorientation
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DeviceOrientation(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("deviceorientation", selectorOverride, fx)
+func DeviceOrientation(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("deviceorientation", selectorOverride, fx)
 }
 
 // DeviceProximity Documentation is as below:
@@ -331,8 +331,8 @@ func DeviceOrientation(fx domtrees.EventHandler, selectorOverride string) *domtr
 // https://developer.mozilla.org/docs/Web/Events/deviceproximity
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DeviceProximity(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("deviceproximity", selectorOverride, fx)
+func DeviceProximity(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("deviceproximity", selectorOverride, fx)
 }
 
 // DischargingTimeChange Documentation is as below:
@@ -340,8 +340,8 @@ func DeviceProximity(fx domtrees.EventHandler, selectorOverride string) *domtree
 // https://developer.mozilla.org/docs/Web/Events/dischargingtimechange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DischargingTimeChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("dischargingtimechange", selectorOverride, fx)
+func DischargingTimeChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("dischargingtimechange", selectorOverride, fx)
 }
 
 // Downloading Documentation is as below:
@@ -349,8 +349,8 @@ func DischargingTimeChange(fx domtrees.EventHandler, selectorOverride string) *d
 // https://developer.mozilla.org/docs/Web/Events/downloading
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Downloading(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("downloading", selectorOverride, fx)
+func Downloading(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("downloading", selectorOverride, fx)
 }
 
 // Drag Documentation is as below:
@@ -358,8 +358,8 @@ func Downloading(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/drag
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Drag(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("drag", selectorOverride, fx)
+func Drag(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("drag", selectorOverride, fx)
 }
 
 // DragEnd Documentation is as below:
@@ -367,8 +367,8 @@ func Drag(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/dragend
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DragEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("dragend", selectorOverride, fx)
+func DragEnd(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("dragend", selectorOverride, fx)
 }
 
 // DragEnter Documentation is as below:
@@ -376,8 +376,8 @@ func DragEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/dragenter
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DragEnter(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("dragenter", selectorOverride, fx)
+func DragEnter(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("dragenter", selectorOverride, fx)
 }
 
 // DragLeave Documentation is as below:
@@ -385,8 +385,8 @@ func DragEnter(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/dragleave
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DragLeave(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("dragleave", selectorOverride, fx)
+func DragLeave(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("dragleave", selectorOverride, fx)
 }
 
 // DragOver Documentation is as below:
@@ -394,8 +394,8 @@ func DragLeave(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/dragover
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DragOver(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("dragover", selectorOverride, fx)
+func DragOver(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("dragover", selectorOverride, fx)
 }
 
 // DragStart Documentation is as below:
@@ -403,8 +403,8 @@ func DragOver(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/dragstart
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DragStart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("dragstart", selectorOverride, fx)
+func DragStart(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("dragstart", selectorOverride, fx)
 }
 
 // Drop Documentation is as below:
@@ -412,8 +412,8 @@ func DragStart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/drop
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Drop(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("drop", selectorOverride, fx)
+func Drop(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("drop", selectorOverride, fx)
 }
 
 // DurationChange Documentation is as below:
@@ -421,8 +421,8 @@ func Drop(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/durationchange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func DurationChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("durationchange", selectorOverride, fx)
+func DurationChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("durationchange", selectorOverride, fx)
 }
 
 // Emptied Documentation is as below:
@@ -430,8 +430,8 @@ func DurationChange(fx domtrees.EventHandler, selectorOverride string) *domtrees
 // https://developer.mozilla.org/docs/Web/Events/emptied
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Emptied(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("emptied", selectorOverride, fx)
+func Emptied(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("emptied", selectorOverride, fx)
 }
 
 // End Documentation is as below:
@@ -439,8 +439,8 @@ func Emptied(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/end_(SpeechSynthesis)
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func End(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("end", selectorOverride, fx)
+func End(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("end", selectorOverride, fx)
 }
 
 // EndEvent Documentation is as below:
@@ -448,8 +448,8 @@ func End(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/endEvent
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func EndEvent(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("endEvent", selectorOverride, fx)
+func EndEvent(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("endEvent", selectorOverride, fx)
 }
 
 // Ended Documentation is as below:
@@ -457,8 +457,8 @@ func EndEvent(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/ended_(Web_Audio)
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Ended(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("ended", selectorOverride, fx)
+func Ended(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("ended", selectorOverride, fx)
 }
 
 // Error Documentation is as below:
@@ -466,8 +466,8 @@ func Ended(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/error_(SpeechSynthesisError)
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Error(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("error", selectorOverride, fx)
+func Error(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("error", selectorOverride, fx)
 }
 
 // Focus Documentation is as below:
@@ -475,8 +475,8 @@ func Error(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/focus
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Focus(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("focus", selectorOverride, fx)
+func Focus(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("focus", selectorOverride, fx)
 }
 
 // FocusIn Documentation is as below:
@@ -484,8 +484,8 @@ func Focus(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/focusin
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func FocusIn(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("focusin", selectorOverride, fx)
+func FocusIn(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("focusin", selectorOverride, fx)
 }
 
 // FocusOut Documentation is as below:
@@ -493,8 +493,8 @@ func FocusIn(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/focusout
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func FocusOut(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("focusout", selectorOverride, fx)
+func FocusOut(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("focusout", selectorOverride, fx)
 }
 
 // FullScreenChange Documentation is as below:
@@ -502,8 +502,8 @@ func FocusOut(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/fullscreenchange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func FullScreenChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("fullscreenchange", selectorOverride, fx)
+func FullScreenChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("fullscreenchange", selectorOverride, fx)
 }
 
 // FullScreenError Documentation is as below:
@@ -511,8 +511,8 @@ func FullScreenChange(fx domtrees.EventHandler, selectorOverride string) *domtre
 // https://developer.mozilla.org/docs/Web/Events/fullscreenerror
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func FullScreenError(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("fullscreenerror", selectorOverride, fx)
+func FullScreenError(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("fullscreenerror", selectorOverride, fx)
 }
 
 // GamepadConnected Documentation is as below:
@@ -520,8 +520,8 @@ func FullScreenError(fx domtrees.EventHandler, selectorOverride string) *domtree
 // https://developer.mozilla.org/docs/Web/Events/gamepadconnected
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func GamepadConnected(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("gamepadconnected", selectorOverride, fx)
+func GamepadConnected(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("gamepadconnected", selectorOverride, fx)
 }
 
 // GamepadDisconnected Documentation is as below:
@@ -529,8 +529,8 @@ func GamepadConnected(fx domtrees.EventHandler, selectorOverride string) *domtre
 // https://developer.mozilla.org/docs/Web/Events/gamepaddisconnected
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func GamepadDisconnected(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("gamepaddisconnected", selectorOverride, fx)
+func GamepadDisconnected(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("gamepaddisconnected", selectorOverride, fx)
 }
 
 // Gotpointercapture Documentation is as below:
@@ -538,8 +538,8 @@ func GamepadDisconnected(fx domtrees.EventHandler, selectorOverride string) *dom
 // https://developer.mozilla.org/docs/Web/Events/gotpointercapture
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Gotpointercapture(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("gotpointercapture", selectorOverride, fx)
+func Gotpointercapture(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("gotpointercapture", selectorOverride, fx)
 }
 
 // HashChange Documentation is as below:
@@ -547,8 +547,8 @@ func Gotpointercapture(fx domtrees.EventHandler, selectorOverride string) *domtr
 // https://developer.mozilla.org/docs/Web/Events/hashchange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func HashChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("hashchange", selectorOverride, fx)
+func HashChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("hashchange", selectorOverride, fx)
 }
 
 // Input Documentation is as below:
@@ -556,8 +556,8 @@ func HashChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/input
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Input(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("input", selectorOverride, fx)
+func Input(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("input", selectorOverride, fx)
 }
 
 // Invalid Documentation is as below:
@@ -565,8 +565,8 @@ func Input(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/invalid
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Invalid(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("invalid", selectorOverride, fx)
+func Invalid(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("invalid", selectorOverride, fx)
 }
 
 // KeyDown Documentation is as below:
@@ -574,8 +574,8 @@ func Invalid(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/keydown
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func KeyDown(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("keydown", selectorOverride, fx)
+func KeyDown(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("keydown", selectorOverride, fx)
 }
 
 // KeyPress Documentation is as below:
@@ -583,8 +583,8 @@ func KeyDown(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/keypress
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func KeyPress(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("keypress", selectorOverride, fx)
+func KeyPress(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("keypress", selectorOverride, fx)
 }
 
 // KeyUp Documentation is as below:
@@ -592,8 +592,8 @@ func KeyPress(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/keyup
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func KeyUp(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("keyup", selectorOverride, fx)
+func KeyUp(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("keyup", selectorOverride, fx)
 }
 
 // LanguageChange Documentation is as below:
@@ -601,8 +601,8 @@ func KeyUp(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/languagechange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func LanguageChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("languagechange", selectorOverride, fx)
+func LanguageChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("languagechange", selectorOverride, fx)
 }
 
 // LevelChange Documentation is as below:
@@ -610,8 +610,8 @@ func LanguageChange(fx domtrees.EventHandler, selectorOverride string) *domtrees
 // https://developer.mozilla.org/docs/Web/Events/levelchange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func LevelChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("levelchange", selectorOverride, fx)
+func LevelChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("levelchange", selectorOverride, fx)
 }
 
 // Load Documentation is as below:
@@ -619,8 +619,8 @@ func LevelChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Reference/Events/load_(ProgressEvent)
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Load(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("load", selectorOverride, fx)
+func Load(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("load", selectorOverride, fx)
 }
 
 // LoadEnd Documentation is as below:
@@ -628,8 +628,8 @@ func Load(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/loadend
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func LoadEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("loadend", selectorOverride, fx)
+func LoadEnd(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("loadend", selectorOverride, fx)
 }
 
 // LoadStart Documentation is as below:
@@ -637,8 +637,8 @@ func LoadEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/loadstart
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func LoadStart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("loadstart", selectorOverride, fx)
+func LoadStart(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("loadstart", selectorOverride, fx)
 }
 
 // LoadedData Documentation is as below:
@@ -646,8 +646,8 @@ func LoadStart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/loadeddata
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func LoadedData(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("loadeddata", selectorOverride, fx)
+func LoadedData(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("loadeddata", selectorOverride, fx)
 }
 
 // LoadedMetadata Documentation is as below:
@@ -655,8 +655,8 @@ func LoadedData(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/loadedmetadata
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func LoadedMetadata(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("loadedmetadata", selectorOverride, fx)
+func LoadedMetadata(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("loadedmetadata", selectorOverride, fx)
 }
 
 // Lostpointercapture Documentation is as below:
@@ -664,8 +664,8 @@ func LoadedMetadata(fx domtrees.EventHandler, selectorOverride string) *domtrees
 // https://developer.mozilla.org/docs/Web/Events/lostpointercapture
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Lostpointercapture(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("lostpointercapture", selectorOverride, fx)
+func Lostpointercapture(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("lostpointercapture", selectorOverride, fx)
 }
 
 // Mark Documentation is as below:
@@ -673,17 +673,17 @@ func Lostpointercapture(fx domtrees.EventHandler, selectorOverride string) *domt
 // https://developer.mozilla.org/docs/Web/Events/mark
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Mark(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("mark", selectorOverride, fx)
+func Mark(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("mark", selectorOverride, fx)
 }
 
 // Message Documentation is as below:
-// A message is received through an event source.
-// https://developer.mozilla.org/docs/Web/Reference/Events/message_serversentevents
+// A message is received from a service worker, or a message is received in a service worker from another context.
+// https://developer.mozilla.org/docs/Web/Events/message_(ServiceWorker)
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Message(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("message", selectorOverride, fx)
+func Message(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("message", selectorOverride, fx)
 }
 
 // MouseDown Documentation is as below:
@@ -691,8 +691,8 @@ func Message(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/mousedown
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func MouseDown(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("mousedown", selectorOverride, fx)
+func MouseDown(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("mousedown", selectorOverride, fx)
 }
 
 // MouseEnter Documentation is as below:
@@ -700,8 +700,8 @@ func MouseDown(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/mouseenter
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func MouseEnter(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("mouseenter", selectorOverride, fx)
+func MouseEnter(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("mouseenter", selectorOverride, fx)
 }
 
 // MouseLeave Documentation is as below:
@@ -709,8 +709,8 @@ func MouseEnter(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/mouseleave
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func MouseLeave(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("mouseleave", selectorOverride, fx)
+func MouseLeave(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("mouseleave", selectorOverride, fx)
 }
 
 // MouseMove Documentation is as below:
@@ -718,8 +718,8 @@ func MouseLeave(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/mousemove
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func MouseMove(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("mousemove", selectorOverride, fx)
+func MouseMove(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("mousemove", selectorOverride, fx)
 }
 
 // MouseOut Documentation is as below:
@@ -727,8 +727,8 @@ func MouseMove(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/mouseout
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func MouseOut(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("mouseout", selectorOverride, fx)
+func MouseOut(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("mouseout", selectorOverride, fx)
 }
 
 // MouseOver Documentation is as below:
@@ -736,8 +736,8 @@ func MouseOut(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/mouseover
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func MouseOver(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("mouseover", selectorOverride, fx)
+func MouseOver(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("mouseover", selectorOverride, fx)
 }
 
 // MouseUp Documentation is as below:
@@ -745,8 +745,8 @@ func MouseOver(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/mouseup
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func MouseUp(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("mouseup", selectorOverride, fx)
+func MouseUp(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("mouseup", selectorOverride, fx)
 }
 
 // NoUpdate Documentation is as below:
@@ -754,8 +754,8 @@ func MouseUp(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/noupdate
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func NoUpdate(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("noupdate", selectorOverride, fx)
+func NoUpdate(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("noupdate", selectorOverride, fx)
 }
 
 // Nomatch Documentation is as below:
@@ -763,8 +763,8 @@ func NoUpdate(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/nomatch
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Nomatch(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("nomatch", selectorOverride, fx)
+func Nomatch(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("nomatch", selectorOverride, fx)
 }
 
 // Notificationclick Documentation is as below:
@@ -772,8 +772,8 @@ func Nomatch(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/notificationclick
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Notificationclick(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("notificationclick", selectorOverride, fx)
+func Notificationclick(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("notificationclick", selectorOverride, fx)
 }
 
 // Obsolete Documentation is as below:
@@ -781,8 +781,8 @@ func Notificationclick(fx domtrees.EventHandler, selectorOverride string) *domtr
 // https://developer.mozilla.org/docs/Web/Events/obsolete
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Obsolete(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("obsolete", selectorOverride, fx)
+func Obsolete(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("obsolete", selectorOverride, fx)
 }
 
 // Offline Documentation is as below:
@@ -790,8 +790,8 @@ func Obsolete(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/offline
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Offline(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("offline", selectorOverride, fx)
+func Offline(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("offline", selectorOverride, fx)
 }
 
 // Online Documentation is as below:
@@ -799,8 +799,8 @@ func Offline(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/online
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Online(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("online", selectorOverride, fx)
+func Online(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("online", selectorOverride, fx)
 }
 
 // Open Documentation is as below:
@@ -808,8 +808,8 @@ func Online(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Reference/Events/open_serversentevents
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Open(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("open", selectorOverride, fx)
+func Open(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("open", selectorOverride, fx)
 }
 
 // OrientationChange Documentation is as below:
@@ -817,8 +817,8 @@ func Open(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/orientationchange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func OrientationChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("orientationchange", selectorOverride, fx)
+func OrientationChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("orientationchange", selectorOverride, fx)
 }
 
 // PageHide Documentation is as below:
@@ -826,8 +826,8 @@ func OrientationChange(fx domtrees.EventHandler, selectorOverride string) *domtr
 // https://developer.mozilla.org/docs/Web/Events/pagehide
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func PageHide(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pagehide", selectorOverride, fx)
+func PageHide(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pagehide", selectorOverride, fx)
 }
 
 // PageShow Documentation is as below:
@@ -835,8 +835,8 @@ func PageHide(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/pageshow
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func PageShow(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pageshow", selectorOverride, fx)
+func PageShow(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pageshow", selectorOverride, fx)
 }
 
 // Paste Documentation is as below:
@@ -844,8 +844,8 @@ func PageShow(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/paste
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Paste(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("paste", selectorOverride, fx)
+func Paste(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("paste", selectorOverride, fx)
 }
 
 // Pause Documentation is as below:
@@ -853,8 +853,8 @@ func Paste(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/pause_(SpeechSynthesis)
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Pause(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pause", selectorOverride, fx)
+func Pause(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pause", selectorOverride, fx)
 }
 
 // Play Documentation is as below:
@@ -862,8 +862,8 @@ func Pause(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/play
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Play(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("play", selectorOverride, fx)
+func Play(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("play", selectorOverride, fx)
 }
 
 // Playing Documentation is as below:
@@ -871,8 +871,8 @@ func Play(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/playing
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Playing(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("playing", selectorOverride, fx)
+func Playing(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("playing", selectorOverride, fx)
 }
 
 // PointerLockChange Documentation is as below:
@@ -880,8 +880,8 @@ func Playing(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/pointerlockchange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func PointerLockChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pointerlockchange", selectorOverride, fx)
+func PointerLockChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pointerlockchange", selectorOverride, fx)
 }
 
 // PointerLockError Documentation is as below:
@@ -889,8 +889,8 @@ func PointerLockChange(fx domtrees.EventHandler, selectorOverride string) *domtr
 // https://developer.mozilla.org/docs/Web/Events/pointerlockerror
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func PointerLockError(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pointerlockerror", selectorOverride, fx)
+func PointerLockError(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pointerlockerror", selectorOverride, fx)
 }
 
 // Pointercancel Documentation is as below:
@@ -898,8 +898,8 @@ func PointerLockError(fx domtrees.EventHandler, selectorOverride string) *domtre
 // https://developer.mozilla.org/docs/Web/Events/pointercancel
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Pointercancel(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pointercancel", selectorOverride, fx)
+func Pointercancel(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pointercancel", selectorOverride, fx)
 }
 
 // Pointerdown Documentation is as below:
@@ -907,8 +907,8 @@ func Pointercancel(fx domtrees.EventHandler, selectorOverride string) *domtrees.
 // https://developer.mozilla.org/docs/Web/Events/pointerdown
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Pointerdown(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pointerdown", selectorOverride, fx)
+func Pointerdown(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pointerdown", selectorOverride, fx)
 }
 
 // Pointerenter Documentation is as below:
@@ -916,8 +916,8 @@ func Pointerdown(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/pointerenter
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Pointerenter(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pointerenter", selectorOverride, fx)
+func Pointerenter(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pointerenter", selectorOverride, fx)
 }
 
 // Pointerleave Documentation is as below:
@@ -925,8 +925,8 @@ func Pointerenter(fx domtrees.EventHandler, selectorOverride string) *domtrees.E
 // https://developer.mozilla.org/docs/Web/Events/pointerleave
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Pointerleave(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pointerleave", selectorOverride, fx)
+func Pointerleave(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pointerleave", selectorOverride, fx)
 }
 
 // Pointermove Documentation is as below:
@@ -934,8 +934,8 @@ func Pointerleave(fx domtrees.EventHandler, selectorOverride string) *domtrees.E
 // https://developer.mozilla.org/docs/Web/Events/pointermove
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Pointermove(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pointermove", selectorOverride, fx)
+func Pointermove(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pointermove", selectorOverride, fx)
 }
 
 // Pointerout Documentation is as below:
@@ -943,8 +943,8 @@ func Pointermove(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/pointerout
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Pointerout(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pointerout", selectorOverride, fx)
+func Pointerout(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pointerout", selectorOverride, fx)
 }
 
 // Pointerover Documentation is as below:
@@ -952,8 +952,8 @@ func Pointerout(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/pointerover
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Pointerover(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pointerover", selectorOverride, fx)
+func Pointerover(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pointerover", selectorOverride, fx)
 }
 
 // Pointerup Documentation is as below:
@@ -961,8 +961,8 @@ func Pointerover(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/pointerup
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Pointerup(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pointerup", selectorOverride, fx)
+func Pointerup(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pointerup", selectorOverride, fx)
 }
 
 // PopState Documentation is as below:
@@ -970,8 +970,8 @@ func Pointerup(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/popstate
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func PopState(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("popstate", selectorOverride, fx)
+func PopState(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("popstate", selectorOverride, fx)
 }
 
 // Progress Documentation is as below:
@@ -979,8 +979,8 @@ func PopState(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Reference/Events/progress_(appcache_event)
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Progress(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("progress", selectorOverride, fx)
+func Progress(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("progress", selectorOverride, fx)
 }
 
 // Push Documentation is as below:
@@ -988,8 +988,8 @@ func Progress(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/push
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Push(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("push", selectorOverride, fx)
+func Push(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("push", selectorOverride, fx)
 }
 
 // Pushsubscriptionchange Documentation is as below:
@@ -997,8 +997,8 @@ func Push(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/pushsubscriptionchange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Pushsubscriptionchange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("pushsubscriptionchange", selectorOverride, fx)
+func Pushsubscriptionchange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("pushsubscriptionchange", selectorOverride, fx)
 }
 
 // RateChange Documentation is as below:
@@ -1006,8 +1006,8 @@ func Pushsubscriptionchange(fx domtrees.EventHandler, selectorOverride string) *
 // https://developer.mozilla.org/docs/Web/Events/ratechange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func RateChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("ratechange", selectorOverride, fx)
+func RateChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("ratechange", selectorOverride, fx)
 }
 
 // ReadystateChange Documentation is as below:
@@ -1015,8 +1015,8 @@ func RateChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/readystatechange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func ReadystateChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("readystatechange", selectorOverride, fx)
+func ReadystateChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("readystatechange", selectorOverride, fx)
 }
 
 // RepeatEvent Documentation is as below:
@@ -1024,8 +1024,8 @@ func ReadystateChange(fx domtrees.EventHandler, selectorOverride string) *domtre
 // https://developer.mozilla.org/docs/Web/Events/repeatEvent
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func RepeatEvent(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("repeatEvent", selectorOverride, fx)
+func RepeatEvent(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("repeatEvent", selectorOverride, fx)
 }
 
 // Reset Documentation is as below:
@@ -1033,8 +1033,8 @@ func RepeatEvent(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/reset
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Reset(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("reset", selectorOverride, fx)
+func Reset(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("reset", selectorOverride, fx)
 }
 
 // Resize Documentation is as below:
@@ -1042,8 +1042,17 @@ func Reset(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/resize
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Resize(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("resize", selectorOverride, fx)
+func Resize(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("resize", selectorOverride, fx)
+}
+
+// Resourcetimingbufferfull Documentation is as below:
+// The browser's resource timing buffer is full.
+// https://developer.mozilla.org/docs/Web/Events/resourcetimingbufferfull
+/* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
+match the event with. */
+func Resourcetimingbufferfull(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("resourcetimingbufferfull", selectorOverride, fx)
 }
 
 // Result Documentation is as below:
@@ -1051,8 +1060,8 @@ func Resize(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/result
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Result(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("result", selectorOverride, fx)
+func Result(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("result", selectorOverride, fx)
 }
 
 // Resume Documentation is as below:
@@ -1060,8 +1069,8 @@ func Result(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/resume
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Resume(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("resume", selectorOverride, fx)
+func Resume(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("resume", selectorOverride, fx)
 }
 
 // SVGAbort Documentation is as below:
@@ -1069,8 +1078,8 @@ func Resume(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/SVGAbort
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func SVGAbort(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("SVGAbort", selectorOverride, fx)
+func SVGAbort(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("SVGAbort", selectorOverride, fx)
 }
 
 // SVGError Documentation is as below:
@@ -1078,8 +1087,8 @@ func SVGAbort(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/SVGError
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func SVGError(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("SVGError", selectorOverride, fx)
+func SVGError(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("SVGError", selectorOverride, fx)
 }
 
 // SVGLoad Documentation is as below:
@@ -1087,8 +1096,8 @@ func SVGError(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/SVGLoad
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func SVGLoad(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("SVGLoad", selectorOverride, fx)
+func SVGLoad(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("SVGLoad", selectorOverride, fx)
 }
 
 // SVGResize Documentation is as below:
@@ -1096,8 +1105,8 @@ func SVGLoad(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/SVGResize
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func SVGResize(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("SVGResize", selectorOverride, fx)
+func SVGResize(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("SVGResize", selectorOverride, fx)
 }
 
 // SVGScroll Documentation is as below:
@@ -1105,8 +1114,8 @@ func SVGResize(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/SVGScroll
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func SVGScroll(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("SVGScroll", selectorOverride, fx)
+func SVGScroll(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("SVGScroll", selectorOverride, fx)
 }
 
 // SVGUnload Documentation is as below:
@@ -1114,8 +1123,8 @@ func SVGScroll(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/SVGUnload
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func SVGUnload(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("SVGUnload", selectorOverride, fx)
+func SVGUnload(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("SVGUnload", selectorOverride, fx)
 }
 
 // SVGZoom Documentation is as below:
@@ -1123,8 +1132,8 @@ func SVGUnload(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/SVGZoom
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func SVGZoom(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("SVGZoom", selectorOverride, fx)
+func SVGZoom(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("SVGZoom", selectorOverride, fx)
 }
 
 // Scroll Documentation is as below:
@@ -1132,8 +1141,8 @@ func SVGZoom(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/scroll
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Scroll(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("scroll", selectorOverride, fx)
+func Scroll(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("scroll", selectorOverride, fx)
 }
 
 // Seeked Documentation is as below:
@@ -1141,8 +1150,8 @@ func Scroll(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/seeked
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Seeked(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("seeked", selectorOverride, fx)
+func Seeked(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("seeked", selectorOverride, fx)
 }
 
 // Seeking Documentation is as below:
@@ -1150,8 +1159,8 @@ func Seeked(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/seeking
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Seeking(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("seeking", selectorOverride, fx)
+func Seeking(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("seeking", selectorOverride, fx)
 }
 
 // Select Documentation is as below:
@@ -1159,8 +1168,8 @@ func Seeking(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/select
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Select(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("select", selectorOverride, fx)
+func Select(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("select", selectorOverride, fx)
 }
 
 // Selectionchange Documentation is as below:
@@ -1168,8 +1177,8 @@ func Select(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/selectionchange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Selectionchange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("selectionchange", selectorOverride, fx)
+func Selectionchange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("selectionchange", selectorOverride, fx)
 }
 
 // Selectstart Documentation is as below:
@@ -1177,8 +1186,8 @@ func Selectionchange(fx domtrees.EventHandler, selectorOverride string) *domtree
 // https://developer.mozilla.org/docs/Web/Events/selectstart
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Selectstart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("selectstart", selectorOverride, fx)
+func Selectstart(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("selectstart", selectorOverride, fx)
 }
 
 // Show Documentation is as below:
@@ -1186,8 +1195,8 @@ func Selectstart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/show
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Show(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("show", selectorOverride, fx)
+func Show(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("show", selectorOverride, fx)
 }
 
 // Soundend Documentation is as below:
@@ -1195,8 +1204,8 @@ func Show(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/soundend
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Soundend(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("soundend", selectorOverride, fx)
+func Soundend(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("soundend", selectorOverride, fx)
 }
 
 // Soundstart Documentation is as below:
@@ -1204,8 +1213,8 @@ func Soundend(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/soundstart
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Soundstart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("soundstart", selectorOverride, fx)
+func Soundstart(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("soundstart", selectorOverride, fx)
 }
 
 // Speechend Documentation is as below:
@@ -1213,8 +1222,8 @@ func Soundstart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/speechend
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Speechend(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("speechend", selectorOverride, fx)
+func Speechend(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("speechend", selectorOverride, fx)
 }
 
 // Speechstart Documentation is as below:
@@ -1222,8 +1231,8 @@ func Speechend(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/speechstart
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Speechstart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("speechstart", selectorOverride, fx)
+func Speechstart(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("speechstart", selectorOverride, fx)
 }
 
 // Stalled Documentation is as below:
@@ -1231,8 +1240,8 @@ func Speechstart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/stalled
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Stalled(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("stalled", selectorOverride, fx)
+func Stalled(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("stalled", selectorOverride, fx)
 }
 
 // Start Documentation is as below:
@@ -1240,8 +1249,8 @@ func Stalled(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/start_(SpeechSynthesis)
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Start(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("start", selectorOverride, fx)
+func Start(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("start", selectorOverride, fx)
 }
 
 // Storage Documentation is as below:
@@ -1249,8 +1258,8 @@ func Start(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/storage
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Storage(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("storage", selectorOverride, fx)
+func Storage(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("storage", selectorOverride, fx)
 }
 
 // Submit Documentation is as below:
@@ -1258,8 +1267,8 @@ func Storage(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/submit
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Submit(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("submit", selectorOverride, fx)
+func Submit(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("submit", selectorOverride, fx)
 }
 
 // Success Documentation is as below:
@@ -1267,8 +1276,8 @@ func Submit(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Reference/Events/success_indexedDB
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Success(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("success", selectorOverride, fx)
+func Success(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("success", selectorOverride, fx)
 }
 
 // Suspend Documentation is as below:
@@ -1276,8 +1285,8 @@ func Success(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/suspend
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Suspend(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("suspend", selectorOverride, fx)
+func Suspend(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("suspend", selectorOverride, fx)
 }
 
 // TimeUpdate Documentation is as below:
@@ -1285,8 +1294,8 @@ func Suspend(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/timeupdate
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func TimeUpdate(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("timeupdate", selectorOverride, fx)
+func TimeUpdate(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("timeupdate", selectorOverride, fx)
 }
 
 // Timeout Documentation is as below:
@@ -1294,8 +1303,8 @@ func TimeUpdate(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/timeout
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Timeout(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("timeout", selectorOverride, fx)
+func Timeout(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("timeout", selectorOverride, fx)
 }
 
 // TouchCancel Documentation is as below:
@@ -1303,8 +1312,8 @@ func Timeout(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/touchcancel
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func TouchCancel(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("touchcancel", selectorOverride, fx)
+func TouchCancel(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("touchcancel", selectorOverride, fx)
 }
 
 // TouchEnd Documentation is as below:
@@ -1312,8 +1321,8 @@ func TouchCancel(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Events/touchend
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func TouchEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("touchend", selectorOverride, fx)
+func TouchEnd(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("touchend", selectorOverride, fx)
 }
 
 // TouchEnter Documentation is as below:
@@ -1321,8 +1330,8 @@ func TouchEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event
 // https://developer.mozilla.org/docs/Web/Events/touchenter
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func TouchEnter(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("touchenter", selectorOverride, fx)
+func TouchEnter(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("touchenter", selectorOverride, fx)
 }
 
 // TouchLeave Documentation is as below:
@@ -1330,8 +1339,8 @@ func TouchEnter(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/touchleave
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func TouchLeave(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("touchleave", selectorOverride, fx)
+func TouchLeave(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("touchleave", selectorOverride, fx)
 }
 
 // TouchMove Documentation is as below:
@@ -1339,8 +1348,8 @@ func TouchLeave(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/touchmove
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func TouchMove(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("touchmove", selectorOverride, fx)
+func TouchMove(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("touchmove", selectorOverride, fx)
 }
 
 // TouchStart Documentation is as below:
@@ -1348,8 +1357,8 @@ func TouchMove(fx domtrees.EventHandler, selectorOverride string) *domtrees.Even
 // https://developer.mozilla.org/docs/Web/Events/touchstart
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func TouchStart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("touchstart", selectorOverride, fx)
+func TouchStart(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("touchstart", selectorOverride, fx)
 }
 
 // TransitionEnd Documentation is as below:
@@ -1357,8 +1366,8 @@ func TouchStart(fx domtrees.EventHandler, selectorOverride string) *domtrees.Eve
 // https://developer.mozilla.org/docs/Web/Events/transitionend
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func TransitionEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("transitionend", selectorOverride, fx)
+func TransitionEnd(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("transitionend", selectorOverride, fx)
 }
 
 // Unload Documentation is as below:
@@ -1366,8 +1375,8 @@ func TransitionEnd(fx domtrees.EventHandler, selectorOverride string) *domtrees.
 // https://developer.mozilla.org/docs/Web/Events/unload
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Unload(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("unload", selectorOverride, fx)
+func Unload(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("unload", selectorOverride, fx)
 }
 
 // UpdateReady Documentation is as below:
@@ -1375,8 +1384,8 @@ func Unload(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
 // https://developer.mozilla.org/docs/Web/Events/updateready
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func UpdateReady(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("updateready", selectorOverride, fx)
+func UpdateReady(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("updateready", selectorOverride, fx)
 }
 
 // UpgradeNeeded Documentation is as below:
@@ -1384,8 +1393,8 @@ func UpdateReady(fx domtrees.EventHandler, selectorOverride string) *domtrees.Ev
 // https://developer.mozilla.org/docs/Web/Reference/Events/upgradeneeded_indexedDB
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func UpgradeNeeded(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("upgradeneeded", selectorOverride, fx)
+func UpgradeNeeded(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("upgradeneeded", selectorOverride, fx)
 }
 
 // UserProximity Documentation is as below:
@@ -1393,8 +1402,8 @@ func UpgradeNeeded(fx domtrees.EventHandler, selectorOverride string) *domtrees.
 // https://developer.mozilla.org/docs/Web/Events/userproximity
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func UserProximity(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("userproximity", selectorOverride, fx)
+func UserProximity(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("userproximity", selectorOverride, fx)
 }
 
 // VersionChange Documentation is as below:
@@ -1402,8 +1411,8 @@ func UserProximity(fx domtrees.EventHandler, selectorOverride string) *domtrees.
 // https://developer.mozilla.org/docs/Web/Reference/Events/versionchange_indexedDB
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func VersionChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("versionchange", selectorOverride, fx)
+func VersionChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("versionchange", selectorOverride, fx)
 }
 
 // VisibilityChange Documentation is as below:
@@ -1411,8 +1420,8 @@ func VersionChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.
 // https://developer.mozilla.org/docs/Web/Events/visibilitychange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func VisibilityChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("visibilitychange", selectorOverride, fx)
+func VisibilityChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("visibilitychange", selectorOverride, fx)
 }
 
 // Voiceschanged Documentation is as below:
@@ -1420,8 +1429,8 @@ func VisibilityChange(fx domtrees.EventHandler, selectorOverride string) *domtre
 // https://developer.mozilla.org/docs/Web/Events/voiceschanged
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Voiceschanged(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("voiceschanged", selectorOverride, fx)
+func Voiceschanged(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("voiceschanged", selectorOverride, fx)
 }
 
 // VolumeChange Documentation is as below:
@@ -1429,8 +1438,8 @@ func Voiceschanged(fx domtrees.EventHandler, selectorOverride string) *domtrees.
 // https://developer.mozilla.org/docs/Web/Events/volumechange
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func VolumeChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("volumechange", selectorOverride, fx)
+func VolumeChange(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("volumechange", selectorOverride, fx)
 }
 
 // Waiting Documentation is as below:
@@ -1438,8 +1447,8 @@ func VolumeChange(fx domtrees.EventHandler, selectorOverride string) *domtrees.E
 // https://developer.mozilla.org/docs/Web/Events/waiting
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Waiting(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("waiting", selectorOverride, fx)
+func Waiting(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("waiting", selectorOverride, fx)
 }
 
 // Wheel Documentation is as below:
@@ -1447,6 +1456,6 @@ func Waiting(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event 
 // https://developer.mozilla.org/docs/Web/Events/wheel
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func Wheel(fx domtrees.EventHandler, selectorOverride string) *domtrees.Event {
-	return domtrees.NewEvent("wheel", selectorOverride, fx)
+func Wheel(fx gutrees.EventHandler, selectorOverride string) *gutrees.Event {
+	return gutrees.NewEvent("wheel", selectorOverride, fx)
 }
