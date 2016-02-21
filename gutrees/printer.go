@@ -78,7 +78,11 @@ var SimpleTextWriter = &TextWriter{}
 
 // Print returns the string representation of the text object
 func (m *TextWriter) Print(t Markup) string {
-	return t.TextContent()
+	if tt, ok := t.(TextMarkup); ok {
+		return tt.TextContent()
+	}
+
+	return ""
 }
 
 // ElementWriter writes out the element out as a string matching the html tag rules
@@ -207,10 +211,6 @@ func NewMarkupWriter(em *ElementWriter) MarkupWriter {
 
 // Write returns a stringed repesentation of the markup object
 func (m *markupWriter) Write(ma Markup) (string, error) {
-	// if tmr, ok := ma.(*Text); ok {
-	// 	return m.ElementWriter.text.Print(tmr), nil
-	// }
-
 	if emr, ok := ma.(*Element); ok {
 		return m.ElementWriter.Print(emr), nil
 	}

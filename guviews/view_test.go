@@ -20,7 +20,7 @@ type videoList []map[string]string
 func (v videoList) Render(m ...string) gutrees.Markup {
 	dom := elems.Div()
 	for _, data := range v {
-		dom.Apply(elems.Video(
+		gutrees.Augment(dom, elems.Video(
 			attrs.Src(data["src"]),
 			elems.Text(data["name"]),
 		))
