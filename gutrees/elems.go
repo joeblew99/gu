@@ -7,6 +7,16 @@ import (
 	"github.com/influx6/gu/guevents"
 )
 
+// Markup provide a basic specification type of how a element resolves its content
+type Markup interface {
+	Identity
+	MarkupChildren
+	Appliable
+	Reconcilable
+	Clonable
+	Removable
+}
+
 // Removable defines a self removal type structure.
 type Removable interface {
 	Remove()
@@ -26,16 +36,6 @@ type SwappableIdentity interface {
 	SwapHash(string)
 	SwapUID(string)
 	UpdateHash()
-}
-
-// Markup provide a basic specification type of how a element resolves its content
-type Markup interface {
-	Identity
-	MarkupChildren
-	Appliable
-	Reconcilable
-	Clonable
-	Removable
 }
 
 // TextMarkup defines a interface for text based markup.
