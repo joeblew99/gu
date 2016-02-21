@@ -1,4 +1,4 @@
-package gupaths
+package gudispatch
 
 import (
 	"errors"
@@ -7,23 +7,20 @@ import (
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/faux/pub"
-	"github.com/influx6/gu/guevents"
-	"github.com/influx6/gu/gustates"
-	"github.com/influx6/gu/guviews"
 )
 
 //==============================================================================
 
-// PathSpec represent the current path and hash values
-type PathSpec struct {
+// PathDirective represent the current path and hash values.
+type PathDirective struct {
+	Host     string
 	Hash     string
 	Path     string
 	Sequence string
 }
 
-// String returns the hash and path
-func (p *PathSpec) String() string {
+// String returns the hash and path.
+func (p PathDirective) String() string {
 	return fmt.Sprintf("%s%s", p.Path, p.Hash)
 }
 
@@ -53,7 +50,6 @@ var ErrNotSupported = errors.New("Feature not supported")
 
 // PathObserver represent any continouse changing route path by the browser
 type PathObserver struct {
-	pub.Publisher
 	usingHash bool
 	sequencer PathSequencer
 }
@@ -63,8 +59,8 @@ func Path(ps PathSequencer) *PathObserver {
 	if ps == nil {
 		ps = HashSequencer
 	}
+
 	return &PathObserver{
-		Publisher: pub.Identity(),
 		sequencer: ps,
 	}
 }
@@ -73,15 +69,16 @@ func Path(ps PathSequencer) *PathObserver {
 
 // GetLocation returns the path and hash of the browsers location api else
 // panics if not in a browser.
-func GetLocation() (string, string) {
+func GetLocation() (host string, path string, hash string) {
 	if !detect.IsBrowser() {
-		return "", ""
+		return
 	}
 
 	loc := js.Global.Get("location")
-	path := loc.Get("pathname").String()
-	hash := loc.Get("hash").String()
-	return path, hash
+	host = loc.Get("host").String()
+	path = loc.Get("pathname").String()
+	hash = loc.Get("hash").String()
+	return
 }
 
 //==============================================================================
@@ -132,32 +129,13 @@ func PopStatePath(ps PathSequencer) (*PathObserver, error) {
 }
 
 // Follow creates a Pathspec from the hash and path and sends it
-func (p *PathObserver) Follow(path, hash string) {
-	p.FollowSpec(PathSpec{Hash: hash, Path: path, Sequence: p.sequencer(path, hash)})
-}
-
-// FollowSpec just passes down the Pathspec
-func (p *PathObserver) FollowSpec(ps PathSpec) {
-	p.Send(ps)
-}
-
-// NotifyPage is used to notify a page of
-func (p *PathObserver) NotifyPage(pg *Pages) {
-	p.React(func(r pub.Publisher, _ error, d interface{}) {
-		if ps, ok := d.(PathSpec); ok {
-			pg.All(ps.Sequence)
-		}
-	}, true)
-}
-
-// NotifyPartialPage is used to notify a Page using the page engine's Partial() activator
-func (p *PathObserver) NotifyPartialPage(pg *Pages) {
-	p.React(func(r pub.Publisher, _ error, d interface{}) {
-		// if err != nil { r.SendError(err) }
-		if ps, ok := d.(PathSpec); ok {
-			pg.Partial(ps.Sequence)
-		}
-	}, true)
+func (p *PathObserver) Follow(host, path, hash string) {
+	Dispatch(&PathDirective{
+		Host:     host,
+		Hash:     hash,
+		Path:     path,
+		Sequence: p.sequencer(path, hash),
+	})
 }
 
 //==============================================================================
@@ -168,7 +146,11 @@ func PushDOMState(path string) {
 		return
 	}
 
+	// Use the advance pushState feature.
 	js.Global.Get("history").Call("pushState", nil, "", path)
+
+	// Set the browsers hash accordinly.
+	js.Global.Get("location").Set("hash", path)
 }
 
 // SetDOMHash sets the dom location hash.
@@ -206,64 +188,6 @@ func (h *HistoryProvider) Go(path string) {
 		return
 	}
 	PushDOMState(path)
-}
-
-//==============================================================================
-
-// ErrBadSelector is used to indicate if the selector returned no result
-var ErrBadSelector = errors.New("Selector returned nil")
-
-// Pages provides the concrete provider for managing a whole website or View
-// you dont need two,just one is enough to manage the total web view of your
-// app / site.
-// It ties directly into the page hash or popstate location to provide
-// consistent updates.
-type Pages struct {
-	*gustates.StateEngine
-	*HistoryProvider
-	// views []Views
-}
-
-// Page returns the new state engine powered page.
-func Page(ps PathSequencer) *Pages {
-	return NewPage(History(ps))
-}
-
-// NewPage returns the new state engine powered page.
-func NewPage(p *HistoryProvider) *Pages {
-	pg := &Pages{
-		StateEngine:     gustates.NewStateEngine(),
-		HistoryProvider: p,
-	}
-
-	p.NotifyPage(pg)
-	pg.All(".")
-	return pg
-}
-
-// Mount adds a component into the page for handling/managing of visiblity and
-// gets the dom referenced by the selector, using QuerySelector and returns an
-// error if selector gave no result.
-func (p *Pages) Mount(selector, addr string, v guviews.Views) error {
-	n := guevents.GetDocument().Call("querySelector", selector)
-
-	if n == nil || n == js.Undefined {
-		return ErrBadSelector
-	}
-
-	p.AddView(addr, v)
-	v.Mount(n)
-	return nil
-}
-
-// AddView adds a view to the page.
-func (p *Pages) AddView(addr string, v guviews.Views) {
-	p.UseState(addr, v)
-}
-
-// Address returns the current path and hash of the location api.
-func (p *Pages) Address() (string, string) {
-	return GetLocation()
 }
 
 //==============================================================================

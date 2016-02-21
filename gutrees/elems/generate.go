@@ -11,7 +11,6 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/influx6/flux"
 )
 
 var elemNameMap = map[string]string{
@@ -180,7 +179,7 @@ func writeElem(w io.Writer, name, desc, link string) {
 	funName := elemNameMap[name]
 
 	if funName == "" {
-		funName = flux.Capitalize(name)
+		funName = capitalize(name)
 	}
 
 	fmt.Fprintf(w, `
@@ -195,4 +194,9 @@ func %s(markup ...gutrees.Appliable) *gutrees.Element {
 	return e
 }
 `, funName, desc, link, funName, name, autocloser)
+}
+
+// capitalize capitalizes the first character in a string
+func capitalize(s string) string {
+	return strings.ToUpper(s[:1]) + s[1:]
 }
