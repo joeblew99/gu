@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/influx6/faux/domtrees"
-	"github.com/influx6/faux/domtrees/attrs"
-	"github.com/influx6/faux/domtrees/elems"
+	"github.com/influx6/gu/gutrees"
+	"github.com/influx6/gu/gutrees/attrs"
+	"github.com/influx6/gu/gutrees/elems"
 )
 
 var success = "\u2713"
@@ -17,10 +17,10 @@ var treeRenderlen = 272
 
 type videoList []map[string]string
 
-func (v videoList) Render(m ...string) domtrees.Markup {
+func (v videoList) Render(m ...string) gutrees.Markup {
 	dom := elems.Div()
 	for _, data := range v {
-		dom.Augment(elems.Video(
+		dom.Apply(elems.Video(
 			attrs.Src(data["src"]),
 			elems.Text(data["name"]),
 		))
@@ -43,15 +43,15 @@ func TestView(t *testing.T) {
 	bo := videos.RenderHTML()
 
 	if len(bo) != treeRenderlen {
-		fatalFailed(t, "Rendered result with invalid length, expected %d but got %d -> \n %s", treeRenderlen, len(bo), bo)
+		t.Fatalf("\t%s\t Rendered result with invalid length, expected %d but got %d -> \n %s", failed, treeRenderlen, len(bo), bo)
 	}
 
-	logPassed(t, "Rendered result accurated with length %d", treeRenderlen)
+	t.Logf("\t%s\t Rendered result accurated with length %d", success, treeRenderlen)
 }
 
 type item string
 
-func (i item) Render(m ...string) domtrees.Markup {
+func (i item) Render(m ...string) gutrees.Markup {
 	return elems.Span(elems.Text(fmt.Sprintf("+ %s", i)))
 }
 
