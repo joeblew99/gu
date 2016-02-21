@@ -1,7 +1,6 @@
 package guviews
 
 import (
-	"errors"
 	"html/template"
 	"strings"
 	"sync/atomic"
@@ -9,6 +8,8 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/faux/pub"
 	"github.com/influx6/gu/guevents"
+	"github.com/influx6/gu/gujs"
+	"github.com/influx6/gu/gustates"
 	"github.com/influx6/gu/gutrees"
 	"github.com/influx6/gu/gutrees/attrs"
 	"github.com/influx6/gu/gutrees/elems"
@@ -50,15 +51,13 @@ type Behaviour interface {
 // Views define a Haiku Component
 type Views interface {
 	pub.Publisher
-	States
+	gustates.States
 	Behaviour
 	MarkupRenderer
 
 	Events() guevents.EventManagers
 	Mount(*js.Object)
 	BindView(Views)
-	UseHistory(*HistoryProvider)
-	History() (*HistoryProvider, error)
 }
 
 //==============================================================================
@@ -100,12 +99,11 @@ func (v *ShowView) Render(m gutrees.Markup) {
 
 // View represent a basic Haiku view
 type View struct {
-	States
+	gustates.States
 	pub.Publisher
 	HideState   ViewStates
 	ShowState   ViewStates
 	activeState ViewStates
-	history     *HistoryProvider
 	encoder     gutrees.MarkupWriter
 	events      guevents.EventManagers
 	dom         *js.Object
@@ -145,7 +143,7 @@ func MakeView(uid string, writer gutrees.MarkupWriter, vw Renderable) (vm *View)
 
 	vm = &View{
 		Publisher: pub.Always(vm),
-		States:    NewState(),
+		States:    gustates.NewState(),
 		HideState: &HideView{},
 		ShowState: &ShowView{},
 		events:    guevents.NewEventManager(),
@@ -165,7 +163,7 @@ func MakeView(uid string, writer gutrees.MarkupWriter, vw Renderable) (vm *View)
 		if vm.dom != nil {
 			replaceOnly := atomic.LoadInt64(&vm.loaded) == 0
 			html := vm.RenderHTML()
-			Patch(CreateFragment(string(html)), vm.dom, replaceOnly)
+			gujs.Patch(gujs.CreateFragment(string(html)), vm.dom, replaceOnly)
 		}
 	}, true)
 
@@ -178,19 +176,6 @@ func MakeView(uid string, writer gutrees.MarkupWriter, vw Renderable) (vm *View)
 	})
 
 	return
-}
-
-// UseHistory sets the views HistoryProvider to effect navigation change.
-func (v *View) UseHistory(hs *HistoryProvider) {
-	v.history = hs
-}
-
-// History returns the views current history provider.
-func (v *View) History() (*HistoryProvider, error) {
-	if v.history == nil {
-		return nil, errors.New("No HistoryProvider")
-	}
-	return v.history, nil
 }
 
 // BindView binds the given views together,were the view provided as argument will notify this view of change and to act according

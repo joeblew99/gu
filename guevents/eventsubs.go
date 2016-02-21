@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/gopherjs/gopherjs/js"
+	"github.com/influx6/gu/gujs"
 )
 
 // EventHandler provides the function type for event callbacks when subscribing
@@ -176,7 +177,7 @@ func (e *EventSub) TriggerMatch(h Event) {
 
 	//get all possible matches of this query
 	// posis := parent.QuerySelectorAll(e.EventSelector())
-	posis := DOMObjectToList(children)
+	posis := gujs.DOMObjectToList(children)
 
 	// log.Printf("Checking: %s for %s -> %+s", target, e.ID(), posis)
 

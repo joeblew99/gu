@@ -1,4 +1,6 @@
-package guevents
+// Package gujs defines helper methods that use the underline gopherjs js package
+// to inteface with the browser dom api.
+package gujs
 
 import (
 	"log"

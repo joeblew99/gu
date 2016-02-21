@@ -1,4 +1,4 @@
-package guviews
+package gustates
 
 import (
 	"fmt"

@@ -1,4 +1,6 @@
-package guviews
+// Package customs contain custom structures that provide interesting vartiations to
+// the gu Renderable interface.
+package customs
 
 import (
 	"bytes"
@@ -11,7 +13,7 @@ type TemplateRenderable struct {
 	cache *bytes.Buffer
 }
 
-// NewTemplateRenderable returns a new Renderable
+// NewTemplateRenderable returns a new Renderable.
 func NewTemplateRenderable(content string) (*TemplateRenderable, error) {
 	tl, err := template.New("").Parse(content)
 	if err != nil {
