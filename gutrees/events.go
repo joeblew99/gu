@@ -59,13 +59,15 @@ func (e *Element) Events() []*Event {
 }
 
 // Apply adds the event into the elements events lists
-func (e *Event) Apply(em *Element) {
-	if em.allowEvents {
-		if e.Meta.EventTarget == "" {
-			e.Meta.EventTarget = em.EventID()
+func (e *Event) Apply(ex Markup) {
+	if em, ok := ex.(*Element); ok {
+		if em.allowEvents {
+			if e.Meta.EventTarget == "" {
+				e.Meta.EventTarget = em.EventID()
+			}
+			e.tree = em
+			em.events = append(em.events, e)
 		}
-		e.tree = em
-		em.events = append(em.events, e)
 	}
 }
 

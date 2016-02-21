@@ -374,11 +374,17 @@ type MarkupChildren interface {
 func (e *Element) AddChild(em ...Markup) {
 	if e.allowChildren {
 		for _, mm := range em {
+
+			if mm == nil {
+				continue
+			}
+
 			if m, ok := mm.(ElementalMarkup); ok {
 				e.children = append(e.children, m)
 				//if this are free elements, then use this event manager
 				m.UseEventManager(e.eventManager)
 			}
+
 		}
 	}
 }
@@ -404,13 +410,13 @@ func (e *Element) Attributes() []*Attribute {
 
 // Appliable define the interface specification for applying changes to elements elements in tree
 type Appliable interface {
-	Apply(*Element)
+	Apply(Markup)
 }
 
 //Apply adds the giving element into the current elements children tree
-func (e *Element) Apply(em *Element) {
-	if em.allowChildren {
-		em.AddChild(e)
+func (e *Element) Apply(em Markup) {
+	if mm, ok := em.(MarkupChildren); ok {
+		mm.AddChild(e)
 	}
 }
 

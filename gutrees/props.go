@@ -25,9 +25,11 @@ func NewAttr(name, val string) *Attribute {
 }
 
 // Apply applies a set change to the giving element attributes list
-func (a *Attribute) Apply(e *Element) {
-	if e.allowAttributes {
-		e.attrs = append(e.attrs, a)
+func (a *Attribute) Apply(e Markup) {
+	if em, ok := e.(*Element); ok {
+		if em.allowAttributes {
+			em.attrs = append(em.attrs, a)
+		}
 	}
 }
 
@@ -70,9 +72,11 @@ func (s *Style) Clone() *Style {
 }
 
 // Apply applies a set change to the giving element style list
-func (s *Style) Apply(e *Element) {
-	if e.allowStyles {
-		e.styles = append(e.styles, s)
+func (s *Style) Apply(e Markup) {
+	if em, ok := e.(*Element); ok {
+		if em.allowStyles {
+			em.styles = append(em.styles, s)
+		}
 	}
 }
 
@@ -96,8 +100,13 @@ func (c *ClassList) Add(class string) {
 }
 
 // Apply checks for a class attribute
-func (c *ClassList) Apply(e *Element) {
+func (c *ClassList) Apply(em Markup) {
 	if len(*c) == 0 {
+		return
+	}
+
+	e, ok := em.(*Element)
+	if !ok {
 		return
 	}
 

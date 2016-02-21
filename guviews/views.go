@@ -3,6 +3,7 @@ package guviews
 import (
 	"html/template"
 	"strings"
+	"sync"
 	"sync/atomic"
 
 	"github.com/gopherjs/gopherjs/js"
@@ -11,17 +12,8 @@ import (
 	"github.com/influx6/gu/gujs"
 	"github.com/influx6/gu/gustates"
 	"github.com/influx6/gu/gutrees"
-	"github.com/influx6/gu/gutrees/attrs"
 	"github.com/influx6/gu/gutrees/elems"
 )
-
-//==============================================================================
-
-// MarkupRenderer provides a interface for a types capable of rendering dom markup.
-type MarkupRenderer interface {
-	Render(...string) gutrees.Markup
-	RenderHTML(...string) template.HTML
-}
 
 //==============================================================================
 
@@ -50,14 +42,14 @@ type Behaviour interface {
 
 // Views define a Haiku Component
 type Views interface {
+	Behaviour
 	pub.Publisher
 	gustates.States
-	Behaviour
 	MarkupRenderer
 
-	Events() guevents.EventManagers
-	Mount(*js.Object)
 	BindView(Views)
+	Mount(*js.Object)
+	Events() guevents.EventManagers
 }
 
 //==============================================================================
@@ -73,11 +65,13 @@ type ViewStates interface {
 type HideView struct{}
 
 // Render marks the given markup as display:none
-func (v *HideView) Render(m gutrees.Markup) {
+func (v HideView) Render(m gutrees.Markup) {
 	//if we are allowed to query for styles then check and change display
-	if ds, err := gutrees.GetStyle(m, "display"); err == nil {
-		if !strings.Contains(ds.Value, "none") {
-			ds.Value = "none"
+	if mm, ok := m.(gutrees.MarkupProps); ok {
+		if ds, err := gutrees.GetStyle(mm, "display"); err == nil {
+			if !strings.Contains(ds.Value, "none") {
+				ds.Value = "none"
+			}
 		}
 	}
 }
@@ -86,75 +80,71 @@ func (v *HideView) Render(m gutrees.Markup) {
 type ShowView struct{}
 
 // Render marks the given markup with a display: block
-func (v *ShowView) Render(m gutrees.Markup) {
+func (v ShowView) Render(m gutrees.Markup) {
 	//if we are allowed to query for styles then check and change display
-	if ds, err := gutrees.GetStyle(m, "display"); err == nil {
-		if strings.Contains(ds.Value, "none") {
-			ds.Value = "block"
+	if mm, ok := m.(gutrees.MarkupProps); ok {
+		if ds, err := gutrees.GetStyle(mm, "display"); err == nil {
+			if strings.Contains(ds.Value, "none") {
+				ds.Value = "block"
+			}
 		}
 	}
 }
 
 //==============================================================================
 
-// View represent a basic Haiku view
-type View struct {
+// hider defines a global hide renderer.
+var hider HideView
+
+// shower defines a global display renderer.
+var shower ShowView
+
+// view defines a basic struture for building UI view.
+type view struct {
 	gustates.States
 	pub.Publisher
-	HideState   ViewStates
-	ShowState   ViewStates
-	activeState ViewStates
-	encoder     gutrees.MarkupWriter
-	events      guevents.EventManagers
-	dom         *js.Object
-	rview       Renderable
-	liveMarkup  gutrees.Markup //liveMarkup represent the current rendered markup
-	backdoor    gutrees.MutableBackdoor
 	loaded      int64
 	uid         string
+	dom         *js.Object
+	renders     []Renderable
+	liveMarkup  gutrees.Markup
+	encoder     gutrees.MarkupWriter
+	events      guevents.EventManagers
+	rl          sync.RWMutex
+	activeState ViewStates
 }
 
-// NewView returns a View instance. The view is giving a empty uid string,
+// View returns a View instance. The view is giving a empty uid string,
 // which it will generate itself. Use NewScopedView for more control especially
 // when rendering from server.
-func NewView(view Renderable) *View {
-	return MakeView("", gutrees.SimpleMarkupWriter, view)
+func View(view ...Renderable) Views {
+	return CustomView("", gutrees.SimpleMarkupWriter, view...)
 }
 
-// NewScopedView returns a View instance with a custom UID.
-// These allows managing effective transisitions from rendering on the backends
-// to rendering on the frontend. The uid provides a unchanging identification
-// of the server-rendered dom node the view is concerned about and it loads off
-// that dom node on the client side to ensure correct transition.
-func NewScopedView(uid string, view Renderable) *View {
-	return MakeView(uid, gutrees.SimpleMarkupWriter, view)
-}
-
-// SequenceView returns a new  View instance rendered through a sequence renderer.
-func SequenceView(meta SequenceMeta, rs ...Renderable) *View {
-	return MakeView(meta.UID, gutrees.SimpleMarkupWriter, Sequence(meta, rs...))
-}
-
-// MakeView returns a Components style
-func MakeView(uid string, writer gutrees.MarkupWriter, vw Renderable) (vm *View) {
+// CustomView returns a gu.Views implementing struct that provides the ability to
+// render and update UI efficiently. This function allows greater control of
+// the uid for which the dom will be identified with and the writer used to
+// decode our dom structures into valid html.
+func CustomView(uid string, writer gutrees.MarkupWriter, vw ...Renderable) Views {
 	if uid == "" {
 		uid = gutrees.RandString(8)
 	}
 
-	vm = &View{
-		Publisher: pub.Always(vm),
-		States:    gustates.NewState(),
-		HideState: &HideView{},
-		ShowState: &ShowView{},
-		events:    guevents.NewEventManager(),
-		encoder:   writer,
-		rview:     vw,
-		uid:       uid,
+	vm := &view{
+		States:  gustates.NewState(),
+		events:  guevents.NewEventManager(),
+		encoder: writer,
+		renders: vw,
+		uid:     uid,
 	}
 
-	// If its a ReactiveRenderable type then bind the view
-	if rxv, ok := vw.(ReactiveRenderable); ok {
-		rxv.Bind(vm, true)
+	vm.Publisher = pub.Always(vm)
+
+	for _, rv := range vw {
+		// If its a ReactiveRenderable type then bind the view
+		if rxv, ok := rv.(ReactiveRenderable); ok {
+			rxv.Bind(vm, true)
+		}
 	}
 
 	//set up the reaction chain, if we have node attach then render to it
@@ -167,81 +157,99 @@ func MakeView(uid string, writer gutrees.MarkupWriter, vw Renderable) (vm *View)
 		}
 	}, true)
 
-	vm.States.UseActivator(func() {
-		vm.Show()
-	})
+	vm.UseActivator(vm.Show)
+	vm.UseDeactivator(vm.Hide)
 
-	vm.States.UseDeactivator(func() {
-		vm.Hide()
-	})
-
-	return
+	return vm
 }
 
 // BindView binds the given views together,were the view provided as argument will notify this view of change and to act according
-func (v *View) BindView(vs Views) {
+func (v *view) BindView(vs Views) {
 	vs.Bind(v, true)
 }
 
 // Mount is to be called in the browser to loadup this view with a dom
-func (v *View) Mount(dom *js.Object) {
+func (v *view) Mount(dom *js.Object) {
 	v.dom = dom
 	v.events.OffloadDOM()
 	v.events.LoadDOM(dom)
-	v.Send(true)
 	atomic.StoreInt64(&v.loaded, 1)
+	v.Send(true)
 }
 
 // Show activates the view to generate a visible markup
-func (v *View) Show() {
-	if v.ShowState == nil {
-		v.ShowState = &ShowView{}
-	}
-	v.activeState = v.ShowState
+func (v *view) Show() {
+	v.rl.Lock()
+	defer v.rl.Unlock()
+	v.activeState = shower
 }
 
 // Hide deactivates the view
-func (v *View) Hide() {
-	if v.HideState == nil {
-		v.HideState = &HideView{}
-	}
-	v.activeState = v.HideState
+func (v *view) Hide() {
+	v.rl.Lock()
+	defer v.rl.Unlock()
+	v.activeState = hider
 }
 
 // Events returns the views events manager
-func (v *View) Events() guevents.EventManagers {
+func (v *view) Events() guevents.EventManagers {
 	return v.events
 }
 
-// Render renders the generated markup for this view
-func (v *View) Render(m ...string) gutrees.Markup {
+//==============================================================================
+
+// MarkupRenderer provides a interface for a types capable of rendering dom markup.
+type MarkupRenderer interface {
+	Renderable
+	RenderHTML(...string) template.HTML
+}
+
+// Render renders the generated markup for this view, if the renderers are more
+// than one then all are rendered into a div(as we need this to maintain sanity
+// during reconciliation and updates) of rendered dom.
+func (v *view) Render(m ...string) gutrees.Markup {
 	if len(m) <= 0 {
 		m = []string{"."}
 	}
 
 	v.Engine().All(m[0])
 
-	if v.rview == nil {
+	if len(v.renders) == 0 {
 		return elems.Div()
 	}
 
-	dom := v.rview.Render(m...)
+	var dom gutrees.Markup
 
-	if dom == nil {
-		return elems.Div()
+	// If we are more than 1 then run through and apply all to a div.
+	if len(v.renders) > 1 {
+		dom = elems.Div()
+
+		for _, rv := range v.renders {
+			rv.Render(m...).Apply(dom)
+		}
+
+	} else {
+		dom = v.renders[0].Render(m...)
 	}
+
+	v.rl.RLock()
+	v.activeState.Render(dom)
+	v.rl.RUnlock()
 
 	// // swap the uid for the new dom
 	// // to ensure we keep the sync between backend and frontend in sync.
-	v.backdoor.M = dom
-	v.backdoor.SwapUID(v.uid)
-	v.backdoor.M = nil
+	if backdoor, ok := dom.(gutrees.SwappableIdentity); ok {
+		backdoor.SwapUID(v.uid)
+	}
 
 	if v.liveMarkup != nil {
 		dom.Reconcile(v.liveMarkup)
 	}
 
-	dom.UseEventManager(v.events)
+	if eventdoor, ok := dom.(gutrees.Eventers); ok {
+		eventdoor.UseEventManager(v.events)
+	}
+
 	v.events.LoadUpEvents()
 	v.liveMarkup = dom
 
@@ -249,69 +257,7 @@ func (v *View) Render(m ...string) gutrees.Markup {
 }
 
 // RenderHTML renders out the views markup as a string wrapped with template.HTML
-func (v *View) RenderHTML(m ...string) template.HTML {
+func (v *view) RenderHTML(m ...string) template.HTML {
 	ma, _ := v.encoder.Write(v.Render(m...))
 	return template.HTML(ma)
 }
-
-//==============================================================================
-
-// SequenceMeta  provides a configuration object for SequenceRenderer.
-type SequenceMeta struct {
-	Tag   string   // Name of the root tag.
-	UID   string   // Custom UID of the root dom tag.
-	ID    string   // Id of the root tag.
-	Class []string // Class list of the root tag.
-}
-
-// SequenceRenderer provides a rendering lists of Renderables to be rendered in
-// their added sequence/order. SequenceRenderer embedds pub.Publisher and will
-// automatically bind with any ReactiveRenderable being added if its `Bind` is
-// set to true.
-type SequenceRenderer struct {
-	pub.Publisher
-	*SequenceMeta
-	stack []Renderable
-}
-
-// Sequence returns a new sequence renderer instance.
-func Sequence(meta SequenceMeta, r ...Renderable) *SequenceRenderer {
-	if meta.Tag == "" {
-		meta.Tag = "div"
-	}
-
-	s := SequenceRenderer{
-		Publisher:    pub.Identity(),
-		SequenceMeta: &meta,
-	}
-
-	s.Add(r...)
-
-	return &s
-}
-
-// Add adds new renders into the publisher lists.
-func (s *SequenceRenderer) Add(r ...Renderable) {
-	for _, rm := range r {
-		if rx, ok := rm.(ReactiveRenderable); ok {
-			rx.Bind(s, true)
-		}
-		s.stack = append(s.stack, rm)
-	}
-}
-
-// Render renders the giving giving lists of views.
-func (s *SequenceRenderer) Render(m ...string) gutrees.Markup {
-	root := gutrees.NewElement(s.Tag, false)
-
-	attrs.Class(strings.Join(s.Class, " ")).Apply(root)
-	attrs.ID(s.ID).Apply(root)
-
-	for _, st := range s.stack {
-		st.Render(m...).Apply(root)
-	}
-
-	return root
-}
-
-//==============================================================================
