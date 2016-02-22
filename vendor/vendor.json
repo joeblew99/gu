@@ -24,18 +24,18 @@
 		},
 		{
 			"path": "github.com/influx6/faux/loop",
-			"revision": "5298e76b49e8378a9d1432dd89827f824dc5acbb",
-			"revisionTime": "2016-02-15T16:37:12+01:00"
+			"revision": "a10ab4bfa801e77473c273de7f7b2e334168fd11",
+			"revisionTime": "2016-02-22T01:41:23+01:00"
 		},
 		{
 			"path": "github.com/influx6/faux/mque",
-			"revision": "5298e76b49e8378a9d1432dd89827f824dc5acbb",
-			"revisionTime": "2016-02-15T16:37:12+01:00"
+			"revision": "a10ab4bfa801e77473c273de7f7b2e334168fd11",
+			"revisionTime": "2016-02-22T01:41:23+01:00"
 		},
 		{
 			"path": "github.com/influx6/faux/reflection",
-			"revision": "5298e76b49e8378a9d1432dd89827f824dc5acbb",
-			"revisionTime": "2016-02-15T16:37:12+01:00"
+			"revision": "a10ab4bfa801e77473c273de7f7b2e334168fd11",
+			"revisionTime": "2016-02-22T01:41:23+01:00"
 		},
 		{
 			"path": "github.com/pborman/uuid",

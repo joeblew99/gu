@@ -1,6 +1,7 @@
 package guviews
 
 import (
+	"fmt"
 	"html/template"
 	"strings"
 	"sync"
@@ -143,6 +144,8 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 
 	// Subscribe for view update requests from the central dispatcher.
 	gudispatch.Subscribe(func(v *ViewUpdate) {
+		fmt.Printf("view update %+s\n", v)
+
 		if v.ID != vm.UUID() && v.ID != vm.UID() {
 			return
 		}
