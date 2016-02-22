@@ -1,7 +1,6 @@
 package guviews
 
 import (
-	"fmt"
 	"html/template"
 	"strings"
 	"sync"
@@ -144,8 +143,6 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 
 	// Subscribe for view update requests from the central dispatcher.
 	gudispatch.Subscribe(func(v *ViewUpdate) {
-		fmt.Printf("view update %+s\n", v)
-
 		if v.ID != vm.UUID() && v.ID != vm.UID() {
 			return
 		}
@@ -160,10 +157,10 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		gujs.Patch(gujs.CreateFragment(string(html)), vm.dom, replaceOnly)
 	})
 
-	// Subscribe for URI updates.
-	gudispatch.Subscribe(func(p *gudispatch.PathDirective) {
-		vm.Engine().All(p.Sequence)
-	})
+	// // Subscribe for URI updates.
+	// gudispatch.Subscribe(func(p *gudispatch.PathDirective) {
+	// 	vm.Engine().All(p.Sequence)
+	// })
 
 	// Connect the corresponding state methods to the state manager.
 	vm.UseActivator(vm.Show)
