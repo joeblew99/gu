@@ -10,7 +10,6 @@ import (
 	"github.com/influx6/gu/gudispatch"
 	"github.com/influx6/gu/guevents"
 	"github.com/influx6/gu/gujs"
-	"github.com/influx6/gu/gustates"
 	"github.com/influx6/gu/gutrees"
 	"github.com/influx6/gu/gutrees/elems"
 	"github.com/pborman/uuid"
@@ -20,7 +19,7 @@ import (
 
 // Renderable provides a interface for a renderable type.
 type Renderable interface {
-	Render(...string) gutrees.Markup
+	Render() gutrees.Markup
 }
 
 //==============================================================================
@@ -36,7 +35,6 @@ type Behaviour interface {
 // Views define a Haiku Component
 type Views interface {
 	Behaviour
-	gustates.States
 	MarkupRenderer
 
 	UUID() string
@@ -102,7 +100,6 @@ var shower ShowView
 
 // view defines a basic struture for building UI view.
 type view struct {
-	gustates.States
 	loaded      int64
 	uid         string
 	uuid        string
@@ -133,7 +130,6 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 	}
 
 	vm := &view{
-		States:  gustates.NewState(),
 		events:  guevents.NewEventManager(),
 		encoder: writer,
 		renders: vw,
@@ -163,8 +159,8 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 	// })
 
 	// Connect the corresponding state methods to the state manager.
-	vm.UseActivator(vm.Show)
-	vm.UseDeactivator(vm.Hide)
+	// vm.UseActivator(vm.Show)
+	// vm.UseDeactivator(vm.Hide)
 
 	return vm
 }
@@ -229,19 +225,13 @@ func (v *view) Events() guevents.EventManagers {
 // MarkupRenderer provides a interface for a types capable of rendering dom markup.
 type MarkupRenderer interface {
 	Renderable
-	RenderHTML(...string) template.HTML
+	RenderHTML() template.HTML
 }
 
 // Render renders the generated markup for this view, if the renderers are more
 // than one then all are rendered into a div(as we need this to maintain sanity
 // during reconciliation and updates) of rendered dom.
-func (v *view) Render(m ...string) gutrees.Markup {
-	if len(m) <= 0 {
-		m = []string{"."}
-	}
-
-	v.Engine().All(m[0])
-
+func (v *view) Render() gutrees.Markup {
 	if len(v.renders) == 0 {
 		return elems.Div()
 	}
@@ -253,11 +243,11 @@ func (v *view) Render(m ...string) gutrees.Markup {
 		dom = elems.Div()
 
 		for _, rv := range v.renders {
-			rv.Render(m...).Apply(dom)
+			rv.Render().Apply(dom)
 		}
 
 	} else {
-		dom = v.renders[0].Render(m...)
+		dom = v.renders[0].Render()
 	}
 
 	v.rl.RLock()
@@ -285,7 +275,7 @@ func (v *view) Render(m ...string) gutrees.Markup {
 }
 
 // RenderHTML renders out the views markup as a string wrapped with template.HTML
-func (v *view) RenderHTML(m ...string) template.HTML {
-	ma, _ := v.encoder.Write(v.Render(m...))
+func (v *view) RenderHTML() template.HTML {
+	ma, _ := v.encoder.Write(v.Render())
 	return template.HTML(ma)
 }
