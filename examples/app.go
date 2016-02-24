@@ -11,8 +11,8 @@ import (
 // menu defines a map of name and url links.
 type menu map[string]string
 
-func (v menu) Render(m ...string) gutrees.Markup {
-	dom := elems.Div()
+func (v menu) Render() gutrees.Markup {
+	dom := elems.Div(attrs.ID("bat"))
 
 	for name, src := range v {
 		gutrees.Augment(dom, elems.Image(
@@ -30,6 +30,8 @@ func main() {
 		"Joyride": "https://pbs.twimg.com/media/CbtrJu9UAAAXhSs.jpg",
 		"Bombs":   "https://pbs.twimg.com/media/Cbs8Ia0VAAAYyfR.jpg",
 	}))
+
+	guviews.ViewPage(view, "/views/*")
 
 	gudom.RenderAsBody(view)
 }

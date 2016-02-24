@@ -132,6 +132,7 @@ func PopStatePath(ps PathSequencer) (*PathObserver, error) {
 
 // Follow creates a Pathspec from the hash and path and sends it
 func (p *PathObserver) Follow(host, path, hash string) {
+	fmt.Printf("Dispatch route change %s->%s\n", path, hash)
 	Dispatch(&PathDirective{
 		Host:     host,
 		Hash:     hash,

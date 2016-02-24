@@ -1,6 +1,7 @@
 package guviews
 
 import (
+	"fmt"
 	"html/template"
 	"strings"
 	"sync"
@@ -12,7 +13,6 @@ import (
 	"github.com/influx6/gu/gujs"
 	"github.com/influx6/gu/gutrees"
 	"github.com/influx6/gu/gutrees/elems"
-	"github.com/pborman/uuid"
 )
 
 //==============================================================================
@@ -90,6 +90,7 @@ func ViewPage(v Views, pattern string) {
 	pathMl2.Unlock()
 
 	gudispatch.Watch(pattern, func(p gudispatch.Path) {
+		fmt.Printf("Pattern match %+s\n", p)
 		v.Show()
 	})
 
@@ -99,6 +100,8 @@ func ViewPage(v Views, pattern string) {
 	}
 
 	gudispatch.Subscribe(func(p gudispatch.Path) {
+		fmt.Printf("Pattern check %+s\n", p)
+
 		pathMl2.RLock()
 		ok = cache[p.Pattern]
 		pathMl2.RUnlock()
@@ -207,7 +210,9 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		encoder: writer,
 		renders: vw,
 		uid:     cid,
-		uuid:    uuid.New(),
+		// uuid:    uuid.NewV4().String(),
+		uuid:        gutrees.RandString(20),
+		activeState: shower,
 	}
 
 	// Subscribe for view update requests from the central dispatcher.

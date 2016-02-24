@@ -38,5 +38,4 @@ func init() {
 	if detect.IsBrowser() {
 		history = History(HashSequencer)
 	}
-
 }
