@@ -40,9 +40,75 @@ type Views interface {
 	UUID() string
 	UID() string
 
-	BindView(Views)
+	Bind(Views)
+	Sync(Views)
 	Mount(*js.Object)
 	Events() guevents.EventManagers
+}
+
+//==============================================================================
+
+// pathMl provides a mutex to control read and write to internal view cache store.
+var pathMl sync.RWMutex
+
+// pathMl2 provides a mutex to control write and read to internal cache maps.
+var pathMl2 sync.RWMutex
+
+// pathWatch registers a view with selected watch routes to reduce unnecessary
+// multiwatching of same routes and helps manage state of views.
+var pathWatch = make(map[Views]map[string]bool)
+
+// ViewPage allows setting a specific view to become active for a specific URL
+// route pattern. This allows to control the active and inactive state and also
+// the visibility of the view dependent on the current location URL path.
+func ViewPage(v Views, pattern string) {
+
+	// Get the view route cache.
+	cache, ok := pathWatch[v]
+	var new bool
+
+	// If no cache is found for this view then make one and store it.
+	if !ok {
+		cache = make(map[string]bool)
+		pathMl.Lock()
+		pathWatch[v] = cache
+		pathMl.Unlock()
+		new = true
+	}
+
+	// If we are already watching for this specific route then skip this.
+	pathMl2.RLock()
+	ok = cache[pattern]
+	pathMl2.RUnlock()
+
+	if ok {
+		return
+	}
+
+	pathMl2.Lock()
+	cache[pattern] = true
+	pathMl2.Unlock()
+
+	gudispatch.Watch(pattern, func(p gudispatch.Path) {
+		v.Show()
+	})
+
+	// If someone is already watching for this then skip.
+	if !new {
+		return
+	}
+
+	gudispatch.Subscribe(func(p gudispatch.Path) {
+		pathMl2.RLock()
+		ok = cache[p.Pattern]
+		pathMl2.RUnlock()
+
+		if ok {
+			return
+		}
+
+		v.Hide()
+	})
 }
 
 //==============================================================================
@@ -88,6 +154,13 @@ func (v ShowView) Render(m gutrees.Markup) {
 // view to be notified for an update.
 type ViewUpdate struct {
 	ID string
+}
+
+// ViewState defines a notification struct of the state of the view wether it
+// is active or not.
+type ViewState struct {
+	ID string
+	On bool
 }
 
 //==============================================================================
@@ -153,15 +226,6 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		gujs.Patch(gujs.CreateFragment(string(html)), vm.dom, replaceOnly)
 	})
 
-	// // Subscribe for URI updates.
-	// gudispatch.Subscribe(func(p *gudispatch.PathDirective) {
-	// 	vm.Engine().All(p.Sequence)
-	// })
-
-	// Connect the corresponding state methods to the state manager.
-	// vm.UseActivator(vm.Show)
-	// vm.UseDeactivator(vm.Hide)
-
 	return vm
 }
 
@@ -175,8 +239,9 @@ func (v *view) UUID() string {
 	return v.uuid
 }
 
-// BindView binds the given views together,were the view provided as argument will notify this view of change and to act according
-func (v *view) BindView(vs Views) {
+// BindView binds the given views together,were the view provided as argument
+// will notify this view of change and to act according.
+func (v *view) Bind(vs Views) {
 	gudispatch.Subscribe(func(vm *ViewUpdate) {
 		if vm.ID != vs.UUID() && vm.ID != vs.UID() {
 			return
@@ -184,7 +249,25 @@ func (v *view) BindView(vs Views) {
 
 		// Notify this view of change.
 		gudispatch.Dispatch(&ViewUpdate{ID: v.UUID()})
+	})
+}
 
+// Sync connects a view not only to the update cycles of this views but also
+// to the state of this view, that is, if this view becomes hidden, then
+// the synced view follows suits and as such.
+func (v *view) Sync(vs Views) {
+	v.Bind(vs)
+	gudispatch.Subscribe(func(vm *ViewState) {
+		if vm.ID != vs.UUID() && vm.ID != vs.UID() {
+			return
+		}
+
+		if !vm.On {
+			vs.Hide()
+			return
+		}
+
+		vs.Show()
 	})
 }
 
@@ -206,6 +289,10 @@ func (v *view) Show() {
 	v.rl.Lock()
 	defer v.rl.Unlock()
 	v.activeState = shower
+	gudispatch.Dispatch(&ViewState{
+		ID: v.UUID(),
+		On: true,
+	})
 }
 
 // Hide deactivates the view
@@ -213,6 +300,10 @@ func (v *view) Hide() {
 	v.rl.Lock()
 	defer v.rl.Unlock()
 	v.activeState = hider
+	gudispatch.Dispatch(&ViewState{
+		ID: v.UUID(),
+		On: false,
+	})
 }
 
 // Events returns the views events manager

@@ -7,6 +7,8 @@ import (
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
+	"github.com/influx6/faux/ds"
+	"github.com/influx6/faux/pattern"
 )
 
 //==============================================================================
@@ -54,8 +56,8 @@ type PathObserver struct {
 	sequencer PathSequencer
 }
 
-// Path returns a new PathObserver instance
-func Path(ps PathSequencer) *PathObserver {
+// NewPathObserver returns a new PathObserver instance.
+func NewPathObserver(ps PathSequencer) *PathObserver {
 	if ps == nil {
 		ps = HashSequencer
 	}
@@ -86,7 +88,7 @@ func GetLocation() (host string, path string, hash string) {
 // HashChangePath returns a path observer path changes
 func HashChangePath(ps PathSequencer) *PathObserver {
 	panicBrowserDetect()
-	path := Path(ps)
+	path := NewPathObserver(ps)
 	path.usingHash = true
 
 	js.Global.Set("onhashchange", func() {
@@ -119,7 +121,7 @@ func PopStatePath(ps PathSequencer) (*PathObserver, error) {
 		return nil, ErrNotSupported
 	}
 
-	path := Path(ps)
+	path := NewPathObserver(ps)
 
 	js.Global.Set("onpopstate", func() {
 		path.Follow(GetLocation())
@@ -188,6 +190,64 @@ func (h *HistoryProvider) Go(path string) {
 		return
 	}
 	PushDOMState(path)
+}
+
+//==============================================================================
+
+// cache to ensure we are only watching a pattern once.
+var cache = ds.NewTruthTable()
+
+// Path defines a representation of a location path matching a specific sequence.
+type Path struct {
+	PathDirective
+	Param   map[string]string
+	Pattern string
+}
+
+// Watch for a specific Url pattern and call the speficied function.
+func Watch(path string, fx func(Path)) {
+
+	// If we are already watching for this path then register only a listener for
+	// its dispatch.
+	if cache.Has(path) {
+
+		if fx != nil {
+			return
+		}
+
+		Subscribe(func(pv Path) {
+			if pv.Pattern != path {
+				return
+			}
+
+			fx(pv)
+		})
+
+		return
+	}
+
+	cache.Set(path)
+
+	matcher := pattern.New(path)
+
+	Subscribe(func(vw *PathDirective) {
+
+		params, ok := matcher.Validate(vw.String())
+		if !ok {
+			return
+		}
+
+		p := Path{
+			PathDirective: *vw,
+			Param:         params,
+			Pattern:       path,
+		}
+
+		if fx != nil {
+			fx(p)
+		}
+		Dispatch(p)
+	})
 }
 
 //==============================================================================
