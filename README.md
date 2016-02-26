@@ -39,7 +39,7 @@
       // menu defines a map of name and url links.
       type menu map[string]string
 
-      func (v menu) Render(m ...string) gutrees.Markup {
+      func (v menu) Render() gutrees.Markup {
       	dom := elems.Div()
 
       	for name, src := range v {
