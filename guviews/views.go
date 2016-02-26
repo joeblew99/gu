@@ -13,6 +13,7 @@ import (
 	"github.com/influx6/gu/gujs"
 	"github.com/influx6/gu/gutrees"
 	"github.com/influx6/gu/gutrees/elems"
+	"github.com/influx6/gu/gutrees/styles"
 )
 
 //==============================================================================
@@ -48,6 +49,15 @@ type Views interface {
 
 //==============================================================================
 
+// Path defines a representation of a location path matching a specific sequence.
+type Path struct {
+	gudispatch.PathDirective
+	Param map[string]string
+	ID    string
+}
+
+//==============================================================================
+
 // pathMl provides a mutex to control read and write to internal view cache store.
 var pathMl sync.RWMutex
 
@@ -58,61 +68,93 @@ var pathMl2 sync.RWMutex
 // multiwatching of same routes and helps manage state of views.
 var pathWatch = make(map[Views]map[string]bool)
 
-// ViewPage allows setting a specific view to become active for a specific URL
+// AttachView allows setting a specific view to become active for a specific URL
 // route pattern. This allows to control the active and inactive state and also
 // the visibility of the view dependent on the current location URL path.
-func ViewPage(v Views, pattern string) {
+func AttachView(v Views, pattern string) {
+	gudispatch.URIMatcher(pattern)
 
-	// Get the view route cache.
-	cache, ok := pathWatch[v]
-	var new bool
+	new := addView(v)
 
-	// If no cache is found for this view then make one and store it.
-	if !ok {
-		cache = make(map[string]bool)
-		pathMl.Lock()
-		pathWatch[v] = cache
-		pathMl.Unlock()
-		new = true
-	}
+	pathMl.RLock()
+	vcache := pathWatch[v]
+	pathMl.RUnlock()
 
 	// If we are already watching for this specific route then skip this.
-	pathMl2.RLock()
-	ok = cache[pattern]
-	pathMl2.RUnlock()
+	pathMl.RLock()
+	hasOk := vcache[pattern]
+	pathMl.RUnlock()
 
-	if ok {
+	if hasOk {
 		return
 	}
 
 	pathMl2.Lock()
-	cache[pattern] = true
+	vcache[pattern] = true
 	pathMl2.Unlock()
 
-	gudispatch.Watch(pattern, func(p gudispatch.Path) {
-		fmt.Printf("Pattern match %+s\n", p)
-		v.Show()
-	})
-
-	// If someone is already watching for this then skip.
 	if !new {
 		return
 	}
 
-	gudispatch.Subscribe(func(p gudispatch.Path) {
-		fmt.Printf("Pattern check %+s\n", p)
-
+	gudispatch.Subscribe(func(p gudispatch.PathDirective) {
 		pathMl2.RLock()
-		ok = cache[p.Pattern]
-		pathMl2.RUnlock()
+		defer pathMl2.RUnlock()
 
-		if ok {
+		var found bool
+		var params map[string]string
+
+		for key := range vcache {
+			// Get the matcher for this key.
+			watcher := gudispatch.URIMatcher(key)
+
+			pm, ok := watcher.Validate(p.String())
+			if !ok {
+				continue
+			}
+
+			params = pm
+			found = true
+			break
+		}
+
+		if !found {
+			v.Hide()
 			return
 		}
 
-		v.Hide()
+		pu := Path{
+			PathDirective: p,
+			ID:            v.UUID(),
+			Param:         params,
+		}
+
+		gudispatch.Dispatch(&pu)
 	})
+
+	gudispatch.Follow(gudispatch.GetLocation())
 }
+
+// addView attaches view into the pathWatch match.
+func addView(v Views) bool {
+	// Get the view route cache.
+	pathMl.RLock()
+	_, ok := pathWatch[v]
+	pathMl.RUnlock()
+
+	// If no cache is found for this view then make one and store it.
+	if !ok {
+		vcache := make(map[string]bool)
+		pathMl.Lock()
+		pathWatch[v] = vcache
+		pathMl.Unlock()
+		return true
+	}
+
+	return false
+}
+
+//==============================================================================
 
 //==============================================================================
 
@@ -126,14 +168,17 @@ type HideView struct{}
 
 // Render marks the given markup as display:none
 func (v HideView) Render(m gutrees.Markup) {
-	//if we are allowed to query for styles then check and change display
+	// if we are allowed to query for styles then check and change display
 	if mm, ok := m.(gutrees.MarkupProps); ok {
 		if ds, err := gutrees.GetStyle(mm, "display"); err == nil {
 			if !strings.Contains(ds.Value, "none") {
 				ds.Value = "none"
 			}
+			return
 		}
+
 	}
+	styles.Display("none").Apply(m)
 }
 
 // ShowView provides a ViewStates for Views active state
@@ -147,7 +192,10 @@ func (v ShowView) Render(m gutrees.Markup) {
 			if strings.Contains(ds.Value, "none") {
 				ds.Value = "block"
 			}
+			return
 		}
+
+		styles.Display("block").Apply(m)
 	}
 }
 
@@ -176,16 +224,16 @@ var shower ShowView
 
 // view defines a basic struture for building UI view.
 type view struct {
-	loaded      int64
-	uid         string
-	uuid        string
-	dom         *js.Object
-	renders     []Renderable
-	liveMarkup  gutrees.Markup
-	encoder     gutrees.MarkupWriter
-	events      guevents.EventManagers
-	rl          sync.RWMutex
-	activeState ViewStates
+	ready        int64
+	switchActive int64
+	uid          string
+	uuid         string
+	dom          *js.Object
+	renders      []Renderable
+	liveMarkup   gutrees.Markup
+	encoder      gutrees.MarkupWriter
+	events       guevents.EventManagers
+	activeState  ViewStates
 }
 
 // View returns a View instance. The view is giving a customID string, which
@@ -206,13 +254,13 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 	}
 
 	vm := &view{
-		events:  guevents.NewEventManager(),
-		encoder: writer,
-		renders: vw,
-		uid:     cid,
-		// uuid:    uuid.NewV4().String(),
-		uuid:        gutrees.RandString(20),
+		encoder:     writer,
+		renders:     vw,
+		uid:         cid,
 		activeState: shower,
+		events:      guevents.NewEventManager(),
+		uuid:        gutrees.RandString(20),
+		// uuid:    uuid.NewV4().String(),
 	}
 
 	// Subscribe for view update requests from the central dispatcher.
@@ -221,14 +269,24 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 			return
 		}
 
-		//if we are not domless then patch
+		// If we are not domless then patch.
 		if vm.dom == nil {
 			return
 		}
 
-		replaceOnly := atomic.LoadInt64(&vm.loaded) == 0
+		replaceOnly := atomic.LoadInt64(&vm.ready) == 0
+
 		html := vm.RenderHTML()
+		fmt.Printf("NewHTML %s\n", html)
 		gujs.Patch(gujs.CreateFragment(string(html)), vm.dom, replaceOnly)
+	})
+
+	gudispatch.Subscribe(func(p *Path) {
+		if p.ID != vm.UUID() && p.ID != vm.UID() {
+			return
+		}
+
+		vm.Show()
 	})
 
 	return vm
@@ -281,7 +339,9 @@ func (v *view) Mount(dom *js.Object) {
 	v.dom = dom
 	v.events.OffloadDOM()
 	v.events.LoadDOM(dom)
-	atomic.StoreInt64(&v.loaded, 1)
+
+	// Set the ready signal as on.
+	atomic.StoreInt64(&v.ready, 1)
 
 	// Notify for update to dom.
 	gudispatch.Dispatch(&ViewUpdate{
@@ -291,9 +351,14 @@ func (v *view) Mount(dom *js.Object) {
 
 // Show activates the view to generate a visible markup
 func (v *view) Show() {
-	v.rl.Lock()
-	defer v.rl.Unlock()
-	v.activeState = shower
+	atomic.StoreInt64(&v.switchActive, 1)
+	{
+		v.activeState = shower
+	}
+	atomic.StoreInt64(&v.switchActive, 0)
+
+	gudispatch.Dispatch(&ViewUpdate{ID: v.UUID()})
+
 	gudispatch.Dispatch(&ViewState{
 		ID: v.UUID(),
 		On: true,
@@ -302,9 +367,13 @@ func (v *view) Show() {
 
 // Hide deactivates the view
 func (v *view) Hide() {
-	v.rl.Lock()
-	defer v.rl.Unlock()
-	v.activeState = hider
+	atomic.StoreInt64(&v.switchActive, 1)
+	{
+		v.activeState = hider
+	}
+	atomic.StoreInt64(&v.switchActive, 0)
+
+	gudispatch.Dispatch(&ViewUpdate{ID: v.UUID()})
 	gudispatch.Dispatch(&ViewState{
 		ID: v.UUID(),
 		On: false,
@@ -346,18 +415,20 @@ func (v *view) Render() gutrees.Markup {
 		dom = v.renders[0].Render()
 	}
 
-	v.rl.RLock()
-	v.activeState.Render(dom)
-	v.rl.RUnlock()
-
-	// // swap the uid for the new dom
-	// // to ensure we keep the sync between backend and frontend in sync.
-	if backdoor, ok := dom.(gutrees.SwappableIdentity); ok {
-		backdoor.SwapUID(v.uid)
+	atomic.StoreInt64(&v.switchActive, 1)
+	{
+		v.activeState.Render(dom)
 	}
+	atomic.StoreInt64(&v.switchActive, 0)
 
 	if v.liveMarkup != nil {
 		dom.Reconcile(v.liveMarkup)
+	}
+
+	// swap the uid for the new dom
+	// to ensure we keep the sync between backend and frontend in sync.
+	if backdoor, ok := dom.(gutrees.SwappableIdentity); ok {
+		backdoor.SwapUID(v.uid)
 	}
 
 	if eventdoor, ok := dom.(gutrees.Eventers); ok {

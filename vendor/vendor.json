@@ -3,64 +3,9 @@
 	"ignore": "test",
 	"package": [
 		{
-			"path": "github.com/PuerkitoBio/goquery",
-			"revision": "4126223a86db8598275b29db04d511cfdab67cf1",
-			"revisionTime": "2016-02-16T20:35:17-05:00"
-		},
-		{
-			"path": "github.com/andybalholm/cascadia",
-			"revision": "3ad29d1ad1c4f2023e355603324348cf1f4b2d48",
-			"revisionTime": "2015-07-30T10:44:59-07:00"
-		},
-		{
-			"path": "github.com/go-humble/detect",
-			"revision": "714e9e4d821cb7daac42b10f6f91fe5da00fa6fb",
-			"revisionTime": "2015-07-11T22:04:33-07:00"
-		},
-		{
-			"path": "github.com/gopherjs/gopherjs/js",
-			"revision": "f8510c9aef19750ec5a1178b33932a7f9defd197",
-			"revisionTime": "2016-02-20T20:04:58+01:00"
-		},
-		{
-			"path": "github.com/influx6/faux/ds",
-			"revision": "1eb6c4e54e152fb5ecc0485b27371399e78aa212",
-			"revisionTime": "2016-02-25T00:26:48+01:00"
-		},
-		{
-			"path": "github.com/influx6/faux/loop",
-			"revision": "1eb6c4e54e152fb5ecc0485b27371399e78aa212",
-			"revisionTime": "2016-02-25T00:26:48+01:00"
-		},
-		{
-			"path": "github.com/influx6/faux/mque",
-			"revision": "1eb6c4e54e152fb5ecc0485b27371399e78aa212",
-			"revisionTime": "2016-02-25T00:26:48+01:00"
-		},
-		{
-			"path": "github.com/influx6/faux/pattern",
-			"revision": "1eb6c4e54e152fb5ecc0485b27371399e78aa212",
-			"revisionTime": "2016-02-25T00:26:48+01:00"
-		},
-		{
-			"path": "github.com/influx6/faux/reflection",
-			"revision": "1eb6c4e54e152fb5ecc0485b27371399e78aa212",
-			"revisionTime": "2016-02-25T00:26:48+01:00"
-		},
-		{
 			"path": "github.com/pborman/uuid",
 			"revision": "c55201b036063326c5b1b89ccfe45a184973d073",
 			"revisionTime": "2016-02-16T08:37:10-08:00"
-		},
-		{
-			"path": "golang.org/x/net/html",
-			"revision": "7f88271ea9913b72aca44fa7fc8af919eacc17ce",
-			"revisionTime": "2016-02-05T10:48:01+09:00"
-		},
-		{
-			"path": "golang.org/x/net/html/atom",
-			"revision": "7f88271ea9913b72aca44fa7fc8af919eacc17ce",
-			"revisionTime": "2016-02-05T10:48:01+09:00"
 		}
 	]
 }

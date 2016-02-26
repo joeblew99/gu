@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/influx6/gu/gudom"
+	"github.com/influx6/gu"
 	"github.com/influx6/gu/gutrees"
 	"github.com/influx6/gu/gutrees/attrs"
 	"github.com/influx6/gu/gutrees/elems"
@@ -31,7 +31,7 @@ func main() {
 		"Bombs":   "https://pbs.twimg.com/media/Cbs8Ia0VAAAYyfR.jpg",
 	}))
 
-	guviews.ViewPage(view, "/views/*")
+	guviews.AttachView(view, "/github.com/influx6/gu/examples/views")
 
-	gudom.RenderAsBody(view)
+	gu.RenderAsBody(view)
 }

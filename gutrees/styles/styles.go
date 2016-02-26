@@ -19,6 +19,11 @@ func Color(value string) *gutrees.Style {
 	return &gutrees.Style{Name: "color", Value: value}
 }
 
+// Display provides the style setter that sets the css display value.
+func Display(ops string) *gutrees.Style {
+	return &gutrees.Style{Name: "display", Value: ops}
+}
+
 // Height provides the height style value
 func Height(size Size) *gutrees.Style {
 	return &gutrees.Style{Name: "height", Value: string(size)}

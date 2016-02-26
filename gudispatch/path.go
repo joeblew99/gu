@@ -7,7 +7,6 @@ import (
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/faux/ds"
 	"github.com/influx6/faux/pattern"
 )
 
@@ -23,7 +22,7 @@ type PathDirective struct {
 
 // String returns the hash and path.
 func (p PathDirective) String() string {
-	return fmt.Sprintf("%s%s", p.Path, p.Hash)
+	return fmt.Sprintf("%s%s", pattern.TrimEndSlashe(p.Path), p.Hash)
 }
 
 //==============================================================================
@@ -133,7 +132,7 @@ func PopStatePath(ps PathSequencer) (*PathObserver, error) {
 // Follow creates a Pathspec from the hash and path and sends it
 func (p *PathObserver) Follow(host, path, hash string) {
 	fmt.Printf("Dispatch route change %s->%s\n", path, hash)
-	Dispatch(&PathDirective{
+	Dispatch(PathDirective{
 		Host:     host,
 		Hash:     hash,
 		Path:     path,
@@ -191,64 +190,6 @@ func (h *HistoryProvider) Go(path string) {
 		return
 	}
 	PushDOMState(path)
-}
-
-//==============================================================================
-
-// cache to ensure we are only watching a pattern once.
-var cache = ds.NewTruthTable()
-
-// Path defines a representation of a location path matching a specific sequence.
-type Path struct {
-	PathDirective
-	Param   map[string]string
-	Pattern string
-}
-
-// Watch for a specific Url pattern and call the speficied function.
-func Watch(path string, fx func(Path)) {
-
-	// If we are already watching for this path then register only a listener for
-	// its dispatch.
-	if cache.Has(path) {
-
-		if fx != nil {
-			return
-		}
-
-		Subscribe(func(pv Path) {
-			if pv.Pattern != path {
-				return
-			}
-
-			fx(pv)
-		})
-
-		return
-	}
-
-	cache.Set(path)
-
-	matcher := pattern.New(path)
-
-	Subscribe(func(vw *PathDirective) {
-
-		params, ok := matcher.Validate(vw.String())
-		if !ok {
-			return
-		}
-
-		p := Path{
-			PathDirective: *vw,
-			Param:         params,
-			Pattern:       path,
-		}
-
-		if fx != nil {
-			fx(p)
-		}
-		Dispatch(p)
-	})
 }
 
 //==============================================================================

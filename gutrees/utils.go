@@ -64,6 +64,41 @@ func ReconcileEvents(e, em Events) {
 
 }
 
+// EqualStyles returns true/false if the style values are all equal attribute.
+func EqualStyles(e, em Styles) bool {
+	oldAttrs := em.Styles()
+
+	if len(oldAttrs) <= 0 {
+		if len(e.Styles()) <= 0 {
+			return true
+		}
+		return false
+	}
+
+	//set to equal as the logic will try to assert its falsiness
+	var equal = true
+
+	for _, oa := range oldAttrs {
+		//lets get the styles type from the element, if it exists then check the value if its equal
+		// continue the loop and check the rest, else we found a contention point, attribute of old markup
+		// does not exists in new markup, so we break and mark as different,letting the new markup keep its hash
+		// but if the loop finishes and all are equal then we swap the hashes
+		if ta, err := GetStyle(e, oa.Name); err == nil {
+			if ta.Value == oa.Value {
+				continue
+			}
+
+			equal = false
+			break
+		} else {
+			equal = false
+			break
+		}
+	}
+
+	return equal
+}
+
 // EqualAttributes returns true/false if the elements and the giving markup have equal attribute
 func EqualAttributes(e, em Attributes) bool {
 	oldAttrs := em.Attributes()

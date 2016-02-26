@@ -17,55 +17,6 @@ type Markup interface {
 	Removable
 }
 
-// Removable defines a self removal type structure.
-type Removable interface {
-	Remove()
-	Removed() bool
-}
-
-// Identity defines an interface for identifiable structures.
-type Identity interface {
-	Name() string
-	UID() string
-	Hash() string
-}
-
-// SwappableIdentity defines an interface that allows swapping a structures
-// identity information.
-type SwappableIdentity interface {
-	SwapHash(string)
-	SwapUID(string)
-	UpdateHash()
-}
-
-// TextMarkup defines a interface for text based markup.
-type TextMarkup interface {
-	TextContent() string
-}
-
-// Cleanable defines a interface for structures to self sanitize their contents.
-type Cleanable interface {
-	Clean()
-}
-
-// ElementalMarkup defines a markup for elemental structures, which provide the
-// concrete structure for dom nodes.
-type ElementalMarkup interface {
-	Markup
-	Events
-	Styles
-	Attributes
-	Eventers
-	SwappableIdentity
-	TextMarkup
-	Cleanable
-
-	AutoClosed() bool
-
-	EventID() string
-	Empty()
-}
-
 // Element represent a concrete implementation of a element node
 type Element struct {
 	removed         bool
@@ -111,6 +62,11 @@ func NewElement(tag string, hasNoEndingTag bool) *Element {
 		allowAttributes: true,
 		allowEvents:     true,
 	}
+}
+
+// AutoClosed returns true/false if this element uses a </> or a <></> tag convention
+func (e *Element) AutoClosed() bool {
+	return e.autoclose
 }
 
 //==============================================================================
@@ -171,17 +127,18 @@ func (e *Element) EventID() string {
 	return fmt.Sprintf("%s[uid='%s']", strings.ToLower(e.Name()), e.UID())
 }
 
-// Remove sets the markup as removable and adds a 'haikuRemoved' attribute to it
-func (e *Element) Remove() {
-	if !e.Removed() {
-		e.attrs = append(e.attrs, &Attribute{"haikuRemoved", ""})
-		e.removed = true
-	}
-}
-
 // Empty resets the elements children list as 0 length
 func (e *Element) Empty() {
 	e.children = e.children[:0]
+}
+
+//==============================================================================
+
+// Identity defines an interface for identifiable structures.
+type Identity interface {
+	Name() string
+	UID() string
+	Hash() string
 }
 
 // Name returns the tag name of the element
@@ -189,10 +146,34 @@ func (e *Element) Name() string {
 	return e.tagname
 }
 
+// UID returns the current uid of the Element
+func (e *Element) UID() string {
+	return e.uid
+}
+
+// Hash returns the current hash of the Element
+func (e *Element) Hash() string {
+	return e.hash
+}
+
+//==============================================================================
+
+// TextMarkup defines a interface for text based markup.
+type TextMarkup interface {
+	TextContent() string
+}
+
 // TextContent returns the elements text value if its a text
 // type else an empty string.
 func (e *Element) TextContent() string {
 	return e.textContent
+}
+
+//==============================================================================
+
+// Cleanable defines a interface for structures to self sanitize their contents.
+type Cleanable interface {
+	Clean()
 }
 
 // Clean cleans out all internal markup marked as removable.
@@ -209,14 +190,20 @@ func (e *Element) Clean() {
 	}
 }
 
-// AutoClosed returns true/false if this element uses a </> or a <></> tag convention
-func (e *Element) AutoClosed() bool {
-	return e.autoclose
+//==============================================================================
+
+// Removable defines a self removal type structure.
+type Removable interface {
+	Remove()
+	Removed() bool
 }
 
-// UpdateHash updates the Element hash value
-func (e *Element) UpdateHash() {
-	e.hash = RandString(10)
+// Remove sets the markup as removable and adds a 'haikuRemoved' attribute to it
+func (e *Element) Remove() {
+	if !e.Removed() {
+		e.attrs = append(e.attrs, &Attribute{"haikuRemoved", ""})
+		e.removed = true
+	}
 }
 
 // Removed returns true/false if the Element is marked removed
@@ -224,14 +211,14 @@ func (e *Element) Removed() bool {
 	return !!e.removed
 }
 
-// Hash returns the current hash of the Element
-func (e *Element) Hash() string {
-	return e.hash
-}
+//==============================================================================
 
-// UID returns the current uid of the Element
-func (e *Element) UID() string {
-	return e.uid
+// SwappableIdentity defines an interface that allows swapping a structures
+// identity information.
+type SwappableIdentity interface {
+	SwapHash(string)
+	SwapUID(string)
+	UpdateHash()
 }
 
 // SwapUID swaps the uid of the internal Element.
@@ -244,25 +231,54 @@ func (e *Element) SwapHash(hash string) {
 	e.hash = hash
 }
 
+// UpdateHash updates the Element hash value
+func (e *Element) UpdateHash() {
+	e.hash = RandString(10)
+}
+
 //==============================================================================
+
+// ElementalMarkup defines a markup for elemental structures, which provide the
+// concrete structure for dom nodes.
+type ElementalMarkup interface {
+	Markup
+	Events
+	Styles
+	Attributes
+	Eventers
+	SwappableIdentity
+	TextMarkup
+	Cleanable
+
+	AutoClosed() bool
+
+	EventID() string
+	Empty()
+}
 
 // Reconcilable defines the interface of markups that can reconcile their content against another
 type Reconcilable interface {
 	Reconcile(Markup) bool
 }
 
-// Reconcile takes a old markup and reconciles its uid and its children with the new formation,it returns a true/false
-// telling the parent if the children swapped hashes
-/* the reconcilation uses the order in which elements are added, if the order and element types are kept,
-then the uid are swapped else it firsts checks the element type and if not the same adds the old one into
-the new list as removed then continues the check. The system takes position of elements in the old and new
-as very important and I cant stress this enough, "Element Positioning" in the markup are very important,
-if a Anchor was the first element in the old render and the next pass returns a Div in the new render, the Anchor
-will be marked as removed and will be removed from the dom and ignored by the writers. When two elements position
-are same and their types are the same then a checkup process is doing using the elements attributes, this is done to
-determine if the hash value of the new should be swapped with the old. We can use style properties here because they are
-the most volatile of the set and will periodically be either changed and returned to normal values eg display: none to display: block and vise-versa, so only attributes are used in the check process
-*/
+// Reconcile takes a old markup and reconciles its uid and its children with
+// these information,it returns a true/false telling the parent if the children
+// swapped hashes.
+// The reconcilation uses the order in which elements are added, if the order
+// and element types are same then the uid are swapped, else it firsts checks the
+// element type, but if not the same adds the old one into the new list as removed
+// then continues the check. The system takes position of elements in the old and
+// new as very important and I cant stress this enough, "Element Positioning" in
+// the markup are very important, If a Anchor was the first element in the old
+// render and the next pass returns a Div in the position for that Anchor in the
+// new render, the old Anchor will be marked as removed and will be removed from
+// the dom and ignored by the writers.
+// When two elements position are same and their types are the same then a checkup
+// process is doing using the elements attributes, this is done to determine if the
+// hash value of the new should be swapped with the old. We cant use style properties
+// here because they are the most volatile of the set and will periodically be
+// either changed and returned to normal values eg display: none to display: block
+// and vise-versa, so only attributes are used in the check process.
 func (e *Element) Reconcile(m Markup) bool {
 	em, ok := m.(ElementalMarkup)
 	if !ok {
@@ -302,8 +318,8 @@ func (e *Element) Reconcile(m Markup) bool {
 	maxSize := len(newChildren)
 	oldMaxSize := len(oldChildren)
 
+	// if the element had no children too, swap hash.
 	if maxSize <= 0 {
-		// if the element had no children too, swap hash
 		if oldMaxSize <= 0 {
 			e.SwapHash(oldHash)
 			return false
@@ -314,32 +330,32 @@ func (e *Element) Reconcile(m Markup) bool {
 
 	var childChanged bool
 
-	for n, oh := range oldChildren {
-		if och, ok := oh.(ElementalMarkup); ok {
-			if maxSize > n {
-				nch := newChildren[n]
+	for n, och := range oldChildren {
+		if maxSize > n {
 
-				// log.Printf("checking old (%s) with new(%s)", och.Name(), nch.Name())
+			nch := newChildren[n]
 
-				if nch.Name() == och.Name() {
-					if nch.Reconcile(och) {
-						// log.Printf("old (%s) with new(%s) changed!", och.Name(), nch.Name())
-						childChanged = true
-					}
-				} else {
-					och.Remove()
-					e.AddChild(och)
+			if nch.Name() == och.Name() {
+
+				if nch.Reconcile(och) {
+					childChanged = true
 				}
-				continue
+
+			} else {
+
+				och.Remove()
+				e.AddChild(och)
 			}
 
-			och.Remove()
-			e.AddChild(och)
-
+			continue
 		}
+
+		och.Remove()
+		e.AddChild(och)
 	}
 
 	ReconcileEvents(e, em)
+
 	if e.eventManager != nil {
 		e.eventManager.DisconnectRemoved()
 	}
@@ -349,16 +365,11 @@ func (e *Element) Reconcile(m Markup) bool {
 		return true
 	}
 
-	// log.Printf("did child change: %+s -> %t", e.Name(), childChanged)
-	// log.Printf("are attributes of children %s equal -> %t", e.Name(), EqualAttributes(e, em))
-
-	if !childChanged && EqualAttributes(e, em) {
-		// log.Printf("children did not change: %+s -> %+s", e.Name(), em.Name())
+	if !childChanged && EqualAttributes(e, em) && EqualStyles(e, em) {
 		e.SwapHash(oldHash)
 		return false
 	}
 
-	// log.Printf("\n")
 	return true
 }
 

@@ -31,6 +31,13 @@ func Navigate(q string) {
 	}
 }
 
+// Follow calls a redirection of the history router with the follow information.
+func Follow(host, path, hash string) {
+	if history != nil {
+		history.Follow(host, path, hash)
+	}
+}
+
 //==============================================================================
 
 // init intializes the internal state management variables used in dispatch.
