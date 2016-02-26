@@ -4,6 +4,7 @@ package gu
 import (
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
+	"github.com/influx6/gu/gujs"
 	"github.com/influx6/gu/guviews"
 )
 
@@ -14,6 +15,22 @@ func RenderAs(v guviews.Views, o *js.Object) {
 	}
 
 	v.Mount(o)
+}
+
+// RenderSelector renders the giving view by using query selector to get the
+// dom element to be called. If the selector is not found then it would fail to
+// bind the view.
+func RenderSelector(v guviews.Views, selector string) {
+	if !detect.IsBrowser() {
+		return
+	}
+
+	elem := gujs.QuerySelector(js.Global.Get("document"), selector)
+	if elem == nil {
+		return
+	}
+
+	v.Mount(elem)
 }
 
 // RenderAsBody connects a specific as part of the DOM body.
