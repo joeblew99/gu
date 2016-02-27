@@ -18,7 +18,7 @@
   - Quickly craft your UI without touching HTML
   - Rendering from either the backend or frontend
   - Share code between backend and frontend
-  - Extensively simple but documentation
+  - Extensively simple but broad documentation
 
 ## Example
 
