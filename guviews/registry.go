@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/go-humble/detect"
+	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/faux/maker"
+	"github.com/influx6/gu/gujs"
 )
 
 //==============================================================================
@@ -27,11 +30,13 @@ import (
 
 	guviews.Create({
 		Name: "app.component/profile",
+		Elem: "body",
 		ID: "profile.453435",
 		Paths: []string{"/app/profiles","/app"},
 		Param: PConfig{...},
 	},{
 		Name: "app.component/buttons",
+		Elem: "body",
 		ID: "32-223-323232-453435",
 		Paths: []string{"/app/selected","/app"},
 		Param: BConfig{...},
@@ -51,6 +56,7 @@ import (
 // been registered within our makeregistery.
 type ViewConfig struct {
 	Name  string
+	Elem  string
 	ID    string
 	Paths []string
 	Param interface{}
@@ -65,7 +71,7 @@ var vox struct {
 }
 
 func init() {
-	vox.maker = maker.NewMaker(nil)
+	vox.maker = maker.New(nil)
 	vox.builds = make(map[string]Views)
 }
 
@@ -95,40 +101,47 @@ func Create(vcs ...ViewConfig) error {
 			return err
 		}
 
+		var pass bool
+		var view Views
+
 		if render, ok := res.(Renderable); ok {
 
 			// Creat a new view, set up the path directives and store this.
-			view := NewWithID(vc.ID, render)
+			view = NewWithID(vc.ID, render)
+			pass = true
 
-			// Attach the provided paths for this new view.
-			for _, path := range vc.Paths {
-				AttachView(view, path)
-			}
-
-			vox.rw.Lock()
-			vox.builds[vc.ID] = view
-			vox.rw.Unlock()
-			continue
 		}
 
 		if renders, ok := res.(Renderables); ok {
 
 			// Creat a new view, set up the path directives and store this.
-			view := NewWithID(vc.ID, renders...)
+			view = NewWithID(vc.ID, renders...)
+			pass = true
 
-			// Attach the provided paths for this new view.
-			for _, path := range vc.Paths {
-				AttachView(view, path)
-			}
-
-			vox.rw.Lock()
-			vox.builds[vc.ID] = view
-			vox.rw.Unlock()
-			continue
 		}
 
-		return fmt.Errorf("Invalid Type returned, Expected Renderable or Renderables: %+v", res)
+		if !pass {
+			return fmt.Errorf("Invalid Type returned, Expected Renderable or Renderables: %+v", res)
+		}
+
+		// Attach the provided paths for this new view.
+		for _, path := range vc.Paths {
+			AttachView(view, path)
+		}
+
+		// Attach to the specified element as given.
+		if detect.IsBrowser() {
+			doc := js.Global.Get("document")
+			if node := gujs.QuerySelector(doc, vc.Elem); node != nil {
+				view.Mount(node)
+			}
+		}
+
+		vox.rw.Lock()
+		vox.builds[vc.ID] = view
+		vox.rw.Unlock()
 	}
+
 	return nil
 }
 

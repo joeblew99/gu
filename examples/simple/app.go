@@ -26,7 +26,7 @@ func (v menu) Render() gutrees.Markup {
 
 func main() {
 
-	view := guviews.View("video-vabbs", menu(map[string]string{
+	view := guviews.NewWithID("video-vabbs", menu(map[string]string{
 		"Joyride": "https://pbs.twimg.com/media/CbtrJu9UAAAXhSs.jpg",
 		"Bombs":   "https://pbs.twimg.com/media/Cbs8Ia0VAAAYyfR.jpg",
 	}))
