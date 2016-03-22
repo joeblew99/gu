@@ -1,10 +1,7 @@
 package guviews
 
 import (
-	"fmt"
 	"html/template"
-	"strings"
-	"sync"
 	"sync/atomic"
 
 	"github.com/gopherjs/gopherjs/js"
@@ -13,7 +10,6 @@ import (
 	"github.com/influx6/gu/gujs"
 	"github.com/influx6/gu/gutrees"
 	"github.com/influx6/gu/gutrees/elems"
-	"github.com/influx6/gu/gutrees/styles"
 )
 
 //==============================================================================
@@ -22,6 +18,9 @@ import (
 type Renderable interface {
 	Render() gutrees.Markup
 }
+
+// Renderables defines a lists of Renderable structures.
+type Renderables []Renderable
 
 //==============================================================================
 
@@ -47,156 +46,17 @@ type Views interface {
 	Events() guevents.EventManagers
 }
 
-//==============================================================================
-
-// Path defines a representation of a location path matching a specific sequence.
-type Path struct {
-	gudispatch.PathDirective
-	Param map[string]string
-	ID    string
+// New returns a instance of a Views with the customID set to a random string.
+func New(r ...Renderable) Views {
+	return CustomView("", gutrees.SimpleMarkupWriter, r...)
 }
 
-//==============================================================================
-
-// pathMl provides a mutex to control read and write to internal view cache store.
-var pathMl sync.RWMutex
-
-// pathMl2 provides a mutex to control write and read to internal cache maps.
-var pathMl2 sync.RWMutex
-
-// pathWatch registers a view with selected watch routes to reduce unnecessary
-// multiwatching of same routes and helps manage state of views.
-var pathWatch = make(map[Views]map[string]bool)
-
-// AttachView allows setting a specific view to become active for a specific URL
-// route pattern. This allows to control the active and inactive state and also
-// the visibility of the view dependent on the current location URL path.
-func AttachView(v Views, pattern string) {
-	gudispatch.URIMatcher(pattern)
-
-	new := addView(v)
-
-	pathMl.RLock()
-	vcache := pathWatch[v]
-	pathMl.RUnlock()
-
-	// If we are already watching for this specific route then skip this.
-	pathMl.RLock()
-	hasOk := vcache[pattern]
-	pathMl.RUnlock()
-
-	if hasOk {
-		return
-	}
-
-	pathMl2.Lock()
-	vcache[pattern] = true
-	pathMl2.Unlock()
-
-	if !new {
-		return
-	}
-
-	gudispatch.Subscribe(func(p gudispatch.PathDirective) {
-		pathMl2.RLock()
-		defer pathMl2.RUnlock()
-
-		var found bool
-		var params map[string]string
-
-		for key := range vcache {
-			// Get the matcher for this key.
-			watcher := gudispatch.URIMatcher(key)
-
-			pm, ok := watcher.Validate(p.String())
-			if !ok {
-				continue
-			}
-
-			params = pm
-			found = true
-			break
-		}
-
-		if !found {
-			v.Hide()
-			return
-		}
-
-		pu := Path{
-			PathDirective: p,
-			ID:            v.UUID(),
-			Param:         params,
-		}
-
-		gudispatch.Dispatch(&pu)
-	})
-
-	gudispatch.Follow(gudispatch.GetLocation())
-}
-
-// addView attaches view into the pathWatch match.
-func addView(v Views) bool {
-	// Get the view route cache.
-	pathMl.RLock()
-	_, ok := pathWatch[v]
-	pathMl.RUnlock()
-
-	// If no cache is found for this view then make one and store it.
-	if !ok {
-		vcache := make(map[string]bool)
-		pathMl.Lock()
-		pathWatch[v] = vcache
-		pathMl.Unlock()
-		return true
-	}
-
-	return false
-}
-
-//==============================================================================
-
-//==============================================================================
-
-// ViewStates defines the two possible behavioral state of a view's markup
-type ViewStates interface {
-	Render(gutrees.Markup)
-}
-
-// HideView provides a ViewStates for Views inactive state
-type HideView struct{}
-
-// Render marks the given markup as display:none
-func (v HideView) Render(m gutrees.Markup) {
-	// if we are allowed to query for styles then check and change display
-	if mm, ok := m.(gutrees.MarkupProps); ok {
-		if ds, err := gutrees.GetStyle(mm, "display"); err == nil {
-			if !strings.Contains(ds.Value, "none") {
-				ds.Value = "none"
-			}
-			return
-		}
-
-	}
-	styles.Display("none").Apply(m)
-}
-
-// ShowView provides a ViewStates for Views active state
-type ShowView struct{}
-
-// Render marks the given markup with a display: block
-func (v ShowView) Render(m gutrees.Markup) {
-	//if we are allowed to query for styles then check and change display
-	if mm, ok := m.(gutrees.MarkupProps); ok {
-		if ds, err := gutrees.GetStyle(mm, "display"); err == nil {
-			if strings.Contains(ds.Value, "none") {
-				ds.Value = "block"
-			}
-			return
-		}
-
-		styles.Display("block").Apply(m)
-	}
+// NewWithID returns a View instance. The view is giving a customID string, which
+// gets associated with this view, and provides a convenient means of dispatching
+// events directly to it, if this is a empty string, a random one will be
+// generated for it.
+func NewWithID(customID string, r ...Renderable) Views {
+	return CustomView(customID, gutrees.SimpleMarkupWriter, r...)
 }
 
 //==============================================================================
@@ -236,14 +96,6 @@ type view struct {
 	activeState  ViewStates
 }
 
-// View returns a View instance. The view is giving a customID string, which
-// gets associated with this view, and provides a convenient means of dispatching
-// events directly to it, if this is a empty string, a random one will be
-// generated for it.
-func View(customID string, view ...Renderable) Views {
-	return CustomView(customID, gutrees.SimpleMarkupWriter, view...)
-}
-
 // CustomView returns a gu.Views implementing struct that provides the ability to
 // render and update UI efficiently. This function allows greater control of
 // the customId for which the views and it's dom will be identified with and
@@ -277,7 +129,7 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		replaceOnly := atomic.LoadInt64(&vm.ready) == 0
 
 		html := vm.RenderHTML()
-		fmt.Printf("NewHTML %s\n", html)
+		// fmt.Printf("NewHTML %s\n", html)
 		gujs.Patch(gujs.CreateFragment(string(html)), vm.dom, replaceOnly)
 	})
 
