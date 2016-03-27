@@ -112,7 +112,7 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		activeState: shower,
 		events:      guevents.NewEventManager(),
 		uuid:        gutrees.RandString(20),
-		// uuid:    uuid.NewV4().String(),
+		// uuid:    uuid.New(),
 	}
 
 	// Subscribe for view update requests from the central dispatcher.
@@ -131,6 +131,11 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		html := vm.RenderHTML()
 		// fmt.Printf("NewHTML %s\n", html)
 		gujs.Patch(gujs.CreateFragment(string(html)), vm.dom, replaceOnly)
+
+		// If we have just updated then
+		// Set the ready signal as on.
+		atomic.StoreInt64(&vm.ready, 1)
+
 	})
 
 	gudispatch.Subscribe(func(p *Path) {
@@ -192,8 +197,8 @@ func (v *view) Mount(dom *js.Object) {
 	v.events.OffloadDOM()
 	v.events.LoadDOM(dom)
 
-	// Set the ready signal as on.
-	atomic.StoreInt64(&v.ready, 1)
+	// Set the ready state as zero.
+	atomic.StoreInt64(&v.ready, 0)
 
 	// Notify for update to dom.
 	gudispatch.Dispatch(&ViewUpdate{
@@ -255,7 +260,7 @@ func (v *view) Render() gutrees.Markup {
 
 	var dom gutrees.Markup
 
-	// If we are more than 1 then run through and apply all to a div.
+	// If we have more than 1 then run through and apply all to a div.
 	if len(v.renders) > 1 {
 		dom = elems.Div()
 

@@ -11,4 +11,24 @@
 
   ```
 
+## API
+
+```go
+
+
+  var x = gucassowary.Const("x",40)
+  var y = gucassowary.Var("x",50)
+
+  var mux = gucasswoary.Exprs(gucassowary.Add, x,y)
+
+  var z = gucassowary.Var("z",0)
+  mux.Do(z)
+
+  z.Value()// z => 90
+
+
+  var muxEq = gucassowary.Equation()
+
+```
+
 ## Example
