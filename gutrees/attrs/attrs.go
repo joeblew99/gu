@@ -2,7 +2,11 @@
 
 package attrs
 
-import "github.com/influx6/gu/gutrees"
+import (
+	"strings"
+
+	"github.com/influx6/gu/gutrees"
+)
 
 // InputType defines the set type of input values for the input elements
 type InputType string
@@ -74,6 +78,11 @@ func Checked(val string) *gutrees.Attribute {
 	return &gutrees.Attribute{Name: "checked", Value: val}
 }
 
+// Class defines attributes of type "Class" for html element types
+func Class(val ...string) *gutrees.Attribute {
+	return &gutrees.Attribute{Name: "class", Value: strings.Join(val, " ")}
+}
+
 // ClassName defines attributes of type "ClassName" for html element types
 func ClassName(val string) *gutrees.Attribute {
 	return &gutrees.Attribute{Name: "className", Value: val}
@@ -92,11 +101,6 @@ func ID(val string) *gutrees.Attribute {
 // HTMLFor defines attributes of type "HtmlFor" for html element types
 func HTMLFor(val string) *gutrees.Attribute {
 	return &gutrees.Attribute{Name: "htmlFor", Value: val}
-}
-
-// Class defines attributes of type "Class" for html element types
-func Class(val string) *gutrees.Attribute {
-	return &gutrees.Attribute{Name: "class", Value: val}
 }
 
 // Src defines attributes of type "Src" for html element types
