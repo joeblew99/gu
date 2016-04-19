@@ -115,6 +115,13 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		// uuid:    uuid.New(),
 	}
 
+	// Connect any possible views.
+	for _, vws := range vw {
+		if vms, ok := vws.(Views); ok {
+			vm.Bind(vms)
+		}
+	}
+
 	// Subscribe for view update requests from the central dispatcher.
 	gudispatch.Subscribe(func(v *ViewUpdate) {
 		if v.ID != vm.UUID() && v.ID != vm.UID() {
