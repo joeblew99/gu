@@ -45,10 +45,10 @@
       	dom := elems.Div()
 
       	for name, src := range v {
-      		gutrees.Augment(dom, elems.Image(
+      		elems.Image(
       			attrs.Src(src),
       			attrs.Rel(name),
-      		))
+      		).Apply(dom)
       	}
 
       	return dom
@@ -96,10 +96,10 @@
       	dom := elems.Div()
 
       	for name, src := range v {
-      		gutrees.Augment(dom, elems.Image(
+      		elems.Image(
       			attrs.Src(src),
       			attrs.Rel(name),
-      		))
+      		).Apply(dom)
       	}
 
       	return dom
