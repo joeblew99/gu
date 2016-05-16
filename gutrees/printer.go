@@ -33,23 +33,23 @@ const (
 // currentMode defines the struct which manages the
 // mode of operation for the printer.
 var cu = struct {
-	rw sync.Mutex
-	m  Mode
+	r sync.Mutex
+	m Mode
 }{
 	m: Normal,
 }
 
 // GetMode returns the current working mode for the libraries printers.
 func GetMode() Mode {
-	cu.rw.Lock()
-	defer cu.rw.Unlock()
+	cu.r.Lock()
+	defer cu.r.Unlock()
 	return cu.m
 }
 
 // SetMode sets the working mode for the library printers.
 func SetMode(ms Mode) {
-	cu.rw.Lock()
-	defer cu.rw.Unlock()
+	cu.r.Lock()
+	defer cu.r.Unlock()
 	cu.m = ms
 }
 
