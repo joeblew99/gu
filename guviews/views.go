@@ -48,7 +48,7 @@ type Views interface {
 
 // New returns a instance of a Views with the customID set to a random string.
 func New(r ...Renderable) Views {
-	return CustomView("", gutrees.SimpleMarkupWriter, r...)
+	return CustomView("", gutrees.SimpleElementWriter, r...)
 }
 
 // NewWithID returns a View instance. The view is giving a customID string, which
@@ -56,7 +56,7 @@ func New(r ...Renderable) Views {
 // events directly to it, if this is a empty string, a random one will be
 // generated for it.
 func NewWithID(customID string, r ...Renderable) Views {
-	return CustomView(customID, gutrees.SimpleMarkupWriter, r...)
+	return CustomView(customID, gutrees.SimpleElementWriter, r...)
 }
 
 //==============================================================================

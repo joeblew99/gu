@@ -201,7 +201,7 @@ type Removable interface {
 // Remove sets the markup as removable and adds a 'haikuRemoved' attribute to it
 func (e *Element) Remove() {
 	if !e.Removed() {
-		e.attrs = append(e.attrs, &Attribute{"haikuRemoved", ""})
+		e.attrs = append(e.attrs, &Attribute{"NodeRemoved", ""})
 		e.removed = true
 	}
 }

@@ -211,7 +211,7 @@ patchloop:
 		}
 
 		//if we are to be removed then remove the target
-		if HasAttribute(node, "haikuRemoved") {
+		if HasAttribute(node, "NodeRemoved") {
 			// log.Printf("removed node: %+s", node)
 			// target.ParentNode().RemoveChild(target)
 			RemoveChild(target, target)

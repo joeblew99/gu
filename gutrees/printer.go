@@ -3,27 +3,73 @@ package gutrees
 import (
 	"fmt"
 	"strings"
+	"sync"
 
 	"github.com/go-humble/detect"
 )
 
-// This contains printers for the tree dom definition structures
+//==============================================================================
+
+// Mode defines the behaviour of the printer setup. Where each
+// increasing mode affects the behaviour and final form of the
+// print outs.
+type Mode int
+
+const (
+	// Normal mode means all Ids, Hashes are printed and
+	// Removals are cleaned out.
+	Normal Mode = iota
+
+	// Testing mode means all Ids and Hashes are not printed
+	// but all removals are cleaned out to allow a predictable output.
+	Testing
+
+	// Debugging mode means all Ids and Hashes are not printed and
+	// all removals are left behind to ensure deugging is possible.
+	// This allows us to see the state of a reconciled tree.
+	Debugging
+)
+
+// currentMode defines the struct which manages the
+// mode of operation for the printer.
+var cu = struct {
+	rw sync.Mutex
+	m  Mode
+}{
+	m: Normal,
+}
+
+// GetMode returns the current working mode for the libraries printers.
+func GetMode() Mode {
+	cu.rw.Lock()
+	defer cu.rw.Unlock()
+	return cu.m
+}
+
+// SetMode sets the working mode for the library printers.
+func SetMode(ms Mode) {
+	cu.rw.Lock()
+	defer cu.rw.Unlock()
+	cu.m = ms
+}
+
+//==============================================================================
 
 // AttrPrinter defines a printer interface for writing out a Attribute objects into a string form
 type AttrPrinter interface {
 	Print([]*Attribute) string
 }
 
+// SimpleAttrWriter provides a basic attribute writer
+var SimpleAttrWriter AttrWriter
+
 // AttrWriter provides a concrete struct that meets the AttrPrinter interface
 type AttrWriter struct{}
-
-// SimpleAttrWriter provides a basic attribute writer
-var SimpleAttrWriter = &AttrWriter{}
 
 const attrformt = ` %s="%s"`
 
 // Print returns a stringed repesentation of the attribute object
-func (m *AttrWriter) Print(a []*Attribute) string {
+func (m AttrWriter) Print(a []*Attribute) string {
 	if len(a) <= 0 {
 		return ""
 	}
@@ -37,21 +83,23 @@ func (m *AttrWriter) Print(a []*Attribute) string {
 	return strings.Join(attrs, " ")
 }
 
+//==============================================================================
+
 // StylePrinter defines a printer interface for writing out a style objects into a string form
 type StylePrinter interface {
 	Print([]*Style) string
 }
 
+// SimpleStyleWriter provides a basic style writer
+var SimpleStyleWriter StyleWriter
+
 // StyleWriter provides a concrete struct that meets the AttrPrinter interface
 type StyleWriter struct{}
-
-// SimpleStyleWriter provides a basic style writer
-var SimpleStyleWriter = &StyleWriter{}
 
 const styleformt = " %s:%s;"
 
 // Print returns a stringed repesentation of the style object
-func (m *StyleWriter) Print(s []*Style) string {
+func (m StyleWriter) Print(s []*Style) string {
 	if len(s) <= 0 {
 		return ""
 	}
@@ -65,6 +113,8 @@ func (m *StyleWriter) Print(s []*Style) string {
 	return strings.Join(css, " ")
 }
 
+//==============================================================================
+
 // TextPrinter defines a printer interface for writing out a text type markup into a string form
 type TextPrinter interface {
 	Print(Markup) string
@@ -74,10 +124,10 @@ type TextPrinter interface {
 type TextWriter struct{}
 
 // SimpleTextWriter provides a basic text writer
-var SimpleTextWriter = &TextWriter{}
+var SimpleTextWriter TextWriter
 
 // Print returns the string representation of the text object
-func (m *TextWriter) Print(t Markup) string {
+func (m TextWriter) Print(t Markup) string {
 	if tt, ok := t.(TextMarkup); ok {
 		return tt.TextContent()
 	}
@@ -85,12 +135,18 @@ func (m *TextWriter) Print(t Markup) string {
 	return ""
 }
 
+//==============================================================================
+
+// MarkupWriter defines a printer interface for writing out a markup object into a string form
+type MarkupWriter interface {
+	Write(Markup) (string, error)
+}
+
 // ElementWriter writes out the element out as a string matching the html tag rules
 type ElementWriter struct {
-	attrWriter   AttrPrinter
-	styleWriter  StylePrinter
-	text         TextPrinter
-	allowRemoved bool
+	attrWriter  AttrPrinter
+	styleWriter StylePrinter
+	text        TextPrinter
 }
 
 // SimpleElementWriter provides a default writer using the basic attribute and style writers
@@ -105,25 +161,21 @@ func NewElementWriter(aw AttrPrinter, sw StylePrinter, tw TextPrinter) *ElementW
 	}
 }
 
-/*<<<---------------code within this region is usually for testing purposes------------*/
+// Write prints the giving Markup as a string else returns an error.
+func (m *ElementWriter) Write(ma Markup) (string, error) {
+	if emr, ok := ma.(*Element); ok {
+		return m.Print(emr), nil
+	}
 
-// DisallowRemoved is used to switch off the check to allow rendering of elements set as removed
-func (m *ElementWriter) DisallowRemoved() {
-	m.allowRemoved = false
+	return "", ErrNotMarkup
 }
-
-// AllowRemoved is used to switch off the check to allow rendering of elements set as removed
-func (m *ElementWriter) AllowRemoved() {
-	m.allowRemoved = true
-}
-
-/* ----------------code within this region is usually for testing purposes----------->>>*/
 
 // Print returns the string representation of the element
 func (m *ElementWriter) Print(e *Element) string {
+
 	// if we are on the server && is this element marked as removed, if so we skip and return an empty string
 	if detect.IsServer() {
-		if e.Removed() && !m.allowRemoved {
+		if e.Removed() && GetMode() < Debugging {
 			return ""
 		}
 	}
@@ -133,15 +185,18 @@ func (m *ElementWriter) Print(e *Element) string {
 		return m.text.Print(e)
 	}
 
-	//collect uid and hash of the element so we can write them along
-	hash := &Attribute{"hash", e.Hash()}
-	uid := &Attribute{"uid", e.UID()}
-
 	//management attributes
-	mido := []*Attribute{hash, uid}
+	var mido []*Attribute
 
-	// if e.Removed() {
-	// 	mido = append(mido, &Attribute{"haikuRemoved", ""})
+	//collect uid and hash of the element so we can write them along
+	if GetMode() < Testing {
+		hash := &Attribute{"hash", e.Hash()}
+		uid := &Attribute{"uid", e.UID()}
+		mido = append(mido, hash, uid)
+	}
+
+	// if e.Removed() && GetMode() > Testing {
+	// 	mido = append(mido, Attribute{"RemovedNode", "true"})
 	// }
 
 	//write out the hash and uid as attributes
@@ -166,10 +221,6 @@ func (m *ElementWriter) Print(e *Element) string {
 	var children = []string{}
 
 	for _, ch := range e.Children() {
-		// if ch.Name() == "text" {
-		// 	children = append(children, m.text.Print(ch))
-		// 	continue
-		// }
 		if ech, ok := ch.(*Element); ok {
 			if ech == e {
 				continue
@@ -191,29 +242,4 @@ func (m *ElementWriter) Print(e *Element) string {
 	}, "")
 }
 
-// MarkupWriter defines a printer interface for writing out a markup object into a string form
-type MarkupWriter interface {
-	Write(Markup) (string, error)
-}
-
-// MarkupWriter provides the concrete struct that meets the MarkupPrinter interface
-type markupWriter struct {
-	*ElementWriter
-}
-
-// SimpleMarkupWriter provides a basic markup writer for handling the different markup elements
-var SimpleMarkupWriter = NewMarkupWriter(SimpleElementWriter)
-
-// NewMarkupWriter returns a new markup instance
-func NewMarkupWriter(em *ElementWriter) MarkupWriter {
-	return &markupWriter{em}
-}
-
-// Write returns a stringed repesentation of the markup object
-func (m *markupWriter) Write(ma Markup) (string, error) {
-	if emr, ok := ma.(*Element); ok {
-		return m.ElementWriter.Print(emr), nil
-	}
-
-	return "", ErrNotMarkup
-}
+//==============================================================================

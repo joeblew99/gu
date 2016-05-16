@@ -16,7 +16,7 @@ var treeRenderlen = 275
 
 type videoList []map[string]string
 
-func (v videoList) Render(m ...string) gutrees.Markup {
+func (v videoList) Render() gutrees.Markup {
 	dom := elems.Div()
 	for _, data := range v {
 		gutrees.Augment(dom, elems.Video(
@@ -28,7 +28,12 @@ func (v videoList) Render(m ...string) gutrees.Markup {
 }
 
 func TestView(t *testing.T) {
-	videos := guviews.View("video-vabbs", videoList([]map[string]string{
+	gutrees.SetMode(gutrees.Testing)
+	defer gutrees.SetMode(gutrees.Normal)
+
+	var expectedDOM = `<div style=" display:block;"><video src="https://youtube.com/xF5R32YF4" style="">Joyride Lewis!</video><video src="https://youtube.com/dox32YF4" style="">Wonderlust Bombs!</video></div>`
+
+	videos := guviews.NewWithID("video-vabbs", videoList([]map[string]string{
 		map[string]string{
 			"src":  "https://youtube.com/xF5R32YF4",
 			"name": "Joyride Lewis!",
@@ -41,9 +46,11 @@ func TestView(t *testing.T) {
 
 	bo := videos.RenderHTML()
 
-	if len(bo) != treeRenderlen {
-		t.Fatalf("\t%s\t Rendered result with invalid length, expected %d but got %d -> \n %s", failed, treeRenderlen, len(bo), bo)
+	if string(bo) != expectedDOM {
+		t.Logf("Given:  %s\n", bo)
+		t.Logf("Wanted: %s\n", expectedDOM)
+		t.Fatalf("\t%s\t Rendered result does match expected", failed)
 	}
 
-	t.Logf("\t%s\t Rendered result accurated with length %d", success, treeRenderlen)
+	t.Logf("\t%s\t Rendered result does match expected", success)
 }
