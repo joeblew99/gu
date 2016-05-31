@@ -3,11 +3,9 @@
 
 ## Install
 
-  ```bash
-
-    go install github.com/influx6/gu/...
-
-  ```
+```bash
+go install github.com/influx6/gu/...
+```
 
 ## Features
   - Dead Simple API.
