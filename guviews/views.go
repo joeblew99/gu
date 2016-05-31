@@ -32,10 +32,17 @@ type Behaviour interface {
 
 //==============================================================================
 
+// Rerenderable defines an interface that allows force-rerendering through a
+// method.
+type Rerenderable interface {
+	Rerender()
+}
+
 // Views define a Haiku Component
 type Views interface {
 	Behaviour
 	MarkupRenderer
+	Rerenderable
 
 	UUID() string
 	UID() string
@@ -177,6 +184,15 @@ func (v *view) Bind(vs Views) {
 		// Notify this view of change.
 		gudispatch.Dispatch(&ViewUpdate{ID: v.UUID()})
 	})
+}
+
+// Rerender provides a force-function which causes the view to re-render itself.
+// Generally this is not preferred but read the internals of this function to see
+// how to tell any view to re-render without exactly having an instance to the
+// view. Once you have a views UUID you can signal it to re-render from anywhere.
+func (v *view) Rerender() {
+	// Notify this view of change.
+	gudispatch.Dispatch(&ViewUpdate{ID: v.UUID()})
 }
 
 // Sync connects a view not only to the update cycles of this views but also
