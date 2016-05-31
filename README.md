@@ -20,6 +20,10 @@
   - Share code between backend and frontend
   - Extensively simple but broad documentation
 
+## Samples
+  You will find samples within the [Examples](https://github.com/influx6/gu/tree/master/examples/) directory of this project source.
+
+
 ## Example: Basic View
   The example below shows how the view API works and how new views can be
   created without relying on the internal guviews initializing strategy.
