@@ -19,13 +19,13 @@ go install github.com/influx6/gu/...
   - Extensively simple but broad documentation
 
 ## Documentation
-  - **[Introductions and Design](./master/docs/IntroductionsAndDesign.md)**
-  - **[Components and Views](./master/docs/ComponentsAndViews.md)**
-  - **[Components and Subcomponents](./master/docs/ComponentsAndSubComponents.md)**
-  - **[Components and Styles](./master/docs/ComponentsAndStyles.md)**
-  - **[Reactivity and Notifications](./master/docs/ReactivityAndNotifications.md)**
-  - **[Initializing and Server Side Rendering](./master/docs/InitializationsAndServerSide.md)**
-  - **[Limitations](./master/docs/Limitations.md)**
+  - **[Introductions and Design](./docs/IntroductionsAndDesign.md)**
+  - **[Components and Views](./docs/ComponentsAndViews.md)**
+  - **[Components and Subcomponents](./docs/ComponentsAndSubComponents.md)**
+  - **[Components and Styles](./docs/ComponentsAndStyles.md)**
+  - **[Reactivity and Notifications](./docs/ReactivityAndNotifications.md)**
+  - **[Initializing and Server Side Rendering](./docs/InitializationsAndServerSide.md)**
+  - **[Limitations](./docs/Limitations.md)**
 
 ## Samples
   You will find samples within the [Examples](./master/examples/) directory of this project source.
