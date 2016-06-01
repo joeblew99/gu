@@ -149,7 +149,6 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		// If we have just updated then
 		// Set the ready signal as on.
 		atomic.StoreInt64(&vm.ready, 1)
-
 	})
 
 	gudispatch.Subscribe(func(p *Path) {
@@ -229,7 +228,7 @@ func (v *view) Mount(dom *js.Object) {
 	})
 }
 
-// Show activates the view to generate a visible markup
+// Show activates the view to generate a visible markup.
 func (v *view) Show() {
 	atomic.StoreInt64(&v.switchActive, 1)
 	{
@@ -245,7 +244,7 @@ func (v *view) Show() {
 	})
 }
 
-// Hide deactivates the view
+// Hide deactivates the view by adding a 'display:none'.
 func (v *view) Hide() {
 	atomic.StoreInt64(&v.switchActive, 1)
 	{
@@ -260,7 +259,7 @@ func (v *view) Hide() {
 	})
 }
 
-// Events returns the views events manager
+// Events returns the views events manager.
 func (v *view) Events() guevents.EventManagers {
 	return v.events
 }

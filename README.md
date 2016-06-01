@@ -9,7 +9,7 @@ go install github.com/influx6/gu/...
 
 ## Features
   - Dead Simple API.
-  - Rendering from both frontend and backend.
+  - Rendering from both front end and backend.
   - Flux like event dispatch system.
 
 ## Goals
@@ -18,8 +18,17 @@ go install github.com/influx6/gu/...
   - Share code between backend and frontend
   - Extensively simple but broad documentation
 
+## Documentation
+  - **[Introductions and Design](./master/docs/IntroductionsAndDesign.md)**
+  - **[Components and Views](./master/docs/ComponentsAndViews.md)**
+  - **[Components and Subcomponents](./master/docs/ComponentsAndSubComponents.md)**
+  - **[Components and Styles](./master/docs/ComponentsAndStyles.md)**
+  - **[Reactivity and Notifications](./master/docs/ReactivityAndNotifications.md)**
+  - **[Initializing and Server Side Rendering](./master/docs/InitializationsAndServerSide.md)**
+  - **[Limitations](./master/docs/Limitations.md)**
+
 ## Samples
-  You will find samples within the [Examples](https://github.com/influx6/gu/tree/master/examples/) directory of this project source.
+  You will find samples within the [Examples](./master/examples/) directory of this project source.
 
 
 ## Example: Basic View
