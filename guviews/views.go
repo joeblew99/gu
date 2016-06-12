@@ -22,6 +22,12 @@ type Renderable interface {
 // Renderables defines a lists of Renderable structures.
 type Renderables []Renderable
 
+// MarkupRenderer provides a interface for a types capable of rendering dom markup.
+type MarkupRenderer interface {
+	Renderable
+	RenderHTML() template.HTML
+}
+
 //==============================================================================
 
 // Behaviour provides a state changers for haiku.
@@ -38,7 +44,7 @@ type Rerenderable interface {
 	Rerender()
 }
 
-// Views define a Haiku Component
+// Views define the rendering core for the gu library.
 type Views interface {
 	Behaviour
 	MarkupRenderer
@@ -265,12 +271,6 @@ func (v *view) Events() guevents.EventManagers {
 }
 
 //==============================================================================
-
-// MarkupRenderer provides a interface for a types capable of rendering dom markup.
-type MarkupRenderer interface {
-	Renderable
-	RenderHTML() template.HTML
-}
 
 // Render renders the generated markup for this view, if the renderers are more
 // than one then all are rendered into a div(as we need this to maintain sanity
