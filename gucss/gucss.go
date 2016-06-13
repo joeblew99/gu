@@ -30,7 +30,6 @@ type Group interface {
 	Child(string, Properties)
 	Within(string, Properties)
 	Sibling(string, Properties)
-
 	Extend(string, Properties)
 }
 
