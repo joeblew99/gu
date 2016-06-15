@@ -1,6 +1,8 @@
 package gucss
 
 import (
+	"bytes"
+	"fmt"
 	"io"
 	"sync"
 )
@@ -68,10 +70,55 @@ func NewBaseGroup(sel string, p Properties, root Group) *BaseGroup {
 	return &bg
 }
 
+//==============================================================================
+
+const (
+	// CSSPropertyBracket defines the bracket format for the css bracket.
+	CSSPropertyBracket = "\n %+s {\n%+s\n}\n"
+
+	// CSSPropertyFormat defines the format for each css property.
+	CSSPropertyFormat = "\t\t%+s: %+s\n"
+)
+
+// Render implements the Render interface for the BaseGroup and returns the
+// property title and content for this group.
+func (bg *BaseGroup) Render() []byte {
+	var ws bytes.Buffer
+
+	for key, val := range bg.properties {
+		switch val.(type) {
+		case PropertyRender:
+			ws.Write([]byte(fmt.Sprintf(CSSPropertyFormat, key, val.(PropertyRender).Render())))
+			continue
+		default:
+			ws.Write([]byte(fmt.Sprintf(CSSPropertyFormat, key, val)))
+			continue
+		}
+	}
+
+	return ws.Bytes()
+}
+
+//==============================================================================
+
 // CSS flushes the contents of the group and its sub-groups into a css formatted
 // styles data into the provided writer.
 func (bg *BaseGroup) CSS(dst io.Writer) {
+	var writer bytes.Buffer
 
+	// Map out the properties into proper css style processing.
+	writer.Write([]byte(fmt.Sprintf(CSSPropertyBracket, bg.Selector(), bg.Render())))
+
+	// Wrap up the extends list and pull down into appropriate content.
+	for _, extend := range bg.extends {
+		sel := bg.Selector() + extend.Selector()
+		writer.Write([]byte(fmt.Sprintf(CSSPropertyBracket, sel, extend.Render())))
+	}
+
+	// Wrap up the children tree and build the appropriate content
+	for _, kid := range bg.kids {
+		kid.CSS(&writer)
+	}
 }
 
 // Add augments the giving properties into the BaseGroup properties map.
@@ -95,6 +142,8 @@ func (bg *BaseGroup) Extend(sel string, p Properties) {
 		return
 	}
 
+	kid := NewSignatureGroup(",  ", sel, p, bg)
+	bg.extends = append(bg.extends, kid)
 }
 
 // PreSibling returns a new Group based off the selector of the previous using
@@ -102,8 +151,23 @@ func (bg *BaseGroup) Extend(sel string, p Properties) {
 //
 //    parentSelector ~ childSelector {...}
 func (bg *BaseGroup) PreSibling(sel string, p Properties) Group {
+	kid := NewSignatureGroup(" ~ ", sel, p, bg)
+	bg.kids = append(bg.kids, kid)
+	return kid
+}
 
-	return nil
+// NS returns a group where the current selector gets attached the namespace value
+// provided.
+// The format:
+//
+//    parentSelector{{NS}} {}
+//       eg
+//        if NS = ":hover"
+//         then 'div' becomes 'div:hover'
+func (bg *BaseGroup) NS(ns string, p Properties) Group {
+	kid := NewSignatureGroup(ns, bg.sel, p, bg)
+	bg.kids = append(bg.kids, kid)
+	return kid
 }
 
 // PostSibling returns a new Group based off the selector of the previous using
@@ -111,8 +175,9 @@ func (bg *BaseGroup) PreSibling(sel string, p Properties) Group {
 //
 //    parentSelector + childSelector {...}
 func (bg *BaseGroup) PostSibling(sel string, p Properties) Group {
-
-	return nil
+	kid := NewSignatureGroup(" + ", sel, p, bg)
+	bg.kids = append(bg.kids, kid)
+	return kid
 }
 
 // Within returns a new Group based off the selector of the previous using
@@ -120,8 +185,9 @@ func (bg *BaseGroup) PostSibling(sel string, p Properties) Group {
 //
 //    parentSelector  childSelector {...}
 func (bg *BaseGroup) Within(sel string, p Properties) Group {
-
-	return nil
+	kid := NewSignatureGroup(" ", sel, p, bg)
+	bg.kids = append(bg.kids, kid)
+	return kid
 }
 
 // Child returns a new Group based off the selector of the previous using
@@ -129,12 +195,24 @@ func (bg *BaseGroup) Within(sel string, p Properties) Group {
 //
 //    parentSelector > childSelector {...}
 func (bg *BaseGroup) Child(sel string, p Properties) Group {
-
-	return nil
+	kid := NewSignatureGroup(" > ", sel, p, bg)
+	bg.kids = append(bg.kids, kid)
+	return kid
 }
 
 // Sel returns the selector for the giving BaseGroup.
 func (bg *BaseGroup) Sel() string {
+	return bg.sel
+}
+
+// Selector returns the selector with the appropriate sign for the type
+// for the giving BaseGroup.
+func (bg *BaseGroup) Selector() string {
+	root := bg.Root()
+	if root != nil && root != bg {
+		return root.Selector() + " " + bg.sel
+	}
+
 	return bg.sel
 }
 
@@ -159,52 +237,87 @@ func (bg *BaseGroup) NthParent(back int) Group {
 
 //==============================================================================
 
-// ChildGroup defines a group for child selector properties.
-type ExtendGroup struct {
+// SignatureGroup defines a group for a giving signature selector properties.
+// The format:
+//
+//    parentSelector {{signature}} childSelector {...}
+type SignatureGroup struct {
 	*BaseGroup
+	signature string
 }
 
-// CSS flushes the contents of the group and its sub-groups into a full css
-// formatted styles.
-func (bg *ChildGroup) CSS(dst io.Writer) {
+// NewSignatureGroup returns a new instance of a signature group
+func NewSignatureGroup(sign, sel string, p Properties, root Group) *SignatureGroup {
+	sm := SignatureGroup{
+		signature: sign,
+		BaseGroup: NewBaseGroup(sel, p, root),
+	}
 
+	return &sm
+}
+
+// Selector returns the selector with the appropriate sign for the type
+// for the giving BaseGroup.
+func (s *SignatureGroup) Selector() string {
+	return s.BaseGroup.Selector() + s.signature
 }
 
 //==============================================================================
 
-// SiblingGroup defines the grouping of sibling properties.
-type SiblingGroup struct {
-	*BaseGroup
-}
-
-// CSS flushes the contents of the group and its sub-groups into a full css
-// formatted styles.
-func (bg *SiblingGroup) CSS(dst io.Writer) {
-
+// Child defines a group for child selector properties.
+// The format:
+//
+//    parentSelector > childSelector {...}
+func Child(sel string, p Properties, root Group) Group {
+	return NewSignatureGroup(" > ", sel, p, root)
 }
 
 //==============================================================================
 
-// WithinGroup defines a group for within properties.
-type WithinGroup struct {
-	*BaseGroup
-}
-
-// CSS flushes the contents of the group and its sub-groups into a full css
-// formatted styles.
-func (bg *WithinGroup) CSS(dst io.Writer) {
-
+// NS defines a group for child selector properties.
+// The format:
+//
+//    parentSelector{{NS}}childSelector {...}
+func NS(ns string, sel string, p Properties, root Group) Group {
+	return NewSignatureGroup(ns, sel, p, root)
 }
 
 //==============================================================================
 
-// ChildGroup defines a group for child selector properties.
-type ChildGroup struct{}
+// Extend defines a group for child selector properties.
+// The format:
+//
+//    parentSelector , childSelector {...}
+func Extend(sel string, p Properties, root Group) Group {
+	return NewSignatureGroup(", ", sel, p, root)
+}
 
-// CSS flushes the contents of the group and its sub-groups into a full css
-// formatted styles.
-func (bg *ChildGroup) CSS(dst io.Writer) {
+//==============================================================================
 
+// PreSibling defines the grouping of sibling properties.
+// The format:
+//
+//    Pre: parentSelector ~ childSelector {...}
+func PreSibling(sel string, p Properties, root Group) Group {
+	return NewSignatureGroup(" ~ ", sel, p, root)
+}
+
+// PostSibling defines the grouping of sibling properties.
+// The format:
+//
+//    Post: parentSelector + childSelector {...}
+func PostSibling(sel string, p Properties, root Group) Group {
+	return NewSignatureGroup(" + ", sel, p, root)
+}
+
+//==============================================================================
+
+// Within defines a group for within properties.
+// The format:
+//
+//    parentSelector  childSelector {...}
+func Within(sel string, p Properties, root Group) Group {
+	return NewSignatureGroup(" ", sel, p, root)
 }
 
 //==============================================================================
