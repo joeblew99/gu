@@ -15,22 +15,59 @@ type Writer interface {
 // Properties defines a map of css property key: value pairs.
 type Properties map[string]interface{}
 
+// MergeProperties merges the contents of the src into the content of the
+// destination
+func MergeProperties(dest, src Properties) {
+	for key, val := range src {
+		dest[key] = val
+	}
+}
+
+// CloneProperties clones a Properties map returning the cloned version.
+func CloneProperties(m Properties) Properties {
+	n := make(Properties)
+
+	for key, val := range m {
+		n[key] = val
+	}
+
+	return n
+}
+
+// CloneWith clones the set of valus and adds the key and Properties to
+// the element.
+func CloneWith(m []Properties, key string, newVal interface{}) []Properties {
+	var mn []Properties
+
+	for _, val := range m {
+		cm := CloneProperties(val)
+		cm[key] = newVal
+		mn = append(mn, cm)
+	}
+
+	return mn
+}
+
 //==============================================================================
 
 // Group defines a interface for a grouping of properties under a specific
 // boundaries.
 type Group interface {
 	Writer
-	Root() Group
 
 	Add(Properties)
 
+	Root() Group
 	NthParent(int) Group
 
-	Child(string, Properties)
-	Within(string, Properties)
-	Sibling(string, Properties)
+	Child(string, Properties) Group
+	Within(string, Properties) Group
+	PreSibling(string, Properties) Group
+	PostSibling(string, Properties) Group
+
 	Extend(string, Properties)
+
+	Sel() string
 }
 
 // Copy copies the properties provided into the giving groups set thereby creating
