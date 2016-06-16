@@ -107,26 +107,38 @@ func (r render) Render(sel string, p Properties, dst io.Writer) {
 // Media defines a structure which constructs the media query tree for
 // gucss.
 type Media struct {
-	root   Group
+	roots  []Group
 	query  string
 	device string
 }
 
 // NewMedia returns a new Media instance with the provided group.
 func NewMedia(query string, device string, g Group) *Media {
-	mn := Media{root: g, query: query, device: device}
+	mn := Media{query: query, device: device}
+
+	if g != nil {
+		mn.roots = append(mn.roots, g)
+	}
+
 	return &mn
+}
+
+// Add adds a new group into the list of groups to be wrapped by the query.
+func (m *Media) Add(g Group) {
+	m.roots = append(m.roots, g)
 }
 
 // Render outputs the content of the media into the provided writer.
 func (m *Media) Render(dst io.Writer) {
-	var b bytes.Buffer
-	m.root.Render(&b)
+	for _, g := range m.roots {
+		var b bytes.Buffer
+		m.root.Render(&b)
 
-	query := fmt.Sprintf("@media %s %s", m.device, m.query)
-	qm := fmt.Sprintf(CSSPropertyBracket, query, b.Bytes())
+		query := fmt.Sprintf("@media %s %s", m.device, m.query)
+		qm := fmt.Sprintf(CSSPropertyBracket, query, b.Bytes())
 
-	dst.Write([]byte(qm))
+		dst.Write([]byte(qm))
+	}
 }
 
 //==============================================================================
