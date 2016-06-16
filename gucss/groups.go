@@ -132,7 +132,7 @@ func (m *Media) Add(g Group) {
 func (m *Media) Render(dst io.Writer) {
 	for _, g := range m.roots {
 		var b bytes.Buffer
-		m.root.Render(&b)
+		g.Render(&b)
 
 		query := fmt.Sprintf("@media %s %s", m.device, m.query)
 		qm := fmt.Sprintf(CSSPropertyBracket, query, b.Bytes())
