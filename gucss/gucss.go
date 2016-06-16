@@ -71,7 +71,6 @@ type GroupTree interface {
 type Group interface {
 	GroupTree
 	Render
-	// Writer
 
 	Add(Properties)
 
@@ -136,17 +135,3 @@ func CopyNS(ns string, p Properties, groups ...Group) {
 		group.Root().NS(group.Sel(), p)
 	}
 }
-
-//==============================================================================
-
-// Media defines a media query generator for css properties.
-// This produces media query output styles capsulated within them, they are submasters
-// of the groups that flows from them and they are always the root for this groups
-//
-// @media (...) {...}
-type Media interface {
-	Render
-	Group(string)
-}
-
-//==============================================================================

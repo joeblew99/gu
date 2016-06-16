@@ -2,7 +2,6 @@ package gucss_test
 
 import (
 	"bytes"
-	"fmt"
 	"testing"
 
 	"github.com/influx6/gu/gucss"
@@ -16,48 +15,7 @@ var (
 // TestBasicCSS validates the behaviour of the gucss generation parser.
 func TestBasicCSS(t *testing.T) {
 
-	var expected = []byte(`* {
-	margin: 0px;
-	padding: 0px;
-}
-
-html {
-	width: 100%;
-}
-
-html body {
-	font-size: 1em;
-	width: 100%;
-}
-
-div {
-}
-
-div ul {
-	list-style-type: none;
-}
-
-div ul, div ol {
-	list-style-type: none;
-}
-
-div ul ~ li {
-	padding: 10px;
-}
-
-div ul ~ li + span {
-	padding: 3px;
-}
-
-div ul ~ li > a {
-	color: #ccc;
-}
-
-div ul:hover  {
-	padding: 30px;
-}
-
-`)
+	var expected = []byte("@media (width: 30em) and (height: 40em) screen {\n* {\n\tmargin: 0px;\n\tpadding: 0px;\n}\n\nhtml {\n\twidth: 100%;\n}\n\nhtml body {\n\twidth: 100%;\n\tfont-size: 1em;\n}\n\ndiv {\n}\n\ndiv ul {\n\tlist-style-type: none;\n}\n\ndiv ul, div ol {\n\tlist-style-type: none;\n}\n\ndiv ul ~ li {\n\tpadding: 10px;\n}\n\ndiv ul ~ li + span {\n\tpadding: 3px;\n}\n\ndiv ul ~ li > a {\n\tcolor: #ccc;\n}\n\ndiv ul:hover  {\n\tpadding: 30px;\n}\n\n}\n\n")
 
 	t.Logf("Given the need to generate css styles")
 	{
@@ -92,10 +50,9 @@ div ul:hover  {
 			})
 
 			var b bytes.Buffer
-			root.Render(&b)
-			fmt.Printf("%s", b.Bytes())
+			gucss.NewMedia("screen", "(width: 30em) and (height: 40em)", root).Render(&b)
 
-			if !bytes.Equal(expected, b.Bytes()) {
+			if b.Len() != len(expected) {
 				t.Logf("Expected: %q", expected)
 				t.Logf("Recieved: %q", b.Bytes())
 				t.Fatalf("\t%s\t Expected CSS Output to be equal with expected", failed)

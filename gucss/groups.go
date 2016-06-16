@@ -45,46 +45,6 @@ func (n *NGroup) Append(g Group) *NGroup {
 
 //==============================================================================
 
-// BaseGroup defines the base line group structure which others compose. It contains
-// the base structure needed to meet the Group interface.
-type BaseGroup struct {
-	base *NGroup
-
-	sel       string
-	seperator string
-
-	root bool
-
-	kids []Group
-
-	properties Properties
-	prw        sync.RWMutex
-}
-
-// NewBaseGroup return a new instance of a BaseGroup.
-func NewBaseGroup(sel string, p Properties, root Group) *BaseGroup {
-	bg := &BaseGroup{
-		sel:        sel,
-		properties: p,
-		seperator:  " ",
-	}
-
-	if root != nil {
-		bg.base = root.Tree().Append(bg)
-	} else {
-		bg.base = &NGroup{grp: bg}
-	}
-
-	return bg
-}
-
-// Tree returns the internal group chain tree.
-func (bg *BaseGroup) Tree() *NGroup {
-	return bg.base
-}
-
-//==============================================================================
-
 // CSSRender defines a package level handle for access the base css parser.
 var CSSRender render
 
@@ -144,6 +104,71 @@ func (r render) Render(sel string, p Properties, dst io.Writer) {
 
 //==============================================================================
 
+// Media defines a structure which constructs the media query tree for
+// gucss.
+type Media struct {
+	root   Group
+	query  string
+	device string
+}
+
+// NewMedia returns a new Media instance with the provided group.
+func NewMedia(query string, device string, g Group) *Media {
+	mn := Media{root: g, query: query, device: device}
+	return &mn
+}
+
+// Render outputs the content of the media into the provided writer.
+func (m *Media) Render(dst io.Writer) {
+	var b bytes.Buffer
+	m.root.Render(&b)
+
+	query := fmt.Sprintf("@media %s %s", m.device, m.query)
+	qm := fmt.Sprintf(CSSPropertyBracket, query, b.Bytes())
+
+	dst.Write([]byte(qm))
+}
+
+//==============================================================================
+
+// BaseGroup defines the base line group structure which others compose. It contains
+// the base structure needed to meet the Group interface.
+type BaseGroup struct {
+	base *NGroup
+
+	sel       string
+	seperator string
+
+	root bool
+
+	kids []Render
+
+	properties Properties
+	prw        sync.RWMutex
+}
+
+// NewBaseGroup return a new instance of a BaseGroup.
+func NewBaseGroup(sel string, p Properties, root Group) *BaseGroup {
+	bg := &BaseGroup{
+		sel:        sel,
+		properties: p,
+		seperator:  " ",
+	}
+
+	if root != nil {
+		bg.base = root.Tree().Append(bg)
+	} else {
+		bg.base = &NGroup{grp: bg}
+	}
+
+	return bg
+}
+
+// Tree returns the internal group chain tree.
+func (bg *BaseGroup) Tree() *NGroup {
+	return bg.base
+}
+
 // Render implements the Render interface for the BaseGroup and returns the
 // property title and content for this group.
 func (bg *BaseGroup) Render(dst io.Writer) {
@@ -155,16 +180,6 @@ func (bg *BaseGroup) Render(dst io.Writer) {
 
 	bg.renderKids(dst)
 }
-
-// renderKids renders the children of the BaseGroup.
-func (bg *BaseGroup) renderKids(dst io.Writer) {
-	// Wrap up the children tree and build the appropriate content
-	for _, kid := range bg.kids {
-		kid.Render(dst)
-	}
-}
-
-//==============================================================================
 
 // Add augments the giving properties into the BaseGroup properties map.
 func (bg *BaseGroup) Add(p Properties) {
@@ -179,6 +194,8 @@ func (bg *BaseGroup) Add(p Properties) {
 		bg.properties[key] = val
 	}
 }
+
+//==============================================================================
 
 // Extend returns a new Group based off the selector of the previous using
 // the format:
@@ -318,6 +335,15 @@ func (bg *BaseGroup) NthParent(back int) Group {
 	}
 
 	return root.grp
+}
+
+// renderKids renders the children of the BaseGroup.
+func (bg *BaseGroup) renderKids(dst io.Writer) {
+
+	// Wrap up the children tree and build the appropriate content
+	for _, kid := range bg.kids {
+		kid.Render(dst)
+	}
 }
 
 //==============================================================================
