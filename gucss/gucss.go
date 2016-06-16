@@ -47,25 +47,31 @@ func CloneWith(m []Properties, key string, newVal interface{}) []Properties {
 
 //==============================================================================
 
-// Writer defines an interface for a structure which reads out its content
-// as css style into a passed in io.Writer.
-type Writer interface {
-	CSS(io.Writer)
-}
+// // Writer defines an interface for a structure which reads out its content
+// // as css style into a passed in io.Writer.
+// type Writer interface {
+// 	CSS(io.Writer)
+// }
 
 // Render defines an interface for rendering the title/ID and the content of
 // a structure.
 type Render interface {
-	Render() []byte
+	Render(io.Writer)
 }
 
 //==============================================================================
 
+// GroupTree defines an interface that returns the internal chain tree.
+type GroupTree interface {
+	Tree() *NGroup
+}
+
 // Group defines a interface for a grouping of properties under a specific
 // boundaries.
 type Group interface {
-	Writer
+	GroupTree
 	Render
+	// Writer
 
 	Add(Properties)
 
@@ -77,11 +83,20 @@ type Group interface {
 	Within(string, Properties) Group
 	PreSibling(string, Properties) Group
 	PostSibling(string, Properties) Group
-
-	Extend(string, Properties)
+	Extend(string, Properties) Group
 
 	Sel() string
 	Selector() string
+}
+
+// NewRoot returns a clean root which has no tree and can provide
+// a means of creating a clean stylesheet slate from. It acts as the
+// root before '*' within a css stylesheet.
+func NewRoot() Group {
+	bg := NewBaseGroup("", nil, nil)
+	bg.root = true
+	bg.seperator = ""
+	return bg
 }
 
 // Copy copies the properties provided into the giving groups set thereby creating
@@ -130,7 +145,7 @@ func CopyNS(ns string, p Properties, groups ...Group) {
 //
 // @media (...) {...}
 type Media interface {
-	Writer
+	Render
 	Group(string)
 }
 
