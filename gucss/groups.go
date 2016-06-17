@@ -9,42 +9,6 @@ import (
 
 //==============================================================================
 
-// NGroup defines a core structure for the internal groups that connects multiple
-// groups together.
-type NGroup struct {
-	prev *NGroup
-	grp  Group
-}
-
-// Root returns the root by walking the previous tree else return itself.
-func (n *NGroup) Root() *NGroup {
-	if n.prev != nil {
-		return n.prev.Root()
-	}
-
-	return n
-}
-
-// NthRoot returns the root after a specific amount of steps backward the parent
-// tree.
-func (n *NGroup) NthRoot(ind int) *NGroup {
-	if ind > 0 && n.prev != nil {
-		return n.prev.NthRoot(ind - 1)
-	}
-
-	return n
-}
-
-// Append returns a new NGroup where this becomes the previous link.
-func (n *NGroup) Append(g Group) *NGroup {
-	return &NGroup{
-		prev: n,
-		grp:  g,
-	}
-}
-
-//==============================================================================
-
 // CSSRender defines a package level handle for access the base css parser.
 var CSSRender render
 
@@ -107,37 +71,60 @@ func (r render) Render(sel string, p Properties, dst io.Writer) {
 // Media defines a structure which constructs the media query tree for
 // gucss.
 type Media struct {
-	roots  []Group
 	query  string
 	device string
 }
 
 // NewMedia returns a new Media instance with the provided group.
-func NewMedia(query string, device string, g Group) *Media {
+func NewMedia(query string, device string) *Media {
 	mn := Media{query: query, device: device}
-
-	if g != nil {
-		mn.roots = append(mn.roots, g)
-	}
-
 	return &mn
 }
 
-// Add adds a new group into the list of groups to be wrapped by the query.
-func (m *Media) Add(g Group) {
-	m.roots = append(m.roots, g)
+// Render outputs the content of the media into the provided writer.
+func (m *Media) Render(g Group, dst io.Writer) {
+	var b bytes.Buffer
+	g.Render(&b)
+
+	query := fmt.Sprintf("@media %s %s", m.device, m.query)
+	qm := fmt.Sprintf(CSSPropertyBracket, query, b.Bytes())
+
+	dst.Write([]byte(qm))
 }
 
-// Render outputs the content of the media into the provided writer.
-func (m *Media) Render(dst io.Writer) {
-	for _, g := range m.roots {
-		var b bytes.Buffer
-		g.Render(&b)
+//==============================================================================
 
-		query := fmt.Sprintf("@media %s %s", m.device, m.query)
-		qm := fmt.Sprintf(CSSPropertyBracket, query, b.Bytes())
+// NGroup defines a core structure for the internal groups that connects multiple
+// groups together.
+type NGroup struct {
+	prev *NGroup
+	grp  Group
+}
 
-		dst.Write([]byte(qm))
+// Root returns the root by walking the previous tree else return itself.
+func (n *NGroup) Root() *NGroup {
+	if n.prev != nil {
+		return n.prev.Root()
+	}
+
+	return n
+}
+
+// NthRoot returns the root after a specific amount of steps backward the parent
+// tree.
+func (n *NGroup) NthRoot(ind int) *NGroup {
+	if ind > 0 && n.prev != nil {
+		return n.prev.NthRoot(ind - 1)
+	}
+
+	return n
+}
+
+// Append returns a new NGroup where this becomes the previous link.
+func (n *NGroup) Append(g Group) *NGroup {
+	return &NGroup{
+		prev: n,
+		grp:  g,
 	}
 }
 

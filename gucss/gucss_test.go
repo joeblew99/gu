@@ -50,7 +50,7 @@ func TestBasicCSS(t *testing.T) {
 			})
 
 			var b bytes.Buffer
-			gucss.NewMedia("screen", "(width: 30em) and (height: 40em)", root).Render(&b)
+			gucss.NewMedia("screen", "(width: 30em) and (height: 40em)").Render(root, &b)
 
 			if b.Len() != len(expected) {
 				t.Logf("Expected: %q", expected)

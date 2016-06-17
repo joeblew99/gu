@@ -78,6 +78,45 @@ Gutrees sets up the event functions within
 	)
 ```
 
+### Styles
+Gu uses provides a optional style library called [GuCSS](./gucss) inspired by [GuTrees](./gutrees) which provides a go-centric approach to building css styles which can be rendered and attached to inline style tags, they allow you to organize your styles from being inlined to the specific Markup but more organized as a whole.
+
+```go
+	import "github.com/influx6/gu/gutrees"
+	import "github.com/influx6/gu/gutrees/gucss"
+
+	root := gucss.NewRoot()
+
+	root.Within("*", gucss.Properties{
+		"margin":  "0px",
+		"padding": "0px",
+	})
+
+	root.Within("html", gucss.Properties{
+		"width": "100%",
+	}).Within("body", gucss.Properties{
+		"width":     "100%",
+		"font-size": "1em",
+	})
+
+	root.Child("div", gucss.Properties{}).Within("ul", gucss.Properties{
+		"list-style-type": "none",
+	}).Extend("ol", gucss.Properties{
+		"list-style-type": "none",
+	}).PreSibling("li", gucss.Properties{
+		"padding": "10px",
+	}).PostSibling("span", gucss.Properties{
+		"padding": "3px",
+	}).NthParent(1).Child("a", gucss.Properties{
+		"color": "#ccc",
+	}).NthParent(2).NS(":hover", gucss.Properties{
+		"padding": "30px",
+	})
+
+	var b bytes.Buffer
+	gucss.NewMedia("screen", "(width: 30em) and (height: 40em)").Render(root, &b)
+```
+
 ### Views
 The views are the core structure within `gu` and they are the key to how the `Renderables` are rendered, basically they manage the core operations and provide you the mechanism to have your structures adequately updated and rendered as needed.
 They do not automatically update as it rather uses a notification system which provides the means of delegate update calls to the developer as they see fit. But this provides the needed flexibility for the developer.
