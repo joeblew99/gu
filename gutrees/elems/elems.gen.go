@@ -17,6 +17,16 @@ func Text(txt string) gutrees.Markup {
 	return gutrees.NewText(txt)
 }
 
+// SVG provides the markup generator for the <svg> xml tag.
+func SVG(markup ...gutrees.Markup) gutrees.Markup {
+	e := gutrees.NewElement("svg",false)
+	for _, m := range markup {
+		m.Apply(e)
+	}
+	return e
+}
+
+
 // SVGAnchor provides the following for SVG XML elements ->
 // The SVG Anchor Element () defines a hyperlink
 // https://developer.mozilla.org/en-US/docs/Web/SVG/Element/a
@@ -127,10 +137,10 @@ func SVGClipPath(markup ...gutrees.Appliable) gutrees.Markup {
 	return e
 }
 
-// SVGColor-profile provides the following for SVG XML elements ->
+// SVGColorProfile provides the following for SVG XML elements ->
 // The element allows describing the color profile used for the image.
 // https://developer.mozilla.org/en-US/docs/Web/SVG/Element/color-profile
-func SVGColor-profile(markup ...gutrees.Appliable) gutrees.Markup {
+func SVGColorProfile(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("color-profile",false)
 	for _, m := range markup {
 		m.Apply(e)
@@ -468,10 +478,10 @@ func SVGFont(markup ...gutrees.Appliable) gutrees.Markup {
 	return e
 }
 
-// SVGFont-face provides the following for SVG XML elements ->
+// SVGFontFace provides the following for SVG XML elements ->
 // The font-face element corresponds to the CSS @font-face declaration. It defines a font's outer properties.
 // https://developer.mozilla.org/en-US/docs/Web/SVG/Element/font-face
-func SVGFont-face(markup ...gutrees.Appliable) gutrees.Markup {
+func SVGFontFace(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("font-face",false)
 	for _, m := range markup {
 		m.Apply(e)

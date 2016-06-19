@@ -158,6 +158,16 @@ import (
 func Text(txt string) gutrees.Markup {
 	return gutrees.NewText(txt)
 }
+
+// SVG provides the markup generator for the <svg> xml tag.
+func SVG(markup ...gutrees.Markup) gutrees.Markup {
+	e := gutrees.NewElement("svg",false)
+	for _, m := range markup {
+		m.Apply(e)
+	}
+	return e
+}
+
 `)
 
 	code := regexp.MustCompile("</?code>")
@@ -249,7 +259,7 @@ func writeSVGElem(w io.Writer, name, desc, link string) {
 			}
 		}
 
-		funName = capitalize(name)
+		funName = capitalize(funName)
 	}
 
 	fmt.Fprintf(w, `
