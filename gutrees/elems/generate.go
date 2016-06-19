@@ -106,6 +106,7 @@ var elemNameMap = map[string]string{
 
 //list of self closing tags
 var autoclosers = map[string]bool{
+	"use":     true,
 	"area":    true,
 	"base":    true,
 	"col":     true,
@@ -163,7 +164,7 @@ func Text(txt string) gutrees.Markup {
 func SVG(markup ...gutrees.Markup) gutrees.Markup {
 	e := gutrees.NewElement("svg",false)
 	for _, m := range markup {
-		if m == nil { return }
+		if m == nil { continue }
 		m.Apply(e)
 	}
 	return e
@@ -248,6 +249,7 @@ func SVG(markup ...gutrees.Markup) gutrees.Markup {
 var badsymbs = regexp.MustCompile("-(.+)")
 
 func writeSVGElem(w io.Writer, name, desc, link string) {
+	var autocloser = autoclosers[name]
 	funName := elemNameMap[name]
 
 	if funName == "" {
@@ -270,12 +272,12 @@ func writeSVGElem(w io.Writer, name, desc, link string) {
 func SVG%s(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("%s",%t)
 	for _, m := range markup {
-		if m == nil { return }
+		if m == nil { continue }
 		m.Apply(e)
 	}
 	return e
 }
-`, funName, desc, link, funName, name, false)
+`, funName, desc, link, funName, name, autocloser)
 }
 
 func writeElem(w io.Writer, name, desc, link string) {
@@ -293,7 +295,7 @@ func writeElem(w io.Writer, name, desc, link string) {
 func %s(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("%s",%t)
 	for _, m := range markup {
-		if m == nil { return }
+		if m == nil { continue }
 		m.Apply(e)
 	}
 	return e
