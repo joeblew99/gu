@@ -17,16 +17,14 @@ type HideView struct{}
 
 // Render marks the given markup as display:none
 func (v HideView) Render(m gutrees.Markup) {
-	// if we are allowed to query for styles then check and change display
-	if mm, ok := m.(gutrees.MarkupProps); ok {
-		if ds, err := gutrees.GetStyle(mm, "display"); err == nil {
-			if !strings.Contains(ds.Value, "none") {
-				ds.Value = "none"
-			}
+	if ds, err := gutrees.GetStyle(m, "display"); err == nil {
+		name, val := ds.Render()
+		if !strings.Contains(val, "none") {
+			ds.Reconcile(&gutrees.Style{Name: name, Value: "none"})
 			return
 		}
-
 	}
+
 	styles.Display("none").Apply(m)
 }
 
@@ -35,17 +33,15 @@ type ShowView struct{}
 
 // Render marks the given markup with a display: block
 func (v ShowView) Render(m gutrees.Markup) {
-	//if we are allowed to query for styles then check and change display
-	if mm, ok := m.(gutrees.MarkupProps); ok {
-		if ds, err := gutrees.GetStyle(mm, "display"); err == nil {
-			if strings.Contains(ds.Value, "none") {
-				ds.Value = "block"
-			}
+	if ds, err := gutrees.GetStyle(m, "display"); err == nil {
+		name, val := ds.Render()
+		if !strings.Contains(val, "none") {
+			ds.Reconcile(&gutrees.Style{Name: name, Value: "block"})
 			return
 		}
-
-		styles.Display("block").Apply(m)
 	}
+
+	styles.Display("block").Apply(m)
 }
 
 //==============================================================================

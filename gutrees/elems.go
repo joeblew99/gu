@@ -14,6 +14,7 @@ type Markup interface {
 	Removable
 	Properties
 	Children
+	Reconcilable
 }
 
 // Element represent a concrete implementation of a element node
@@ -318,7 +319,6 @@ type ElementalMarkup interface {
 	TextMarkup
 	Cleanable
 
-	Reconcilable
 	Clonable
 	Eventers
 
@@ -406,13 +406,9 @@ func (e *Element) Reconcile(m Markup) bool {
 	for n, och := range oldChildren {
 		if maxSize > n {
 
-			nitem := newChildren[n]
-			nch, nok := nitem.(Reconcilable)
-			if !nok {
-				continue
-			}
+			nch := newChildren[n]
 
-			if nitem.Name() == och.Name() {
+			if nch.Name() == och.Name() {
 				if nch.Reconcile(och) {
 					childChanged = true
 				}

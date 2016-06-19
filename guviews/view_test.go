@@ -33,24 +33,33 @@ func TestView(t *testing.T) {
 
 	var expectedDOM = `<div style=" display:block;"><video src="https://youtube.com/xF5R32YF4" style="">Joyride Lewis!</video><video src="https://youtube.com/dox32YF4" style="">Wonderlust Bombs!</video></div>`
 
-	videos := guviews.NewWithID("video-vabbs", videoList([]map[string]string{
-		map[string]string{
-			"src":  "https://youtube.com/xF5R32YF4",
-			"name": "Joyride Lewis!",
-		},
-		map[string]string{
-			"src":  "https://youtube.com/dox32YF4",
-			"name": "Wonderlust Bombs!",
-		},
-	}))
+	lewis := map[string]string{
+		"src":  "https://youtube.com/xF5R32YF4",
+		"name": "Joyride Lewis!",
+	}
+
+	bomb := map[string]string{
+		"src":  "https://youtube.com/dox32YF4",
+		"name": "Wonderlust Bombs!",
+	}
+
+	videos := guviews.NewWithID("video-vabbs", videoList{lewis, bomb})
 
 	bo := videos.RenderHTML()
-
 	if string(bo) != expectedDOM {
 		t.Logf("Given:  %s\n", bo)
 		t.Logf("Wanted: %s\n", expectedDOM)
 		t.Fatalf("\t%s\t Rendered result does match expected", failed)
 	}
-
 	t.Logf("\t%s\t Rendered result does match expected", success)
+
+	lewis["name"] = "Joyride Tiler!"
+	expectedDOM = `<div style=" display:block;"><video src="https://youtube.com/xF5R32YF4" style="">Joyride Tiler!</video><video src="https://youtube.com/dox32YF4" style="">Wonderlust Bombs!</video></div>`
+	bo = videos.RenderHTML()
+	if string(bo) != expectedDOM {
+		t.Logf("Given:  %s\n", bo)
+		t.Logf("Wanted: %s\n", expectedDOM)
+		t.Fatalf("\t%s\t Rendered result does match expected", failed)
+	}
+	t.Logf("\t%s\t Rendered result does match expected after change", success)
 }
