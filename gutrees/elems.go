@@ -495,9 +495,7 @@ type Appliable interface {
 
 //Apply adds the giving element into the current elements children tree
 func (e *Element) Apply(em Markup) {
-	if mm, ok := em.(Children); ok {
-		mm.AddChild(e)
-	}
+	em.AddChild(e)
 }
 
 //==============================================================================
