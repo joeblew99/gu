@@ -9,6 +9,7 @@ go install github.com/influx6/gu/...
 
 ## Features
   - Dead Simple API.
+  - Ability to create custom attribute and styles builders.
   - Rendering from both front end and backend.
   - Flux like event dispatch system.
 
