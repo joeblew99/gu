@@ -163,6 +163,7 @@ func Text(txt string) gutrees.Markup {
 func SVG(markup ...gutrees.Markup) gutrees.Markup {
 	e := gutrees.NewElement("svg",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -269,6 +270,7 @@ func writeSVGElem(w io.Writer, name, desc, link string) {
 func SVG%s(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("%s",%t)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -291,6 +293,7 @@ func writeElem(w io.Writer, name, desc, link string) {
 func %s(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("%s",%t)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e

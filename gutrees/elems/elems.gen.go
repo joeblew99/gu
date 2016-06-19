@@ -21,6 +21,7 @@ func Text(txt string) gutrees.Markup {
 func SVG(markup ...gutrees.Markup) gutrees.Markup {
 	e := gutrees.NewElement("svg",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -33,6 +34,7 @@ func SVG(markup ...gutrees.Markup) gutrees.Markup {
 func SVGAnchor(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("a",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -44,6 +46,7 @@ func SVGAnchor(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGAltGlyph(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("altGlyph",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -55,6 +58,7 @@ func SVGAltGlyph(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGAltGlyphDef(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("altGlyphDef",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -66,6 +70,7 @@ func SVGAltGlyphDef(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGAltGlyphItem(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("altGlyphItem",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -77,6 +82,7 @@ func SVGAltGlyphItem(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGAnimate(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("animate",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -88,6 +94,7 @@ func SVGAnimate(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGAnimateColor(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("animateColor",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -99,6 +106,7 @@ func SVGAnimateColor(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGAnimateMotion(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("animateMotion",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -110,6 +118,7 @@ func SVGAnimateMotion(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGAnimateTransform(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("animateTransform",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -121,6 +130,7 @@ func SVGAnimateTransform(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGCircle(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("circle",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -132,6 +142,7 @@ func SVGCircle(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGClipPath(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("clipPath",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -143,6 +154,7 @@ func SVGClipPath(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGColorProfile(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("color-profile",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -154,6 +166,7 @@ func SVGColorProfile(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGCursor(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("cursor",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -165,6 +178,7 @@ func SVGCursor(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGDefs(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("defs",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -176,6 +190,7 @@ func SVGDefs(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGDesc(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("desc",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -187,6 +202,7 @@ func SVGDesc(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGEllipse(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("ellipse",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -198,6 +214,7 @@ func SVGEllipse(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeBlend(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feBlend",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -209,6 +226,7 @@ func SVGFeBlend(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeColorMatrix(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feColorMatrix",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -220,6 +238,7 @@ func SVGFeColorMatrix(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeComponentTransfer(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feComponentTransfer",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -231,6 +250,7 @@ func SVGFeComponentTransfer(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeComposite(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feComposite",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -242,6 +262,7 @@ func SVGFeComposite(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeConvolveMatrix(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feConvolveMatrix",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -253,6 +274,7 @@ func SVGFeConvolveMatrix(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeDiffuseLighting(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feDiffuseLighting",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -264,6 +286,7 @@ func SVGFeDiffuseLighting(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeDisplacementMap(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feDisplacementMap",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -275,6 +298,7 @@ func SVGFeDisplacementMap(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeDistantLight(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feDistantLight",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -286,6 +310,7 @@ func SVGFeDistantLight(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeFlood(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feFlood",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -297,6 +322,7 @@ func SVGFeFlood(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeFuncA(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feFuncA",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -308,6 +334,7 @@ func SVGFeFuncA(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeFuncB(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feFuncB",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -319,6 +346,7 @@ func SVGFeFuncB(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeFuncG(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feFuncG",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -330,6 +358,7 @@ func SVGFeFuncG(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeFuncR(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feFuncR",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -341,6 +370,7 @@ func SVGFeFuncR(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeGaussianBlur(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feGaussianBlur",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -352,6 +382,7 @@ func SVGFeGaussianBlur(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeImage(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feImage",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -363,6 +394,7 @@ func SVGFeImage(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeMerge(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feMerge",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -374,6 +406,7 @@ func SVGFeMerge(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeMergeNode(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feMergeNode",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -385,6 +418,7 @@ func SVGFeMergeNode(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeMorphology(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feMorphology",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -396,6 +430,7 @@ func SVGFeMorphology(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeOffset(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feOffset",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -407,6 +442,7 @@ func SVGFeOffset(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFePointLight(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("fePointLight",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -418,6 +454,7 @@ func SVGFePointLight(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeSpecularLighting(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feSpecularLighting",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -429,6 +466,7 @@ func SVGFeSpecularLighting(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeSpotLight(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feSpotLight",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -440,6 +478,7 @@ func SVGFeSpotLight(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeTile(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feTile",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -451,6 +490,7 @@ func SVGFeTile(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFeTurbulence(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("feTurbulence",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -462,6 +502,7 @@ func SVGFeTurbulence(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFilter(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("filter",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -473,6 +514,7 @@ func SVGFilter(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFont(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("font",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -484,6 +526,7 @@ func SVGFont(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFontFace(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("font-face",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -495,6 +538,7 @@ func SVGFontFace(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFontFaceFormat(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("font-face-format",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -506,6 +550,7 @@ func SVGFontFaceFormat(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFontfaceName(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("font-face-name",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -517,6 +562,7 @@ func SVGFontfaceName(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFontFaceSrc(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("font-face-src",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -528,6 +574,7 @@ func SVGFontFaceSrc(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGFontfaceURI(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("font-face-uri",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -539,6 +586,7 @@ func SVGFontfaceURI(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGForeignObject(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("foreignObject",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -550,6 +598,7 @@ func SVGForeignObject(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGGroup(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("g",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -561,6 +610,7 @@ func SVGGroup(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGGlyph(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("glyph",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -572,6 +622,7 @@ func SVGGlyph(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGGlyphRef(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("glyphRef",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -583,6 +634,7 @@ func SVGGlyphRef(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGHkern(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("hkern",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -594,6 +646,7 @@ func SVGHkern(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGImage(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("image",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -605,6 +658,7 @@ func SVGImage(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGLine(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("line",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -616,6 +670,7 @@ func SVGLine(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGLinearGradient(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("linearGradient",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -627,6 +682,7 @@ func SVGLinearGradient(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGMarker(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("marker",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -638,6 +694,7 @@ func SVGMarker(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGMask(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("mask",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -649,6 +706,7 @@ func SVGMask(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGMetadata(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("metadata",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -660,6 +718,7 @@ func SVGMetadata(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGMissingGlyph(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("missing-glyph",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -671,6 +730,7 @@ func SVGMissingGlyph(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGMpath(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("mpath",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -682,6 +742,7 @@ func SVGMpath(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGPath(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("path",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -693,6 +754,7 @@ func SVGPath(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGPattern(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("pattern",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -704,6 +766,7 @@ func SVGPattern(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGPolygon(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("polygon",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -715,6 +778,7 @@ func SVGPolygon(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGPolyline(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("polyline",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -726,6 +790,7 @@ func SVGPolyline(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGRadialGradient(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("radialGradient",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -737,6 +802,7 @@ func SVGRadialGradient(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGRect(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("rect",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -748,6 +814,7 @@ func SVGRect(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGScript(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("script",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -759,6 +826,7 @@ func SVGScript(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGSet(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("set",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -770,6 +838,7 @@ func SVGSet(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGStop(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("stop",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -781,6 +850,7 @@ func SVGStop(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGStyle(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("style",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -792,6 +862,7 @@ func SVGStyle(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGSvg(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("svg",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -803,6 +874,7 @@ func SVGSvg(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGSwitch(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("switch",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -814,6 +886,7 @@ func SVGSwitch(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGSymbol(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("symbol",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -825,6 +898,7 @@ func SVGSymbol(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGText(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("text",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -836,6 +910,7 @@ func SVGText(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGTextPath(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("textPath",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -847,6 +922,7 @@ func SVGTextPath(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGTitle(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("title",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -858,6 +934,7 @@ func SVGTitle(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGTref(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("tref",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -869,6 +946,7 @@ func SVGTref(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGTspan(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("tspan",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -880,6 +958,7 @@ func SVGTspan(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGUse(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("use",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -891,6 +970,7 @@ func SVGUse(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGView(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("view",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -902,6 +982,7 @@ func SVGView(markup ...gutrees.Appliable) gutrees.Markup {
 func SVGVkern(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("vkern",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -913,6 +994,7 @@ func SVGVkern(markup ...gutrees.Appliable) gutrees.Markup {
 func Anchor(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("a",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -924,6 +1006,7 @@ func Anchor(markup ...gutrees.Appliable) gutrees.Markup {
 func Abbreviation(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("abbr",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -935,6 +1018,7 @@ func Abbreviation(markup ...gutrees.Appliable) gutrees.Markup {
 func Address(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("address",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -946,6 +1030,7 @@ func Address(markup ...gutrees.Appliable) gutrees.Markup {
 func Area(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("area",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -957,6 +1042,7 @@ func Area(markup ...gutrees.Appliable) gutrees.Markup {
 func Article(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("article",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -968,6 +1054,7 @@ func Article(markup ...gutrees.Appliable) gutrees.Markup {
 func Aside(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("aside",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -979,6 +1066,7 @@ func Aside(markup ...gutrees.Appliable) gutrees.Markup {
 func Audio(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("audio",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -990,6 +1078,7 @@ func Audio(markup ...gutrees.Appliable) gutrees.Markup {
 func Bold(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("b",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1001,6 +1090,7 @@ func Bold(markup ...gutrees.Appliable) gutrees.Markup {
 func Base(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("base",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1012,6 +1102,7 @@ func Base(markup ...gutrees.Appliable) gutrees.Markup {
 func BidirectionalIsolation(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("bdi",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1023,6 +1114,7 @@ func BidirectionalIsolation(markup ...gutrees.Appliable) gutrees.Markup {
 func BidirectionalOverride(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("bdo",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1034,6 +1126,7 @@ func BidirectionalOverride(markup ...gutrees.Appliable) gutrees.Markup {
 func BlockQuote(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("blockquote",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1045,6 +1138,7 @@ func BlockQuote(markup ...gutrees.Appliable) gutrees.Markup {
 func Break(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("br",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1056,6 +1150,7 @@ func Break(markup ...gutrees.Appliable) gutrees.Markup {
 func Button(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("button",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1067,6 +1162,7 @@ func Button(markup ...gutrees.Appliable) gutrees.Markup {
 func Canvas(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("canvas",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1078,6 +1174,7 @@ func Canvas(markup ...gutrees.Appliable) gutrees.Markup {
 func Caption(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("caption",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1089,6 +1186,7 @@ func Caption(markup ...gutrees.Appliable) gutrees.Markup {
 func Citation(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("cite",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1100,6 +1198,7 @@ func Citation(markup ...gutrees.Appliable) gutrees.Markup {
 func Code(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("code",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1111,6 +1210,7 @@ func Code(markup ...gutrees.Appliable) gutrees.Markup {
 func Column(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("col",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1122,6 +1222,7 @@ func Column(markup ...gutrees.Appliable) gutrees.Markup {
 func ColumnGroup(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("colgroup",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1133,6 +1234,7 @@ func ColumnGroup(markup ...gutrees.Appliable) gutrees.Markup {
 func Data(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("data",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1144,6 +1246,7 @@ func Data(markup ...gutrees.Appliable) gutrees.Markup {
 func DataList(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("datalist",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1155,6 +1258,7 @@ func DataList(markup ...gutrees.Appliable) gutrees.Markup {
 func Description(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("dd",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1166,6 +1270,7 @@ func Description(markup ...gutrees.Appliable) gutrees.Markup {
 func DeletedText(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("del",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1177,6 +1282,7 @@ func DeletedText(markup ...gutrees.Appliable) gutrees.Markup {
 func Details(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("details",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1188,6 +1294,7 @@ func Details(markup ...gutrees.Appliable) gutrees.Markup {
 func Definition(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("dfn",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1199,6 +1306,7 @@ func Definition(markup ...gutrees.Appliable) gutrees.Markup {
 func Dialog(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("dialog",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1210,6 +1318,7 @@ func Dialog(markup ...gutrees.Appliable) gutrees.Markup {
 func Div(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("div",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1221,6 +1330,7 @@ func Div(markup ...gutrees.Appliable) gutrees.Markup {
 func DescriptionList(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("dl",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1232,6 +1342,7 @@ func DescriptionList(markup ...gutrees.Appliable) gutrees.Markup {
 func DefinitionTerm(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("dt",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1243,6 +1354,7 @@ func DefinitionTerm(markup ...gutrees.Appliable) gutrees.Markup {
 func Element(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("element",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1254,6 +1366,7 @@ func Element(markup ...gutrees.Appliable) gutrees.Markup {
 func Emphasis(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("em",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1265,6 +1378,7 @@ func Emphasis(markup ...gutrees.Appliable) gutrees.Markup {
 func Embed(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("embed",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1276,6 +1390,7 @@ func Embed(markup ...gutrees.Appliable) gutrees.Markup {
 func FieldSet(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("fieldset",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1287,6 +1402,7 @@ func FieldSet(markup ...gutrees.Appliable) gutrees.Markup {
 func FigureCaption(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("figcaption",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1298,6 +1414,7 @@ func FigureCaption(markup ...gutrees.Appliable) gutrees.Markup {
 func Figure(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("figure",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1309,6 +1426,7 @@ func Figure(markup ...gutrees.Appliable) gutrees.Markup {
 func Footer(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("footer",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1320,6 +1438,7 @@ func Footer(markup ...gutrees.Appliable) gutrees.Markup {
 func Form(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("form",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1331,6 +1450,7 @@ func Form(markup ...gutrees.Appliable) gutrees.Markup {
 func Header(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("header",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1342,6 +1462,7 @@ func Header(markup ...gutrees.Appliable) gutrees.Markup {
 func HeadingsGroup(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("hgroup",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1353,6 +1474,7 @@ func HeadingsGroup(markup ...gutrees.Appliable) gutrees.Markup {
 func HorizontalRule(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("hr",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1364,6 +1486,7 @@ func HorizontalRule(markup ...gutrees.Appliable) gutrees.Markup {
 func Italic(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("i",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1375,6 +1498,7 @@ func Italic(markup ...gutrees.Appliable) gutrees.Markup {
 func InlineFrame(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("iframe",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1386,6 +1510,7 @@ func InlineFrame(markup ...gutrees.Appliable) gutrees.Markup {
 func Image(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("img",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1397,6 +1522,7 @@ func Image(markup ...gutrees.Appliable) gutrees.Markup {
 func Input(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("input",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1408,6 +1534,7 @@ func Input(markup ...gutrees.Appliable) gutrees.Markup {
 func InsertedText(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("ins",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1419,6 +1546,7 @@ func InsertedText(markup ...gutrees.Appliable) gutrees.Markup {
 func KeyboardInput(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("kbd",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1430,6 +1558,7 @@ func KeyboardInput(markup ...gutrees.Appliable) gutrees.Markup {
 func Label(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("label",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1441,6 +1570,7 @@ func Label(markup ...gutrees.Appliable) gutrees.Markup {
 func Legend(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("legend",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1452,6 +1582,7 @@ func Legend(markup ...gutrees.Appliable) gutrees.Markup {
 func ListItem(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("li",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1463,6 +1594,7 @@ func ListItem(markup ...gutrees.Appliable) gutrees.Markup {
 func Link(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("link",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1474,6 +1606,7 @@ func Link(markup ...gutrees.Appliable) gutrees.Markup {
 func Main(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("main",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1485,6 +1618,7 @@ func Main(markup ...gutrees.Appliable) gutrees.Markup {
 func Map(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("map",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1496,6 +1630,7 @@ func Map(markup ...gutrees.Appliable) gutrees.Markup {
 func Mark(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("mark",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1507,6 +1642,7 @@ func Mark(markup ...gutrees.Appliable) gutrees.Markup {
 func Menu(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("menu",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1518,6 +1654,7 @@ func Menu(markup ...gutrees.Appliable) gutrees.Markup {
 func MenuItem(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("menuitem",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1529,6 +1666,7 @@ func MenuItem(markup ...gutrees.Appliable) gutrees.Markup {
 func Meta(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("meta",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1540,6 +1678,7 @@ func Meta(markup ...gutrees.Appliable) gutrees.Markup {
 func Meter(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("meter",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1551,6 +1690,7 @@ func Meter(markup ...gutrees.Appliable) gutrees.Markup {
 func Multicol(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("multicol",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1562,6 +1702,7 @@ func Multicol(markup ...gutrees.Appliable) gutrees.Markup {
 func Navigation(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("nav",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1573,6 +1714,7 @@ func Navigation(markup ...gutrees.Appliable) gutrees.Markup {
 func NoFrames(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("noframes",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1584,6 +1726,7 @@ func NoFrames(markup ...gutrees.Appliable) gutrees.Markup {
 func NoScript(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("noscript",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1595,6 +1738,7 @@ func NoScript(markup ...gutrees.Appliable) gutrees.Markup {
 func Object(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("object",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1606,6 +1750,7 @@ func Object(markup ...gutrees.Appliable) gutrees.Markup {
 func OrderedList(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("ol",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1617,6 +1762,7 @@ func OrderedList(markup ...gutrees.Appliable) gutrees.Markup {
 func OptionsGroup(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("optgroup",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1628,6 +1774,7 @@ func OptionsGroup(markup ...gutrees.Appliable) gutrees.Markup {
 func Option(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("option",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1639,6 +1786,7 @@ func Option(markup ...gutrees.Appliable) gutrees.Markup {
 func Output(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("output",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1650,6 +1798,7 @@ func Output(markup ...gutrees.Appliable) gutrees.Markup {
 func Paragraph(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("p",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1661,6 +1810,7 @@ func Paragraph(markup ...gutrees.Appliable) gutrees.Markup {
 func Parameter(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("param",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1672,6 +1822,7 @@ func Parameter(markup ...gutrees.Appliable) gutrees.Markup {
 func Picture(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("picture",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1683,6 +1834,7 @@ func Picture(markup ...gutrees.Appliable) gutrees.Markup {
 func Preformatted(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("pre",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1694,6 +1846,7 @@ func Preformatted(markup ...gutrees.Appliable) gutrees.Markup {
 func Progress(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("progress",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1705,6 +1858,7 @@ func Progress(markup ...gutrees.Appliable) gutrees.Markup {
 func Quote(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("q",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1716,6 +1870,7 @@ func Quote(markup ...gutrees.Appliable) gutrees.Markup {
 func RubyParenthesis(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("rp",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1727,6 +1882,7 @@ func RubyParenthesis(markup ...gutrees.Appliable) gutrees.Markup {
 func RubyText(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("rt",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1738,6 +1894,7 @@ func RubyText(markup ...gutrees.Appliable) gutrees.Markup {
 func Rtc(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("rtc",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1749,6 +1906,7 @@ func Rtc(markup ...gutrees.Appliable) gutrees.Markup {
 func Ruby(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("ruby",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1760,6 +1918,7 @@ func Ruby(markup ...gutrees.Appliable) gutrees.Markup {
 func Strikethrough(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("s",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1771,6 +1930,7 @@ func Strikethrough(markup ...gutrees.Appliable) gutrees.Markup {
 func Sample(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("samp",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1782,6 +1942,7 @@ func Sample(markup ...gutrees.Appliable) gutrees.Markup {
 func Script(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("script",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1793,6 +1954,7 @@ func Script(markup ...gutrees.Appliable) gutrees.Markup {
 func Section(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("section",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1804,6 +1966,7 @@ func Section(markup ...gutrees.Appliable) gutrees.Markup {
 func Select(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("select",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1815,6 +1978,7 @@ func Select(markup ...gutrees.Appliable) gutrees.Markup {
 func Shadow(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("shadow",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1826,6 +1990,7 @@ func Shadow(markup ...gutrees.Appliable) gutrees.Markup {
 func Small(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("small",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1837,6 +2002,7 @@ func Small(markup ...gutrees.Appliable) gutrees.Markup {
 func Source(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("source",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1848,6 +2014,7 @@ func Source(markup ...gutrees.Appliable) gutrees.Markup {
 func Span(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("span",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1859,6 +2026,7 @@ func Span(markup ...gutrees.Appliable) gutrees.Markup {
 func Strong(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("strong",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1870,6 +2038,7 @@ func Strong(markup ...gutrees.Appliable) gutrees.Markup {
 func Style(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("style",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1881,6 +2050,7 @@ func Style(markup ...gutrees.Appliable) gutrees.Markup {
 func Subscript(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("sub",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1892,6 +2062,7 @@ func Subscript(markup ...gutrees.Appliable) gutrees.Markup {
 func Summary(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("summary",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1903,6 +2074,7 @@ func Summary(markup ...gutrees.Appliable) gutrees.Markup {
 func Superscript(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("sup",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1914,6 +2086,7 @@ func Superscript(markup ...gutrees.Appliable) gutrees.Markup {
 func Table(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("table",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1925,6 +2098,7 @@ func Table(markup ...gutrees.Appliable) gutrees.Markup {
 func TableBody(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("tbody",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1936,6 +2110,7 @@ func TableBody(markup ...gutrees.Appliable) gutrees.Markup {
 func TableData(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("td",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1947,6 +2122,7 @@ func TableData(markup ...gutrees.Appliable) gutrees.Markup {
 func Template(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("template",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1958,6 +2134,7 @@ func Template(markup ...gutrees.Appliable) gutrees.Markup {
 func TextArea(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("textarea",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1969,6 +2146,7 @@ func TextArea(markup ...gutrees.Appliable) gutrees.Markup {
 func TableFoot(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("tfoot",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1980,6 +2158,7 @@ func TableFoot(markup ...gutrees.Appliable) gutrees.Markup {
 func TableHeader(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("th",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -1991,6 +2170,7 @@ func TableHeader(markup ...gutrees.Appliable) gutrees.Markup {
 func TableHead(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("thead",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2002,6 +2182,7 @@ func TableHead(markup ...gutrees.Appliable) gutrees.Markup {
 func Time(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("time",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2013,6 +2194,7 @@ func Time(markup ...gutrees.Appliable) gutrees.Markup {
 func Title(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("title",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2024,6 +2206,7 @@ func Title(markup ...gutrees.Appliable) gutrees.Markup {
 func TableRow(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("tr",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2035,6 +2218,7 @@ func TableRow(markup ...gutrees.Appliable) gutrees.Markup {
 func Track(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("track",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2046,6 +2230,7 @@ func Track(markup ...gutrees.Appliable) gutrees.Markup {
 func Underline(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("u",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2057,6 +2242,7 @@ func Underline(markup ...gutrees.Appliable) gutrees.Markup {
 func UnorderedList(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("ul",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2068,6 +2254,7 @@ func UnorderedList(markup ...gutrees.Appliable) gutrees.Markup {
 func Variable(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("var",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2079,6 +2266,7 @@ func Variable(markup ...gutrees.Appliable) gutrees.Markup {
 func Video(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("video",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2090,6 +2278,7 @@ func Video(markup ...gutrees.Appliable) gutrees.Markup {
 func WordBreakOpportunity(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("wbr",true)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2101,6 +2290,7 @@ func WordBreakOpportunity(markup ...gutrees.Appliable) gutrees.Markup {
 func Header1(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("h1",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2112,6 +2302,7 @@ func Header1(markup ...gutrees.Appliable) gutrees.Markup {
 func Header2(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("h2",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2123,6 +2314,7 @@ func Header2(markup ...gutrees.Appliable) gutrees.Markup {
 func Header3(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("h3",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2134,6 +2326,7 @@ func Header3(markup ...gutrees.Appliable) gutrees.Markup {
 func Header4(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("h4",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2145,6 +2338,7 @@ func Header4(markup ...gutrees.Appliable) gutrees.Markup {
 func Header5(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("h5",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e
@@ -2156,6 +2350,7 @@ func Header5(markup ...gutrees.Appliable) gutrees.Markup {
 func Header6(markup ...gutrees.Appliable) gutrees.Markup {
 	e := gutrees.NewElement("h6",false)
 	for _, m := range markup {
+		if m == nil { return }
 		m.Apply(e)
 	}
 	return e

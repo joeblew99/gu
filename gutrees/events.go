@@ -137,6 +137,10 @@ type MarkupEventProvider interface {
 
 // Apply adds the event into the elements events lists
 func (eventy) Apply(ex Markup, ev Event) {
+	if ev == nil {
+		return
+	}
+
 	if em, ok := ex.(MarkupEventProvider); ok {
 		if em.AllowEvents() {
 			if ev.EventID() == "" {

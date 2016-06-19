@@ -14,6 +14,16 @@ type Property interface {
 	Render() (string, string)
 }
 
+// WhenElse checks if the first is a non-nil and returns else returns the second
+// property instead.
+func WhenElse(first Property, other Property) Property {
+	if first != nil {
+		return first
+	}
+
+	return other
+}
+
 //==============================================================================
 
 // PropertyApplier defines a package level property applier for markup properties.
@@ -31,6 +41,10 @@ type MarkupPropertiesProvider interface {
 
 // ApplyAttribute adds the property into the Markup attribute lists
 func (properties) ApplyAttribute(ex Markup, p Property) {
+	if p == nil {
+		return
+	}
+
 	if em, ok := ex.(MarkupPropertiesProvider); ok {
 		if em.AllowAttributes() {
 			em.AddAttribute(p)
@@ -40,6 +54,10 @@ func (properties) ApplyAttribute(ex Markup, p Property) {
 
 // ApplyStyle adds the property into the Markup style lists
 func (properties) ApplyStyle(ex Markup, p Property) {
+	if p == nil {
+		return
+	}
+
 	if em, ok := ex.(MarkupPropertiesProvider); ok {
 		if em.AllowStyles() {
 			em.AddStyle(p)
