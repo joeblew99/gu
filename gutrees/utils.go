@@ -25,6 +25,11 @@ func Augment(root Markup, m ...Markup) {
 	}
 }
 
+// Events defines an interface that returns a list of events.
+type Events interface {
+	Events() []Event
+}
+
 // ReconcileEvents checks through two markup events against each other and if it finds any disparity marks
 // event objects as Removed
 func ReconcileEvents(e, em Events) {
@@ -37,14 +42,14 @@ func ReconcileEvents(e, em Events) {
 
 	if len(newevents) <= 0 && len(oldevents) > 0 {
 		for _, ev := range oldevents {
-			ev.Meta.Remove()
+			ev.Meta().Remove()
 		}
 		return
 	}
 
-	checkOut := func(ev *Event) bool {
+	checkOut := func(ev Event) bool {
 		for _, evs := range newevents {
-			if evs.Meta.EventType == ev.Meta.EventType {
+			if evs.Meta().Type() == ev.Meta().Type() {
 				return true
 			}
 		}
@@ -59,9 +64,14 @@ func ReconcileEvents(e, em Events) {
 			continue
 		}
 
-		ev.Meta.Remove()
+		ev.Meta().Remove()
 	}
 
+}
+
+// Styles defines an interface that returns a list of styles.
+type Styles interface {
+	Styles() []Property
 }
 
 // EqualStyles returns true/false if the style values are all equal attribute.
@@ -83,8 +93,10 @@ func EqualStyles(e, em Styles) bool {
 		// continue the loop and check the rest, else we found a contention point, attribute of old markup
 		// does not exists in new markup, so we break and mark as different,letting the new markup keep its hash
 		// but if the loop finishes and all are equal then we swap the hashes
-		if ta, err := GetStyle(e, oa.Name); err == nil {
-			if ta.Value == oa.Value {
+		name, val := oa.Render()
+		if ta, err := GetStyle(e, name); err == nil {
+			_, tvalue := ta.Render()
+			if tvalue == val {
 				continue
 			}
 
@@ -97,6 +109,11 @@ func EqualStyles(e, em Styles) bool {
 	}
 
 	return equal
+}
+
+// Attributes defines an interface that returns a list of attributes.
+type Attributes interface {
+	Attributes() []Property
 }
 
 // EqualAttributes returns true/false if the elements and the giving markup have equal attribute
@@ -118,8 +135,11 @@ func EqualAttributes(e, em Attributes) bool {
 		// continue the loop and check the rest, else we found a contention point, attribute of old markup
 		// does not exists in new markup, so we break and mark as different,letting the new markup keep its hash
 		// but if the loop finishes and all are equal then we swap the hashes
-		if ta, err := GetAttr(e, oa.Name); err == nil {
-			if ta.Value == oa.Value {
+
+		name, val := oa.Render()
+		if ta, err := GetAttr(e, name); err == nil {
+			_, tvalue := ta.Render()
+			if tvalue == val {
 				continue
 			}
 
@@ -136,17 +156,18 @@ func EqualAttributes(e, em Attributes) bool {
 
 // GetStyles returns the styles that contain the specified name and if not empty that contains the specified value also, note that strings
 // NOTE: string.Contains is used when checking value parameter if present
-func GetStyles(e Styles, f, val string) []*Style {
-	var found []*Style
+func GetStyles(e Styles, f, val string) []Property {
+	var found []Property
 	var styles = e.Styles()
 
 	for _, as := range styles {
-		if as.Name != f {
+		name, value := as.Render()
+		if name != f {
 			continue
 		}
 
 		if val != "" {
-			if !strings.Contains(as.Value, val) {
+			if !strings.Contains(value, val) {
 				continue
 			}
 		}
@@ -158,10 +179,11 @@ func GetStyles(e Styles, f, val string) []*Style {
 }
 
 // GetStyle returns the style with the specified tag name
-func GetStyle(e Styles, f string) (*Style, error) {
+func GetStyle(e Styles, f string) (Property, error) {
 	styles := e.Styles()
 	for _, as := range styles {
-		if as.Name == f {
+		name, _ := as.Render()
+		if name == f {
 			return as, nil
 		}
 	}
@@ -174,12 +196,13 @@ func GetStyle(e Styles, f string) (*Style, error) {
 func StyleContains(e Styles, f, val string) bool {
 	styles := e.Styles()
 	for _, as := range styles {
-		if !strings.Contains(as.Name, f) {
+		name, value := as.Render()
+		if !strings.Contains(name, f) {
 			continue
 		}
 
 		if val != "" {
-			if !strings.Contains(as.Value, val) {
+			if !strings.Contains(value, val) {
 				continue
 			}
 		}
@@ -193,17 +216,17 @@ func StyleContains(e Styles, f, val string) bool {
 // GetAttrs returns the attributes that have the specified text within the naming
 // convention and if it also contains the set val if not an empty "",
 // NOTE: string.Contains is used
-func GetAttrs(e Attributes, f, val string) []*Attribute {
-
-	var found []*Attribute
+func GetAttrs(e Attributes, f, val string) []Property {
+	var found []Property
 
 	for _, as := range e.Attributes() {
-		if as.Name != f {
+		name, value := as.Render()
+		if name != f {
 			continue
 		}
 
 		if val != "" {
-			if !strings.Contains(as.Value, val) {
+			if !strings.Contains(value, val) {
 				continue
 			}
 		}
@@ -219,12 +242,13 @@ func GetAttrs(e Attributes, f, val string) []*Attribute {
 // NOTE: string.Contains is used
 func AttrContains(e Attributes, f, val string) bool {
 	for _, as := range e.Attributes() {
-		if !strings.Contains(as.Name, f) {
+		name, value := as.Render()
+		if !strings.Contains(name, f) {
 			continue
 		}
 
 		if val != "" {
-			if !strings.Contains(as.Value, val) {
+			if !strings.Contains(value, val) {
 				continue
 			}
 		}
@@ -236,9 +260,10 @@ func AttrContains(e Attributes, f, val string) bool {
 }
 
 // GetAttr returns the attribute with the specified tag name
-func GetAttr(e Attributes, f string) (*Attribute, error) {
+func GetAttr(e Attributes, f string) (Property, error) {
 	for _, as := range e.Attributes() {
-		if as.Name == f {
+		name, _ := as.Render()
+		if name == f {
 			return as, nil
 		}
 	}
@@ -251,8 +276,6 @@ func GetAttr(e Attributes, f string) (*Attribute, error) {
 // Attributes interfaces.
 type MarkupProps interface {
 	Markup
-	Styles
-	Attributes
 }
 
 // ElementsUsingStyle returns the children within the element matching the

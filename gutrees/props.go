@@ -1,16 +1,53 @@
 package gutrees
 
-import (
-	"fmt"
-	"strings"
-)
+import "strings"
 
 //==============================================================================
 
-// Attributes interface defines a type that has Attributes
-type Attributes interface {
-	Attributes() []*Attribute
+// Property defines the interface for attributes in gutrees.
+// It provides a apply and RenderAttribute which returns the key
+// and value for that attribute
+type Property interface {
+	Apply(Markup)
+	Clone() Property
+	Reconcile(Property) bool
+	Render() (string, string)
 }
+
+//==============================================================================
+
+// PropertyApplier defines a package level property applier for markup properties.
+var PropertyApplier properties
+
+type properties struct{}
+
+// MarkupPropertiesProvider defines a interface for a markup to register
+// properties for themselves
+type MarkupPropertiesProvider interface {
+	MarkupState
+	AddAttribute(Property)
+	AddStyle(Property)
+}
+
+// ApplyAttribute adds the property into the Markup attribute lists
+func (properties) ApplyAttribute(ex Markup, p Property) {
+	if em, ok := ex.(MarkupPropertiesProvider); ok {
+		if em.AllowAttributes() {
+			em.AddAttribute(p)
+		}
+	}
+}
+
+// ApplyStyle adds the property into the Markup style lists
+func (properties) ApplyStyle(ex Markup, p Property) {
+	if em, ok := ex.(MarkupPropertiesProvider); ok {
+		if em.AllowStyles() {
+			em.AddStyle(p)
+		}
+	}
+}
+
+//==============================================================================
 
 // Attribute define the struct  for attributes
 type Attribute struct {
@@ -24,35 +61,33 @@ func NewAttr(name, val string) *Attribute {
 	return &a
 }
 
+// Render returns the key and value for this attribute rendered.
+func (a *Attribute) Render() (string, string) {
+	return a.Name, a.Value
+}
+
 // Apply applies a set change to the giving element attributes list
 func (a *Attribute) Apply(e Markup) {
-	if em, ok := e.(*Element); ok {
-		if em.allowAttributes {
-			em.attrs = append(em.attrs, a)
-		}
-	}
+	PropertyApplier.ApplyAttribute(e, a)
 }
 
 //Clone replicates the attribute into a unique instance
-func (a *Attribute) Clone() *Attribute {
+func (a *Attribute) Clone() Property {
 	return &Attribute{Name: a.Name, Value: a.Value}
 }
 
 // Reconcile checks if the attribute matches then upgrades its value.
-func (a *Attribute) Reconcile(m *Attribute) bool {
-	if strings.TrimSpace(a.Name) == strings.TrimSpace(m.Name) {
-		a.Value = m.Value
-		return true
+func (a *Attribute) Reconcile(m Property) bool {
+	if ma, ok := m.(*Attribute); ok {
+		if strings.TrimSpace(a.Name) == strings.TrimSpace(ma.Name) {
+			a.Value = ma.Value
+			return true
+		}
 	}
 	return false
 }
 
 //==============================================================================
-
-// Styles interface defines a type that has Styles
-type Styles interface {
-	Styles() []*Style
-}
 
 // Style define the style specification for element styles
 type Style struct {
@@ -66,25 +101,28 @@ func NewStyle(name, val string) *Style {
 	return &s
 }
 
+// Render returns the key and value for this style rendered.
+func (s *Style) Render() (string, string) {
+	return s.Name, s.Value
+}
+
 //Clone replicates the style into a unique instance
-func (s *Style) Clone() *Style {
+func (s *Style) Clone() Property {
 	return &Style{Name: s.Name, Value: s.Value}
 }
 
 // Apply applies a set change to the giving element style list
 func (s *Style) Apply(e Markup) {
-	if em, ok := e.(*Element); ok {
-		if em.allowStyles {
-			em.styles = append(em.styles, s)
-		}
-	}
+	PropertyApplier.ApplyStyle(e, s)
 }
 
 // Reconcile checks if the style matches then upgrades its value.
-func (s *Style) Reconcile(m *Style) bool {
-	if strings.TrimSpace(s.Name) == strings.TrimSpace(m.Name) {
-		s.Value = m.Value
-		return true
+func (s *Style) Reconcile(m Property) bool {
+	if ma, ok := m.(*Style); ok {
+		if strings.TrimSpace(s.Name) == strings.TrimSpace(ma.Name) {
+			s.Value = ma.Value
+			return true
+		}
 	}
 	return false
 }
@@ -92,64 +130,66 @@ func (s *Style) Reconcile(m *Style) bool {
 //==============================================================================
 
 // ClassList defines the list type for class lists.
-type ClassList []string
+type ClassList struct {
+	list []string
+	name string
+}
+
+// NewClassList returns a new ClassList instance.
+func NewClassList(name string) *ClassList {
+	cl := ClassList{
+		name: name,
+	}
+
+	return &cl
+}
 
 // Add adds a class name into the lists.
 func (c *ClassList) Add(class string) {
-	*c = append(*c, class)
+	c.list = append(c.list, class)
+}
+
+// Render returns the key and value for this style rendered.
+func (c *ClassList) Render() (string, string) {
+	return c.name, strings.Join(c.list, " ")
 }
 
 // Apply checks for a class attribute
 func (c *ClassList) Apply(em Markup) {
-	if len(*c) == 0 {
-		return
-	}
-
-	e, ok := em.(*Element)
-	if !ok {
-		return
-	}
-
-	list := strings.Join(*c, " ")
-
-	a, err := GetAttr(e, "class")
-
-	if err != nil {
-		(&Attribute{Name: "class", Value: "list"}).Apply(e)
-		return
-	}
-
-	a.Value = fmt.Sprintf("%s %s", a.Value, list)
+	PropertyApplier.ApplyAttribute(em, c)
 }
 
 // Clone replicates the lists of classnames.
-func (c *ClassList) Clone() *ClassList {
-	newlist := new(ClassList)
-	*newlist = append(*newlist, (*c)...)
-	return newlist
+func (c ClassList) Clone() Property {
+	return &ClassList{
+		name: c.name,
+		list: c.list[:len(c.list)],
+	}
 }
 
 // Reconcile checks each item against the given lists
 // and replaces/add any missing item.
-func (c *ClassList) Reconcile(m *ClassList) bool {
+func (c *ClassList) Reconcile(m Property) bool {
 	var added bool
 
-	maxlen := len(*c)
+	if mc, ok := m.(*ClassList); ok {
+		maxlen := len(c.list)
 
-	for ind, val := range *c {
+		for ind, val := range mc.list {
 
-		if ind >= maxlen {
+			if ind >= maxlen {
+				added = true
+				c.list = append(c.list, val)
+				continue
+			}
+
+			if (c.list[ind]) == val {
+				continue
+			}
+
 			added = true
-			c.Add(val)
-			continue
+			c.list[ind] = val
 		}
-
-		if (*c)[ind] == val {
-			continue
-		}
-
-		added = true
-		(*c)[ind] = val
 	}
 
 	return added

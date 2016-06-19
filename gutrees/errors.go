@@ -19,5 +19,5 @@ var ErrNotAttr = errors.New("Value type is not n Attribute type")
 // ErrNotFound relating to the attribute types
 var ErrNotFound = errors.New("Item not found")
 
-// Errors relating to the style types
+// ErrNotStyle relating to the style types
 var ErrNotStyle = errors.New("Value type is not a Style type")

@@ -15,36 +15,36 @@ func Px(pixels int) Size {
 }
 
 // Color provides the color style value
-func Color(value string) *gutrees.Style {
+func Color(value string) gutrees.Property {
 	return &gutrees.Style{Name: "color", Value: value}
 }
 
 // Display provides the style setter that sets the css display value.
-func Display(ops string) *gutrees.Style {
+func Display(ops string) gutrees.Property {
 	return &gutrees.Style{Name: "display", Value: ops}
 }
 
 // Height provides the height style value
-func Height(size Size) *gutrees.Style {
+func Height(size Size) gutrees.Property {
 	return &gutrees.Style{Name: "height", Value: string(size)}
 }
 
 // FontSize provides the margin style value
-func FontSize(size Size) *gutrees.Style {
+func FontSize(size Size) gutrees.Property {
 	return &gutrees.Style{Name: "font-size", Value: string(size)}
 }
 
 // Padding provides the margin style value
-func Padding(size Size) *gutrees.Style {
+func Padding(size Size) gutrees.Property {
 	return &gutrees.Style{Name: "padding", Value: string(size)}
 }
 
 // Margin provides the margin style value
-func Margin(size Size) *gutrees.Style {
+func Margin(size Size) gutrees.Property {
 	return &gutrees.Style{Name: "margin", Value: string(size)}
 }
 
 // Width provides the width style value
-func Width(size Size) *gutrees.Style {
+func Width(size Size) gutrees.Property {
 	return &gutrees.Style{Name: "width", Value: string(size)}
 }

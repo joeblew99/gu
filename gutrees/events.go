@@ -2,79 +2,151 @@ package gutrees
 
 import "github.com/influx6/gu/guevents"
 
-// Events provide an interface for markup event addition system
-type Events interface {
-	Events() []*Event
+// Event defines the functions required for a event object.
+type Event interface {
+	Event() string
+	EventID() string
+	SetEventID(string)
+
+	Apply(Markup)
+
+	Meta() guevents.EventMeta
+	Tree() Markup
+	SetTree(Markup)
+
+	Fire(guevents.Event)
+
+	Clone() Event
+	StopPropagation() Event
+	StopImmediatePropagation() Event
+	PreventDefault() Event
 }
 
 // EventHandler provides a custom event handler which allows access to the
 // markup producing the event.
 type EventHandler func(guevents.Event, Markup)
 
-// Event provide a meta registry for helps in registering events for dom markups
+// EventObject provide a meta registry for helps in registering events for dom markups
 // which is translated to the nodes themselves
-type Event struct {
-	Meta *guevents.EventMetable
-	Fx   guevents.EventHandler
+type EventObject struct {
+	meta *guevents.EventMetable
+	fx   EventHandler
 	tree Markup
 }
 
 // NewEvent returns a event object that allows registering events to eventlisteners
-func NewEvent(etype, eselector string, efx EventHandler) *Event {
-	ex := Event{
-		Meta: &guevents.EventMetable{EventType: etype, EventTarget: eselector},
-	}
-
-	// wireup the function to get the ev and tree.
-	ex.Fx = func(ev guevents.Event) {
-		if efx != nil {
-			efx(ev, ex.tree)
-		}
+func NewEvent(eventType, eventSelector string, fx EventHandler) *EventObject {
+	ex := EventObject{
+		fx: fx,
+		meta: &guevents.EventMetable{
+			EventType:   eventType,
+			EventTarget: eventSelector,
+		},
 	}
 
 	return &ex
 }
 
 // StopImmediatePropagation will return itself and set StopPropagation to true
-func (e *Event) StopImmediatePropagation() *Event {
-	e.Meta.ShouldStopImmediatePropagation = true
+func (e *EventObject) StopImmediatePropagation() Event {
+	e.meta.ShouldStopImmediatePropagation = true
 	return e
 }
 
 // StopPropagation will return itself and set StopPropagation to true
-func (e *Event) StopPropagation() *Event {
-	e.Meta.ShouldStopPropagation = true
+func (e *EventObject) StopPropagation() Event {
+	e.meta.ShouldStopPropagation = true
 	return e
+}
+
+// Meta returns the meta associated with the giving event.
+func (e *EventObject) Meta() guevents.EventMeta {
+	return e.meta
 }
 
 // PreventDefault will return itself and set PreventDefault to true
-func (e *Event) PreventDefault() *Event {
-	e.Meta.ShouldPreventDefault = true
+func (e *EventObject) PreventDefault() Event {
+	e.meta.ShouldPreventDefault = true
 	return e
 }
 
-// Events return the elements events
-func (e *Element) Events() []*Event {
-	return e.events
+// Fire calls the giving event watcher with the provided guevents.Event.
+func (e *EventObject) Fire(evs guevents.Event) {
+	if e.fx != nil {
+		e.fx(evs, e.tree)
+	}
+}
+
+// Event returns the type of  the event.
+func (e *EventObject) Event() string {
+	return e.meta.EventType
+}
+
+// EventID returns the current event target for the event.
+func (e *EventObject) EventID() string {
+	return e.meta.EventTarget
+}
+
+// Tree returns the current tree used for attachment by the event.
+func (e *EventObject) Tree() Markup {
+	return e.tree
+}
+
+// SetTree sets the current tree for which the events bind to.
+func (e *EventObject) SetTree(m Markup) {
+	e.tree = m
+}
+
+// SetEventID sets the ID for the event which it attaches to.
+func (e *EventObject) SetEventID(id string) {
+	e.meta.EventTarget = id
+}
+
+//Clone replicates the style into a unique instance
+func (e *EventObject) Clone() Event {
+	ce := EventObject{
+		fx: e.fx,
+		meta: &guevents.EventMetable{
+			EventType:   e.meta.EventType,
+			EventTarget: e.meta.EventTarget,
+		},
+	}
+
+	return &ce
 }
 
 // Apply adds the event into the elements events lists
-func (e *Event) Apply(ex Markup) {
-	if em, ok := ex.(*Element); ok {
-		if em.allowEvents {
-			if e.Meta.EventTarget == "" {
-				e.Meta.EventTarget = em.EventID()
+func (e *EventObject) Apply(ex Markup) {
+	EventApplier.Apply(ex, e)
+}
+
+//==============================================================================
+
+// EventApplier defines a package level event applier for events.
+var EventApplier eventy
+
+type eventy struct{}
+
+// MarkupEventProvider defines an interface for MarkupEvents providers that
+// allows structures to register events for themselves.
+type MarkupEventProvider interface {
+	MarkupState
+	EventID() string
+	AddEvent(Event)
+}
+
+// Apply adds the event into the elements events lists
+func (eventy) Apply(ex Markup, ev Event) {
+	if em, ok := ex.(MarkupEventProvider); ok {
+		if em.AllowEvents() {
+			if ev.EventID() == "" {
+				ev.SetEventID(ex.EventID())
 			}
-			e.tree = em
-			em.events = append(em.events, e)
+
+			ev.SetTree(ex)
+			em.AddEvent(ev)
 		}
 	}
 }
 
-//Clone replicates the style into a unique instance
-func (e *Event) Clone() *Event {
-	return &Event{
-		Meta: &guevents.EventMetable{EventType: e.Meta.EventType, EventTarget: e.Meta.EventTarget},
-		Fx:   e.Fx,
-	}
-}
+//==============================================================================

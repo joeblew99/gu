@@ -68,6 +68,11 @@ func (r render) Render(sel string, p Properties, dst io.Writer) {
 
 //==============================================================================
 
+// MediaRender defines an interface for a MediaQuery rendering structure.
+type MediaRender interface {
+	Render(Group, io.Writer)
+}
+
 // Media defines a structure which constructs the media query tree for
 // gucss.
 type Media struct {

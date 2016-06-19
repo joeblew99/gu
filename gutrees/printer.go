@@ -57,7 +57,7 @@ func SetMode(ms Mode) {
 
 // AttrPrinter defines a printer interface for writing out a Attribute objects into a string form
 type AttrPrinter interface {
-	Print([]*Attribute) string
+	Print([]Property) string
 }
 
 // SimpleAttrWriter provides a basic attribute writer
@@ -69,7 +69,7 @@ type AttrWriter struct{}
 const attrformt = ` %s="%s"`
 
 // Print returns a stringed repesentation of the attribute object
-func (m AttrWriter) Print(a []*Attribute) string {
+func (m AttrWriter) Print(a []Property) string {
 	if len(a) <= 0 {
 		return ""
 	}
@@ -77,7 +77,8 @@ func (m AttrWriter) Print(a []*Attribute) string {
 	attrs := []string{}
 
 	for _, ar := range a {
-		attrs = append(attrs, fmt.Sprintf(attrformt, ar.Name, ar.Value))
+		name, val := ar.Render()
+		attrs = append(attrs, fmt.Sprintf(attrformt, name, val))
 	}
 
 	return strings.Join(attrs, " ")
@@ -87,7 +88,7 @@ func (m AttrWriter) Print(a []*Attribute) string {
 
 // StylePrinter defines a printer interface for writing out a style objects into a string form
 type StylePrinter interface {
-	Print([]*Style) string
+	Print([]Property) string
 }
 
 // SimpleStyleWriter provides a basic style writer
@@ -99,7 +100,7 @@ type StyleWriter struct{}
 const styleformt = " %s:%s;"
 
 // Print returns a stringed repesentation of the style object
-func (m StyleWriter) Print(s []*Style) string {
+func (m StyleWriter) Print(s []Property) string {
 	if len(s) <= 0 {
 		return ""
 	}
@@ -107,7 +108,8 @@ func (m StyleWriter) Print(s []*Style) string {
 	css := []string{}
 
 	for _, cs := range s {
-		css = append(css, fmt.Sprintf(styleformt, cs.Name, cs.Value))
+		name, val := cs.Render()
+		css = append(css, fmt.Sprintf(styleformt, name, val))
 	}
 
 	return strings.Join(css, " ")
@@ -186,7 +188,7 @@ func (m *ElementWriter) Print(e *Element) string {
 	}
 
 	//management attributes
-	var mido []*Attribute
+	var mido []Property
 
 	//collect uid and hash of the element so we can write them along
 	if GetMode() < Testing {
