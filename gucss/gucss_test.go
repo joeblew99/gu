@@ -45,7 +45,7 @@ func TestBasicCSS(t *testing.T) {
 				"padding": "3px",
 			}).NthParent(1).Child("a", gucss.Properties{
 				"color": "#ccc",
-			}).NthParent(2).NS("hover", gucss.Properties{
+			}).NthParent(2).NS(":hover", gucss.Properties{
 				"padding": "30px",
 			})
 

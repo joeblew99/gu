@@ -314,7 +314,7 @@ func (bg *baseGroup) NS(ns string, p Properties) Group {
 		return bg
 	}
 
-	newSel := bg.selector + ":" + ns
+	newSel := bg.selector + ns
 
 	kid := newbaseGroup(bg.selector, newSel, p, bg)
 	bg.kids = append(bg.kids, kid)
@@ -443,7 +443,7 @@ func Child(root Group, p Properties, sels ...string) {
 //
 //    parentSelector{{NS}} {...}
 func NS(root Group, p Properties, sels ...string) {
-	oldSel := root.Selector() + ":"
+	oldSel := root.Selector()
 
 	var newSel []string
 
