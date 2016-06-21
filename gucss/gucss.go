@@ -92,9 +92,8 @@ type Group interface {
 // a means of creating a clean stylesheet slate from. It acts as the
 // root before '*' within a css stylesheet.
 func NewRoot() Group {
-	bg := NewBaseGroup("", nil, nil)
+	bg := newbaseGroup("", "", nil, nil)
 	bg.root = true
-	bg.seperator = ""
 	return bg
 }
 

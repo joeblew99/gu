@@ -15,7 +15,7 @@ var (
 // TestBasicCSS validates the behaviour of the gucss generation parser.
 func TestBasicCSS(t *testing.T) {
 
-	var expected = []byte("@media (width: 30em) and (height: 40em) screen {\n* {\n\tmargin: 0px;\n\tpadding: 0px;\n}\n\nhtml {\n\twidth: 100%;\n}\n\nhtml body {\n\twidth: 100%;\n\tfont-size: 1em;\n}\n\ndiv {\n}\n\ndiv ul {\n\tlist-style-type: none;\n}\n\ndiv ul, div ol {\n\tlist-style-type: none;\n}\n\ndiv ul ~ li {\n\tpadding: 10px;\n}\n\ndiv ul ~ li + span {\n\tpadding: 3px;\n}\n\ndiv ul ~ li > a {\n\tcolor: #ccc;\n}\n\ndiv ul:hover  {\n\tpadding: 30px;\n}\n\n}\n\n")
+	var expected = []byte("@media (width: 30em) and (height: 40em) screen {\n   * {\n   \tmargin: 0px;\n   \tpadding: 0px;\n   \n   }\n   html {\n   \twidth: 100%;\n   \n   }\n   html body {\n   \twidth: 100%;\n   \tfont-size: 1em;\n   \n   }\n   div {\n   \n   }\n   div ul {\n   \tlist-style-type: none;\n   \n   }\n   div ul, div ol {\n   \tlist-style-type: none;\n   \n   }\n   div ul ~ li {\n   \tpadding: 10px;\n   \n   }\n   div ul ~ li + span {\n   \tpadding: 3px;\n   \n   }\n   div ul ~ li > a {\n   \tcolor: #ccc;\n   \n   }\n   div ul:hover {\n   \tpadding: 30px;\n   \n   }\n   \n}\n")
 
 	t.Logf("Given the need to generate css styles")
 	{
@@ -45,7 +45,7 @@ func TestBasicCSS(t *testing.T) {
 				"padding": "3px",
 			}).NthParent(1).Child("a", gucss.Properties{
 				"color": "#ccc",
-			}).NthParent(2).NS(":hover", gucss.Properties{
+			}).NthParent(2).NS("hover", gucss.Properties{
 				"padding": "30px",
 			})
 

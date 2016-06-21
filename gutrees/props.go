@@ -10,7 +10,6 @@ import "strings"
 type Property interface {
 	Apply(Markup)
 	Clone() Property
-	Reconcile(Property) bool
 	Render() (string, string)
 }
 
@@ -94,16 +93,16 @@ func (a *Attribute) Clone() Property {
 	return &Attribute{Name: a.Name, Value: a.Value}
 }
 
-// Reconcile checks if the attribute matches then upgrades its value.
-func (a *Attribute) Reconcile(m Property) bool {
-	if ma, ok := m.(*Attribute); ok {
-		if strings.TrimSpace(a.Name) == strings.TrimSpace(ma.Name) {
-			a.Value = ma.Value
-			return true
-		}
-	}
-	return false
-}
+// // Reconcile checks if the attribute matches then upgrades its value.
+// func (a *Attribute) Reconcile(m Property) bool {
+// 	if ma, ok := m.(*Attribute); ok {
+// 		if strings.TrimSpace(a.Name) == strings.TrimSpace(ma.Name) {
+// 			a.Value = ma.Value
+// 			return true
+// 		}
+// 	}
+// 	return false
+// }
 
 //==============================================================================
 
@@ -134,16 +133,16 @@ func (s *Style) Apply(e Markup) {
 	PropertyApplier.ApplyStyle(e, s)
 }
 
-// Reconcile checks if the style matches then upgrades its value.
-func (s *Style) Reconcile(m Property) bool {
-	if ma, ok := m.(*Style); ok {
-		if strings.TrimSpace(s.Name) == strings.TrimSpace(ma.Name) {
-			s.Value = ma.Value
-			return true
-		}
-	}
-	return false
-}
+// // Reconcile checks if the style matches then upgrades its value.
+// func (s *Style) Reconcile(m Property) bool {
+// 	if ma, ok := m.(*Style); ok {
+// 		if strings.TrimSpace(s.Name) == strings.TrimSpace(ma.Name) {
+// 			s.Value = ma.Value
+// 			return true
+// 		}
+// 	}
+// 	return false
+// }
 
 //==============================================================================
 

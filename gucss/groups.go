@@ -4,8 +4,31 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"strings"
 	"sync"
 )
+
+//==============================================================================
+
+// minifyOption defines a variable where all the option to minify css rendering
+// is turned on.
+var minifyOption = struct {
+	minify bool
+	rl     sync.RWMutex
+}{}
+
+// SetMinitfy sets the current value of the minify option.
+func SetMinitfy(state bool) {
+	minifyOption.rl.Lock()
+	defer minifyOption.rl.Unlock()
+	minifyOption.minify = state
+}
+
+func getMinitfy() bool {
+	minifyOption.rl.RLock()
+	defer minifyOption.rl.RUnlock()
+	return minifyOption.minify
+}
 
 //==============================================================================
 
@@ -14,56 +37,79 @@ var CSSRender render
 
 type render struct{}
 
-// CSSMediaFormat defines the format for each css property.
-const CSSMediaFormat = "(%+s: %+s)"
+// cssMediaFormat defines the format for each css property.
+const cssMediaFormat = "(%+s: %+s)"
 
 // RenderMediaAttribute renders the attribute format for a css key: value pair.
 func (r render) RenderMediaAttribute(key string, val interface{}, dst io.Writer) {
 	switch val.(type) {
 	case PropertyRender:
-		dst.Write([]byte(fmt.Sprintf(CSSMediaFormat, key, val.(PropertyRender).Render())))
+		dst.Write([]byte(fmt.Sprintf(cssMediaFormat, key, val.(PropertyRender).Render())))
 		return
 	default:
-		dst.Write([]byte(fmt.Sprintf(CSSMediaFormat, key, val)))
+		dst.Write([]byte(fmt.Sprintf(cssMediaFormat, key, val)))
 		return
 	}
 }
 
-// CSSPropertyFormat defines the format for each css property.
-const CSSPropertyFormat = "\t%+s: %+s;\n"
+// cssPropertyFormat defines the format for each css property.
+const cssPropertyFormat = "\t%+s: %+s;\n"
+const cssPropertyFormatMinified = "%+s: %+s;"
 
 // RenderAttribute renders the attribute format for a css key: value pair.
 func (r render) RenderAttribute(key string, val interface{}, dst io.Writer) {
+	var format string
+
+	if getMinitfy() {
+		format = cssPropertyFormatMinified
+	} else {
+		format = cssPropertyFormat
+	}
+
 	switch val.(type) {
 	case PropertyRender:
-		dst.Write([]byte(fmt.Sprintf(CSSPropertyFormat, key, val.(PropertyRender).Render())))
+		dst.Write([]byte(fmt.Sprintf(format, key, val.(PropertyRender).Render())))
 		return
 	default:
-		dst.Write([]byte(fmt.Sprintf(CSSPropertyFormat, key, val)))
+		dst.Write([]byte(fmt.Sprintf(format, key, val)))
 		return
 	}
 }
 
-// CSSPropertyBracket defines the bracket format for the css bracket.
-const CSSPropertyBracket = "%+s {\n%+s}\n\n"
+// cssPropertyBracket defines the bracket format for the css bracket.
+const cssPropertyBracket = "%+s {\n%+s\n}\n"
+
+// cssPropertyBracketMinify defines the bracket format for the css bracket.
+const cssPropertyBracketMinify = "%+s {%+s}"
 
 // Render calls the giving render function for the giving properties and selector
 // into the provided destination writer.
 func (r render) Render(sel string, p Properties, dst io.Writer) {
 	var ws bytes.Buffer
 
+	var format string
+	var bracketformat string
+
+	if getMinitfy() {
+		format = cssPropertyFormatMinified
+		bracketformat = cssPropertyBracketMinify
+	} else {
+		bracketformat = cssPropertyBracket
+		format = cssPropertyFormat
+	}
+
 	for key, val := range p {
 		switch val.(type) {
 		case PropertyRender:
-			ws.Write([]byte(fmt.Sprintf(CSSPropertyFormat, key, val.(PropertyRender).Render())))
+			ws.Write([]byte(fmt.Sprintf(format, key, val.(PropertyRender).Render())))
 			continue
 		default:
-			ws.Write([]byte(fmt.Sprintf(CSSPropertyFormat, key, val)))
+			ws.Write([]byte(fmt.Sprintf(format, key, val)))
 			continue
 		}
 	}
 
-	dst.Write([]byte(fmt.Sprintf(CSSPropertyBracket, sel, ws.Bytes())))
+	dst.Write([]byte(fmt.Sprintf(bracketformat, sel, ws.Bytes())))
 }
 
 //==============================================================================
@@ -91,8 +137,29 @@ func (m *Media) Render(g Group, dst io.Writer) {
 	var b bytes.Buffer
 	g.Render(&b)
 
+	var indent bool
+	var format string
+
+	if getMinitfy() {
+		format = cssPropertyBracketMinify
+	} else {
+		format = cssPropertyBracket
+		indent = true
+	}
+
+	if indent {
+		var parts [][]byte
+
+		for _, item := range bytes.Split(b.Bytes(), []byte("\n")) {
+			parts = append(parts, append([]byte("   "), item...))
+		}
+
+		b.Reset()
+		b.Write(bytes.Join(parts, []byte("\n")))
+	}
+
 	query := fmt.Sprintf("@media %s %s", m.device, m.query)
-	qm := fmt.Sprintf(CSSPropertyBracket, query, b.Bytes())
+	qm := fmt.Sprintf(format, query, b.Bytes())
 
 	dst.Write([]byte(qm))
 }
@@ -135,13 +202,13 @@ func (n *NGroup) Append(g Group) *NGroup {
 
 //==============================================================================
 
-// BaseGroup defines the base line group structure which others compose. It contains
+// baseGroup defines the base line group structure which others compose. It contains
 // the base structure needed to meet the Group interface.
-type BaseGroup struct {
+type baseGroup struct {
 	base *NGroup
 
-	sel       string
-	seperator string
+	sel      string
+	selector string
 
 	root bool
 
@@ -151,12 +218,12 @@ type BaseGroup struct {
 	prw        sync.RWMutex
 }
 
-// NewBaseGroup return a new instance of a BaseGroup.
-func NewBaseGroup(sel string, p Properties, root Group) *BaseGroup {
-	bg := &BaseGroup{
+// NewbaseGroup return a new instance of a baseGroup.
+func newbaseGroup(sel string, selector string, p Properties, root Group) *baseGroup {
+	bg := &baseGroup{
 		sel:        sel,
+		selector:   selector,
 		properties: p,
-		seperator:  " ",
 	}
 
 	if root != nil {
@@ -169,13 +236,13 @@ func NewBaseGroup(sel string, p Properties, root Group) *BaseGroup {
 }
 
 // Tree returns the internal group chain tree.
-func (bg *BaseGroup) Tree() *NGroup {
+func (bg *baseGroup) Tree() *NGroup {
 	return bg.base
 }
 
-// Render implements the Render interface for the BaseGroup and returns the
+// Render implements the Render interface for the baseGroup and returns the
 // property title and content for this group.
-func (bg *BaseGroup) Render(dst io.Writer) {
+func (bg *baseGroup) Render(dst io.Writer) {
 	if !bg.root {
 		bg.prw.RLock()
 		CSSRender.Render(bg.Selector(), bg.properties, dst)
@@ -185,8 +252,8 @@ func (bg *BaseGroup) Render(dst io.Writer) {
 	bg.renderKids(dst)
 }
 
-// Add augments the giving properties into the BaseGroup properties map.
-func (bg *BaseGroup) Add(p Properties) {
+// Add augments the giving properties into the baseGroup properties map.
+func (bg *baseGroup) Add(p Properties) {
 	bg.prw.Lock()
 	defer bg.prw.Unlock()
 
@@ -205,15 +272,15 @@ func (bg *BaseGroup) Add(p Properties) {
 // the format:
 //
 //    rootSel parentSelector , rootSel sel {...}
-func (bg *BaseGroup) Extend(sel string, p Properties) Group {
-	var sig string
+func (bg *baseGroup) Extend(sel string, p Properties) Group {
+	newSel := sel
+	root := bg.NthParent(1)
 
 	if !bg.root {
-		sig = ", "
+		newSel = bg.Selector() + ", " + root.Selector() + " " + sel
 	}
 
-	newSel := bg.NthParent(1).Selector() + " " + sel
-	kid := newSignGroup(sig, newSel, p, bg)
+	kid := newbaseGroup(sel, newSel, p, bg)
 	bg.kids = append(bg.kids, kid)
 	return bg
 }
@@ -222,14 +289,14 @@ func (bg *BaseGroup) Extend(sel string, p Properties) Group {
 // the format:
 //
 //    parentSelector ~ childSelector {...}
-func (bg *BaseGroup) PreSibling(sel string, p Properties) Group {
-	var sig string
+func (bg *baseGroup) PreSibling(sel string, p Properties) Group {
+	newSel := sel
 
 	if !bg.root {
-		sig = " ~ "
+		newSel = bg.Selector() + " ~ " + sel
 	}
 
-	kid := newSignGroup(sig, sel, p, bg)
+	kid := newbaseGroup(sel, newSel, p, bg)
 	bg.kids = append(bg.kids, kid)
 	return kid
 }
@@ -242,14 +309,14 @@ func (bg *BaseGroup) PreSibling(sel string, p Properties) Group {
 //       eg
 //        if NS = ":hover"
 //         then 'div' becomes 'div:hover'
-func (bg *BaseGroup) NS(ns string, p Properties) Group {
-	var sig string
-
-	if !bg.root {
-		sig = ns
+func (bg *baseGroup) NS(ns string, p Properties) Group {
+	if bg.root {
+		return bg
 	}
 
-	kid := newSignGroup(sig, " ", p, bg)
+	newSel := bg.selector + ":" + ns
+
+	kid := newbaseGroup(bg.selector, newSel, p, bg)
 	bg.kids = append(bg.kids, kid)
 	return kid
 }
@@ -258,14 +325,14 @@ func (bg *BaseGroup) NS(ns string, p Properties) Group {
 // the format:
 //
 //    parentSelector + childSelector {...}
-func (bg *BaseGroup) PostSibling(sel string, p Properties) Group {
-	var sig string
+func (bg *baseGroup) PostSibling(sel string, p Properties) Group {
+	newSel := sel
 
 	if !bg.root {
-		sig = " + "
+		newSel = bg.Selector() + " + " + sel
 	}
 
-	kid := newSignGroup(sig, sel, p, bg)
+	kid := newbaseGroup(sel, newSel, p, bg)
 	bg.kids = append(bg.kids, kid)
 	return kid
 }
@@ -274,14 +341,14 @@ func (bg *BaseGroup) PostSibling(sel string, p Properties) Group {
 // the format:
 //
 //    parentSelector  childSelector {...}
-func (bg *BaseGroup) Within(sel string, p Properties) Group {
-	var sig string
+func (bg *baseGroup) Within(sel string, p Properties) Group {
+	newSel := sel
 
 	if !bg.root {
-		sig = " "
+		newSel = bg.Selector() + " " + sel
 	}
 
-	kid := newSignGroup(sig, sel, p, bg)
+	kid := newbaseGroup(sel, newSel, p, bg)
 	bg.kids = append(bg.kids, kid)
 	return kid
 }
@@ -290,46 +357,37 @@ func (bg *BaseGroup) Within(sel string, p Properties) Group {
 // the format:
 //
 //    parentSelector > childSelector {...}
-func (bg *BaseGroup) Child(sel string, p Properties) Group {
-	var sig string
+func (bg *baseGroup) Child(sel string, p Properties) Group {
+	newSel := sel
 
 	if !bg.root {
-		sig = " > "
+		newSel = bg.Selector() + " > " + sel
 	}
 
-	kid := newSignGroup(sig, sel, p, bg)
+	kid := newbaseGroup(sel, newSel, p, bg)
 	bg.kids = append(bg.kids, kid)
 	return kid
 }
 
-// Sel returns the selector for the giving BaseGroup.
-func (bg *BaseGroup) Sel() string {
+// Sel returns the selector for the giving baseGroup.
+func (bg *baseGroup) Sel() string {
 	return bg.sel
 }
 
 // Selector returns the selector with the appropriate sign for the type
-// for the giving BaseGroup.
-func (bg *BaseGroup) Selector() string {
-	root := bg.NthParent(1)
-	if root != nil && root != bg {
-		sel := root.Selector()
-
-		if sel != "" {
-			return root.Selector() + bg.seperator + bg.sel
-		}
-	}
-
-	return bg.sel
+// for the giving baseGroup.
+func (bg *baseGroup) Selector() string {
+	return bg.selector
 }
 
-// Root returns the main root of the BaseGroup parent chain.
-func (bg *BaseGroup) Root() Group {
+// Root returns the main root of the baseGroup parent chain.
+func (bg *baseGroup) Root() Group {
 	return bg.base.Root().grp
 }
 
 // NthParent returns the Group after the giving count if the count is
 // greater than zero else returns main root of all parents chain.
-func (bg *BaseGroup) NthParent(back int) Group {
+func (bg *baseGroup) NthParent(back int) Group {
 	var root *NGroup
 
 	if back > 0 {
@@ -341,8 +399,13 @@ func (bg *BaseGroup) NthParent(back int) Group {
 	return root.grp
 }
 
-// renderKids renders the children of the BaseGroup.
-func (bg *BaseGroup) renderKids(dst io.Writer) {
+// addGroup adds the group into thhe BaseGroup.
+func (bg *baseGroup) addGroup(g Group) {
+	bg.kids = append(bg.kids, g)
+}
+
+// renderKids renders the children of the baseGroup.
+func (bg *baseGroup) renderKids(dst io.Writer) {
 
 	// Wrap up the children tree and build the appropriate content
 	for _, kid := range bg.kids {
@@ -352,24 +415,25 @@ func (bg *BaseGroup) renderKids(dst io.Writer) {
 
 //==============================================================================
 
-// newSignGroup returns a new instance of a group with a moded sign.
-// The format:
-//
-//    parentSelector {{signature}} childSelector {...}
-func newSignGroup(sign string, sel string, p Properties, root Group) Group {
-	bg := NewBaseGroup(sel, p, root)
-	bg.seperator = sign
-	return bg
-}
-
-//==============================================================================
-
-// Child defines a group for child selector properties.
+// Child defines a group for a set of child selector with given properties.
 // The format:
 //
 //    parentSelector > childSelector {...}
-func Child(sel string, p Properties, root Group) Group {
-	return root.Child(sel, p)
+func Child(root Group, p Properties, sels ...string) {
+	oldSel := root.Selector() + " > "
+
+	var newSel []string
+
+	for _, sel := range sels {
+		newSel = append(newSel, oldSel+sel)
+	}
+
+	sel := strings.Join(newSel, ",")
+	gm := newbaseGroup(sel, sel, p, root)
+
+	if bm, ok := root.(*baseGroup); ok {
+		bm.addGroup(gm)
+	}
 }
 
 //==============================================================================
@@ -378,8 +442,22 @@ func Child(sel string, p Properties, root Group) Group {
 // The format:
 //
 //    parentSelector{{NS}} {...}
-func NS(ns string, p Properties, root Group) Group {
-	return root.NS(ns, p)
+func NS(root Group, p Properties, sels ...string) {
+	oldSel := root.Selector() + ":"
+
+	var newSel []string
+
+	for _, sel := range sels {
+		newSel = append(newSel, oldSel+sel)
+	}
+
+	sel := strings.Join(newSel, ",")
+	gm := newbaseGroup(sel, sel, p, root)
+
+	if bm, ok := root.(*baseGroup); ok {
+		bm.addGroup(gm)
+	}
+
 }
 
 //==============================================================================
@@ -388,8 +466,21 @@ func NS(ns string, p Properties, root Group) Group {
 // The format:
 //
 //    parentSelector , childSelector {...}
-func Extend(sel string, p Properties, root Group) Group {
-	return root.Extend(sel, p)
+func Extend(root Group, p Properties, sels ...string) {
+	oldSel := root.NthParent(1).Selector()
+
+	var newSel []string
+
+	for _, sel := range sels {
+		newSel = append(newSel, oldSel+" "+sel)
+	}
+
+	sel := strings.Join(newSel, ",")
+	gm := newbaseGroup(sel, root.Selector()+", "+sel, p, root)
+
+	if bm, ok := root.(*baseGroup); ok {
+		bm.addGroup(gm)
+	}
 }
 
 //==============================================================================
@@ -398,16 +489,42 @@ func Extend(sel string, p Properties, root Group) Group {
 // The format:
 //
 //    Pre: parentSelector ~ childSelector {...}
-func PreSibling(sel string, p Properties, root Group) Group {
-	return root.PreSibling(sel, p)
+func PreSibling(root Group, p Properties, sels ...string) {
+	oldSel := root.Selector() + " ~ "
+
+	var newSel []string
+
+	for _, sel := range sels {
+		newSel = append(newSel, oldSel+sel)
+	}
+
+	sel := strings.Join(newSel, ",")
+	gm := newbaseGroup(sel, sel, p, root)
+
+	if bm, ok := root.(*baseGroup); ok {
+		bm.addGroup(gm)
+	}
 }
 
 // PostSibling defines the grouping of sibling properties.
 // The format:
 //
 //    Post: parentSelector + childSelector {...}
-func PostSibling(sel string, p Properties, root Group) Group {
-	return root.PostSibling(sel, p)
+func PostSibling(root Group, p Properties, sels ...string) {
+	oldSel := root.Selector() + " + "
+
+	var newSel []string
+
+	for _, sel := range sels {
+		newSel = append(newSel, oldSel+sel)
+	}
+
+	sel := strings.Join(newSel, ",")
+	gm := newbaseGroup(sel, sel, p, root)
+
+	if bm, ok := root.(*baseGroup); ok {
+		bm.addGroup(gm)
+	}
 }
 
 //==============================================================================
@@ -416,8 +533,21 @@ func PostSibling(sel string, p Properties, root Group) Group {
 // The format:
 //
 //    parentSelector  childSelector {...}
-func Within(sel string, p Properties, root Group) Group {
-	return root.Within(sel, p)
+func Within(root Group, p Properties, sels ...string) {
+	oldSel := root.Selector() + "  "
+
+	var newSel []string
+
+	for _, sel := range sels {
+		newSel = append(newSel, oldSel+sel)
+	}
+
+	sel := strings.Join(newSel, ",")
+	gm := newbaseGroup(sel, sel, p, root)
+
+	if bm, ok := root.(*baseGroup); ok {
+		bm.addGroup(gm)
+	}
 }
 
 //==============================================================================
