@@ -69,4 +69,11 @@ func (d *Dashboard) Render() gutrees.Markup {
 func main() {
 	dashboard := NewDashboard()
 
+	visitors := NewStatItem("Visitor's Count", 200)
+	clickRate := NewStatItem("Click Rates", 100)
+	bounceRate := NewStatItem("Bounce Rate", 100)
+
+	dashboard.Add(visitors)
+	dashboard.Add(clickRate)
+	dashboard.Add(bounceRate)
 }
