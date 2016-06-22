@@ -73,5 +73,5 @@ func (d *Dashboard) Render() gutrees.Markup {
 ```
 
 # Views
-Views are the core mechanism by which components get exposed to the DOM. They manage the rendering and update of the DOM by listening for change notifications. Due to the nature of `gu`
-and because of the need of simplicity, there is
+Views are the core mechanism by which components get exposed to the DOM. They manage the rendering and update of the DOM by listening for change notifications. Due to the need for simplicity, this library ensures to only provided the minimal
+needed tools to attain the best result, that is, it does not have an opinionated approach for how developers should use it but rather suggest best approach that bring best results.
