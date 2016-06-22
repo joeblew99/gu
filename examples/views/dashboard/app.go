@@ -1,71 +1,72 @@
 package main
 
 import (
-	"fmt"
-	"time"
-
-	"github.com/influx6/gu"
-	"github.com/influx6/gu/gudispatch"
 	"github.com/influx6/gu/gutrees"
 	"github.com/influx6/gu/gutrees/attrs"
 	"github.com/influx6/gu/gutrees/elems"
 	"github.com/influx6/gu/guviews"
 )
 
-// SpeedCounter defines a Speedometer component.
-type SpeedCounter struct {
-	Speed float64
+// StatItem defines a component which defines a stat item on a dashboard.
+type StatItem struct {
+	guviews.Reactive
+	Name  string
+	Value interface{}
 }
 
-// Increment adds the giving value to the speed.
-func (sc *SpeedCounter) Increment(m float64) {
-	sc.Speed += m
+// NewStatItem returns a new instance of a StatItem.
+func NewStatItem(name string, val interface{}) *StatItem {
+	return &StatItem{
+		Reactive: guviews.NewReactive(),
+		Name:     name,
+		Value:    val,
+	}
 }
 
-// Render renders the markup for the speed counter.
-func (sc *SpeedCounter) Render() gutrees.Markup {
-	root := elems.Div(
-		elems.Label(attrs.Class("speed-title"), elems.Text("Speed ")),
-		elems.Label(attrs.Class("speed-value"), elems.Text(fmt.Sprintf("%.4f mps", sc.Speed))),
-	)
-	return root
-}
-
-// Dashbaord defines a Dashboard component.
-type Dashbaord struct {
-	Speed *SpeedCounter
-}
-
-// Render renders the markup for the dashboard.
-func (sc *Dashbaord) Render() gutrees.Markup {
-	root := elems.Div(
-		elems.Section(
-			elems.Header2(elems.Text("Speedometer")),
-			sc.Speed.Render(),
+// Render returns the markup for a StatItem.
+func (s *StatItem) Render() gutrees.Markup {
+	return elems.Section(
+		attrs.Class("stat"),
+		elems.Label(
+			attrs.Class("statDetail header"),
+			elems.Header3(elems.Text(s.Name)),
+		),
+		elems.Label(
+			attrs.Class("statDetail value"),
+			elems.Text(s.Value),
 		),
 	)
+}
+
+// Dashboard defines a dashboard component which displays different stats.
+type Dashboard struct {
+	guviews.Reactive
+	stats []StatItem
+}
+
+// NewDashboard returns a new instance of a Dashboard.
+func NewDashboard() *Dashboard {
+	return &Dashboard{Reactive: guviews.NewReactive()}
+}
+
+// Add adds a new stat into the list of stats displayed by the dashboard
+func (d Dashboard) Add(stat StatItem) {
+	d.stats = append(d.stats, stat)
+	stat.Subscribe(d.Publish)
+}
+
+// Render returns the markup for the Dashboard component.
+func (d *Dashboard) Render() gutrees.Markup {
+	root := elems.Div(attrs.Class("dashboard"))
+
+	for _, stat := range d.stats {
+		stat.Render().Apply(root)
+	}
 
 	return root
 }
 
 func main() {
-
-	dashy := &Dashbaord{
-		Speed: &SpeedCounter{Speed: 40.072},
-	}
-
-	dashyView := guviews.New(dashy)
-
-	gu.RenderAsBody(dashyView)
-
-	for {
-		time.Sleep(4 * time.Second)
-
-		// Increase the speed count.
-		dashy.Speed.Increment(40.0)
-
-		// Notify the view of new update.
-		gudispatch.Dispatch(&guviews.ViewUpdate{ID: dashyView.UUID()})
-	}
+	dashboard := NewDashboard()
 
 }

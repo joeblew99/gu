@@ -270,6 +270,74 @@ func GetAttr(e Attributes, f string) (Property, error) {
 	return nil, ErrNotFound
 }
 
+// ReplaceStyle replaces a specific style with the given
+// name with the supplied value.
+func ReplaceStyle(m Styles, name string, val string) {
+	styl, err := GetStyle(m, name)
+	if err != nil {
+		return
+	}
+
+	stylm, ok := styl.(*Style)
+	if !ok {
+		return
+	}
+
+	stylm.Value = val
+}
+
+// ReplaceAttribute replaces a specific attribute with the given
+// name with the supplied value.
+func ReplaceAttribute(m Attributes, name string, val string) {
+	attr, err := GetAttr(m, name)
+	if err != nil {
+		return
+	}
+
+	attrm, ok := attr.(*Attribute)
+	if !ok {
+		return
+	}
+
+	attrm.Value = val
+}
+
+// ReplaceORAddStyle replaces a specific style with the given
+// name with the supplied value if not found it adds a new one
+// if found and if the type does not match a *Style then it stops.
+func ReplaceORAddStyle(m Properties, name string, val string) {
+	styl, err := GetStyle(m, name)
+	if err != nil {
+		m.AddStyle(NewStyle(name, val))
+		return
+	}
+
+	stylm, ok := styl.(*Style)
+	if !ok {
+		return
+	}
+
+	stylm.Value = val
+}
+
+// ReplaceORAddAttribute replaces a specific attribute with the given
+// name with the supplied value if not found it adds a new one
+// if found and if the type does not match a *Style then it stops.
+func ReplaceORAddAttribute(m Properties, name string, val string) {
+	attr, err := GetAttr(m, name)
+	if err != nil {
+		m.AddAttribute(NewAttr(name, val))
+		return
+	}
+
+	attrm, ok := attr.(*Attribute)
+	if !ok {
+		return
+	}
+
+	attrm.Value = val
+}
+
 //==============================================================================
 
 // MarkupProps defines a custom type that combines the Markup, Styles and

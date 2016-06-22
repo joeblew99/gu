@@ -156,8 +156,8 @@ import (
 )
 
 // Text provides the concrete implementation for using the domtrees.Text struct
-func Text(txt string) gutrees.Markup {
-	return gutrees.NewText(txt)
+func Text(item interface{}) gutrees.Markup {
+	return gutrees.NewText(fmt.Sprintf("%+v",item))
 }
 
 // SVG provides the markup generator for the <svg> xml tag.

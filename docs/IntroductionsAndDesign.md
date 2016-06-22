@@ -119,46 +119,18 @@ Gu uses provides a optional style library called [GuCSS](./gucss) inspired by [G
 
 ### Views
 The views are the core structure within `gu` and they are the key to how the `Renderables` are rendered, basically they manage the core operations and provide you the mechanism to have your structures adequately updated and rendered as needed.
-They do not automatically update as it rather uses a notification system which provides the means of delegate update calls to the developer as they see fit. But this provides the needed flexibility for the developer.
 
-```go
-type Renderable interface {
-	Render() gutrees.Markup
-}
+I personally believe when working with `gu` views, one should only have them attached to a root `Renderable`, which encapsulates others. This leads to a far more simpler design
+and architecture rather than having multiple views managing
+parts of a single `Renderable`.
 
-type MarkupRenderer interface {
-	Renderable
-	RenderHTML() template.HTML
-}
-
-type Behaviour interface {
-	Hide()
-	Show()
-}
-
-type Rerenderable interface {
-	Rerender()
-}
-
-type Views interface {
-	Behaviour
-	MarkupRenderer
-	Rerenderable
-
-	UUID() string
-	UID() string
-
-	Bind(Views)
-	Sync(Views)
-	Mount(*js.Object)
-	Events() guevents.EventManagers
-}
-
-```
-I personally believe when working with `gu` views to only have the root `Renderable` component which encapsulates the others to be managed by the view itself, this leads itself to stick with the idiomatic ideas of composition in Go and also reduce the overhead of multiple views managing different parts of a single component.
-
+Views are by default not reactive, they watch for notifications that tell them to update but `gu` does provide
+a optional interface `Reactive` that can be implement or using its default implementation to have views notified by their `Renderable` or `Renderables` when to update, ofcourse this
+still requires the developer to call the `Reactive.Publish`
+method appropriate.
 
 Views can easily be created by supplying to them the needed `Renderable` or list of `Renderables` of which they are to manage.
+
 ```go
 type List []string
 
@@ -206,7 +178,7 @@ func (l List) Render() gutrees.Markup {
   return root
 }
 
-guviews.Register('app/list', func (items []string) guviews.Renderable {
+guviews.Register("app/list", func (items []string) guviews.Renderable {
  return List(items)
 })
 

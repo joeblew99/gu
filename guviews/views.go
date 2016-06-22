@@ -14,47 +14,25 @@ import (
 
 //==============================================================================
 
-// Renderable provides a interface for a renderable type.
-type Renderable interface {
-	Render() gutrees.Markup
-}
-
-// Renderables defines a lists of Renderable structures.
-type Renderables []Renderable
-
-// MarkupRenderer provides a interface for a types capable of rendering dom markup.
-type MarkupRenderer interface {
-	Renderable
-	RenderHTML() template.HTML
-}
-
-//==============================================================================
-
 // Behaviour provides a state changers for haiku.
 type Behaviour interface {
 	Hide()
 	Show()
 }
 
-//==============================================================================
-
-// Rerenderable defines an interface that allows force-rerendering through a
-// method.
-type Rerenderable interface {
-	Rerender()
-}
-
 // Views define the rendering core for the gu library.
 type Views interface {
 	Behaviour
 	MarkupRenderer
-	Rerenderable
 
 	UUID() string
 	UID() string
 
 	Bind(Views)
 	Sync(Views)
+
+	Rerender()
+
 	Mount(*js.Object)
 	Events() guevents.EventManagers
 }
@@ -118,21 +96,34 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		cid = gutrees.RandString(8)
 	}
 
+	uuid := gutrees.RandString(20)
+
 	vm := &view{
 		encoder:     writer,
 		renders:     vw,
 		uid:         cid,
 		activeState: shower,
 		events:      guevents.NewEventManager(),
-		uuid:        gutrees.RandString(20),
-		// uuid:    uuid.New(),
+		uuid:        uuid,
 	}
 
-	// Connect any possible views.
+	// Connect any possible views or reactors, if its a view then
+	// skip reactive binding else check if reactive and bind.
 	for _, vws := range vw {
+
 		if vms, ok := vws.(Views); ok {
 			vm.Bind(vms)
+			continue
 		}
+
+		if rws, ok := vws.(ReactiveRenderable); ok {
+			rws.Subscribe(func() {
+				// Notify this view of change.
+				gudispatch.Dispatch(&ViewUpdate{ID: uuid})
+			})
+			continue
+		}
+
 	}
 
 	// Subscribe for view update requests from the central dispatcher.
