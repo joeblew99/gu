@@ -44,8 +44,10 @@ func (l List) Render() gutrees.Markup {
 
 
 ### ReactiveRenderable
-ReactiveRenderable is more of a simple mechanism that allows views or other Renderables to react to changes from other Renderables by implementing the ReactiveRenderable interface.
-Ofcourse it's not magic and still requires the developer to either build such a methods into their custom component or compose one provided by `gu`. Views will automatically register themselves for updates with `ReactiveRenderable` components which allows them to update themselves when changes occur in the passed in `Renderable` or `Renderables` if more than one.
+`ReactiveRenderable` is more of a simple mechanism that allows views or other `Renderables` to react to changes from other `Renderables` by implementing the ReactiveRenderable interface.
+
+Ofcourse, it's not magic and still requires the developer to either build such a methods into their custom component, or compose one provided by `gu`.
+Views will automatically register themselves for updates with `ReactiveRenderable` components, which allows them to update the frontend when changes occur in all the `Renderable` passed in.
 
 ```go
 
@@ -58,9 +60,7 @@ type ReactiveRenderable interface {
 
 ```
 
-The `Reactive` interface defines a Reactor that can be leverage and which has a concrete implementation in `gu`, which can be retrieved by calling the `guviews.NewReactive()` function.
-You can embed this into your components and have them
-provided a structure which handles the subscription and publishing needs.
+The `Reactive` interface defines a Reactor, that can be leverage and which has a concrete implementation in `gu`. It can be created by calling the `guviews.NewReactive()` function. You can embed this into your component which turns it into a `ReactiveRenderable`.
 
 ```go
 // Reactive extends the ReactiveRenderable by exposing a Publish method
@@ -106,8 +106,8 @@ func (m *Menu) Render() gutrees.Markup {
 
 
 ### Markup
-Gu uses a markup library called [GuTrees](./gutrees) inspired by [Richard Musiol](https://github.com/neelance) work on a demo library for a dom-like markup library written in go and generated using the go code generation feature.
-By grafting such a approach, `Gu` simplified the markup approach where rather than depending on `go templates`, the developer gets the benefit of a simple native based system where the DOM markup could be expressed within the native syntax and idiomatic thinking of the Go language, thereby reducing learning and cognitive gap and allow expressiveness with the full power of the language.
+Gu uses a markup library called [Gutrees](./gutrees) inspired by [Richard Musiol's](https://github.com/neelance) work on a demo library for a DOM-like markup library written in native Go, using native Go.
+By grafting such an approach, `Gu` simplified the markup approach where rather than depending on `go templates`, the developer gets the benefit of a native system where the DOM markup are expressed within the Go syntax, thereby reducing the cognitive gap and allow expressiveness with the full power of the language.
 
 `GuTrees` provides both a markup approach which embeds event registration and inline style addition that fits well using the native language syntax.
 
@@ -145,7 +145,8 @@ Gutrees sets up the event functions within
 ```
 
 ### Styles
-Gu uses provides a optional style library called [GuCSS](./gucss) inspired by [GuTrees](./gutrees) which provides a go-centric approach to building css styles which can be rendered and attached to inline style tags, they allow you to organize your styles from being inlined to the specific Markup but more organized as a whole.
+Gu provides a optional css generating library called [GucSS](./gucss), inspired by [GuTrees](./gutrees).
+It provides a Go native, but yet simple approach to building css styles which can be rendered and attached to inline style tags.
 
 ```go
 	import "github.com/influx6/gu/gutrees"
@@ -184,18 +185,15 @@ Gu uses provides a optional style library called [GuCSS](./gucss) inspired by [G
 ```
 
 ### Views
-The views are the core structure within `gu` and they are the key to how the `Renderables` are rendered, basically they manage the core operations and provide you the mechanism to have your structures adequately updated and rendered as needed.
+The views are the core of `gu`. They are the key to how the `Renderables` are rendered, and they basically manage the cycle of rendering and update.
 
-I personally believe when working with `gu` views, one should only have them attached to a root `Renderable`, which encapsulates others. This leads to a far more simpler design
+*I personally believe when working with Views, one should only have them attached to a root `Renderable`, which encapsulates others. This leads to a far more simpler design
 and architecture rather than having multiple views managing
-parts of a single `Renderable`.
+parts of a single `Renderable`.*
 
-Views are by default not reactive, they watch for notifications that tell them to update but `gu` does provide
-a optional interface `Reactive` that can be implement or using its default implementation to have views notified by their `Renderable` or `Renderables` when to update, ofcourse this
-still requires the developer to call the `Reactive.Publish`
-method appropriate.
+Views are by default not reactive ofcourse this can be changed with by meeting the `ReactiveRenderable`, but they do watch for notifications through `gudispatch`, that tell them to update.
 
-Views can easily be created by supplying to them the needed `Renderable` or list of `Renderables` of which they are to manage.
+Views can easily be created by supplying to them the needed `Renderable` or if passed a set of `Renderables` then they will be rendered into a div before getting attached to the DOM target.
 
 ```go
 type List []string
@@ -214,7 +212,7 @@ listView := guviews.New(List([]string{"Wombat", "Rabbits"}))
 ```
 
 #### Views and Path Changes
-To ensure developers can react with the URL changes, `gu` includes the ability to watch the changes of the browsers path when a view is assigned a given path, which automatically hides or shows the view when the path is visited or navigated from.
+To ensure developers can react with the URL changes, `gu` includes the ability to watch the changes of the browsers history. When a view is assigned a given path, changes to the browsers history will automatically hides or shows the view as needed.
 
 ```go
 	import "github.com/influx6/gu/guviews"
@@ -222,13 +220,10 @@ To ensure developers can react with the URL changes, `gu` includes the ability t
 	guviews.AttachView(view, "/buckler")
 ```
 
-#### Views and Initialization
-Initialization of views is has important as the views themselves because `gu` as a library is made to function adequately in its rendering capability regardless of whether its being called on the front-end within a browser or on the backend.
+#### Views Initialization
+Gu includes a optional initalization system which lets you register a `Renderable` returning function which can then be called to be created on demand. This is nice if you wish to centralize your view initialization code and call it on the server or client.
 
-This is very important especially when moving a rendered content from backend to frontend as the views use a unique ID which can either be assigned by the developer or auto-generated when initialized. This ID plays a great role for the view to capture a previous rendered point to either replace with new markup at initialization or update as needed.
-
-Hence the `gu` libraries offers a approach which can be used depending on developers choice to register and initialize views both on the client and server.  
-
+*Ofcourse this is not enfored and you are free to set things as you desire.*
 
 
 ```go
