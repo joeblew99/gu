@@ -77,7 +77,7 @@ Breaking the code into more readable chunk, let me explain what each piece does.
 
 - The Components
 
-The two main components within our example is the `StatItem` and the `Dashboard`, where the `StatItem` defines the individual items and their representation for the page. Each distinctively embeds the `guviews.Reactive` interface and
+The two main components within our example is the `StatItem` and the `Dashboard`, where the `StatItem` defines the stat items to be displayed on the dashboard and their representation for the page. Each distinctively embeds the `guviews.Reactive` interface and
 assigns the `guviews.NewReactive()` value in their `New` functions. This ensures both are reactive and can be listened to for changes. But one difference is the `Dashboard` binds to the `StatItem` it has and this is an excellent example on how other `Renderables` can listen to each other.
 
 ```go
