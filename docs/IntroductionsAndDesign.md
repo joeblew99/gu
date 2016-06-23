@@ -24,8 +24,10 @@ type Renderable interface {
 
 Once this interface is met by any `struct` then it's content can be rendered and updated at the most optimize mode possible. This allows us to write a custom rendering markup for any structure we wish.  This is in all of `Gu` where such requirement is needed, beyond this interface the developer is free to structure their application as they please.
 
-For example, making an array a renderable item.
+- For example, making an array a Renderable item:
+
 ```go
+
 type List []string
 
 func (l List) Render() gutrees.Markup {
@@ -38,6 +40,70 @@ func (l List) Render() gutrees.Markup {
   return root
 }
 ```
+
+
+
+### ReactiveRenderable
+ReactiveRenderable is more of a simple mechanism that allows views or other Renderables to react to changes from other Renderables by implementing the ReactiveRenderable interface.
+Ofcourse it's not magic and still requires the developer to either build such a methods into their custom component or compose one provided by `gu`. Views will automatically register themselves for updates with `ReactiveRenderable` components which allows them to update themselves when changes occur in the passed in `Renderable` or `Renderables` if more than one.
+
+```go
+
+// ReactiveRenderable defines an interface of a Renderable capable of
+// notifying subscribe functions of changes to allow them to React.
+type ReactiveRenderable interface {
+	Renderable
+	Subscribe(func())
+}
+
+```
+
+The `Reactive` interface defines a Reactor that can be leverage and which has a concrete implementation in `gu`, which can be retrieved by calling the `guviews.NewReactive()` function.
+You can embed this into your components and have them
+provided a structure which handles the subscription and publishing needs.
+
+```go
+// Reactive extends the ReactiveRenderable by exposing a Publish method
+// which allows calling the update notifications list of a ReactiveRenderable.
+type Reactive interface {
+	Subscribe(func())
+	Publish()
+}
+
+```
+
+- For example, making a reactive Menu list.
+
+```go
+
+type Menu struct{
+  guviews.Reactive
+  links []string
+}
+
+func NewMenu() *Menu{
+  return &Menu{
+    Reactive: guviews.NewReactive(),
+    links: links,
+  }
+}
+
+func (m *Menu) Add(link string) {
+  m.links = append(m.links,link)
+  m.Publish()
+}
+
+func (m *Menu) Render() gutrees.Markup {
+  root := elems.UnorderedList()
+
+  for _, item := range m.links {
+    elems.ListItem(elems.Text(item)).Apply(root)
+  }
+
+  return root
+}
+```
+
 
 ### Markup
 Gu uses a markup library called [GuTrees](./gutrees) inspired by [Richard Musiol](https://github.com/neelance) work on a demo library for a dom-like markup library written in go and generated using the go code generation feature.
