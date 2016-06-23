@@ -81,7 +81,7 @@ type Menu struct{
   links []string
 }
 
-func NewMenu() *Menu{
+func NewMenu(links []string) *Menu{
   return &Menu{
     Reactive: guviews.NewReactive(),
     links: links,
