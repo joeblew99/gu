@@ -256,7 +256,7 @@ By using this approach we can ensure important details like the `Views ID` is ma
 
 
 ### Conclusion
-The parts that make up the `gu` libraries are very simple in their design and approach and the next documentation rather presents the practically use cases of the `gu` library to build applications.
+The parts that make up the `gu` library are very simple in their design and approach, and the next set of links presents more practically use cases of the `gu` library to build your frontend applications.
 
   - **[Components and Views](./docs/ComponentsAndViews.md)**
   - **[Components and Subcomponents](./docs/ComponentsAndSubComponents.md)**
