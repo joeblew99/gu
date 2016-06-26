@@ -152,6 +152,7 @@ func main() {
 package elems
 
 import (
+	"fmt"
 	"github.com/influx6/gu/gutrees"
 )
 

@@ -9,6 +9,10 @@ Gu adopts different ideas from different projects to meet its need to provide
 both a rendering system capable of working either on the backend or frontend
 with ease.
 
+*During the explanation of this library, I will interchangeable refer to Renderables
+as Components, because in truth, they are the component that can be reused
+as needed and encapsulate the behaviour they desire.*
+
 ## Gu By Design
 Gu in its design was never created to be complex and in it's very nature reduces
  the adoption process needed to get started with it. Below are all the design principle that is need to use Gu effectively.
@@ -258,9 +262,7 @@ By using this approach we can ensure important details like the `Views ID` is ma
 ### Conclusion
 The parts that make up the `gu` library are very simple in their design and approach, and the next set of links presents more practically use cases of the `gu` library to build your  components.
 
-  - **[Components and Views](./ComponentsAndViews.md)**
+  - **[Components, SubComponents and Views](./ComponentsAndViews.md)**
   - **[Components and Subcomponents](./ComponentsAndSubComponents.md)**
-  - **[Components and Styles](./ComponentsAndStyles.md)**
-  - **[Reactivity and Notifications](./ReactivityAndNotifications.md)**
   - **[Initializing and Server Side Rendering](./InitializationsAndServerSideRendering.md)**
   - **[Limitations](./Limitations.md)**
