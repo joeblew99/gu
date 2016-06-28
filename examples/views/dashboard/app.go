@@ -67,6 +67,7 @@ func (d *Dashboard) Render() gutrees.Markup {
 }
 
 func main() {
+
 	dashboard := NewDashboard()
 
 	visitors := NewStatItem("Visitor's Count", 200)
