@@ -22,7 +22,9 @@ go install github.com/influx6/gu/...
 ## Documentation
   - **[Introductions and Design](./docs/IntroductionsAndDesign.md)**
   - **[Components and Views](./docs/ComponentsAndViews.md)**
-  - **[Initializing and Server Side Rendering](./docs/InitializationsAndServerSide.md)**
+  - **[Views And Routes](./docs/ViewsAndRoutes.md)**
+  - **[Initializing and Server Side Rendering](./docs/InitializationsAndServerSideRendering.md)**
+  - **[Notifications](./docs/Notifications.md)**
   - **[Limitations](./docs/Limitations.md)**
 
 ## Samples
