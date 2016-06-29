@@ -8,7 +8,7 @@ import (
 
 //==============================================================================
 
-// history provides a central URL coordinator for gu views.
+// history provides a central URL coordinator for gu.
 var history *HistoryProvider
 
 // dispatch provides a default dispatcher for listening to events.

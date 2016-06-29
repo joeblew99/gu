@@ -222,6 +222,8 @@ To ensure developers can react with the URL changes, `gu` includes the ability t
 	import "github.com/influx6/gu/guviews"
 
 	guviews.AttachView(view, "/buckler")
+	guviews.AttachView(view, "/buckler/rider/buller")
+  
 ```
 
 #### Views Initialization

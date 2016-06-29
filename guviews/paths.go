@@ -1,116 +1,104 @@
 package guviews
 
-import (
-	"sync"
+import "github.com/influx6/gu/gudispatch"
 
-	"github.com/influx6/gu/gudispatch"
-)
+// FailNormal is a fail function type that accepts no arguments.
+type FailNormal func()
 
-//==============================================================================
+// FailPath is a fail function type that accepts a gudispatch.Path.
+type FailPath func(gudispatch.Path)
 
-// Path defines a representation of a location path matching a specific sequence.
-type Path struct {
-	gudispatch.PathDirective
-	Param map[string]string
-	ID    string
-}
+// AttachURL attaches the view to the provided Route pattern,
+// Using the internal route pattern, it matches all route changes
+// and checks against the full URL(Path+Hash).
+// failFn must either be a FailNormal, FailPath or nil.
+func AttachURL(pattern string, v Views, failFn interface{}) {
+	var failCb FailPath
 
-//==============================================================================
-
-// pathMl provides a mutex to control read and write to internal view cache store.
-var pathMl sync.RWMutex
-
-// pathMl2 provides a mutex to control write and read to internal cache maps.
-var pathMl2 sync.RWMutex
-
-// pathWatch registers a view with selected watch routes to reduce unnecessary
-// multiwatching of same routes and helps manage state of views.
-var pathWatch = make(map[Views]map[string]bool)
-
-// AttachView allows setting a specific view to become active for a specific URL
-// route pattern. This allows to control the active and inactive state and also
-// the visibility of the view dependent on the current location URL path.
-func AttachView(v Views, pattern string) {
-	gudispatch.URIMatcher(pattern)
-
-	new := addView(v)
-
-	pathMl.RLock()
-	vcache := pathWatch[v]
-	pathMl.RUnlock()
-
-	// If we are already watching for this specific route then skip this.
-	pathMl.RLock()
-	hasOk := vcache[pattern]
-	pathMl.RUnlock()
-
-	if hasOk {
-		return
+	switch failFn.(type) {
+	case FailNormal:
+		failCb = func(_ gudispatch.Path) { failCb.(FailNormal)() }
+	case FailPath:
+		failCb = failFn.(FailPath)
 	}
 
-	pathMl2.Lock()
-	vcache[pattern] = true
-	pathMl2.Unlock()
-
-	if !new {
-		return
-	}
-
-	gudispatch.Subscribe(func(p gudispatch.PathDirective) {
-		pathMl2.RLock()
-		defer pathMl2.RUnlock()
-
-		var found bool
-		var params map[string]string
-
-		for key := range vcache {
-			// Get the matcher for this key.
-			watcher := gudispatch.URIMatcher(key)
-
-			pm, ok := watcher.Validate(p.String())
-			if !ok {
-				continue
-			}
-
-			params = pm
-			found = true
-			break
-		}
-
-		if !found {
-			v.Hide()
-			return
-		}
-
-		pu := Path{
-			PathDirective: p,
-			ID:            v.UUID(),
-			Param:         params,
-		}
-
-		gudispatch.Dispatch(&pu)
-	})
-
-	gudispatch.Follow(gudispatch.GetLocation())
+	gudispatch.AttachURL(pattern, func(p gudispatch.Path) {
+		v.Path(p)
+	}, failCb)
 }
 
-// addView attaches view into the pathWatch match.
-func addView(v Views) bool {
-	// Get the view route cache.
-	pathMl.RLock()
-	_, ok := pathWatch[v]
-	pathMl.RUnlock()
+// AttachHash attaches the view to the provided Route pattern,
+// Using the internal route pattern, it matches all route changes
+// and checks against the URL hash.
+// failFn must either be a FailNormal, FailPath or nil.
+func AttachHash(pattern string, v Views, failFn interface{}) {
+	var failCb FailPath
 
-	// If no cache is found for this view then make one and store it.
-	if !ok {
-		vcache := make(map[string]bool)
-		pathMl.Lock()
-		pathWatch[v] = vcache
-		pathMl.Unlock()
-		return true
+	switch failFn.(type) {
+	case FailNormal:
+		failCb = func(_ gudispatch.Path) { failCb.(FailNormal)() }
+	case FailPath:
+		failCb = failFn.(FailPath)
 	}
 
-	return false
+	gudispatch.AttachHash(pattern, func(p gudispatch.Path) {
+		v.Path(p)
+	}, failCb)
 }
 
-//==============================================================================
+// ResolveSubscriber defines a function type for a Resolver subcriber.
+type ResolveSubscriber func(gudispatch.Path)
+
+// Resolver defines an interface for a type that resolves a
+// provided instance of a gudispatch.Path.
+type Resolver interface {
+	Subscribe(ResolveSubscriber)
+	Register(string, Resolver)
+	Resolve(gudispatch.Path)
+}
+
+// NewResolver returns a new instance of a structure that matches
+// the Resolver interface.
+func NewResolver() Resolver {
+	br := basicResolver{}
+
+	return &br
+}
+
+// basicResolver defines a struct that implements
+type basicResolver struct {
+	matcher  pattern.URIPattern
+	subs     []ResolveSubscriber
+	children []Resolver
+}
+
+// Register adds a resolver into the list which will get triggerd
+// when this resolver gets triggered, they will recieve a new Path
+// made out of the remaining path from the Path received by this.
+func (b *basicResolver) Register(pattern string, r Resolver) {
+
+}
+
+// Resolve takes a `gudispatch.Path` instance, matches the content
+// against it's own matcher, if its a match, it calls its subscribers
+// then takes the remaining path left after removing its own matching
+// piece and sends that off to its children, if there exists any remaining
+// path that is.
+func (b *basicResolver) Resolve(path gudispatch.Path) {
+
+	// Notify the subscribers.
+	for _, sub := range b.subs {
+		sub(path)
+	}
+
+	// Notify the kids with what is left in the Path.
+	for _, child := range b.children {
+		child.Resolve(path)
+	}
+}
+
+// Subscribe adds a function to the subscription list for this
+// resolver.
+func (b *basicResolver) Subscribe(sub ResolveSubscriber) {
+	b.subs = append(b.subs, sub)
+}

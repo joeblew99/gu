@@ -30,8 +30,8 @@ type Views interface {
 
 	Bind(Views)
 	Sync(Views)
-
-	Rerender()
+	BindSync(Views)
+	Path(gudispatch.Path)
 
 	Mount(*js.Object)
 	Events() guevents.EventManagers
@@ -52,26 +52,34 @@ func NewWithID(customID string, r ...Renderable) Views {
 
 //==============================================================================
 
-// ViewUpdate defines a view update notification which contains the name of the
-// view to be notified for an update.
-type ViewUpdate struct {
-	ID string
-}
-
-// ViewState defines a notification struct of the state of the view wether it
-// is active or not.
-type ViewState struct {
-	ID string
-	On bool
-}
-
-//==============================================================================
-
 // hider defines a global hide renderer.
 var hider HideView
 
 // shower defines a global display renderer.
 var shower ShowView
+
+// ViewStates defines the two possible behavioral state of a view's markup
+type ViewStates interface {
+	Render(gutrees.Markup)
+}
+
+// HideView provides a ViewStates for Views inactive state
+type HideView struct{}
+
+// Render marks the given markup as display:none
+func (v HideView) Render(m gutrees.Markup) {
+	gutrees.ReplaceStyle(m, "display", "none")
+}
+
+// ShowView provides a ViewStates for Views active state
+type ShowView struct{}
+
+// Render marks the given markup with a display: block
+func (v ShowView) Render(m gutrees.Markup) {
+	gutrees.ReplaceStyle(m, "display", "block")
+}
+
+//==============================================================================
 
 // view defines a basic struture for building UI view.
 type view struct {
@@ -119,15 +127,14 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		if rws, ok := vws.(ReactiveRenderable); ok {
 			rws.Subscribe(func() {
 				// Notify this view of change.
-				gudispatch.Dispatch(&ViewUpdate{ID: uuid})
+				gudispatch.Dispatch(ViewUpdate{ID: uuid})
 			})
 			continue
 		}
-
 	}
 
 	// Subscribe for view update requests from the central dispatcher.
-	gudispatch.Subscribe(func(v *ViewUpdate) {
+	gudispatch.Subscribe(func(v ViewUpdate) {
 		if v.ID != vm.UUID() && v.ID != vm.UID() {
 			return
 		}
@@ -148,15 +155,16 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		atomic.StoreInt64(&vm.ready, 1)
 	})
 
-	gudispatch.Subscribe(func(p *Path) {
-		if p.ID != vm.UUID() && p.ID != vm.UID() {
-			return
-		}
-
-		vm.Show()
-	})
-
 	return vm
+}
+
+// Path sends a Path report to all registered Resolvers.
+func (v *view) Path(path gudispatch.Path) {
+	for _, vm := range v.renders {
+		if rs, ok := vm.(Resolver); ok {
+			rs.Resolve(path)
+		}
+	}
 }
 
 // UID returns the custom id associated with this view.
@@ -169,34 +177,56 @@ func (v *view) UUID() string {
 	return v.uuid
 }
 
-// BindView binds the given views together,were the view provided as argument
-// will notify this view of change and to act according.
+// ViewUpdate defines a view update notification which contains the name of the
+// view to be notified for an update.
+type ViewUpdate struct {
+	ID string
+}
+
+// Bind connects this giving view to both the update notification of the
+// provided view. Whenever the provided view updates, so will this as well.
 func (v *view) Bind(vs Views) {
-	gudispatch.Subscribe(func(vm *ViewUpdate) {
+	gudispatch.Subscribe(func(vm ViewUpdate) {
 		if vm.ID != vs.UUID() && vm.ID != vs.UID() {
 			return
 		}
 
 		// Notify this view of change.
-		gudispatch.Dispatch(&ViewUpdate{ID: v.UUID()})
+		gudispatch.Dispatch(ViewUpdate{ID: v.UUID()})
 	})
 }
 
-// Rerender provides a force-function which causes the view to re-render itself.
-// Generally this is not preferred but read the internals of this function to see
-// how to tell any view to re-render without exactly having an instance to the
-// view. Once you have a views UUID you can signal it to re-render from anywhere.
-func (v *view) Rerender() {
-	// Notify this view of change.
-	gudispatch.Dispatch(&ViewUpdate{ID: v.UUID()})
+// ViewState defines a notification struct of the state of the view wether it
+// is active or not.
+type ViewState struct {
+	ID string
+	On bool
 }
 
-// Sync connects a view not only to the update cycles of this views but also
-// to the state of this view, that is, if this view becomes hidden, then
-// the synced view follows suits and as such.
+// Sync connects this giving view to the display state of the provided view.
+// Whenever the provided view shows/hides, so will this view.
 func (v *view) Sync(vs Views) {
+	gudispatch.Subscribe(func(vm ViewState) {
+		if vm.ID != vs.UUID() && vm.ID != vs.UID() {
+			return
+		}
+
+		if !vm.On {
+			vs.Hide()
+			return
+		}
+
+		vs.Show()
+	})
+}
+
+// BindSync connects this giving view to both the display state and update
+// notification of the provided view.
+// Whenever the provided view shows/hides, so will this view and when the
+// provided view updates, so will this as well.
+func (v *view) BindSync(vs Views) {
 	v.Bind(vs)
-	gudispatch.Subscribe(func(vm *ViewState) {
+	gudispatch.Subscribe(func(vm ViewState) {
 		if vm.ID != vs.UUID() && vm.ID != vs.UID() {
 			return
 		}
@@ -220,7 +250,7 @@ func (v *view) Mount(dom *js.Object) {
 	atomic.StoreInt64(&v.ready, 0)
 
 	// Notify for update to dom.
-	gudispatch.Dispatch(&ViewUpdate{
+	gudispatch.Dispatch(ViewUpdate{
 		ID: v.UUID(),
 	})
 }
@@ -233,9 +263,9 @@ func (v *view) Show() {
 	}
 	atomic.StoreInt64(&v.switchActive, 0)
 
-	gudispatch.Dispatch(&ViewUpdate{ID: v.UUID()})
+	gudispatch.Dispatch(ViewUpdate{ID: v.UUID()})
 
-	gudispatch.Dispatch(&ViewState{
+	gudispatch.Dispatch(ViewState{
 		ID: v.UUID(),
 		On: true,
 	})
@@ -249,8 +279,8 @@ func (v *view) Hide() {
 	}
 	atomic.StoreInt64(&v.switchActive, 0)
 
-	gudispatch.Dispatch(&ViewUpdate{ID: v.UUID()})
-	gudispatch.Dispatch(&ViewState{
+	gudispatch.Dispatch(ViewUpdate{ID: v.UUID()})
+	gudispatch.Dispatch(ViewState{
 		ID: v.UUID(),
 		On: false,
 	})

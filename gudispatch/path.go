@@ -8,6 +8,7 @@ import (
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/faux/pattern"
+	"github.com/influx6/gu/gudispatch"
 )
 
 //==============================================================================
@@ -23,6 +24,67 @@ type PathDirective struct {
 // String returns the hash and path.
 func (p PathDirective) String() string {
 	return fmt.Sprintf("%s%s", pattern.TrimEndSlashe(p.Path), p.Hash)
+}
+
+//==============================================================================
+
+// Path defines a representation of a location path matching a specific sequence.
+type Path struct {
+	gudispatch.PathDirective
+	Rem    string
+	Params map[string]string
+}
+
+// AttachURL takes the giving pattern, matches it against changes provided by
+// the current PathObserver, if the full URL(i.e Path+Hash) matches then fires
+// the provided function.
+func AttachURL(pattern string, fx func(Path), fail func(Path)) {
+	matcher := URIMatcher(pattern)
+
+	Subscribe(func(p PathDirective) {
+		if params, rem, found := matcher.Validate(p.String()); found {
+			fx(Path{
+				Params:        params,
+				Rem:           rem,
+				PathDirective: p,
+			})
+			return
+		}
+
+	  if fail != nil {
+			fail(Path{PathDirective: p})
+		}
+	})
+
+	// Follow the current location to see if we should be triggered.
+	gudispatch.Follow(gudispatch.GetLocation())
+}
+
+// AttachHash takes the giving pattern, matches it against changes provided by
+// the current PathObserver, if the URL hash matches then fires
+// the provided function.
+func AttachHash(pattern string, fx func(Path),fail func(Path)) {
+	matcher := URIMatcher(pattern)
+
+	Subscribe(func(p PathDirective) {
+		if params, rem, found := matcher.Validate(p.Hash); found {
+			fx(Path{
+				Params:        params,
+				Rem:           rem,
+				PathDirective: p,
+			})
+			return
+		}
+
+	  if fail != nil {
+			fail(Path{
+				PathDirective: p
+			})
+		}
+	})
+
+	// Follow the current location to see if we should be triggered.
+	gudispatch.Follow(gudispatch.GetLocation())
 }
 
 //==============================================================================
@@ -131,7 +193,6 @@ func PopStatePath(ps PathSequencer) (*PathObserver, error) {
 
 // Follow creates a Pathspec from the hash and path and sends it
 func (p *PathObserver) Follow(host, path, hash string) {
-	fmt.Printf("Dispatch route change %s->%s\n", path, hash)
 	Dispatch(PathDirective{
 		Host:     host,
 		Hash:     hash,

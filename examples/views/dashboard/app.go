@@ -5,7 +5,6 @@ import (
 	"math"
 	"time"
 
-	"github.com/influx6/gu"
 	"github.com/influx6/gu/gucss"
 	"github.com/influx6/gu/gutrees"
 	"github.com/influx6/gu/gutrees/attrs"
@@ -97,8 +96,6 @@ func makeCSS(doc dom.Document, css gucss.Render) {
 }
 
 func main() {
-<<<<<<< HEAD
-=======
 	doc := dom.GetWindow().Document()
 
 	css := gucss.NewRoot()
@@ -124,7 +121,6 @@ func main() {
 	})
 
 	makeCSS(doc, css)
->>>>>>> f689112bf4def7aabe7f6d391e270113336be00f
 
 	dashboard := NewDashboard()
 
@@ -136,7 +132,8 @@ func main() {
 	dashboard.Add(clickRate)
 	dashboard.Add(bounceRate)
 
-	gu.RenderAsBody(guviews.New(dashboard))
+	dashboardView := guviews.New(dashboard)
+	dashboardView.Mount(doc.QuerySelector("body").Underlying())
 
 	factor := 0.05
 
