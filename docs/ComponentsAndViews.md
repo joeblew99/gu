@@ -313,5 +313,3 @@ Accomplishing this is rather simple, as demonstrated with the below pseudo-code:
 	gameView.BindSync(dashView)
 
 ```
-
-## Views and Browser History

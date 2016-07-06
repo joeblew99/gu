@@ -8,7 +8,6 @@ import (
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/faux/pattern"
-	"github.com/influx6/gu/gudispatch"
 )
 
 //==============================================================================
@@ -30,7 +29,7 @@ func (p PathDirective) String() string {
 
 // Path defines a representation of a location path matching a specific sequence.
 type Path struct {
-	gudispatch.PathDirective
+	PathDirective
 	Rem    string
 	Params map[string]string
 }
@@ -51,19 +50,19 @@ func AttachURL(pattern string, fx func(Path), fail func(Path)) {
 			return
 		}
 
-	  if fail != nil {
+		if fail != nil {
 			fail(Path{PathDirective: p})
 		}
 	})
 
 	// Follow the current location to see if we should be triggered.
-	gudispatch.Follow(gudispatch.GetLocation())
+	Follow(GetLocation())
 }
 
 // AttachHash takes the giving pattern, matches it against changes provided by
 // the current PathObserver, if the URL hash matches then fires
 // the provided function.
-func AttachHash(pattern string, fx func(Path),fail func(Path)) {
+func AttachHash(pattern string, fx func(Path), fail func(Path)) {
 	matcher := URIMatcher(pattern)
 
 	Subscribe(func(p PathDirective) {
@@ -76,15 +75,15 @@ func AttachHash(pattern string, fx func(Path),fail func(Path)) {
 			return
 		}
 
-	  if fail != nil {
+		if fail != nil {
 			fail(Path{
-				PathDirective: p
+				PathDirective: p,
 			})
 		}
 	})
 
 	// Follow the current location to see if we should be triggered.
-	gudispatch.Follow(gudispatch.GetLocation())
+	Follow(GetLocation())
 }
 
 //==============================================================================

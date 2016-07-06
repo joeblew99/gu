@@ -14,6 +14,11 @@ func Px(pixels int) Size {
 	return Size(strconv.Itoa(pixels) + "px")
 }
 
+// Background provides the color style value
+func Background(value string) gutrees.Property {
+	return &gutrees.Style{Name: "background", Value: value}
+}
+
 // Color provides the color style value
 func Color(value string) gutrees.Property {
 	return &gutrees.Style{Name: "color", Value: value}

@@ -50,8 +50,8 @@ func (l List) Render() gutrees.Markup {
 ### ReactiveRenderable
 `ReactiveRenderable` is more of a simple mechanism that allows views or other `Renderables` to react to changes from other `Renderables` by implementing the ReactiveRenderable interface.
 
-Ofcourse, it's not magic and still requires the developer to either build such a methods into their custom component, or compose one provided by `gu`.
-Views will automatically register themselves for updates with `ReactiveRenderable` components, which allows them to update the frontend when changes occur in all the `Renderable` passed in.
+Ofcourse, it's not magic and still requires the developer to either build such methods into their custom components, or compose one provided by `gu`.
+Views will automatically register themselves for updates with `ReactiveRenderable` components, which allows them to update the front end when changes occur in all the `Renderable` passed in.
 
 ```go
 
