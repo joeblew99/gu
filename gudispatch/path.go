@@ -93,8 +93,8 @@ func AttachHash(pattern string, fx func(Path), fail func(Path)) {
 // the provided function.
 func ResolveAttachURL(pattern string, fx func(Path), fail func(Path)) {
 	resolver := NewResolver(pattern)
-	resolver.Subscribe(fx)
-	resolver.FailSubscribe(fail)
+	resolver.ResolvedPassed(fx)
+	resolver.ResolvedFailed(fail)
 
 	Subscribe(func(p PathDirective) {
 		resolver.Resolve(Path{
@@ -112,18 +112,16 @@ func ResolveAttachURL(pattern string, fx func(Path), fail func(Path)) {
 // the provided function.
 func ResolveAttachHash(pattern string, fx func(Path), fail func(Path)) {
 	resolver := NewResolver(pattern)
-	resolver.Subscribe(fx)
-	resolver.FailSubscribe(fail)
+	resolver.ResolvedPassed(fx)
+	resolver.ResolvedFailed(fail)
 
 	Subscribe(func(p PathDirective) {
-		fmt.Printf("Hash: %s -> %+s\n", pattern, p.Hash)
 		resolver.Resolve(Path{
 			Rem:           p.Hash,
 			PathDirective: p,
 		})
 	})
 
-	// Follow the current location to see if we should be triggered.
 	// Follow the current location to see if we should be triggered.
 	Follow(GetLocation())
 }

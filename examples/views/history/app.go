@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 
 	"github.com/influx6/gu"
 	"github.com/influx6/gu/gucss"
@@ -23,6 +22,12 @@ func (b backgrounds) Resolve(path gudispatch.Path) {
 	}
 }
 
+func (b backgrounds) React(fx func()) {
+	for _, bg := range b {
+		bg.React(fx)
+	}
+}
+
 func (b backgrounds) Render() gutrees.Markup {
 	root := elems.Div(attrs.Class("backgrounds"))
 
@@ -35,6 +40,7 @@ func (b backgrounds) Render() gutrees.Markup {
 
 type background struct {
 	gudispatch.Resolver
+	guviews.Reactive
 	color string
 	show  bool
 }
@@ -43,15 +49,18 @@ func newBackground(pattern string, color string) *background {
 	bg := &background{
 		color:    color,
 		Resolver: gudispatch.NewResolver(pattern),
+		Reactive: guviews.NewReactive(),
 	}
 
-	bg.Subscribe(func(ps gudispatch.Path) {
-		fmt.Printf("Path: %+s -> %s\n", ps, color)
+	bg.ResolvedPassed(func(ps gudispatch.Path) {
 		if !bg.show {
-			bg.show = false
+			bg.show = true
+			bg.Reactive.Publish()
 			return
 		}
-		bg.show = true
+
+		bg.show = false
+		bg.Reactive.Publish()
 	})
 
 	return bg
@@ -101,7 +110,7 @@ func main() {
 	var bgs backgrounds
 
 	for i := 0; i < 3; i++ {
-		bgs = append(bgs, newBackground(colors[i], colors[i]))
+		bgs = append(bgs, newBackground("/"+colors[i], colors[i]))
 	}
 
 	bgView := guviews.New(bgs)

@@ -21,17 +21,23 @@ type MarkupRenderer interface {
 	RenderHTML() template.HTML
 }
 
+// ReactiveSubscription defines an interface for functions subscribing for
+// notifications to react.
+type ReactiveSubscription interface {
+	React(func())
+}
+
 // ReactiveRenderable defines an interface of a Renderable capable of
 // notifying subscribe functions of changes to allow them to React.
 type ReactiveRenderable interface {
 	Renderable
-	Subscribe(func())
+	ReactiveSubscription
 }
 
 // Reactive extends the ReactiveRenderable by exposing a Publish method
 // which allows calling the update notifications list of a ReactiveRenderable.
 type Reactive interface {
-	Subscribe(func())
+	ReactiveSubscription
 	Publish()
 }
 
@@ -50,8 +56,8 @@ type reactive struct {
 	subs []func()
 }
 
-// Subscribe adds a function into the subscription list for this reactor.
-func (r *reactive) Subscribe(sub func()) {
+// React adds a function into the subscription list for this reactor.
+func (r *reactive) React(sub func()) {
 	r.rw.Lock()
 	defer r.rw.Unlock()
 	r.subs = append(r.subs, sub)

@@ -115,21 +115,19 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 		uuid:        uuid,
 	}
 
-	// Connect any possible views or reactors, if its a view then
-	// skip reactive binding else check if reactive and bind.
 	for _, vws := range vw {
 
+		// Check if we its a vieww then bind.
 		if vms, ok := vws.(Views); ok {
 			vm.Bind(vms)
 			continue
 		}
 
-		if rws, ok := vws.(ReactiveRenderable); ok {
-			rws.Subscribe(func() {
-				// Notify this view of change.
+		// Check if we can react and then subscribe.
+		if rws, ok := vws.(ReactiveSubscription); ok {
+			rws.React(func() {
 				gudispatch.Dispatch(ViewUpdate{ID: uuid})
 			})
-			continue
 		}
 	}
 

@@ -66,7 +66,6 @@ func ReconcileEvents(e, em Events) {
 
 		ev.Meta().Remove()
 	}
-
 }
 
 // Styles defines an interface that returns a list of styles.
@@ -76,39 +75,30 @@ type Styles interface {
 
 // EqualStyles returns true/false if the style values are all equal attribute.
 func EqualStyles(e, em Styles) bool {
-	oldAttrs := em.Styles()
+	old := em.Styles()
 
-	if len(oldAttrs) <= 0 {
-		if len(e.Styles()) <= 0 {
-			return true
+	if len(old) < 1 {
+		if len(e.Styles()) > 0 {
+			return false
 		}
-		return false
+		return true
 	}
 
-	//set to equal as the logic will try to assert its falsiness
-	var equal = true
-
-	for _, oa := range oldAttrs {
-		//lets get the styles type from the element, if it exists then check the value if its equal
-		// continue the loop and check the rest, else we found a contention point, attribute of old markup
-		// does not exists in new markup, so we break and mark as different,letting the new markup keep its hash
-		// but if the loop finishes and all are equal then we swap the hashes
+	for _, oa := range old {
 		name, val := oa.Render()
-		if ta, err := GetStyle(e, name); err == nil {
-			_, tvalue := ta.Render()
-			if tvalue == val {
-				continue
-			}
 
-			equal = false
-			break
-		} else {
-			equal = false
-			break
+		ta, err := GetStyle(e, name)
+		if err != nil {
+			return false
+		}
+
+		_, tvalue := ta.Render()
+		if tvalue != val {
+			return false
 		}
 	}
 
-	return equal
+	return true
 }
 
 // Attributes defines an interface that returns a list of attributes.
@@ -118,40 +108,30 @@ type Attributes interface {
 
 // EqualAttributes returns true/false if the elements and the giving markup have equal attribute
 func EqualAttributes(e, em Attributes) bool {
-	oldAttrs := em.Attributes()
+	old := em.Attributes()
 
-	if len(oldAttrs) <= 0 {
-		if len(e.Attributes()) <= 0 {
-			return true
+	if len(old) < 1 {
+		if len(e.Attributes()) > 0 {
+			return false
 		}
-		return false
+		return true
 	}
 
-	//set to equal as the logic will try to assert its falsiness
-	var equal = true
-
-	for _, oa := range oldAttrs {
-		//lets get the attribute type from the element, if it exists then check the value if its equal
-		// continue the loop and check the rest, else we found a contention point, attribute of old markup
-		// does not exists in new markup, so we break and mark as different,letting the new markup keep its hash
-		// but if the loop finishes and all are equal then we swap the hashes
-
+	for _, oa := range old {
 		name, val := oa.Render()
-		if ta, err := GetAttr(e, name); err == nil {
-			_, tvalue := ta.Render()
-			if tvalue == val {
-				continue
-			}
 
-			equal = false
-			break
-		} else {
-			equal = false
-			break
+		ta, err := GetAttr(e, name)
+		if err != nil {
+			return false
+		}
+
+		_, tvalue := ta.Render()
+		if tvalue != val {
+			return false
 		}
 	}
 
-	return equal
+	return true
 }
 
 // GetStyles returns the styles that contain the specified name and if not empty that contains the specified value also, note that strings

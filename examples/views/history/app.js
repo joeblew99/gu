@@ -17654,7 +17654,7 @@ $packages["reflect"] = (function() {
 	return $pkg;
 })();
 $packages["fmt"] = (function() {
-	var $pkg = {}, $init, errors, io, math, os, reflect, strconv, sync, utf8, fmtFlags, fmt, State, Formatter, Stringer, GoStringer, buffer, pp, runeUnreader, ScanState, scanError, ss, ssave, sliceType, sliceType$1, ptrType, arrayType, arrayType$1, ptrType$1, arrayType$2, sliceType$2, ptrType$2, ptrType$5, ptrType$25, funcType, padZeroBytes, padSpaceBytes, trueBytes, falseBytes, commaSpaceBytes, nilAngleBytes, nilParenBytes, nilBytes, mapBytes, percentBangBytes, missingBytes, badIndexBytes, panicBytes, extraBytes, irparenBytes, bytesBytes, badWidthBytes, badPrecBytes, noVerbBytes, ppFree, intBits, uintptrBits, byteType, space, ssFree, complexError, boolError, _r, _r$1, init, doPrec, newPrinter, Fprintf, Printf, Sprintf, Errorf, Fprint, Sprint, Fprintln, Sprintln, getField, tooLarge, parsenum, intFromArg, parseArgNumber, isSpace, notSpace, indexRune;
+	var $pkg = {}, $init, errors, io, math, os, reflect, strconv, sync, utf8, fmtFlags, fmt, State, Formatter, Stringer, GoStringer, buffer, pp, runeUnreader, ScanState, scanError, ss, ssave, sliceType, sliceType$1, ptrType, arrayType, arrayType$1, ptrType$1, arrayType$2, sliceType$2, ptrType$2, ptrType$5, ptrType$25, funcType, padZeroBytes, padSpaceBytes, trueBytes, falseBytes, commaSpaceBytes, nilAngleBytes, nilParenBytes, nilBytes, mapBytes, percentBangBytes, missingBytes, badIndexBytes, panicBytes, extraBytes, irparenBytes, bytesBytes, badWidthBytes, badPrecBytes, noVerbBytes, ppFree, intBits, uintptrBits, byteType, space, ssFree, complexError, boolError, _r, _r$1, init, doPrec, newPrinter, Fprintf, Sprintf, Errorf, Fprint, Sprint, Fprintln, Sprintln, getField, tooLarge, parsenum, intFromArg, parseArgNumber, isSpace, notSpace, indexRune;
 	errors = $packages["errors"];
 	io = $packages["io"];
 	math = $packages["math"];
@@ -18481,20 +18481,6 @@ $packages["fmt"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Fprintf }; } $f.$ptr = $ptr; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._tuple = _tuple; $f.a = a; $f.err = err; $f.format = format; $f.n = n; $f.p = p; $f.w = w; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.Fprintf = Fprintf;
-	Printf = function(format, a) {
-		var $ptr, _r$2, _tuple, a, err, format, n, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$2 = $f._r$2; _tuple = $f._tuple; a = $f.a; err = $f.err; format = $f.format; n = $f.n; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		n = 0;
-		err = $ifaceNil;
-		_r$2 = Fprintf(os.Stdout, format, a); /* */ $s = 1; case 1: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		_tuple = _r$2;
-		n = _tuple[0];
-		err = _tuple[1];
-		/* */ $s = 2; case 2:
-		return [n, err];
-		/* */ } return; } if ($f === undefined) { $f = { $blk: Printf }; } $f.$ptr = $ptr; $f._r$2 = _r$2; $f._tuple = _tuple; $f.a = a; $f.err = err; $f.format = format; $f.n = n; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.Printf = Printf;
 	Sprintf = function(format, a) {
 		var $ptr, _r$2, a, format, p, s, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$2 = $f._r$2; a = $f.a; format = $f.format; p = $f.p; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -29015,21 +29001,18 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 	ResolveAttachHash = function(pattern$1, fx, fail) {
 		var $ptr, _r, _r$1, _tuple, fail, fx, pattern$1, resolver, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _tuple = $f._tuple; fail = $f.fail; fx = $f.fx; pattern$1 = $f.pattern$1; resolver = $f.resolver; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		pattern$1 = [pattern$1];
 		resolver = [resolver];
-		_r = NewResolver(pattern$1[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = NewResolver(pattern$1); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		resolver[0] = _r;
-		$r = resolver[0].Subscribe(fx); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = resolver[0].FailSubscribe(fail); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		_r$1 = Subscribe(new funcType((function(pattern$1, resolver) { return function $b(p) {
-			var $ptr, _r$1, p, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$1 = $f._r$1; p = $f.p; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = resolver[0].ResolvedPassed(fx); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = resolver[0].ResolvedFailed(fail); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		_r$1 = Subscribe(new funcType((function(resolver) { return function $b(p) {
+			var $ptr, p, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; p = $f.p; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 			p = $clone(p, PathDirective);
-			_r$1 = fmt.Printf("Hash: %s -> %+s\n", new sliceType([new $String(pattern$1[0]), new $String(p.Hash)])); /* */ $s = 1; case 1: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_r$1;
-			$r = resolver[0].Resolve(new Path.ptr($clone(p, PathDirective), p.Hash, false)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$1 = _r$1; $f.p = p; $f.$s = $s; $f.$r = $r; return $f;
-		}; })(pattern$1, resolver))); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			$r = resolver[0].Resolve(new Path.ptr($clone(p, PathDirective), p.Hash, false)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.p = p; $f.$s = $s; $f.$r = $r; return $f;
+		}; })(resolver))); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		_r$1;
 		_tuple = GetLocation();
 		$r = Follow(_tuple[0], _tuple[1], _tuple[2]); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
@@ -29178,8 +29161,8 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 	};
 	basicResolver.prototype.Register = function(r) { return this.$val.Register(r); };
 	basicResolver.ptr.prototype.Resolve = function(path) {
-		var $ptr, _arg, _arg$1, _arg$2, _arg$3, _entry, _i, _i$1, _i$2, _i$3, _i$4, _i$5, _key, _keys, _r, _r$1, _r$2, _r$3, _r$4, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, _tmp, _tmp$1, _tuple, b, child, child$1, hash, hashIndex, key, newPath, npath, ok, params, path, rem, sub, sub$1, sub$2, val, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _entry = $f._entry; _i = $f._i; _i$1 = $f._i$1; _i$2 = $f._i$2; _i$3 = $f._i$3; _i$4 = $f._i$4; _i$5 = $f._i$5; _key = $f._key; _keys = $f._keys; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; _ref$3 = $f._ref$3; _ref$4 = $f._ref$4; _ref$5 = $f._ref$5; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tuple = $f._tuple; b = $f.b; child = $f.child; child$1 = $f.child$1; hash = $f.hash; hashIndex = $f.hashIndex; key = $f.key; newPath = $f.newPath; npath = $f.npath; ok = $f.ok; params = $f.params; path = $f.path; rem = $f.rem; sub = $f.sub; sub$1 = $f.sub$1; sub$2 = $f.sub$2; val = $f.val; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _entry, _i, _i$1, _i$2, _i$3, _i$4, _i$5, _key, _keys, _r, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, _tmp, _tmp$1, _tuple, b, child, child$1, hash, hashIndex, key, newPath, npath, ok, params, path, rem, sub, sub$1, sub$2, val, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _entry = $f._entry; _i = $f._i; _i$1 = $f._i$1; _i$2 = $f._i$2; _i$3 = $f._i$3; _i$4 = $f._i$4; _i$5 = $f._i$5; _key = $f._key; _keys = $f._keys; _r = $f._r; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; _ref$3 = $f._ref$3; _ref$4 = $f._ref$4; _ref$5 = $f._ref$5; _tmp = $f._tmp; _tmp$1 = $f._tmp$1; _tuple = $f._tuple; b = $f.b; child = $f.child; child$1 = $f.child$1; hash = $f.hash; hashIndex = $f.hashIndex; key = $f.key; newPath = $f.newPath; npath = $f.npath; ok = $f.ok; params = $f.params; path = $f.path; rem = $f.rem; sub = $f.sub; sub$1 = $f.sub$1; sub$2 = $f.sub$2; val = $f.val; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		path = $clone(path, Path);
 		b = this;
 		/* */ if ($interfaceIsEqual(b.matcher, $ifaceNil)) { $s = 1; continue; }
@@ -29203,34 +29186,24 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 			/* } */ $s = 6; continue; case 7:
 			return;
 		/* } */ case 2:
-		_r = b.matcher.Pattern(); /* */ $s = 9; case 9: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_arg = new $String(_r);
-		_arg$1 = new $String(path.Rem);
-		_r$1 = fmt.Printf("Before[%s]: -> %+s\n", new sliceType([_arg, _arg$1])); /* */ $s = 10; case 10: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		_r$1;
-		_r$2 = b.matcher.Validate(path.Rem); /* */ $s = 11; case 11: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		_tuple = _r$2;
+		_r = b.matcher.Validate(path.Rem); /* */ $s = 9; case 9: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r;
 		params = _tuple[0];
 		rem = _tuple[1];
 		ok = _tuple[2];
-		_r$3 = b.matcher.Pattern(); /* */ $s = 12; case 12: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		_arg$2 = new $String(_r$3);
-		_arg$3 = new $String(rem);
-		_r$4 = fmt.Printf("After[%s]: -> %+s\n", new sliceType([_arg$2, _arg$3])); /* */ $s = 13; case 13: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-		_r$4;
-		/* */ if (!ok) { $s = 14; continue; }
-		/* */ $s = 15; continue;
-		/* if (!ok) { */ case 14:
+		/* */ if (!ok) { $s = 10; continue; }
+		/* */ $s = 11; continue;
+		/* if (!ok) { */ case 10:
 			_ref$2 = b.fails;
 			_i$2 = 0;
-			/* while (true) { */ case 16:
-				/* if (!(_i$2 < _ref$2.$length)) { break; } */ if(!(_i$2 < _ref$2.$length)) { $s = 17; continue; }
+			/* while (true) { */ case 12:
+				/* if (!(_i$2 < _ref$2.$length)) { break; } */ if(!(_i$2 < _ref$2.$length)) { $s = 13; continue; }
 				sub$1 = ((_i$2 < 0 || _i$2 >= _ref$2.$length) ? $throwRuntimeError("index out of range") : _ref$2.$array[_ref$2.$offset + _i$2]);
-				$r = sub$1(path); /* */ $s = 18; case 18: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = sub$1(path); /* */ $s = 14; case 14: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				_i$2++;
-			/* } */ $s = 16; continue; case 17:
+			/* } */ $s = 12; continue; case 13:
 			return;
-		/* } */ case 15:
+		/* } */ case 11:
 		_ref$3 = path.Params;
 		_i$3 = 0;
 		_keys = $keys(_ref$3);
@@ -29258,39 +29231,39 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 		newPath = new Path.ptr(new PathDirective.ptr(path.PathDirective.Host, hash, npath, path.PathDirective.Sequence), rem, params);
 		_ref$4 = b.subs;
 		_i$4 = 0;
-		/* while (true) { */ case 19:
-			/* if (!(_i$4 < _ref$4.$length)) { break; } */ if(!(_i$4 < _ref$4.$length)) { $s = 20; continue; }
+		/* while (true) { */ case 15:
+			/* if (!(_i$4 < _ref$4.$length)) { break; } */ if(!(_i$4 < _ref$4.$length)) { $s = 16; continue; }
 			sub$2 = ((_i$4 < 0 || _i$4 >= _ref$4.$length) ? $throwRuntimeError("index out of range") : _ref$4.$array[_ref$4.$offset + _i$4]);
-			$r = sub$2(newPath); /* */ $s = 21; case 21: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = sub$2(newPath); /* */ $s = 17; case 17: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			_i$4++;
-		/* } */ $s = 19; continue; case 20:
+		/* } */ $s = 15; continue; case 16:
 		_ref$5 = b.children;
 		_i$5 = 0;
-		/* while (true) { */ case 22:
-			/* if (!(_i$5 < _ref$5.$length)) { break; } */ if(!(_i$5 < _ref$5.$length)) { $s = 23; continue; }
+		/* while (true) { */ case 18:
+			/* if (!(_i$5 < _ref$5.$length)) { break; } */ if(!(_i$5 < _ref$5.$length)) { $s = 19; continue; }
 			child$1 = ((_i$5 < 0 || _i$5 >= _ref$5.$length) ? $throwRuntimeError("index out of range") : _ref$5.$array[_ref$5.$offset + _i$5]);
-			$r = child$1.Resolve(newPath); /* */ $s = 24; case 24: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = child$1.Resolve(newPath); /* */ $s = 20; case 20: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			_i$5++;
-		/* } */ $s = 22; continue; case 23:
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: basicResolver.ptr.prototype.Resolve }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._entry = _entry; $f._i = _i; $f._i$1 = _i$1; $f._i$2 = _i$2; $f._i$3 = _i$3; $f._i$4 = _i$4; $f._i$5 = _i$5; $f._key = _key; $f._keys = _keys; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f._ref$3 = _ref$3; $f._ref$4 = _ref$4; $f._ref$5 = _ref$5; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tuple = _tuple; $f.b = b; $f.child = child; $f.child$1 = child$1; $f.hash = hash; $f.hashIndex = hashIndex; $f.key = key; $f.newPath = newPath; $f.npath = npath; $f.ok = ok; $f.params = params; $f.path = path; $f.rem = rem; $f.sub = sub; $f.sub$1 = sub$1; $f.sub$2 = sub$2; $f.val = val; $f.$s = $s; $f.$r = $r; return $f;
+		/* } */ $s = 18; continue; case 19:
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: basicResolver.ptr.prototype.Resolve }; } $f.$ptr = $ptr; $f._entry = _entry; $f._i = _i; $f._i$1 = _i$1; $f._i$2 = _i$2; $f._i$3 = _i$3; $f._i$4 = _i$4; $f._i$5 = _i$5; $f._key = _key; $f._keys = _keys; $f._r = _r; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f._ref$3 = _ref$3; $f._ref$4 = _ref$4; $f._ref$5 = _ref$5; $f._tmp = _tmp; $f._tmp$1 = _tmp$1; $f._tuple = _tuple; $f.b = b; $f.child = child; $f.child$1 = child$1; $f.hash = hash; $f.hashIndex = hashIndex; $f.key = key; $f.newPath = newPath; $f.npath = npath; $f.ok = ok; $f.params = params; $f.path = path; $f.rem = rem; $f.sub = sub; $f.sub$1 = sub$1; $f.sub$2 = sub$2; $f.val = val; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	basicResolver.prototype.Resolve = function(path) { return this.$val.Resolve(path); };
-	basicResolver.ptr.prototype.FailSubscribe = function(sub) {
+	basicResolver.ptr.prototype.ResolvedFailed = function(sub) {
 		var $ptr, b, sub;
 		b = this;
 		b.fails = $append(b.fails, sub);
 	};
-	basicResolver.prototype.FailSubscribe = function(sub) { return this.$val.FailSubscribe(sub); };
-	basicResolver.ptr.prototype.Subscribe = function(sub) {
+	basicResolver.prototype.ResolvedFailed = function(sub) { return this.$val.ResolvedFailed(sub); };
+	basicResolver.ptr.prototype.ResolvedPassed = function(sub) {
 		var $ptr, b, sub;
 		b = this;
 		b.subs = $append(b.subs, sub);
 	};
-	basicResolver.prototype.Subscribe = function(sub) { return this.$val.Subscribe(sub); };
+	basicResolver.prototype.ResolvedPassed = function(sub) { return this.$val.ResolvedPassed(sub); };
 	PathDirective.methods = [{prop: "String", name: "String", pkg: "", typ: $funcType([], [$String], false)}];
 	ptrType$1.methods = [{prop: "Follow", name: "Follow", pkg: "", typ: $funcType([$String, $String, $String], [], false)}];
 	ptrType.methods = [{prop: "Go", name: "Go", pkg: "", typ: $funcType([$String], [], false)}];
-	ptrType$2.methods = [{prop: "Register", name: "Register", pkg: "", typ: $funcType([Resolver], [], false)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([Path], [], false)}, {prop: "FailSubscribe", name: "FailSubscribe", pkg: "", typ: $funcType([ResolveSubscriber], [], false)}, {prop: "Subscribe", name: "Subscribe", pkg: "", typ: $funcType([ResolveSubscriber], [], false)}];
+	ptrType$2.methods = [{prop: "Register", name: "Register", pkg: "", typ: $funcType([Resolver], [], false)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([Path], [], false)}, {prop: "ResolvedFailed", name: "ResolvedFailed", pkg: "", typ: $funcType([ResolveSubscriber], [], false)}, {prop: "ResolvedPassed", name: "ResolvedPassed", pkg: "", typ: $funcType([ResolveSubscriber], [], false)}];
 	PathDirective.init([{prop: "Host", name: "Host", pkg: "", typ: $String, tag: ""}, {prop: "Hash", name: "Hash", pkg: "", typ: $String, tag: ""}, {prop: "Path", name: "Path", pkg: "", typ: $String, tag: ""}, {prop: "Sequence", name: "Sequence", pkg: "", typ: $String, tag: ""}]);
 	Path.init([{prop: "PathDirective", name: "", pkg: "", typ: PathDirective, tag: ""}, {prop: "Rem", name: "Rem", pkg: "", typ: $String, tag: ""}, {prop: "Params", name: "Params", pkg: "", typ: mapType, tag: ""}]);
 	PathSequencer.init([$String, $String], [$String], false);
@@ -29298,7 +29271,7 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 	HistoryProvider.init([{prop: "PathObserver", name: "", pkg: "", typ: ptrType$1, tag: ""}]);
 	ResolveSubscriber.init([Path], [], false);
 	Resolvable.init([{prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([Path], [], false)}]);
-	Resolver.init([{prop: "FailSubscribe", name: "FailSubscribe", pkg: "", typ: $funcType([ResolveSubscriber], [], false)}, {prop: "Register", name: "Register", pkg: "", typ: $funcType([Resolver], [], false)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([Path], [], false)}, {prop: "Subscribe", name: "Subscribe", pkg: "", typ: $funcType([ResolveSubscriber], [], false)}]);
+	Resolver.init([{prop: "Register", name: "Register", pkg: "", typ: $funcType([Resolver], [], false)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([Path], [], false)}, {prop: "ResolvedFailed", name: "ResolvedFailed", pkg: "", typ: $funcType([ResolveSubscriber], [], false)}, {prop: "ResolvedPassed", name: "ResolvedPassed", pkg: "", typ: $funcType([ResolveSubscriber], [], false)}]);
 	basicResolver.init([{prop: "matcher", name: "matcher", pkg: "github.com/influx6/gu/gudispatch", typ: pattern.URIMatcher, tag: ""}, {prop: "subs", name: "subs", pkg: "github.com/influx6/gu/gudispatch", typ: sliceType$1, tag: ""}, {prop: "fails", name: "fails", pkg: "github.com/influx6/gu/gudispatch", typ: sliceType$1, tag: ""}, {prop: "children", name: "children", pkg: "github.com/influx6/gu/gudispatch", typ: sliceType$2, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
@@ -34348,8 +34321,8 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 	};
 	Element.prototype.UpdateHash = function() { return this.$val.UpdateHash(); };
 	Element.ptr.prototype.Reconcile = function(m) {
-		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _tuple, _v, _v$1, childChanged, e, em, m, maxSize, n, nch, newChildren, och, ok, oldChildren, oldHash, oldMaxSize, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; _ref = $f._ref; _tuple = $f._tuple; _v = $f._v; _v$1 = $f._v$1; childChanged = $f.childChanged; e = $f.e; em = $f.em; m = $f.m; maxSize = $f.maxSize; n = $f.n; nch = $f.nch; newChildren = $f.newChildren; och = $f.och; ok = $f.ok; oldChildren = $f.oldChildren; oldHash = $f.oldHash; oldMaxSize = $f.oldMaxSize; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _tuple, attrChanged, childChanged, e, em, m, maxSize, n, nch, newChildren, och, ok, oldChildren, oldHash, oldMaxSize, styleChanged, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; _ref = $f._ref; _tuple = $f._tuple; attrChanged = $f.attrChanged; childChanged = $f.childChanged; e = $f.e; em = $f.em; m = $f.m; maxSize = $f.maxSize; n = $f.n; nch = $f.nch; newChildren = $f.newChildren; och = $f.och; ok = $f.ok; oldChildren = $f.oldChildren; oldHash = $f.oldHash; oldMaxSize = $f.oldMaxSize; styleChanged = $f.styleChanged; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		e = this;
 		_tuple = $assertType(m, ElementalMarkup, true);
 		em = _tuple[0];
@@ -34385,70 +34358,68 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 		oldChildren = _r$4;
 		maxSize = newChildren.$length;
 		oldMaxSize = oldChildren.$length;
-		if (maxSize <= 0) {
-			if (oldMaxSize <= 0) {
-				e.SwapHash(oldHash);
-				return false;
+		_r$5 = EqualAttributes(e, em); /* */ $s = 14; case 14: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+		attrChanged = _r$5;
+		_r$6 = EqualStyles(e, em); /* */ $s = 15; case 15: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+		styleChanged = _r$6;
+		if (maxSize < 1) {
+			if (oldMaxSize > 1) {
+				return true;
 			}
-			return true;
+			if (!attrChanged || !styleChanged) {
+				return true;
+			}
+			e.SwapHash(oldHash);
+			return false;
 		}
 		childChanged = false;
 		_ref = oldChildren;
 		_i = 0;
-		/* while (true) { */ case 14:
-			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 15; continue; }
+		/* while (true) { */ case 16:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 17; continue; }
 			n = _i;
 			och = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
-			/* */ if (maxSize > n) { $s = 16; continue; }
-			/* */ $s = 17; continue;
-			/* if (maxSize > n) { */ case 16:
+			/* */ if (maxSize > n) { $s = 18; continue; }
+			/* */ $s = 19; continue;
+			/* if (maxSize > n) { */ case 18:
 				nch = ((n < 0 || n >= newChildren.$length) ? $throwRuntimeError("index out of range") : newChildren.$array[newChildren.$offset + n]);
-				_r$5 = nch.Name(); /* */ $s = 21; case 21: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-				_r$6 = och.Name(); /* */ $s = 22; case 22: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
-				/* */ if (_r$5 === _r$6) { $s = 18; continue; }
-				/* */ $s = 19; continue;
-				/* if (_r$5 === _r$6) { */ case 18:
-					_r$7 = nch.Reconcile(och); /* */ $s = 25; case 25: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
-					/* */ if (_r$7) { $s = 23; continue; }
-					/* */ $s = 24; continue;
-					/* if (_r$7) { */ case 23:
-						childChanged = true;
-					/* } */ case 24:
-					$s = 20; continue;
-				/* } else { */ case 19:
-					$r = och.Remove(); /* */ $s = 26; case 26: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-					$r = e.AddChild(new sliceType$1([och])); /* */ $s = 27; case 27: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				/* } */ case 20:
+				_r$7 = nch.Name(); /* */ $s = 22; case 22: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
+				_r$8 = och.Name(); /* */ $s = 23; case 23: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
+				/* */ if (!(_r$7 === _r$8)) { $s = 20; continue; }
+				/* */ $s = 21; continue;
+				/* if (!(_r$7 === _r$8)) { */ case 20:
+					$r = och.Remove(); /* */ $s = 24; case 24: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$r = e.AddChild(new sliceType$1([och])); /* */ $s = 25; case 25: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					childChanged = true;
+					_i++;
+					/* continue; */ $s = 16; continue;
+				/* } */ case 21:
+				_r$9 = nch.Reconcile(och); /* */ $s = 28; case 28: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
+				/* */ if (_r$9) { $s = 26; continue; }
+				/* */ $s = 27; continue;
+				/* if (_r$9) { */ case 26:
+					childChanged = true;
+				/* } */ case 27:
 				_i++;
-				/* continue; */ $s = 14; continue;
-			/* } */ case 17:
-			$r = och.Remove(); /* */ $s = 28; case 28: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			$r = e.AddChild(new sliceType$1([och])); /* */ $s = 29; case 29: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				/* continue; */ $s = 16; continue;
+			/* } */ case 19:
+			$r = och.Remove(); /* */ $s = 29; case 29: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = e.AddChild(new sliceType$1([och])); /* */ $s = 30; case 30: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			childChanged = true;
 			_i++;
-		/* } */ $s = 14; continue; case 15:
-		$r = ReconcileEvents(e, em); /* */ $s = 30; case 30: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		/* */ if (!($interfaceIsEqual(e.eventManager, $ifaceNil))) { $s = 31; continue; }
-		/* */ $s = 32; continue;
-		/* if (!($interfaceIsEqual(e.eventManager, $ifaceNil))) { */ case 31:
-			$r = e.eventManager.DisconnectRemoved(); /* */ $s = 33; case 33: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		/* } */ case 32:
-		if (maxSize > oldMaxSize) {
-			return true;
-		}
-		if (!(!childChanged)) { _v$1 = false; $s = 37; continue s; }
-		_r$8 = EqualAttributes(e, em); /* */ $s = 38; case 38: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
-		_v$1 = _r$8; case 37:
-		if (!(_v$1)) { _v = false; $s = 36; continue s; }
-		_r$9 = EqualStyles(e, em); /* */ $s = 39; case 39: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
-		_v = _r$9; case 36:
-		/* */ if (_v) { $s = 34; continue; }
-		/* */ $s = 35; continue;
-		/* if (_v) { */ case 34:
+		/* } */ $s = 16; continue; case 17:
+		$r = ReconcileEvents(e, em); /* */ $s = 31; case 31: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* */ if (!($interfaceIsEqual(e.eventManager, $ifaceNil))) { $s = 32; continue; }
+		/* */ $s = 33; continue;
+		/* if (!($interfaceIsEqual(e.eventManager, $ifaceNil))) { */ case 32:
+			$r = e.eventManager.DisconnectRemoved(); /* */ $s = 34; case 34: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* } */ case 33:
+		if (!childChanged && attrChanged && styleChanged) {
 			e.SwapHash(oldHash);
 			return false;
-		/* } */ case 35:
+		}
 		return true;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: Element.ptr.prototype.Reconcile }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f._ref = _ref; $f._tuple = _tuple; $f._v = _v; $f._v$1 = _v$1; $f.childChanged = childChanged; $f.e = e; $f.em = em; $f.m = m; $f.maxSize = maxSize; $f.n = n; $f.nch = nch; $f.newChildren = newChildren; $f.och = och; $f.ok = ok; $f.oldChildren = oldChildren; $f.oldHash = oldHash; $f.oldMaxSize = oldMaxSize; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Element.ptr.prototype.Reconcile }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f._ref = _ref; $f._tuple = _tuple; $f.attrChanged = attrChanged; $f.childChanged = childChanged; $f.e = e; $f.em = em; $f.m = m; $f.maxSize = maxSize; $f.n = n; $f.nch = nch; $f.newChildren = newChildren; $f.och = och; $f.ok = ok; $f.oldChildren = oldChildren; $f.oldHash = oldHash; $f.oldMaxSize = oldMaxSize; $f.styleChanged = styleChanged; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	Element.prototype.Reconcile = function(m) { return this.$val.Reconcile(m); };
 	childAdd.ptr.prototype.Apply = function(root, child) {
@@ -34937,23 +34908,22 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 	};
 	$pkg.ReconcileEvents = ReconcileEvents;
 	EqualStyles = function(e, em) {
-		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _ref, _tuple, _tuple$1, _tuple$2, e, em, equal, err, name, oa, oldAttrs, ta, tvalue, val, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; e = $f.e; em = $f.em; equal = $f.equal; err = $f.err; name = $f.name; oa = $f.oa; oldAttrs = $f.oldAttrs; ta = $f.ta; tvalue = $f.tvalue; val = $f.val; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _ref, _tuple, _tuple$1, _tuple$2, e, em, err, name, oa, old, ta, tvalue, val, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; e = $f.e; em = $f.em; err = $f.err; name = $f.name; oa = $f.oa; old = $f.old; ta = $f.ta; tvalue = $f.tvalue; val = $f.val; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		_r = em.Styles(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		oldAttrs = _r;
-		/* */ if (oldAttrs.$length <= 0) { $s = 2; continue; }
+		old = _r;
+		/* */ if (old.$length < 1) { $s = 2; continue; }
 		/* */ $s = 3; continue;
-		/* if (oldAttrs.$length <= 0) { */ case 2:
+		/* if (old.$length < 1) { */ case 2:
 			_r$1 = e.Styles(); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			/* */ if (_r$1.$length <= 0) { $s = 4; continue; }
+			/* */ if (_r$1.$length > 0) { $s = 4; continue; }
 			/* */ $s = 5; continue;
-			/* if (_r$1.$length <= 0) { */ case 4:
-				return true;
+			/* if (_r$1.$length > 0) { */ case 4:
+				return false;
 			/* } */ case 5:
-			return false;
+			return true;
 		/* } */ case 3:
-		equal = true;
-		_ref = oldAttrs;
+		_ref = old;
 		_i = 0;
 		/* while (true) { */ case 7:
 			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 8; continue; }
@@ -34966,47 +34936,38 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 			_tuple$1 = _r$3;
 			ta = _tuple$1[0];
 			err = _tuple$1[1];
-			/* */ if ($interfaceIsEqual(err, $ifaceNil)) { $s = 11; continue; }
-			/* */ $s = 12; continue;
-			/* if ($interfaceIsEqual(err, $ifaceNil)) { */ case 11:
-				_r$4 = ta.Render(); /* */ $s = 14; case 14: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-				_tuple$2 = _r$4;
-				tvalue = _tuple$2[1];
-				if (tvalue === val) {
-					_i++;
-					/* continue; */ $s = 7; continue;
-				}
-				equal = false;
-				/* break; */ $s = 8; continue;
-				$s = 13; continue;
-			/* } else { */ case 12:
-				equal = false;
-				/* break; */ $s = 8; continue;
-			/* } */ case 13:
+			if (!($interfaceIsEqual(err, $ifaceNil))) {
+				return false;
+			}
+			_r$4 = ta.Render(); /* */ $s = 11; case 11: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			_tuple$2 = _r$4;
+			tvalue = _tuple$2[1];
+			if (!(tvalue === val)) {
+				return false;
+			}
 			_i++;
 		/* } */ $s = 7; continue; case 8:
-		return equal;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: EqualStyles }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f.e = e; $f.em = em; $f.equal = equal; $f.err = err; $f.name = name; $f.oa = oa; $f.oldAttrs = oldAttrs; $f.ta = ta; $f.tvalue = tvalue; $f.val = val; $f.$s = $s; $f.$r = $r; return $f;
+		return true;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: EqualStyles }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f.e = e; $f.em = em; $f.err = err; $f.name = name; $f.oa = oa; $f.old = old; $f.ta = ta; $f.tvalue = tvalue; $f.val = val; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.EqualStyles = EqualStyles;
 	EqualAttributes = function(e, em) {
-		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _ref, _tuple, _tuple$1, _tuple$2, e, em, equal, err, name, oa, oldAttrs, ta, tvalue, val, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; e = $f.e; em = $f.em; equal = $f.equal; err = $f.err; name = $f.name; oa = $f.oa; oldAttrs = $f.oldAttrs; ta = $f.ta; tvalue = $f.tvalue; val = $f.val; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _ref, _tuple, _tuple$1, _tuple$2, e, em, err, name, oa, old, ta, tvalue, val, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; e = $f.e; em = $f.em; err = $f.err; name = $f.name; oa = $f.oa; old = $f.old; ta = $f.ta; tvalue = $f.tvalue; val = $f.val; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		_r = em.Attributes(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		oldAttrs = _r;
-		/* */ if (oldAttrs.$length <= 0) { $s = 2; continue; }
+		old = _r;
+		/* */ if (old.$length < 1) { $s = 2; continue; }
 		/* */ $s = 3; continue;
-		/* if (oldAttrs.$length <= 0) { */ case 2:
+		/* if (old.$length < 1) { */ case 2:
 			_r$1 = e.Attributes(); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			/* */ if (_r$1.$length <= 0) { $s = 4; continue; }
+			/* */ if (_r$1.$length > 0) { $s = 4; continue; }
 			/* */ $s = 5; continue;
-			/* if (_r$1.$length <= 0) { */ case 4:
-				return true;
+			/* if (_r$1.$length > 0) { */ case 4:
+				return false;
 			/* } */ case 5:
-			return false;
+			return true;
 		/* } */ case 3:
-		equal = true;
-		_ref = oldAttrs;
+		_ref = old;
 		_i = 0;
 		/* while (true) { */ case 7:
 			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 8; continue; }
@@ -35019,27 +34980,19 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 			_tuple$1 = _r$3;
 			ta = _tuple$1[0];
 			err = _tuple$1[1];
-			/* */ if ($interfaceIsEqual(err, $ifaceNil)) { $s = 11; continue; }
-			/* */ $s = 12; continue;
-			/* if ($interfaceIsEqual(err, $ifaceNil)) { */ case 11:
-				_r$4 = ta.Render(); /* */ $s = 14; case 14: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-				_tuple$2 = _r$4;
-				tvalue = _tuple$2[1];
-				if (tvalue === val) {
-					_i++;
-					/* continue; */ $s = 7; continue;
-				}
-				equal = false;
-				/* break; */ $s = 8; continue;
-				$s = 13; continue;
-			/* } else { */ case 12:
-				equal = false;
-				/* break; */ $s = 8; continue;
-			/* } */ case 13:
+			if (!($interfaceIsEqual(err, $ifaceNil))) {
+				return false;
+			}
+			_r$4 = ta.Render(); /* */ $s = 11; case 11: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			_tuple$2 = _r$4;
+			tvalue = _tuple$2[1];
+			if (!(tvalue === val)) {
+				return false;
+			}
 			_i++;
 		/* } */ $s = 7; continue; case 8:
-		return equal;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: EqualAttributes }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f.e = e; $f.em = em; $f.equal = equal; $f.err = err; $f.name = name; $f.oa = oa; $f.oldAttrs = oldAttrs; $f.ta = ta; $f.tvalue = tvalue; $f.val = val; $f.$s = $s; $f.$r = $r; return $f;
+		return true;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: EqualAttributes }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f.e = e; $f.em = em; $f.err = err; $f.name = name; $f.oa = oa; $f.old = old; $f.ta = ta; $f.tvalue = tvalue; $f.val = val; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.EqualAttributes = EqualAttributes;
 	GetStyle = function(e, f) {
@@ -38279,7 +38232,7 @@ $packages["html/template"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/guviews"] = (function() {
-	var $pkg = {}, $init, fmt, gudispatch, guevents, gujs, gutrees, elems, detect, js, maker, template, sync, atomic, Renderable, ReactiveRenderable, Views, ViewStates, HideView, ShowView, view, ViewUpdate, ViewState, mapType, structType, sliceType, funcType, funcType$1, ptrType, funcType$2, sliceType$3, ptrType$2, ptrType$3, vox, hider, shower, WrapNormal, AttachHash, init, New, CustomView;
+	var $pkg = {}, $init, fmt, gudispatch, guevents, gujs, gutrees, elems, detect, js, maker, template, sync, atomic, Renderable, ReactiveSubscription, Reactive, reactive, Views, ViewStates, HideView, ShowView, view, ViewUpdate, ViewState, mapType, structType, sliceType, funcType, sliceType$2, funcType$1, ptrType, funcType$2, sliceType$3, ptrType$1, ptrType$2, ptrType$3, vox, hider, shower, WrapNormal, AttachHash, init, NewReactive, New, CustomView;
 	fmt = $packages["fmt"];
 	gudispatch = $packages["github.com/influx6/gu/gudispatch"];
 	guevents = $packages["github.com/influx6/gu/guevents"];
@@ -38293,7 +38246,18 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 	sync = $packages["sync"];
 	atomic = $packages["sync/atomic"];
 	Renderable = $pkg.Renderable = $newType(8, $kindInterface, "guviews.Renderable", "Renderable", "github.com/influx6/gu/guviews", null);
-	ReactiveRenderable = $pkg.ReactiveRenderable = $newType(8, $kindInterface, "guviews.ReactiveRenderable", "ReactiveRenderable", "github.com/influx6/gu/guviews", null);
+	ReactiveSubscription = $pkg.ReactiveSubscription = $newType(8, $kindInterface, "guviews.ReactiveSubscription", "ReactiveSubscription", "github.com/influx6/gu/guviews", null);
+	Reactive = $pkg.Reactive = $newType(8, $kindInterface, "guviews.Reactive", "Reactive", "github.com/influx6/gu/guviews", null);
+	reactive = $pkg.reactive = $newType(0, $kindStruct, "guviews.reactive", "reactive", "github.com/influx6/gu/guviews", function(rw_, subs_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.rw = new sync.RWMutex.ptr(new sync.Mutex.ptr(0, 0), 0, 0, 0, 0);
+			this.subs = sliceType$2.nil;
+			return;
+		}
+		this.rw = rw_;
+		this.subs = subs_;
+	});
 	Views = $pkg.Views = $newType(8, $kindInterface, "guviews.Views", "Views", "github.com/influx6/gu/guviews", null);
 	ViewStates = $pkg.ViewStates = $newType(8, $kindInterface, "guviews.ViewStates", "ViewStates", "github.com/influx6/gu/guviews", null);
 	HideView = $pkg.HideView = $newType(0, $kindStruct, "guviews.HideView", "HideView", "github.com/influx6/gu/guviews", function() {
@@ -38356,10 +38320,12 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 	structType = $structType([{prop: "maker", name: "maker", pkg: "github.com/influx6/gu/guviews", typ: maker.Makers, tag: ""}, {prop: "rw", name: "rw", pkg: "github.com/influx6/gu/guviews", typ: sync.RWMutex, tag: ""}, {prop: "builds", name: "builds", pkg: "github.com/influx6/gu/guviews", typ: mapType, tag: ""}]);
 	sliceType = $sliceType(Renderable);
 	funcType = $funcType([], [], false);
+	sliceType$2 = $sliceType(funcType);
 	funcType$1 = $funcType([ViewUpdate], [], false);
 	ptrType = $ptrType($Int64);
 	funcType$2 = $funcType([ViewState], [], false);
 	sliceType$3 = $sliceType(gutrees.Appliable);
+	ptrType$1 = $ptrType(reactive);
 	ptrType$2 = $ptrType(js.Object);
 	ptrType$3 = $ptrType(view);
 	WrapNormal = function(fx) {
@@ -38384,6 +38350,39 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		vox.maker = maker.New($ifaceNil);
 		vox.builds = {};
 	};
+	NewReactive = function() {
+		var $ptr, rc;
+		rc = new reactive.ptr(new sync.RWMutex.ptr(new sync.Mutex.ptr(0, 0), 0, 0, 0, 0), sliceType$2.nil);
+		return rc;
+	};
+	$pkg.NewReactive = NewReactive;
+	reactive.ptr.prototype.React = function(sub) {
+		var $ptr, r, sub, $s, $deferred, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; r = $f.r; sub = $f.sub; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
+		r = this;
+		$r = r.rw.Lock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$deferred.push([$methodVal(r.rw, "Unlock"), []]);
+		r.subs = $append(r.subs, sub);
+		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: reactive.ptr.prototype.React }; } $f.$ptr = $ptr; $f.r = r; $f.sub = sub; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
+	};
+	reactive.prototype.React = function(sub) { return this.$val.React(sub); };
+	reactive.ptr.prototype.Publish = function() {
+		var $ptr, _i, _ref, r, sub, $s, $deferred, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _ref = $f._ref; r = $f.r; sub = $f.sub; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
+		r = this;
+		$r = r.rw.RLock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$deferred.push([$methodVal(r.rw, "RUnlock"), []]);
+		_ref = r.subs;
+		_i = 0;
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+			sub = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			$r = sub(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_i++;
+		/* } */ $s = 2; continue; case 3:
+		/* */ $s = -1; case -1: } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: reactive.ptr.prototype.Publish }; } $f.$ptr = $ptr; $f._i = _i; $f._ref = _ref; $f.r = r; $f.sub = sub; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
+	};
+	reactive.prototype.Publish = function() { return this.$val.Publish(); };
 	New = function(r) {
 		var $ptr, _r, r, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; r = $f.r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -38438,20 +38437,18 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 				_i++;
 				/* continue; */ $s = 5; continue;
 			/* } */ case 8:
-			_tuple$1 = $assertType(vws, ReactiveRenderable, true);
+			_tuple$1 = $assertType(vws, ReactiveSubscription, true);
 			rws = _tuple$1[0];
 			ok$1 = _tuple$1[1];
 			/* */ if (ok$1) { $s = 10; continue; }
 			/* */ $s = 11; continue;
 			/* if (ok$1) { */ case 10:
-				$r = rws.Subscribe((function(uuid, vm) { return function $b() {
+				$r = rws.React((function(uuid, vm) { return function $b() {
 					var $ptr, x, $s, $r;
 					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 					$r = gudispatch.Dispatch((x = new ViewUpdate.ptr(uuid[0]), new x.constructor.elem(x))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 					/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(uuid, vm)); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				_i++;
-				/* continue; */ $s = 5; continue;
 			/* } */ case 11:
 			_i++;
 		/* } */ $s = 5; continue; case 6:
@@ -38719,11 +38716,14 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: view.ptr.prototype.RenderHTML }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._tuple = _tuple; $f.ma = ma; $f.v = v; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	view.prototype.RenderHTML = function() { return this.$val.RenderHTML(); };
+	ptrType$1.methods = [{prop: "React", name: "React", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "Publish", name: "Publish", pkg: "", typ: $funcType([], [], false)}];
 	HideView.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([gutrees.Markup], [], false)}];
 	ShowView.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([gutrees.Markup], [], false)}];
 	ptrType$3.methods = [{prop: "Path", name: "Path", pkg: "", typ: $funcType([gudispatch.Path], [], false)}, {prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Bind", name: "Bind", pkg: "", typ: $funcType([Views], [], false)}, {prop: "Sync", name: "Sync", pkg: "", typ: $funcType([Views], [], false)}, {prop: "BindSync", name: "BindSync", pkg: "", typ: $funcType([Views], [], false)}, {prop: "Mount", name: "Mount", pkg: "", typ: $funcType([ptrType$2], [], false)}, {prop: "Show", name: "Show", pkg: "", typ: $funcType([], [], false)}, {prop: "Hide", name: "Hide", pkg: "", typ: $funcType([], [], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [guevents.EventManagers], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}];
 	Renderable.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}]);
-	ReactiveRenderable.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}, {prop: "Subscribe", name: "Subscribe", pkg: "", typ: $funcType([funcType], [], false)}]);
+	ReactiveSubscription.init([{prop: "React", name: "React", pkg: "", typ: $funcType([funcType], [], false)}]);
+	Reactive.init([{prop: "Publish", name: "Publish", pkg: "", typ: $funcType([], [], false)}, {prop: "React", name: "React", pkg: "", typ: $funcType([funcType], [], false)}]);
+	reactive.init([{prop: "rw", name: "rw", pkg: "github.com/influx6/gu/guviews", typ: sync.RWMutex, tag: ""}, {prop: "subs", name: "subs", pkg: "github.com/influx6/gu/guviews", typ: sliceType$2, tag: ""}]);
 	Views.init([{prop: "Bind", name: "Bind", pkg: "", typ: $funcType([Views], [], false)}, {prop: "BindSync", name: "BindSync", pkg: "", typ: $funcType([Views], [], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [guevents.EventManagers], false)}, {prop: "Hide", name: "Hide", pkg: "", typ: $funcType([], [], false)}, {prop: "Mount", name: "Mount", pkg: "", typ: $funcType([ptrType$2], [], false)}, {prop: "Path", name: "Path", pkg: "", typ: $funcType([gudispatch.Path], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "Show", name: "Show", pkg: "", typ: $funcType([], [], false)}, {prop: "Sync", name: "Sync", pkg: "", typ: $funcType([Views], [], false)}, {prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}]);
 	ViewStates.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([gutrees.Markup], [], false)}]);
 	HideView.init([]);
@@ -44109,9 +44109,8 @@ $packages["github.com/influx6/gu/vendor/honnef.co/go/js/dom"] = (function() {
 	return $pkg;
 })();
 $packages["main"] = (function() {
-	var $pkg = {}, $init, bytes, fmt, gu, gucss, gudispatch, gutrees, attrs, elems, styles, guviews, dom, backgrounds, background, sliceType, sliceType$1, sliceType$2, sliceType$3, arrayType, arrayType$1, sliceType$4, ptrType, newBackground, makeCSS, main;
+	var $pkg = {}, $init, bytes, gu, gucss, gudispatch, gutrees, attrs, elems, styles, guviews, dom, backgrounds, background, sliceType, sliceType$1, sliceType$2, arrayType, arrayType$1, sliceType$3, funcType, ptrType, newBackground, makeCSS, main;
 	bytes = $packages["bytes"];
-	fmt = $packages["fmt"];
 	gu = $packages["github.com/influx6/gu"];
 	gucss = $packages["github.com/influx6/gu/gucss"];
 	gudispatch = $packages["github.com/influx6/gu/gudispatch"];
@@ -44122,25 +44121,27 @@ $packages["main"] = (function() {
 	guviews = $packages["github.com/influx6/gu/guviews"];
 	dom = $packages["github.com/influx6/gu/vendor/honnef.co/go/js/dom"];
 	backgrounds = $pkg.backgrounds = $newType(12, $kindSlice, "main.backgrounds", "backgrounds", "main", null);
-	background = $pkg.background = $newType(0, $kindStruct, "main.background", "background", "main", function(Resolver_, color_, show_) {
+	background = $pkg.background = $newType(0, $kindStruct, "main.background", "background", "main", function(Resolver_, Reactive_, color_, show_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Resolver = $ifaceNil;
+			this.Reactive = $ifaceNil;
 			this.color = "";
 			this.show = false;
 			return;
 		}
 		this.Resolver = Resolver_;
+		this.Reactive = Reactive_;
 		this.color = color_;
 		this.show = show_;
 	});
 	sliceType = $sliceType($String);
 	sliceType$1 = $sliceType(gutrees.Appliable);
-	sliceType$2 = $sliceType($emptyInterface);
-	sliceType$3 = $sliceType($Uint8);
+	sliceType$2 = $sliceType($Uint8);
 	arrayType = $arrayType($Uint8, 4);
 	arrayType$1 = $arrayType($Uint8, 64);
-	sliceType$4 = $sliceType(guviews.Renderable);
+	sliceType$3 = $sliceType(guviews.Renderable);
+	funcType = $funcType([], [], false);
 	ptrType = $ptrType(background);
 	backgrounds.prototype.Resolve = function(path) {
 		var $ptr, _i, _ref, b, bg, path, $s, $r;
@@ -44158,6 +44159,21 @@ $packages["main"] = (function() {
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: backgrounds.prototype.Resolve }; } $f.$ptr = $ptr; $f._i = _i; $f._ref = _ref; $f.b = b; $f.bg = bg; $f.path = path; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$ptrType(backgrounds).prototype.Resolve = function(path) { return this.$get().Resolve(path); };
+	backgrounds.prototype.React = function(fx) {
+		var $ptr, _i, _ref, b, bg, fx, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _ref = $f._ref; b = $f.b; bg = $f.bg; fx = $f.fx; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		b = this;
+		_ref = b;
+		_i = 0;
+		/* while (true) { */ case 1:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 2; continue; }
+			bg = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			$r = bg.Reactive.React(fx); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_i++;
+		/* } */ $s = 1; continue; case 2:
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: backgrounds.prototype.React }; } $f.$ptr = $ptr; $f._i = _i; $f._ref = _ref; $f.b = b; $f.bg = bg; $f.fx = fx; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$ptrType(backgrounds).prototype.React = function(fx) { return this.$get().React(fx); };
 	backgrounds.prototype.Render = function() {
 		var $ptr, _i, _r, _r$1, _ref, b, bg, root, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; b = $f.b; bg = $f.bg; root = $f.root; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -44181,22 +44197,23 @@ $packages["main"] = (function() {
 		var $ptr, _r, bg, color, pattern, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; bg = $f.bg; color = $f.color; pattern = $f.pattern; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		bg = [bg];
-		color = [color];
 		_r = gudispatch.NewResolver(pattern); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		bg[0] = new background.ptr(_r, color[0], false);
-		$r = bg[0].Resolver.Subscribe((function(bg, color) { return function $b(ps) {
-			var $ptr, _r$1, ps, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$1 = $f._r$1; ps = $f.ps; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		bg[0] = new background.ptr(_r, guviews.NewReactive(), color, false);
+		$r = bg[0].Resolver.ResolvedPassed((function(bg) { return function $b(ps) {
+			var $ptr, ps, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; ps = $f.ps; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 			ps = $clone(ps, gudispatch.Path);
-			_r$1 = fmt.Printf("Path: %+s -> %s\n", new sliceType$2([new ps.constructor.elem(ps), new $String(color[0])])); /* */ $s = 1; case 1: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_r$1;
-			if (!bg[0].show) {
-				bg[0].show = false;
+			/* */ if (!bg[0].show) { $s = 1; continue; }
+			/* */ $s = 2; continue;
+			/* if (!bg[0].show) { */ case 1:
+				bg[0].show = true;
+				$r = bg[0].Reactive.Publish(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				return;
-			}
-			bg[0].show = true;
-			/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$1 = _r$1; $f.ps = ps; $f.$s = $s; $f.$r = $r; return $f;
-		}; })(bg, color)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* } */ case 2:
+			bg[0].show = false;
+			$r = bg[0].Reactive.Publish(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.ps = ps; $f.$s = $s; $f.$r = $r; return $f;
+		}; })(bg)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		return bg[0];
 		/* */ } return; } if ($f === undefined) { $f = { $blk: newBackground }; } $f.$ptr = $ptr; $f._r = _r; $f.bg = bg; $f.color = color; $f.pattern = pattern; $f.$s = $s; $f.$r = $r; return $f;
 	};
@@ -44218,7 +44235,7 @@ $packages["main"] = (function() {
 		styl = _r;
 		_r$1 = doc.QuerySelector("head"); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		$r = _r$1.AppendChild(styl); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		data[0] = new bytes.Buffer.ptr(sliceType$3.nil, 0, arrayType.zero(), arrayType$1.zero(), 0);
+		data[0] = new bytes.Buffer.ptr(sliceType$2.nil, 0, arrayType.zero(), arrayType$1.zero(), 0);
 		$r = css.Render(data[0]); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = styl.SetTextContent($bytesToString(data[0].Bytes())); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: makeCSS }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.css = css; $f.data = data; $f.doc = doc; $f.styl = styl; $f.$s = $s; $f.$r = $r; return $f;
@@ -44239,40 +44256,39 @@ $packages["main"] = (function() {
 		i = 0;
 		/* while (true) { */ case 6:
 			/* if (!(i < 3)) { break; } */ if(!(i < 3)) { $s = 7; continue; }
-			_r$3 = newBackground(((i < 0 || i >= colors.$length) ? $throwRuntimeError("index out of range") : colors.$array[colors.$offset + i]), ((i < 0 || i >= colors.$length) ? $throwRuntimeError("index out of range") : colors.$array[colors.$offset + i])); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			_r$3 = newBackground("/" + ((i < 0 || i >= colors.$length) ? $throwRuntimeError("index out of range") : colors.$array[colors.$offset + i]), ((i < 0 || i >= colors.$length) ? $throwRuntimeError("index out of range") : colors.$array[colors.$offset + i])); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 			bgs = $append(bgs, _r$3);
 			i = i + (1) >> 0;
 		/* } */ $s = 6; continue; case 7:
-		_r$4 = guviews.New(new sliceType$4([bgs])); /* */ $s = 9; case 9: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+		_r$4 = guviews.New(new sliceType$3([bgs])); /* */ $s = 9; case 9: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
 		bgView = _r$4;
 		$r = gu.RenderAsBody(bgView); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = guviews.AttachHash("/colors/*", bgView, guviews.WrapNormal($methodVal(bgView, "Hide"))); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: main }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f.bgView = bgView; $f.bgs = bgs; $f.colors = colors; $f.css = css; $f.doc = doc; $f.i = i; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	backgrounds.methods = [{prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([gudispatch.Path], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}];
+	backgrounds.methods = [{prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([gudispatch.Path], [], false)}, {prop: "React", name: "React", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}];
 	ptrType.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}];
 	backgrounds.init(ptrType);
-	background.init([{prop: "Resolver", name: "", pkg: "", typ: gudispatch.Resolver, tag: ""}, {prop: "color", name: "color", pkg: "main", typ: $String, tag: ""}, {prop: "show", name: "show", pkg: "main", typ: $Bool, tag: ""}]);
+	background.init([{prop: "Resolver", name: "", pkg: "", typ: gudispatch.Resolver, tag: ""}, {prop: "Reactive", name: "", pkg: "", typ: guviews.Reactive, tag: ""}, {prop: "color", name: "color", pkg: "main", typ: $String, tag: ""}, {prop: "show", name: "show", pkg: "main", typ: $Bool, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		$r = bytes.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = fmt.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gu.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gucss.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gudispatch.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gutrees.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = attrs.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = elems.$init(); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = styles.$init(); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = guviews.$init(); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = dom.$init(); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		/* */ if ($pkg === $mainPkg) { $s = 12; continue; }
-		/* */ $s = 13; continue;
-		/* if ($pkg === $mainPkg) { */ case 12:
-			$r = main(); /* */ $s = 14; case 14: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = gu.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = gucss.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = gudispatch.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = gutrees.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = attrs.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = elems.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = styles.$init(); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = guviews.$init(); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dom.$init(); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* */ if ($pkg === $mainPkg) { $s = 11; continue; }
+		/* */ $s = 12; continue;
+		/* if ($pkg === $mainPkg) { */ case 11:
+			$r = main(); /* */ $s = 13; case 13: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$mainFinished = true;
-		/* } */ case 13:
+		/* } */ case 12:
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;

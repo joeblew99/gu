@@ -374,10 +374,10 @@ func (e *Element) Reconcile(m Markup) bool {
 	// its hash we will check the attributes against each other, but also the hash is dependent on the
 	// children also, if the children observered there was a change
 	oldHash := em.Hash()
-	// newHash := e.Hash()
 
 	// if we have a special case for text element then we do things differently
 	if e.Name() == "text" {
+
 		//if the contents are equal,keep the prev hash
 		if e.TextContent() == em.TextContent() {
 			e.SwapHash(oldHash)
@@ -391,14 +391,21 @@ func (e *Element) Reconcile(m Markup) bool {
 	maxSize := len(newChildren)
 	oldMaxSize := len(oldChildren)
 
+	attrChanged := EqualAttributes(e, em)
+	styleChanged := EqualStyles(e, em)
+
 	// if the element had no children too, swap hash.
-	if maxSize <= 0 {
-		if oldMaxSize <= 0 {
-			e.SwapHash(oldHash)
-			return false
+	if maxSize < 1 {
+		if oldMaxSize > 1 {
+			return true
 		}
 
-		return true
+		if !attrChanged || !styleChanged {
+			return true
+		}
+
+		e.SwapHash(oldHash)
+		return false
 	}
 
 	var childChanged bool
@@ -407,15 +414,15 @@ func (e *Element) Reconcile(m Markup) bool {
 		if maxSize > n {
 
 			nch := newChildren[n]
-
-			if nch.Name() == och.Name() {
-				if nch.Reconcile(och) {
-					childChanged = true
-				}
-			} else {
-
+			if nch.Name() != och.Name() {
 				och.Remove()
 				e.AddChild(och)
+				childChanged = true
+				continue
+			}
+
+			if nch.Reconcile(och) {
+				childChanged = true
 			}
 
 			continue
@@ -423,6 +430,7 @@ func (e *Element) Reconcile(m Markup) bool {
 
 		och.Remove()
 		e.AddChild(och)
+		childChanged = true
 	}
 
 	ReconcileEvents(e, em)
@@ -431,12 +439,7 @@ func (e *Element) Reconcile(m Markup) bool {
 		e.eventManager.DisconnectRemoved()
 	}
 
-	//if the sizes of the new node is more than the old node then ,we definitely changed
-	if maxSize > oldMaxSize {
-		return true
-	}
-
-	if !childChanged && EqualAttributes(e, em) && EqualStyles(e, em) {
+	if !childChanged && attrChanged && styleChanged {
 		e.SwapHash(oldHash)
 		return false
 	}

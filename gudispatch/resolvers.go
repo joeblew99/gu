@@ -19,9 +19,9 @@ type Resolvable interface {
 // provided instance of a gudispatch.Path.
 type Resolver interface {
 	Resolvable
-	Subscribe(ResolveSubscriber)
-	FailSubscribe(ResolveSubscriber)
 	Register(Resolver)
+	ResolvedPassed(ResolveSubscriber)
+	ResolvedFailed(ResolveSubscriber)
 }
 
 // NewResolver returns a new instance of a structure that matches
@@ -118,15 +118,15 @@ func (b *basicResolver) Resolve(path Path) {
 	}
 }
 
-// FailSubscribe adds a function to the failed subscription list for this
+// ResolvedFailed adds a function to the failed subscription list for this
 // resolver.
-func (b *basicResolver) FailSubscribe(sub ResolveSubscriber) {
+func (b *basicResolver) ResolvedFailed(sub ResolveSubscriber) {
 	b.fails = append(b.fails, sub)
 }
 
-// Subscribe adds a function to the subscription list for this
+// ResolvedPassed adds a function to the subscription list for this
 // resolver.
-func (b *basicResolver) Subscribe(sub ResolveSubscriber) {
+func (b *basicResolver) ResolvedPassed(sub ResolveSubscriber) {
 	b.subs = append(b.subs, sub)
 }
 
