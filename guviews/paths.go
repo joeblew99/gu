@@ -20,36 +20,14 @@ func WrapNormal(fx func()) FailPath {
 // Using the internal route pattern, it matches all route changes
 // and checks against the full URL(Path+Hash).
 // failFn must either be a FailNormal, FailPath or nil.
-func AttachURL(pattern string, v Views, failFn interface{}) {
-	var failCb FailPath
-
-	switch failFn.(type) {
-	case FailNormal:
-		failCb = WrapNormal(failFn.(FailNormal))
-	case FailPath:
-		failCb = failFn.(FailPath)
-	}
-
-	gudispatch.AttachURL(pattern, func(p gudispatch.Path) {
-		v.Path(p)
-	}, failCb)
+func AttachURL(pattern string, v Views, failFn func(gudispatch.Path)) {
+	gudispatch.ResolveAttachURL(pattern, v.Path, failFn)
 }
 
 // AttachHash attaches the view to the provided Route pattern,
 // Using the internal route pattern, it matches all route changes
 // and checks against the URL hash.
 // failFn must either be a FailNormal, FailPath or nil.
-func AttachHash(pattern string, v Views, failFn interface{}) {
-	var failCb FailPath
-
-	switch failFn.(type) {
-	case FailNormal:
-		failCb = WrapNormal(failFn.(FailNormal))
-	case FailPath:
-		failCb = failFn.(FailPath)
-	}
-
-	gudispatch.AttachHash(pattern, func(p gudispatch.Path) {
-		v.Path(p)
-	}, failCb)
+func AttachHash(pattern string, v Views, failFn func(gudispatch.Path)) {
+	gudispatch.ResolveAttachHash(pattern, v.Path, failFn)
 }

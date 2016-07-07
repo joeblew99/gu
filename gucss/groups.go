@@ -235,6 +235,11 @@ func newbaseGroup(sel string, selector string, p Properties, root Group) *baseGr
 	return bg
 }
 
+// IsRoot returns true/false if the giving Group is a root.
+func (bg *baseGroup) IsRoot() bool {
+	return bg.root
+}
+
 // Tree returns the internal group chain tree.
 func (bg *baseGroup) Tree() *NGroup {
 	return bg.base
@@ -420,7 +425,11 @@ func (bg *baseGroup) renderKids(dst io.Writer) {
 //
 //    parentSelector > childSelector {...}
 func Child(root Group, p Properties, sels ...string) {
-	oldSel := root.Selector() + " > "
+	var oldSel string
+
+	if !root.IsRoot() {
+		oldSel = root.Selector() + " > "
+	}
 
 	var newSel []string
 
@@ -443,7 +452,11 @@ func Child(root Group, p Properties, sels ...string) {
 //
 //    parentSelector{{NS}} {...}
 func NS(root Group, p Properties, sels ...string) {
-	oldSel := root.Selector()
+	var oldSel string
+
+	if !root.IsRoot() {
+		oldSel = root.Selector()
+	}
 
 	var newSel []string
 
@@ -467,16 +480,33 @@ func NS(root Group, p Properties, sels ...string) {
 //
 //    parentSelector , childSelector {...}
 func Extend(root Group, p Properties, sels ...string) {
-	oldSel := root.NthParent(1).Selector()
+	var oldSel string
+
+	if !root.IsRoot() {
+		oldSel = root.NthParent(1).Selector()
+	}
 
 	var newSel []string
 
 	for _, sel := range sels {
-		newSel = append(newSel, oldSel+" "+sel)
+		if oldSel != "" {
+			sel = oldSel + " " + sel
+		}
+
+		if strings.TrimSpace(sel) == "" {
+			continue
+		}
+
+		newSel = append(newSel, sel)
 	}
 
-	sel := strings.Join(newSel, ",")
-	gm := newbaseGroup(sel, root.Selector()+", "+sel, p, root)
+	sel := strings.Join(newSel, ", ")
+
+	if !root.IsRoot() {
+		sel = root.Selector() + ", " + sel
+	}
+
+	gm := newbaseGroup(sel, sel, p, root)
 
 	if bm, ok := root.(*baseGroup); ok {
 		bm.addGroup(gm)
@@ -490,7 +520,11 @@ func Extend(root Group, p Properties, sels ...string) {
 //
 //    Pre: parentSelector ~ childSelector {...}
 func PreSibling(root Group, p Properties, sels ...string) {
-	oldSel := root.Selector() + " ~ "
+	var oldSel string
+
+	if !root.IsRoot() {
+		oldSel = root.Selector() + " ~ "
+	}
 
 	var newSel []string
 
@@ -511,7 +545,11 @@ func PreSibling(root Group, p Properties, sels ...string) {
 //
 //    Post: parentSelector + childSelector {...}
 func PostSibling(root Group, p Properties, sels ...string) {
-	oldSel := root.Selector() + " + "
+	var oldSel string
+
+	if !root.IsRoot() {
+		oldSel = root.Selector() + " + "
+	}
 
 	var newSel []string
 
@@ -534,7 +572,11 @@ func PostSibling(root Group, p Properties, sels ...string) {
 //
 //    parentSelector  childSelector {...}
 func Within(root Group, p Properties, sels ...string) {
-	oldSel := root.Selector() + "  "
+	var oldSel string
+
+	if !root.IsRoot() {
+		oldSel = root.Selector() + "  "
+	}
 
 	var newSel []string
 

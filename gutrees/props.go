@@ -23,6 +23,16 @@ func WhenElse(first Property, other Property) Property {
 	return other
 }
 
+// When checks if the giving state is true and returns the first property else
+// returns the second.
+func When(state bool, first Property, other Property) Property {
+	if state {
+		return first
+	}
+
+	return other
+}
+
 //==============================================================================
 
 // PropertyApplier defines a package level property applier for markup properties.

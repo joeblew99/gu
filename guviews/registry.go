@@ -58,7 +58,6 @@ type ViewConfig struct {
 	Name  string
 	Elem  string
 	ID    string
-	Paths []string
 	Param interface{}
 }
 
@@ -122,11 +121,6 @@ func Create(vcs ...ViewConfig) error {
 
 		if !pass {
 			return fmt.Errorf("Invalid Type returned, Expected Renderable or Renderables: %+v", res)
-		}
-
-		// Attach the provided paths for this new view.
-		for _, path := range vc.Paths {
-			AttachView(view, path)
 		}
 
 		// Attach to the specified element as given.

@@ -86,6 +86,7 @@ type Group interface {
 
 	Sel() string
 	Selector() string
+	IsRoot() bool
 }
 
 // NewRoot returns a clean root which has no tree and can provide

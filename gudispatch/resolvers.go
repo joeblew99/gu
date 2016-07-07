@@ -1,6 +1,7 @@
 package gudispatch
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/influx6/faux/pattern"
@@ -9,12 +10,18 @@ import (
 // ResolveSubscriber defines a function type for a Resolver subcriber.
 type ResolveSubscriber func(Path)
 
+// Resolvable defines an interface for a resolvable type object.
+type Resolvable interface {
+	Resolve(Path)
+}
+
 // Resolver defines an interface for a type that resolves a
 // provided instance of a gudispatch.Path.
 type Resolver interface {
+	Resolvable
 	Subscribe(ResolveSubscriber)
+	FailSubscribe(ResolveSubscriber)
 	Register(Resolver)
-	Resolve(Path)
 }
 
 // NewResolver returns a new instance of a structure that matches
@@ -33,6 +40,7 @@ func NewResolver(path string) Resolver {
 type basicResolver struct {
 	matcher  pattern.URIMatcher
 	subs     []ResolveSubscriber
+	fails    []ResolveSubscriber
 	children []Resolver
 }
 
@@ -66,7 +74,18 @@ func (b *basicResolver) Resolve(path Path) {
 
 	params, rem, ok := b.matcher.Validate(path.Rem)
 	if !ok {
+
+		// Notify the fail subscribers.
+		for _, sub := range b.fails {
+			sub(path)
+		}
+
 		return
+	}
+
+	// Copy over the parameter left from the previous path.
+	for key, val := range path.Params {
+		params[key] = val
 	}
 
 	var hash, npath string
@@ -99,8 +118,45 @@ func (b *basicResolver) Resolve(path Path) {
 	}
 }
 
+// FailSubscribe adds a function to the failed subscription list for this
+// resolver.
+func (b *basicResolver) FailSubscribe(sub ResolveSubscriber) {
+	b.fails = append(b.fails, sub)
+}
+
 // Subscribe adds a function to the subscription list for this
 // resolver.
 func (b *basicResolver) Subscribe(sub ResolveSubscriber) {
 	b.subs = append(b.subs, sub)
+}
+
+//==============================================================================
+
+// ResolvePath returns a new path created from match the giving matcher if
+// valid else an non-nil error. It returns the remaining path of the giving
+// path as the new path.
+func ResolvePath(matcher pattern.URIMatcher, path Path) (Path, error) {
+	params, rem, ok := matcher.Validate(path.Rem)
+	if !ok {
+		return Path{}, errors.New("Path does not match")
+	}
+
+	var hash, npath string
+
+	hashIndex := strings.IndexRune(path.Rem, '#')
+	if hashIndex != -1 {
+		hash = path.Rem[hashIndex:]
+		npath = path.Rem[:hashIndex]
+	}
+
+	return Path{
+		Rem:    rem,
+		Params: params,
+		PathDirective: PathDirective{
+			Host:     path.Host,
+			Hash:     hash,
+			Path:     npath,
+			Sequence: path.Sequence,
+		},
+	}, nil
 }

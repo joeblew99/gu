@@ -44,5 +44,8 @@ func Follow(host, path, hash string) {
 func init() {
 	if detect.IsBrowser() {
 		history = History(HashSequencer)
+
+		// Initiate to the current path.
+		history.Follow(GetLocation())
 	}
 }

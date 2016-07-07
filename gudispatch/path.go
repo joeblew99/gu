@@ -34,6 +34,8 @@ type Path struct {
 	Params map[string]string
 }
 
+//==============================================================================
+
 // AttachURL takes the giving pattern, matches it against changes provided by
 // the current PathObserver, if the full URL(i.e Path+Hash) matches then fires
 // the provided function.
@@ -76,12 +78,52 @@ func AttachHash(pattern string, fx func(Path), fail func(Path)) {
 		}
 
 		if fail != nil {
-			fail(Path{
-				PathDirective: p,
-			})
+			fail(Path{PathDirective: p})
 		}
 	})
 
+	// Follow the current location to see if we should be triggered.
+	Follow(GetLocation())
+}
+
+//==============================================================================
+
+// ResolveAttachURL takes the giving pattern, matches it against changes provided by
+// the current PathObserver, if the full URL(i.e Path+Hash) matches then fires
+// the provided function.
+func ResolveAttachURL(pattern string, fx func(Path), fail func(Path)) {
+	resolver := NewResolver(pattern)
+	resolver.Subscribe(fx)
+	resolver.FailSubscribe(fail)
+
+	Subscribe(func(p PathDirective) {
+		resolver.Resolve(Path{
+			Rem:           p.String(),
+			PathDirective: p,
+		})
+	})
+
+	// Follow the current location to see if we should be triggered.
+	Follow(GetLocation())
+}
+
+// ResolveAttachHash takes the giving pattern, matches it against changes provided by
+// the current PathObserver, if the URL hash matches then fires
+// the provided function.
+func ResolveAttachHash(pattern string, fx func(Path), fail func(Path)) {
+	resolver := NewResolver(pattern)
+	resolver.Subscribe(fx)
+	resolver.FailSubscribe(fail)
+
+	Subscribe(func(p PathDirective) {
+		fmt.Printf("Hash: %s -> %+s\n", pattern, p.Hash)
+		resolver.Resolve(Path{
+			Rem:           p.Hash,
+			PathDirective: p,
+		})
+	})
+
+	// Follow the current location to see if we should be triggered.
 	// Follow the current location to see if we should be triggered.
 	Follow(GetLocation())
 }

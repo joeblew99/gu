@@ -68,7 +68,7 @@ type HideView struct{}
 
 // Render marks the given markup as display:none
 func (v HideView) Render(m gutrees.Markup) {
-	gutrees.ReplaceStyle(m, "display", "none")
+	gutrees.ReplaceORAddStyle(m, "display", "none")
 }
 
 // ShowView provides a ViewStates for Views active state
@@ -76,7 +76,7 @@ type ShowView struct{}
 
 // Render marks the given markup with a display: block
 func (v ShowView) Render(m gutrees.Markup) {
-	gutrees.ReplaceStyle(m, "display", "block")
+	gutrees.ReplaceORAddStyle(m, "display", "block")
 }
 
 //==============================================================================
@@ -158,10 +158,10 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 	return vm
 }
 
-// Path sends a Path report to all registered Resolvers.
+// Path sends a Path report to all renderables that are Resolvable.
 func (v *view) Path(path gudispatch.Path) {
 	for _, vm := range v.renders {
-		if rs, ok := vm.(Resolver); ok {
+		if rs, ok := vm.(gudispatch.Resolvable); ok {
 			rs.Resolve(path)
 		}
 	}
@@ -280,6 +280,7 @@ func (v *view) Hide() {
 	atomic.StoreInt64(&v.switchActive, 0)
 
 	gudispatch.Dispatch(ViewUpdate{ID: v.UUID()})
+
 	gudispatch.Dispatch(ViewState{
 		ID: v.UUID(),
 		On: false,
