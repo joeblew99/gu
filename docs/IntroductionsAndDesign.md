@@ -264,7 +264,8 @@ By using this approach we can ensure important details like the `Views ID` is ma
 ### Conclusion
 The parts that make up the `gu` library are very simple in their design and approach, and the next set of links presents more practically use cases of the `gu` library to build your  components.
 
-  - **[Components, SubComponents and Views](./ComponentsAndViews.md)**
-  - **[Components and Subcomponents](./ComponentsAndSubComponents.md)**
-  - **[Initializing and Server Side Rendering](./InitializationsAndServerSideRendering.md)**
+  - **[Components and Views](./ComponentsAndViews.md)**
+  - **[Views And Routes](./ViewsAndRoutes.md)**
+  - **[Initializing and Server Side Rendering](./docs/InitializationsAndServerSideRendering.md)**
+  - **[Notifications](./Notifications.md)**
   - **[Limitations](./Limitations.md)**

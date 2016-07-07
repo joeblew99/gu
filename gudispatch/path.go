@@ -27,6 +27,14 @@ func (p PathDirective) String() string {
 
 //==============================================================================
 
+// WrapHandler returns a function of type PathHandler by wrapping the
+// provided no argument function in one.
+func WrapHandler(fx func()) func(Path) {
+	return func(_ Path) {
+		fx()
+	}
+}
+
 // Path defines a representation of a location path matching a specific sequence.
 type Path struct {
 	PathDirective

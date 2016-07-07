@@ -28846,7 +28846,7 @@ $packages["github.com/influx6/gu/vendor/github.com/influx6/faux/pattern"] = (fun
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/gudispatch"] = (function() {
-	var $pkg = {}, $init, errors, fmt, detect, js, loop, mque, pattern, strings, sync, PathDirective, Path, PathSequencer, PathObserver, HistoryProvider, ResolveSubscriber, Resolvable, Resolver, basicResolver, ptrType, sliceType, funcType, funcType$1, ptrType$1, sliceType$1, sliceType$2, mapType, ptrType$2, history, dispatch, matchers, matchlock, Subscribe, Dispatch, Follow, init, URIMatcher, ResolveAttachHash, HashSequencer, NewPathObserver, GetLocation, HashChangePath, BrowserSupportsPushState, PopStatePath, PushDOMState, SetDOMHash, History, panicBrowserDetect, NewResolver;
+	var $pkg = {}, $init, errors, fmt, detect, js, loop, mque, pattern, strings, sync, PathDirective, Path, PathSequencer, PathObserver, HistoryProvider, ResolveSubscriber, Resolvable, Resolver, basicResolver, ptrType, sliceType, funcType, funcType$1, ptrType$1, sliceType$1, sliceType$2, mapType, ptrType$2, history, dispatch, matchers, matchlock, Subscribe, Dispatch, Follow, init, URIMatcher, WrapHandler, ResolveAttachHash, HashSequencer, NewPathObserver, GetLocation, HashChangePath, BrowserSupportsPushState, PopStatePath, PushDOMState, SetDOMHash, History, panicBrowserDetect, NewResolver;
 	errors = $packages["errors"];
 	fmt = $packages["fmt"];
 	detect = $packages["github.com/influx6/gu/vendor/github.com/go-humble/detect"];
@@ -28998,6 +28998,16 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: PathDirective.ptr.prototype.String }; } $f.$ptr = $ptr; $f._r = _r; $f.p = p; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	PathDirective.prototype.String = function() { return this.$val.String(); };
+	WrapHandler = function(fx) {
+		var $ptr, fx;
+		return (function $b(param) {
+			var $ptr, param, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; param = $f.param; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			$r = fx(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.param = param; $f.$s = $s; $f.$r = $r; return $f;
+		});
+	};
+	$pkg.WrapHandler = WrapHandler;
 	ResolveAttachHash = function(pattern$1, fx, fail) {
 		var $ptr, _r, _r$1, _tuple, fail, fx, pattern$1, resolver, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _tuple = $f._tuple; fail = $f.fail; fx = $f.fx; pattern$1 = $f.pattern$1; resolver = $f.resolver; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -38232,7 +38242,7 @@ $packages["html/template"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/guviews"] = (function() {
-	var $pkg = {}, $init, fmt, gudispatch, guevents, gujs, gutrees, elems, detect, js, maker, template, sync, atomic, Renderable, ReactiveSubscription, Reactive, reactive, Views, ViewStates, HideView, ShowView, view, ViewUpdate, ViewState, mapType, structType, sliceType, funcType, sliceType$2, funcType$1, ptrType, funcType$2, sliceType$3, ptrType$1, ptrType$2, ptrType$3, vox, hider, shower, WrapNormal, AttachHash, init, NewReactive, New, CustomView;
+	var $pkg = {}, $init, fmt, gudispatch, guevents, gujs, gutrees, elems, detect, js, maker, template, sync, atomic, Renderable, ReactiveSubscription, Reactive, reactive, Views, ViewStates, HideView, ShowView, view, ViewUpdate, ViewState, mapType, structType, sliceType, funcType, sliceType$2, funcType$1, ptrType, funcType$2, sliceType$3, ptrType$1, ptrType$2, ptrType$3, vox, hider, shower, AttachHash, init, NewReactive, New, CustomView;
 	fmt = $packages["fmt"];
 	gudispatch = $packages["github.com/influx6/gu/gudispatch"];
 	guevents = $packages["github.com/influx6/gu/guevents"];
@@ -38328,16 +38338,6 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 	ptrType$1 = $ptrType(reactive);
 	ptrType$2 = $ptrType(js.Object);
 	ptrType$3 = $ptrType(view);
-	WrapNormal = function(fx) {
-		var $ptr, fx;
-		return (function $b(param) {
-			var $ptr, param, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; param = $f.param; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-			$r = fx(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.param = param; $f.$s = $s; $f.$r = $r; return $f;
-		});
-	};
-	$pkg.WrapNormal = WrapNormal;
 	AttachHash = function(pattern, v, failFn) {
 		var $ptr, failFn, pattern, v, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; failFn = $f.failFn; pattern = $f.pattern; v = $f.v; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -39312,7 +39312,7 @@ $packages["github.com/influx6/gu/gutrees/attrs"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/gutrees/styles"] = (function() {
-	var $pkg = {}, $init, gutrees, strconv, Background, Display, Height, Width;
+	var $pkg = {}, $init, gutrees, strconv, Background, Display, Height, Margin, Width;
 	gutrees = $packages["github.com/influx6/gu/gutrees"];
 	strconv = $packages["strconv"];
 	Background = function(value) {
@@ -39330,6 +39330,11 @@ $packages["github.com/influx6/gu/gutrees/styles"] = (function() {
 		return new gutrees.Style.ptr("height", size);
 	};
 	$pkg.Height = Height;
+	Margin = function(size) {
+		var $ptr, size;
+		return new gutrees.Style.ptr("margin", size);
+	};
+	$pkg.Margin = Margin;
 	Width = function(size) {
 		var $ptr, size;
 		return new gutrees.Style.ptr("width", size);
@@ -44196,37 +44201,41 @@ $packages["main"] = (function() {
 	newBackground = function(pattern, color) {
 		var $ptr, _r, bg, color, pattern, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; bg = $f.bg; color = $f.color; pattern = $f.pattern; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		bg = [bg];
 		_r = gudispatch.NewResolver(pattern); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		bg[0] = new background.ptr(_r, guviews.NewReactive(), color, false);
-		$r = bg[0].Resolver.ResolvedPassed((function(bg) { return function $b(ps) {
-			var $ptr, ps, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; ps = $f.ps; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-			ps = $clone(ps, gudispatch.Path);
-			/* */ if (!bg[0].show) { $s = 1; continue; }
-			/* */ $s = 2; continue;
-			/* if (!bg[0].show) { */ case 1:
-				bg[0].show = true;
-				$r = bg[0].Reactive.Publish(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				return;
-			/* } */ case 2:
-			bg[0].show = false;
-			$r = bg[0].Reactive.Publish(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.ps = ps; $f.$s = $s; $f.$r = $r; return $f;
-		}; })(bg)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		return bg[0];
+		bg = new background.ptr(_r, guviews.NewReactive(), color, false);
+		$r = bg.Resolver.ResolvedFailed(gudispatch.WrapHandler($methodVal(bg, "updateFail"))); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = bg.Resolver.ResolvedPassed(gudispatch.WrapHandler($methodVal(bg, "updatePass"))); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		return bg;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: newBackground }; } $f.$ptr = $ptr; $f._r = _r; $f.bg = bg; $f.color = color; $f.pattern = pattern; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	background.ptr.prototype.Render = function() {
 		var $ptr, _r, b, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; b = $f.b; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		b = this;
-		_r = elems.Div(new sliceType$1([gutrees.When(b.show, styles.Display("block"), styles.Display("none")), attrs.Class(new sliceType(["box"])), styles.Background(b.color), styles.Width("100%"), styles.Height("100%")])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = elems.Div(new sliceType$1([gutrees.When(b.show, styles.Display("block"), styles.Display("none")), attrs.Class(new sliceType(["box"])), styles.Background(b.color), styles.Margin("10% auto"), styles.Width("50%"), styles.Height("50%")])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		/* */ $s = 2; case 2:
 		return _r;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: background.ptr.prototype.Render }; } $f.$ptr = $ptr; $f._r = _r; $f.b = b; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	background.prototype.Render = function() { return this.$val.Render(); };
+	background.ptr.prototype.updateFail = function() {
+		var $ptr, b, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; b = $f.b; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		b = this;
+		b.show = false;
+		$r = b.Reactive.Publish(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: background.ptr.prototype.updateFail }; } $f.$ptr = $ptr; $f.b = b; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	background.prototype.updateFail = function() { return this.$val.updateFail(); };
+	background.ptr.prototype.updatePass = function() {
+		var $ptr, b, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; b = $f.b; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		b = this;
+		b.show = true;
+		$r = b.Reactive.Publish(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: background.ptr.prototype.updatePass }; } $f.$ptr = $ptr; $f.b = b; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	background.prototype.updatePass = function() { return this.$val.updatePass(); };
 	makeCSS = function(doc, css) {
 		var $ptr, _r, _r$1, css, data, doc, styl, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; css = $f.css; data = $f.data; doc = $f.doc; styl = $f.styl; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -44241,8 +44250,8 @@ $packages["main"] = (function() {
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: makeCSS }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.css = css; $f.data = data; $f.doc = doc; $f.styl = styl; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	main = function() {
-		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, bgView, bgs, colors, css, doc, i, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; bgView = $f.bgView; bgs = $f.bgs; colors = $f.colors; css = $f.css; doc = $f.doc; i = $f.i; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _ref, bgView, bgs, color, colors, css, doc, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; bgView = $f.bgView; bgs = $f.bgs; color = $f.color; colors = $f.colors; css = $f.css; doc = $f.doc; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		_r = gucss.NewRoot(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		css = _r;
 		_r$1 = css.Child("*", $makeMap($String.keyFor, [{ k: "padding", v: new $String("0px") }, { k: "margin", v: new $String("0px") }])); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
@@ -44251,23 +44260,26 @@ $packages["main"] = (function() {
 		_r$2 = dom.GetWindow().Document(); /* */ $s = 4; case 4: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 		doc = _r$2;
 		$r = makeCSS(doc, css); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		colors = new sliceType(["red", "black", "cyan"]);
+		colors = new sliceType(["red", "black", "cyan", "yellow", "blue"]);
 		bgs = backgrounds.nil;
-		i = 0;
+		_ref = colors;
+		_i = 0;
 		/* while (true) { */ case 6:
-			/* if (!(i < 3)) { break; } */ if(!(i < 3)) { $s = 7; continue; }
-			_r$3 = newBackground("/" + ((i < 0 || i >= colors.$length) ? $throwRuntimeError("index out of range") : colors.$array[colors.$offset + i]), ((i < 0 || i >= colors.$length) ? $throwRuntimeError("index out of range") : colors.$array[colors.$offset + i])); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 7; continue; }
+			color = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			_r$3 = newBackground("/" + color, color); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 			bgs = $append(bgs, _r$3);
-			i = i + (1) >> 0;
+			_i++;
 		/* } */ $s = 6; continue; case 7:
 		_r$4 = guviews.New(new sliceType$3([bgs])); /* */ $s = 9; case 9: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
 		bgView = _r$4;
 		$r = gu.RenderAsBody(bgView); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = guviews.AttachHash("/colors/*", bgView, guviews.WrapNormal($methodVal(bgView, "Hide"))); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: main }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f.bgView = bgView; $f.bgs = bgs; $f.colors = colors; $f.css = css; $f.doc = doc; $f.i = i; $f.$s = $s; $f.$r = $r; return $f;
+		$r = guviews.AttachHash("/colors/*", bgView, $throwNilPointerError); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = guviews.AttachHash("/bgcolors/*", bgView, $throwNilPointerError); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: main }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f.bgView = bgView; $f.bgs = bgs; $f.color = color; $f.colors = colors; $f.css = css; $f.doc = doc; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	backgrounds.methods = [{prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([gudispatch.Path], [], false)}, {prop: "React", name: "React", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}];
-	ptrType.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}];
+	ptrType.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}, {prop: "updateFail", name: "updateFail", pkg: "main", typ: $funcType([], [], false)}, {prop: "updatePass", name: "updatePass", pkg: "main", typ: $funcType([], [], false)}];
 	backgrounds.init(ptrType);
 	background.init([{prop: "Resolver", name: "", pkg: "", typ: gudispatch.Resolver, tag: ""}, {prop: "Reactive", name: "", pkg: "", typ: guviews.Reactive, tag: ""}, {prop: "color", name: "color", pkg: "main", typ: $String, tag: ""}, {prop: "show", name: "show", pkg: "main", typ: $Bool, tag: ""}]);
 	$init = function() {

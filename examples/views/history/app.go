@@ -52,16 +52,8 @@ func newBackground(pattern string, color string) *background {
 		Reactive: guviews.NewReactive(),
 	}
 
-	bg.ResolvedPassed(func(ps gudispatch.Path) {
-		if !bg.show {
-			bg.show = true
-			bg.Reactive.Publish()
-			return
-		}
-
-		bg.show = false
-		bg.Reactive.Publish()
-	})
+	bg.ResolvedFailed(gudispatch.WrapHandler(bg.updateFail))
+	bg.ResolvedPassed(gudispatch.WrapHandler(bg.updatePass))
 
 	return bg
 }
@@ -72,9 +64,20 @@ func (b *background) Render() gutrees.Markup {
 		gutrees.When(b.show, styles.Display("block"), styles.Display("none")),
 		attrs.Class("box"),
 		styles.Background(b.color),
-		styles.Width("100%"),
-		styles.Height("100%"),
+		styles.Margin("10% auto"),
+		styles.Width("50%"),
+		styles.Height("50%"),
 	)
+}
+
+func (b *background) updateFail() {
+	b.show = false
+	b.Publish()
+}
+
+func (b *background) updatePass() {
+	b.show = true
+	b.Publish()
 }
 
 // css takes a document and a gucss.Render, creating the need dom element
@@ -105,12 +108,12 @@ func main() {
 	doc := dom.GetWindow().Document()
 	makeCSS(doc, css)
 
-	colors := []string{"red", "black", "cyan"}
+	colors := []string{"red", "black", "cyan", "yellow", "blue"}
 
 	var bgs backgrounds
 
-	for i := 0; i < 3; i++ {
-		bgs = append(bgs, newBackground("/"+colors[i], colors[i]))
+	for _, color := range colors {
+		bgs = append(bgs, newBackground("/"+color, color))
 	}
 
 	bgView := guviews.New(bgs)
@@ -118,5 +121,6 @@ func main() {
 
 	// Register the view to watch for Hash changes and also
 	// when it fails to match, it should hide.
-	guviews.AttachHash("/colors/*", bgView, guviews.WrapNormal(bgView.Hide))
+	guviews.AttachHash("/colors/*", bgView, nil)
+	guviews.AttachHash("/bgcolors/*", bgView, nil)
 }

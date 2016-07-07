@@ -1,6 +1,7 @@
 # Initialization And Server-Side Rendering
 There is not a lot to say on these two subjects as the style and approach is really a personal choice of the developer. There exists at least special constructs include in the library to aid if needed, but the most important part is really within the views themselves.
 
+  * You can sample code in [Deployed Example](../examples/deployed) *
 
 ## Initialization
 When writing your component intialization or creation code for components, the old style of writing them with the `main` function of your client code is fine, if that code will only ever be used on the client.

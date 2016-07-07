@@ -2,20 +2,6 @@ package guviews
 
 import "github.com/influx6/gu/gudispatch"
 
-// FailNormal is a fail function type that accepts no arguments.
-type FailNormal func()
-
-// FailPath is a fail function type that accepts a gudispatch.Path.
-type FailPath func(gudispatch.Path)
-
-// WrapNormal returns a function of type FailPath by wrapping the
-// provided no argument function in one.
-func WrapNormal(fx func()) FailPath {
-	return func(_ gudispatch.Path) {
-		fx()
-	}
-}
-
 // AttachURL attaches the view to the provided Route pattern,
 // Using the internal route pattern, it matches all route changes
 // and checks against the full URL(Path+Hash).
