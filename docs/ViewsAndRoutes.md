@@ -28,12 +28,11 @@ handlers. This in effect allows us to provide independent components with behavi
 free from their parents and can be attached to any root component with its own independent
 routing rules.
 
+You can see sample code in [History Example](../examples/history) 
 
 ## Example
 We want to create components which display or hide themselves based on the colors
 specified within the browser route as explained above.
-
-  * You can sample code in [History Example](../examples/history) *
 
 ```go
 package main

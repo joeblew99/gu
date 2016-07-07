@@ -6,10 +6,9 @@ flat object with internal arrays of components, or where others are composed tog
 into a new Renderable. This simplicity in thinking provides a sensible organization
 approach for the developer has he/she plans out the structures of their application.
 
-  * You can sample code in [Dashboard Example](../examples/dashboard) *
+You can see sample code in [Dashboard Example](../examples/dashboard)
 
 ### Example:
-
 To demonstrate how a component with Subcomponents can be built together,
 we will sample a demonstration for a dashboard display that allows us to
 details different metrics. Where the main component is a dashboard with
