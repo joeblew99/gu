@@ -70,6 +70,12 @@ func (r render) RenderAttribute(key string, val interface{}, dst io.Writer) {
 	case PropertyRender:
 		dst.Write([]byte(fmt.Sprintf(format, key, val.(PropertyRender).Render())))
 		return
+	case int, int64:
+		dst.Write([]byte(fmt.Sprintf(format, key, fmt.Sprintf("%d", val.(int)))))
+		return
+	case float32, float64:
+		dst.Write([]byte(fmt.Sprintf(format, key, fmt.Sprintf("%.6f", val.(float64)))))
+		return
 	default:
 		dst.Write([]byte(fmt.Sprintf(format, key, val)))
 		return
