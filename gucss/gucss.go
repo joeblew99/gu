@@ -83,6 +83,7 @@ type Group interface {
 	PreSibling(string, Properties) Group
 	PostSibling(string, Properties) Group
 	Extend(string, Properties) Group
+	Media(device string, query string) Group
 
 	Sel() string
 	Selector() string

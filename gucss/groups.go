@@ -202,6 +202,20 @@ func (n *NGroup) Append(g Group) *NGroup {
 
 //==============================================================================
 
+// mediaGroup defines a struct to store a pair of Group and MediaRender
+type mediaGroup struct {
+	Root  Group
+	Media MediaRender
+}
+
+// Render implements the Render interface for the baseGroup and returns the
+// property title and content for this group.
+func (mg mediaGroup) Render(dst io.Writer) {
+	mg.Media.Render(mg.Root, dst)
+}
+
+//==============================================================================
+
 // baseGroup defines the base line group structure which others compose. It contains
 // the base structure needed to meet the Group interface.
 type baseGroup struct {
@@ -212,7 +226,8 @@ type baseGroup struct {
 
 	root bool
 
-	kids []Render
+	kids  []Render
+	media []mediaGroup
 
 	properties Properties
 	prw        sync.RWMutex
@@ -254,7 +269,15 @@ func (bg *baseGroup) Render(dst io.Writer) {
 		bg.prw.RUnlock()
 	}
 
-	bg.renderKids(dst)
+	// Wrap up the children tree and build the appropriate content
+	for _, kid := range bg.kids {
+		kid.Render(dst)
+	}
+
+	// Wrap up the media tree and build the appropriate content
+	for _, media := range bg.media {
+		media.Render(dst)
+	}
 }
 
 // Add augments the giving properties into the baseGroup properties map.
@@ -272,6 +295,19 @@ func (bg *baseGroup) Add(p Properties) {
 }
 
 //==============================================================================
+
+// Media adds a returns a new root Group which creates a media query section
+// based on the properties added to the returned group.
+func (bg *baseGroup) Media(device string, query string) Group {
+	mg := mediaGroup{
+		Root:  NewRoot(),
+		Media: NewMedia(query, device),
+	}
+
+	bg.media = append(bg.media, mg)
+
+	return mg.Root
+}
 
 // Extend returns a new Group based off the selector of the previous using
 // the format:
@@ -407,15 +443,6 @@ func (bg *baseGroup) NthParent(back int) Group {
 // addGroup adds the group into thhe BaseGroup.
 func (bg *baseGroup) addGroup(g Group) {
 	bg.kids = append(bg.kids, g)
-}
-
-// renderKids renders the children of the baseGroup.
-func (bg *baseGroup) renderKids(dst io.Writer) {
-
-	// Wrap up the children tree and build the appropriate content
-	for _, kid := range bg.kids {
-		kid.Render(dst)
-	}
 }
 
 //==============================================================================
