@@ -7,6 +7,12 @@ import (
 	"github.com/influx6/gu/guevents"
 )
 
+// HTML defines an interface with a single method that returns a html string of
+// its content.
+type HTML interface {
+	HTML() string
+}
+
 // Markup provide a basic specification type of how a element resolves its content
 type Markup interface {
 	Identity
@@ -15,6 +21,7 @@ type Markup interface {
 	Properties
 	Children
 	Reconcilable
+	HTML
 }
 
 // Element represent a concrete implementation of a element node
@@ -66,6 +73,11 @@ func NewElement(tag string, hasNoEndingTag bool) *Element {
 		allowEvents:     true,
 		autoclose:       hasNoEndingTag,
 	}
+}
+
+// HTML returns the html representation of the giving element.
+func (e *Element) HTML() string {
+	return SimpleElementWriter.Print(e)
 }
 
 // AutoClosed returns true/false if this element uses a </> or a <></> tag convention
