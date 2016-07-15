@@ -146,6 +146,9 @@ Gutrees sets up the event functions within
 	   fmt.Println("Am clicked!")
 	 },
 	)
+
+  div.HTML() // => <div...>...</div>
+  // div.EHTML() => template.HTML => <div...>...</div>
 ```
 
 ### Styles

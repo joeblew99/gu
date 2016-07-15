@@ -28,7 +28,7 @@ handlers. This in effect allows us to provide independent components with behavi
 free from their parents and can be attached to any root component with its own independent
 routing rules.
 
-You can see sample code in [History Example](../examples/history) 
+You can see sample code in [History Example](../examples/history)
 
 ## Example
 We want to create components which display or hide themselves based on the colors
@@ -167,7 +167,7 @@ Jumping into the above code, the details within the `main` function to seem fami
 except for a few parts.
 
 
-- The backgrouds
+- The Backgrounds
 The background code is simple. It creates a component which has within it both  
 `guviews.Reactive` and `gudispatch.Resolver`. As already explained, the first
 allows a form of active reactivity, but the one we are concerned about is the  

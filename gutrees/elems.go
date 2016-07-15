@@ -2,6 +2,7 @@ package gutrees
 
 import (
 	"fmt"
+	"html/template"
 	"strings"
 
 	"github.com/influx6/gu/guevents"
@@ -11,6 +12,7 @@ import (
 // its content.
 type HTML interface {
 	HTML() string
+	EHTML() template.HTML
 }
 
 // Markup provide a basic specification type of how a element resolves its content
@@ -75,7 +77,15 @@ func NewElement(tag string, hasNoEndingTag bool) *Element {
 	}
 }
 
-// HTML returns the html representation of the giving element.
+// EHTML returns the html string wrapped by a template.HTML type to avoid getting
+// escaped by go templates. The returned html is rendered using the default
+// SimpleElementWriter and represents the DOM of the giving element.
+func (e *Element) EHTML() template.HTML {
+	return template.HTML(SimpleElementWriter.Print(e))
+}
+
+// HTML returns the html string representing the DOM of the giving element.
+//The returned html is rendered using the default SimpleElementWriter.
 func (e *Element) HTML() string {
 	return SimpleElementWriter.Print(e)
 }

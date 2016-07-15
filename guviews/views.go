@@ -39,7 +39,7 @@ type Views interface {
 
 // New returns a instance of a Views with the customID set to a random string.
 func New(r ...Renderable) Views {
-	return CustomView("", gutrees.SimpleElementWriter, r...)
+	return CustomView("", r...)
 }
 
 // NewWithID returns a View instance. The view is giving a customID string, which
@@ -47,7 +47,7 @@ func New(r ...Renderable) Views {
 // events directly to it, if this is a empty string, a random one will be
 // generated for it.
 func NewWithID(customID string, r ...Renderable) Views {
-	return CustomView(customID, gutrees.SimpleElementWriter, r...)
+	return CustomView(customID, r...)
 }
 
 //==============================================================================
@@ -90,16 +90,14 @@ type view struct {
 	dom          *js.Object
 	renders      []Renderable
 	liveMarkup   gutrees.Markup
-	encoder      gutrees.MarkupWriter
 	events       guevents.EventManagers
 	activeState  ViewStates
 }
 
 // CustomView returns a gu.Views implementing struct that provides the ability to
 // render and update UI efficiently. This function allows greater control of
-// the customId for which the views and it's dom will be identified with and
-// the writer used to decode our dom structures into valid html.
-func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views {
+// the customId for which the views.
+func CustomView(cid string, vw ...Renderable) Views {
 	if cid == "" {
 		cid = gutrees.RandString(8)
 	}
@@ -107,7 +105,6 @@ func CustomView(cid string, writer gutrees.MarkupWriter, vw ...Renderable) Views
 	uuid := gutrees.RandString(20)
 
 	vm := &view{
-		encoder:     writer,
 		renders:     vw,
 		uid:         cid,
 		activeState: shower,
@@ -342,6 +339,5 @@ func (v *view) Render() gutrees.Markup {
 
 // RenderHTML renders out the views markup as a string wrapped with template.HTML
 func (v *view) RenderHTML() template.HTML {
-	ma, _ := v.encoder.Write(v.Render())
-	return template.HTML(ma)
+	return v.Render().EHTML()
 }
