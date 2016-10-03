@@ -44,12 +44,13 @@ type Element struct {
 	tagname     string
 	textContent string
 
-	events       []Event
-	children     []Markup
-	styles       []Property
-	attrs        []Property
-	finalizers   []FinalizeHandle
-	eventManager guevents.EventManagers
+	events         []Event
+	children       []Markup
+	styles         []Property
+	attrs          []Property
+	finalizers     []FinalizeHandle
+	onceFinalizers []FinalizeHandle
+	eventManager   guevents.EventManagers
 }
 
 // NewText returns a new Text instance element
@@ -106,6 +107,7 @@ func (e *Element) Empty() {
 // operation of the giving type.
 type Finalizer interface {
 	AddFinalizer(handle FinalizeHandle)
+	AddFinalizerOnce(handle FinalizeHandle)
 	Finalize(root Markup, foreRoot ...bool)
 }
 
@@ -113,6 +115,12 @@ type Finalizer interface {
 // element.
 func (e *Element) AddFinalizer(handle FinalizeHandle) {
 	e.finalizers = append(e.finalizers, handle)
+}
+
+// AddFinalizerOnce adds the giving finalizer into the slice of finalizer for this
+// element.
+func (e *Element) AddFinalizerOnce(handle FinalizeHandle) {
+	e.onceFinalizers = append(e.onceFinalizers, handle)
 }
 
 // Finalize calls the internally registered finalizers which allows functions
@@ -132,6 +140,12 @@ func (e *Element) Finalize(root Markup, forceRoot ...bool) {
 
 		em.Finalize(e)
 	}
+
+	for _, fm := range e.onceFinalizers {
+		fm(root, e)
+	}
+
+	e.onceFinalizers = nil
 
 	for _, fm := range e.finalizers {
 		fm(root, e)
@@ -610,6 +624,7 @@ func (e *Element) Clone() Markup {
 	}
 
 	co.finalizers = append(co.finalizers, e.finalizers...)
+	co.onceFinalizers = append(co.onceFinalizers, e.onceFinalizers...)
 
 	return co
 }
