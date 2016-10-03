@@ -8,6 +8,9 @@ import (
 	"github.com/influx6/gu/guevents"
 )
 
+// FinalizeHandle defines a function type which has the root and item concerned.
+type FinalizeHandle func(root, item Markup)
+
 // HTML defines an interface with a single method that returns a html string of
 // its content.
 type HTML interface {
@@ -17,6 +20,7 @@ type HTML interface {
 
 // Markup provide a basic specification type of how a element resolves its content
 type Markup interface {
+	Finalizer
 	Identity
 	Appliable
 	Removable
@@ -44,6 +48,7 @@ type Element struct {
 	children     []Markup
 	styles       []Property
 	attrs        []Property
+	finalizers   []FinalizeHandle
 	eventManager guevents.EventManagers
 }
 
@@ -61,14 +66,9 @@ func NewText(txt string) *Element {
 // NewElement returns a new element instance giving the specificed name
 func NewElement(tag string, hasNoEndingTag bool) *Element {
 	return &Element{
-		uid:     RandString(8),
-		hash:    RandString(10),
-		tagname: strings.ToLower(strings.TrimSpace(tag)),
-
-		children: make([]Markup, 0),
-		styles:   make([]Property, 0),
-		attrs:    make([]Property, 0),
-
+		uid:             RandString(8),
+		hash:            RandString(10),
+		tagname:         strings.ToLower(strings.TrimSpace(tag)),
 		allowChildren:   true,
 		allowStyles:     true,
 		allowAttributes: true,
@@ -98,6 +98,44 @@ func (e *Element) AutoClosed() bool {
 // Empty resets the elements children list as 0 length
 func (e *Element) Empty() {
 	e.children = e.children[:0]
+}
+
+//==============================================================================
+
+// Finalizer defines an interface that allows calls to a function to finalize the
+// operation of the giving type.
+type Finalizer interface {
+	AddFinalizer(handle FinalizeHandle)
+	Finalize(root Markup, foreRoot ...bool)
+}
+
+// AddFinalizer adds the giving finalizer into the slice of finalizer for this
+// element.
+func (e *Element) AddFinalizer(handle FinalizeHandle) {
+	e.finalizers = append(e.finalizers, handle)
+}
+
+// Finalize calls the internally registered finalizers which allows functions
+// to be called when a markup has completed it's setup.
+func (e *Element) Finalize(root Markup, forceRoot ...bool) {
+	var force bool
+
+	if len(forceRoot) > 0 {
+		force = forceRoot[0]
+	}
+
+	for _, em := range e.children {
+		if force {
+			em.Finalize(root, true)
+			continue
+		}
+
+		em.Finalize(e)
+	}
+
+	for _, fm := range e.finalizers {
+		fm(root, e)
+	}
 }
 
 //==============================================================================
@@ -570,6 +608,8 @@ func (e *Element) Clone() Markup {
 	for _, ch := range e.events {
 		ch.Clone().Apply(co)
 	}
+
+	co.finalizers = append(co.finalizers, e.finalizers...)
 
 	return co
 }
