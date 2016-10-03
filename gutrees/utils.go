@@ -2,6 +2,7 @@ package gutrees
 
 import (
 	"crypto/rand"
+	"fmt"
 	"strings"
 )
 
@@ -323,7 +324,9 @@ func ReplaceORAddAttribute(m Properties, name string, val string) {
 // MarkupProps defines a custom type that combines the Markup, Styles and
 // Attributes interfaces.
 type MarkupProps interface {
-	Markup
+	Properties
+	Children
+	Appliable
 }
 
 // ElementsUsingStyle returns the children within the element matching the
@@ -352,7 +355,7 @@ func DeepElementsUsingStyle(e MarkupProps, f, val string, depth int) []Markup {
 	var found []Markup
 
 	for _, c := range e.Children() {
-		if ch, ok := c.(MarkupProps); ok {
+		if ch, ok := c.(Markup); ok {
 			if StyleContains(ch, f, val) {
 				found = append(found, ch)
 				cfo := DeepElementsUsingStyle(ch, f, val, depth-1)
@@ -378,7 +381,7 @@ func DeepElementsWithAttr(e MarkupProps, f, val string, depth int) []Markup {
 	var found []Markup
 
 	for _, c := range e.Children() {
-		if ch, ok := c.(MarkupProps); ok {
+		if ch, ok := c.(Markup); ok {
 			if AttrContains(ch, f, val) {
 				found = append(found, ch)
 				cfo := DeepElementsWithAttr(ch, f, val, depth-1)
@@ -395,34 +398,45 @@ func DeepElementsWithAttr(e MarkupProps, f, val string, depth int) []Markup {
 // ElementsWithTag returns elements matching the tag type in the parent markup children list
 // only without going deeper into children's children lists
 func ElementsWithTag(e MarkupProps, f string) []Markup {
-	return DeepElementsWithTag(e, f, 1)
+	return DeepElementsWithTag(e, f, -1)
 }
 
 // DeepElementsWithTag returns elements matching the tag type in the parent markup
 // and depending on the depth will walk down other children within the children.
 // WARNING: depth must start at 1
 func DeepElementsWithTag(e MarkupProps, f string, depth int) []Markup {
-	if depth <= 0 {
-		return nil
-	}
-
 	f = strings.TrimSpace(strings.ToLower(f))
 
+	var dp bool
 	var found []Markup
 
-	for _, c := range e.Children() {
-		if ch, ok := c.(MarkupProps); ok {
-			if ch.Name() == f {
-				found = append(found, ch)
-				cfo := DeepElementsWithTag(ch, f, depth-1)
-				if len(cfo) > 0 {
-					found = append(found, cfo...)
-				}
-			}
-		}
+	if depth > 0 {
+		dp = true
 	}
 
+	deepElementsWithTag(e, f, depth, dp, &(found))
+
 	return found
+}
+
+func deepElementsWithTag(e MarkupProps, f string, depth int, doDepth bool, res *[]Markup) {
+	if doDepth && depth < 0 {
+		return
+	}
+
+	for _, ch := range e.Children() {
+		fmt.Printf("Checking item: %s \n", ch.Name())
+
+		if ch.Name() == f {
+			*res = append(*res, ch)
+
+			if doDepth {
+				depth = depth - 1
+			}
+
+			deepElementsWithTag(ch, f, depth-1, doDepth, res)
+		}
+	}
 }
 
 //==============================================================================

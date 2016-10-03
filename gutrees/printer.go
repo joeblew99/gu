@@ -236,7 +236,12 @@ func (m *ElementWriter) Print(e *Element) string {
 		fmt.Sprintf("<%s", e.Name()),
 		hashes,
 		attrs,
-		fmt.Sprintf(` style="%s"`, style),
+		(func() string {
+			if len(style) != 0 {
+				return fmt.Sprintf(` style="%s"`, style)
+			}
+			return ""
+		}()),
 		beginbrack,
 		e.textContent,
 		strings.Join(children, ""),
