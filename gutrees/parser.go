@@ -1,58 +1,79 @@
 package gutrees
 
 import (
-	"errors"
-	"fmt"
 	"strings"
 
 	"golang.org/x/net/html"
 )
 
-var selfClosing = map[string]bool{
-  "base":    true,
-  "br":      true,
-  "col":     true,
-  "command": true,
-  "embed":   true,
-  "hr":      true,
-  "img":     true,
-  "input":   true,
-  "keygen":  true,
-  "link":    true,
-  "meta":    true,
-  "param":   true,
-  "source":  true,
-  "track":   true,
-  "wbr":     true,
-}
-
 // ParseTree takes a string markup and returns a Markup which
 // contains the full structure transpiled
 // into the gutrees markup block structure.
 func ParseTree(markup string) ([]Markup, error) {
-	tokens, err := html.NewTokenizer(strings.NewReader(markup))
-	if err != nil {
-		return nil, err
-	}
+	tokens := html.NewTokenizer(strings.NewReader(markup))
 
-      depth := 0
-
-      for {
-
-
-        token := tokens.Next()
-
-        switch token {
-        case html.ErrorToken:
-          return tokens.Err()
-
-        case html.TextToken:
-
-        case html.StartTagToken, html.EndTagToken:
-
-      }
-
-	return , nil
+	rootElem := NewElement("dub", false)
+	pullNode(tokens, rootElem)
+	return rootElem.Children(), nil
 }
 
+func pullNode(tokens *html.Tokenizer, root Markup) {
+	var node Markup
 
+	for {
+		token := tokens.Next()
+
+		switch token {
+		case html.ErrorToken:
+			return
+
+		case html.TextToken, html.CommentToken, html.DoctypeToken:
+			text := string(tokens.Text())
+
+			if token == html.CommentToken {
+				text = "<!--" + text + "-->"
+			}
+
+			if node != nil {
+				NewText(text).Apply(node)
+				continue
+			}
+
+			NewText(string(tokens.Text())).Apply(root)
+			continue
+
+		case html.StartTagToken, html.EndTagToken, html.SelfClosingTagToken:
+			if token == html.EndTagToken {
+				node = nil
+				return
+			}
+
+			tagName, hasAttr := tokens.TagName()
+
+			node = NewElement(string(tagName), token == html.SelfClosingTagToken)
+			node.Apply(root)
+
+			if hasAttr {
+			attrLoop:
+				for {
+					key, val, more := tokens.TagAttr()
+
+					NewAttr(string(key), string(val)).Apply(node)
+
+					if !more {
+						break attrLoop
+					}
+				}
+			}
+
+			if token == html.SelfClosingTagToken {
+				continue
+			}
+
+			pullNode(tokens, node)
+		}
+
+	}
+
+	return
+}
