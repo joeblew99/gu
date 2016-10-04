@@ -2,7 +2,6 @@ package gutrees
 
 import (
 	"crypto/rand"
-	"fmt"
 	"strings"
 )
 
@@ -332,111 +331,52 @@ type MarkupProps interface {
 // ElementsUsingStyle returns the children within the element matching the
 // stlye restrictions passed.
 // NOTE: is uses StyleContains
-func ElementsUsingStyle(e MarkupProps, f, val string) []Markup {
-	return DeepElementsUsingStyle(e, f, val, 1)
-}
-
-// ElementsWithAttr returns the children within the element matching the
-// stlye restrictions passed.
-// NOTE: is uses AttrContains
-func ElementsWithAttr(e MarkupProps, f, val string) []Markup {
-	return DeepElementsWithAttr(e, f, val, 1)
-}
-
-// DeepElementsUsingStyle returns the children within the element matching the
-// style restrictions passed allowing control of search depth
-// NOTE: is uses StyleContains
-// WARNING: depth must start at 1
-func DeepElementsUsingStyle(e MarkupProps, f, val string, depth int) []Markup {
-	if depth <= 0 {
-		return nil
-	}
-
+func ElementsUsingStyle(root MarkupProps, key string, val string) []Markup {
 	var found []Markup
 
-	for _, c := range e.Children() {
-		if ch, ok := c.(Markup); ok {
-			if StyleContains(ch, f, val) {
-				found = append(found, ch)
-				cfo := DeepElementsUsingStyle(ch, f, val, depth-1)
-				if len(cfo) > 0 {
-					found = append(found, cfo...)
-				}
-			}
+	for _, ch := range root.Children() {
+		if StyleContains(ch, key, val) {
+			found = append(found, ch)
 		}
+
+		found = append(found, ElementsUsingStyle(ch, key, val)...)
 	}
 
 	return found
 }
 
-// DeepElementsWithAttr returns the children within the element matching the
-// attributes restrictions passed allowing control of search depth
-// NOTE: is uses Element.AttrContains
-// WARNING: depth must start at 1
-func DeepElementsWithAttr(e MarkupProps, f, val string, depth int) []Markup {
-	if depth <= 0 {
-		return nil
-	}
-
+// ElementsWithAttr returns the children within the element matching the
+// stlye restrictions passed.
+// NOTE: is uses AttrContains
+func ElementsWithAttr(root MarkupProps, key string, val string) []Markup {
 	var found []Markup
 
-	for _, c := range e.Children() {
-		if ch, ok := c.(Markup); ok {
-			if AttrContains(ch, f, val) {
-				found = append(found, ch)
-				cfo := DeepElementsWithAttr(ch, f, val, depth-1)
-				if len(cfo) > 0 {
-					found = append(found, cfo...)
-				}
-			}
+	for _, ch := range root.Children() {
+		if AttrContains(ch, key, val) {
+			found = append(found, ch)
 		}
+
+		found = append(found, ElementsWithAttr(ch, key, val)...)
 	}
 
 	return found
 }
 
 // ElementsWithTag returns elements matching the tag type in the parent markup children list
-// only without going deeper into children's children lists
-func ElementsWithTag(e MarkupProps, f string) []Markup {
-	return DeepElementsWithTag(e, f, -1)
-}
-
-// DeepElementsWithTag returns elements matching the tag type in the parent markup
-// and depending on the depth will walk down other children within the children.
-// WARNING: depth must start at 1
-func DeepElementsWithTag(e MarkupProps, f string, depth int) []Markup {
-	f = strings.TrimSpace(strings.ToLower(f))
-
-	var dp bool
+// only without going deeper into children's children lists.
+func ElementsWithTag(root MarkupProps, tag string) []Markup {
 	var found []Markup
 
-	if depth > 0 {
-		dp = true
-	}
+	tag = strings.TrimSpace(strings.ToLower(tag))
+	for _, ch := range root.Children() {
+		if ch.Name() == tag {
+			found = append(found, ch)
+		}
 
-	deepElementsWithTag(e, f, depth, dp, &(found))
+		found = append(found, ElementsWithTag(ch, tag)...)
+	}
 
 	return found
-}
-
-func deepElementsWithTag(e MarkupProps, f string, depth int, doDepth bool, res *[]Markup) {
-	if doDepth && depth < 0 {
-		return
-	}
-
-	for _, ch := range e.Children() {
-		fmt.Printf("Checking item: %s \n", ch.Name())
-
-		if ch.Name() == f {
-			*res = append(*res, ch)
-
-			if doDepth {
-				depth = depth - 1
-			}
-
-			deepElementsWithTag(ch, f, depth-1, doDepth, res)
-		}
-	}
 }
 
 //==============================================================================

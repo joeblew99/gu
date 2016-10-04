@@ -72,8 +72,5 @@ func pullNode(tokens *html.Tokenizer, root Markup) {
 
 			pullNode(tokens, node)
 		}
-
 	}
-
-	return
 }
