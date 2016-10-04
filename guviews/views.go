@@ -334,6 +334,8 @@ func (v *view) Render() gutrees.Markup {
 	v.events.LoadUpEvents()
 	v.liveMarkup = dom
 
+	v.liveMarkup.Finalize(nil)
+
 	return dom
 }
 
