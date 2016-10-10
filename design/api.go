@@ -1,9 +1,5 @@
 package design
 
-import (
-	. "github.com/influx6/gu/gutrees"
-)
-
 type (
 	// DSL defines a function type which is used to generate the contents of a Def(Definition).
 	DSL func()

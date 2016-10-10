@@ -26,10 +26,10 @@ type ViewUpdate struct {
 // CustomView generates a RenderView for the provided Renderable.
 func customView(tag string, events guevents.EventManagers, r ...Renderable) RenderView {
 	var vw view
-	vw.uuid = newKey()
-	vw.events = events
 	vw.tag = tag
 	vw.renders = r
+	vw.uuid = newKey()
+	vw.events = events
 
 	for _, vr := range r {
 		if rws, ok := vr.(ReactiveSubscription); ok {
