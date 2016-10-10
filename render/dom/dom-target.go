@@ -15,7 +15,7 @@ type DOMTarget struct{
 
 // HandleView manages the initialization and management of the rendering and 
 // update of the passed in view.
-func (dt *DOMTarget) HandleView(view gu.RenderView){
+func (dt DOMTarget) HandleView(view gu.RenderView){
   view.Events().OffloadDOM()
   view.Events().LoadDOM(dt.Target)
 
