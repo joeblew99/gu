@@ -4,26 +4,29 @@ package gu
 import (
 	"fmt"
 	"html/template"
+	"sync"
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/gu/gudispatch"
+	"github.com/influx6/gu/guevents"
 	"github.com/influx6/gu/gutrees"
 )
 
-var (
-	// baseCount defines the current total count delivered up for use and once
-	// this is increasing then will keep increasing.
+var countKeeper = struct {
+	baseKey   string
+	ml        sync.Mutex
 	baseCount int
-
-	// baseKey provides a compliant version 4 uuid which we can use to create
-	// incremental uuid counts for renderings.
-	baseKey = "3bce4931-6c75-41ab-afe0-2ec108a30860"
-)
+}{
+	baseKey: "3bce4931-6c75-41ab-afe0-2ec108a30860",
+}
 
 func newKey() string {
-	baseCount++
-	return fmt.Sprintf("%d-%s", baseCount, baseKey)
+	countKeeper.ml.Lock()
+	countKeeper.baseCount++
+	countKeeper.ml.Unlock()
+
+	return fmt.Sprintf("%d-%s", countKeeper.baseCount, countKeeper.baseKey)
 }
 
 //==============================================================================
@@ -98,9 +101,8 @@ type Viewable interface{}
 type RenderView interface {
 	MarkupRenderer
 	UUID() string
-	Events() guevents.EventManagers()
+	Events() guevents.EventManagers
 }
-
 
 // RenderingTarget defines an interface which takes responsiblity in translating
 // the provided markup into the appropriate media.
@@ -125,19 +127,19 @@ func New() *RenderGroup {
 	}
 }
 
-// View adds the giving renderables into the provided a view managed by 
+// View adds the giving renderables into the provided a view managed by
 // the RenderGroup.
 func (rg *RenderGroup) View(r ...Renderable) {
-	rg.views = append(rg.views, customView("div",guevents.NewEventManager(), r...))
+	rg.views = append(rg.views, customView("div", guevents.NewEventManager(), r...))
 }
 
-// CustomView does a similar operation as the .View method but allows the user 
+// CustomView does a similar operation as the .View method but allows the user
 // to specify the tag used to wrap more than one Renderable.
 func (rg *RenderGroup) CustomView(tag string, r ...Renderable) {
-	rg.views = append(rg.views, customView(tag,guevents.NewEventManager(), r...))
+	rg.views = append(rg.views, customView(tag, guevents.NewEventManager(), r...))
 }
 
-// UseRenderingTarget requests the render group initialize all internal views 
+// UseRenderingTarget requests the render group initialize all internal views
 // into the provided render target.
 func (rg *RenderGroup) UseRenderingTarget(target RenderingTarget) {
 	for _, view := range rg.views {

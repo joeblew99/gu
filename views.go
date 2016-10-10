@@ -8,7 +8,6 @@ import (
 	"github.com/influx6/gu/gutrees"
 )
 
-
 //==============================================================================
 
 // ViewState defines a notification struct of the state of the view wether it
@@ -32,14 +31,13 @@ func customView(tag string, events guevents.EventManagers, r ...Renderable) Rend
 	vw.tag = tag
 	vw.renders = r
 
-  for _, vr := range r {
-    if rws, ok := vr.(ReactiveSubscription); ok {
-      rws.React(func() {
-        gudispatch.Dispatch(ViewUpdate{ID: vw.uuid})
-      })
-    }
-  }
-
+	for _, vr := range r {
+		if rws, ok := vr.(ReactiveSubscription); ok {
+			rws.React(func() {
+				gudispatch.Dispatch(ViewUpdate{ID: vw.uuid})
+			})
+		}
+	}
 
 	gudispatch.Subscribe(func(path gudispatch.Path) {
 		for _, vmr := range r {
@@ -74,7 +72,7 @@ type view struct {
 
 // Events returns the guevents.EventManager attached with this view.
 func (v *view) Events() guevents.EventManagers {
-  return v.events
+	return v.events
 }
 
 // UUID returns the RenderGroup UUID for identification.
