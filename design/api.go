@@ -1,4 +1,4 @@
-package apidesign
+package design
 
 import (
 	. "github.com/influx6/gu/gutrees"

@@ -12,7 +12,7 @@ import (
 func ParseTree(markup string) ([]Markup, error) {
 	tokens := html.NewTokenizer(strings.NewReader(markup))
 
-	rootElem := NewElement("dub", false)
+	rootElem := NewElement("div", false)
 	pullNode(tokens, rootElem)
 	return rootElem.Children(), nil
 }
