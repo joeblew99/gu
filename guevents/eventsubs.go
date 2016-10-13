@@ -325,35 +325,30 @@ func (em *EventManager) NewEvent(evtype, evselector string) (EventSubs, bool) {
 // AttachManager allows a manager to get attached to another manajor to receive a dom binding
 // when this receives one
 func (em *EventManager) AttachManager(esm EventManagers) {
-	//incase of stupid loops, are we attached to the supplied manager? if so duck this
 	if esm.HasManager(em) {
 		return
 	}
 
-	//if we have it already we skip
 	if em.HasManager(esm) {
 		return
 	}
 
-	//its not found so we add it
 	em.wo.Lock()
 	em.attaches[esm] = true
 	em.wo.Unlock()
 
-	//do we already have a dom attached?, then notify this manager immediately
 	if em.dom != nil {
 		esm.LoadDOM(em.dom)
 	}
+
 }
 
 // DetachManager detaches the manager if attached already
 func (em *EventManager) DetachManager(esm EventManagers) {
-	//if we dont have it attached then skip
 	if !em.HasManager(esm) {
 		return
 	}
 
-	//we got one so we kill it
 	em.wo.Lock()
 	delete(em.attaches, esm)
 	em.wo.Unlock()
@@ -440,9 +435,15 @@ func (em *EventManager) OffloadDOM() {
 	if em.dom == nil {
 		return
 	}
+
 	// send the dom out to all registered event subs for loadup
 	em.EachEvent(func(es EventSubs) {
 		es.Offload()
+	})
+
+	// send the dom out to all registered event subs for loadup
+	em.EachManager(func(esm EventManagers) {
+		esm.OffloadDOM()
 	})
 
 	em.dom = nil
@@ -456,18 +457,11 @@ func (em *EventManager) LoadUpEvents() {
 
 	dom := em.dom
 
-	// send the dom out to all registered event subs for loadup
 	em.EachEvent(func(es EventSubs) {
 		if !es.Removed() {
 			es.DOM(dom)
 		}
 	})
-
-	// send out to all other attach eventmanagers for loadup
-	em.EachManager(func(ems EventManagers) {
-		ems.LoadDOM(dom)
-	})
-
 }
 
 // LoadDOM passes down the dom element to all EventSub to initialize and listen for their respective events
@@ -476,9 +470,12 @@ func (em *EventManager) LoadDOM(dom *js.Object) bool {
 		return false
 	}
 
-	//replace the current dom node be used
 	em.dom = dom
 	em.LoadUpEvents()
+
+	em.EachManager(func(esm EventManagers) {
+		esm.LoadDOM(dom)
+	})
 
 	return true
 }

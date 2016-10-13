@@ -112,7 +112,13 @@ type EventableRenderView interface {
 // RenderingTarget defines an interface which takes responsiblity in translating
 // the provided markup into the appropriate media.
 type RenderingTarget interface {
-	HandleView(RenderView)
+	HandleView(EventableRenderView)
+}
+
+// RenderingTargetGroup defines an interface which takes the target to be handle
+// for rendering.
+type RenderingTargetGroup interface {
+	UseRenderingTarget(RenderingTarget)
 }
 
 // RenderGroup provides a central backbone through which RenderViews are rendered
@@ -121,6 +127,7 @@ type RenderGroup struct {
 	views   []RenderView
 	baseTag string
 	uuid    string
+	// baseEvents guevents.EventManagers
 }
 
 // New returns a new RenderGroup which allows grouping RenderView into a set of
@@ -129,26 +136,40 @@ func New() *RenderGroup {
 	return &RenderGroup{
 		baseTag: "div",
 		uuid:    newKey(),
+		// baseEvents: guevents.NewEventManager(),
 	}
 }
 
 // View adds the giving renderables into the provided a view managed by
 // the RenderGroup.
 func (rg *RenderGroup) View(r ...Renderable) {
-	rg.views = append(rg.views, customView("div", guevents.NewEventManager(), r...))
+	esm := guevents.NewEventManager()
+	// rg.baseEvents.AttachManager(esm)
+
+	rg.views = append(rg.views, customView("div", esm, r...))
 }
 
 // CustomView does a similar operation as the .View method but allows the user
 // to specify the tag used to wrap more than one Renderable.
 func (rg *RenderGroup) CustomView(tag string, r ...Renderable) {
-	rg.views = append(rg.views, customView(tag, guevents.NewEventManager(), r...))
+	esm := guevents.NewEventManager()
+	// rg.baseEvents.AttachManager(esm)
+
+	rg.views = append(rg.views, customView(tag, esm, r...))
 }
 
 // UseRenderingTarget requests the render group initialize all internal views
 // into the provided render target.
 func (rg *RenderGroup) UseRenderingTarget(target RenderingTarget) {
 	for _, view := range rg.views {
-		target.HandleView(view)
+		if evg, ok := view.(RenderingTargetGroup); ok {
+			evg.UseRenderingTarget(target)
+			continue
+		}
+
+		if ev, ok := view.(EventableRenderView); ok {
+			target.HandleView(ev)
+		}
 	}
 }
 
