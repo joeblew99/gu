@@ -101,6 +101,11 @@ type Viewable interface{}
 type RenderView interface {
 	MarkupRenderer
 	UUID() string
+}
+
+// EventableRenderView defines a composite of a RenderView which provides access to its Events manager.
+type EventableRenderView interface {
+	RenderView
 	Events() guevents.EventManagers
 }
 
