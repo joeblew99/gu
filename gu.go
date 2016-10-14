@@ -103,10 +103,15 @@ type RenderView interface {
 	UUID() string
 }
 
+// Eventable exposes the events manager provided by the structure that implements 
+// the interface.
+type Eventable interface {
+	Events() guevents.EventManagers
+}
+
 // EventableRenderView defines a composite of a RenderView which provides access to its Events manager.
 type EventableRenderView interface {
-	RenderView
-	Events() guevents.EventManagers
+	LoadEvents(*js.Object) 
 }
 
 // RenderingTarget defines an interface which takes responsiblity in translating
@@ -134,9 +139,9 @@ type RenderGroup struct {
 // one rendering.
 func New() *RenderGroup {
 	return &RenderGroup{
-		baseTag: "div",
-		uuid:    newKey(),
-		// baseEvents: guevents.NewEventManager(),
+		baseTag:    "div",
+		uuid:       newKey(),
+		baseEvents: guevents.NewEventManager(),
 	}
 }
 
@@ -144,16 +149,27 @@ func New() *RenderGroup {
 // the RenderGroup.
 func (rg *RenderGroup) View(r ...Renderable) {
 	esm := guevents.NewEventManager()
-	// rg.baseEvents.AttachManager(esm)
+	rg.baseEvents.AttachManager(esm)
 
 	rg.views = append(rg.views, customView("div", esm, r...))
+}
+
+// AddRenderView adds the giving RenderView set into the RenderGroups views 
+// list.
+func (rg *RenderGroup) AddRenderView(r ...RenderView) {
+	rg.views = append(rg.views, r...)
+
+	for _, view := range r {
+		if ev, ok := view.(Ev)
+	}
+
 }
 
 // CustomView does a similar operation as the .View method but allows the user
 // to specify the tag used to wrap more than one Renderable.
 func (rg *RenderGroup) CustomView(tag string, r ...Renderable) {
 	esm := guevents.NewEventManager()
-	// rg.baseEvents.AttachManager(esm)
+	rg.baseEvents.AttachManager(esm)
 
 	rg.views = append(rg.views, customView(tag, esm, r...))
 }
@@ -171,6 +187,12 @@ func (rg *RenderGroup) UseRenderingTarget(target RenderingTarget) {
 			target.HandleView(ev)
 		}
 	}
+}
+
+// Events returns the provided Event manages the event manager connected to the
+// group.
+func (rg *RenderGroup) Events()  guevents.EventManagers {
+	return rg.Events()
 }
 
 // UUID returns the RenderGroup UUID for identification.
