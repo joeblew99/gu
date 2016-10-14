@@ -16,9 +16,6 @@ func CreateFragment(html string) *js.Object {
 		return nil
 	}
 
-	//we need to use innerhtml but DocumentFragments dont have that so we use
-	//a discardable div
-
 	// div := doc.CreateElement("div")
 	div := CreateElement("div")
 
@@ -33,8 +30,7 @@ func CreateFragment(html string) *js.Object {
 
 	//add the nodes from the div into the fragment
 	nodes := ChildNodeList(div)
-
-	AppendChild(fragment, nodes...)
+	ContextAppendChild(fragment, nodes...)
 
 	//unwrap all the special Text UnknownELement we are using
 	// UnWrapSpecialTextElements(fragment)
@@ -58,7 +54,7 @@ func AddNodeIfNoneInList(dest *js.Object, against []*js.Object, with *js.Object)
 		}
 	}
 	//not matching, add it
-	AppendChild(dest, with)
+	ContextAppendChild(dest, with)
 	// dest.AppendChild(with)
 	return false
 }
@@ -75,8 +71,7 @@ func Patch(fragment, live *js.Object, onlyReplace bool) {
 	if !live.Call("hasChildNodes").Bool() {
 		// if the live element is actually empty, then just append the fragment which
 		// actually appends the nodes within it efficiently
-
-		AppendChild(live, fragment)
+		ContextAppendChild(live, fragment)
 		return
 	}
 
@@ -95,15 +90,10 @@ patchloop:
 		if node == nil || node == js.Undefined {
 			continue
 		}
-		// switch node.Get("constructor") {
-		// case js.Global.Get("Node"):
-		// elem := node
 
 		if node.Get("constructor") == js.Global.Get("Text") {
-			// log.Printf("text %+s %s %s %d", node, node.Get("nodeName"), node.Get("innerText"), node.Get("nodeType").Int())
-
 			if _, empty := EmptyTextNode(node); empty {
-				AppendChild(live, node)
+				ContextAppendChild(live, node)
 				continue patchloop
 			}
 
@@ -114,7 +104,7 @@ patchloop:
 			}
 
 			if liveNodeAt == nil || liveNodeAt == js.Undefined {
-				AppendChild(live, node)
+				ContextAppendChild(live, node)
 			} else {
 				InsertBefore(live, liveNodeAt, node)
 			}
@@ -154,7 +144,6 @@ patchloop:
 
 		// if we have no id,class, uid or hash, we digress to bad approach of using Node.IsEqualNode
 		if allEmpty(id, hash, uid) {
-			// log.Printf("adding since hash,id,uid are empty")
 			AddNodeIfNone(live, node)
 			continue patchloop
 		}
@@ -169,7 +158,7 @@ patchloop:
 
 				// if none found we add else we replace
 				if len(no) <= 0 {
-					AppendChild(live, node)
+					ContextAppendChild(live, node)
 				} else {
 					// check the available sets and replace else just add it
 					AddNodeIfNoneInList(live, no, node)
@@ -182,7 +171,7 @@ patchloop:
 
 				// if none found we add else we replace
 				if no == nil || no != js.Undefined {
-					AppendChild(live, node)
+					ContextAppendChild(live, node)
 				} else {
 					ReplaceNode(live, node, no)
 				}
@@ -201,7 +190,7 @@ patchloop:
 
 		// if we are nil then its a new node add it and return
 		if target == nil || target == js.Undefined {
-			AppendChild(live, node)
+			ContextAppendChild(live, node)
 			continue patchloop
 		}
 
@@ -254,7 +243,7 @@ patchloop:
 		if len(children) <= 1 {
 			SetInnerHTML(target, "")
 
-			AppendChild(target, nchildren...)
+			ContextAppendChild(target, nchildren...)
 
 			// for _, enode := range nchildren {
 			// 	target.AppendChild(enode)

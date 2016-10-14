@@ -95,7 +95,6 @@ func CleanAllTextNode(o *js.Object) {
 	for _, to := range ChildNodeList(o) {
 		if istx, isem := EmptyTextNode(to); istx {
 			if !isem {
-				// log.Printf("Cleaning Text Node: %s", to.Get("textContent").String())
 				o.Call("removeChild", to)
 			}
 		}
@@ -107,7 +106,6 @@ func UnWrapSpecialTextElements(o *js.Object) {
 	texts := QuerySelectorAll(o, "text")
 	// log.Printf("unwrap text nodes? -> %+s", texts)
 	for _, to := range texts {
-		log.Printf("unwrap text node? -> %+s", to)
 		parent := to.Get("parentNode")
 		SpecialAppendChild(parent, to)
 		parent.Call("removeChild", to)
@@ -134,7 +132,42 @@ func InsertBefore(target, guage, inserto *js.Object) {
 // AppendChild takes a list of objects and calls appendNode on the given object
 func AppendChild(o *js.Object, osets ...*js.Object) {
 	for _, onode := range osets {
-		// log.Printf("adding %+s -> %+s", o, onode)
+		o.Call("appendChild", onode)
+	}
+}
+
+var headerKids = map[string]bool{
+	"style": true, 
+	"meta":true,
+	"link":true,
+	"title":true, 
+	"base":true,
+}
+
+// ContextAppendChild takes a list of objects and calls appendNode on the given object
+func ContextAppendChild(o *js.Object, osets ...*js.Object) {
+	header := QuerySelector(GetDocument(),"head")
+	body := QuerySelector(GetDocument(),"body")
+	bodyParent := body.Get("parentNode")
+
+	for _, onode := range osets {
+
+		tagName := onode.Get("tagName").String()
+		if headerKids[tagName] && header != nil && header != js.Undefined {
+		   header.Call("appendChild", onode)
+		   continue
+		}
+
+		if tagName == "script" && body != nil && body != js.Undefined {
+		   if bodyParent == nil || bodyParent == js.Undefined {
+		   	body.Call("appendChild", onode)
+		         continue
+		   }
+
+	   	   bodyParent.Call("appendChild", onode)
+		   continue
+		}
+
 		o.Call("appendChild", onode)
 	}
 }

@@ -103,7 +103,7 @@ type RenderView interface {
 	UUID() string
 }
 
-// Eventable exposes the events manager provided by the structure that implements 
+// Eventable exposes the events manager provided by the structure that implements
 // the interface.
 type Eventable interface {
 	Events() guevents.EventManagers
@@ -111,28 +111,34 @@ type Eventable interface {
 
 // EventableRenderView defines a composite of a RenderView which provides access to its Events manager.
 type EventableRenderView interface {
-	LoadEvents(*js.Object) 
+	LoadEvents(*js.Object)
 }
 
-// RenderingTarget defines an interface which takes responsiblity in translating
+// RenderingGroup defines an interface that exposes it's set of children RenderViews.
+type RenderingGroup interface {
+	Views() []RenderView
+}
+
+// Renderer defines an interface which takes responsiblity in translating
 // the provided markup into the appropriate media.
-type RenderingTarget interface {
-	HandleView(EventableRenderView)
+type Renderer interface {
+	RenderView(RenderView)
 }
 
 // RenderingTargetGroup defines an interface which takes the target to be handle
 // for rendering.
-type RenderingTargetGroup interface {
-	UseRenderingTarget(RenderingTarget)
+type RenderingTarget interface {
+	UseRendering(Renderer)
 }
 
-// RenderGroup provides a central backbone through which RenderViews are rendered
-// as one.
+// RenderGroup provides a central backbone through which RenderViews are rendered as one.
+// RenderGroup implements the RenderView, RenderingGroup, Eventable, EventableRenderView and
+// Rendering interfaces.
 type RenderGroup struct {
-	views   []RenderView
-	baseTag string
-	uuid    string
-	// baseEvents guevents.EventManagers
+	views      []RenderView
+	baseTag    string
+	uuid       string
+	baseEvents guevents.EventManagers
 }
 
 // New returns a new RenderGroup which allows grouping RenderView into a set of
@@ -145,6 +151,11 @@ func New() *RenderGroup {
 	}
 }
 
+// Views returns the giving underline children views, it implements the RenderingGroup interface.
+func (rg *RenderGroup) Views() []RenderView {
+	return rg.views
+}
+
 // View adds the giving renderables into the provided a view managed by
 // the RenderGroup.
 func (rg *RenderGroup) View(r ...Renderable) {
@@ -154,15 +165,16 @@ func (rg *RenderGroup) View(r ...Renderable) {
 	rg.views = append(rg.views, customView("div", esm, r...))
 }
 
-// AddRenderView adds the giving RenderView set into the RenderGroups views 
+// AddRenderView adds the giving RenderView set into the RenderGroups views
 // list.
-func (rg *RenderGroup) AddRenderView(r ...RenderView) {
-	rg.views = append(rg.views, r...)
+func (rg *RenderGroup) AddRenderView(rs ...RenderView) {
+	rg.views = append(rg.views, rs...)
 
-	for _, view := range r {
-		if ev, ok := view.(Ev)
+	for _, view := range rs {
+		if ev, ok := view.(Eventable); ok {
+			rg.baseEvents.AttachManager(ev.Events())
+		}
 	}
-
 }
 
 // CustomView does a similar operation as the .View method but allows the user
@@ -174,24 +186,21 @@ func (rg *RenderGroup) CustomView(tag string, r ...Renderable) {
 	rg.views = append(rg.views, customView(tag, esm, r...))
 }
 
-// UseRenderingTarget requests the render group initialize all internal views
+// UseRendering requests the render group initialize all internal views
 // into the provided render target.
-func (rg *RenderGroup) UseRenderingTarget(target RenderingTarget) {
-	for _, view := range rg.views {
-		if evg, ok := view.(RenderingTargetGroup); ok {
-			evg.UseRenderingTarget(target)
-			continue
-		}
+func (rg *RenderGroup) UseRendering(render Renderer) {
+	render.RenderView(rg)
+}
 
-		if ev, ok := view.(EventableRenderView); ok {
-			target.HandleView(ev)
-		}
-	}
+// LoadEvents loads the giving RenderGroup with the provided object.
+func (rg *RenderGroup) LoadEvents(target *js.Object) {
+	rg.baseEvents.OffloadDOM()
+	rg.baseEvents.LoadDOM(target)
 }
 
 // Events returns the provided Event manages the event manager connected to the
 // group.
-func (rg *RenderGroup) Events()  guevents.EventManagers {
+func (rg *RenderGroup) Events() guevents.EventManagers {
 	return rg.Events()
 }
 
