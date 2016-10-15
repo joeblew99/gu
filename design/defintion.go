@@ -4,18 +4,8 @@ package design
 type Definition struct {
 	dependents []Root
 	Name       string
-	dsl        DSL
+	Dsl        DSL
 	deffered   bool
-}
-
-// NewDefinition returns a new instance of the Definition type.
-func NewDefinition(definitionName string, defered bool, dsl DSL) *Definition {
-	var df Definition
-	df.Name = definitionName
-	df.dsl = dsl
-	df.deffered = defered
-
-	return &df
 }
 
 // Defered returns true/false if the giving definition is supposed to be
@@ -43,27 +33,13 @@ func (d *Definition) Context() string {
 // ResourceDefinition defines a high-level definition for managing resources for
 // which other definitions build from.
 type ResourceDefinition struct {
-	RootViews   []ViewDefinition
-	RootMarkups []MarkupDefinition
+	 def *Definition
+	 grp *gu.RenderGrou
 
-	DRootViews   []ViewDefinition
-	DRootMarkups []MarkupDefinition
+	 bodyMarkup gutrees.Markup
+	 headerMarkup gutrees.Markup
+
+	 views []ViewDef
+	 markups []MarkupDef
 }
 
-// CurrentView returns the current ViewDefinition being used in the processing of
-// the current view.
-func (rd *ResourceDefinition) CurrentView() *ViewDefinition {
-	if len(rd.RootViews) == 0 {
-		return nil
-	}
-
-	return &(rd.RootViews[len(rd.RootViews)-1])
-}
-
-func (rd *ResourceDefinition) CurrentMarkup() *MarkupDefinition {
-	if len(rd.RootViews) == 0 {
-		return nil
-	}
-
-	return &(rd.RootMarkups[len(rd.RootMarkups)-1])
-}

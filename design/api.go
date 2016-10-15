@@ -10,6 +10,11 @@ type (
 	// Def defines an interface for all gu  Definitions structure which embodies different structure types.
 	Def interface {
 		Context() string
+	}
+
+	// Finalizer defines an interface for structures which wishes to have a method 
+	// called to finalize their behaviour or operations.
+	Finalizer interface{
 		Finalize() error
 	}
 
