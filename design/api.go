@@ -12,9 +12,9 @@ type (
 		Context() string
 	}
 
-	// Finalizer defines an interface for structures which wishes to have a method 
+	// Finalizer defines an interface for structures which wishes to have a method
 	// called to finalize their behaviour or operations.
-	Finalizer interface{
+	Finalizer interface {
 		Finalize() error
 	}
 

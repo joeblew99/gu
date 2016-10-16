@@ -99,7 +99,7 @@ func AttachHash(pattern string, fx func(Path), fail func(Path)) {
 // ResolveAttachURL takes the giving pattern, matches it against changes provided by
 // the current PathObserver, if the full URL(i.e Path+Hash) matches then fires
 // the provided function.
-func ResolveAttachURL(pattern string, fx func(Path), fail func(Path)) {
+func ResolveAttachURL(pattern string, fx func(Path), fail func(Path)) Resolver {
 	resolver := NewResolver(pattern)
 	resolver.ResolvedPassed(fx)
 	resolver.ResolvedFailed(fail)
@@ -113,12 +113,13 @@ func ResolveAttachURL(pattern string, fx func(Path), fail func(Path)) {
 
 	// Follow the current location to see if we should be triggered.
 	Follow(GetLocation())
+	return resolver
 }
 
 // ResolveAttachHash takes the giving pattern, matches it against changes provided by
 // the current PathObserver, if the URL hash matches then fires
 // the provided function.
-func ResolveAttachHash(pattern string, fx func(Path), fail func(Path)) {
+func ResolveAttachHash(pattern string, fx func(Path), fail func(Path)) Resolver {
 	resolver := NewResolver(pattern)
 	resolver.ResolvedPassed(fx)
 	resolver.ResolvedFailed(fail)
@@ -132,6 +133,7 @@ func ResolveAttachHash(pattern string, fx func(Path), fail func(Path)) {
 
 	// Follow the current location to see if we should be triggered.
 	Follow(GetLocation())
+	return resolver
 }
 
 //==============================================================================

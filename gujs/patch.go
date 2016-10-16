@@ -114,7 +114,6 @@ patchloop:
 
 		//get the tagname
 		tagname := GetTag(node)
-		// log.Printf("Working with tag %s -> %+s", tagname, nchildren)
 
 		// get the basic attrs
 		var id, hash, class, uid string

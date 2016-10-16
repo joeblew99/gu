@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"strings"
 
+	"github.com/influx6/gu/gudispatch"
 	"github.com/influx6/gu/guevents"
 )
 
@@ -18,8 +19,11 @@ type HTML interface {
 	EHTML() template.HTML
 }
 
-// Markup provide a basic specification type of how a element resolves its content
+// Markup provide a basic specification type of how a element resolves
+// its content.
 type Markup interface {
+	Resolvables
+	Morphers
 	Finalizer
 	Identity
 	Appliable
@@ -30,7 +34,7 @@ type Markup interface {
 	HTML
 }
 
-// Element represent a concrete implementation of a element node
+// Element represent a concrete implementation of a element node.
 type Element struct {
 	removed         bool
 	autoclose       bool
@@ -48,6 +52,8 @@ type Element struct {
 	children       []Markup
 	styles         []Property
 	attrs          []Property
+	morphers       []Morpher
+	resolvers      []gudispatch.Resolvable
 	finalizers     []FinalizeHandle
 	onceFinalizers []FinalizeHandle
 	eventManager   guevents.EventManagers
@@ -304,6 +310,59 @@ func (e *Element) Hash() string {
 
 //==============================================================================
 
+// Resolvables defines a interface that exposes methods to add and execute
+// internal gudispatch.Resolve.
+type Resolvables interface {
+	gudispatch.Resolvable
+	AddResolver(...gudispatch.Resolvable)
+}
+
+// AddResolvers adds giving resolvers into the element resolvers lists.
+func (e *Element) AddResolver(m ...gudispatch.Resolvable) {
+	e.resolvers = append(e.resolvers, m...)
+}
+
+// Resolve resolves the elements internal resolvers.
+func (e *Element) Resolve(p gudispatch.Path) {
+	for _, resolver := range e.resolvers {
+		resolver.Resolve(p)
+	}
+}
+
+//==============================================================================
+
+// Morphers exposes a method to allow adding morphers.
+type Morphers interface {
+	AddMorpher(...Morpher)
+	ApplyMorphers() Markup
+}
+
+// AddMorpher adds the provided morphers into the elements lists.
+func (e *Element) AddMorpher(m ...Morpher) {
+	e.morphers = append(e.morphers, m...)
+}
+
+// ApplyMorphers calls all elemental morphers sequentially applying them to the
+// element and passes the result as the input of the next morpher unless. If
+// any morpher returns nil, then the element is reused again until all morphers
+// are called.
+func (e *Element) ApplyMorphers() Markup {
+	var base Markup
+
+	for _, morpher := range e.morphers {
+		if base == nil {
+			base = morpher.Morph(e)
+			continue
+		}
+
+		base = morpher.Morph(base)
+	}
+
+	return base
+}
+
+//==============================================================================
+
 // TextMarkup defines a interface for text based markup.
 type TextMarkup interface {
 	TextContent() string
@@ -343,14 +402,33 @@ func (e *Element) Clean() {
 // Removable defines a self removal type structure.
 type Removable interface {
 	Remove()
+	UnRemove()
 	Removed() bool
 }
 
-// Remove sets the markup as removable and adds a 'haikuRemoved' attribute to it
+// Remove sets the markup as removable and adds a 'NodeRemoved' attribute to it.
 func (e *Element) Remove() {
 	if !e.Removed() {
 		e.attrs = append(e.attrs, &Attribute{"NodeRemoved", ""})
 		e.removed = true
+	}
+}
+
+// UnRemove sets the markup as not to be removable.
+func (e *Element) UnRemove() {
+	if !e.Removed() {
+		return
+	}
+
+	e.removed = false
+
+	for index, attr := range e.attrs {
+		if name, _ := attr.Render(); name != "NodeRemoved" {
+			continue
+		}
+
+		e.attrs = append(e.attrs[:index], e.attrs[1+index:]...)
+		return
 	}
 }
 
@@ -623,6 +701,8 @@ func (e *Element) Clone() Markup {
 		ch.Clone().Apply(co)
 	}
 
+	co.morphers = append(co.morphers, e.morphers...)
+	co.resolvers = append(co.resolvers, e.resolvers...)
 	co.finalizers = append(co.finalizers, e.finalizers...)
 	co.onceFinalizers = append(co.onceFinalizers, e.onceFinalizers...)
 

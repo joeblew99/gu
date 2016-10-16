@@ -39,14 +39,6 @@ func customView(tag string, events guevents.EventManagers, r ...Renderable) Rend
 		}
 	}
 
-	gudispatch.Subscribe(func(path gudispatch.Path) {
-		for _, vmr := range r {
-			if rs, ok := vmr.(gudispatch.Resolvable); ok {
-				rs.Resolve(path)
-			}
-		}
-	})
-
 	gudispatch.Subscribe(func(state ViewState) {
 		if state.ID != vw.uuid {
 			return
@@ -73,6 +65,16 @@ type view struct {
 // Events returns the guevents.EventManager attached with this view.
 func (v *view) Events() guevents.EventManagers {
 	return v.events
+}
+
+// Resolves exposes the internal renderables and passes the supplied path
+// to allow any desired behaviour to be initiated.
+func (v *view) Resolve(path gudispatch.Path) {
+	for _, vmr := range v.renders {
+		if rs, ok := vmr.(gudispatch.Resolvable); ok {
+			rs.Resolve(path)
+		}
+	}
 }
 
 // UUID returns the RenderGroup UUID for identification.

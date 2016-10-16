@@ -3,7 +3,6 @@
 package gujs
 
 import (
-	"log"
 	"strings"
 
 	"github.com/gopherjs/gopherjs/js"
@@ -137,35 +136,35 @@ func AppendChild(o *js.Object, osets ...*js.Object) {
 }
 
 var headerKids = map[string]bool{
-	"style": true, 
-	"meta":true,
-	"link":true,
-	"title":true, 
-	"base":true,
+	"style": true,
+	"meta":  true,
+	"link":  true,
+	"title": true,
+	"base":  true,
 }
 
 // ContextAppendChild takes a list of objects and calls appendNode on the given object
 func ContextAppendChild(o *js.Object, osets ...*js.Object) {
-	header := QuerySelector(GetDocument(),"head")
-	body := QuerySelector(GetDocument(),"body")
+	header := QuerySelector(GetDocument(), "head")
+	body := QuerySelector(GetDocument(), "body")
 	bodyParent := body.Get("parentNode")
 
 	for _, onode := range osets {
 
 		tagName := onode.Get("tagName").String()
 		if headerKids[tagName] && header != nil && header != js.Undefined {
-		   header.Call("appendChild", onode)
-		   continue
+			header.Call("appendChild", onode)
+			continue
 		}
 
 		if tagName == "script" && body != nil && body != js.Undefined {
-		   if bodyParent == nil || bodyParent == js.Undefined {
-		   	body.Call("appendChild", onode)
-		         continue
-		   }
+			if bodyParent == nil || bodyParent == js.Undefined {
+				body.Call("appendChild", onode)
+				continue
+			}
 
-	   	   bodyParent.Call("appendChild", onode)
-		   continue
+			bodyParent.Call("appendChild", onode)
+			continue
 		}
 
 		o.Call("appendChild", onode)

@@ -100,6 +100,8 @@ type Viewable interface{}
 // branch of the current rendered markup view.
 type RenderView interface {
 	MarkupRenderer
+	gudispatch.Resolvable
+
 	UUID() string
 }
 
@@ -156,14 +158,6 @@ func (rg *RenderGroup) Views() []RenderView {
 	return rg.views
 }
 
-// View adds the giving renderables into the provided a view managed by
-// the RenderGroup.
-func (rg *RenderGroup) View(r ...Renderable) {
-	esm := guevents.NewEventManager()
-	rg.baseEvents.AttachManager(esm)
-
-	rg.views = append(rg.views, customView("div", esm, r...))
-}
 
 // AddRenderView adds the giving RenderView set into the RenderGroups views
 // list.
@@ -177,13 +171,26 @@ func (rg *RenderGroup) AddRenderView(rs ...RenderView) {
 	}
 }
 
-// CustomView does a similar operation as the .View method but allows the user
-// to specify the tag used to wrap more than one Renderable.
-func (rg *RenderGroup) CustomView(tag string, r ...Renderable) {
+// View adds the giving renderables into the provided a view managed by
+// the RenderGroup.
+func (rg *RenderGroup) View(r ...Renderable) RenderView{
 	esm := guevents.NewEventManager()
 	rg.baseEvents.AttachManager(esm)
 
-	rg.views = append(rg.views, customView(tag, esm, r...))
+	csv := customView("section", esm, r...)
+	rg.views = append(rg.views, csv)
+	return csv
+}
+
+// CustomView does a similar operation as the .View method but allows the user
+// to specify the tag used to wrap more than one Renderable.
+func (rg *RenderGroup) CustomView(tag string, r ...Renderable) RenderView {
+	esm := guevents.NewEventManager()
+	rg.baseEvents.AttachManager(esm)
+
+	csv := customView(tag, esm, r...)
+	rg.views = append(rg.views, csv)
+	return csv
 }
 
 // UseRendering requests the render group initialize all internal views
@@ -196,6 +203,16 @@ func (rg *RenderGroup) UseRendering(render Renderer) {
 func (rg *RenderGroup) LoadEvents(target *js.Object) {
 	rg.baseEvents.OffloadDOM()
 	rg.baseEvents.LoadDOM(target)
+}
+
+// Resolve resolves the internal RenderViews attached to this RenderGroup with
+// the provided path.
+func (rg *RenderGroup) Resolve(path gudispatch.Path) {
+	for _, vmr := range rg.views {
+		if rs, ok := vmr.(gudispatch.Resolvable); ok {
+			rs.Resolve(path)
+		}
+	}
 }
 
 // Events returns the provided Event manages the event manager connected to the
