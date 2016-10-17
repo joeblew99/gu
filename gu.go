@@ -10,7 +10,7 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/gu/dispatch"
 	"github.com/influx6/gu/events"
-	"github.com/influx6/gu/gutrees"
+	"github.com/influx6/gu/trees"
 )
 
 var countKeeper = struct {
@@ -33,7 +33,7 @@ func newKey() string {
 
 // Renderable provides a interface for a renderable type.
 type Renderable interface {
-	Render() gutrees.Markup
+	Render() trees.Markup
 }
 
 // Renderables defines a lists of Renderable structures.
@@ -116,11 +116,6 @@ type EventableRenderView interface {
 	LoadEvents(*js.Object)
 }
 
-// RenderingGroup defines an interface that exposes it's set of children RenderViews.
-type RenderingGroup interface {
-	Views() []RenderView
-}
-
 // Renderer defines an interface which takes responsiblity in translating
 // the provided markup into the appropriate media.
 type Renderer interface {
@@ -131,121 +126,6 @@ type Renderer interface {
 // for rendering.
 type RenderingTarget interface {
 	UseRendering(Renderer)
-}
-
-// RenderGroup provides a central backbone through which RenderViews are rendered as one.
-// RenderGroup implements the RenderView, RenderingGroup, Eventable, EventableRenderView and
-// Rendering interfaces.
-type RenderGroup struct {
-	views      []RenderView
-	baseTag    string
-	uuid       string
-	baseEvents events.EventManagers
-}
-
-// New returns a new RenderGroup which allows grouping RenderView into a set of
-// one rendering.
-func New() *RenderGroup {
-	return &RenderGroup{
-		baseTag:    "div",
-		uuid:       newKey(),
-		baseEvents: events.NewEventManager(),
-	}
-}
-
-// Views returns the giving underline children views, it implements the RenderingGroup interface.
-func (rg *RenderGroup) Views() []RenderView {
-	return rg.views
-}
-
-
-// AddRenderView adds the giving RenderView set into the RenderGroups views
-// list.
-func (rg *RenderGroup) AddRenderView(rs ...RenderView) {
-	rg.views = append(rg.views, rs...)
-
-	for _, view := range rs {
-		if ev, ok := view.(Eventable); ok {
-			rg.baseEvents.AttachManager(ev.Events())
-		}
-	}
-}
-
-// View adds the giving renderables into the provided a view managed by
-// the RenderGroup.
-func (rg *RenderGroup) View(r ...Renderable) RenderView{
-	esm := events.NewEventManager()
-	rg.baseEvents.AttachManager(esm)
-
-	csv := customView("section", esm, r...)
-	rg.views = append(rg.views, csv)
-	return csv
-}
-
-// CustomView does a similar operation as the .View method but allows the user
-// to specify the tag used to wrap more than one Renderable.
-func (rg *RenderGroup) CustomView(tag string, r ...Renderable) RenderView {
-	esm := events.NewEventManager()
-	rg.baseEvents.AttachManager(esm)
-
-	csv := customView(tag, esm, r...)
-	rg.views = append(rg.views, csv)
-	return csv
-}
-
-// UseRendering requests the render group initialize all internal views
-// into the provided render target.
-func (rg *RenderGroup) UseRendering(render Renderer) {
-	render.RenderView(rg)
-}
-
-// LoadEvents loads the giving RenderGroup with the provided object.
-func (rg *RenderGroup) LoadEvents(target *js.Object) {
-	rg.baseEvents.OffloadDOM()
-	rg.baseEvents.LoadDOM(target)
-}
-
-// Resolve resolves the internal RenderViews attached to this RenderGroup with
-// the provided path.
-func (rg *RenderGroup) Resolve(path dispatch.Path) {
-	for _, vmr := range rg.views {
-		if rs, ok := vmr.(dispatch.Resolvable); ok {
-			rs.Resolve(path)
-		}
-	}
-}
-
-// Events returns the provided Event manages the event manager connected to the
-// group.
-func (rg *RenderGroup) Events() events.EventManagers {
-	return rg.Events()
-}
-
-// UUID returns the RenderGroup UUID for identification.
-func (rg *RenderGroup) UUID() string {
-	return rg.uuid
-}
-
-// SetBaseTag sets the name of the base tag which is generated to wrap the
-// contents of the children RenderView.
-func (rg *RenderGroup) SetBaseTag(tag string) {
-	rg.baseTag = tag
-}
-
-// RenderHTML returns the markup converted into a compliant html markup.
-func (rg *RenderGroup) RenderHTML() template.HTML {
-	return rg.Render().EHTML()
-}
-
-// Render returns the groups markup for the giving render group.
-func (rg *RenderGroup) Render() gutrees.Markup {
-	root := gutrees.NewElement(rg.baseTag, false)
-
-	for _, view := range rg.views {
-		view.Render().Apply(root)
-	}
-
-	return root
 }
 
 //==============================================================================

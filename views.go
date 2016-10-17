@@ -10,6 +10,24 @@ import (
 
 //==============================================================================
 
+// StaticView defines a MarkupRenderer implementing structure which returns its Content has
+// its markup.
+type StaticView struct {
+	Content trees.Markup
+}
+
+// Render returns the markup for the static view.
+func (s *StaticView) Render() trees.Markup {
+	return s.Content
+}
+
+// RenderHTML returns the html template version of the StaticView content.
+func (s *StaticView) RenderHTML() template.HTML {
+	return s.Content.EHTML()
+}
+
+//==============================================================================
+
 // ViewUpdate defines a view update notification which contains the name of the
 // view to be notified for an update.
 type ViewUpdate struct {
@@ -17,12 +35,12 @@ type ViewUpdate struct {
 }
 
 // CustomView generates a RenderView for the provided Renderable.
-func customView(tag string, events events.EventManagers, r ...Renderable) RenderView {
+func CustomView(tag string, ev events.EventManagers, r ...Renderable) RenderView {
 	var vw view
 	vw.tag = tag
 	vw.renders = r
 	vw.uuid = newKey()
-	vw.events = events
+	vw.events = ev
 
 	for _, vr := range r {
 		if rws, ok := vr.(ReactiveSubscription); ok {
@@ -55,7 +73,7 @@ func (v *view) Events() events.EventManagers {
 // Resolves exposes the internal renderables and passes the supplied path
 // to allow any desired behaviour to be initiated.
 func (v *view) Resolve(path dispatch.Path) {
-	v.live.Resolve(path)
+	v.live.Router().Resolve(path)
 
 	for _, vmr := range v.renders {
 		if rs, ok := vmr.(dispatch.Resolvable); ok {
@@ -77,13 +95,12 @@ func (v *view) RenderHTML() template.HTML {
 // Render returns the groups markup for the giving render group.
 func (v *view) Render() trees.Markup {
 	if len(v.renders) == 0 {
-		return trees.NewElement("div", false)
+		return trees.NewElement(v.tag, false)
 	}
 
 	var root trees.Markup
-
 	if len(v.renders) > 1 {
-		root = gutrees.NewElement(v.tag, false)
+		root = trees.NewElement(v.tag, false)
 
 		for _, view := range v.renders {
 			view.Render().Apply(root)

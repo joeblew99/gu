@@ -2,12 +2,28 @@ package design
 
 import (
 	"github.com/influx6/gu"
+	"github.com/influx6/gu/dispatch"
+	"github.com/influx6/gu/events"
 	"github.com/influx6/gu/trees"
 )
 
 var rootResource = struct {
 	res []ResourceDefinition
 }{}
+
+// DSL defines a function type which is used to generate the contents of a Def(Definition).
+type DSL func()
+
+// ResourceDefinition defines a high-level definition for managing resources for
+// which other definitions build from.
+type ResourceDefinition struct {
+	dsl DSL
+
+	views    []targetViews
+	markups  []targetMarkup
+	links    []gu.StaticView
+	resolver dispatch.Resolvable
+}
 
 func currentResource() *ResourceDefinition {
 	if len(rootResource.res) == 0 {
@@ -17,20 +33,9 @@ func currentResource() *ResourceDefinition {
 	return &(rootResource.res[len(rootResource.res)-1])
 }
 
-// ResourceDefinition defines a high-level definition for managing resources for
-// which other definitions build from.
-type ResourceDefinition struct {
-	dsl DSL
-
-	grp *gu.RenderGroup
-
-	bodyMarkup   trees.Markup
-	headerMarkup trees.Markup
-
-	views   []ViewDef
-	markups []MarkupDef
-	links   []MarkupDef
-	routes  []RouteDef
+// Initialize runs the underline DSL for the
+func (rd *ResourceDefinition) Init() {
+	rd.dsl()
 }
 
 // Resource creates a new resource addding into the resource lists for the root.
@@ -42,17 +47,11 @@ func Resource(dsl DSL) *ResourceDefinition {
 	return &rs
 }
 
-// MarkupDef defines the structure which stores markup definitions for the
-// generating markups.
-type MarkupDef struct {
-	deffer   bool
-	targets  []string
-	children []trees.Markup
-}
+//==============================================================================
 
-// Context returns the context string for this giving structure.
-func (MarkupDef) Context() string {
-	return "Markup"
+type targetMarkup struct {
+	View    gu.StaticView
+	Targets []string
 }
 
 // Markup returns a new instance of a provided value which either is a function
@@ -92,37 +91,28 @@ func Markup(markup gu.Viewable, target interface{}, defered bool) {
 		panic("targets only allowed to be a string or a slice of string")
 	}
 
-	mp := MarkupDef{
-		deffer:   defered,
-		targets:  targets,
-		children: markupFn,
-	}
-
 	current := currentResource()
-	current.markups = append(current.markups, mp)
+
+	for _, markup := range markupFn {
+		var static gu.StaticView
+		static.Content = markup
+
+		current.markups = append(current.markups, targetMarkup{
+			Targets: targets,
+			View:    static,
+		})
+	}
 }
 
 //==============================================================================
 
-// ViewDef defines the structure which stores view creation data for the
-// generating markups.
-type ViewDef struct {
-	deffer bool
-	target string
-	rs     gu.Renderables
-	rv     gu.RenderView
+type targetViews struct {
+	View    gu.RenderView
+	Targets string
 }
 
-// Context returns the context string for this giving structure.
-func (ViewDef) Context() string {
-	return "View"
-}
-
-func View(vrs gu.Viewable, target string, deffer bool) gu.RenderView {
-	var vws ViewDef
-	vws.target = target
-	vws.deffer = deffer
-
+// View creates a gu.RenderView and applies it to the provided resource.
+func View(vrs gu.Viewable, target string) gu.RenderView {
 	var rs gu.Renderables
 
 	switch vwo := vrs.(type) {
@@ -138,95 +128,69 @@ func View(vrs gu.Viewable, target string, deffer bool) gu.RenderView {
 		panic("View must either recieve a function that returns Renderables or Renderables themselves")
 	}
 
+	view := gu.CustomView("section", events.NewEventManager(), rs...)
+
 	current := currentResource()
-	vws.rv = current.grp.View(rs...)
-	current.views = append(current.views, mp)
+	current.views = append(current.views, targetViews{
+		View:    view,
+		Targets: target,
+	})
 
-	return vws.rv
+	return view
 }
 
 //==============================================================================
-
-// RouteDef defines a structure for connecting a giving route with a provided
-// action.
-type RouteDef struct {
-	deffer bool
-	tag    string
-	route  string
-}
-
-// Context returns the context string for this giving structure.
-func (RouteDef) Context() string {
-	return "Route"
-}
-
-//==============================================================================
-
-// LinkDef defines the structure which stores link creation data for the
-// generating markups.
-type LinkDef struct {
-	deffer bool
-	tag    string
-	elem   trees.Markup
-}
-
-// Context returns the context string for this giving structure.
-func (LinkDef) Context() string {
-	return "Link"
-}
 
 // Title adds a element which generates a <title> tag.
 func Title(title string) {
 	ml := mLink("title", false)
-	trees.NewText(title).Apply(ml.elem)
+	trees.NewText(title).Apply(ml.Content)
 }
 
 // Link adds a element which generates a <link> tag.
 func Link(url string, mtype string, defered bool) {
 	ml := mLink("link", defered)
-	trees.NewAttr("href", url).Apply(ml.elem)
-	trees.NewAttr("type", mtype).Apply(ml.elem)
+	trees.NewAttr("href", url).Apply(ml.Content)
+	trees.NewAttr("type", mtype).Apply(ml.Content)
 }
 
 // CSS adds a element which generates a <style> tag.
 func CSS(src string, defered bool) {
 	ml := mLink("link", defered)
-	trees.NewAttr("href", src).Apply(ml.elem)
-	trees.NewAttr("rel", "stylesheet").Apply(ml.elem)
-	trees.NewAttr("type", "text/css").Apply(ml.elem)
+	trees.NewAttr("href", src).Apply(ml.Content)
+	trees.NewAttr("rel", "stylesheet").Apply(ml.Content)
+	trees.NewAttr("type", "text/css").Apply(ml.Content)
 }
 
 // Style adds a element which generates a <style> tag.
 func Style(src string, defered bool) {
 	ml := mLink("style", defered)
-	trees.NewAttr("src", src).Apply(ml.elem)
-	trees.NewAttr("type", "text/css").Apply(ml.elem)
+	trees.NewAttr("src", src).Apply(ml.Content)
+	trees.NewAttr("type", "text/css").Apply(ml.Content)
 }
 
 // Script adds a element which generates a <style> tag.
 func Script(src string, mtype string, defered bool) {
 	ml := mLink("script", defered)
-	trees.NewAttr("src", src).Apply(ml.elem)
-	trees.NewAttr("type", mtype).Apply(ml.elem)
+	trees.NewAttr("src", src).Apply(ml.Content)
+	trees.NewAttr("type", mtype).Apply(ml.Content)
 }
 
 // Meta adds a element which generates a <style> tag.
 func Meta(props map[string]string) {
 	ml := mLink("meta", false)
 	for name, val := range props {
-		trees.NewAttr(name, val).Apply(ml.elem)
+		trees.NewAttr(name, val).Apply(ml.Content)
 	}
 }
 
 // mLink adds tagName with the provided value into the header bar for the
 // page content.
-func mLink(tag string, deffer bool) *LinkDef {
-	var ld LinkDef
-	ld.tag = "link"
-	ld.deffer = deffer
-	ml.elem = trees.NewElement(tag, false)
+func mLink(tag string, deffer bool) gu.StaticView {
+	var static gu.StaticView
+	static.Content = trees.NewElement(tag, false)
 
 	current := currentResource()
-	current.links = append(current.links, ld)
-	return &ld
+	current.links = append(current.links, static)
+	return static
 }

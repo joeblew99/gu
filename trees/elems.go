@@ -33,7 +33,6 @@ type Markup interface {
 	Routes
 	Properties
 	Reconcilable
-	Routes
 }
 
 // Element represent a concrete implementation of a element node.
@@ -112,7 +111,7 @@ func (e *Element) Empty() {
 
 //==============================================================================
 
-// Routes defines an interface which allows the access and setting of the 
+// Routes defines an interface which allows the access and setting of the
 // routes which affects the giving markup.
 type Routes interface {
 	Router() *Routing
@@ -125,15 +124,15 @@ func (e *Element) Router() *Routing {
 }
 
 // UseRouter changes the internal router to be used by this element alone.
-// Connecting all internal children routers to the supplied and discarding 
+// Connecting all internal children routers to the supplied and discarding
 // its previous router.
 func (e *Element) UseRouter(rm *Routing) {
 	old := e.Routing
 	old.Flush()
 
 	for index, morpher := range e.morphers {
-		if morher == old {
-			e.morphers = append(e.morphers[:index], e.morphers[index +1:]...)
+		if morpher == old {
+			e.morphers = append(e.morphers[:index], e.morphers[index+1:]...)
 			break
 		}
 	}

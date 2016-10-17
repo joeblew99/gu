@@ -100,6 +100,11 @@ type Routing struct {
 	m Morpher
 }
 
+// Route provides a convenient function for creating a route with the default RemovalMorpher.
+func Route(path string) *Routing {
+	return NewRouting(path, &RemoveMorpher{})
+}
+
 // Routing returns a new instance of a Routing struct.
 func NewRouting(path string, morpher SwitchMorpher) *Routing {
 	var rs Routing

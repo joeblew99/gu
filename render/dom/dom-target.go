@@ -25,58 +25,51 @@ func (dt *DOMTarget) RenderView(view gu.RenderView) {
 	}
 
 	if dt.AutoUpdate {
-		if rg, ok := view.(gu.RenderingGroup); ok {
-			for _, view := range rg.Views() {
-				dispatch.Subscribe(func(update gu.ViewUpdate) {
-					if update.ID != view.UUID() {
-						return
-					}
-
-					gujs.Patch(gujs.CreateFragment(view.Render().HTML()), dt.Target.Underlying(), false)
-				})
+		dispatch.Subscribe(func(update gu.ViewUpdate) {
+			if update.ID != view.UUID() {
+				return
 			}
-		}
+
+			js.Patch(js.CreateFragment(view.Render().HTML()), dt.Target.Underlying(), false)
+		})
 	}
 
-	gujs.Patch(gujs.CreateFragment(view.Render().HTML()), dt.Target.Underlying(), true)
+	js.Patch(js.CreateFragment(view.Render().HTML()), dt.Target.Underlying(), true)
 }
 
-// TreeTarget defines a DOM renderer which  handles rendering and update cycles different from 
-// the DOMTarget, it ensures to move all contents of <head> and <body> into their proper positions 
+// TreeTarget defines a DOM renderer which  handles rendering and update cycles different from
+// the DOMTarget, it ensures to move all contents of <head> and <body> into their proper positions
 // for rendering.
 type TreeTarget struct {
 	MountTarget string
-	AutoUpdate bool
-	doc hdom.Document
+	AutoUpdate  bool
+	doc         hdom.Document
 }
 
 // RenderView manages the initialization and management of the rendering and
 // update of the passed in view.
 func (tree *TreeTarget) RenderView(view gu.RenderView) {
-	if ev, ok := view.(gu.EventableRenderView); ok {
-		ev.LoadEvents(tree.Target.Underlying())
-	}
-
 	if tree.doc == nil {
 		window := hdom.GetWindow()
 		tree.doc = window.Document()
 	}
 
-	target = tree.doc.QuerySelectorAll(tree.MountTarget)
+	for _, target := range tree.doc.QuerySelectorAll(tree.MountTarget) {
 
-	if tree.AutoUpdate {
-		if rg, ok := view.(gu.RenderingGroup); ok {
-			for _, view := range rg.Views() {
-				dispatch.Subscribe(func(update gu.ViewUpdate) {
-					if update.ID != view.UUID() {
-						return
-					}
-
-					gujs.Patch(gujs.CreateFragment(view.Render().HTML()), target.Underlying(), false)
-				})
-			}
+		if ev, ok := view.(gu.EventableRenderView); ok {
+			ev.LoadEvents(target.Underlying())
 		}
-	}
 
-	gujs.Patch(gujs.CreateFragment(view.Render().HTML()), target.Underlying(), true)
+		if tree.AutoUpdate {
+			dispatch.Subscribe(func(update gu.ViewUpdate) {
+				if update.ID != view.UUID() {
+					return
+				}
+
+				js.Patch(js.CreateFragment(view.Render().HTML()), target.Underlying(), false)
+			})
+		}
+
+		js.Patch(js.CreateFragment(view.Render().HTML()), target.Underlying(), true)
+	}
 }
