@@ -21,11 +21,11 @@ The `guviews` library comes with a custom registeration and initalization system
 // menu defines a map of name and url links.
 type menu map[string]string
 
-func (v menu) Render() gutrees.Markup {
+func (v menu) Render() trees.Markup {
 	dom := elems.Div(attrs.ID("bat"))
 
 	for name, src := range v {
-		gutrees.Augment(dom, elems.Image(
+		trees.Augment(dom, elems.Image(
 			attrs.Src(src),
 			attrs.Rel(name),
 		))

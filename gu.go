@@ -8,8 +8,8 @@ import (
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/gu/gudispatch"
-	"github.com/influx6/gu/guevents"
+	"github.com/influx6/gu/dispatch"
+	"github.com/influx6/gu/events"
 	"github.com/influx6/gu/gutrees"
 )
 
@@ -100,7 +100,7 @@ type Viewable interface{}
 // branch of the current rendered markup view.
 type RenderView interface {
 	MarkupRenderer
-	gudispatch.Resolvable
+	dispatch.Resolvable
 
 	UUID() string
 }
@@ -108,7 +108,7 @@ type RenderView interface {
 // Eventable exposes the events manager provided by the structure that implements
 // the interface.
 type Eventable interface {
-	Events() guevents.EventManagers
+	Events() events.EventManagers
 }
 
 // EventableRenderView defines a composite of a RenderView which provides access to its Events manager.
@@ -140,7 +140,7 @@ type RenderGroup struct {
 	views      []RenderView
 	baseTag    string
 	uuid       string
-	baseEvents guevents.EventManagers
+	baseEvents events.EventManagers
 }
 
 // New returns a new RenderGroup which allows grouping RenderView into a set of
@@ -149,7 +149,7 @@ func New() *RenderGroup {
 	return &RenderGroup{
 		baseTag:    "div",
 		uuid:       newKey(),
-		baseEvents: guevents.NewEventManager(),
+		baseEvents: events.NewEventManager(),
 	}
 }
 
@@ -174,7 +174,7 @@ func (rg *RenderGroup) AddRenderView(rs ...RenderView) {
 // View adds the giving renderables into the provided a view managed by
 // the RenderGroup.
 func (rg *RenderGroup) View(r ...Renderable) RenderView{
-	esm := guevents.NewEventManager()
+	esm := events.NewEventManager()
 	rg.baseEvents.AttachManager(esm)
 
 	csv := customView("section", esm, r...)
@@ -185,7 +185,7 @@ func (rg *RenderGroup) View(r ...Renderable) RenderView{
 // CustomView does a similar operation as the .View method but allows the user
 // to specify the tag used to wrap more than one Renderable.
 func (rg *RenderGroup) CustomView(tag string, r ...Renderable) RenderView {
-	esm := guevents.NewEventManager()
+	esm := events.NewEventManager()
 	rg.baseEvents.AttachManager(esm)
 
 	csv := customView(tag, esm, r...)
@@ -207,9 +207,9 @@ func (rg *RenderGroup) LoadEvents(target *js.Object) {
 
 // Resolve resolves the internal RenderViews attached to this RenderGroup with
 // the provided path.
-func (rg *RenderGroup) Resolve(path gudispatch.Path) {
+func (rg *RenderGroup) Resolve(path dispatch.Path) {
 	for _, vmr := range rg.views {
-		if rs, ok := vmr.(gudispatch.Resolvable); ok {
+		if rs, ok := vmr.(dispatch.Resolvable); ok {
 			rs.Resolve(path)
 		}
 	}
@@ -217,7 +217,7 @@ func (rg *RenderGroup) Resolve(path gudispatch.Path) {
 
 // Events returns the provided Event manages the event manager connected to the
 // group.
-func (rg *RenderGroup) Events() guevents.EventManagers {
+func (rg *RenderGroup) Events() events.EventManagers {
 	return rg.Events()
 }
 
@@ -267,16 +267,16 @@ func AddStylesheet(url string) {
 // Using the internal route pattern, it matches all route changes
 // and checks against the full URL(Path+Hash).
 // failFn must either be a FailNormal, FailPath or nil.
-func AttachURL(pattern string, activeFn, inactiveFn func(gudispatch.Path)) {
-	gudispatch.ResolveAttachURL(pattern, activeFn, inactiveFn)
+func AttachURL(pattern string, activeFn, inactiveFn func(dispatch.Path)) {
+	dispatch.ResolveAttachURL(pattern, activeFn, inactiveFn)
 }
 
 // AttachHash attaches the view to the provided Route pattern,
 // Using the internal route pattern, it matches all route changes
 // and checks against the URL hash.
 // failFn must either be a FailNormal, FailPath or nil.
-func AttachHash(pattern string, activeFn, inactiveFn func(gudispatch.Path)) {
-	gudispatch.ResolveAttachHash(pattern, activeFn, inactiveFn)
+func AttachHash(pattern string, activeFn, inactiveFn func(dispatch.Path)) {
+	dispatch.ResolveAttachHash(pattern, activeFn, inactiveFn)
 }
 
 //==============================================================================

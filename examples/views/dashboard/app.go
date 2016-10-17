@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/influx6/gu/gucss"
-	"github.com/influx6/gu/gutrees"
-	"github.com/influx6/gu/gutrees/attrs"
-	"github.com/influx6/gu/gutrees/elems"
+	"github.com/influx6/gu/trees"
+	"github.com/influx6/gu/trees/attrs"
+	"github.com/influx6/gu/trees/elems"
 	"github.com/influx6/gu/guviews"
 	"honnef.co/go/js/dom"
 )
@@ -36,7 +36,7 @@ func NewStatItem(name string, val int) *StatItem {
 }
 
 // Render returns the markup for a StatItem.
-func (s *StatItem) Render() gutrees.Markup {
+func (s *StatItem) Render() trees.Markup {
 	return elems.Section(
 		attrs.Class("stat"),
 		elems.Label(
@@ -68,7 +68,7 @@ func (d *Dashboard) Add(stat *StatItem) {
 }
 
 // Render returns the markup for the Dashboard component.
-func (d *Dashboard) Render() gutrees.Markup {
+func (d *Dashboard) Render() trees.Markup {
 	root := elems.Div(attrs.Class("dashboard"))
 
 	for _, stat := range d.stats {

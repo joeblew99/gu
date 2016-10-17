@@ -9,11 +9,11 @@ Using the underline notification system is rather simple and needs no elongated 
 
 ```go
 
-  gudispatch.Subscribe(func (update guviews.ViewUpdate){
+  dispatch.Subscribe(func (update guviews.ViewUpdate){
     //....
   })
 
-  gudispatch.Publish(guviews.ViewUpdate{
+  dispatch.Publish(guviews.ViewUpdate{
     ID: "some-view-id"
   })
 
@@ -29,11 +29,11 @@ type InboxNotification struct{
 }
 
 
-  gudispatch.Subscribe(func (box InboxNotification){
+  dispatch.Subscribe(func (box InboxNotification){
     //....
   })
 
-  gudispatch.Publish(InboxNotification{
+  dispatch.Publish(InboxNotification{
     Read: 20,
     UnRead: 40,
   })

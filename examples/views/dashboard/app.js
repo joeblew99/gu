@@ -29722,7 +29722,7 @@ $packages["github.com/influx6/faux/pattern"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
-$packages["github.com/influx6/gu/gudispatch"] = (function() {
+$packages["github.com/influx6/gu/dispatch"] = (function() {
 	var $pkg = {}, $init, errors, fmt, detect, js, loop, mque, pattern, strings, sync, PathDirective, PathSequencer, PathObserver, HistoryProvider, ptrType, sliceType, funcType, ptrType$1, history, dispatch, matchers, Subscribe, Dispatch, init, HashSequencer, NewPathObserver, GetLocation, HashChangePath, BrowserSupportsPushState, PopStatePath, PushDOMState, SetDOMHash, History, panicBrowserDetect;
 	errors = $packages["errors"];
 	fmt = $packages["fmt"];
@@ -29733,7 +29733,7 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 	pattern = $packages["github.com/influx6/faux/pattern"];
 	strings = $packages["strings"];
 	sync = $packages["sync"];
-	PathDirective = $pkg.PathDirective = $newType(0, $kindStruct, "gudispatch.PathDirective", "PathDirective", "github.com/influx6/gu/gudispatch", function(Host_, Hash_, Path_, Sequence_) {
+	PathDirective = $pkg.PathDirective = $newType(0, $kindStruct, "dispatch.PathDirective", "PathDirective", "github.com/influx6/gu/dispatch", function(Host_, Hash_, Path_, Sequence_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Host = "";
@@ -29747,8 +29747,8 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 		this.Path = Path_;
 		this.Sequence = Sequence_;
 	});
-	PathSequencer = $pkg.PathSequencer = $newType(4, $kindFunc, "gudispatch.PathSequencer", "PathSequencer", "github.com/influx6/gu/gudispatch", null);
-	PathObserver = $pkg.PathObserver = $newType(0, $kindStruct, "gudispatch.PathObserver", "PathObserver", "github.com/influx6/gu/gudispatch", function(usingHash_, sequencer_) {
+	PathSequencer = $pkg.PathSequencer = $newType(4, $kindFunc, "dispatch.PathSequencer", "PathSequencer", "github.com/influx6/gu/dispatch", null);
+	PathObserver = $pkg.PathObserver = $newType(0, $kindStruct, "dispatch.PathObserver", "PathObserver", "github.com/influx6/gu/dispatch", function(usingHash_, sequencer_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.usingHash = false;
@@ -29758,7 +29758,7 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 		this.usingHash = usingHash_;
 		this.sequencer = sequencer_;
 	});
-	HistoryProvider = $pkg.HistoryProvider = $newType(0, $kindStruct, "gudispatch.HistoryProvider", "HistoryProvider", "github.com/influx6/gu/gudispatch", function(PathObserver_) {
+	HistoryProvider = $pkg.HistoryProvider = $newType(0, $kindStruct, "dispatch.HistoryProvider", "HistoryProvider", "github.com/influx6/gu/dispatch", function(PathObserver_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.PathObserver = ptrType$1.nil;
@@ -29929,7 +29929,7 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 	ptrType.methods = [{prop: "Go", name: "Go", pkg: "", typ: $funcType([$String], [], false)}];
 	PathDirective.init([{prop: "Host", name: "Host", pkg: "", typ: $String, tag: ""}, {prop: "Hash", name: "Hash", pkg: "", typ: $String, tag: ""}, {prop: "Path", name: "Path", pkg: "", typ: $String, tag: ""}, {prop: "Sequence", name: "Sequence", pkg: "", typ: $String, tag: ""}]);
 	PathSequencer.init([$String, $String], [$String], false);
-	PathObserver.init([{prop: "usingHash", name: "usingHash", pkg: "github.com/influx6/gu/gudispatch", typ: $Bool, tag: ""}, {prop: "sequencer", name: "sequencer", pkg: "github.com/influx6/gu/gudispatch", typ: PathSequencer, tag: ""}]);
+	PathObserver.init([{prop: "usingHash", name: "usingHash", pkg: "github.com/influx6/gu/dispatch", typ: $Bool, tag: ""}, {prop: "sequencer", name: "sequencer", pkg: "github.com/influx6/gu/dispatch", typ: PathSequencer, tag: ""}]);
 	HistoryProvider.init([{prop: "PathObserver", name: "", pkg: "", typ: ptrType$1, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
@@ -29953,7 +29953,7 @@ $packages["github.com/influx6/gu/gudispatch"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
-$packages["github.com/influx6/gu/guevents"] = (function() {
+$packages["github.com/influx6/gu/events"] = (function() {
 	var $pkg = {}, $init, errors, fmt, js, loop, gujs, strings, sync, atomic, Qu, MQue, mqueSub, JSEventMux, Event, EventObject, EventMeta, EventMetable, EventSubs, EventSubHandler, EventSub, EventManagerHandler, EventManagers, EventManager, ptrType, sliceType, ptrType$1, sliceType$1, funcType, ptrType$2, funcType$1, sliceType$2, ptrType$3, ptrType$4, ptrType$5, ptrType$6, sliceType$3, ptrType$7, mapType, mapType$1, NewQu, NewEventSub, MetaEventSub, NewEventManager, GetEventID, BuildEventID;
 	errors = $packages["errors"];
 	fmt = $packages["fmt"];
@@ -29963,8 +29963,8 @@ $packages["github.com/influx6/gu/guevents"] = (function() {
 	strings = $packages["strings"];
 	sync = $packages["sync"];
 	atomic = $packages["sync/atomic"];
-	Qu = $pkg.Qu = $newType(8, $kindInterface, "guevents.Qu", "Qu", "github.com/influx6/gu/guevents", null);
-	MQue = $pkg.MQue = $newType(0, $kindStruct, "guevents.MQue", "MQue", "github.com/influx6/gu/guevents", function(l_, muxers_) {
+	Qu = $pkg.Qu = $newType(8, $kindInterface, "guevents.Qu", "Qu", "github.com/influx6/gu/events", null);
+	MQue = $pkg.MQue = $newType(0, $kindStruct, "guevents.MQue", "MQue", "github.com/influx6/gu/events", function(l_, muxers_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.l = new sync.RWMutex.ptr(new sync.Mutex.ptr(0, 0), 0, 0, 0, 0);
@@ -29974,7 +29974,7 @@ $packages["github.com/influx6/gu/guevents"] = (function() {
 		this.l = l_;
 		this.muxers = muxers_;
 	});
-	mqueSub = $pkg.mqueSub = $newType(0, $kindStruct, "guevents.mqueSub", "mqueSub", "github.com/influx6/gu/guevents", function(id_, mx_, alive_) {
+	mqueSub = $pkg.mqueSub = $newType(0, $kindStruct, "guevents.mqueSub", "mqueSub", "github.com/influx6/gu/events", function(id_, mx_, alive_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.id = 0;
@@ -29986,9 +29986,9 @@ $packages["github.com/influx6/gu/guevents"] = (function() {
 		this.mx = mx_;
 		this.alive = alive_;
 	});
-	JSEventMux = $pkg.JSEventMux = $newType(4, $kindFunc, "guevents.JSEventMux", "JSEventMux", "github.com/influx6/gu/guevents", null);
-	Event = $pkg.Event = $newType(8, $kindInterface, "guevents.Event", "Event", "github.com/influx6/gu/guevents", null);
-	EventObject = $pkg.EventObject = $newType(0, $kindStruct, "guevents.EventObject", "EventObject", "github.com/influx6/gu/guevents", function(Object_) {
+	JSEventMux = $pkg.JSEventMux = $newType(4, $kindFunc, "guevents.JSEventMux", "JSEventMux", "github.com/influx6/gu/events", null);
+	Event = $pkg.Event = $newType(8, $kindInterface, "guevents.Event", "Event", "github.com/influx6/gu/events", null);
+	EventObject = $pkg.EventObject = $newType(0, $kindStruct, "guevents.EventObject", "EventObject", "github.com/influx6/gu/events", function(Object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -29996,8 +29996,8 @@ $packages["github.com/influx6/gu/guevents"] = (function() {
 		}
 		this.Object = Object_;
 	});
-	EventMeta = $pkg.EventMeta = $newType(8, $kindInterface, "guevents.EventMeta", "EventMeta", "github.com/influx6/gu/guevents", null);
-	EventMetable = $pkg.EventMetable = $newType(0, $kindStruct, "guevents.EventMetable", "EventMetable", "github.com/influx6/gu/guevents", function(EventType_, EventTarget_, ShouldStopPropagation_, ShouldStopImmediatePropagation_, ShouldPreventDefault_, ShouldRemove_) {
+	EventMeta = $pkg.EventMeta = $newType(8, $kindInterface, "guevents.EventMeta", "EventMeta", "github.com/influx6/gu/events", null);
+	EventMetable = $pkg.EventMetable = $newType(0, $kindStruct, "guevents.EventMetable", "EventMetable", "github.com/influx6/gu/events", function(EventType_, EventTarget_, ShouldStopPropagation_, ShouldStopImmediatePropagation_, ShouldPreventDefault_, ShouldRemove_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.EventType = "";
@@ -30015,9 +30015,9 @@ $packages["github.com/influx6/gu/guevents"] = (function() {
 		this.ShouldPreventDefault = ShouldPreventDefault_;
 		this.ShouldRemove = ShouldRemove_;
 	});
-	EventSubs = $pkg.EventSubs = $newType(8, $kindInterface, "guevents.EventSubs", "EventSubs", "github.com/influx6/gu/guevents", null);
-	EventSubHandler = $pkg.EventSubHandler = $newType(4, $kindFunc, "guevents.EventSubHandler", "EventSubHandler", "github.com/influx6/gu/guevents", null);
-	EventSub = $pkg.EventSub = $newType(0, $kindStruct, "guevents.EventSub", "EventSub", "github.com/influx6/gu/guevents", function(EventMeta_, Qu_, jslink_, dom_) {
+	EventSubs = $pkg.EventSubs = $newType(8, $kindInterface, "guevents.EventSubs", "EventSubs", "github.com/influx6/gu/events", null);
+	EventSubHandler = $pkg.EventSubHandler = $newType(4, $kindFunc, "guevents.EventSubHandler", "EventSubHandler", "github.com/influx6/gu/events", null);
+	EventSub = $pkg.EventSub = $newType(0, $kindStruct, "guevents.EventSub", "EventSub", "github.com/influx6/gu/events", function(EventMeta_, Qu_, jslink_, dom_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.EventMeta = $ifaceNil;
@@ -30031,9 +30031,9 @@ $packages["github.com/influx6/gu/guevents"] = (function() {
 		this.jslink = jslink_;
 		this.dom = dom_;
 	});
-	EventManagerHandler = $pkg.EventManagerHandler = $newType(4, $kindFunc, "guevents.EventManagerHandler", "EventManagerHandler", "github.com/influx6/gu/guevents", null);
-	EventManagers = $pkg.EventManagers = $newType(8, $kindInterface, "guevents.EventManagers", "EventManagers", "github.com/influx6/gu/guevents", null);
-	EventManager = $pkg.EventManager = $newType(0, $kindStruct, "guevents.EventManager", "EventManager", "github.com/influx6/gu/guevents", function(events_, attaches_, ro_, wo_, dom_) {
+	EventManagerHandler = $pkg.EventManagerHandler = $newType(4, $kindFunc, "guevents.EventManagerHandler", "EventManagerHandler", "github.com/influx6/gu/events", null);
+	EventManagers = $pkg.EventManagers = $newType(8, $kindInterface, "guevents.EventManagers", "EventManagers", "github.com/influx6/gu/events", null);
+	EventManager = $pkg.EventManager = $newType(0, $kindStruct, "guevents.EventManager", "EventManager", "github.com/influx6/gu/events", function(events_, attaches_, ro_, wo_, dom_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.events = false;
@@ -30742,8 +30742,8 @@ $packages["github.com/influx6/gu/guevents"] = (function() {
 	ptrType$6.methods = [{prop: "DOM", name: "DOM", pkg: "", typ: $funcType([ptrType$3], [], false)}, {prop: "Offload", name: "Offload", pkg: "", typ: $funcType([], [], false)}, {prop: "Trigger", name: "Trigger", pkg: "", typ: $funcType([Event], [], false)}, {prop: "TriggerMatch", name: "TriggerMatch", pkg: "", typ: $funcType([Event], [], false)}, {prop: "ID", name: "ID", pkg: "", typ: $funcType([], [$String], false)}];
 	ptrType$7.methods = [{prop: "HasEvent", name: "HasEvent", pkg: "", typ: $funcType([$String], [$Bool], false)}, {prop: "GetEvent", name: "GetEvent", pkg: "", typ: $funcType([$String], [EventSubs, $error], false)}, {prop: "NewEventMeta", name: "NewEventMeta", pkg: "", typ: $funcType([EventMeta], [EventSubs, $Bool], false)}, {prop: "NewEvent", name: "NewEvent", pkg: "", typ: $funcType([$String, $String], [EventSubs, $Bool], false)}, {prop: "AttachManager", name: "AttachManager", pkg: "", typ: $funcType([EventManagers], [], false)}, {prop: "DetachManager", name: "DetachManager", pkg: "", typ: $funcType([EventManagers], [], false)}, {prop: "HasManager", name: "HasManager", pkg: "", typ: $funcType([EventManagers], [$Bool], false)}, {prop: "RemoveEvent", name: "RemoveEvent", pkg: "", typ: $funcType([$String], [], false)}, {prop: "AddEvent", name: "AddEvent", pkg: "", typ: $funcType([EventSubs], [$Bool], false)}, {prop: "AddEvents", name: "AddEvents", pkg: "", typ: $funcType([sliceType$3], [], true)}, {prop: "EachEvent", name: "EachEvent", pkg: "", typ: $funcType([EventSubHandler], [], false)}, {prop: "EachManager", name: "EachManager", pkg: "", typ: $funcType([EventManagerHandler], [], false)}, {prop: "DisconnectRemoved", name: "DisconnectRemoved", pkg: "", typ: $funcType([], [], false)}, {prop: "OffloadDOM", name: "OffloadDOM", pkg: "", typ: $funcType([], [], false)}, {prop: "LoadUpEvents", name: "LoadUpEvents", pkg: "", typ: $funcType([], [], false)}, {prop: "LoadDOM", name: "LoadDOM", pkg: "", typ: $funcType([ptrType$3], [$Bool], false)}];
 	Qu.init([{prop: "Flush", name: "Flush", pkg: "", typ: $funcType([], [], false)}, {prop: "Q", name: "Q", pkg: "", typ: $funcType([funcType], [loop.Looper], false)}, {prop: "Run", name: "Run", pkg: "", typ: $funcType([Event], [], false)}]);
-	MQue.init([{prop: "l", name: "l", pkg: "github.com/influx6/gu/guevents", typ: sync.RWMutex, tag: ""}, {prop: "muxers", name: "muxers", pkg: "github.com/influx6/gu/guevents", typ: sliceType, tag: ""}]);
-	mqueSub.init([{prop: "id", name: "id", pkg: "github.com/influx6/gu/guevents", typ: $Int, tag: ""}, {prop: "mx", name: "mx", pkg: "github.com/influx6/gu/guevents", typ: funcType, tag: ""}, {prop: "alive", name: "alive", pkg: "github.com/influx6/gu/guevents", typ: $Int64, tag: ""}]);
+	MQue.init([{prop: "l", name: "l", pkg: "github.com/influx6/gu/events", typ: sync.RWMutex, tag: ""}, {prop: "muxers", name: "muxers", pkg: "github.com/influx6/gu/events", typ: sliceType, tag: ""}]);
+	mqueSub.init([{prop: "id", name: "id", pkg: "github.com/influx6/gu/events", typ: $Int, tag: ""}, {prop: "mx", name: "mx", pkg: "github.com/influx6/gu/events", typ: funcType, tag: ""}, {prop: "alive", name: "alive", pkg: "github.com/influx6/gu/events", typ: $Int64, tag: ""}]);
 	JSEventMux.init([ptrType$3], [], false);
 	Event.init([{prop: "Bubbles", name: "Bubbles", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "Cancelable", name: "Cancelable", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "Core", name: "Core", pkg: "", typ: $funcType([], [ptrType$3], false)}, {prop: "CurrentTarget", name: "CurrentTarget", pkg: "", typ: $funcType([], [ptrType$3], false)}, {prop: "DefaultPrevented", name: "DefaultPrevented", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "EventPhase", name: "EventPhase", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "PreventDefault", name: "PreventDefault", pkg: "", typ: $funcType([], [], false)}, {prop: "StopImmediatePropagation", name: "StopImmediatePropagation", pkg: "", typ: $funcType([], [], false)}, {prop: "StopPropagation", name: "StopPropagation", pkg: "", typ: $funcType([], [], false)}, {prop: "Target", name: "Target", pkg: "", typ: $funcType([], [ptrType$3], false)}, {prop: "Timestamp", name: "Timestamp", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Type", name: "Type", pkg: "", typ: $funcType([], [$String], false)}]);
 	EventObject.init([{prop: "Object", name: "", pkg: "", typ: ptrType$3, tag: ""}]);
@@ -30751,10 +30751,10 @@ $packages["github.com/influx6/gu/guevents"] = (function() {
 	EventMetable.init([{prop: "EventType", name: "EventType", pkg: "", typ: $String, tag: ""}, {prop: "EventTarget", name: "EventTarget", pkg: "", typ: $String, tag: ""}, {prop: "ShouldStopPropagation", name: "ShouldStopPropagation", pkg: "", typ: $Bool, tag: ""}, {prop: "ShouldStopImmediatePropagation", name: "ShouldStopImmediatePropagation", pkg: "", typ: $Bool, tag: ""}, {prop: "ShouldPreventDefault", name: "ShouldPreventDefault", pkg: "", typ: $Bool, tag: ""}, {prop: "ShouldRemove", name: "ShouldRemove", pkg: "", typ: $Bool, tag: ""}]);
 	EventSubs.init([{prop: "DOM", name: "DOM", pkg: "", typ: $funcType([ptrType$3], [], false)}, {prop: "Flush", name: "Flush", pkg: "", typ: $funcType([], [], false)}, {prop: "Offload", name: "Offload", pkg: "", typ: $funcType([], [], false)}, {prop: "PreventDefault", name: "PreventDefault", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "Q", name: "Q", pkg: "", typ: $funcType([funcType], [loop.Looper], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([], [], false)}, {prop: "Removed", name: "Removed", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "Run", name: "Run", pkg: "", typ: $funcType([Event], [], false)}, {prop: "StopImmediatePropagation", name: "StopImmediatePropagation", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "StopPropagation", name: "StopPropagation", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "Target", name: "Target", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Type", name: "Type", pkg: "", typ: $funcType([], [$String], false)}]);
 	EventSubHandler.init([EventSubs], [], false);
-	EventSub.init([{prop: "EventMeta", name: "", pkg: "", typ: EventMeta, tag: ""}, {prop: "Qu", name: "", pkg: "", typ: Qu, tag: ""}, {prop: "jslink", name: "jslink", pkg: "github.com/influx6/gu/guevents", typ: JSEventMux, tag: ""}, {prop: "dom", name: "dom", pkg: "github.com/influx6/gu/guevents", typ: ptrType$3, tag: ""}]);
+	EventSub.init([{prop: "EventMeta", name: "", pkg: "", typ: EventMeta, tag: ""}, {prop: "Qu", name: "", pkg: "", typ: Qu, tag: ""}, {prop: "jslink", name: "jslink", pkg: "github.com/influx6/gu/events", typ: JSEventMux, tag: ""}, {prop: "dom", name: "dom", pkg: "github.com/influx6/gu/events", typ: ptrType$3, tag: ""}]);
 	EventManagerHandler.init([EventManagers], [], false);
 	EventManagers.init([{prop: "AddEvent", name: "AddEvent", pkg: "", typ: $funcType([EventSubs], [$Bool], false)}, {prop: "AddEvents", name: "AddEvents", pkg: "", typ: $funcType([sliceType$3], [], true)}, {prop: "AttachManager", name: "AttachManager", pkg: "", typ: $funcType([EventManagers], [], false)}, {prop: "DetachManager", name: "DetachManager", pkg: "", typ: $funcType([EventManagers], [], false)}, {prop: "DisconnectRemoved", name: "DisconnectRemoved", pkg: "", typ: $funcType([], [], false)}, {prop: "EachEvent", name: "EachEvent", pkg: "", typ: $funcType([EventSubHandler], [], false)}, {prop: "EachManager", name: "EachManager", pkg: "", typ: $funcType([EventManagerHandler], [], false)}, {prop: "GetEvent", name: "GetEvent", pkg: "", typ: $funcType([$String], [EventSubs, $error], false)}, {prop: "HasEvent", name: "HasEvent", pkg: "", typ: $funcType([$String], [$Bool], false)}, {prop: "HasManager", name: "HasManager", pkg: "", typ: $funcType([EventManagers], [$Bool], false)}, {prop: "LoadDOM", name: "LoadDOM", pkg: "", typ: $funcType([ptrType$3], [$Bool], false)}, {prop: "LoadUpEvents", name: "LoadUpEvents", pkg: "", typ: $funcType([], [], false)}, {prop: "NewEvent", name: "NewEvent", pkg: "", typ: $funcType([$String, $String], [EventSubs, $Bool], false)}, {prop: "NewEventMeta", name: "NewEventMeta", pkg: "", typ: $funcType([EventMeta], [EventSubs, $Bool], false)}, {prop: "OffloadDOM", name: "OffloadDOM", pkg: "", typ: $funcType([], [], false)}, {prop: "RemoveEvent", name: "RemoveEvent", pkg: "", typ: $funcType([$String], [], false)}]);
-	EventManager.init([{prop: "events", name: "events", pkg: "github.com/influx6/gu/guevents", typ: mapType, tag: ""}, {prop: "attaches", name: "attaches", pkg: "github.com/influx6/gu/guevents", typ: mapType$1, tag: ""}, {prop: "ro", name: "ro", pkg: "github.com/influx6/gu/guevents", typ: sync.RWMutex, tag: ""}, {prop: "wo", name: "wo", pkg: "github.com/influx6/gu/guevents", typ: sync.RWMutex, tag: ""}, {prop: "dom", name: "dom", pkg: "github.com/influx6/gu/guevents", typ: ptrType$3, tag: ""}]);
+	EventManager.init([{prop: "events", name: "events", pkg: "github.com/influx6/gu/events", typ: mapType, tag: ""}, {prop: "attaches", name: "attaches", pkg: "github.com/influx6/gu/events", typ: mapType$1, tag: ""}, {prop: "ro", name: "ro", pkg: "github.com/influx6/gu/events", typ: sync.RWMutex, tag: ""}, {prop: "wo", name: "wo", pkg: "github.com/influx6/gu/events", typ: sync.RWMutex, tag: ""}, {prop: "dom", name: "dom", pkg: "github.com/influx6/gu/events", typ: ptrType$3, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -34514,17 +34514,17 @@ $packages["crypto/rand"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
-$packages["github.com/influx6/gu/gutrees"] = (function() {
+$packages["github.com/influx6/gu/trees"] = (function() {
 	var $pkg = {}, $init, rand, errors, fmt, detect, guevents, strings, sync, Markup, Element, Eventers, MarkupState, TextMarkup, Cleanable, Removable, SwappableIdentity, ElementalMarkup, childAdd, Appliable, Clonable, Event, Mode, AttrPrinter, AttrWriter, StylePrinter, StyleWriter, TextPrinter, TextWriter, MarkupWriter, ElementWriter, Property, properties, MarkupPropertiesProvider, Attribute, Style, structType, sliceType, sliceType$1, sliceType$2, sliceType$3, ptrType, sliceType$4, sliceType$5, ptrType$3, ptrType$4, ptrType$6, cu, NewText, NewElement, GetMode, NewElementWriter, NewStyle, RandString, ReconcileEvents, EqualStyles, EqualAttributes, GetStyle, GetAttr, ReplaceORAddStyle;
 	rand = $packages["crypto/rand"];
 	errors = $packages["errors"];
 	fmt = $packages["fmt"];
 	detect = $packages["github.com/go-humble/detect"];
-	guevents = $packages["github.com/influx6/gu/guevents"];
+	guevents = $packages["github.com/influx6/gu/events"];
 	strings = $packages["strings"];
 	sync = $packages["sync"];
-	Markup = $pkg.Markup = $newType(8, $kindInterface, "gutrees.Markup", "Markup", "github.com/influx6/gu/gutrees", null);
-	Element = $pkg.Element = $newType(0, $kindStruct, "gutrees.Element", "Element", "github.com/influx6/gu/gutrees", function(removed_, autoclose_, allowEvents_, allowChildren_, allowStyles_, allowAttributes_, uid_, hash_, tagname_, textContent_, events_, children_, styles_, attrs_, eventManager_) {
+	Markup = $pkg.Markup = $newType(8, $kindInterface, "trees.Markup", "Markup", "github.com/influx6/gu/trees", null);
+	Element = $pkg.Element = $newType(0, $kindStruct, "trees.Element", "Element", "github.com/influx6/gu/trees", function(removed_, autoclose_, allowEvents_, allowChildren_, allowStyles_, allowAttributes_, uid_, hash_, tagname_, textContent_, events_, children_, styles_, attrs_, eventManager_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.removed = false;
@@ -34560,46 +34560,46 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 		this.attrs = attrs_;
 		this.eventManager = eventManager_;
 	});
-	Eventers = $pkg.Eventers = $newType(8, $kindInterface, "gutrees.Eventers", "Eventers", "github.com/influx6/gu/gutrees", null);
-	MarkupState = $pkg.MarkupState = $newType(8, $kindInterface, "gutrees.MarkupState", "MarkupState", "github.com/influx6/gu/gutrees", null);
-	TextMarkup = $pkg.TextMarkup = $newType(8, $kindInterface, "gutrees.TextMarkup", "TextMarkup", "github.com/influx6/gu/gutrees", null);
-	Cleanable = $pkg.Cleanable = $newType(8, $kindInterface, "gutrees.Cleanable", "Cleanable", "github.com/influx6/gu/gutrees", null);
-	Removable = $pkg.Removable = $newType(8, $kindInterface, "gutrees.Removable", "Removable", "github.com/influx6/gu/gutrees", null);
-	SwappableIdentity = $pkg.SwappableIdentity = $newType(8, $kindInterface, "gutrees.SwappableIdentity", "SwappableIdentity", "github.com/influx6/gu/gutrees", null);
-	ElementalMarkup = $pkg.ElementalMarkup = $newType(8, $kindInterface, "gutrees.ElementalMarkup", "ElementalMarkup", "github.com/influx6/gu/gutrees", null);
-	childAdd = $pkg.childAdd = $newType(0, $kindStruct, "gutrees.childAdd", "childAdd", "github.com/influx6/gu/gutrees", function() {
+	Eventers = $pkg.Eventers = $newType(8, $kindInterface, "trees.Eventers", "Eventers", "github.com/influx6/gu/trees", null);
+	MarkupState = $pkg.MarkupState = $newType(8, $kindInterface, "trees.MarkupState", "MarkupState", "github.com/influx6/gu/trees", null);
+	TextMarkup = $pkg.TextMarkup = $newType(8, $kindInterface, "trees.TextMarkup", "TextMarkup", "github.com/influx6/gu/trees", null);
+	Cleanable = $pkg.Cleanable = $newType(8, $kindInterface, "trees.Cleanable", "Cleanable", "github.com/influx6/gu/trees", null);
+	Removable = $pkg.Removable = $newType(8, $kindInterface, "trees.Removable", "Removable", "github.com/influx6/gu/trees", null);
+	SwappableIdentity = $pkg.SwappableIdentity = $newType(8, $kindInterface, "trees.SwappableIdentity", "SwappableIdentity", "github.com/influx6/gu/trees", null);
+	ElementalMarkup = $pkg.ElementalMarkup = $newType(8, $kindInterface, "trees.ElementalMarkup", "ElementalMarkup", "github.com/influx6/gu/trees", null);
+	childAdd = $pkg.childAdd = $newType(0, $kindStruct, "trees.childAdd", "childAdd", "github.com/influx6/gu/trees", function() {
 		this.$val = this;
 		if (arguments.length === 0) {
 			return;
 		}
 	});
-	Appliable = $pkg.Appliable = $newType(8, $kindInterface, "gutrees.Appliable", "Appliable", "github.com/influx6/gu/gutrees", null);
-	Clonable = $pkg.Clonable = $newType(8, $kindInterface, "gutrees.Clonable", "Clonable", "github.com/influx6/gu/gutrees", null);
-	Event = $pkg.Event = $newType(8, $kindInterface, "gutrees.Event", "Event", "github.com/influx6/gu/gutrees", null);
-	Mode = $pkg.Mode = $newType(4, $kindInt, "gutrees.Mode", "Mode", "github.com/influx6/gu/gutrees", null);
-	AttrPrinter = $pkg.AttrPrinter = $newType(8, $kindInterface, "gutrees.AttrPrinter", "AttrPrinter", "github.com/influx6/gu/gutrees", null);
-	AttrWriter = $pkg.AttrWriter = $newType(0, $kindStruct, "gutrees.AttrWriter", "AttrWriter", "github.com/influx6/gu/gutrees", function() {
+	Appliable = $pkg.Appliable = $newType(8, $kindInterface, "trees.Appliable", "Appliable", "github.com/influx6/gu/trees", null);
+	Clonable = $pkg.Clonable = $newType(8, $kindInterface, "trees.Clonable", "Clonable", "github.com/influx6/gu/trees", null);
+	Event = $pkg.Event = $newType(8, $kindInterface, "trees.Event", "Event", "github.com/influx6/gu/trees", null);
+	Mode = $pkg.Mode = $newType(4, $kindInt, "trees.Mode", "Mode", "github.com/influx6/gu/trees", null);
+	AttrPrinter = $pkg.AttrPrinter = $newType(8, $kindInterface, "trees.AttrPrinter", "AttrPrinter", "github.com/influx6/gu/trees", null);
+	AttrWriter = $pkg.AttrWriter = $newType(0, $kindStruct, "trees.AttrWriter", "AttrWriter", "github.com/influx6/gu/trees", function() {
 		this.$val = this;
 		if (arguments.length === 0) {
 			return;
 		}
 	});
-	StylePrinter = $pkg.StylePrinter = $newType(8, $kindInterface, "gutrees.StylePrinter", "StylePrinter", "github.com/influx6/gu/gutrees", null);
-	StyleWriter = $pkg.StyleWriter = $newType(0, $kindStruct, "gutrees.StyleWriter", "StyleWriter", "github.com/influx6/gu/gutrees", function() {
+	StylePrinter = $pkg.StylePrinter = $newType(8, $kindInterface, "trees.StylePrinter", "StylePrinter", "github.com/influx6/gu/trees", null);
+	StyleWriter = $pkg.StyleWriter = $newType(0, $kindStruct, "trees.StyleWriter", "StyleWriter", "github.com/influx6/gu/trees", function() {
 		this.$val = this;
 		if (arguments.length === 0) {
 			return;
 		}
 	});
-	TextPrinter = $pkg.TextPrinter = $newType(8, $kindInterface, "gutrees.TextPrinter", "TextPrinter", "github.com/influx6/gu/gutrees", null);
-	TextWriter = $pkg.TextWriter = $newType(0, $kindStruct, "gutrees.TextWriter", "TextWriter", "github.com/influx6/gu/gutrees", function() {
+	TextPrinter = $pkg.TextPrinter = $newType(8, $kindInterface, "trees.TextPrinter", "TextPrinter", "github.com/influx6/gu/trees", null);
+	TextWriter = $pkg.TextWriter = $newType(0, $kindStruct, "trees.TextWriter", "TextWriter", "github.com/influx6/gu/trees", function() {
 		this.$val = this;
 		if (arguments.length === 0) {
 			return;
 		}
 	});
-	MarkupWriter = $pkg.MarkupWriter = $newType(8, $kindInterface, "gutrees.MarkupWriter", "MarkupWriter", "github.com/influx6/gu/gutrees", null);
-	ElementWriter = $pkg.ElementWriter = $newType(0, $kindStruct, "gutrees.ElementWriter", "ElementWriter", "github.com/influx6/gu/gutrees", function(attrWriter_, styleWriter_, text_) {
+	MarkupWriter = $pkg.MarkupWriter = $newType(8, $kindInterface, "trees.MarkupWriter", "MarkupWriter", "github.com/influx6/gu/trees", null);
+	ElementWriter = $pkg.ElementWriter = $newType(0, $kindStruct, "trees.ElementWriter", "ElementWriter", "github.com/influx6/gu/trees", function(attrWriter_, styleWriter_, text_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.attrWriter = $ifaceNil;
@@ -34611,25 +34611,15 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 		this.styleWriter = styleWriter_;
 		this.text = text_;
 	});
-	Property = $pkg.Property = $newType(8, $kindInterface, "gutrees.Property", "Property", "github.com/influx6/gu/gutrees", null);
-	properties = $pkg.properties = $newType(0, $kindStruct, "gutrees.properties", "properties", "github.com/influx6/gu/gutrees", function() {
+	Property = $pkg.Property = $newType(8, $kindInterface, "trees.Property", "Property", "github.com/influx6/gu/trees", null);
+	properties = $pkg.properties = $newType(0, $kindStruct, "trees.properties", "properties", "github.com/influx6/gu/trees", function() {
 		this.$val = this;
 		if (arguments.length === 0) {
 			return;
 		}
 	});
-	MarkupPropertiesProvider = $pkg.MarkupPropertiesProvider = $newType(8, $kindInterface, "gutrees.MarkupPropertiesProvider", "MarkupPropertiesProvider", "github.com/influx6/gu/gutrees", null);
-	Attribute = $pkg.Attribute = $newType(0, $kindStruct, "gutrees.Attribute", "Attribute", "github.com/influx6/gu/gutrees", function(Name_, Value_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.Name = "";
-			this.Value = "";
-			return;
-		}
-		this.Name = Name_;
-		this.Value = Value_;
-	});
-	Style = $pkg.Style = $newType(0, $kindStruct, "gutrees.Style", "Style", "github.com/influx6/gu/gutrees", function(Name_, Value_) {
+	MarkupPropertiesProvider = $pkg.MarkupPropertiesProvider = $newType(8, $kindInterface, "trees.MarkupPropertiesProvider", "MarkupPropertiesProvider", "github.com/influx6/gu/trees", null);
+	Attribute = $pkg.Attribute = $newType(0, $kindStruct, "trees.Attribute", "Attribute", "github.com/influx6/gu/trees", function(Name_, Value_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Name = "";
@@ -34639,7 +34629,17 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 		this.Name = Name_;
 		this.Value = Value_;
 	});
-	structType = $structType([{prop: "r", name: "r", pkg: "github.com/influx6/gu/gutrees", typ: sync.Mutex, tag: ""}, {prop: "m", name: "m", pkg: "github.com/influx6/gu/gutrees", typ: Mode, tag: ""}]);
+	Style = $pkg.Style = $newType(0, $kindStruct, "trees.Style", "Style", "github.com/influx6/gu/trees", function(Name_, Value_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Name = "";
+			this.Value = "";
+			return;
+		}
+		this.Name = Name_;
+		this.Value = Value_;
+	});
+	structType = $structType([{prop: "r", name: "r", pkg: "github.com/influx6/gu/trees", typ: sync.Mutex, tag: ""}, {prop: "m", name: "m", pkg: "github.com/influx6/gu/trees", typ: Mode, tag: ""}]);
 	sliceType = $sliceType(Event);
 	sliceType$1 = $sliceType(Markup);
 	sliceType$2 = $sliceType(Property);
@@ -35688,7 +35688,7 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 	ptrType$4.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [$String, $String], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([Markup], [], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [Property], false)}];
 	ptrType$3.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [$String, $String], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [Property], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([Markup], [], false)}];
 	Markup.init([{prop: "AddAttribute", name: "AddAttribute", pkg: "", typ: $funcType([Property], [], false)}, {prop: "AddChild", name: "AddChild", pkg: "", typ: $funcType([sliceType$1], [], true)}, {prop: "AddEvent", name: "AddEvent", pkg: "", typ: $funcType([Event], [], false)}, {prop: "AddStyle", name: "AddStyle", pkg: "", typ: $funcType([Property], [], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([Markup], [], false)}, {prop: "Attributes", name: "Attributes", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "Children", name: "Children", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "EventID", name: "EventID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [sliceType], false)}, {prop: "Hash", name: "Hash", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Name", name: "Name", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Reconcile", name: "Reconcile", pkg: "", typ: $funcType([Markup], [$Bool], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([], [], false)}, {prop: "Removed", name: "Removed", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "Styles", name: "Styles", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}]);
-	Element.init([{prop: "removed", name: "removed", pkg: "github.com/influx6/gu/gutrees", typ: $Bool, tag: ""}, {prop: "autoclose", name: "autoclose", pkg: "github.com/influx6/gu/gutrees", typ: $Bool, tag: ""}, {prop: "allowEvents", name: "allowEvents", pkg: "github.com/influx6/gu/gutrees", typ: $Bool, tag: ""}, {prop: "allowChildren", name: "allowChildren", pkg: "github.com/influx6/gu/gutrees", typ: $Bool, tag: ""}, {prop: "allowStyles", name: "allowStyles", pkg: "github.com/influx6/gu/gutrees", typ: $Bool, tag: ""}, {prop: "allowAttributes", name: "allowAttributes", pkg: "github.com/influx6/gu/gutrees", typ: $Bool, tag: ""}, {prop: "uid", name: "uid", pkg: "github.com/influx6/gu/gutrees", typ: $String, tag: ""}, {prop: "hash", name: "hash", pkg: "github.com/influx6/gu/gutrees", typ: $String, tag: ""}, {prop: "tagname", name: "tagname", pkg: "github.com/influx6/gu/gutrees", typ: $String, tag: ""}, {prop: "textContent", name: "textContent", pkg: "github.com/influx6/gu/gutrees", typ: $String, tag: ""}, {prop: "events", name: "events", pkg: "github.com/influx6/gu/gutrees", typ: sliceType, tag: ""}, {prop: "children", name: "children", pkg: "github.com/influx6/gu/gutrees", typ: sliceType$1, tag: ""}, {prop: "styles", name: "styles", pkg: "github.com/influx6/gu/gutrees", typ: sliceType$2, tag: ""}, {prop: "attrs", name: "attrs", pkg: "github.com/influx6/gu/gutrees", typ: sliceType$2, tag: ""}, {prop: "eventManager", name: "eventManager", pkg: "github.com/influx6/gu/gutrees", typ: guevents.EventManagers, tag: ""}]);
+	Element.init([{prop: "removed", name: "removed", pkg: "github.com/influx6/gu/trees", typ: $Bool, tag: ""}, {prop: "autoclose", name: "autoclose", pkg: "github.com/influx6/gu/trees", typ: $Bool, tag: ""}, {prop: "allowEvents", name: "allowEvents", pkg: "github.com/influx6/gu/trees", typ: $Bool, tag: ""}, {prop: "allowChildren", name: "allowChildren", pkg: "github.com/influx6/gu/trees", typ: $Bool, tag: ""}, {prop: "allowStyles", name: "allowStyles", pkg: "github.com/influx6/gu/trees", typ: $Bool, tag: ""}, {prop: "allowAttributes", name: "allowAttributes", pkg: "github.com/influx6/gu/trees", typ: $Bool, tag: ""}, {prop: "uid", name: "uid", pkg: "github.com/influx6/gu/trees", typ: $String, tag: ""}, {prop: "hash", name: "hash", pkg: "github.com/influx6/gu/trees", typ: $String, tag: ""}, {prop: "tagname", name: "tagname", pkg: "github.com/influx6/gu/trees", typ: $String, tag: ""}, {prop: "textContent", name: "textContent", pkg: "github.com/influx6/gu/trees", typ: $String, tag: ""}, {prop: "events", name: "events", pkg: "github.com/influx6/gu/trees", typ: sliceType, tag: ""}, {prop: "children", name: "children", pkg: "github.com/influx6/gu/trees", typ: sliceType$1, tag: ""}, {prop: "styles", name: "styles", pkg: "github.com/influx6/gu/trees", typ: sliceType$2, tag: ""}, {prop: "attrs", name: "attrs", pkg: "github.com/influx6/gu/trees", typ: sliceType$2, tag: ""}, {prop: "eventManager", name: "eventManager", pkg: "github.com/influx6/gu/trees", typ: guevents.EventManagers, tag: ""}]);
 	Eventers.init([{prop: "LoadEvents", name: "LoadEvents", pkg: "", typ: $funcType([], [], false)}, {prop: "UseEventManager", name: "UseEventManager", pkg: "", typ: $funcType([guevents.EventManagers], [$Bool], false)}]);
 	MarkupState.init([{prop: "AllowAttributes", name: "AllowAttributes", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "AllowChildren", name: "AllowChildren", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "AllowEvents", name: "AllowEvents", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "AllowStyles", name: "AllowStyles", pkg: "", typ: $funcType([], [$Bool], false)}]);
 	TextMarkup.init([{prop: "TextContent", name: "TextContent", pkg: "", typ: $funcType([], [$String], false)}]);
@@ -35707,7 +35707,7 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 	TextPrinter.init([{prop: "Print", name: "Print", pkg: "", typ: $funcType([Markup], [$String], false)}]);
 	TextWriter.init([]);
 	MarkupWriter.init([{prop: "Write", name: "Write", pkg: "", typ: $funcType([Markup], [$String, $error], false)}]);
-	ElementWriter.init([{prop: "attrWriter", name: "attrWriter", pkg: "github.com/influx6/gu/gutrees", typ: AttrPrinter, tag: ""}, {prop: "styleWriter", name: "styleWriter", pkg: "github.com/influx6/gu/gutrees", typ: StylePrinter, tag: ""}, {prop: "text", name: "text", pkg: "github.com/influx6/gu/gutrees", typ: TextPrinter, tag: ""}]);
+	ElementWriter.init([{prop: "attrWriter", name: "attrWriter", pkg: "github.com/influx6/gu/trees", typ: AttrPrinter, tag: ""}, {prop: "styleWriter", name: "styleWriter", pkg: "github.com/influx6/gu/trees", typ: StylePrinter, tag: ""}, {prop: "text", name: "text", pkg: "github.com/influx6/gu/trees", typ: TextPrinter, tag: ""}]);
 	Property.init([{prop: "Apply", name: "Apply", pkg: "", typ: $funcType([Markup], [], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [Property], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [$String, $String], false)}]);
 	properties.init([]);
 	MarkupPropertiesProvider.init([{prop: "AddAttribute", name: "AddAttribute", pkg: "", typ: $funcType([Property], [], false)}, {prop: "AddStyle", name: "AddStyle", pkg: "", typ: $funcType([Property], [], false)}, {prop: "AllowAttributes", name: "AllowAttributes", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "AllowChildren", name: "AllowChildren", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "AllowEvents", name: "AllowEvents", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "AllowStyles", name: "AllowStyles", pkg: "", typ: $funcType([], [$Bool], false)}]);
@@ -35741,16 +35741,16 @@ $packages["github.com/influx6/gu/gutrees"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
-$packages["github.com/influx6/gu/gutrees/elems"] = (function() {
+$packages["github.com/influx6/gu/trees/elems"] = (function() {
 	var $pkg = {}, $init, fmt, gutrees, sliceType, Text, Div, Label, Section, Header3;
 	fmt = $packages["fmt"];
-	gutrees = $packages["github.com/influx6/gu/gutrees"];
+	gutrees = $packages["github.com/influx6/gu/trees"];
 	sliceType = $sliceType($emptyInterface);
 	Text = function(item) {
 		var $ptr, _r, _r$1, item, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; item = $f.item; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		_r = fmt.Sprintf("%+v", new sliceType([item])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_r$1 = gutrees.NewText(_r); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_r$1 = trees.NewText(_r); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		/* */ $s = 3; case 3:
 		return _r$1;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Text }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.item = item; $f.$s = $s; $f.$r = $r; return $f;
@@ -35759,7 +35759,7 @@ $packages["github.com/influx6/gu/gutrees/elems"] = (function() {
 	Div = function(markup) {
 		var $ptr, _i, _r, _ref, e, m, markup, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; e = $f.e; m = $f.m; markup = $f.markup; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		_r = gutrees.NewElement("div", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = trees.NewElement("div", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		e = _r;
 		_ref = markup;
 		_i = 0;
@@ -35782,7 +35782,7 @@ $packages["github.com/influx6/gu/gutrees/elems"] = (function() {
 	Label = function(markup) {
 		var $ptr, _i, _r, _ref, e, m, markup, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; e = $f.e; m = $f.m; markup = $f.markup; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		_r = gutrees.NewElement("label", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = trees.NewElement("label", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		e = _r;
 		_ref = markup;
 		_i = 0;
@@ -35805,7 +35805,7 @@ $packages["github.com/influx6/gu/gutrees/elems"] = (function() {
 	Section = function(markup) {
 		var $ptr, _i, _r, _ref, e, m, markup, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; e = $f.e; m = $f.m; markup = $f.markup; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		_r = gutrees.NewElement("section", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = trees.NewElement("section", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		e = _r;
 		_ref = markup;
 		_i = 0;
@@ -35828,7 +35828,7 @@ $packages["github.com/influx6/gu/gutrees/elems"] = (function() {
 	Header3 = function(markup) {
 		var $ptr, _i, _r, _ref, e, m, markup, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; e = $f.e; m = $f.m; markup = $f.markup; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		_r = gutrees.NewElement("h3", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = trees.NewElement("h3", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		e = _r;
 		_ref = markup;
 		_i = 0;
@@ -35852,7 +35852,7 @@ $packages["github.com/influx6/gu/gutrees/elems"] = (function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		$r = fmt.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gutrees.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = trees.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
@@ -38724,18 +38724,18 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 	detect = $packages["github.com/go-humble/detect"];
 	js = $packages["github.com/gopherjs/gopherjs/js"];
 	maker = $packages["github.com/influx6/faux/maker"];
-	gudispatch = $packages["github.com/influx6/gu/gudispatch"];
-	guevents = $packages["github.com/influx6/gu/guevents"];
+	gudispatch = $packages["github.com/influx6/gu/dispatch"];
+	guevents = $packages["github.com/influx6/gu/events"];
 	gujs = $packages["github.com/influx6/gu/gujs"];
-	gutrees = $packages["github.com/influx6/gu/gutrees"];
-	elems = $packages["github.com/influx6/gu/gutrees/elems"];
+	gutrees = $packages["github.com/influx6/gu/trees"];
+	elems = $packages["github.com/influx6/gu/trees/elems"];
 	template = $packages["html/template"];
 	sync = $packages["sync"];
 	atomic = $packages["sync/atomic"];
 	Path = $pkg.Path = $newType(0, $kindStruct, "guviews.Path", "Path", "github.com/influx6/gu/guviews", function(PathDirective_, Param_, ID_) {
 		this.$val = this;
 		if (arguments.length === 0) {
-			this.PathDirective = new gudispatch.PathDirective.ptr("", "", "", "");
+			this.PathDirective = new dispatch.PathDirective.ptr("", "", "", "");
 			this.Param = false;
 			this.ID = "";
 			return;
@@ -38827,7 +38827,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 	funcType$3 = $funcType([ptrType$2], [], false);
 	ptrType$3 = $ptrType(ViewState);
 	funcType$4 = $funcType([ptrType$3], [], false);
-	sliceType$3 = $sliceType(gutrees.Appliable);
+	sliceType$3 = $sliceType(trees.Appliable);
 	mapType$1 = $mapType($String, $String);
 	ptrType$4 = $ptrType(reactive);
 	ptrType$5 = $ptrType(js.Object);
@@ -38874,7 +38874,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		var $ptr, m, v, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; m = $f.m; v = $f.v; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		v = $clone(this, HideView);
-		$r = gutrees.ReplaceORAddStyle(m, "display", "none"); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = trees.ReplaceORAddStyle(m, "display", "none"); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: HideView.ptr.prototype.Render }; } $f.$ptr = $ptr; $f.m = m; $f.v = v; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	HideView.prototype.Render = function(m) { return this.$val.Render(m); };
@@ -38882,14 +38882,14 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		var $ptr, m, v, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; m = $f.m; v = $f.v; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		v = $clone(this, ShowView);
-		$r = gutrees.ReplaceORAddStyle(m, "display", "block"); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = trees.ReplaceORAddStyle(m, "display", "block"); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: ShowView.ptr.prototype.Render }; } $f.$ptr = $ptr; $f.m = m; $f.v = v; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	ShowView.prototype.Render = function(m) { return this.$val.Render(m); };
 	New = function(r) {
 		var $ptr, _r, r, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; r = $f.r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		_r = CustomView("", gutrees.SimpleElementWriter, r); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = CustomView("", trees.SimpleElementWriter, r); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		/* */ $s = 2; case 2:
 		return _r;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: New }; } $f.$ptr = $ptr; $f._r = _r; $f.r = r; $f.$s = $s; $f.$r = $r; return $f;
@@ -38903,10 +38903,10 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		/* */ if (cid === "") { $s = 1; continue; }
 		/* */ $s = 2; continue;
 		/* if (cid === "") { */ case 1:
-			_r = gutrees.RandString(8); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			_r = trees.RandString(8); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 			cid = _r;
 		/* } */ case 2:
-		_r$1 = gutrees.RandString(20); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_r$1 = trees.RandString(20); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		uuid[0] = _r$1;
 		vm[0] = new view.ptr(new $Int64(0, 0), new $Int64(0, 0), cid, uuid[0], null, vw, $ifaceNil, writer, guevents.NewEventManager(), new shower.constructor.elem(shower));
 		_ref = vw;
@@ -38933,7 +38933,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 				$r = rws.Subscribe((function(uuid, vm) { return function $b() {
 					var $ptr, $s, $r;
 					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-					$r = gudispatch.Dispatch(new ViewUpdate.ptr(uuid[0])); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$r = dispatch.Dispatch(new ViewUpdate.ptr(uuid[0])); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 					/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(uuid, vm)); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				_i++;
@@ -38941,7 +38941,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 			/* } */ case 11:
 			_i++;
 		/* } */ $s = 5; continue; case 6:
-		_r$2 = gudispatch.Subscribe(new funcType$2((function(uuid, vm) { return function $b(v) {
+		_r$2 = dispatch.Subscribe(new funcType$2((function(uuid, vm) { return function $b(v) {
 			var $ptr, _r$2, html, replaceOnly, v, x, $s, $r;
 			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$2 = $f._r$2; html = $f.html; replaceOnly = $f.replaceOnly; v = $f.v; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 			if (!(v.ID === vm[0].UUID()) && !(v.ID === vm[0].UID())) {
@@ -38958,7 +38958,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 			/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$2 = _r$2; $f.html = html; $f.replaceOnly = replaceOnly; $f.v = v; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 		}; })(uuid, vm))); /* */ $s = 13; case 13: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 		_r$2;
-		_r$3 = gudispatch.Subscribe(new funcType$3((function(uuid, vm) { return function $b(p) {
+		_r$3 = dispatch.Subscribe(new funcType$3((function(uuid, vm) { return function $b(p) {
 			var $ptr, p, $s, $r;
 			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; p = $f.p; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 			if (!(p.ID === vm[0].UUID()) && !(p.ID === vm[0].UID())) {
@@ -38990,7 +38990,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		v = [v];
 		vs = [vs];
 		v[0] = this;
-		_r = gudispatch.Subscribe(new funcType$2((function(v, vs) { return function $b(vm) {
+		_r = dispatch.Subscribe(new funcType$2((function(v, vs) { return function $b(vm) {
 			var $ptr, _r, _r$1, _v, vm, $s, $r;
 			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _v = $f._v; vm = $f.vm; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 			_r = vs[0].UUID(); /* */ $s = 4; case 4: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
@@ -39002,7 +39002,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 			/* if (_v) { */ case 1:
 				return;
 			/* } */ case 2:
-			$r = gudispatch.Dispatch(new ViewUpdate.ptr(v[0].UUID())); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = dispatch.Dispatch(new ViewUpdate.ptr(v[0].UUID())); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._v = _v; $f.vm = vm; $f.$s = $s; $f.$r = $r; return $f;
 		}; })(v, vs))); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		_r;
@@ -39013,7 +39013,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		var $ptr, v, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; v = $f.v; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		v = this;
-		$r = gudispatch.Dispatch(new ViewUpdate.ptr(v.UUID())); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dispatch.Dispatch(new ViewUpdate.ptr(v.UUID())); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: view.ptr.prototype.Rerender }; } $f.$ptr = $ptr; $f.v = v; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	view.prototype.Rerender = function() { return this.$val.Rerender(); };
@@ -39023,7 +39023,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		vs = [vs];
 		v = this;
 		$r = v.Bind(vs[0]); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		_r = gudispatch.Subscribe(new funcType$4((function(vs) { return function $b(vm) {
+		_r = dispatch.Subscribe(new funcType$4((function(vs) { return function $b(vm) {
 			var $ptr, _r, _r$1, _v, vm, $s, $r;
 			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _v = $f._v; vm = $f.vm; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 			_r = vs[0].UUID(); /* */ $s = 4; case 4: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
@@ -39057,7 +39057,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		_r = v.events.LoadDOM(dom); /* */ $s = 2; case 2: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		_r;
 		atomic.StoreInt64((v.$ptr_ready || (v.$ptr_ready = new ptrType$1(function() { return this.$target.ready; }, function($v) { this.$target.ready = $v; }, v))), new $Int64(0, 0));
-		$r = gudispatch.Dispatch(new ViewUpdate.ptr(v.UUID())); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dispatch.Dispatch(new ViewUpdate.ptr(v.UUID())); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: view.ptr.prototype.Mount }; } $f.$ptr = $ptr; $f._r = _r; $f.dom = dom; $f.v = v; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	view.prototype.Mount = function(dom) { return this.$val.Mount(dom); };
@@ -39068,8 +39068,8 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		atomic.StoreInt64((v.$ptr_switchActive || (v.$ptr_switchActive = new ptrType$1(function() { return this.$target.switchActive; }, function($v) { this.$target.switchActive = $v; }, v))), new $Int64(0, 1));
 		v.activeState = new shower.constructor.elem(shower);
 		atomic.StoreInt64((v.$ptr_switchActive || (v.$ptr_switchActive = new ptrType$1(function() { return this.$target.switchActive; }, function($v) { this.$target.switchActive = $v; }, v))), new $Int64(0, 0));
-		$r = gudispatch.Dispatch(new ViewUpdate.ptr(v.UUID())); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gudispatch.Dispatch(new ViewState.ptr(v.UUID(), true)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dispatch.Dispatch(new ViewUpdate.ptr(v.UUID())); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dispatch.Dispatch(new ViewState.ptr(v.UUID(), true)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: view.ptr.prototype.Show }; } $f.$ptr = $ptr; $f.v = v; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	view.prototype.Show = function() { return this.$val.Show(); };
@@ -39080,8 +39080,8 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		atomic.StoreInt64((v.$ptr_switchActive || (v.$ptr_switchActive = new ptrType$1(function() { return this.$target.switchActive; }, function($v) { this.$target.switchActive = $v; }, v))), new $Int64(0, 1));
 		v.activeState = new hider.constructor.elem(hider);
 		atomic.StoreInt64((v.$ptr_switchActive || (v.$ptr_switchActive = new ptrType$1(function() { return this.$target.switchActive; }, function($v) { this.$target.switchActive = $v; }, v))), new $Int64(0, 0));
-		$r = gudispatch.Dispatch(new ViewUpdate.ptr(v.UUID())); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gudispatch.Dispatch(new ViewState.ptr(v.UUID(), false)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dispatch.Dispatch(new ViewUpdate.ptr(v.UUID())); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dispatch.Dispatch(new ViewState.ptr(v.UUID(), false)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: view.ptr.prototype.Hide }; } $f.$ptr = $ptr; $f.v = v; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	view.prototype.Hide = function() { return this.$val.Hide(); };
@@ -39131,7 +39131,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 			_r$4 = dom.Reconcile(v.liveMarkup); /* */ $s = 17; case 17: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
 			_r$4;
 		/* } */ case 16:
-		_tuple = $assertType(dom, gutrees.SwappableIdentity, true);
+		_tuple = $assertType(dom, trees.SwappableIdentity, true);
 		backdoor = _tuple[0];
 		ok = _tuple[1];
 		/* */ if (ok) { $s = 18; continue; }
@@ -39139,7 +39139,7 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		/* if (ok) { */ case 18:
 			$r = backdoor.SwapUID(v.uid); /* */ $s = 20; case 20: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* } */ case 19:
-		_tuple$1 = $assertType(dom, gutrees.Eventers, true);
+		_tuple$1 = $assertType(dom, trees.Eventers, true);
 		eventdoor = _tuple$1[0];
 		ok$1 = _tuple$1[1];
 		/* */ if (ok$1) { $s = 21; continue; }
@@ -39167,21 +39167,21 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 	};
 	view.prototype.RenderHTML = function() { return this.$val.RenderHTML(); };
 	ptrType$4.methods = [{prop: "Subscribe", name: "Subscribe", pkg: "", typ: $funcType([funcType$1], [], false)}, {prop: "Publish", name: "Publish", pkg: "", typ: $funcType([], [], false)}];
-	HideView.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([gutrees.Markup], [], false)}];
-	ShowView.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([gutrees.Markup], [], false)}];
-	ptrType$6.methods = [{prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Bind", name: "Bind", pkg: "", typ: $funcType([Views], [], false)}, {prop: "Rerender", name: "Rerender", pkg: "", typ: $funcType([], [], false)}, {prop: "Sync", name: "Sync", pkg: "", typ: $funcType([Views], [], false)}, {prop: "Mount", name: "Mount", pkg: "", typ: $funcType([ptrType$5], [], false)}, {prop: "Show", name: "Show", pkg: "", typ: $funcType([], [], false)}, {prop: "Hide", name: "Hide", pkg: "", typ: $funcType([], [], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [guevents.EventManagers], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}];
-	Path.init([{prop: "PathDirective", name: "", pkg: "", typ: gudispatch.PathDirective, tag: ""}, {prop: "Param", name: "Param", pkg: "", typ: mapType$1, tag: ""}, {prop: "ID", name: "ID", pkg: "", typ: $String, tag: ""}]);
-	Renderable.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}]);
-	ReactiveRenderable.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}, {prop: "Subscribe", name: "Subscribe", pkg: "", typ: $funcType([funcType$1], [], false)}]);
+	HideView.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([trees.Markup], [], false)}];
+	ShowView.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([trees.Markup], [], false)}];
+	ptrType$6.methods = [{prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Bind", name: "Bind", pkg: "", typ: $funcType([Views], [], false)}, {prop: "Rerender", name: "Rerender", pkg: "", typ: $funcType([], [], false)}, {prop: "Sync", name: "Sync", pkg: "", typ: $funcType([Views], [], false)}, {prop: "Mount", name: "Mount", pkg: "", typ: $funcType([ptrType$5], [], false)}, {prop: "Show", name: "Show", pkg: "", typ: $funcType([], [], false)}, {prop: "Hide", name: "Hide", pkg: "", typ: $funcType([], [], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [guevents.EventManagers], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [trees.Markup], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}];
+	Path.init([{prop: "PathDirective", name: "", pkg: "", typ: dispatch.PathDirective, tag: ""}, {prop: "Param", name: "Param", pkg: "", typ: mapType$1, tag: ""}, {prop: "ID", name: "ID", pkg: "", typ: $String, tag: ""}]);
+	Renderable.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [trees.Markup], false)}]);
+	ReactiveRenderable.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [trees.Markup], false)}, {prop: "Subscribe", name: "Subscribe", pkg: "", typ: $funcType([funcType$1], [], false)}]);
 	Reactive.init([{prop: "Publish", name: "Publish", pkg: "", typ: $funcType([], [], false)}, {prop: "Subscribe", name: "Subscribe", pkg: "", typ: $funcType([funcType$1], [], false)}]);
 	reactive.init([{prop: "rw", name: "rw", pkg: "github.com/influx6/gu/guviews", typ: sync.RWMutex, tag: ""}, {prop: "subs", name: "subs", pkg: "github.com/influx6/gu/guviews", typ: sliceType$2, tag: ""}]);
-	ViewStates.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([gutrees.Markup], [], false)}]);
+	ViewStates.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([trees.Markup], [], false)}]);
 	HideView.init([]);
 	ShowView.init([]);
-	Views.init([{prop: "Bind", name: "Bind", pkg: "", typ: $funcType([Views], [], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [guevents.EventManagers], false)}, {prop: "Hide", name: "Hide", pkg: "", typ: $funcType([], [], false)}, {prop: "Mount", name: "Mount", pkg: "", typ: $funcType([ptrType$5], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "Rerender", name: "Rerender", pkg: "", typ: $funcType([], [], false)}, {prop: "Show", name: "Show", pkg: "", typ: $funcType([], [], false)}, {prop: "Sync", name: "Sync", pkg: "", typ: $funcType([Views], [], false)}, {prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}]);
+	Views.init([{prop: "Bind", name: "Bind", pkg: "", typ: $funcType([Views], [], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [guevents.EventManagers], false)}, {prop: "Hide", name: "Hide", pkg: "", typ: $funcType([], [], false)}, {prop: "Mount", name: "Mount", pkg: "", typ: $funcType([ptrType$5], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [trees.Markup], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "Rerender", name: "Rerender", pkg: "", typ: $funcType([], [], false)}, {prop: "Show", name: "Show", pkg: "", typ: $funcType([], [], false)}, {prop: "Sync", name: "Sync", pkg: "", typ: $funcType([Views], [], false)}, {prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}]);
 	ViewUpdate.init([{prop: "ID", name: "ID", pkg: "", typ: $String, tag: ""}]);
 	ViewState.init([{prop: "ID", name: "ID", pkg: "", typ: $String, tag: ""}, {prop: "On", name: "On", pkg: "", typ: $Bool, tag: ""}]);
-	view.init([{prop: "ready", name: "ready", pkg: "github.com/influx6/gu/guviews", typ: $Int64, tag: ""}, {prop: "switchActive", name: "switchActive", pkg: "github.com/influx6/gu/guviews", typ: $Int64, tag: ""}, {prop: "uid", name: "uid", pkg: "github.com/influx6/gu/guviews", typ: $String, tag: ""}, {prop: "uuid", name: "uuid", pkg: "github.com/influx6/gu/guviews", typ: $String, tag: ""}, {prop: "dom", name: "dom", pkg: "github.com/influx6/gu/guviews", typ: ptrType$5, tag: ""}, {prop: "renders", name: "renders", pkg: "github.com/influx6/gu/guviews", typ: sliceType, tag: ""}, {prop: "liveMarkup", name: "liveMarkup", pkg: "github.com/influx6/gu/guviews", typ: gutrees.Markup, tag: ""}, {prop: "encoder", name: "encoder", pkg: "github.com/influx6/gu/guviews", typ: gutrees.MarkupWriter, tag: ""}, {prop: "events", name: "events", pkg: "github.com/influx6/gu/guviews", typ: guevents.EventManagers, tag: ""}, {prop: "activeState", name: "activeState", pkg: "github.com/influx6/gu/guviews", typ: ViewStates, tag: ""}]);
+	view.init([{prop: "ready", name: "ready", pkg: "github.com/influx6/gu/guviews", typ: $Int64, tag: ""}, {prop: "switchActive", name: "switchActive", pkg: "github.com/influx6/gu/guviews", typ: $Int64, tag: ""}, {prop: "uid", name: "uid", pkg: "github.com/influx6/gu/guviews", typ: $String, tag: ""}, {prop: "uuid", name: "uuid", pkg: "github.com/influx6/gu/guviews", typ: $String, tag: ""}, {prop: "dom", name: "dom", pkg: "github.com/influx6/gu/guviews", typ: ptrType$5, tag: ""}, {prop: "renders", name: "renders", pkg: "github.com/influx6/gu/guviews", typ: sliceType, tag: ""}, {prop: "liveMarkup", name: "liveMarkup", pkg: "github.com/influx6/gu/guviews", typ: trees.Markup, tag: ""}, {prop: "encoder", name: "encoder", pkg: "github.com/influx6/gu/guviews", typ: trees.MarkupWriter, tag: ""}, {prop: "events", name: "events", pkg: "github.com/influx6/gu/guviews", typ: guevents.EventManagers, tag: ""}, {prop: "activeState", name: "activeState", pkg: "github.com/influx6/gu/guviews", typ: ViewStates, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -39189,10 +39189,10 @@ $packages["github.com/influx6/gu/guviews"] = (function() {
 		$r = detect.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = js.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = maker.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gudispatch.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dispatch.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = guevents.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = gujs.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gutrees.$init(); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = trees.$init(); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = elems.$init(); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = template.$init(); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = sync.$init(); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
@@ -39720,19 +39720,19 @@ $packages["github.com/influx6/gu/gucss"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
-$packages["github.com/influx6/gu/gutrees/attrs"] = (function() {
+$packages["github.com/influx6/gu/trees/attrs"] = (function() {
 	var $pkg = {}, $init, gutrees, strings, Class;
-	gutrees = $packages["github.com/influx6/gu/gutrees"];
+	gutrees = $packages["github.com/influx6/gu/trees"];
 	strings = $packages["strings"];
 	Class = function(val) {
 		var $ptr, val;
-		return new gutrees.Attribute.ptr("class", strings.Join(val, " "));
+		return new trees.Attribute.ptr("class", strings.Join(val, " "));
 	};
 	$pkg.Class = Class;
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = gutrees.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = trees.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = strings.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
@@ -44501,9 +44501,9 @@ $packages["main"] = (function() {
 	bytes = $packages["bytes"];
 	gu = $packages["github.com/influx6/gu"];
 	gucss = $packages["github.com/influx6/gu/gucss"];
-	gutrees = $packages["github.com/influx6/gu/gutrees"];
-	attrs = $packages["github.com/influx6/gu/gutrees/attrs"];
-	elems = $packages["github.com/influx6/gu/gutrees/elems"];
+	gutrees = $packages["github.com/influx6/gu/trees"];
+	attrs = $packages["github.com/influx6/gu/trees/attrs"];
+	elems = $packages["github.com/influx6/gu/trees/elems"];
 	guviews = $packages["github.com/influx6/gu/guviews"];
 	dom = $packages["honnef.co/go/js/dom"];
 	math = $packages["math"];
@@ -44531,7 +44531,7 @@ $packages["main"] = (function() {
 		this.stats = stats_;
 	});
 	sliceType = $sliceType($String);
-	sliceType$1 = $sliceType(gutrees.Appliable);
+	sliceType$1 = $sliceType(trees.Appliable);
 	ptrType = $ptrType(StatItem);
 	sliceType$2 = $sliceType(ptrType);
 	sliceType$3 = $sliceType($Uint8);
@@ -44669,8 +44669,8 @@ $packages["main"] = (function() {
 		}; })(bounceRate, clickRate, factor, visitors), []);
 		/* */ $s = -1; case -1: } return; } if ($f === undefined) { $f = { $blk: main }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f.bounceRate = bounceRate; $f.clickRate = clickRate; $f.css = css; $f.dashboard = dashboard; $f.doc = doc; $f.factor = factor; $f.visitors = visitors; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	ptrType.methods = [{prop: "Set", name: "Set", pkg: "", typ: $funcType([$Int], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}];
-	ptrType$1.methods = [{prop: "Add", name: "Add", pkg: "", typ: $funcType([ptrType], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [gutrees.Markup], false)}];
+	ptrType.methods = [{prop: "Set", name: "Set", pkg: "", typ: $funcType([$Int], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [trees.Markup], false)}];
+	ptrType$1.methods = [{prop: "Add", name: "Add", pkg: "", typ: $funcType([ptrType], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [trees.Markup], false)}];
 	StatItem.init([{prop: "Reactive", name: "", pkg: "", typ: guviews.Reactive, tag: ""}, {prop: "Name", name: "Name", pkg: "", typ: $String, tag: ""}, {prop: "Value", name: "Value", pkg: "", typ: $Int, tag: ""}]);
 	Dashboard.init([{prop: "Reactive", name: "", pkg: "", typ: guviews.Reactive, tag: ""}, {prop: "stats", name: "stats", pkg: "main", typ: sliceType$2, tag: ""}]);
 	$init = function() {
@@ -44679,7 +44679,7 @@ $packages["main"] = (function() {
 		$r = bytes.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = gu.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = gucss.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gutrees.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = trees.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = attrs.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = elems.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = guviews.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }

@@ -6,8 +6,8 @@ import (
 	hdom "honnef.co/go/js/dom"
 
 	"github.com/influx6/gu"
-	"github.com/influx6/gu/gudispatch"
-	"github.com/influx6/gu/gujs"
+	"github.com/influx6/gu/dispatch"
+	"github.com/influx6/gu/js"
 )
 
 // DOMTarget defines a DOM RenderingTarget to handle rendering and update cycles
@@ -27,7 +27,7 @@ func (dt *DOMTarget) RenderView(view gu.RenderView) {
 	if dt.AutoUpdate {
 		if rg, ok := view.(gu.RenderingGroup); ok {
 			for _, view := range rg.Views() {
-				gudispatch.Subscribe(func(update gu.ViewUpdate) {
+				dispatch.Subscribe(func(update gu.ViewUpdate) {
 					if update.ID != view.UUID() {
 						return
 					}
@@ -67,7 +67,7 @@ func (tree *TreeTarget) RenderView(view gu.RenderView) {
 	if tree.AutoUpdate {
 		if rg, ok := view.(gu.RenderingGroup); ok {
 			for _, view := range rg.Views() {
-				gudispatch.Subscribe(func(update gu.ViewUpdate) {
+				dispatch.Subscribe(func(update gu.ViewUpdate) {
 					if update.ID != view.UUID() {
 						return
 					}

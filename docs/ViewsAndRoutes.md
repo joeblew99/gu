@@ -42,18 +42,18 @@ import (
 
 	"github.com/influx6/gu"
 	"github.com/influx6/gu/gucss"
-	"github.com/influx6/gu/gudispatch"
-	"github.com/influx6/gu/gutrees"
-	"github.com/influx6/gu/gutrees/attrs"
-	"github.com/influx6/gu/gutrees/elems"
-	"github.com/influx6/gu/gutrees/styles"
+	"github.com/influx6/gu/dispatch"
+	"github.com/influx6/gu/trees"
+	"github.com/influx6/gu/trees/attrs"
+	"github.com/influx6/gu/trees/elems"
+	"github.com/influx6/gu/trees/styles"
 	"github.com/influx6/gu/guviews"
 	"honnef.co/go/js/dom"
 )
 
 type backgrounds []*background
 
-func (b backgrounds) Resolve(path gudispatch.Path) {
+func (b backgrounds) Resolve(path dispatch.Path) {
 	for _, bg := range b {
 		bg.Resolve(path)
 	}
@@ -65,7 +65,7 @@ func (b backgrounds) React(fx func()) {
 	}
 }
 
-func (b backgrounds) Render() gutrees.Markup {
+func (b backgrounds) Render() trees.Markup {
 	root := elems.Div(attrs.Class("backgrounds"))
 
 	for _, bg := range b {
@@ -76,7 +76,7 @@ func (b backgrounds) Render() gutrees.Markup {
 }
 
 type background struct {
-	gudispatch.Resolver
+	dispatch.Resolver
 	guviews.Reactive
 	color string
 	show  bool
@@ -85,20 +85,20 @@ type background struct {
 func newBackground(pattern string, color string) *background {
 	bg := &background{
 		color:    color,
-		Resolver: gudispatch.NewResolver(pattern),
+		Resolver: dispatch.NewResolver(pattern),
 		Reactive: guviews.NewReactive(),
 	}
 
-	bg.ResolvedFailed(gudispatch.WrapHandler(bg.updateFail))
-	bg.ResolvedPassed(gudispatch.WrapHandler(bg.updatePass))
+	bg.ResolvedFailed(dispatch.WrapHandler(bg.updateFail))
+	bg.ResolvedPassed(dispatch.WrapHandler(bg.updatePass))
 
 	return bg
 }
 
 // Render returns the markup for the background box.
-func (b *background) Render() gutrees.Markup {
+func (b *background) Render() trees.Markup {
 	return elems.Div(
-		gutrees.When(b.show, styles.Display("block"), styles.Display("none")),
+		trees.When(b.show, styles.Display("block"), styles.Display("none")),
 		attrs.Class("box"),
 		styles.Background(b.color),
 		styles.Margin("10% auto"),
@@ -169,14 +169,14 @@ except for a few parts.
 
 - The Backgrounds
 The background code is simple. It creates a component which has within it both  
-`guviews.Reactive` and `gudispatch.Resolver`. As already explained, the first
+`guviews.Reactive` and `dispatch.Resolver`. As already explained, the first
 allows a form of active reactivity, but the one we are concerned about is the  
-`gudispatch.Resolver`.
+`dispatch.Resolver`.
 
 ```go
 
 type background struct {
-	gudispatch.Resolver
+	dispatch.Resolver
 	guviews.Reactive
 	color string
 	show  bool
@@ -185,12 +185,12 @@ type background struct {
 func newBackground(pattern string, color string) *background {
 	bg := &background{
 		color:    color,
-		Resolver: gudispatch.NewResolver(pattern),
+		Resolver: dispatch.NewResolver(pattern),
 		Reactive: guviews.NewReactive(),
 	}
 
-	bg.ResolvedFailed(gudispatch.WrapHandler(bg.updateFail))
-	bg.ResolvedPassed(gudispatch.WrapHandler(bg.updatePass))
+	bg.ResolvedFailed(dispatch.WrapHandler(bg.updateFail))
+	bg.ResolvedPassed(dispatch.WrapHandler(bg.updatePass))
 
 	return bg
 }
@@ -205,17 +205,17 @@ func (b *background) updatePass() {
 	b.Publish()
 }
 ```
-Using the `gudispatch.NewResolver(pattern)`, which returns a new instance of
-a object matching the `gudispatch.Resolver` interface, by using the giving pattern
+Using the `dispatch.NewResolver(pattern)`, which returns a new instance of
+a object matching the `dispatch.Resolver` interface, by using the giving pattern
 as it's section ruling (i.e the part of the route it matches).
 
-*The `gudispatch.WrapHandler` returns a function with a type `func(gudispatch.Path)`,
+*The `dispatch.WrapHandler` returns a function with a type `func(dispatch.Path)`,
 hence wrapping a function with no argument to allow binding to functions that need
 such a type*
 
 ```go
-	bg.ResolvedFailed(gudispatch.WrapHandler(bg.updateFail))
-	bg.ResolvedPassed(gudispatch.WrapHandler(bg.updatePass))
+	bg.ResolvedFailed(dispatch.WrapHandler(bg.updateFail))
+	bg.ResolvedPassed(dispatch.WrapHandler(bg.updatePass))
 ```
 
 Within the code we also register two functions, which flip switches for the background
@@ -224,17 +224,17 @@ resolver passes its match test, the `passed` handlers are called and if failed t
 the failed handlers are called instead.
 
 Next is the rendering for the component, which returns a markup and using a helper
-package level functioon `gutrees.When`, depending on the state of a boolean value
+package level functioon `trees.When`, depending on the state of a boolean value
 returns the first property or the second.
 
-*The usage of the `gutrees.When` is a matter of choice, but this author prefers
+*The usage of the `trees.When` is a matter of choice, but this author prefers
 it, as it makes the rendering code alot cleaner.*
 
 ```go
 // Render returns the markup for the background box.
-func (b *background) Render() gutrees.Markup {
+func (b *background) Render() trees.Markup {
 	return elems.Div(
-		gutrees.When(b.show, styles.Display("block"), styles.Display("none")),
+		trees.When(b.show, styles.Display("block"), styles.Display("none")),
 		attrs.Class("box"),
 		styles.Background(b.color),
 		styles.Margin("10% auto"),
@@ -259,7 +259,7 @@ simply passes control to it's internals.
 ```go
 type backgrounds []*background
 
-func (b backgrounds) Resolve(path gudispatch.Path) {
+func (b backgrounds) Resolve(path dispatch.Path) {
 	for _, bg := range b {
 		bg.Resolve(path)
 	}
@@ -271,7 +271,7 @@ func (b backgrounds) React(fx func()) {
 	}
 }
 
-func (b backgrounds) Render() gutrees.Markup {
+func (b backgrounds) Render() trees.Markup {
 	root := elems.Div(attrs.Class("backgrounds"))
 
 	for _, bg := range b {

@@ -3,19 +3,12 @@ package gu
 import (
 	"html/template"
 
-	"github.com/influx6/gu/gudispatch"
-	"github.com/influx6/gu/guevents"
-	"github.com/influx6/gu/gutrees"
+	"github.com/influx6/gu/dispatch"
+	"github.com/influx6/gu/events"
+	"github.com/influx6/gu/trees"
 )
 
 //==============================================================================
-
-// ViewState defines a notification struct of the state of the view wether it
-// is active or not.
-type ViewState struct {
-	ID string
-	On bool
-}
 
 // ViewUpdate defines a view update notification which contains the name of the
 // view to be notified for an update.
@@ -24,7 +17,7 @@ type ViewUpdate struct {
 }
 
 // CustomView generates a RenderView for the provided Renderable.
-func customView(tag string, events guevents.EventManagers, r ...Renderable) RenderView {
+func customView(tag string, events events.EventManagers, r ...Renderable) RenderView {
 	var vw view
 	vw.tag = tag
 	vw.renders = r
@@ -34,18 +27,10 @@ func customView(tag string, events guevents.EventManagers, r ...Renderable) Rend
 	for _, vr := range r {
 		if rws, ok := vr.(ReactiveSubscription); ok {
 			rws.React(func() {
-				gudispatch.Dispatch(ViewUpdate{ID: vw.uuid})
+				dispatch.Dispatch(ViewUpdate{ID: vw.uuid})
 			})
 		}
 	}
-
-	gudispatch.Subscribe(func(state ViewState) {
-		if state.ID != vw.uuid {
-			return
-		}
-
-		vw.hide = !state.On
-	})
 
 	return &vw
 }
@@ -57,21 +42,23 @@ type view struct {
 	tag     string
 	uuid    string
 	hide    bool
-	live    gutrees.Markup
+	live    trees.Markup
 	renders []Renderable
-	events  guevents.EventManagers
+	events  events.EventManagers
 }
 
-// Events returns the guevents.EventManager attached with this view.
-func (v *view) Events() guevents.EventManagers {
+// Events returns the events.EventManager attached with this view.
+func (v *view) Events() events.EventManagers {
 	return v.events
 }
 
 // Resolves exposes the internal renderables and passes the supplied path
 // to allow any desired behaviour to be initiated.
-func (v *view) Resolve(path gudispatch.Path) {
+func (v *view) Resolve(path dispatch.Path) {
+	v.live.Resolve(path)
+
 	for _, vmr := range v.renders {
-		if rs, ok := vmr.(gudispatch.Resolvable); ok {
+		if rs, ok := vmr.(dispatch.Resolvable); ok {
 			rs.Resolve(path)
 		}
 	}
@@ -88,12 +75,12 @@ func (v *view) RenderHTML() template.HTML {
 }
 
 // Render returns the groups markup for the giving render group.
-func (v *view) Render() gutrees.Markup {
+func (v *view) Render() trees.Markup {
 	if len(v.renders) == 0 {
-		return gutrees.NewElement("div", false)
+		return trees.NewElement("div", false)
 	}
 
-	var root gutrees.Markup
+	var root trees.Markup
 
 	if len(v.renders) > 1 {
 		root = gutrees.NewElement(v.tag, false)
@@ -110,22 +97,18 @@ func (v *view) Render() gutrees.Markup {
 		root.Reconcile(v.live)
 	}
 
-	if swapper, ok := root.(gutrees.SwappableIdentity); ok {
+	if swapper, ok := root.(trees.SwappableIdentity); ok {
 		swapper.SwapUID(v.uuid)
 	}
 
-	if eventers, ok := root.(gutrees.Eventers); ok {
+	if eventers, ok := root.(trees.Eventers); ok {
 		eventers.UseEventManager(v.events)
 	}
 
-	root.Finalize(nil)
+	root = root.ApplyMorphers()
 
 	v.events.LoadUpEvents()
 	v.live = root
-
-	if v.hide {
-		gutrees.Hide.Mode(root)
-	}
 
 	return root
 }

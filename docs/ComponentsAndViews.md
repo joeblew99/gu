@@ -40,7 +40,7 @@ func NewStatItem(name string, val int) *StatItem {
 }
 
 // Render returns the markup for a StatItem.
-func (s *StatItem) Render() gutrees.Markup {
+func (s *StatItem) Render() trees.Markup {
 	return elems.Section(
 		attrs.Class("stat"),
 		elems.Label(
@@ -72,7 +72,7 @@ func (d *Dashboard) Add(stat *StatItem) {
 }
 
 // Render returns the markup for the Dashboard component.
-func (d *Dashboard) Render() gutrees.Markup {
+func (d *Dashboard) Render() trees.Markup {
 	root := elems.Div(attrs.Class("dashboard"))
 
 	for _, stat := range d.stats {
@@ -109,12 +109,12 @@ type Dashboard struct {
 
 - The Rendering
 
-The two components define their own rendering markup. This also showcases the idea, Root components need not contain all the markups, you should always allow each component to encapsulate it's own rendering, these way each just extends it's root and can be used in other places as needed. The most important partt is that their `Render()` methods return a `gutrees.Markup`. This is the DOM language understood by `gu` and the frontend will be constructed using the returned markup.
+The two components define their own rendering markup. This also showcases the idea, Root components need not contain all the markups, you should always allow each component to encapsulate it's own rendering, these way each just extends it's root and can be used in other places as needed. The most important partt is that their `Render()` methods return a `trees.Markup`. This is the DOM language understood by `gu` and the frontend will be constructed using the returned markup.
 
 ```go
 
 // Render returns the markup for a StatItem.
-func (s *StatItem) Render() gutrees.Markup {
+func (s *StatItem) Render() trees.Markup {
 	return elems.Section(
 		attrs.Class("stat"),
 		elems.Label(
@@ -129,7 +129,7 @@ func (s *StatItem) Render() gutrees.Markup {
 }
 
 // Render returns the markup for the Dashboard component.
-func (d *Dashboard) Render() gutrees.Markup {
+func (d *Dashboard) Render() trees.Markup {
 	root := elems.Div(attrs.Class("dashboard"))
 
 	for _, stat := range d.stats {
@@ -145,7 +145,7 @@ func (d *Dashboard) Render() gutrees.Markup {
 Views are the core mechanism by which components get exposed to the DOM. They manage the rendering and update of the DOM by listening for change notifications. Due to the need for simplicity, this library ensures to only provided the minimal
 needed tools to attain the best result, that is, it does not have an opinionated approach for how developers should use it but rather suggest best approach that bring best results.
 
-*Tip: A view can be told to re-render itself by sending a update signal to it: `gudispatch.Dispatch(ViewUpdate{ID:"view custom-id or view UUID"})`*
+*Tip: A view can be told to re-render itself by sending a update signal to it: `dispatch.Dispatch(ViewUpdate{ID:"view custom-id or view UUID"})`*
 
 We can turn the dashboard in the above section into a view:
 

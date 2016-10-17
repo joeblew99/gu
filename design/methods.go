@@ -2,7 +2,7 @@ package design
 
 import (
 	"github.com/influx6/gu"
-	"github.com/influx6/gu/gutrees"
+	"github.com/influx6/gu/trees"
 )
 
 var rootResource = struct {
@@ -24,8 +24,8 @@ type ResourceDefinition struct {
 
 	grp *gu.RenderGroup
 
-	bodyMarkup   gutrees.Markup
-	headerMarkup gutrees.Markup
+	bodyMarkup   trees.Markup
+	headerMarkup trees.Markup
 
 	views   []ViewDef
 	markups []MarkupDef
@@ -47,7 +47,7 @@ func Resource(dsl DSL) *ResourceDefinition {
 type MarkupDef struct {
 	deffer   bool
 	targets  []string
-	children []gutrees.Markup
+	children []trees.Markup
 }
 
 // Context returns the context string for this giving structure.
@@ -56,22 +56,22 @@ func (MarkupDef) Context() string {
 }
 
 // Markup returns a new instance of a provided value which either is a function
-// which returns a needed gutrees.Markup or a gutrees.Markup or slice of gutrees.Markup
+// which returns a needed trees.Markup or a trees.Markup or slice of trees.Markup
 // itself.
 func Markup(markup gu.Viewable, target interface{}, defered bool) {
-	var markupFn []gutrees.Markup
+	var markupFn []trees.Markup
 
 	switch mo := markup.(type) {
-	case func() []gutrees.Markup:
+	case func() []trees.Markup:
 		markupFn = mo()
-	case []gutrees.Markup:
+	case []trees.Markup:
 		markupFn = mo
-	case func() gutrees.Markup:
-		markupFn = []gutrees.Markup{mo()}
-	case gutrees.Markup:
-		markupFn = []gutrees.Markup{mo}
+	case func() trees.Markup:
+		markupFn = []trees.Markup{mo()}
+	case trees.Markup:
+		markupFn = []trees.Markup{mo}
 	case string:
-		mp, err := gutrees.ParseTree(mo)
+		mp, err := trees.ParseTree(mo)
 		if err != nil {
 			panic("Unable to parse markup string: " + err.Error())
 		}
@@ -167,7 +167,7 @@ func (RouteDef) Context() string {
 type LinkDef struct {
 	deffer bool
 	tag    string
-	elem   gutrees.Markup
+	elem   trees.Markup
 }
 
 // Context returns the context string for this giving structure.
@@ -178,43 +178,43 @@ func (LinkDef) Context() string {
 // Title adds a element which generates a <title> tag.
 func Title(title string) {
 	ml := mLink("title", false)
-	gutrees.NewText(title).Apply(ml.elem)
+	trees.NewText(title).Apply(ml.elem)
 }
 
 // Link adds a element which generates a <link> tag.
 func Link(url string, mtype string, defered bool) {
 	ml := mLink("link", defered)
-	gutrees.NewAttr("href", url).Apply(ml.elem)
-	gutrees.NewAttr("type", mtype).Apply(ml.elem)
+	trees.NewAttr("href", url).Apply(ml.elem)
+	trees.NewAttr("type", mtype).Apply(ml.elem)
 }
 
 // CSS adds a element which generates a <style> tag.
 func CSS(src string, defered bool) {
 	ml := mLink("link", defered)
-	gutrees.NewAttr("href", src).Apply(ml.elem)
-	gutrees.NewAttr("rel", "stylesheet").Apply(ml.elem)
-	gutrees.NewAttr("type", "text/css").Apply(ml.elem)
+	trees.NewAttr("href", src).Apply(ml.elem)
+	trees.NewAttr("rel", "stylesheet").Apply(ml.elem)
+	trees.NewAttr("type", "text/css").Apply(ml.elem)
 }
 
 // Style adds a element which generates a <style> tag.
 func Style(src string, defered bool) {
 	ml := mLink("style", defered)
-	gutrees.NewAttr("src", src).Apply(ml.elem)
-	gutrees.NewAttr("type", "text/css").Apply(ml.elem)
+	trees.NewAttr("src", src).Apply(ml.elem)
+	trees.NewAttr("type", "text/css").Apply(ml.elem)
 }
 
 // Script adds a element which generates a <style> tag.
 func Script(src string, mtype string, defered bool) {
 	ml := mLink("script", defered)
-	gutrees.NewAttr("src", src).Apply(ml.elem)
-	gutrees.NewAttr("type", mtype).Apply(ml.elem)
+	trees.NewAttr("src", src).Apply(ml.elem)
+	trees.NewAttr("type", mtype).Apply(ml.elem)
 }
 
 // Meta adds a element which generates a <style> tag.
 func Meta(props map[string]string) {
 	ml := mLink("meta", false)
 	for name, val := range props {
-		gutrees.NewAttr(name, val).Apply(ml.elem)
+		trees.NewAttr(name, val).Apply(ml.elem)
 	}
 }
 
@@ -224,7 +224,7 @@ func mLink(tag string, deffer bool) *LinkDef {
 	var ld LinkDef
 	ld.tag = "link"
 	ld.deffer = deffer
-	ml.elem = gutrees.NewElement(tag, false)
+	ml.elem = trees.NewElement(tag, false)
 
 	current := currentResource()
 	current.links = append(current.links, ld)
