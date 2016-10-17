@@ -20,9 +20,6 @@ type HTML interface {
 
 // Routes defines an interface which exposes the internal Routing struct used
 // by a Markup.
-type Routes interface {
-	Router() *Routing
-}
 
 // Markup provide a basic specification type of how a element resolves
 // its content.
@@ -33,6 +30,7 @@ type Markup interface {
 	Morphers
 	Appliable
 	Removable
+	Routes
 	Properties
 	Reconcilable
 	Routes
@@ -112,9 +110,38 @@ func (e *Element) Empty() {
 	e.children = e.children[:0]
 }
 
+//==============================================================================
+
+// Routes defines an interface which allows the access and setting of the 
+// routes which affects the giving markup.
+type Routes interface {
+	Router() *Routing
+	UseRouter(*Routing)
+}
+
 // Router returns the internal router used by the element.
 func (e *Element) Router() *Routing {
 	return e.Routing
+}
+
+// UseRouter changes the internal router to be used by this element alone.
+// Connecting all internal children routers to the supplied and discarding 
+// its previous router.
+func (e *Element) UseRouter(rm *Routing) {
+	old := e.Routing
+	old.Flush()
+
+	for index, morpher := range e.morphers {
+		if morher == old {
+			e.morphers = append(e.morphers[:index], e.morphers[index +1:]...)
+			break
+		}
+	}
+
+	e.Routing = rm
+	for _, child := range e.children {
+		e.Routing.Register(child.Router())
+	}
 }
 
 //==============================================================================

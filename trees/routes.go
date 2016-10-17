@@ -127,6 +127,7 @@ func (r *Routing) Morph(mr Markup) Markup {
 // Apply adds this routing as a morpher into the provided markup.
 func (r *Routing) Apply(mr Markup) {
 	mr.AddMorpher(r)
+	mr.UseRouter(r)
 }
 
 //==============================================================================

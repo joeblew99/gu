@@ -22,6 +22,7 @@ type Resolver interface {
 	Register(Resolver)
 	ResolvedPassed(ResolveSubscriber)
 	ResolvedFailed(ResolveSubscriber)
+	Flush()
 }
 
 // NewResolver returns a new instance of a structure that matches
@@ -42,6 +43,13 @@ type basicResolver struct {
 	subs     []ResolveSubscriber
 	fails    []ResolveSubscriber
 	children []Resolver
+}
+
+// Flush resets the subscriptions and children lists to empty.
+func (b *basicResolver) Flush() {
+	 b.subs = nil
+	 b.fails = nil
+	 b.children = nil
 }
 
 // Register adds a resolver into the list which will get triggerd
