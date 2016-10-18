@@ -13,15 +13,19 @@ import (
 	"github.com/influx6/gu/trees"
 )
 
+// countKeeper handles management of the keys being generating. Guards the incrementation
+// using a mutex.
 var countKeeper = struct {
-	baseKey   string
 	ml        sync.Mutex
+	baseKey   string
 	baseCount int
 }{
 	baseKey: "3bce4931-6c75-41ab-afe0-2ec108a30860",
 }
 
-func newKey() string {
+// NewKey returns a new string key which is path of the incremental key which once initializes
+// constantly increases.
+func NewKey() string {
 	countKeeper.ml.Lock()
 	countKeeper.baseCount++
 	countKeeper.ml.Unlock()
@@ -111,7 +115,8 @@ type Eventable interface {
 	Events() events.EventManagers
 }
 
-// EventableRenderView defines a composite of a RenderView which provides access to its Events manager.
+// EventableRenderView defines a composite of a RenderView which provides access to
+// its Events manager.
 type EventableRenderView interface {
 	LoadEvents(*js.Object)
 }

@@ -28,25 +28,18 @@ func (s *StaticView) RenderHTML() template.HTML {
 
 //==============================================================================
 
-// ViewUpdate defines a view update notification which contains the name of the
-// view to be notified for an update.
-type ViewUpdate struct {
-	ID string
-}
-
 // CustomView generates a RenderView for the provided Renderable.
 func CustomView(tag string, ev events.EventManagers, r ...Renderable) RenderView {
 	var vw view
 	vw.tag = tag
 	vw.renders = r
-	vw.uuid = newKey()
+	vw.uuid = NewKey()
 	vw.events = ev
+	vw.Reactive = NewReactive()
 
 	for _, vr := range r {
 		if rws, ok := vr.(ReactiveSubscription); ok {
-			rws.React(func() {
-				dispatch.Dispatch(ViewUpdate{ID: vw.uuid})
-			})
+			rws.React(vw.Reactive.Publish)
 		}
 	}
 
@@ -57,6 +50,7 @@ func CustomView(tag string, ev events.EventManagers, r ...Renderable) RenderView
 
 // view defines a base level implementation for a set of Renderables.
 type view struct {
+	Reactive
 	tag     string
 	uuid    string
 	hide    bool

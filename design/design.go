@@ -36,6 +36,9 @@ func GetCurrentResources() *Resources {
 }
 
 // Resources defines a structure which contains the fully embodiement of different resources.
+// It contains a stack which will be the current rendering resources for the current match paths.
+// It also contains a nStack which contains resource which must be rendered regardless of the
+// current resources available.
 type Resources struct {
 	Resources []ResourceDefinition
 }
@@ -46,6 +49,35 @@ func New() *Resources {
 	var res Resources
 	UseResources(&res)
 	return &res
+}
+
+// Init intializes all attached resources under its giving resource list.
+func (rs *Resources) Init() {
+	for _, res := range rs.Resources {
+		res.Init()
+	}
+}
+
+// Resolve resolves the giving path by testing all available resource definitions to be
+// rendered and returns a slice of all Resources sorted against the order which they should be
+// rendered.
+func (rs *Resources) Resolve(path string) []ResourceDefinition {
+	var first, last, any []ResourceDefinition
+
+	for _, resource := range rs.Resources {
+		if _, _, passed := resource.resolver.Test(path); passed {
+			switch resource.order {
+			case First:
+				first = append(first, resource)
+			case Last:
+				last = append(last, resource)
+			case Any:
+				any = append(any, resource)
+			}
+		}
+	}
+
+	return append(append(first, any...), last...)
 }
 
 // MustCurrentResource will panic if no resource exists currently in this resource root.
@@ -71,15 +103,23 @@ func (rs *Resources) CurrentResource() *ResourceDefinition {
 // DSL defines a function type which is used to generate the contents of a Def(Definition).
 type DSL func()
 
+// ResourceRenderer  defines an interface for a resource rendering structure which handles rendering
+// of a giving resource.
+type ResourceRenderer interface {
+	Render(ResourceDefinition)
+}
+
 // ResourceDefinition defines a high-level definition for managing resources for
 // which other definitions build from.
 type ResourceDefinition struct {
-	dsl DSL
+	dsl  DSL
+	uuid string
 
 	views    []targetViews
 	markups  []targetMarkup
 	links    []gu.StaticView
-	resolver dispatch.Resolvable
+	resolver dispatch.Resolver
+	order    RenderingOrder
 }
 
 // Initialize runs the underline DSL for the
@@ -90,11 +130,34 @@ func (rd *ResourceDefinition) Init() {
 // Resource creates a new resource addding into the resource lists for the root.
 func Resource(dsl DSL) *ResourceDefinition {
 	var rs ResourceDefinition
+	rs.order = Any
 	rs.dsl = dsl
+	rs.uuid = gu.NewKey()
 
 	root := GetCurrentResources()
 	root.Resources = append(root.Resources, rs)
 	return &rs
+}
+
+//==============================================================================
+
+// RenderingOrder defines a type used to define the order which rendering is to be done for a resource.
+type RenderingOrder int
+
+const (
+	// First defines that a resouce should be among the first rendered.
+	First RenderingOrder = iota + 1
+
+	// Last defines that a resouce should be among the last rendered.
+	Last
+
+	// Any defines that a resouce should be rendered in what ever position it appears.
+	Any
+)
+
+// Order defines a high level function which sets/resets the RenderingOrder of the current ResourceDefinition.
+func Order(mode RenderingOrder) {
+	GetCurrentResources().MustCurrentResource().order = mode
 }
 
 //==============================================================================
@@ -162,6 +225,12 @@ func Markup(markup gu.Viewable, target interface{}, defered bool) {
 
 //==============================================================================
 
+// ViewUpdate defines a view update notification which contains the name of the
+// view to be notified for an update.
+type ViewUpdate struct {
+	ID string
+}
+
 type targetViews struct {
 	View    gu.RenderView
 	Targets string
@@ -184,9 +253,15 @@ func View(vrs gu.Viewable, target string) gu.RenderView {
 		panic("View must either recieve a function that returns Renderables or Renderables themselves")
 	}
 
+	current := GetCurrentResources().MustCurrentResource()
 	view := gu.CustomView("section", events.NewEventManager(), rs...)
 
-	current := GetCurrentResources().MustCurrentResource()
+	if rvw, ok := view.(gu.Reactive); ok {
+		rvw.React(func() {
+			dispatch.Dispatch(ViewUpdate{ID: vw.uuid})
+		})
+	}
+
 	current.views = append(current.views, targetViews{
 		View:    view,
 		Targets: target,

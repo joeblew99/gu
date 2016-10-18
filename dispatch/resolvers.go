@@ -19,10 +19,12 @@ type Resolvable interface {
 // provided instance of a dispatch.Path.
 type Resolver interface {
 	Resolvable
+
+	Flush()
 	Register(Resolver)
 	ResolvedPassed(ResolveSubscriber)
 	ResolvedFailed(ResolveSubscriber)
-	Flush()
+	Test(string) (map[string]string, string, bool)
 }
 
 // NewResolver returns a new instance of a structure that matches
@@ -57,6 +59,13 @@ func (b *basicResolver) Flush() {
 // made out of the remaining path from the Path received by this.
 func (b *basicResolver) Register(r Resolver) {
 	b.children = append(b.children, r)
+}
+
+// Test evaluates the giving path returning a map of parameters, a string of path left unmatch if
+// possible(incase the resolver allows extra path lines within its pattern using the /*) and a boolean
+// indicating when the path was indeed matched succesfully or if it was a total failure.
+func (b *basicResolver) Test(path string) (map[string]string, string, bool) {
+	return b.matcher.Validate(path)
 }
 
 // Resolve takes a `dispatch.Path` instance, matches the content
