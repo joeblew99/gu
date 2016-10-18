@@ -42,6 +42,28 @@ type Path struct {
 	Params map[string]string
 }
 
+// GetLocationPath returns the current Path associated with the current location.
+// Using the complete path has the Remaining path value.
+func GetLocationPath() Path {
+	directive := GetLocationDirective()
+
+	return Path{
+		Rem:           directive.String(),
+		PathDirective: directive,
+	}
+}
+
+// GetLocationHashAsPath returns the current Path associated with the current location.
+// Using the current hash has the Remaining path value.
+func GetLocationHashAsPath() Path {
+	directive := GetLocationDirective()
+
+	return Path{
+		Rem:           directive.Hash,
+		PathDirective: directive,
+	}
+}
+
 //==============================================================================
 
 // AttachURL takes the giving pattern, matches it against changes provided by
@@ -191,6 +213,18 @@ func GetLocation() (host string, path string, hash string) {
 	path = loc.Get("pathname").String()
 	hash = loc.Get("hash").String()
 	return
+}
+
+// GetLocationDirective returns the current location directive.
+func GetLocationDirective() PathDirective {
+	host, path, hash := GetLocation()
+
+	return PathDirective{
+		Host:     host,
+		Hash:     hash,
+		Path:     path,
+		Sequence: URLPathSequencer(path, hash),
+	}
 }
 
 //==============================================================================

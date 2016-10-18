@@ -47,9 +47,9 @@ type basicResolver struct {
 
 // Flush resets the subscriptions and children lists to empty.
 func (b *basicResolver) Flush() {
-	 b.subs = nil
-	 b.fails = nil
-	 b.children = nil
+	b.subs = nil
+	b.fails = nil
+	b.children = nil
 }
 
 // Register adds a resolver into the list which will get triggerd

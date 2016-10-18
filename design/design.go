@@ -1,15 +1,72 @@
 package design
 
 import (
+	"sync"
+
 	"github.com/influx6/gu"
 	"github.com/influx6/gu/dispatch"
 	"github.com/influx6/gu/events"
 	"github.com/influx6/gu/trees"
 )
 
-var rootResource = struct {
-	res []ResourceDefinition
+// Root defines a package level
+var rootRes = struct {
+	ml   sync.Mutex
+	root *Resources
 }{}
+
+// UseResources allows setting the giving root by which resources functions are executed against.
+func UseResources(rs *Resources) {
+	rootRes.ml.Lock()
+	rootRes.root = rs
+	rootRes.ml.Unlock()
+}
+
+// GetCurrentResources returns the current resources being used by the design functions.
+func GetCurrentResources() *Resources {
+	rootRes.ml.Lock()
+	rs := rootRes.root
+	rootRes.ml.Unlock()
+
+	if rs == nil {
+		panic("No Resource root has been set")
+	}
+
+	return rs
+}
+
+// Resources defines a structure which contains the fully embodiement of different resources.
+type Resources struct {
+	Resources []ResourceDefinition
+}
+
+// New creates a new instance of a Resources struct and registers it as the currently used resources
+// root.
+func New() *Resources {
+	var res Resources
+	UseResources(&res)
+	return &res
+}
+
+// MustCurrentResource will panic if no resource exists currently in this resource root.
+func (rs *Resources) MustCurrentResource() *ResourceDefinition {
+	res := rs.CurrentResource()
+	if res == nil {
+		return res
+	}
+
+	panic("No resource allocated in current resources root")
+}
+
+// CurrentResource returns the current available resource for this root.
+func (rs *Resources) CurrentResource() *ResourceDefinition {
+	rlen := len(rs.Resources)
+	if rlen == 0 {
+		return nil
+	}
+
+	return &(rs.Resources[rlen-1])
+}
 
 // DSL defines a function type which is used to generate the contents of a Def(Definition).
 type DSL func()
@@ -25,14 +82,6 @@ type ResourceDefinition struct {
 	resolver dispatch.Resolvable
 }
 
-func currentResource() *ResourceDefinition {
-	if len(rootResource.res) == 0 {
-		panic("Require resource to exists first before call")
-	}
-
-	return &(rootResource.res[len(rootResource.res)-1])
-}
-
 // Initialize runs the underline DSL for the
 func (rd *ResourceDefinition) Init() {
 	rd.dsl()
@@ -43,8 +92,16 @@ func Resource(dsl DSL) *ResourceDefinition {
 	var rs ResourceDefinition
 	rs.dsl = dsl
 
-	rootResource.res = append(rootResource.res, rs)
+	root := GetCurrentResources()
+	root.Resources = append(root.Resources, rs)
 	return &rs
+}
+
+//==============================================================================
+
+// UseRoute sets the giving route for the currently used resource of the giving resource root.
+func UseRoute(path string) {
+	GetCurrentResources().MustCurrentResource().resolver = dispatch.NewResolver(path)
 }
 
 //==============================================================================
@@ -91,8 +148,7 @@ func Markup(markup gu.Viewable, target interface{}, defered bool) {
 		panic("targets only allowed to be a string or a slice of string")
 	}
 
-	current := currentResource()
-
+	current := GetCurrentResources().MustCurrentResource()
 	for _, markup := range markupFn {
 		var static gu.StaticView
 		static.Content = markup
@@ -130,7 +186,7 @@ func View(vrs gu.Viewable, target string) gu.RenderView {
 
 	view := gu.CustomView("section", events.NewEventManager(), rs...)
 
-	current := currentResource()
+	current := GetCurrentResources().MustCurrentResource()
 	current.views = append(current.views, targetViews{
 		View:    view,
 		Targets: target,
@@ -190,7 +246,7 @@ func mLink(tag string, deffer bool) gu.StaticView {
 	var static gu.StaticView
 	static.Content = trees.NewElement(tag, false)
 
-	current := currentResource()
+	current := GetCurrentResources().MustCurrentResource()
 	current.links = append(current.links, static)
 	return static
 }
