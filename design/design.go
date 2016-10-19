@@ -35,6 +35,13 @@ func GetCurrentResources() *Resources {
 	return rs
 }
 
+// ResourceRenderer  defines an interface for a resource rendering structure which handles rendering
+// of a giving resource.
+type ResourceRenderer interface {
+	Render(gudispatch.Path, ResourceDefinition)
+}
+
+
 // Resources defines a structure which contains the fully embodiement of different resources.
 // It contains a stack which will be the current rendering resources for the current match paths.
 // It also contains a nStack which contains resource which must be rendered regardless of the
@@ -103,11 +110,6 @@ func (rs *Resources) CurrentResource() *ResourceDefinition {
 // DSL defines a function type which is used to generate the contents of a Def(Definition).
 type DSL func()
 
-// ResourceRenderer  defines an interface for a resource rendering structure which handles rendering
-// of a giving resource.
-type ResourceRenderer interface {
-	Render(ResourceDefinition)
-}
 
 // ResourceDefinition defines a high-level definition for managing resources for
 // which other definitions build from.
@@ -122,9 +124,25 @@ type ResourceDefinition struct {
 	order    RenderingOrder
 }
 
+// UUID returns the uuid associated with the ResourceDefinition.
+func (rd *ResourceDefinition) UUID() string {
+	return rd.uuid
+}
+
 // Initialize runs the underline DSL for the
 func (rd *ResourceDefinition) Init() {
 	rd.dsl()
+
+	// If no resolver is provided then use a all path resolver.
+	if rd.resolver == nil {
+		rd.resolver = dispatch.NewResolver("*")
+	}
+	
+	rd.resolver.flush()
+
+	for _, view := range rd.views {
+		rd.resolver.Register(view)
+	}
 }
 
 // Resource creates a new resource addding into the resource lists for the root.
@@ -225,10 +243,11 @@ func Markup(markup gu.Viewable, target interface{}, defered bool) {
 
 //==============================================================================
 
-// ViewUpdate defines a view update notification which contains the name of the
+// ResourceViewUpdate defines a view update notification which contains the name of the
 // view to be notified for an update.
-type ViewUpdate struct {
-	ID string
+type ResouceViewUpdate struct {
+	View string
+	Resouce string
 }
 
 type targetViews struct {
@@ -258,9 +277,13 @@ func View(vrs gu.Viewable, target string) gu.RenderView {
 
 	if rvw, ok := view.(gu.Reactive); ok {
 		rvw.React(func() {
-			dispatch.Dispatch(ViewUpdate{ID: vw.uuid})
+			dispatch.Dispatch(ResourceViewUpdate{
+				View: view.UUID(),rttoppptt
+				Resource: current.UUID(),
+			})
 		})
 	}
+
 
 	current.views = append(current.views, targetViews{
 		View:    view,

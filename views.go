@@ -105,7 +105,13 @@ func (v *view) Render() trees.Markup {
 	}
 
 	if v.live != nil {
-		root.Reconcile(v.live)
+		live := v.live
+		v.live = nil
+
+		root.Reconcile(live)
+		
+		// Clear out internal references with the current live markup.
+		go live.Clear()
 	}
 
 	if swapper, ok := root.(trees.SwappableIdentity); ok {

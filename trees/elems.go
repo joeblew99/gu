@@ -30,14 +30,12 @@ type Markup interface {
 	Morphers
 	Appliable
 	Removable
-	Routes
 	Properties
 	Reconcilable
 }
 
 // Element represent a concrete implementation of a element node.
 type Element struct {
-	*Routing
 	removed         bool
 	autoclose       bool
 	allowEvents     bool
@@ -74,7 +72,6 @@ func NewText(txt string) *Element {
 // NewElement returns a new element instance giving the specificed name
 func NewElement(tag string, hasNoEndingTag bool) *Element {
 	return &Element{
-		Routing:         NewRouting("*", &RemoveMorpher{}),
 		allowChildren:   true,
 		allowStyles:     true,
 		allowAttributes: true,
@@ -84,6 +81,17 @@ func NewElement(tag string, hasNoEndingTag bool) *Element {
 		tagname:         strings.ToLower(strings.TrimSpace(tag)),
 		autoclose:       hasNoEndingTag,
 	}
+}
+
+// Empty resets the elements children list as 0 length
+func (e *Element) Empty() {
+	e.children = nil
+	e.events = nil
+	e.styles = nil
+	e.morphers = nil
+	e.finalizers = nil
+	e.onceFinalizers = nil
+	e.eventManager = nil
 }
 
 // EHTML returns the html string wrapped by a template.HTML type to avoid getting
@@ -102,45 +110,6 @@ func (e *Element) HTML() string {
 // AutoClosed returns true/false if this element uses a </> or a <></> tag convention
 func (e *Element) AutoClosed() bool {
 	return e.autoclose
-}
-
-// Empty resets the elements children list as 0 length
-func (e *Element) Empty() {
-	e.children = e.children[:0]
-}
-
-//==============================================================================
-
-// Routes defines an interface which allows the access and setting of the
-// routes which affects the giving markup.
-type Routes interface {
-	Router() *Routing
-	UseRouter(*Routing)
-}
-
-// Router returns the internal router used by the element.
-func (e *Element) Router() *Routing {
-	return e.Routing
-}
-
-// UseRouter changes the internal router to be used by this element alone.
-// Connecting all internal children routers to the supplied and discarding
-// its previous router.
-func (e *Element) UseRouter(rm *Routing) {
-	old := e.Routing
-	old.Flush()
-
-	for index, morpher := range e.morphers {
-		if morpher == old {
-			e.morphers = append(e.morphers[:index], e.morphers[index+1:]...)
-			break
-		}
-	}
-
-	e.Routing = rm
-	for _, child := range e.children {
-		e.Routing.Register(child.Router())
-	}
 }
 
 //==============================================================================
@@ -467,7 +436,7 @@ type Reconcilable interface {
 // new render, the old Anchor will be marked as removed and will be removed from
 // the dom and ignored by the writers.
 // When two elements position are same and their types are the same then a checkup
-// process is doing using the elements attributes, this is done to determine if the
+// process is done using the elements attributes, this is done to determine if the
 // hash value of the new should be swapped with the old. We cant use style properties
 // here because they are the most volatile of the set and will periodically be
 // either changed and returned to normal values eg display: none to display: block
