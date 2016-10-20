@@ -18,12 +18,16 @@ type HTML interface {
 	EHTML() template.HTML
 }
 
-// Routes defines an interface which exposes the internal Routing struct used
-// by a Markup.
+// Empty defines an interface which exposes a function to empty the internal
+// structures its implementer olds.
+type Empty interface {
+	Empty()
+}
 
 // Markup provide a basic specification type of how a element resolves
 // its content.
 type Markup interface {
+	Empty
 	HTML
 	Children
 	Identity
@@ -414,8 +418,6 @@ type ElementalMarkup interface {
 	SwappableIdentity
 
 	AutoClosed() bool
-
-	Empty()
 }
 
 // Reconcilable defines the interface of markups that can reconcile their content against another
@@ -555,7 +557,6 @@ func (childAdd) Apply(root Markup, child ...Markup) {
 
 		for _, ch := range child {
 			rootEm.children = append(rootEm.children, ch)
-			root.Router().Register(ch.Router())
 
 			if chm, ok := ch.(Eventers); ok {
 				chm.UseEventManager(rootEm.eventManager)

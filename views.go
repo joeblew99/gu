@@ -67,8 +67,6 @@ func (v *view) Events() events.EventManagers {
 // Resolves exposes the internal renderables and passes the supplied path
 // to allow any desired behaviour to be initiated.
 func (v *view) Resolve(path dispatch.Path) {
-	v.live.Router().Resolve(path)
-
 	for _, vmr := range v.renders {
 		if rs, ok := vmr.(dispatch.Resolvable); ok {
 			rs.Resolve(path)
@@ -109,9 +107,9 @@ func (v *view) Render() trees.Markup {
 		v.live = nil
 
 		root.Reconcile(live)
-		
+
 		// Clear out internal references with the current live markup.
-		go live.Clear()
+		live.Empty()
 	}
 
 	if swapper, ok := root.(trees.SwappableIdentity); ok {

@@ -3,6 +3,7 @@ package dispatch
 import (
 	"errors"
 	"fmt"
+	"net/url"
 	"strings"
 
 	"github.com/go-humble/detect"
@@ -23,6 +24,22 @@ type PathDirective struct {
 // String returns the hash and path.
 func (p PathDirective) String() string {
 	return fmt.Sprintf("%s%s", pattern.TrimEndSlashe(p.Path), p.Hash)
+}
+
+//==============================================================================
+
+// MakePath returns PathDirective based on the oath string provided.
+func MakePath(path string) (PathDirective, error) {
+	ups, err := url.Parse(path)
+	if err != nil {
+		return PathDirective{}, err
+	}
+
+	return PathDirective{
+		Path: ups.Path,
+		Host: ups.Host,
+		Hash: ups.Fragment,
+	}, nil
 }
 
 //==============================================================================
@@ -49,6 +66,52 @@ func GetLocationPath() Path {
 
 	return Path{
 		Rem:           directive.String(),
+		PathDirective: directive,
+	}
+}
+
+// UseLocation returns the current Path associated with the provided path.
+// Using the complete path has the Remaining path value.
+func UseLocation(path string) Path {
+	directive, err := MakePath(path)
+	if err != nil {
+		return Path{}
+	}
+
+	return Path{
+		Rem:           directive.String(),
+		PathDirective: directive,
+	}
+}
+
+// UseLocationHash returns the current Path associated with the provided path.
+// Using the hash path has the Remaining path value.
+func UseLocationHash(path string) Path {
+	directive, err := MakePath(path)
+	if err != nil {
+		return Path{}
+	}
+
+	return Path{
+		Rem:           directive.Hash,
+		PathDirective: directive,
+	}
+}
+
+// UseDirective returns a Path which wraps the provided directive using
+// the full path including the hash string.
+func UseDirective(directive PathDirective) Path {
+	return Path{
+		Rem:           directive.String(),
+		PathDirective: directive,
+	}
+}
+
+// UseHashDirective returns a Path which wraps the provided directive using
+// the full path including the hash string.
+func UseHashDirective(directive PathDirective) Path {
+	return Path{
+		Rem:           directive.Hash,
 		PathDirective: directive,
 	}
 }
@@ -208,10 +271,15 @@ func GetLocation() (host string, path string, hash string) {
 		return
 	}
 
-	loc := js.Global.Get("location")
-	host = loc.Get("host").String()
-	path = loc.Get("pathname").String()
-	hash = loc.Get("hash").String()
+	loc := js.Global.Get("location").String()
+	ups, err := url.Parse(loc)
+	if err != nil {
+		return
+	}
+
+	host = ups.Host
+	path = ups.Path
+	hash = ups.Fragment
 	return
 }
 

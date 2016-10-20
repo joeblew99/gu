@@ -1,10 +1,6 @@
 package trees
 
-import (
-	"sync"
-
-	"github.com/influx6/gu/dispatch"
-)
+import "sync"
 
 // Morpher defines an interface which morphs the giving markup based on
 // its current internal state based on some internal condition.
