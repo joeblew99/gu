@@ -1,8 +1,6 @@
 package gu
 
 import (
-	"sync"
-
 	"github.com/influx6/gu/dispatch"
 	"github.com/influx6/gu/trees"
 )
@@ -13,6 +11,8 @@ type RouteApplier interface {
 	trees.Morpher
 	trees.Appliable
 	dispatch.Resolver
+
+	Root() RouteApplier
 	N(string) RouteApplier
 	Next(string, trees.SwitchMorpher) RouteApplier
 }
@@ -43,32 +43,27 @@ func (r *RouteManager) Level(path string, morpher trees.SwitchMorpher) RouteAppl
 		return rx
 	}
 
-	var rs rm
-	rs.path = path
+	var root rm
+	root.level = make(map[string]RouteApplier)
+	root.routing = newRouting(path, morpher)
 
-	rmi := newRouting(path, morpher)
+	r.levels[path] = &root
 
-	rs.next = rmi
-	rs.root = rmi
-	rs.Resolver = rmi
-	rs.linked = make(map[string]*routing)
-
-	r.levels[path] = &rs
-	return &rs
+	return &root
 }
 
 //==============================================================================
 
 type rm struct {
-	dispatch.Resolver
 	*routing
+	prev  RouteApplier
+	next  RouteApplier
+	level map[string]RouteApplier
+}
 
-	rw     sync.RWMutex
-	path   string
-	linked map[string]*routing
-
-	root *routing
-	next *routing
+// Root returns the giving root if existing of this giving RouteApplier.
+func (r *rm) Root() RouteApplier {
+	return r.prev
 }
 
 // N returns a new trees.Applier based on the internal routing struct. Which stores
@@ -82,17 +77,21 @@ func (r *rm) N(path string) RouteApplier {
 // previous. It uses dispatch.Resolver which shifts the matching paths by passing
 // down the remants of path unmatched to its next subscribers.
 func (r *rm) Next(path string, morpher trees.SwitchMorpher) RouteApplier {
-	if rx, ok := r.linked[path]; ok {
+	if rx, ok := r.level[path]; ok {
 		return rx
 	}
 
-	prv := r.next
-	r.next = newRouting(path, morpher)
-	prv.Register(r.next)
+	block := newRouting(path, morpher)
+	r.routing.Resolver.Register(block.Resolver)
 
-	r.linked[path] = r.next
+	var nextRoot rm
+	nextRoot.level = make(map[string]RouteApplier)
+	nextRoot.prev = r
+	nextRoot.routing = block
 
-	return r.next
+	r.level[path] = &nextRoot
+
+	return &nextRoot
 }
 
 //==============================================================================

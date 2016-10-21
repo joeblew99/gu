@@ -2,6 +2,7 @@ package dispatch
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/influx6/faux/pattern"
@@ -22,8 +23,8 @@ type Resolver interface {
 
 	Flush()
 	Register(Resolver)
-	ResolvedPassed(ResolveSubscriber)
-	ResolvedFailed(ResolveSubscriber)
+	ResolvedPassed(ResolveSubscriber) Resolver
+	ResolvedFailed(ResolveSubscriber) Resolver
 	Test(string) (map[string]string, string, bool)
 }
 
@@ -90,6 +91,7 @@ func (b *basicResolver) Resolve(path Path) {
 	}
 
 	params, rem, ok := b.matcher.Validate(path.Rem)
+	fmt.Printf("Rem: %s from %#v\n", rem, path)
 	if !ok {
 
 		// Notify the fail subscribers.
@@ -105,23 +107,10 @@ func (b *basicResolver) Resolve(path Path) {
 		params[key] = val
 	}
 
-	var hash, npath string
-
-	hashIndex := strings.IndexRune(path.Rem, '#')
-	if hashIndex != -1 {
-		hash = path.Rem[hashIndex:]
-		npath = path.Rem[:hashIndex]
-	}
-
 	newPath := Path{
-		Rem:    rem,
-		Params: params,
-		PathDirective: PathDirective{
-			Host:     path.Host,
-			Hash:     hash,
-			Path:     npath,
-			Sequence: path.Sequence,
-		},
+		Rem:           rem,
+		Params:        params,
+		PathDirective: path.PathDirective,
 	}
 
 	// Notify the subscribers.
@@ -137,14 +126,16 @@ func (b *basicResolver) Resolve(path Path) {
 
 // ResolvedFailed adds a function to the failed subscription list for this
 // resolver.
-func (b *basicResolver) ResolvedFailed(sub ResolveSubscriber) {
+func (b *basicResolver) ResolvedFailed(sub ResolveSubscriber) Resolver {
 	b.fails = append(b.fails, sub)
+	return b
 }
 
 // ResolvedPassed adds a function to the subscription list for this
 // resolver.
-func (b *basicResolver) ResolvedPassed(sub ResolveSubscriber) {
+func (b *basicResolver) ResolvedPassed(sub ResolveSubscriber) Resolver {
 	b.subs = append(b.subs, sub)
+	return b
 }
 
 //==============================================================================
