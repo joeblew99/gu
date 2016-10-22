@@ -2,7 +2,6 @@ package dispatch
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 
 	"github.com/influx6/faux/pattern"
@@ -91,7 +90,6 @@ func (b *basicResolver) Resolve(path Path) {
 	}
 
 	params, rem, ok := b.matcher.Validate(path.Rem)
-	fmt.Printf("Rem: %s from %#v\n", rem, path)
 	if !ok {
 
 		// Notify the fail subscribers.

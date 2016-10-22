@@ -35,10 +35,11 @@ func TestRoute(t *testing.T) {
 	tests.Passed(t, "Should have validated path /models/12")
 
 	id := getModel.N("/:id")
-	if _, _, pass := id.Test("/12"); !pass {
+	param, _, pass := id.Test("/12")
+	if !pass {
 		tests.Failed(t, "Should have validated path /12")
 	}
-	tests.Passed(t, "Should have validated path /12")
+	tests.Passed(t, "Should have validated path /12: %#v", param)
 
 	home.ResolvedPassed(func(px dispatch.Path) {
 		tests.Passed(t, "Should have validated path /home/models/12:  /home")

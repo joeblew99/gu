@@ -67,6 +67,7 @@ func GetLocationPath() Path {
 	return Path{
 		Rem:           directive.String(),
 		PathDirective: directive,
+		Params:        make(map[string]string),
 	}
 }
 
@@ -81,6 +82,7 @@ func UseLocation(path string) Path {
 	return Path{
 		Rem:           directive.String(),
 		PathDirective: directive,
+		Params:        make(map[string]string),
 	}
 }
 
@@ -95,6 +97,7 @@ func UseLocationHash(path string) Path {
 	return Path{
 		Rem:           directive.Hash,
 		PathDirective: directive,
+		Params:        make(map[string]string),
 	}
 }
 
@@ -104,6 +107,7 @@ func UseDirective(directive PathDirective) Path {
 	return Path{
 		Rem:           directive.String(),
 		PathDirective: directive,
+		Params:        make(map[string]string),
 	}
 }
 
@@ -113,6 +117,7 @@ func UseHashDirective(directive PathDirective) Path {
 	return Path{
 		Rem:           directive.Hash,
 		PathDirective: directive,
+		Params:        make(map[string]string),
 	}
 }
 
@@ -124,6 +129,7 @@ func GetLocationHashAsPath() Path {
 	return Path{
 		Rem:           directive.Hash,
 		PathDirective: directive,
+		Params:        make(map[string]string),
 	}
 }
 
