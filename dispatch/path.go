@@ -135,10 +135,10 @@ func GetLocationHashAsPath() Path {
 
 //==============================================================================
 
-// AttachURL takes the giving pattern, matches it against changes provided by
+// AttachURLTo takes the giving pattern, matches it against changes provided by
 // the current PathObserver, if the full URL(i.e Path+Hash) matches then fires
 // the provided function.
-func AttachURL(pattern string, fx func(Path), fail func(Path)) {
+func AttachURLTo(pattern string, fx func(Path), fail func(Path)) {
 	matcher := URIMatcher(pattern)
 
 	Subscribe(func(p PathDirective) {
@@ -160,10 +160,10 @@ func AttachURL(pattern string, fx func(Path), fail func(Path)) {
 	Follow(GetLocation())
 }
 
-// AttachHash takes the giving pattern, matches it against changes provided by
+// AttachHashTo takes the giving pattern, matches it against changes provided by
 // the current PathObserver, if the URL hash matches then fires
 // the provided function.
-func AttachHash(pattern string, fx func(Path), fail func(Path)) {
+func AttachHashTo(pattern string, fx func(Path), fail func(Path)) {
 	matcher := URIMatcher(pattern)
 
 	Subscribe(func(p PathDirective) {

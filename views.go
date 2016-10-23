@@ -32,9 +32,9 @@ func (s *StaticView) RenderHTML() template.HTML {
 func CustomView(tag string, ev events.EventManagers, r ...Renderable) RenderView {
 	var vw view
 	vw.tag = tag
+	vw.events = ev
 	vw.renders = r
 	vw.uuid = NewKey()
-	vw.events = ev
 	vw.Reactive = NewReactive()
 
 	for _, vr := range r {

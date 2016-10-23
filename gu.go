@@ -95,11 +95,6 @@ func (r *reactive) Publish() {
 
 //==============================================================================
 
-// Viewable defines a generic interface for a generic return type. It exists to
-// give symantic representation in the areas it is used to express the expected
-// returned to be one of a Viewable souce in the context of the gu library.
-type Viewable interface{}
-
 // RenderView defines an interface through which you gain access into a rendering
 // branch of the current rendered markup view.
 type RenderView interface {

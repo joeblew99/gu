@@ -28,19 +28,23 @@ func GetCurrentResources() *Resources {
 	rs := rootRes.root
 	rootRes.ml.Unlock()
 
-	if rs == nil {
-		panic("No Resource root has been set")
+	if rs != nil {
+		return rs
 	}
 
-	return rs
+	panic("No Resource root has been set")
 }
+
+// Viewable defines a generic interface for a generic return type. It exists to
+// give symantic representation in the areas it is used to express the expected
+// returned to be one of a Viewable souce in the context of the gu library.
+type Viewable interface{}
 
 // ResourceRenderer  defines an interface for a resource rendering structure which handles rendering
 // of a giving resource.
 type ResourceRenderer interface {
-	Render(gudispatch.Path, ResourceDefinition)
+	Render(dispatch.Path, ResourceDefinition)
 }
-
 
 // Resources defines a structure which contains the fully embodiement of different resources.
 // It contains a stack which will be the current rendering resources for the current match paths.
@@ -72,8 +76,8 @@ func (rs *Resources) Resolve(path string) []ResourceDefinition {
 	var first, last, any []ResourceDefinition
 
 	for _, resource := range rs.Resources {
-		if _, _, passed := resource.resolver.Test(path); passed {
-			switch resource.order {
+		if _, _, passed := resource.Resolver.Test(path); passed {
+			switch resource.Order {
 			case First:
 				first = append(first, resource)
 			case Last:
@@ -90,7 +94,7 @@ func (rs *Resources) Resolve(path string) []ResourceDefinition {
 // MustCurrentResource will panic if no resource exists currently in this resource root.
 func (rs *Resources) MustCurrentResource() *ResourceDefinition {
 	res := rs.CurrentResource()
-	if res == nil {
+	if res != nil {
 		return res
 	}
 
@@ -110,18 +114,31 @@ func (rs *Resources) CurrentResource() *ResourceDefinition {
 // DSL defines a function type which is used to generate the contents of a Def(Definition).
 type DSL func()
 
-
 // ResourceDefinition defines a high-level definition for managing resources for
 // which other definitions build from.
 type ResourceDefinition struct {
-	dsl  DSL
+	Dsl  DSL
 	uuid string
 
-	views    []targetViews
-	markups  []targetMarkup
-	links    []gu.StaticView
-	resolver dispatch.Resolver
-	order    RenderingOrder
+	Views      []targetViews
+	Markups    []targetMarkup
+	Links      []gu.StaticView
+	DeferLinks []gu.StaticView
+
+	Order    RenderingOrder
+	Resolver dispatch.Resolver
+}
+
+// Resource creates a new resource addding into the resource lists for the root.
+func Resource(dsl DSL) *ResourceDefinition {
+	var rs ResourceDefinition
+	rs.Order = Any
+	rs.Dsl = dsl
+	rs.uuid = gu.NewKey()
+
+	root := GetCurrentResources()
+	root.Resources = append(root.Resources, rs)
+	return &rs
 }
 
 // UUID returns the uuid associated with the ResourceDefinition.
@@ -131,30 +148,18 @@ func (rd *ResourceDefinition) UUID() string {
 
 // Initialize runs the underline DSL for the
 func (rd *ResourceDefinition) Init() {
-	rd.dsl()
+	rd.Dsl()
 
 	// If no resolver is provided then use a all path resolver.
-	if rd.resolver == nil {
-		rd.resolver = dispatch.NewResolver("*")
+	if rd.Resolver == nil {
+		rd.Resolver = dispatch.NewResolver("*")
 	}
-	
-	rd.resolver.flush()
 
-	for _, view := range rd.views {
-		rd.resolver.Register(view)
+	rd.Resolver.Flush()
+
+	for _, view := range rd.Views {
+		rd.Resolver.ResolvedPassed(view.View.Resolve)
 	}
-}
-
-// Resource creates a new resource addding into the resource lists for the root.
-func Resource(dsl DSL) *ResourceDefinition {
-	var rs ResourceDefinition
-	rs.order = Any
-	rs.dsl = dsl
-	rs.uuid = gu.NewKey()
-
-	root := GetCurrentResources()
-	root.Resources = append(root.Resources, rs)
-	return &rs
 }
 
 //==============================================================================
@@ -175,14 +180,14 @@ const (
 
 // Order defines a high level function which sets/resets the RenderingOrder of the current ResourceDefinition.
 func Order(mode RenderingOrder) {
-	GetCurrentResources().MustCurrentResource().order = mode
+	GetCurrentResources().MustCurrentResource().Order = mode
 }
 
 //==============================================================================
 
 // UseRoute sets the giving route for the currently used resource of the giving resource root.
 func UseRoute(path string) {
-	GetCurrentResources().MustCurrentResource().resolver = dispatch.NewResolver(path)
+	GetCurrentResources().MustCurrentResource().Resolver = dispatch.NewResolver(path)
 }
 
 //==============================================================================
@@ -195,7 +200,7 @@ type targetMarkup struct {
 // Markup returns a new instance of a provided value which either is a function
 // which returns a needed trees.Markup or a trees.Markup or slice of trees.Markup
 // itself.
-func Markup(markup gu.Viewable, target interface{}, defered bool) {
+func Markup(markup Viewable, target interface{}, defered bool) {
 	var markupFn []trees.Markup
 
 	switch mo := markup.(type) {
@@ -234,7 +239,7 @@ func Markup(markup gu.Viewable, target interface{}, defered bool) {
 		var static gu.StaticView
 		static.Content = markup
 
-		current.markups = append(current.markups, targetMarkup{
+		current.Markups = append(current.Markups, targetMarkup{
 			Targets: targets,
 			View:    static,
 		})
@@ -245,9 +250,9 @@ func Markup(markup gu.Viewable, target interface{}, defered bool) {
 
 // ResourceViewUpdate defines a view update notification which contains the name of the
 // view to be notified for an update.
-type ResouceViewUpdate struct {
-	View string
-	Resouce string
+type ResourceViewUpdate struct {
+	View     string
+	Resource string
 }
 
 type targetViews struct {
@@ -256,7 +261,7 @@ type targetViews struct {
 }
 
 // View creates a gu.RenderView and applies it to the provided resource.
-func View(vrs gu.Viewable, target string) gu.RenderView {
+func View(vrs Viewable, target string) gu.RenderView {
 	var rs gu.Renderables
 
 	switch vwo := vrs.(type) {
@@ -278,14 +283,13 @@ func View(vrs gu.Viewable, target string) gu.RenderView {
 	if rvw, ok := view.(gu.Reactive); ok {
 		rvw.React(func() {
 			dispatch.Dispatch(ResourceViewUpdate{
-				View: view.UUID(),rttoppptt
+				View:     view.UUID(),
 				Resource: current.UUID(),
 			})
 		})
 	}
 
-
-	current.views = append(current.views, targetViews{
+	current.Views = append(current.Views, targetViews{
 		View:    view,
 		Targets: target,
 	})
@@ -295,14 +299,14 @@ func View(vrs gu.Viewable, target string) gu.RenderView {
 
 //==============================================================================
 
-// Title adds a element which generates a <title> tag.
-func Title(title string) {
+// PageTitle adds a element which generates a <title> tag.
+func PageTitle(title string) {
 	ml := mLink("title", false)
 	trees.NewText(title).Apply(ml.Content)
 }
 
-// Link adds a element which generates a <link> tag.
-func Link(url string, mtype string, defered bool) {
+// PageLink adds a element which generates a <link> tag.
+func PageLink(url string, mtype string, defered bool) {
 	ml := mLink("link", defered)
 	trees.NewAttr("href", url).Apply(ml.Content)
 	trees.NewAttr("type", mtype).Apply(ml.Content)
@@ -316,22 +320,22 @@ func CSS(src string, defered bool) {
 	trees.NewAttr("type", "text/css").Apply(ml.Content)
 }
 
-// Style adds a element which generates a <style> tag.
-func Style(src string, defered bool) {
+// Styles adds a element which generates a <style> tag.
+func Styles(src string, defered bool) {
 	ml := mLink("style", defered)
 	trees.NewAttr("src", src).Apply(ml.Content)
 	trees.NewAttr("type", "text/css").Apply(ml.Content)
 }
 
-// Script adds a element which generates a <style> tag.
-func Script(src string, mtype string, defered bool) {
+// Scripts adds a element which generates a <style> tag.
+func Scripts(src string, mtype string, defered bool) {
 	ml := mLink("script", defered)
 	trees.NewAttr("src", src).Apply(ml.Content)
 	trees.NewAttr("type", mtype).Apply(ml.Content)
 }
 
-// Meta adds a element which generates a <style> tag.
-func Meta(props map[string]string) {
+// Metas adds a element which generates a <style> tag.
+func Metas(props map[string]string) {
 	ml := mLink("meta", false)
 	for name, val := range props {
 		trees.NewAttr(name, val).Apply(ml.Content)
@@ -345,6 +349,12 @@ func mLink(tag string, deffer bool) gu.StaticView {
 	static.Content = trees.NewElement(tag, false)
 
 	current := GetCurrentResources().MustCurrentResource()
-	current.links = append(current.links, static)
+
+	if deffer {
+		current.DeferLinks = append(current.DeferLinks, static)
+	} else {
+		current.Links = append(current.Links, static)
+	}
+
 	return static
 }
