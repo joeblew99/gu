@@ -22,9 +22,6 @@ func CreateFragment(html string) *js.Object {
 	//build up the html right in the div
 	SetInnerHTML(div, html)
 
-	//unwrap all the special Text UnknownELement we are using
-	// UnWrapSpecialTextElements(div)
-
 	//create the document fragment
 	fragment := CreateDocumentFragment()
 
@@ -200,8 +197,24 @@ patchloop:
 
 		//if we are to be removed then remove the target
 		if HasAttribute(node, "NodeRemoved") {
-			// log.Printf("removed node: %+s", node)
-			// target.ParentNode().RemoveChild(target)
+			tgName := node.Get("tagName").String()
+
+			// If its a tag in our header kdis, attempt to remove from head.
+			if headerKids[tgName] {
+				dom := js.Global.Get("document").Call("querySelector", "head")
+				RemoveChild(dom, node)
+			}
+
+			// If its a script attempt to remove from head and body.
+			if tgName == "script" {
+				body := js.Global.Get("document").Call("querySelector", "body")
+				head := js.Global.Get("document").Call("querySelector", "head")
+
+				RemoveChild(head, node)
+				RemoveChild(body, node)
+			}
+
+			// Lastly attempt to remove from target itself.
 			RemoveChild(target, target)
 			continue patchloop
 		}

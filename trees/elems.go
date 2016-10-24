@@ -84,6 +84,7 @@ func NewElement(tag string, hasNoEndingTag bool) *Element {
 		hash:            RandString(10),
 		tagname:         strings.ToLower(strings.TrimSpace(tag)),
 		autoclose:       hasNoEndingTag,
+		attrs:           []Property{NewAttr("data-gen", "gu")},
 	}
 }
 

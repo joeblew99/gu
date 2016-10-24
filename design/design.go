@@ -35,15 +35,11 @@ func GetCurrentResources() *Resources {
 	panic("No Resource root has been set")
 }
 
-// Viewable defines a generic interface for a generic return type. It exists to
-// give symantic representation in the areas it is used to express the expected
-// returned to be one of a Viewable souce in the context of the gu library.
-type Viewable interface{}
-
 // ResourceRenderer  defines an interface for a resource rendering structure which handles rendering
 // of a giving resource.
 type ResourceRenderer interface {
-	Render(dispatch.Path, ResourceDefinition)
+	Render(...ResourceDefinition)
+	RenderUpdate(gu.Renderable, string)
 }
 
 // Resources defines a structure which contains the fully embodiement of different resources.
@@ -54,9 +50,9 @@ type Resources struct {
 	Resources []ResourceDefinition
 }
 
-// New creates a new instance of a Resources struct and registers it as the currently used resources
+// NewResources creates a new instance of a Resources struct and registers it as the currently used resources
 // root.
-func New() *Resources {
+func NewResources() *Resources {
 	var res Resources
 	UseResources(&res)
 	return &res
@@ -69,14 +65,27 @@ func (rs *Resources) Init() {
 	}
 }
 
-// Resolve resolves the giving path by testing all available resource definitions to be
+// Resolve returns the giving definitions that matches the provided path.
+func (rs *Resources) Resolve(path dispatch.Path) []ResourceDefinition {
+	res := rs.ResolveWith(path.Rem)
+
+	for _, rs := range res {
+		rs.Resolver.Resolve(path)
+		rs.active = true
+	}
+
+	return res
+}
+
+// ResolveWith resolves the giving path by testing all available resource definitions to be
 // rendered and returns a slice of all Resources sorted against the order which they should be
 // rendered.
-func (rs *Resources) Resolve(path string) []ResourceDefinition {
+func (rs *Resources) ResolveWith(path string) []ResourceDefinition {
 	var first, last, any []ResourceDefinition
 
 	for _, resource := range rs.Resources {
 		if _, _, passed := resource.Resolver.Test(path); passed {
+
 			switch resource.Order {
 			case First:
 				first = append(first, resource)
@@ -111,19 +120,45 @@ func (rs *Resources) CurrentResource() *ResourceDefinition {
 	return &(rs.Resources[rlen-1])
 }
 
+// Render creates a complete markup definition using the giving set of Resource
+// Definition.
+func (rs *Resources) render(rsx ...ResourceDefinition) trees.Markup {
+	var header = trees.NewElement("head", false)
+	var body = trees.NewElement("body", false)
+
+	for _, rx := range rsx {
+
+	}
+
+	roothtml := trees.NewElement("html", false)
+	header.Apply(roothtml)
+	body.Apply(roothtml)
+
+	return roothtml
+}
+
 // DSL defines a function type which is used to generate the contents of a Def(Definition).
 type DSL func()
+
+// ResourceViewUpdate defines a view update notification which contains the name of the
+// view to be notified for an update.
+type ResourceViewUpdate struct {
+	View     string
+	Resource string
+}
 
 // ResourceDefinition defines a high-level definition for managing resources for
 // which other definitions build from.
 type ResourceDefinition struct {
-	Dsl  DSL
-	uuid string
+	Dsl    DSL
+	active bool
+	uuid   string
 
-	Views      []targetViews
-	Markups    []targetMarkup
-	Links      []gu.StaticView
-	DeferLinks []gu.StaticView
+	Views        []gu.RenderView
+	Links        []gu.StaticView
+	DeferLinks   []gu.StaticView
+	Renderables  []targetRenderable
+	DRenderables []targetRenderable
 
 	Order    RenderingOrder
 	Resolver dispatch.Resolver
@@ -132,13 +167,26 @@ type ResourceDefinition struct {
 // Resource creates a new resource addding into the resource lists for the root.
 func Resource(dsl DSL) *ResourceDefinition {
 	var rs ResourceDefinition
-	rs.Order = Any
 	rs.Dsl = dsl
+	rs.Order = Any
 	rs.uuid = gu.NewKey()
 
 	root := GetCurrentResources()
 	root.Resources = append(root.Resources, rs)
-	return &rs
+
+	rsp := &rs
+	dispatch.Subscribe(func(rv ResourceViewUpdate) {
+		if rv.Resource != rsp.uuid {
+			return
+		}
+
+		if !rsp.active {
+			return
+		}
+
+	})
+
+	return rsp
 }
 
 // UUID returns the uuid associated with the ResourceDefinition.
@@ -158,7 +206,7 @@ func (rd *ResourceDefinition) Init() {
 	rd.Resolver.Flush()
 
 	for _, view := range rd.Views {
-		rd.Resolver.ResolvedPassed(view.View.Resolve)
+		rd.Resolver.ResolvedPassed(view.Resolve)
 	}
 }
 
@@ -192,15 +240,26 @@ func UseRoute(path string) {
 
 //==============================================================================
 
-type targetMarkup struct {
-	View    gu.StaticView
-	Targets []string
+// Viewable defines a generic interface for a generic return type. It exists to
+// give symantic representation in the areas it is used to express the expected
+// returned to be one of a Viewable souce in the context of the gu library.
+type Viewable interface{}
+
+type targetRenderable struct {
+	View    gu.Renderable
+	Targets string
 }
 
 // Markup returns a new instance of a provided value which either is a function
 // which returns a needed trees.Markup or a trees.Markup or slice of trees.Markup
 // itself.
-func Markup(markup Viewable, target interface{}, defered bool) {
+func Markup(markup Viewable, targets string, immediateRender ...bool) {
+	var immediate bool
+
+	if len(immediateRender) == 0 {
+		immediate = immediateRender[0]
+	}
+
 	var markupFn []trees.Markup
 
 	switch mo := markup.(type) {
@@ -223,45 +282,39 @@ func Markup(markup Viewable, target interface{}, defered bool) {
 		panic("Unknown markup processable type")
 	}
 
-	var targets []string
-
-	switch to := target.(type) {
-	case string:
-		targets = []string{to}
-	case []string:
-		targets = to
-	default:
-		panic("targets only allowed to be a string or a slice of string")
-	}
-
 	current := GetCurrentResources().MustCurrentResource()
 	for _, markup := range markupFn {
 		var static gu.StaticView
 		static.Content = markup
 
-		current.Markups = append(current.Markups, targetMarkup{
+		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
+
+		if len(targets) != 0 && immediate {
+			current.Renderables = append(current.Renderables, targetRenderable{
+				Targets: targets,
+				View:    &static,
+			})
+
+			continue
+		}
+
+		current.DRenderables = append(current.DRenderables, targetRenderable{
 			Targets: targets,
-			View:    static,
+			View:    &static,
 		})
 	}
 }
 
 //==============================================================================
 
-// ResourceViewUpdate defines a view update notification which contains the name of the
-// view to be notified for an update.
-type ResourceViewUpdate struct {
-	View     string
-	Resource string
-}
-
-type targetViews struct {
-	View    gu.RenderView
-	Targets string
-}
-
 // View creates a gu.RenderView and applies it to the provided resource.
-func View(vrs Viewable, target string) gu.RenderView {
+func View(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
+	var immediate bool
+
+	if len(immediateRender) == 0 {
+		immediate = immediateRender[0]
+	}
+
 	var rs gu.Renderables
 
 	switch vwo := vrs.(type) {
@@ -289,7 +342,27 @@ func View(vrs Viewable, target string) gu.RenderView {
 		})
 	}
 
-	current.Views = append(current.Views, targetViews{
+	current.Views = append(current.Views, view)
+
+	if target != "" && immediate {
+		current.Renderables = append(current.Renderables, targetRenderable{
+			Targets: target,
+			View:    view,
+		})
+
+		return view
+	}
+
+	if target != "" {
+		current.DRenderables = append(current.DRenderables, targetRenderable{
+			View:    view,
+			Targets: target,
+		})
+
+		return view
+	}
+
+	current.Renderables = append(current.Renderables, targetRenderable{
 		View:    view,
 		Targets: target,
 	})
@@ -358,3 +431,5 @@ func mLink(tag string, deffer bool) gu.StaticView {
 
 	return static
 }
+
+//==============================================================================
