@@ -9,31 +9,28 @@ import (
 	"github.com/influx6/gu/trees"
 )
 
-// Root defines a package level
-var rootRes = struct {
-	ml   sync.Mutex
-	root *Resources
+//==============================================================================
+
+var collection = struct {
+	root       *Resources
+	cl         sync.Mutex
+	collection []DSL
 }{}
 
-// UseResources allows setting the giving root by which resources functions are executed against.
-func UseResources(rs *Resources) {
-	rootRes.ml.Lock()
-	rootRes.root = rs
-	rootRes.ml.Unlock()
-}
-
-// GetCurrentResources returns the current resources being used by the design functions.
-func GetCurrentResources() *Resources {
-	rootRes.ml.Lock()
-	rs := rootRes.root
-	rootRes.ml.Unlock()
-
-	if rs != nil {
-		return rs
+func getResources() *Resources {
+	collection.cl.Lock()
+	{
+		if collection.root != nil {
+			collection.cl.Unlock()
+			return collection.root
+		}
 	}
+	collection.cl.Unlock()
 
-	panic("No Resource root has been set")
+	panic("No Root Resource Manager created.")
 }
+
+//==============================================================================
 
 // ResourceRenderer  defines an interface for a resource rendering structure which handles rendering
 // of a giving resource.
@@ -49,42 +46,82 @@ type ResourceRenderer interface {
 type Resources struct {
 	Resources []ResourceDefinition
 	renderer  ResourceRenderer
+	lastPath  dispatch.Path
 }
 
-// NewResources creates a new instance of a Resources struct and registers it as the currently used resources
-// root.
-func NewResources(renderer ...ResourceRenderer) *Resources {
-	var res Resources
+// Resource creates a new resource addding into the resource lists for the root.
+func Resource(dsl DSL) {
+	collection.cl.Lock()
+	{
+		collection.collection = append(collection.collection, dsl)
+	}
+	collection.cl.Unlock()
+}
 
+// New creates a new instance of a Resources struct and registers it as the currently used resources
+// root.
+func New(renderer ...ResourceRenderer) *Resources {
+	var rn ResourceRenderer
 	if len(renderer) > 0 {
-		res.renderer = renderer[0]
+		rn = renderer[0]
 	}
 
-	UseResources(&res)
-	return &res
+	var res Resources
+	res.renderer = rn
+
+	collection.cl.Lock()
+	{
+		collection.root = &res
+	}
+	collection.cl.Unlock()
+
+	return collection.root
 }
 
 // Init intializes all attached resources under its giving resource list.
-func (rs *Resources) Init(useHashOnly ...bool) {
-	// var watchHash bool
+func (rs *Resources) Init(useHashOnly ...bool) *Resources {
+	var watchHash bool
 
-	// if len(useHashOnly) != 0 {
-	// 	watchHash = useHashOnly[0]
-	// }
-
-	// dispatch.Subscribe(func(pd dispatch.PathDirective) {
-	// 	collects :=
-	// 	if !watchHash {
-	// 		rsx.Resolve(dispatch.UseDirective(pd))
-	// 		return
-	// 	}
-
-	// 	rsx.Resolve(dispatch.UseHashDirective(pd))
-	// })
-
-	for _, res := range rs.Resources {
-		res.Init()
+	if len(useHashOnly) != 0 {
+		watchHash = useHashOnly[0]
 	}
+
+	dispatch.Subscribe(func(pd dispatch.PathDirective) {
+		if !watchHash {
+			psx := dispatch.UseDirective(pd)
+
+			if psx.String() == rs.lastPath.String() {
+				return
+			}
+
+			rs.lastPath = psx
+
+			if rs.renderer != nil {
+				rs.renderer.Render(rs.Resolve(psx)...)
+			}
+
+			return
+		}
+
+		psx := dispatch.UseHashDirective(pd)
+		if psx.String() == rs.lastPath.String() {
+			return
+		}
+
+		rs.lastPath = psx
+
+		if rs.renderer != nil {
+			rs.renderer.Render(rs.Resolve(psx)...)
+		}
+	})
+
+	for _, dsl := range collection.collection {
+		res := newResource(rs, dsl)
+		rs.Resources = append(rs.Resources, *res)
+		rs.Init()
+	}
+
+	return rs
 }
 
 // Resolve returns the giving definitions that matches the provided path.
@@ -143,29 +180,62 @@ func (rs *Resources) CurrentResource() *ResourceDefinition {
 }
 
 // Render creates a complete markup definition using the giving set of Resource
-// Definition.
-func (rs *Resources) Render(rsx ...ResourceDefinition) trees.Markup {
-	var header = trees.NewElement("head", false)
-	var body = trees.NewElement("body", false)
+// Definition by applying the giving path.
+func (rs *Resources) Render(path dispatch.Path) *trees.Markup {
+	return rs.render(rs.Resolve(path)...)
+}
+
+// render performs the needed work of collecting the giving markups and
+// creating the complete html rendering.
+func (rs *Resources) render(rsx ...ResourceDefinition) *trees.Markup {
+	var head = trees.NewMarkup("head", false)
+	var body = trees.NewMarkup("body", false)
 
 	for _, rx := range rsx {
 
 		for _, item := range rx.Links {
-		}
-		for _, item := range rx.Renderables {
-		}
-		for _, item := range rx.DRenderables {
-		}
-		for _, item := range rx.DeferLinks {
+			item.Render().ApplyMorphers().Apply(head)
 		}
 
+		for _, item := range rx.Renderables {
+			markup := item.View.Render().ApplyMorphers()
+
+			if item.Targets != "" {
+				for _, target := range trees.MarkupQueries.QueryAll(body, item.Targets) {
+					markup.Apply(target)
+				}
+
+				continue
+			}
+
+			markup.Apply(body)
+		}
+
+		// Render all deferred renderables into the body markup
+		for _, item := range rx.DRenderables {
+			markup := item.View.Render().ApplyMorphers()
+
+			if item.Targets != "" {
+				for _, target := range trees.MarkupQueries.QueryAll(body, item.Targets) {
+					markup.Apply(target)
+				}
+
+				continue
+			}
+
+			markup.Apply(body)
+		}
+
+		for _, item := range rx.DeferLinks {
+			item.Render().ApplyMorphers().Apply(body)
+		}
 	}
 
-	roothtml := trees.NewElement("html", false)
-	header.Apply(roothtml)
-	body.Apply(roothtml)
+	htmlMarkup := trees.NewMarkup("html", false)
+	head.Apply(htmlMarkup)
+	body.Apply(htmlMarkup)
 
-	return roothtml
+	return htmlMarkup
 }
 
 // DSL defines a function type which is used to generate the contents of a Def(Definition).
@@ -178,31 +248,13 @@ type ResourceViewUpdate struct {
 	Resource string
 }
 
-// ResourceDefinition defines a high-level definition for managing resources for
-// which other definitions build from.
-type ResourceDefinition struct {
-	Dsl    DSL
-	active bool
-	uuid   string
-
-	Views        []gu.RenderView
-	Links        []gu.StaticView
-	DeferLinks   []gu.StaticView
-	Renderables  []targetRenderable
-	DRenderables []targetRenderable
-
-	Order    RenderingOrder
-	Renderer ResourceRenderer
-	Resolver dispatch.Resolver
-}
-
-// Resource creates a new resource addding into the resource lists for the root.
-func Resource(dsl DSL) *ResourceDefinition {
-	root := GetCurrentResources()
-
+// newResource creates a new ResourceDefinition instance and adds the
+// new resource into the root ResourceDefinition list.
+func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 	var rs ResourceDefinition
 	rs.Dsl = dsl
 	rs.Order = Any
+	rs.Root = root
 	rs.uuid = gu.NewKey()
 	rs.Renderer = root.renderer
 
@@ -221,6 +273,25 @@ func Resource(dsl DSL) *ResourceDefinition {
 	})
 
 	return rsp
+}
+
+// ResourceDefinition defines a high-level definition for managing resources for
+// which other definitions build from.
+type ResourceDefinition struct {
+	Dsl    DSL
+	active bool
+	uuid   string
+
+	Views        []gu.RenderView
+	Links        []gu.StaticView
+	DeferLinks   []gu.StaticView
+	Renderables  []targetRenderable
+	DRenderables []targetRenderable
+
+	Order    RenderingOrder
+	Renderer ResourceRenderer
+	Resolver dispatch.Resolver
+	Root     *Resources
 }
 
 // UUID returns the uuid associated with the ResourceDefinition.
@@ -262,14 +333,14 @@ const (
 
 // Order defines a high level function which sets/resets the RenderingOrder of the current ResourceDefinition.
 func Order(mode RenderingOrder) {
-	GetCurrentResources().MustCurrentResource().Order = mode
+	getResources().MustCurrentResource().Order = mode
 }
 
 //==============================================================================
 
 // UseRoute sets the giving route for the currently used resource of the giving resource root.
 func UseRoute(path string) {
-	GetCurrentResources().MustCurrentResource().Resolver = dispatch.NewResolver(path)
+	getResources().MustCurrentResource().Resolver = dispatch.NewResolver(path)
 }
 
 //==============================================================================
@@ -294,17 +365,17 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 		immediate = immediateRender[0]
 	}
 
-	var markupFn []trees.Markup
+	var markupFn []*trees.Markup
 
 	switch mo := markup.(type) {
-	case func() []trees.Markup:
+	case func() []*trees.Markup:
 		markupFn = mo()
-	case []trees.Markup:
+	case []*trees.Markup:
 		markupFn = mo
-	case func() trees.Markup:
-		markupFn = []trees.Markup{mo()}
-	case trees.Markup:
-		markupFn = []trees.Markup{mo}
+	case func() *trees.Markup:
+		markupFn = []*trees.Markup{mo()}
+	case *trees.Markup:
+		markupFn = []*trees.Markup{mo}
 	case string:
 		mp, err := trees.ParseTree(mo)
 		if err != nil {
@@ -316,7 +387,7 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 		panic("Unknown markup processable type")
 	}
 
-	current := GetCurrentResources().MustCurrentResource()
+	current := getResources().MustCurrentResource()
 	for _, markup := range markupFn {
 		var static gu.StaticView
 		static.Content = markup
@@ -364,7 +435,7 @@ func View(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
 		panic("View must either recieve a function that returns Renderables or Renderables themselves")
 	}
 
-	current := GetCurrentResources().MustCurrentResource()
+	current := getResources().MustCurrentResource()
 	view := gu.CustomView("section", events.NewEventManager(), rs...)
 
 	if rvw, ok := view.(gu.Reactive); ok {
@@ -453,9 +524,9 @@ func Metas(props map[string]string) {
 // page content.
 func mLink(tag string, deffer bool) gu.StaticView {
 	var static gu.StaticView
-	static.Content = trees.NewElement(tag, false)
+	static.Content = trees.NewMarkup(tag, false)
 
-	current := GetCurrentResources().MustCurrentResource()
+	current := getResources().MustCurrentResource()
 
 	if deffer {
 		current.DeferLinks = append(current.DeferLinks, static)

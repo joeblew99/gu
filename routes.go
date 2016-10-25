@@ -115,11 +115,11 @@ func newRouting(path string, morpher trees.SwitchMorpher) *routing {
 
 // Morph implements the Morpher interface providing the routing with the ability.
 // It lets routing morph markup passed into it.
-func (r *routing) Morph(mr trees.Markup) trees.Markup {
+func (r *routing) Morph(mr *trees.Markup) *trees.Markup {
 	return r.m.Morph(mr)
 }
 
 // Apply adds this routing as a morpher into the provided markup.
-func (r *routing) Apply(mr trees.Markup) {
+func (r *routing) Apply(mr *trees.Markup) {
 	mr.AddMorpher(r)
 }

@@ -37,7 +37,7 @@ func NewKey() string {
 
 // Renderable provides a interface for a renderable type.
 type Renderable interface {
-	Render() trees.Markup
+	Render() *trees.Markup
 }
 
 // Renderables defines a lists of Renderable structures.

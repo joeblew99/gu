@@ -10,15 +10,15 @@ import (
 	"github.com/influx6/gu/js"
 )
 
-// DOMResourceRenderer defines an implementation for gu.design.ResourceRenderere
+// DOMRenderer defines an implementation for gu.design.ResourceRenderere
 // and handles rendering of a giving group of resources into the live DOM body root.
-type DOMResourceRenderer struct {
+type DOMRenderer struct {
 	Document hdom.Document
 }
 
 // Render renders the giving set of resources into the provided body and header
 // of the DOM.
-func (dm *DOMResourceRenderer) Render(rs ...design.ResourceDefinition) {
+func (dm *DOMRenderer) Render(rs ...design.ResourceDefinition) {
 	head := dm.Document.QuerySelector("head")
 	body := dm.Document.QuerySelector("body")
 
@@ -57,7 +57,7 @@ func (dm *DOMResourceRenderer) Render(rs ...design.ResourceDefinition) {
 
 // RenderUpdate handles rendering calls for individual renderers which may have
 // determined targets within the body.
-func (dm *DOMResourceRenderer) RenderUpdate(rv gu.Renderable, targets string) {
+func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string) {
 	body := dm.Document.QuerySelector("body")
 
 	if targets == "" {
@@ -81,7 +81,8 @@ func (dm *DOMResourceRenderer) RenderUpdate(rv gu.Renderable, targets string) {
 		}
 	}
 
+	markup := rv.Render()
 	for _, targetDOM := range kernels {
-		js.Patch(js.CreateFragment(rv.Render().HTML()), targetDOM.Underlying(), false)
+		js.Patch(js.CreateFragment(markup.HTML()), targetDOM.Underlying(), false)
 	}
 }

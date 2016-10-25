@@ -13,11 +13,11 @@ import (
 // StaticView defines a MarkupRenderer implementing structure which returns its Content has
 // its markup.
 type StaticView struct {
-	Content trees.Markup
+	Content *trees.Markup
 }
 
 // Render returns the markup for the static view.
-func (s *StaticView) Render() trees.Markup {
+func (s *StaticView) Render() *trees.Markup {
 	return s.Content
 }
 
@@ -54,7 +54,7 @@ type view struct {
 	tag     string
 	uuid    string
 	hide    bool
-	live    trees.Markup
+	live    *trees.Markup
 	renders []Renderable
 	events  events.EventManagers
 }
@@ -85,14 +85,14 @@ func (v *view) RenderHTML() template.HTML {
 }
 
 // Render returns the groups markup for the giving render group.
-func (v *view) Render() trees.Markup {
+func (v *view) Render() *trees.Markup {
 	if len(v.renders) == 0 {
-		return trees.NewElement(v.tag, false)
+		return trees.NewMarkup(v.tag, false)
 	}
 
-	var root trees.Markup
+	var root *trees.Markup
 	if len(v.renders) > 1 {
-		root = trees.NewElement(v.tag, false)
+		root = trees.NewMarkup(v.tag, false)
 
 		for _, view := range v.renders {
 			view.Render().Apply(root)
@@ -112,14 +112,8 @@ func (v *view) Render() trees.Markup {
 		live.Empty()
 	}
 
-	if swapper, ok := root.(trees.SwappableIdentity); ok {
-		swapper.SwapUID(v.uuid)
-	}
-
-	if eventers, ok := root.(trees.Eventers); ok {
-		eventers.UseEventManager(v.events)
-	}
-
+	root.SwapUID(v.uuid)
+	root.UseEventManager(v.events)
 	root = root.ApplyMorphers()
 
 	v.events.LoadUpEvents()
