@@ -50,12 +50,17 @@ type Resources struct {
 }
 
 // Resource creates a new resource addding into the resource lists for the root.
-func Resource(dsl DSL) {
+func Resource(dsl DSL) int {
+	var index int
+
 	collection.cl.Lock()
 	{
 		collection.collection = append(collection.collection, dsl)
+		index = len(collection.collection)
 	}
 	collection.cl.Unlock()
+
+	return index
 }
 
 // New creates a new instance of a Resources struct and registers it as the currently used resources
@@ -76,6 +81,11 @@ func New(renderer ...ResourceRenderer) *Resources {
 	collection.cl.Unlock()
 
 	return collection.root
+}
+
+// GetIndex returns the resource for this giving index.
+func (rs *Resources) GetIndex(index int) *ResourceDefinition {
+	return &(rs.Resources[index])
 }
 
 // Init intializes all attached resources under its giving resource list.
