@@ -44,9 +44,9 @@ type ResourceRenderer interface {
 // It also contains a nStack which contains resource which must be rendered regardless of the
 // current resources available.
 type Resources struct {
+	lastPath  dispatch.Path
 	Resources []ResourceDefinition
 	renderer  ResourceRenderer
-	lastPath  dispatch.Path
 }
 
 // Resource creates a new resource addding into the resource lists for the root.
@@ -73,13 +73,6 @@ func New(renderer ...ResourceRenderer) *Resources {
 
 	var res Resources
 	res.renderer = rn
-
-	collection.cl.Lock()
-	{
-		collection.root = &res
-	}
-	collection.cl.Unlock()
-
 	return collection.root
 }
 
@@ -124,11 +117,27 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 		}
 	})
 
-	for _, dsl := range collection.collection {
+	var dslList []DSL
+
+	collection.cl.Lock()
+	{
+		dslList = collection.collection
+		collection.root = rs
+		collection.collection = nil
+	}
+	collection.cl.Unlock()
+
+	for _, dsl := range dslList {
 		res := newResource(rs, dsl)
 		rs.Resources = append(rs.Resources, *res)
 		res.Init()
 	}
+
+	collection.cl.Lock()
+	{
+		collection.root = nil
+	}
+	collection.cl.Unlock()
 
 	return rs
 }
@@ -266,6 +275,7 @@ type ResourceDefinition struct {
 	Renderer ResourceRenderer
 	Resolver dispatch.Resolver
 	Root     *Resources
+	Events   events.EventManagers
 }
 
 // ResourceViewUpdate defines a view update notification which contains the name of the
@@ -285,6 +295,8 @@ func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 	rs.Root = root
 	rs.uuid = gu.NewKey()
 	rs.Renderer = root.renderer
+	rs.Events = events.NewEventManager()
+	rs.Resolver = dispatch.NewResolver("*")
 
 	root.Resources = append(root.Resources, rs)
 
@@ -312,12 +324,6 @@ func (rd *ResourceDefinition) UUID() string {
 // Initialize runs the underline DSL for the
 func (rd *ResourceDefinition) Init() {
 	rd.Dsl()
-
-	// If no resolver is provided then use a all path resolver.
-	if rd.Resolver == nil {
-		rd.Resolver = dispatch.NewResolver("*")
-	}
-
 	rd.Resolver.Flush()
 
 	for _, view := range rd.Views {
@@ -399,15 +405,15 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 
 	current := getResources().MustCurrentResource()
 	for _, markup := range markupFn {
-		var static gu.StaticView
-		static.Content = markup
+		static := gu.Static(markup)
+		static.Content.UseEventManager(current.Events)
 
 		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
 
 		if targets != "" && immediate {
 			current.Renderables = append(current.Renderables, targetRenderable{
 				Targets: targets,
-				View:    &static,
+				View:    static,
 			})
 
 			continue
@@ -416,7 +422,7 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 		if targets == "" {
 			current.Renderables = append(current.Renderables, targetRenderable{
 				Targets: targets,
-				View:    &static,
+				View:    static,
 			})
 
 			continue
@@ -424,7 +430,7 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 
 		current.DRenderables = append(current.DRenderables, targetRenderable{
 			Targets: targets,
-			View:    &static,
+			View:    static,
 		})
 	}
 }
@@ -455,7 +461,7 @@ func View(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
 	}
 
 	current := getResources().MustCurrentResource()
-	view := gu.CustomView("section", events.NewEventManager(), rs...)
+	view := gu.CustomView("section", current.Events, rs...)
 
 	if rvw, ok := view.(gu.Reactive); ok {
 		rvw.React(func() {

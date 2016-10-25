@@ -31,6 +31,7 @@ type Resolver interface {
 // the Resolver interface.
 func NewResolver(path string) Resolver {
 	var br basicResolver
+	br.path = path
 
 	if path != "" {
 		br.matcher = URIMatcher(path)
@@ -41,10 +42,11 @@ func NewResolver(path string) Resolver {
 
 // basicResolver defines a struct that implements
 type basicResolver struct {
-	matcher  pattern.URIMatcher
-	subs     []ResolveSubscriber
-	fails    []ResolveSubscriber
+	path     string
 	children []Resolver
+	fails    []ResolveSubscriber
+	subs     []ResolveSubscriber
+	matcher  pattern.URIMatcher
 }
 
 // Flush resets the subscriptions and children lists to empty.

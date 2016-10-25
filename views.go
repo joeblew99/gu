@@ -16,6 +16,14 @@ type StaticView struct {
 	Content *trees.Markup
 }
 
+// Static defines a toplevel function which returns a new instance of a StaticView using the
+// provided markup as its content.
+func Static(tree *trees.Markup) *StaticView {
+	return &StaticView{
+		Content: tree,
+	}
+}
+
 // Render returns the markup for the static view.
 func (s *StaticView) Render() *trees.Markup {
 	return s.Content

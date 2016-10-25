@@ -229,9 +229,11 @@ func (m *ElementWriter) Print(e *Markup) string {
 			return ""
 		}()),
 		beginbrack,
+		"\n",
 		e.textContent,
 		strings.Join(children, ""),
 		closer,
+		"\n",
 	}, "")
 }
 

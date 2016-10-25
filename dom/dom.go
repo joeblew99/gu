@@ -32,6 +32,7 @@ func (dm *DOMRenderer) Render(rs ...design.ResourceDefinition) {
 	}
 
 	for _, res := range rs {
+		res.Events.LoadDOM(body.Underlying())
 
 		// Render the normal links first.
 		for _, item := range res.Links {

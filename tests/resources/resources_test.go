@@ -4,13 +4,18 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/influx6/gu"
 	"github.com/influx6/gu/design"
+	"github.com/influx6/gu/dispatch"
 	"github.com/influx6/gu/tests"
 	"github.com/influx6/gu/trees"
 	"github.com/influx6/gu/trees/elems"
 )
 
 func TestResource(t *testing.T) {
+	trees.SetMode(trees.Testing)
+	defer trees.SetMode(trees.Normal)
+
 	_ = design.Resource(func() {
 
 		design.Order(design.Any)
@@ -74,9 +79,14 @@ func TestResource(t *testing.T) {
 }
 
 func TestResourceRendering(t *testing.T) {
+	trees.SetMode(trees.Testing)
+	defer trees.SetMode(trees.Normal)
+
 	_ = design.Resource(func() {
 		design.Order(design.Any)
 		design.UseRoute("/home")
+
+		routes := gu.NewRouteManager()
 
 		design.CSS("../some.css", false)
 		design.Scripts("../some.js", "text/javascript", false)
@@ -91,10 +101,20 @@ func TestResourceRendering(t *testing.T) {
 			)
 		}, "", false)
 
+		design.View(gu.Static(elems.Div(
+			elems.Section(
+				routes.L("/home/*").N("/speed"),
+				elems.Label(elems.Text("Current Speed")),
+			),
+		)), "", false)
+
 	})
 
 	master := design.New().Init()
 
-	testRender := master.Render("/home")
-	fmt.Printf("Param: %s\n", testRender.HTML())
+	testRender := master.Render(dispatch.UseLocation("/home"))
+	fmt.Printf("Param: %q\n", testRender.HTML())
+
+	testRender = master.Render(dispatch.UseLocation("/root"))
+	fmt.Printf("Param: %q\n", testRender.HTML())
 }

@@ -55,8 +55,8 @@ func NewMarkup(tag string, hasNoEndingTag bool) *Markup {
 		allowEvents:     true,
 		uid:             RandString(8),
 		hash:            RandString(10),
-		tagname:         strings.ToLower(strings.TrimSpace(tag)),
 		autoclose:       hasNoEndingTag,
+		tagname:         strings.ToLower(strings.TrimSpace(tag)),
 		attrs:           []Property{NewAttr("data-gen", "gu")},
 	}
 }
@@ -136,45 +136,31 @@ func (e *Markup) AddAttribute(p Property) {
 
 //==============================================================================
 
-// Eventers provide an interface type for elements able to register and load
-// event managers.
-type Eventers interface {
-	LoadEvents()
-	UseEventManager(events.EventManagers) bool
-}
-
 // UseEventManager adds a eventmanager into the markup and if not available before automatically registers
 // the events with it,once an event manager is registered to it,it will and can not be changed
-func (e *Markup) UseEventManager(man events.EventManagers) bool {
-	if e.eventManager != nil {
-		man.AttachManager(e.eventManager)
-		return false
+func (e *Markup) UseEventManager(man events.EventManagers) {
+	if man == nil {
+		return
 	}
 
 	e.eventManager = man
 	e.LoadEvents()
-	return true
 }
 
 // LoadEvents loads up the events registered by this and by its children into each respective
-// available events managers
+// available events managers.
 func (e *Markup) LoadEvents() {
-	if e.eventManager != nil {
-		e.eventManager.DisconnectRemoved()
+	e.eventManager.DisconnectRemoved()
 
-		for _, ev := range e.events {
-			if es, _ := e.eventManager.NewEventMeta(ev.Meta()); es != nil {
-				es.Q(ev.Fire)
-			}
+	for _, ev := range e.events {
+		if es, _ := e.eventManager.NewEventMeta(ev.Meta()); es != nil {
+			es.Q(ev.Fire)
 		}
-
 	}
 
 	//load up the children events also
 	for _, ems := range e.children {
-		if !ems.UseEventManager(e.eventManager) {
-			ems.LoadEvents()
-		}
+		ems.UseEventManager(e.eventManager)
 	}
 }
 
@@ -229,6 +215,10 @@ func (e *Markup) ApplyMorphers() *Markup {
 		}
 
 		base = morpher.Morph(base)
+	}
+
+	if base == nil {
+		base = e
 	}
 
 	return base
