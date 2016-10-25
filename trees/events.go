@@ -8,11 +8,11 @@ type Event interface {
 	EventID() string
 	SetEventID(string)
 
-	Apply(Markup)
+	Apply(*Markup)
 
 	Meta() events.EventMeta
-	Tree() Markup
-	SetTree(Markup)
+	Tree() *Markup
+	SetTree(*Markup)
 
 	Fire(events.Event)
 
@@ -24,14 +24,14 @@ type Event interface {
 
 // EventHandler provides a custom event handler which allows access to the
 // markup producing the event.
-type EventHandler func(events.Event, Markup)
+type EventHandler func(events.Event, *Markup)
 
 // EventObject provide a meta registry for helps in registering events for dom markups
 // which is translated to the nodes themselves
 type EventObject struct {
 	meta *events.EventMetable
 	fx   EventHandler
-	tree Markup
+	tree *Markup
 }
 
 // NewEvent returns a event object that allows registering events to eventlisteners
@@ -88,12 +88,12 @@ func (e *EventObject) EventID() string {
 }
 
 // Tree returns the current tree used for attachment by the event.
-func (e *EventObject) Tree() Markup {
+func (e *EventObject) Tree() *Markup {
 	return e.tree
 }
 
 // SetTree sets the current tree for which the events bind to.
-func (e *EventObject) SetTree(m Markup) {
+func (e *EventObject) SetTree(m *Markup) {
 	e.tree = m
 }
 
@@ -116,41 +116,13 @@ func (e *EventObject) Clone() Event {
 }
 
 // Apply adds the event into the elements events lists
-func (e *EventObject) Apply(ex Markup) {
-	EventApplier.Apply(ex, e)
-}
-
-//==============================================================================
-
-// EventApplier defines a package level event applier for events.
-var EventApplier eventy
-
-type eventy struct{}
-
-// MarkupEventProvider defines an interface for MarkupEvents providers that
-// allows structures to register events for themselves.
-type MarkupEventProvider interface {
-	MarkupState
-	EventID() string
-	AddEvent(Event)
-}
-
-// Apply adds the event into the elements events lists
-func (eventy) Apply(ex Markup, ev Event) {
-	if ev == nil {
-		return
-	}
-
-	if em, ok := ex.(MarkupEventProvider); ok {
-		if em.AllowEvents() {
-			if ev.EventID() == "" {
-				ev.SetEventID(ex.EventID())
-			}
-
-			ev.SetTree(ex)
-			em.AddEvent(ev)
+func (e *EventObject) Apply(ex *Markup) {
+	if ex.allowEvents {
+		if e.EventID() == "" {
+			e.SetEventID(ex.EventID())
 		}
+
+		e.SetTree(ex)
+		ex.AddEvent(e)
 	}
 }
-
-//==============================================================================

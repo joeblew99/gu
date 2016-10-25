@@ -8,20 +8,20 @@ var (
 	Show showMarkup
 )
 
-// hideMarkup provides a markup property modifier for  setting style property
+// hide*Markup provides a markup property modifier for  setting style property
 // to hidden.
 type hideMarkup struct{}
 
 // Mod marks the given markup as display:none
-func (v hideMarkup) Mode(m Markup) {
+func (v hideMarkup) Mode(m *Markup) {
 	ReplaceORAddStyle(m, "display", "none")
 }
 
-// showMarkup provides a markup property modifier for  setting style property
+// show*Markup provides a markup property modifier for  setting style property
 // to displayed.
 type showMarkup struct{}
 
 // Mod marks the given markup with a display: block
-func (v showMarkup) Mode(m Markup) {
+func (v showMarkup) Mode(m *Markup) {
 	ReplaceORAddStyle(m, "display", "block")
 }

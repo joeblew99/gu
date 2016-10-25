@@ -17,11 +17,9 @@ func RandString(n int) string {
 }
 
 // Augment adds new markup to an the root if its Element
-func Augment(root Markup, m ...Markup) {
-	if el, ok := root.(*Element); ok {
-		for _, mo := range m {
-			mo.Apply(el)
-		}
+func Augment(root *Markup, m ...*Markup) {
+	for _, mo := range m {
+		mo.Apply(root)
 	}
 }
 
@@ -320,19 +318,11 @@ func ReplaceORAddAttribute(m Properties, name string, val string) {
 
 //==============================================================================
 
-// MarkupProps defines a custom type that combines the Markup, Styles and
-// Attributes interfaces.
-type MarkupProps interface {
-	Properties
-	Children
-	Appliable
-}
-
 // ElementsUsingStyle returns the children within the element matching the
 // stlye restrictions passed.
 // NOTE: is uses StyleContains
-func ElementsUsingStyle(root MarkupProps, key string, val string) []Markup {
-	var found []Markup
+func ElementsUsingStyle(root *Markup, key string, val string) []*Markup {
+	var found []*Markup
 
 	for _, ch := range root.Children() {
 		if StyleContains(ch, key, val) {
@@ -348,8 +338,8 @@ func ElementsUsingStyle(root MarkupProps, key string, val string) []Markup {
 // ElementsWithAttr returns the children within the element matching the
 // stlye restrictions passed.
 // NOTE: is uses AttrContains
-func ElementsWithAttr(root MarkupProps, key string, val string) []Markup {
-	var found []Markup
+func ElementsWithAttr(root *Markup, key string, val string) []*Markup {
+	var found []*Markup
 
 	for _, ch := range root.Children() {
 		if AttrContains(ch, key, val) {
@@ -364,8 +354,8 @@ func ElementsWithAttr(root MarkupProps, key string, val string) []Markup {
 
 // ElementsWithTag returns elements matching the tag type in the parent markup children list
 // only without going deeper into children's children lists.
-func ElementsWithTag(root MarkupProps, tag string) []Markup {
-	var found []Markup
+func ElementsWithTag(root *Markup, tag string) []*Markup {
+	var found []*Markup
 
 	tag = strings.TrimSpace(strings.ToLower(tag))
 	for _, ch := range root.Children() {

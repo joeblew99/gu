@@ -180,98 +180,99 @@ patchloop:
 		sel := fmt.Sprintf(`%s[uid='%s']`, strings.ToLower(tagname), uid)
 
 		// we know hash and uid are not empty so we kick ass the easy way
-		target := QuerySelector(live, sel)
-
-		// log.Printf("textElem %s -> %s -> %s : target -> %+s", node, node.Get("tagName"), sel, target)
+		targets := QuerySelectorAll(live, sel)
 
 		// if we are nil then its a new node add it and return
-		if target == nil || target == js.Undefined {
+		if len(targets) == 0 {
 			ContextAppendChild(live, node)
 			continue patchloop
 		}
 
-		if onlyReplace {
-			ReplaceNode(live, node, target)
-			continue patchloop
-		}
+		for _, target := range targets {
+			// log.Printf("textElem %s -> %s -> %s : target -> %+s", node, node.Get("tagName"), sel, target)
 
-		//if we are to be removed then remove the target
-		if HasAttribute(node, "NodeRemoved") {
-			tgName := node.Get("tagName").String()
-
-			// If its a tag in our header kdis, attempt to remove from head.
-			if headerKids[tgName] {
-				dom := js.Global.Get("document").Call("querySelector", "head")
-				RemoveChild(dom, node)
-			}
-
-			// If its a script attempt to remove from head and body.
-			if tgName == "script" {
-				body := js.Global.Get("document").Call("querySelector", "body")
-				head := js.Global.Get("document").Call("querySelector", "head")
-
-				RemoveChild(head, node)
-				RemoveChild(body, node)
-			}
-
-			// Lastly attempt to remove from target itself.
-			RemoveChild(target, target)
-			continue patchloop
-		}
-
-		// if the target hash is exactly the same with ours skip it
-		if GetAttribute(target, "hash") == hash {
-			continue patchloop
-		}
-
-		nchildren := ChildNodeList(node)
-		// log.Printf("Checking size of children %s %d", sel, len(nchildren))
-		//if the new node has no children, then just replace it
-		// if len(elem.ChildNodes()) <= 0 {
-		if len(nchildren) <= 0 {
-			// live.ReplaceChild(node, target)
-			ReplaceNode(live, node, target)
-			continue patchloop
-		}
-
-		//here we are not be removed and we do have kids
-
-		//cleanout all the targets text-nodes
-		CleanAllTextNode(target)
-
-		//so we got this dude, are we already one level deep ? if so swap else
-		// run through the children with Patch
-		// if level >= 1 {
-		// live.ReplaceChild(node, target)
-		attrs := Attributes(node)
-
-		for key, value := range attrs {
-			SetAttribute(target, key, value)
-		}
-
-		children := ChildNodeList(target)
-
-		// log.Printf("checking targets children %+s %d", target, len(children))
-		if len(children) <= 1 {
-			SetInnerHTML(target, "")
-
-			ContextAppendChild(target, nchildren...)
-
-			// for _, enode := range nchildren {
-			// 	target.AppendChild(enode)
+			// // if we are nil then its a new node add it and return
+			// if target == nil || target == js.Undefined {
+			// 	ContextAppendChild(live, node)
+			// 	// continue patchloop
+			// 	continue
 			// }
 
-			continue patchloop
+			if onlyReplace {
+				ReplaceNode(live, node, target)
+				// continue patchloop
+				continue
+			}
+
+			//if we are to be removed then remove the target
+			if HasAttribute(node, "NodeRemoved") {
+				tgName := node.Get("tagName").String()
+
+				// If its a tag in our header kdis, attempt to remove from head.
+				if headerKids[tgName] {
+					dom := js.Global.Get("document").Call("querySelector", "head")
+					RemoveChild(dom, node)
+				}
+
+				// If its a script attempt to remove from head and body.
+				if tgName == "script" {
+					body := js.Global.Get("document").Call("querySelector", "body")
+					head := js.Global.Get("document").Call("querySelector", "head")
+
+					RemoveChild(head, node)
+					RemoveChild(body, node)
+				}
+
+				// Lastly attempt to remove from target itself.
+				RemoveChild(target, target)
+				// continue patchloop
+				continue
+			}
+
+			// if the target hash is exactly the same with ours skip it
+			if GetAttribute(target, "hash") == hash {
+				// continue patchloop
+				continue
+			}
+
+			nchildren := ChildNodeList(node)
+
+			//if the new node has no children, then just replace it.
+			if len(nchildren) <= 0 {
+				// live.ReplaceChild(node, target)
+				ReplaceNode(live, node, target)
+				// continue patchloop
+				continue
+			}
+
+			//here we are not be removed and we do have kids
+
+			//cleanout all the targets text-nodes
+			CleanAllTextNode(target)
+
+			//so we got this dude, are we already one level deep ? if so swap else
+			// run through the children with Patch
+			// if level >= 1 {
+			// live.ReplaceChild(node, target)
+			attrs := Attributes(node)
+
+			for key, value := range attrs {
+				SetAttribute(target, key, value)
+			}
+
+			children := ChildNodeList(target)
+
+			// log.Printf("checking targets children %+s %d", target, len(children))
+			if len(children) == 0 {
+				SetInnerHTML(target, "")
+				ContextAppendChild(target, nchildren...)
+
+				// continue patchloop
+				continue
+			}
+
+			Patch(node, target, onlyReplace)
 		}
-
-		Patch(node, target, onlyReplace)
-		// }
-
-		// default:
-		// 	// add it if its not an element
-		// 	AppendChild(live, node)
-		// live.AppendChild(node)
-		// }
 	}
 }
 

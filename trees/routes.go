@@ -5,7 +5,7 @@ import "sync"
 // Morpher defines an interface which morphs the giving markup based on
 // its current internal state based on some internal condition.
 type Morpher interface {
-	Morph(Markup) Markup
+	Morph(*Markup) *Markup
 }
 
 // SwitchMorpher defines an interface which allows switching the behaviour of
@@ -38,7 +38,7 @@ func (r *RemoveMorpher) Off(m interface{}) {
 }
 
 // Morph sets the markup received as removed.
-func (r *RemoveMorpher) Morph(m Markup) Markup {
+func (r *RemoveMorpher) Morph(m *Markup) *Markup {
 	r.wl.RLock()
 	{
 		if r.remove {
@@ -73,7 +73,7 @@ func (r *HideMorpher) Off(m interface{}) {
 }
 
 // Morph sets the markup received as removed.
-func (r *HideMorpher) Morph(m Markup) Markup {
+func (r *HideMorpher) Morph(m *Markup) *Markup {
 	r.wl.RLock()
 	{
 		if r.hidden {

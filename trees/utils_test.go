@@ -52,24 +52,24 @@ func TestFinders(t *testing.T) {
 	t.Logf("\t%s\t  Should have been able to find a label element", success)
 }
 
-func generateMarkup() trees.Markup {
-	body := trees.NewElement("body", false)
+func generateMarkup() *trees.Markup {
+	body := trees.NewMarkup("body", false)
 	trees.NewStyle("width", "auto").Apply(body)
 	trees.NewAttr("id", "main-wrapper").Apply(body)
 
-	root := trees.NewElement("div", false)
+	root := trees.NewMarkup("div", false)
 	trees.NewAttr("id", "root-div").Apply(root)
 	trees.NewAttr("class", "roots").Apply(root)
 	trees.NewStyle("width", "100px").Apply(root)
-	trees.NewElement("section", false).Apply(root)
+	trees.NewMarkup("section", false).Apply(root)
 	root.Apply(body)
 
-	root2 := trees.NewElement("div", false)
+	root2 := trees.NewMarkup("div", false)
 	trees.NewAttr("id", "root-div-2").Apply(root2)
 	trees.NewAttr("class", "roots").Apply(root2)
 	root2.Apply(body)
 
-	label := trees.NewElement("label", false)
+	label := trees.NewMarkup("label", false)
 	trees.NewStyle("width", "200px").Apply(label)
 	label.Apply(root2)
 

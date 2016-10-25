@@ -8,7 +8,7 @@ import "strings"
 // It provides a apply and RenderAttribute which returns the key
 // and value for that attribute.
 type Property interface {
-	Apply(Markup)
+	Apply(*Markup)
 	Clone() Property
 	Render() (string, string)
 }
@@ -35,47 +35,6 @@ func When(state bool, first Property, other Property) Property {
 
 //==============================================================================
 
-// PropertyApplier defines a package level property applier for markup properties.
-var PropertyApplier properties
-
-type properties struct{}
-
-// MarkupPropertiesProvider defines a interface for a markup to register
-// properties for themselves
-type MarkupPropertiesProvider interface {
-	MarkupState
-	AddAttribute(Property)
-	AddStyle(Property)
-}
-
-// ApplyAttribute adds the property into the Markup attribute lists
-func (properties) ApplyAttribute(ex Markup, p Property) {
-	if p == nil {
-		return
-	}
-
-	if em, ok := ex.(MarkupPropertiesProvider); ok {
-		if em.AllowAttributes() {
-			em.AddAttribute(p)
-		}
-	}
-}
-
-// ApplyStyle adds the property into the Markup style lists
-func (properties) ApplyStyle(ex Markup, p Property) {
-	if p == nil {
-		return
-	}
-
-	if em, ok := ex.(MarkupPropertiesProvider); ok {
-		if em.AllowStyles() {
-			em.AddStyle(p)
-		}
-	}
-}
-
-//==============================================================================
-
 // Attribute define the struct  for attributes
 type Attribute struct {
 	Name  string
@@ -94,8 +53,10 @@ func (a *Attribute) Render() (string, string) {
 }
 
 // Apply applies a set change to the giving element attributes list
-func (a *Attribute) Apply(e Markup) {
-	PropertyApplier.ApplyAttribute(e, a)
+func (a *Attribute) Apply(e *Markup) {
+	if e.allowAttributes {
+		e.AddAttribute(a)
+	}
 }
 
 //Clone replicates the attribute into a unique instance
@@ -128,8 +89,10 @@ func (s *Style) Clone() Property {
 }
 
 // Apply applies a set change to the giving element style list
-func (s *Style) Apply(e Markup) {
-	PropertyApplier.ApplyStyle(e, s)
+func (s *Style) Apply(e *Markup) {
+	if e.allowStyles {
+		e.AddStyle(s)
+	}
 }
 
 //==============================================================================
@@ -160,8 +123,10 @@ func (c *ClassList) Render() (string, string) {
 }
 
 // Apply checks for a class attribute
-func (c *ClassList) Apply(em Markup) {
-	PropertyApplier.ApplyAttribute(em, c)
+func (c *ClassList) Apply(em *Markup) {
+	if em.allowStyles {
+		em.AddStyle(c)
+	}
 }
 
 // Clone replicates the lists of classnames.

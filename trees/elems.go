@@ -9,37 +9,10 @@ import (
 )
 
 // FinalizeHandle defines a function type which has the root and item concerned.
-type FinalizeHandle func(root, item Markup)
+type FinalizeHandle func(root, item *Markup)
 
-// HTML defines an interface with a single method that returns a html string of
-// its content.
-type HTML interface {
-	HTML() string
-	EHTML() template.HTML
-}
-
-// Empty defines an interface which exposes a function to empty the internal
-// structures its implementer olds.
-type Empty interface {
-	Empty()
-}
-
-// Markup provide a basic specification type of how a element resolves
-// its content.
-type Markup interface {
-	Empty
-	HTML
-	Children
-	Identity
-	Morphers
-	Appliable
-	Removable
-	Properties
-	Reconcilable
-}
-
-// Element represent a concrete implementation of a element node.
-type Element struct {
+// Markup represent a concrete implementation of a element node.
+type Markup struct {
 	removed         bool
 	autoclose       bool
 	allowEvents     bool
@@ -53,7 +26,7 @@ type Element struct {
 	textContent string
 
 	events         []Event
-	children       []Markup
+	children       []*Markup
 	styles         []Property
 	attrs          []Property
 	morphers       []Morpher
@@ -63,8 +36,8 @@ type Element struct {
 }
 
 // NewText returns a new Text instance element
-func NewText(txt string) *Element {
-	em := NewElement("text", false)
+func NewText(txt string) *Markup {
+	em := NewMarkup("text", false)
 	em.allowChildren = false
 	em.allowAttributes = false
 	em.allowStyles = false
@@ -73,9 +46,9 @@ func NewText(txt string) *Element {
 	return em
 }
 
-// NewElement returns a new element instance giving the specificed name
-func NewElement(tag string, hasNoEndingTag bool) *Element {
-	return &Element{
+// NewMarkup returns a new element instance giving the specificed name
+func NewMarkup(tag string, hasNoEndingTag bool) *Markup {
+	return &Markup{
 		allowChildren:   true,
 		allowStyles:     true,
 		allowAttributes: true,
@@ -89,7 +62,7 @@ func NewElement(tag string, hasNoEndingTag bool) *Element {
 }
 
 // Empty resets the elements children list as 0 length
-func (e *Element) Empty() {
+func (e *Markup) Empty() {
 	e.children = nil
 	e.events = nil
 	e.styles = nil
@@ -102,18 +75,18 @@ func (e *Element) Empty() {
 // EHTML returns the html string wrapped by a template.HTML type to avoid getting
 // escaped by go templates. The returned html is rendered using the default
 // SimpleElementWriter and represents the DOM of the giving element.
-func (e *Element) EHTML() template.HTML {
+func (e *Markup) EHTML() template.HTML {
 	return template.HTML(SimpleElementWriter.Print(e))
 }
 
 // HTML returns the html string representing the DOM of the giving element.
 //The returned html is rendered using the default SimpleElementWriter.
-func (e *Element) HTML() string {
+func (e *Markup) HTML() string {
 	return SimpleElementWriter.Print(e)
 }
 
 // AutoClosed returns true/false if this element uses a </> or a <></> tag convention
-func (e *Element) AutoClosed() bool {
+func (e *Markup) AutoClosed() bool {
 	return e.autoclose
 }
 
@@ -132,32 +105,32 @@ type Properties interface {
 }
 
 // AddEvent adds an event into the event list for this element.
-func (e *Element) AddEvent(ev Event) {
+func (e *Markup) AddEvent(ev Event) {
 	e.events = append(e.events, ev)
 }
 
 // Events return the elements events
-func (e *Element) Events() []Event {
+func (e *Markup) Events() []Event {
 	return e.events
 }
 
 // Styles return the internal style list of the element
-func (e *Element) Styles() []Property {
+func (e *Markup) Styles() []Property {
 	return e.styles
 }
 
 // AddStyle adds a property to the style property list.
-func (e *Element) AddStyle(p Property) {
+func (e *Markup) AddStyle(p Property) {
 	e.styles = append(e.styles, p)
 }
 
 // Attributes return the internal attribute list of the element
-func (e *Element) Attributes() []Property {
+func (e *Markup) Attributes() []Property {
 	return e.attrs
 }
 
 // AddAttribute adds a property to the attribute property list.
-func (e *Element) AddAttribute(p Property) {
+func (e *Markup) AddAttribute(p Property) {
 	e.attrs = append(e.attrs, p)
 }
 
@@ -172,7 +145,7 @@ type Eventers interface {
 
 // UseEventManager adds a eventmanager into the markup and if not available before automatically registers
 // the events with it,once an event manager is registered to it,it will and can not be changed
-func (e *Element) UseEventManager(man events.EventManagers) bool {
+func (e *Markup) UseEventManager(man events.EventManagers) bool {
 	if e.eventManager != nil {
 		man.AttachManager(e.eventManager)
 		return false
@@ -185,7 +158,7 @@ func (e *Element) UseEventManager(man events.EventManagers) bool {
 
 // LoadEvents loads up the events registered by this and by its children into each respective
 // available events managers
-func (e *Element) LoadEvents() {
+func (e *Markup) LoadEvents() {
 	if e.eventManager != nil {
 		e.eventManager.DisconnectRemoved()
 
@@ -198,72 +171,30 @@ func (e *Element) LoadEvents() {
 	}
 
 	//load up the children events also
-	for _, em := range e.children {
-		if ems, ok := em.(Eventers); ok {
-			if !ems.UseEventManager(e.eventManager) {
-				ems.LoadEvents()
-			}
+	for _, ems := range e.children {
+		if !ems.UseEventManager(e.eventManager) {
+			ems.LoadEvents()
 		}
 	}
 }
 
-//==============================================================================
-
-// MarkupState defines a markup which reveals internal state of a Markup.
-type MarkupState interface {
-	AllowStyles() bool
-	AllowAttributes() bool
-	AllowChildren() bool
-	AllowEvents() bool
-}
-
-// AllowEvents returns true/false if the element allows events.
-func (e *Element) AllowEvents() bool {
-	return e.allowEvents
-}
-
-// AllowChildren returns true/false if the element allows attributes.
-func (e *Element) AllowChildren() bool {
-	return e.allowChildren
-}
-
-// AllowAttributes returns true/false if the element allows attributes.
-func (e *Element) AllowAttributes() bool {
-	return e.allowAttributes
-}
-
-// AllowStyles returns true/false if the element allows styles.
-func (e *Element) AllowStyles() bool {
-	return e.allowStyles
-}
-
-//==============================================================================
-
-// Identity defines an interface for identifiable structures.
-type Identity interface {
-	Name() string
-	UID() string
-	Hash() string
-	EventID() string
-}
-
 // EventID returns the selector used for tagging events for a markup.
-func (e *Element) EventID() string {
+func (e *Markup) EventID() string {
 	return fmt.Sprintf("%s[uid='%s']", strings.ToLower(e.Name()), e.UID())
 }
 
 // Name returns the tag name of the element
-func (e *Element) Name() string {
+func (e *Markup) Name() string {
 	return e.tagname
 }
 
 // UID returns the current uid of the Element
-func (e *Element) UID() string {
+func (e *Markup) UID() string {
 	return e.uid
 }
 
 // Hash returns the current hash of the Element
-func (e *Element) Hash() string {
+func (e *Markup) Hash() string {
 	return e.hash
 }
 
@@ -272,11 +203,11 @@ func (e *Element) Hash() string {
 // Morphers exposes a method to allow adding morphers.
 type Morphers interface {
 	AddMorpher(...Morpher)
-	ApplyMorphers() Markup
+	ApplyMorphers() *Markup
 }
 
 // AddMorpher adds the provided morphers into the elements lists.
-func (e *Element) AddMorpher(m ...Morpher) {
+func (e *Markup) AddMorpher(m ...Morpher) {
 	e.morphers = append(e.morphers, m...)
 }
 
@@ -284,8 +215,8 @@ func (e *Element) AddMorpher(m ...Morpher) {
 // element and passes the result as the input of the next morpher unless. If
 // any morpher returns nil, then the element is reused again until all morphers
 // are called.
-func (e *Element) ApplyMorphers() Markup {
-	var base Markup
+func (e *Markup) ApplyMorphers() *Markup {
+	var base *Markup
 
 	for index, child := range e.children {
 		e.children[index] = child.ApplyMorphers()
@@ -312,44 +243,24 @@ type TextMarkup interface {
 
 // TextContent returns the elements text value if its a text
 // type else an empty string.
-func (e *Element) TextContent() string {
+func (e *Markup) TextContent() string {
 	return e.textContent
 }
 
-//==============================================================================
-
-// Cleanable defines a interface for structures to self sanitize their contents.
-type Cleanable interface {
-	Clean()
-}
-
 // Clean cleans out all internal markup marked as removable.
-func (e *Element) Clean() {
+func (e *Markup) Clean() {
 	for n, elm := range e.children {
-		if emr, ok := elm.(Removable); ok {
-			if emr.Removed() {
-				copy(e.children[n:], e.children[n+1:])
-				e.children = e.children[:len(e.children)-1]
-			} else {
-				if em, ok := elm.(Cleanable); ok {
-					em.Clean()
-				}
-			}
+		if elm.Removed() {
+			copy(e.children[n:], e.children[n+1:])
+			e.children = e.children[:len(e.children)-1]
+		} else {
+			elm.Clean()
 		}
 	}
 }
 
-//==============================================================================
-
-// Removable defines a self removal type structure.
-type Removable interface {
-	Remove()
-	UnRemove()
-	Removed() bool
-}
-
 // Remove sets the markup as removable and adds a 'NodeRemoved' attribute to it.
-func (e *Element) Remove() {
+func (e *Markup) Remove() {
 	if !e.Removed() {
 		e.attrs = append(e.attrs, &Attribute{"NodeRemoved", ""})
 		e.removed = true
@@ -357,7 +268,7 @@ func (e *Element) Remove() {
 }
 
 // UnRemove sets the markup as not to be removable.
-func (e *Element) UnRemove() {
+func (e *Markup) UnRemove() {
 	if !e.Removed() {
 		return
 	}
@@ -375,55 +286,23 @@ func (e *Element) UnRemove() {
 }
 
 // Removed returns true/false if the Element is marked removed
-func (e *Element) Removed() bool {
+func (e *Markup) Removed() bool {
 	return !!e.removed
 }
 
-//==============================================================================
-
-// SwappableIdentity defines an interface that allows swapping a structures
-// identity information.
-type SwappableIdentity interface {
-	SwapHash(string)
-	SwapUID(string)
-	UpdateHash()
-}
-
 // SwapUID swaps the uid of the internal Element.
-func (e *Element) SwapUID(uid string) {
+func (e *Markup) SwapUID(uid string) {
 	e.uid = uid
 }
 
 // SwapHash swaps the hash of the internal Element.
-func (e *Element) SwapHash(hash string) {
+func (e *Markup) SwapHash(hash string) {
 	e.hash = hash
 }
 
 // UpdateHash updates the Element hash value
-func (e *Element) UpdateHash() {
+func (e *Markup) UpdateHash() {
 	e.hash = RandString(10)
-}
-
-//==============================================================================
-
-// ElementalMarkup defines a markup for elemental structures, which provide the
-// concrete structure for dom nodes.
-type ElementalMarkup interface {
-	Markup
-	TextMarkup
-	Cleanable
-
-	Clonable
-	Eventers
-
-	SwappableIdentity
-
-	AutoClosed() bool
-}
-
-// Reconcilable defines the interface of markups that can reconcile their content against another
-type Reconcilable interface {
-	Reconcile(Markup) bool
 }
 
 // Reconcile takes a old markup and reconciles its uid and its children with
@@ -444,11 +323,7 @@ type Reconcilable interface {
 // here because they are the most volatile of the set and will periodically be
 // either changed and returned to normal values eg display: none to display: block
 // and vise-versa, so only attributes are used in the check process.
-func (e *Element) Reconcile(m Markup) bool {
-	em, ok := m.(ElementalMarkup)
-	if !ok {
-		return false
-	}
+func (e *Markup) Reconcile(em *Markup) bool {
 
 	// are we reconciling the proper elements type ? if not skip (i.e different types cant reconcile eachother)]
 	// TODO: decide if we should mark the markup as removed in this case as a catchall system
@@ -539,46 +414,20 @@ func (e *Element) Reconcile(m Markup) bool {
 	return true
 }
 
-//==============================================================================
+// AddChild adds a new markup as the children of this element
+func (e *Markup) AddChild(child ...*Markup) {
+	if !e.allowChildren {
+		return
+	}
 
-// ChildApplier defines a package level handle that exposes addition of
-// children Markup into a Element children list.
-var ChildApplier childAdd
-
-type childAdd struct{}
-
-// Apply adds the giving markup children into the root.
-func (childAdd) Apply(root Markup, child ...Markup) {
-	if rs, ok := root.(MarkupState); ok {
-		if !rs.AllowChildren() {
-			return
-		}
-
-		rootEm := root.(*Element)
-
-		for _, ch := range child {
-			rootEm.children = append(rootEm.children, ch)
-
-			if chm, ok := ch.(Eventers); ok {
-				chm.UseEventManager(rootEm.eventManager)
-			}
-		}
+	for _, ch := range child {
+		e.children = append(e.children, ch)
+		ch.UseEventManager(e.eventManager)
 	}
 }
 
-// Children defines the interface of an element that has children
-type Children interface {
-	AddChild(...Markup)
-	Children() []Markup
-}
-
-// AddChild adds a new markup as the children of this element
-func (e *Element) AddChild(em ...Markup) {
-	ChildApplier.Apply(e, em...)
-}
-
 // Children returns the children list for the element
-func (e *Element) Children() []Markup {
+func (e *Markup) Children() []*Markup {
 	return e.children
 }
 
@@ -586,11 +435,11 @@ func (e *Element) Children() []Markup {
 
 // Appliable define the interface specification for applying changes to elements elements in tree
 type Appliable interface {
-	Apply(Markup)
+	Apply(*Markup)
 }
 
 //Apply adds the giving element into the current elements children tree
-func (e *Element) Apply(em Markup) {
+func (e *Markup) Apply(em *Markup) {
 	em.AddChild(e)
 }
 
@@ -598,12 +447,12 @@ func (e *Element) Apply(em Markup) {
 
 // Clonable defines an interface for objects that can be cloned
 type Clonable interface {
-	Clone() Markup
+	Clone() *Markup
 }
 
 // Clone makes a new copy of the markup structure
-func (e *Element) Clone() Markup {
-	co := NewElement(e.Name(), e.AutoClosed())
+func (e *Markup) Clone() *Markup {
+	co := NewMarkup(e.Name(), e.AutoClosed())
 
 	//copy over the textContent
 	co.textContent = e.textContent
@@ -633,9 +482,7 @@ func (e *Element) Clone() Markup {
 	// co.allowAttributes = e.allowAttributes
 	//clone the internal children
 	for _, ch := range e.children {
-		if cl, ok := ch.(Clonable); ok {
-			cl.Clone().Apply(co)
-		}
+		ch.Clone().Apply(co)
 	}
 
 	for _, ch := range e.events {

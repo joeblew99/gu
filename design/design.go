@@ -48,18 +48,40 @@ type ResourceRenderer interface {
 // current resources available.
 type Resources struct {
 	Resources []ResourceDefinition
+	renderer  ResourceRenderer
 }
 
 // NewResources creates a new instance of a Resources struct and registers it as the currently used resources
 // root.
-func NewResources() *Resources {
+func NewResources(renderer ...ResourceRenderer) *Resources {
 	var res Resources
+
+	if len(renderer) > 0 {
+		res.renderer = renderer[0]
+	}
+
 	UseResources(&res)
 	return &res
 }
 
 // Init intializes all attached resources under its giving resource list.
-func (rs *Resources) Init() {
+func (rs *Resources) Init(useHashOnly ...bool) {
+	// var watchHash bool
+
+	// if len(useHashOnly) != 0 {
+	// 	watchHash = useHashOnly[0]
+	// }
+
+	// dispatch.Subscribe(func(pd dispatch.PathDirective) {
+	// 	collects :=
+	// 	if !watchHash {
+	// 		rsx.Resolve(dispatch.UseDirective(pd))
+	// 		return
+	// 	}
+
+	// 	rsx.Resolve(dispatch.UseHashDirective(pd))
+	// })
+
 	for _, res := range rs.Resources {
 		res.Init()
 	}
@@ -122,11 +144,20 @@ func (rs *Resources) CurrentResource() *ResourceDefinition {
 
 // Render creates a complete markup definition using the giving set of Resource
 // Definition.
-func (rs *Resources) render(rsx ...ResourceDefinition) trees.Markup {
+func (rs *Resources) Render(rsx ...ResourceDefinition) trees.Markup {
 	var header = trees.NewElement("head", false)
 	var body = trees.NewElement("body", false)
 
 	for _, rx := range rsx {
+
+		for _, item := range rx.Links {
+		}
+		for _, item := range rx.Renderables {
+		}
+		for _, item := range rx.DRenderables {
+		}
+		for _, item := range rx.DeferLinks {
+		}
 
 	}
 
@@ -161,17 +192,20 @@ type ResourceDefinition struct {
 	DRenderables []targetRenderable
 
 	Order    RenderingOrder
+	Renderer ResourceRenderer
 	Resolver dispatch.Resolver
 }
 
 // Resource creates a new resource addding into the resource lists for the root.
 func Resource(dsl DSL) *ResourceDefinition {
+	root := GetCurrentResources()
+
 	var rs ResourceDefinition
 	rs.Dsl = dsl
 	rs.Order = Any
 	rs.uuid = gu.NewKey()
+	rs.Renderer = root.renderer
 
-	root := GetCurrentResources()
 	root.Resources = append(root.Resources, rs)
 
 	rsp := &rs

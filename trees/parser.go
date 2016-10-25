@@ -6,19 +6,19 @@ import (
 	"golang.org/x/net/html"
 )
 
-// ParseTree takes a string markup and returns a Markup which
+// ParseTree takes a string markup and returns a *Markup which
 // contains the full structure transpiled
 // into the gutrees markup block structure.
-func ParseTree(markup string) ([]Markup, error) {
+func ParseTree(markup string) ([]*Markup, error) {
 	tokens := html.NewTokenizer(strings.NewReader(markup))
 
-	rootElem := NewElement("div", false)
+	rootElem := NewMarkup("div", false)
 	pullNode(tokens, rootElem)
 	return rootElem.Children(), nil
 }
 
-func pullNode(tokens *html.Tokenizer, root Markup) {
-	var node Markup
+func pullNode(tokens *html.Tokenizer, root *Markup) {
+	var node *Markup
 
 	for {
 		token := tokens.Next()
@@ -50,7 +50,7 @@ func pullNode(tokens *html.Tokenizer, root Markup) {
 
 			tagName, hasAttr := tokens.TagName()
 
-			node = NewElement(string(tagName), token == html.SelfClosingTagToken)
+			node = NewMarkup(string(tagName), token == html.SelfClosingTagToken)
 			node.Apply(root)
 
 			if hasAttr {

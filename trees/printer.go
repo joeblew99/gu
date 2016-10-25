@@ -119,7 +119,7 @@ func (m StyleWriter) Print(s []Property) string {
 
 // TextPrinter defines a printer interface for writing out a text type markup into a string form
 type TextPrinter interface {
-	Print(Markup) string
+	Print(*Markup) string
 }
 
 // TextWriter writes out the text element/node for the vdom into a string
@@ -129,20 +129,11 @@ type TextWriter struct{}
 var SimpleTextWriter TextWriter
 
 // Print returns the string representation of the text object
-func (m TextWriter) Print(t Markup) string {
-	if tt, ok := t.(TextMarkup); ok {
-		return tt.TextContent()
-	}
-
-	return ""
+func (m TextWriter) Print(t *Markup) string {
+	return t.TextContent()
 }
 
 //==============================================================================
-
-// MarkupWriter defines a printer interface for writing out a markup object into a string form
-type MarkupWriter interface {
-	Write(Markup) (string, error)
-}
 
 // ElementWriter writes out the element out as a string matching the html tag rules
 type ElementWriter struct {
@@ -163,17 +154,13 @@ func NewElementWriter(aw AttrPrinter, sw StylePrinter, tw TextPrinter) *ElementW
 	}
 }
 
-// Write prints the giving Markup as a string else returns an error.
-func (m *ElementWriter) Write(ma Markup) (string, error) {
-	if emr, ok := ma.(*Element); ok {
-		return m.Print(emr), nil
-	}
-
-	return "", ErrNotMarkup
+// Write prints the giving *Markup as a string else returns an error.
+func (m *ElementWriter) Write(ma *Markup) (string, error) {
+	return m.Print(ma), nil
 }
 
 // Print returns the string representation of the element
-func (m *ElementWriter) Print(e *Element) string {
+func (m *ElementWriter) Print(e *Markup) string {
 
 	// if we are on the server && is this element marked as removed, if so we skip and return an empty string
 	if detect.IsServer() {
@@ -223,12 +210,11 @@ func (m *ElementWriter) Print(e *Element) string {
 	var children = []string{}
 
 	for _, ch := range e.Children() {
-		if ech, ok := ch.(*Element); ok {
-			if ech == e {
-				continue
-			}
-			children = append(children, m.Print(ech))
+		if ch == e {
+			continue
 		}
+
+		children = append(children, m.Print(ch))
 	}
 
 	//lets create the elements markup now

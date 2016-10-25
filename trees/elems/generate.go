@@ -152,18 +152,17 @@ func main() {
 package elems
 
 import (
-	"fmt"
 	"github.com/influx6/gu/trees"
 )
 
 // Text provides the concrete implementation for using the domtrees.Text struct
-func Text(item interface{}) trees.Markup {
-	return trees.NewText(fmt.Sprintf("%+v",item))
+func Text(content string) *trees.Markup {
+	return trees.NewText(content)
 }
 
 // SVG provides the markup generator for the <svg> xml tag.
-func SVG(markup ...trees.Markup) trees.Markup {
-	e := trees.NewElement("svg",false)
+func SVG(markup ...trees.Appliable) *trees.Markup {
+	e := trees.NewMarkup("svg",false)
 	for _, m := range markup {
 		if m == nil { continue }
 		m.Apply(e)
@@ -270,8 +269,8 @@ func writeSVGElem(w io.Writer, name, desc, link string) {
 // SVG%s provides the following for SVG XML elements ->
 // %s
 // https://developer.mozilla.org%s
-func SVG%s(markup ...trees.Appliable) trees.Markup {
-	e := trees.NewElement("%s",%t)
+func SVG%s(markup ...trees.Appliable) *trees.Markup {
+	e := trees.NewMarkup("%s",%t)
 	for _, m := range markup {
 		if m == nil { continue }
 		m.Apply(e)
@@ -293,8 +292,8 @@ func writeElem(w io.Writer, name, desc, link string) {
 // %s provides the following for html elements ->
 // %s
 // https://developer.mozilla.org%s
-func %s(markup ...trees.Appliable) trees.Markup {
-	e := trees.NewElement("%s",%t)
+func %s(markup ...trees.Appliable) *trees.Markup {
+	e := trees.NewMarkup("%s",%t)
 	for _, m := range markup {
 		if m == nil { continue }
 		m.Apply(e)
