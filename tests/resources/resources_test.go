@@ -31,9 +31,9 @@ func TestResource(t *testing.T) {
 	})
 
 	master := design.New()
-	root := master.MustCurrentResource()
+	master.Init()
 
-	root.Init()
+	root := master.MustCurrentResource()
 
 	if root.Order != design.Any {
 		tests.Failed(t, "Should have 'Any' RenderingOrder")
@@ -45,7 +45,7 @@ func TestResource(t *testing.T) {
 	}
 	tests.Passed(t, "Should have added two links into the resource")
 
-	if len(root.Markups) != 2 {
+	if len(root.Renderables) != 2 {
 		tests.Failed(t, "Should have added two markups into the resource")
 	}
 	tests.Passed(t, "Should have added two markups into the resource")
@@ -60,12 +60,12 @@ func TestResource(t *testing.T) {
 	}
 	tests.Passed(t, "Should have added a style tag static view as the first item")
 
-	if name := root.Markups[0].View.Content.Name(); name != "h1" {
+	if name := root.Renderables[0].View.Render().Name(); name != "h1" {
 		tests.Failed(t, "Should have added a h1(header) tag static view as the second item: %q", name)
 	}
 	tests.Passed(t, "Should have added a style tag static view as the second item")
 
-	if name := root.Markups[1].View.Content.Name(); name != "div" {
+	if name := root.Renderables[1].View.Render().Name(); name != "div" {
 		tests.Failed(t, "Should have added a div tag static view as the second item: %q", name)
 	}
 	tests.Passed(t, "Should have added a style tag static view as the second item")

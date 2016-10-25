@@ -99,7 +99,6 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 	dispatch.Subscribe(func(pd dispatch.PathDirective) {
 		if !watchHash {
 			psx := dispatch.UseDirective(pd)
-
 			if psx.String() == rs.lastPath.String() {
 				return
 			}
@@ -128,7 +127,7 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 	for _, dsl := range collection.collection {
 		res := newResource(rs, dsl)
 		rs.Resources = append(rs.Resources, *res)
-		rs.Init()
+		res.Init()
 	}
 
 	return rs
@@ -404,7 +403,16 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 
 		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
 
-		if len(targets) != 0 && immediate {
+		if targets != "" && immediate {
+			current.Renderables = append(current.Renderables, targetRenderable{
+				Targets: targets,
+				View:    &static,
+			})
+
+			continue
+		}
+
+		if targets == "" {
 			current.Renderables = append(current.Renderables, targetRenderable{
 				Targets: targets,
 				View:    &static,
