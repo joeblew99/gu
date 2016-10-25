@@ -9,8 +9,6 @@ import (
 	"github.com/influx6/gu/trees/elems"
 )
 
-var testRes = design.New()
-
 func TestResource(t *testing.T) {
 	_ = design.Resource(func() {
 
@@ -22,7 +20,7 @@ func TestResource(t *testing.T) {
 
 		design.Markup(elems.Header1(elems.Text("Speed Dashboard")), "", false)
 
-		design.Markup(func() trees.Markup {
+		design.Markup(func() *trees.Markup {
 			return elems.Div(
 				elems.Section(
 					elems.Label(elems.Text("Current Speed")),
@@ -32,7 +30,7 @@ func TestResource(t *testing.T) {
 
 	})
 
-	master := design.GetCurrentResources()
+	master := design.New()
 	root := master.MustCurrentResource()
 
 	root.Init()
