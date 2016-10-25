@@ -153,7 +153,6 @@ func (rs *Resources) ResolveWith(path string) []ResourceDefinition {
 
 	for _, resource := range rs.Resources {
 		if _, _, passed := resource.Resolver.Test(path); passed {
-
 			switch resource.Order {
 			case First:
 				first = append(first, resource)
@@ -250,11 +249,31 @@ func (rs *Resources) render(rsx ...ResourceDefinition) *trees.Markup {
 // DSL defines a function type which is used to generate the contents of a Def(Definition).
 type DSL func()
 
+// ResourceDefinition defines a high-level definition for managing resources for
+// which other definitions build from.
+type ResourceDefinition struct {
+	Dsl    DSL
+	active bool
+	uuid   string
+
+	Views        []gu.RenderView
+	Links        []gu.StaticView
+	DeferLinks   []gu.StaticView
+	Renderables  []targetRenderable
+	DRenderables []targetRenderable
+
+	Order    RenderingOrder
+	Renderer ResourceRenderer
+	Resolver dispatch.Resolver
+	Root     *Resources
+}
+
 // ResourceViewUpdate defines a view update notification which contains the name of the
 // view to be notified for an update.
 type ResourceViewUpdate struct {
-	View     string
+	View     gu.Renderable
 	Resource string
+	Target   string
 }
 
 // newResource creates a new ResourceDefinition instance and adds the
@@ -279,28 +298,10 @@ func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 			return
 		}
 
+		rs.Renderer.RenderUpdate(rv.View, rv.Target)
 	})
 
 	return rsp
-}
-
-// ResourceDefinition defines a high-level definition for managing resources for
-// which other definitions build from.
-type ResourceDefinition struct {
-	Dsl    DSL
-	active bool
-	uuid   string
-
-	Views        []gu.RenderView
-	Links        []gu.StaticView
-	DeferLinks   []gu.StaticView
-	Renderables  []targetRenderable
-	DRenderables []targetRenderable
-
-	Order    RenderingOrder
-	Renderer ResourceRenderer
-	Resolver dispatch.Resolver
-	Root     *Resources
 }
 
 // UUID returns the uuid associated with the ResourceDefinition.
@@ -459,7 +460,8 @@ func View(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
 	if rvw, ok := view.(gu.Reactive); ok {
 		rvw.React(func() {
 			dispatch.Dispatch(ResourceViewUpdate{
-				View:     view.UUID(),
+				View:     view,
+				Target:   target,
 				Resource: current.UUID(),
 			})
 		})

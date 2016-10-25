@@ -1,6 +1,7 @@
 package resources_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/influx6/gu/design"
@@ -70,4 +71,30 @@ func TestResource(t *testing.T) {
 	}
 	tests.Passed(t, "Should have added a style tag static view as the second item")
 
+}
+
+func TestResourceRendering(t *testing.T) {
+	_ = design.Resource(func() {
+		design.Order(design.Any)
+		design.UseRoute("/home")
+
+		design.CSS("../some.css", false)
+		design.Scripts("../some.js", "text/javascript", false)
+
+		design.Markup(elems.Header1(elems.Text("Speed Dashboard")), "", false)
+
+		design.Markup(func() *trees.Markup {
+			return elems.Div(
+				elems.Section(
+					elems.Label(elems.Text("Current Speed")),
+				),
+			)
+		}, "", false)
+
+	})
+
+	master := design.New().Init()
+
+	testRender := master.Render("/home")
+	fmt.Printf("Param: %s\n", testRender.HTML())
 }
