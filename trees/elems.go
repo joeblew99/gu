@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"html/template"
 	"strings"
-
-	"github.com/influx6/gu/events"
 )
 
 // FinalizeHandle defines a function type which has the root and item concerned.
@@ -32,7 +30,6 @@ type Markup struct {
 	morphers       []Morpher
 	finalizers     []FinalizeHandle
 	onceFinalizers []FinalizeHandle
-	eventManager   events.EventManagers
 }
 
 // NewText returns a new Text instance element
@@ -69,7 +66,6 @@ func (e *Markup) Empty() {
 	e.morphers = nil
 	e.finalizers = nil
 	e.onceFinalizers = nil
-	e.eventManager = nil
 }
 
 // EHTML returns the html string wrapped by a template.HTML type to avoid getting
@@ -135,34 +131,6 @@ func (e *Markup) AddAttribute(p Property) {
 }
 
 //==============================================================================
-
-// UseEventManager adds a eventmanager into the markup and if not available before automatically registers
-// the events with it,once an event manager is registered to it,it will and can not be changed
-func (e *Markup) UseEventManager(man events.EventManagers) {
-	if man == nil {
-		return
-	}
-
-	e.eventManager = man
-	e.LoadEvents()
-}
-
-// LoadEvents loads up the events registered by this and by its children into each respective
-// available events managers.
-func (e *Markup) LoadEvents() {
-	e.eventManager.DisconnectRemoved()
-
-	for _, ev := range e.events {
-		if es, _ := e.eventManager.NewEventMeta(ev.Meta()); es != nil {
-			es.Q(ev.Fire)
-		}
-	}
-
-	//load up the children events also
-	for _, ems := range e.children {
-		ems.UseEventManager(e.eventManager)
-	}
-}
 
 // EventID returns the selector used for tagging events for a markup.
 func (e *Markup) EventID() string {
@@ -390,12 +358,6 @@ func (e *Markup) Reconcile(em *Markup) bool {
 		childChanged = true
 	}
 
-	ReconcileEvents(e, em)
-
-	if e.eventManager != nil {
-		e.eventManager.DisconnectRemoved()
-	}
-
 	if !childChanged && attrChanged && styleChanged {
 		e.SwapHash(oldHash)
 		return false
@@ -412,7 +374,6 @@ func (e *Markup) AddChild(child ...*Markup) {
 
 	for _, ch := range child {
 		e.children = append(e.children, ch)
-		ch.UseEventManager(e.eventManager)
 	}
 }
 
@@ -451,7 +412,6 @@ func (e *Markup) Clone() *Markup {
 	co.allowChildren = e.allowChildren
 	co.allowEvents = e.allowEvents
 	co.allowAttributes = e.allowAttributes
-	co.eventManager = e.eventManager
 
 	if e.Removed() {
 		co.Removed()

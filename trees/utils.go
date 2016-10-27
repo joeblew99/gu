@@ -28,44 +28,6 @@ type Events interface {
 	Events() []Event
 }
 
-// ReconcileEvents checks through two markup events against each other and if it finds any disparity marks
-// event objects as Removed
-func ReconcileEvents(e, em Events) {
-	oldevents := em.Events()
-	newevents := e.Events()
-
-	if len(oldevents) <= 0 && len(newevents) <= 0 {
-		return
-	}
-
-	if len(newevents) <= 0 && len(oldevents) > 0 {
-		for _, ev := range oldevents {
-			ev.Meta().Remove()
-		}
-		return
-	}
-
-	checkOut := func(ev Event) bool {
-		for _, evs := range newevents {
-			if evs.Meta().Type() == ev.Meta().Type() {
-				return true
-			}
-		}
-		return false
-
-	}
-	//set to equal as the logic will try to assert its falsiness
-
-	// outerfind:
-	for _, ev := range oldevents {
-		if checkOut(ev) {
-			continue
-		}
-
-		ev.Meta().Remove()
-	}
-}
-
 // Styles defines an interface that returns a list of styles.
 type Styles interface {
 	Styles() []Property
