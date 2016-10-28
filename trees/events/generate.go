@@ -155,15 +155,20 @@ import (
 	for _, name := range names {
 		e := events[name]
 		fmt.Fprintf(file, `
+// %sEvent defines the expected type to be received when using the %s event.			
+type %sEvent struct{
+    Underline *js.Object
+}
+
 // %s Documentation is as below:
 // %s
 // https://developer.mozilla.org%s
 /* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
 match the event with. */
-func %s(fx trees.EventHandler,selectorOverride string) trees.Event {
+func %s(callback func(%sEvent,trees.Markup),selectorOverride string) trees.Event {
 	return trees.NewEvent("%s",selectorOverride,fx)
 }
-`, name, e.Desc, e.Link[6:], name, e.Name)
+`, name, name, name, name, e.Desc, e.Link[6:], name, name, e.Name)
 	}
 }
 

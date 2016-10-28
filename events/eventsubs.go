@@ -18,7 +18,7 @@ var Events eventCtrl
 type eventCtrl struct{}
 
 // DOM sets up the event subs for listening
-func (e *EventSub) DOM(dom *js.Object) {
+func (eventCtrl) DOM(dom *js.Object) {
 	e.Offload()
 	e.dom = dom
 	e.jslink = func(o *js.Object) { e.TriggerMatch(&EventObject{o}) }
@@ -26,15 +26,13 @@ func (e *EventSub) DOM(dom *js.Object) {
 }
 
 // Offload removes all event bindings from current dom element
-func (e *EventSub) Offload() {
-	if e.dom == nil {
+func (eventCtrl) Offload(dom *js.Object) {
+	if dom == nil || dom == js.Undefined {
 		return
 	}
 
-	if e.jslink != nil {
-		e.dom.Call("removeEventListener", e.Type(), e.jslink, true)
-		e.jslink = nil
-	}
+	e.dom.Call("removeEventListener", e.Type(), e.jslink, true)
+	e.jslink = nil
 }
 
 // Trigger provides bypass for triggering this event sub by passing down an event
