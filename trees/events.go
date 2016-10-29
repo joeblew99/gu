@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/faux/loop"
 	"github.com/influx6/faux/mque"
 )
 
@@ -21,14 +20,6 @@ type EventObject interface {
 type EventBroadcast struct {
 	EventID string
 	Event   EventObject
-}
-
-// EventDebroadcast defines a struct which gets a unsubscription for the events.
-type EventDebroadcast struct {
-	TreeID  string
-	EventID string
-	Link    func(*js.Object)
-	Handle  mque.End
 }
 
 //==============================================================================
@@ -86,12 +77,12 @@ func (d *WrapperEvent) StopImmediatePropagation() {
 // Event provide a meta registry for helps in registering events for dom markups
 // which is translated to the nodes themselves
 type Event struct {
-	eid     string
-	Target  string
 	Type    string
+	Target  string
 	EventID string
-	Handle  loop.Looper
 	Tree    *Markup
+	Handle  mque.End
+	Link    func(*js.Object)
 }
 
 // NewEvent returns a event object that allows registering events to eventlisteners

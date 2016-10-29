@@ -17,7 +17,6 @@ import (
 // and handles rendering of a giving group of resources into the live DOM body root.
 type DOMRenderer struct {
 	Document hdom.Document
-	events   []*trees.Event
 }
 
 // Render renders the giving set of resources into the provided body and header
@@ -39,22 +38,34 @@ func (dm *DOMRenderer) Render(rs ...design.ResourceDefinition) {
 
 		// Render the normal links first.
 		for _, item := range res.Links {
-			js.Patch(js.CreateFragment(item.Render().HTML()), head.Underlying(), false)
+			markup := item.Render()
+
+			markup.EachEvent(func(ev *trees.Event, root *trees.Markup) {
+				dm.BindEvent(ev, head.Underlying())
+			})
+
+			js.Patch(js.CreateFragment(markup.HTML()), head.Underlying(), false)
 		}
 
 		// Render all basic views which are not to be deffered.
 		for _, render := range res.Renderables {
-			dm.RenderUpdate(render.View, render.Targets)
+			dm.RenderUpdate(render.View, render.Targets, false)
 		}
 
 		// Render all defered views.
 		for _, render := range res.DRenderables {
-			dm.RenderUpdate(render.View, render.Targets)
+			dm.RenderUpdate(render.View, render.Targets, false)
 		}
 
 		// Render the defered links.
 		for _, item := range res.DeferLinks {
-			js.Patch(js.CreateFragment(item.Render().HTML()), body.Underlying(), false)
+			markup := item.Render()
+
+			markup.EachEvent(func(ev *trees.Event, root *trees.Markup) {
+				dm.BindEvent(ev, body.Underlying())
+			})
+
+			js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), false)
 		}
 	}
 }
@@ -65,7 +76,15 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 	body := dm.Document.QuerySelector("body")
 
 	if targets == "" {
-		js.Patch(js.CreateFragment(rv.Render().HTML()), body.Underlying(), false)
+		markup := rv.Render()
+
+		if !update {
+			markup.EachEvent(func(ev *trees.Event, root *trees.Markup) {
+				dm.BindEvent(ev, body.Underlying())
+			})
+		}
+
+		js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), false)
 		return
 	}
 
@@ -86,16 +105,13 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 
 // BindEvent connects the event with the provided event object and root.
 func (dm *DOMRenderer) BindEvent(source *trees.Event, root *gjs.Object) {
-	var ed trees.EventDebroadcast
-	ed.Link = func(ev *gjs.Object) { dm.TriggerBindEvent(ev, root, source) }
+	source.Link = func(ev *gjs.Object) { dm.TriggerBindEvent(ev, root, source) }
 
 	root.Call("addEventListener", source.Type, ed.Link, true)
 
 	ed.Handle.AddEnd(func() {
 		root.Call("removeEventListener", source.Type, ed.Link, true)
 	})
-
-	dm.events = append(dm.events, ed)
 }
 
 // TriggerBindEvent connects the giving event with the provided dom target.
