@@ -9,7 +9,6 @@ import (
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/events"
 	"github.com/influx6/gu/trees"
 )
 
@@ -104,28 +103,10 @@ type RenderView interface {
 	UUID() string
 }
 
-// Eventable exposes the events manager provided by the structure that implements
-// the interface.
-type Eventable interface {
-	Events() events.EventManagers
-}
-
-// EventableRenderView defines a composite of a RenderView which provides access to
-// its Events manager.
-type EventableRenderView interface {
-	LoadEvents(*js.Object)
-}
-
 // Renderer defines an interface which takes responsiblity in translating
 // the provided markup into the appropriate media.
 type Renderer interface {
 	RenderView(RenderView)
-}
-
-// RenderingTargetGroup defines an interface which takes the target to be handle
-// for rendering.
-type RenderingTarget interface {
-	UseRendering(Renderer)
 }
 
 //==============================================================================

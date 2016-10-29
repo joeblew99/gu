@@ -2,7 +2,6 @@ package dispatch
 
 import (
 	"github.com/go-humble/detect"
-	"github.com/influx6/faux/loop"
 	"github.com/influx6/faux/mque"
 )
 
@@ -15,8 +14,8 @@ var history *HistoryProvider
 var dispatch = mque.New()
 
 // Subscribe adds a new listener to the dispatcher.
-func Subscribe(q interface{}) loop.Looper {
-	return dispatch.Q(q)
+func Subscribe(q interface{}, end ...func()) mque.End {
+	return dispatch.Q(q, end...)
 }
 
 // Dispatch emits a event into the dispatch callback listeners.

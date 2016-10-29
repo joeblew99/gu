@@ -24,7 +24,7 @@ type Markup struct {
 	textContent string
 
 	events         []Event
-	children       []*Markup
+	children       []Markup
 	styles         []Property
 	attrs          []Property
 	morphers       []Morpher
@@ -105,6 +105,18 @@ func (e *Markup) AddEvent(ev Event) {
 	e.events = append(e.events, ev)
 }
 
+// EachEvent iterates all events from this giving root down with all childrens
+// allowing the callback to process the events has needed.
+func (e *Markup) EachEvent(fn func(*Event, *Markup)) {
+	for _, ev := range e.events {
+		fn(&ev, e)
+	}
+
+	for _, ch := range e.children {
+		ch.EachEvent(fn)
+	}
+}
+
 // Events return the elements events
 func (e *Markup) Events() []Event {
 	return e.events
@@ -173,7 +185,7 @@ func (e *Markup) ApplyMorphers() *Markup {
 	var base *Markup
 
 	for index, child := range e.children {
-		e.children[index] = child.ApplyMorphers()
+		e.children[index] = *child.ApplyMorphers()
 	}
 
 	for _, morpher := range e.morphers {
@@ -341,12 +353,12 @@ func (e *Markup) Reconcile(em *Markup) bool {
 			nch := newChildren[n]
 			if nch.Name() != och.Name() {
 				och.Remove()
-				e.AddChild(och)
+				e.AddChild(&och)
 				childChanged = true
 				continue
 			}
 
-			if nch.Reconcile(och) {
+			if nch.Reconcile(&och) {
 				childChanged = true
 			}
 
@@ -354,7 +366,7 @@ func (e *Markup) Reconcile(em *Markup) bool {
 		}
 
 		och.Remove()
-		e.AddChild(och)
+		e.AddChild(&och)
 		childChanged = true
 	}
 
@@ -373,12 +385,12 @@ func (e *Markup) AddChild(child ...*Markup) {
 	}
 
 	for _, ch := range child {
-		e.children = append(e.children, ch)
+		e.children = append(e.children, *ch)
 	}
 }
 
 // Children returns the children list for the element
-func (e *Markup) Children() []*Markup {
+func (e *Markup) Children() []Markup {
 	return e.children
 }
 

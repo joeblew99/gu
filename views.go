@@ -4,7 +4,6 @@ import (
 	"html/template"
 
 	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/events"
 	"github.com/influx6/gu/trees"
 )
 
@@ -37,10 +36,9 @@ func (s *StaticView) RenderHTML() template.HTML {
 //==============================================================================
 
 // CustomView generates a RenderView for the provided Renderable.
-func CustomView(tag string, ev events.EventManagers, r ...Renderable) RenderView {
+func CustomView(tag string, r ...Renderable) RenderView {
 	var vw view
 	vw.tag = tag
-	vw.events = ev
 	vw.renders = r
 	vw.uuid = NewKey()
 	vw.Reactive = NewReactive()
@@ -64,12 +62,6 @@ type view struct {
 	hide    bool
 	live    *trees.Markup
 	renders []Renderable
-	events  events.EventManagers
-}
-
-// Events returns the events.EventManager attached with this view.
-func (v *view) Events() events.EventManagers {
-	return v.events
 }
 
 // Resolves exposes the internal renderables and passes the supplied path
@@ -112,6 +104,12 @@ func (v *view) Render() *trees.Markup {
 
 	if v.live != nil {
 		live := v.live
+		live.EachEvent(func(e *trees.Event, _ *trees.Markup) {
+			if e.Handle != nil {
+				e.Handle.End()
+			}
+		})
+
 		v.live = nil
 
 		root.Reconcile(live)
@@ -121,10 +119,8 @@ func (v *view) Render() *trees.Markup {
 	}
 
 	root.SwapUID(v.uuid)
-	root.UseEventManager(v.events)
 	root = root.ApplyMorphers()
 
-	v.events.LoadUpEvents()
 	v.live = root
 
 	return root

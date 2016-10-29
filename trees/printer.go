@@ -210,11 +210,11 @@ func (m *ElementWriter) Print(e *Markup) string {
 	var children = []string{}
 
 	for _, ch := range e.Children() {
-		if ch == e {
+		if ch.UID() == e.UID() {
 			continue
 		}
 
-		children = append(children, m.Print(ch))
+		children = append(children, m.Print(&ch))
 	}
 
 	//lets create the elements markup now

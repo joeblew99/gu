@@ -3,9 +3,9 @@ package design
 import (
 	"sync"
 
+	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/gu"
 	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/events"
 	"github.com/influx6/gu/trees"
 )
 
@@ -36,7 +36,9 @@ func getResources() *Resources {
 // of a giving resource.
 type ResourceRenderer interface {
 	Render(...ResourceDefinition)
-	RenderUpdate(gu.Renderable, string)
+	BindEvent(*trees.Event, *js.Object)
+	RenderUpdate(gu.Renderable, string, bool)
+	TriggerBindEvent(*js.Object, *js.Object, *trees.Event)
 }
 
 // Resources defines a structure which contains the fully embodiement of different resources.
@@ -275,7 +277,6 @@ type ResourceDefinition struct {
 	Renderer ResourceRenderer
 	Resolver dispatch.Resolver
 	Root     *Resources
-	Events   events.EventManagers
 }
 
 // ResourceViewUpdate defines a view update notification which contains the name of the
@@ -295,7 +296,6 @@ func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 	rs.Root = root
 	rs.uuid = gu.NewKey()
 	rs.Renderer = root.renderer
-	rs.Events = events.NewEventManager()
 	rs.Resolver = dispatch.NewResolver("*")
 
 	root.Resources = append(root.Resources, rs)
@@ -310,7 +310,7 @@ func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 			return
 		}
 
-		rs.Renderer.RenderUpdate(rv.View, rv.Target)
+		rs.Renderer.RenderUpdate(rv.View, rv.Target, true)
 	})
 
 	return rsp
@@ -381,17 +381,21 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 		immediate = immediateRender[0]
 	}
 
-	var markupFn []*trees.Markup
+	var markupFn []trees.Markup
 
 	switch mo := markup.(type) {
-	case func() []*trees.Markup:
+	case func() []trees.Markup:
 		markupFn = mo()
-	case []*trees.Markup:
+	case []trees.Markup:
 		markupFn = mo
 	case func() *trees.Markup:
-		markupFn = []*trees.Markup{mo()}
+		markupFn = []trees.Markup{*(mo())}
 	case *trees.Markup:
-		markupFn = []*trees.Markup{mo}
+		markupFn = []trees.Markup{*mo}
+	case func() trees.Markup:
+		markupFn = []trees.Markup{mo()}
+	case trees.Markup:
+		markupFn = []trees.Markup{mo}
 	case string:
 		mp, err := trees.ParseTree(mo)
 		if err != nil {
@@ -405,9 +409,7 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 
 	current := getResources().MustCurrentResource()
 	for _, markup := range markupFn {
-		static := gu.Static(markup)
-		static.Content.UseEventManager(current.Events)
-
+		static := gu.Static(&markup)
 		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
 
 		if targets != "" && immediate {
@@ -461,7 +463,7 @@ func View(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
 	}
 
 	current := getResources().MustCurrentResource()
-	view := gu.CustomView("section", current.Events, rs...)
+	view := gu.CustomView("section", rs...)
 
 	if rvw, ok := view.(gu.Reactive); ok {
 		rvw.React(func() {

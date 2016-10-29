@@ -5,15 +5,19 @@ package dom
 import (
 	hdom "honnef.co/go/js/dom"
 
+	gjs "github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/gu"
 	"github.com/influx6/gu/design"
+	"github.com/influx6/gu/dispatch"
 	"github.com/influx6/gu/js"
+	"github.com/influx6/gu/trees"
 )
 
 // DOMRenderer defines an implementation for gu.design.ResourceRenderere
 // and handles rendering of a giving group of resources into the live DOM body root.
 type DOMRenderer struct {
 	Document hdom.Document
+	events   []*trees.Event
 }
 
 // Render renders the giving set of resources into the provided body and header
@@ -32,7 +36,6 @@ func (dm *DOMRenderer) Render(rs ...design.ResourceDefinition) {
 	}
 
 	for _, res := range rs {
-		res.Events.LoadDOM(body.Underlying())
 
 		// Render the normal links first.
 		for _, item := range res.Links {
@@ -58,32 +61,70 @@ func (dm *DOMRenderer) Render(rs ...design.ResourceDefinition) {
 
 // RenderUpdate handles rendering calls for individual renderers which may have
 // determined targets within the body.
-func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string) {
+func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update bool) {
 	body := dm.Document.QuerySelector("body")
 
 	if targets == "" {
-		if ev, ok := rv.(gu.EventableRenderView); ok {
-			ev.LoadEvents(body.Underlying())
-		}
-
 		js.Patch(js.CreateFragment(rv.Render().HTML()), body.Underlying(), false)
 		return
 	}
 
 	kernels := body.QuerySelectorAll(targets)
 
-	if len(kernels) == 0 {
-		if ev, ok := rv.(gu.EventableRenderView); ok {
-			ev.LoadEvents(kernels[0].Underlying())
+	for _, targetDOM := range kernels {
+		markup := rv.Render()
+
+		if !update {
+			markup.EachEvent(func(ev *trees.Event, root *trees.Markup) {
+				dm.BindEvent(ev, targetDOM.Underlying())
+			})
 		}
-	} else {
-		if ev, ok := rv.(gu.EventableRenderView); ok {
-			ev.LoadEvents(body.Underlying())
-		}
+
+		js.Patch(js.CreateFragment(markup.HTML()), targetDOM.Underlying(), false)
+	}
+}
+
+// BindEvent connects the event with the provided event object and root.
+func (dm *DOMRenderer) BindEvent(source *trees.Event, root *gjs.Object) {
+	var ed trees.EventDebroadcast
+	ed.Link = func(ev *gjs.Object) { dm.TriggerBindEvent(ev, root, source) }
+
+	root.Call("addEventListener", source.Type, ed.Link, true)
+
+	ed.Handle.AddEnd(func() {
+		root.Call("removeEventListener", source.Type, ed.Link, true)
+	})
+
+	dm.events = append(dm.events, ed)
+}
+
+// TriggerBindEvent connects the giving event with the provided dom target.
+func (dm *DOMRenderer) TriggerBindEvent(event *gjs.Object, root *gjs.Object, source *trees.Event) {
+	target := event.Get("target")
+
+	children := root.Call("querySelectorAll", source.Target)
+	if children == nil || children == gjs.Undefined {
+		return
 	}
 
-	markup := rv.Render()
-	for _, targetDOM := range kernels {
-		js.Patch(js.CreateFragment(markup.HTML()), targetDOM.Underlying(), false)
+	kids := js.DOMObjectToList(children)
+
+	var match bool
+
+	for _, item := range kids {
+		if item != target {
+			continue
+		}
+
+		match = true
+		break
+	}
+
+	// if we match then run the listeners registered.
+	if match {
+		dispatch.Dispatch(trees.EventBroadcast{
+			EventID: source.EventID,
+			Event:   trees.NewWrapperEvent(event),
+		})
 	}
 }
