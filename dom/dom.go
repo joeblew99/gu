@@ -107,10 +107,10 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 func (dm *DOMRenderer) BindEvent(source *trees.Event, root *gjs.Object) {
 	source.Link = func(ev *gjs.Object) { dm.TriggerBindEvent(ev, root, source) }
 
-	root.Call("addEventListener", source.Type, ed.Link, true)
+	root.Call("addEventListener", source.Type, source.Link, true)
 
-	ed.Handle.AddEnd(func() {
-		root.Call("removeEventListener", source.Type, ed.Link, true)
+	source.Handle.AddEnd(func() {
+		root.Call("removeEventListener", source.Type, source.Link, true)
 	})
 }
 
