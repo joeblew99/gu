@@ -17,32 +17,38 @@
 		{
 			"checksumSHA1": "Qt+8ap8pJ0vfs+CjYGMnpBLVMsU=",
 			"path": "github.com/influx6/faux/loop",
-			"revision": "bcb74188eac3a6e5ab5ab8bad6285a4c20139e97",
-			"revisionTime": "2016-07-07T17:41:43Z"
-		},
-		{
-			"checksumSHA1": "cWgw0VRjLTBwS2LDcOBJg3pZbDc=",
-			"path": "github.com/influx6/faux/maker",
-			"revision": "bcb74188eac3a6e5ab5ab8bad6285a4c20139e97",
-			"revisionTime": "2016-07-07T17:41:43Z"
+			"revision": "bcff086f1bb245e73bcda8eaf4e1c1a5f620d6d3",
+			"revisionTime": "2016-10-16T19:50:13Z"
 		},
 		{
 			"checksumSHA1": "/t5Hv/niHwC8iRqxIKGsJpw+eXQ=",
 			"path": "github.com/influx6/faux/mque",
-			"revision": "bcb74188eac3a6e5ab5ab8bad6285a4c20139e97",
-			"revisionTime": "2016-07-07T17:41:43Z"
+			"revision": "bcff086f1bb245e73bcda8eaf4e1c1a5f620d6d3",
+			"revisionTime": "2016-10-16T19:50:13Z"
 		},
 		{
-			"checksumSHA1": "7mjaXLkiUzDoxpheVrSx7w5mbno=",
+			"checksumSHA1": "DPF/azBtTJd1dXssWfuK+PVM9pI=",
 			"path": "github.com/influx6/faux/pattern",
-			"revision": "bcb74188eac3a6e5ab5ab8bad6285a4c20139e97",
-			"revisionTime": "2016-07-07T17:41:43Z"
+			"revision": "bcff086f1bb245e73bcda8eaf4e1c1a5f620d6d3",
+			"revisionTime": "2016-10-16T19:50:13Z"
 		},
 		{
-			"checksumSHA1": "R+dAURCGpnHh1Z7ReRYhmYUDVGM=",
+			"checksumSHA1": "FgdyME+rxOGxXHuB2cbyLUS4GnU=",
 			"path": "github.com/influx6/faux/reflection",
-			"revision": "bcb74188eac3a6e5ab5ab8bad6285a4c20139e97",
-			"revisionTime": "2016-07-07T17:41:43Z"
+			"revision": "bcff086f1bb245e73bcda8eaf4e1c1a5f620d6d3",
+			"revisionTime": "2016-10-16T19:50:13Z"
+		},
+		{
+			"checksumSHA1": "vqc3a+oTUGX8PmD0TS+qQ7gmN8I=",
+			"path": "golang.org/x/net/html",
+			"revision": "bc3663df0ac92f928d419e31e0d2af22e683a5a2",
+			"revisionTime": "2016-06-21T20:48:10Z"
+		},
+		{
+			"checksumSHA1": "00eQaGynDYrv3tL+C7l9xH0IDZg=",
+			"path": "golang.org/x/net/html/atom",
+			"revision": "bc3663df0ac92f928d419e31e0d2af22e683a5a2",
+			"revisionTime": "2016-06-21T20:48:10Z"
 		},
 		{
 			"checksumSHA1": "6PkY6SMHvZdN99cSZDMGYRZ/SX8=",
