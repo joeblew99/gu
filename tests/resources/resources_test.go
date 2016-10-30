@@ -17,15 +17,15 @@ func TestResource(t *testing.T) {
 
 	_ = design.Resource(func() {
 
-		design.Order(design.Any)
+		design.DoOrder(design.Any)
 		design.UseRoute("/home")
 
-		design.CSS("../some.css", false)
-		design.Scripts("../some.js", "text/javascript", false)
+		design.DoCSS("../some.css", false)
+		design.DoScript("../some.js", "text/javascript", false)
 
-		design.Markup(elems.Header1(elems.Text("Speed Dashboard")), "", false)
+		design.DoMarkup(elems.Header1(elems.Text("Speed Dashboard")), "", false)
 
-		design.Markup(func() *trees.Markup {
+		design.DoMarkup(func() *trees.Markup {
 			return elems.Div(
 				elems.Section(
 					elems.Label(elems.Text("Total Current Speed")),
@@ -85,15 +85,15 @@ func TestResourceRendering(t *testing.T) {
 	defer trees.SetMode(trees.Normal)
 
 	_ = design.Resource(func() {
-		design.Order(design.Any)
+		design.DoOrder(design.Any)
 		design.UseRoute("/home/*")
 
-		design.CSS("../some.css", false)
-		design.Scripts("../some.js", "text/javascript", false)
+		design.DoCSS("../some.css", false)
+		design.DoScript("../some.js", "text/javascript", false)
 
-		design.Markup(elems.Header1(elems.Text("Speed Dashboard")), "", false)
+		design.DoMarkup(elems.Header1(elems.Text("Speed Dashboard")), "", false)
 
-		design.Markup(func() *trees.Markup {
+		design.DoMarkup(func() *trees.Markup {
 			return elems.Div(
 				elems.Section(
 					elems.Label(elems.Text("Current Speed")),
@@ -101,9 +101,9 @@ func TestResourceRendering(t *testing.T) {
 			)
 		}, "", false)
 
-		design.View(gu.Static(elems.Div(
+		design.DoView(gu.Static(elems.Div(
 			elems.Section(
-				design.ForRoute("/models/*", "/:speed"),
+				design.DoRoute("/models/*", "/:speed"),
 				elems.Label(elems.Text("Total Speed")),
 			),
 		)), "", false)

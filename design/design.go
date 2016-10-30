@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/gu"
 	"github.com/influx6/gu/dispatch"
@@ -143,6 +144,11 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 		collection.root = nil
 	}
 	collection.cl.Unlock()
+
+	if detect.IsBrowser() && rs.renderer != nil {
+		du := rs.Resolve(dispatch.GetLocationHashAsPath())
+		rs.renderer.Render(du...)
+	}
 
 	return rs
 }
@@ -356,8 +362,8 @@ const (
 	Any
 )
 
-// Order defines a high level function which sets/resets the RenderingOrder of the current ResourceDefinition.
-func Order(mode RenderingOrder) {
+// DoOrder defines a high level function which sets/resets the RenderingOrder of the current ResourceDefinition.
+func DoOrder(mode RenderingOrder) {
 	getResources().MustCurrentResource().Order = mode
 }
 
@@ -368,10 +374,10 @@ func UseRoute(path string) {
 	getResources().MustCurrentResource().Resolver = dispatch.NewResolver(path)
 }
 
-// LocalRouter returns a gu.RouteApplier which can be used to localize the
+// DoLocalRouter returns a gu.RouteApplier which can be used to localize the
 // internal routes for the base resource router and allow usage with markup
 // and views.
-func LocalRouter(basePath string, mx ...trees.SwitchMorpher) gu.RouteApplier {
+func DoLocalRouter(basePath string, mx ...trees.SwitchMorpher) gu.RouteApplier {
 	var mo trees.SwitchMorpher
 
 	if len(mx) != 0 {
@@ -383,9 +389,9 @@ func LocalRouter(basePath string, mx ...trees.SwitchMorpher) gu.RouteApplier {
 	return getResources().MustCurrentResource().Manager.Level(basePath, mo)
 }
 
-// DoRoute takes a giving route applier returning the last route created
+// DoRouteLevel takes a giving route applier returning the last route created
 // from the route levels of the applier.
-func DoRoute(level gu.RouteApplier, routes ...string) gu.RouteApplier {
+func DoRouteLevel(level gu.RouteApplier, routes ...string) gu.RouteApplier {
 	if len(routes) == 0 {
 		return level
 	}
@@ -404,10 +410,10 @@ func DoRoute(level gu.RouteApplier, routes ...string) gu.RouteApplier {
 	return last
 }
 
-// ForRoute allows definition of a route level to applying all the giving
+// DoRoute allows definition of a route level to applying all the giving
 // routes path returning the last applier.
-func ForRoute(base string, routes ...string) gu.RouteApplier {
-	return DoRoute(LocalRouter(base), routes...)
+func DoRoute(base string, routes ...string) gu.RouteApplier {
+	return DoRouteLevel(DoLocalRouter(base), routes...)
 }
 
 //==============================================================================
@@ -422,10 +428,10 @@ type targetRenderable struct {
 	Targets string
 }
 
-// Markup returns a new instance of a provided value which either is a function
+// DoMarkup returns a new instance of a provided value which either is a function
 // which returns a needed trees.Markup or a trees.Markup or slice of trees.Markup
 // itself.
-func Markup(markup Viewable, targets string, immediateRender ...bool) {
+func DoMarkup(markup Viewable, targets string, immediateRender ...bool) {
 	var immediate bool
 
 	if len(immediateRender) == 0 {
@@ -489,8 +495,8 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 
 //==============================================================================
 
-// View creates a gu.RenderView and applies it to the provided resource.
-func View(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
+// DoView creates a gu.RenderView and applies it to the provided resource.
+func DoView(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
 	var immediate bool
 
 	if len(immediateRender) == 0 {
@@ -555,43 +561,43 @@ func View(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
 
 //==============================================================================
 
-// PageTitle adds a element which generates a <title> tag.
-func PageTitle(title string) {
+// DoTitle adds a element which generates a <title> tag.
+func DoTitle(title string) {
 	ml := mLink("title", false)
 	trees.NewText(title).Apply(ml.Content)
 }
 
-// PageLink adds a element which generates a <link> tag.
-func PageLink(url string, mtype string, defered bool) {
+// DoLink adds a element which generates a <link> tag.
+func DoLink(url string, mtype string, defered bool) {
 	ml := mLink("link", defered)
 	trees.NewAttr("href", url).Apply(ml.Content)
 	trees.NewAttr("type", mtype).Apply(ml.Content)
 }
 
-// CSS adds a element which generates a <style> tag.
-func CSS(src string, defered bool) {
+// DoCSS adds a element which generates a <style> tag.
+func DoCSS(src string, defered bool) {
 	ml := mLink("link", defered)
 	trees.NewAttr("href", src).Apply(ml.Content)
 	trees.NewAttr("rel", "stylesheet").Apply(ml.Content)
 	trees.NewAttr("type", "text/css").Apply(ml.Content)
 }
 
-// Styles adds a element which generates a <style> tag.
-func Styles(src string, defered bool) {
+// DoStyle adds a element which generates a <style> tag.
+func DoStyle(src string, defered bool) {
 	ml := mLink("style", defered)
 	trees.NewAttr("src", src).Apply(ml.Content)
 	trees.NewAttr("type", "text/css").Apply(ml.Content)
 }
 
-// Scripts adds a element which generates a <style> tag.
-func Scripts(src string, mtype string, defered bool) {
+// DoScript adds a element which generates a <style> tag.
+func DoScript(src string, mtype string, defered bool) {
 	ml := mLink("script", defered)
 	trees.NewAttr("src", src).Apply(ml.Content)
 	trees.NewAttr("type", mtype).Apply(ml.Content)
 }
 
-// Metas adds a element which generates a <style> tag.
-func Metas(props map[string]string) {
+// DoMeta adds a element which generates a <style> tag.
+func DoMeta(props map[string]string) {
 	ml := mLink("meta", false)
 	for name, val := range props {
 		trees.NewAttr(name, val).Apply(ml.Content)

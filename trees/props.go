@@ -66,30 +66,30 @@ func (a *Attribute) Clone() Property {
 
 //==============================================================================
 
-// Style define the style specification for element styles
-type Style struct {
+// CSSStyle define the style specification for element styles
+type CSSStyle struct {
 	Name  string
 	Value string
 }
 
-// NewStyle returns a new style instance
-func NewStyle(name, val string) *Style {
-	s := Style{Name: name, Value: val}
+// NewCSSStyle returns a new style instance
+func NewCSSStyle(name, val string) *CSSStyle {
+	s := CSSStyle{Name: name, Value: val}
 	return &s
 }
 
 // Render returns the key and value for this style rendered.
-func (s *Style) Render() (string, string) {
+func (s *CSSStyle) Render() (string, string) {
 	return s.Name, s.Value
 }
 
 //Clone replicates the style into a unique instance
-func (s *Style) Clone() Property {
-	return &Style{Name: s.Name, Value: s.Value}
+func (s *CSSStyle) Clone() Property {
+	return &CSSStyle{Name: s.Name, Value: s.Value}
 }
 
 // Apply applies a set change to the giving element style list
-func (s *Style) Apply(e *Markup) {
+func (s *CSSStyle) Apply(e *Markup) {
 	if e.allowStyles {
 		e.AddStyle(s)
 	}

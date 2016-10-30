@@ -239,9 +239,7 @@ patchloop:
 
 			//if the new node has no children, then just replace it.
 			if len(nchildren) <= 0 {
-				// live.ReplaceChild(node, target)
 				ReplaceNode(live, node, target)
-				// continue patchloop
 				continue
 			}
 
@@ -261,8 +259,6 @@ patchloop:
 			}
 
 			children := ChildNodeList(target)
-
-			// log.Printf("checking targets children %+s %d", target, len(children))
 			if len(children) == 0 {
 				SetInnerHTML(target, "")
 				ContextAppendChild(target, nchildren...)

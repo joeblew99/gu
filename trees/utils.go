@@ -218,7 +218,7 @@ func ReplaceStyle(m Styles, name string, val string) {
 		return
 	}
 
-	stylm, ok := styl.(*Style)
+	stylm, ok := styl.(*CSSStyle)
 	if !ok {
 		return
 	}
@@ -244,15 +244,15 @@ func ReplaceAttribute(m Attributes, name string, val string) {
 
 // ReplaceORAddStyle replaces a specific style with the given
 // name with the supplied value if not found it adds a new one
-// if found and if the type does not match a *Style then it stops.
+// if found and if the type does not match a *CSSStyle then it stops.
 func ReplaceORAddStyle(m Properties, name string, val string) {
 	styl, err := GetStyle(m, name)
 	if err != nil {
-		m.AddStyle(NewStyle(name, val))
+		m.AddStyle(NewCSSStyle(name, val))
 		return
 	}
 
-	stylm, ok := styl.(*Style)
+	stylm, ok := styl.(*CSSStyle)
 	if !ok {
 		return
 	}
@@ -262,7 +262,7 @@ func ReplaceORAddStyle(m Properties, name string, val string) {
 
 // ReplaceORAddAttribute replaces a specific attribute with the given
 // name with the supplied value if not found it adds a new one
-// if found and if the type does not match a *Style then it stops.
+// if found and if the type does not match a *CSSStyle then it stops.
 func ReplaceORAddAttribute(m Properties, name string, val string) {
 	attr, err := GetAttr(m, name)
 	if err != nil {

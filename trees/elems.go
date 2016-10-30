@@ -306,12 +306,11 @@ func (e *Markup) Reconcile(em *Markup) bool {
 
 	// if we have a special case for text element then we do things differently
 	if e.Name() == "text" {
-
-		//if the contents are equal,keep the prev hash
 		if e.TextContent() == em.TextContent() {
 			e.SwapHash(oldHash)
 			return false
 		}
+
 		return true
 	}
 

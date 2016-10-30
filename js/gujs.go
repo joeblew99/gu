@@ -103,7 +103,6 @@ func CleanAllTextNode(o *js.Object) {
 // UnWrapSpecialTextElements takes a dom object and unwraps all the Text UnknownELement within the lists
 func UnWrapSpecialTextElements(o *js.Object) {
 	texts := QuerySelectorAll(o, "text")
-	// log.Printf("unwrap text nodes? -> %+s", texts)
 	for _, to := range texts {
 		parent := to.Get("parentNode")
 		SpecialAppendChild(parent, to)
@@ -114,7 +113,6 @@ func UnWrapSpecialTextElements(o *js.Object) {
 // SpecialAppendChild takes a list of objects and calls appendNode on the given object, but checks if the objects contain an unknownelement with a text tag then strip the tagname and only apply its content
 func SpecialAppendChild(o *js.Object, osets ...*js.Object) {
 	for _, onode := range osets {
-		// log.Printf("adding %+s -> %+s", o, onode)
 		if strings.ToLower(onode.Get("tagName").String()) == "text" {
 			SpecialAppendChild(o, ChildNodeList(onode)...)
 			continue
@@ -145,30 +143,63 @@ var headerKids = map[string]bool{
 
 // ContextAppendChild takes a list of objects and calls appendNode on the given object
 func ContextAppendChild(o *js.Object, osets ...*js.Object) {
-	header := QuerySelector(GetDocument(), "head")
-	body := QuerySelector(GetDocument(), "body")
-	bodyParent := body.Get("parentNode")
-
 	for _, onode := range osets {
 
-		tagName := onode.Get("tagName").String()
-		if headerKids[tagName] && header != nil && header != js.Undefined {
-			header.Call("appendChild", onode)
+		if doHeadAppend(onode) {
 			continue
 		}
 
-		if tagName == "script" && body != nil && body != js.Undefined {
-			if bodyParent == nil || bodyParent == js.Undefined {
-				body.Call("appendChild", onode)
-				continue
+		if styles := QuerySelectorAll(onode, "style"); len(styles) != 0 {
+			for _, style := range styles {
+				doHeadAppend(style)
 			}
+		}
 
-			bodyParent.Call("appendChild", onode)
-			continue
+		if scripts := QuerySelectorAll(onode, "scripts"); len(scripts) != 0 {
+			for _, script := range scripts {
+				doHeadAppend(script)
+			}
 		}
 
 		o.Call("appendChild", onode)
 	}
+}
+
+func doHeadAppend(onode *js.Object) bool {
+	tagNameObject := onode.Get("tagName")
+	if tagNameObject == nil || tagNameObject == js.Undefined {
+		return false
+	}
+
+	tagName := strings.ToLower(tagNameObject.String())
+	uid := GetAttribute(onode, "uid")
+
+	header := QuerySelector(GetDocument(), "head")
+	body := QuerySelector(GetDocument(), "body")
+
+	if headerKids[tagName] && header != nil && header != js.Undefined {
+		possibleNode := QuerySelector(header, tagName+"[uid='"+uid+"']")
+		if possibleNode != nil && possibleNode != js.Undefined {
+			ReplaceNode(header, onode, possibleNode)
+			return true
+		}
+
+		header.Call("appendChild", onode)
+		return true
+	}
+
+	if tagName == "script" && body != nil && body != js.Undefined {
+		possibleNode := QuerySelector(body, tagName+"[uid='"+uid+"']")
+		if possibleNode != nil && possibleNode != js.Undefined {
+			ReplaceNode(body, onode, possibleNode)
+			return true
+		}
+
+		body.Call("appendChild", onode)
+		return true
+	}
+
+	return false
 }
 
 // RemoveChild takes a target and a list of children to remove
@@ -193,6 +224,10 @@ func ReplaceNode(target, newNode, oldNode *js.Object) {
 
 // QuerySelectorAll returns the result of querySelectorAll on an object
 func QuerySelectorAll(o *js.Object, sel string) []*js.Object {
+	if sad := o.Get("querySelectorAll"); sad == nil || sad == js.Undefined {
+		return nil
+	}
+
 	return DOMObjectToList(o.Call("querySelectorAll", sel))
 }
 

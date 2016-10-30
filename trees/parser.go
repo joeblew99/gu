@@ -39,7 +39,7 @@ func pullNode(tokens *html.Tokenizer, root *Markup) {
 				continue
 			}
 
-			NewText(string(tokens.Text())).Apply(root)
+			NewText(text).Apply(root)
 			continue
 
 		case html.StartTagToken, html.EndTagToken, html.SelfClosingTagToken:

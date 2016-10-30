@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	DashboardApp := New(&DOMRender{
+	New(&DOMRenderer{
 		Document: dom.GetWindow().Document(),
 	}).Init()
 

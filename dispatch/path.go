@@ -59,18 +59,6 @@ type Path struct {
 	Params map[string]string
 }
 
-// GetLocationPath returns the current Path associated with the current location.
-// Using the complete path has the Remaining path value.
-func GetLocationPath() Path {
-	directive := GetLocationDirective()
-
-	return Path{
-		Rem:           directive.String(),
-		PathDirective: directive,
-		Params:        make(map[string]string),
-	}
-}
-
 // UseLocation returns the current Path associated with the provided path.
 // Using the complete path has the Remaining path value.
 func UseLocation(path string) Path {
@@ -116,6 +104,18 @@ func UseDirective(directive PathDirective) Path {
 func UseHashDirective(directive PathDirective) Path {
 	return Path{
 		Rem:           directive.Hash,
+		PathDirective: directive,
+		Params:        make(map[string]string),
+	}
+}
+
+// GetLocationPath returns the current Path associated with the current location.
+// Using the complete path has the Remaining path value.
+func GetLocationPath() Path {
+	directive := GetLocationDirective()
+
+	return Path{
+		Rem:           directive.String(),
 		PathDirective: directive,
 		Params:        make(map[string]string),
 	}

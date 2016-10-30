@@ -54,13 +54,13 @@ func TestFinders(t *testing.T) {
 
 func generateMarkup() *trees.Markup {
 	body := trees.NewMarkup("body", false)
-	trees.NewStyle("width", "auto").Apply(body)
+	trees.NewCSSStyle("width", "auto").Apply(body)
 	trees.NewAttr("id", "main-wrapper").Apply(body)
 
 	root := trees.NewMarkup("div", false)
 	trees.NewAttr("id", "root-div").Apply(root)
 	trees.NewAttr("class", "roots").Apply(root)
-	trees.NewStyle("width", "100px").Apply(root)
+	trees.NewCSSStyle("width", "100px").Apply(root)
 	trees.NewMarkup("section", false).Apply(root)
 	root.Apply(body)
 
@@ -70,7 +70,7 @@ func generateMarkup() *trees.Markup {
 	root2.Apply(body)
 
 	label := trees.NewMarkup("label", false)
-	trees.NewStyle("width", "200px").Apply(label)
+	trees.NewCSSStyle("width", "200px").Apply(label)
 	label.Apply(root2)
 
 	return body
