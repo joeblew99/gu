@@ -161,12 +161,14 @@ func (m *ElementWriter) Write(ma *Markup) (string, error) {
 
 // Print returns the string representation of the element
 func (m *ElementWriter) Print(e *Markup) string {
-
-	// if we are on the server && is this element marked as removed, if so we skip and return an empty string
 	if detect.IsServer() {
+
+		// if we are on the server && is this element marked as removed,
+		// if so we skip and return an empty string
 		if e.Removed() && GetMode() < Debugging {
 			return ""
 		}
+
 	}
 
 	//if we are dealing with a text type just return the content
@@ -184,8 +186,10 @@ func (m *ElementWriter) Print(e *Markup) string {
 		mido = append(mido, hash, uid)
 	}
 
-	// if e.Removed() && GetMode() > Testing {
-	// 	mido = append(mido, Attribute{"RemovedNode", "true"})
+	// id, err := GetAttr(e, "id")
+	// if err != nil {
+	// 	id = Property(NewAttr("id", e.tagname+"-"+e.uid))
+	// 	id.Apply(e)
 	// }
 
 	//write out the hash and uid as attributes
@@ -230,7 +234,7 @@ func (m *ElementWriter) Print(e *Markup) string {
 		}()),
 		beginbrack,
 		"\n",
-		e.textContent,
+		e.TextContent(),
 		strings.Join(children, ""),
 		closer,
 		"\n",

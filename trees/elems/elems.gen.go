@@ -9,12 +9,25 @@
 package elems
 
 import (
+	"github.com/influx6/gu/css"
 	"github.com/influx6/gu/trees"
 )
 
-// Text provides the concrete implementation for using the domtrees.Text struct
+// Text provides custom type for defining text nodes with the trees markup.
 func Text(content string) *trees.Markup {
 	return trees.NewText(content)
+}
+
+// CSSWith provides a custom markup which returns a stylesheet embeded into
+// the provided element parent retrieved from the proved css.Rule.
+func CSSWith(rs *css.Rule, bind interface{}, sel string) *trees.Markup {
+	return trees.CSSStylesheet(rs, bind, sel)
+}
+
+// CSS provides a custom markup which returns a stylesheet embeded into
+// the provided element parent.
+func CSS(styles string, bind interface{}, sel string) *trees.Markup {
+	return trees.CSSStylesheet(css.New(styles), bind, sel)
 }
 
 // SVG provides the markup generator for the <svg> xml tag.

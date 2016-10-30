@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"html/template"
 	"strings"
+
+	"github.com/influx6/gu/css"
 )
 
 // FinalizeHandle defines a function type which has the root and item concerned.
@@ -18,10 +20,11 @@ type Markup struct {
 	allowStyles     bool
 	allowAttributes bool
 
-	uid         string
-	hash        string
-	tagname     string
-	textContent string
+	uid           string
+	hash          string
+	tagname       string
+	textContent   string
+	textContentFn func(*Markup) string
 
 	events         []Event
 	children       []*Markup
@@ -30,6 +33,7 @@ type Markup struct {
 	morphers       []Morpher
 	finalizers     []FinalizeHandle
 	onceFinalizers []FinalizeHandle
+	// parent         *Markup
 }
 
 // NewText returns a new Text instance element
@@ -42,6 +46,39 @@ func NewText(txt string) *Markup {
 	em.textContent = txt
 	return em
 }
+
+//==============================================================================
+
+// CSSStylesheet returns a new instance of a CSSStylesheet.
+func CSSStylesheet(rule *css.Rule, bind interface{}, parentSel string) *Markup {
+	content := NewMarkup("style", false)
+	content.allowChildren = false
+	content.allowAttributes = false
+	content.allowStyles = false
+	content.allowEvents = false
+	content.textContentFn = func(owner *Markup) string {
+		// var parentNode string
+		// if owner.parent != nil {
+		// 	id, err := GetAttr(owner.parent, "id")
+		// 	if err != nil {
+		// 		id = Property(NewAttr("id", owner.parent.tagname+"-"+owner.parent.uid))
+		// 		id.Apply(owner.parent)
+		// 	}
+		// 	parentNode, _ = id.Render()
+		// }
+
+		sheet, err := rule.Stylesheet(bind, parentSel)
+		if err != nil {
+			return err.Error()
+		}
+
+		return sheet.String()
+	}
+
+	return content
+}
+
+//==============================================================================
 
 // NewMarkup returns a new element instance giving the specificed name
 func NewMarkup(tag string, hasNoEndingTag bool) *Markup {
@@ -200,9 +237,13 @@ type TextMarkup interface {
 	TextContent() string
 }
 
-// TextContent returns the elements text value if its a text
-// type else an empty string.
+// TextContent returns the elements text value by either running a text content
+// function if provided else defaulting to the textContent field.
 func (e *Markup) TextContent() string {
+	if e.textContentFn != nil {
+		return e.textContentFn(e)
+	}
+
 	return e.textContent
 }
 
@@ -380,6 +421,7 @@ func (e *Markup) AddChild(child ...*Markup) {
 			continue
 		}
 
+		// ch.parent = e
 		e.children = append(e.children, ch)
 	}
 }
@@ -414,6 +456,7 @@ func (e *Markup) Clone() *Markup {
 
 	//copy over the textContent
 	co.textContent = e.textContent
+	co.textContentFn = e.textContentFn
 
 	//copy over the attribute lockers
 	co.allowChildren = e.allowChildren

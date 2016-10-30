@@ -43,7 +43,7 @@ type Attribute struct {
 
 // NewAttr returns a new attribute instance
 func NewAttr(name, val string) *Attribute {
-	a := Attribute{Name: name, Value: val}
+	a := Attribute{Name: strings.ToLower(name), Value: val}
 	return &a
 }
 
@@ -74,7 +74,7 @@ type CSSStyle struct {
 
 // NewCSSStyle returns a new style instance
 func NewCSSStyle(name, val string) *CSSStyle {
-	s := CSSStyle{Name: name, Value: val}
+	s := CSSStyle{Name: strings.ToLower(name), Value: val}
 	return &s
 }
 
@@ -106,7 +106,7 @@ type ClassList struct {
 // NewClassList returns a new ClassList instance.
 func NewClassList(name string) *ClassList {
 	cl := ClassList{
-		name: name,
+		name: strings.ToLower(name),
 	}
 
 	return &cl

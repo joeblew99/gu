@@ -10,7 +10,7 @@ import (
 func TestBasicCSS(t *testing.T) {
 	expected := "#galatica:hover {\n  color: red;\n}\n#galatica::before {\n  content: \"bugger\";\n}\n#galatica div a {\n  color: black;\n  font-family: Helvetica;\n}\n@media (max-width: 400px) {\n  #galatica:hover {\n    color: blue;\n    font-family: Helvetica;\n  }\n}"
 
-	csr := css.NewRule(`
+	csr := css.New(`
 
     :hover {
       color: red;
@@ -55,14 +55,14 @@ func TestBasicCSS(t *testing.T) {
 func TestLinkedCSS(t *testing.T) {
 	expected := "#galatica block {\n  Helvetica\n      color: Pink;\n}\n#galatica::before {\n  content: \"bugger\";\n}\n#galatica div a {\n  color: black;\n  font-family: Helvetica;\n}\n@media (max-width: 400px) {\n  #galatica:hover {\n    color: blue;\n    font-family: Helvetica;\n  }\n}"
 
-	csr := css.NewRule(`
+	csr := css.New(`
     block {
       font-family: {{ .Font }}
       color: {{ .Color }}
     }
   `)
 
-	csx := css.NewRule(`
+	csx := css.New(`
 
     ::before {
       content: "bugger";

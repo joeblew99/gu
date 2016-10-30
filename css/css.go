@@ -16,9 +16,9 @@ type Rule struct {
 	depends  []*Rule
 }
 
-// NewRule returns a new instance of a Rule which provides capability to parse
+// New returns a new instance of a Rule which provides capability to parse
 // and extrapolate the giving content using the provided binding.
-func NewRule(rules string, rs ...*Rule) *Rule {
+func New(rules string, rs ...*Rule) *Rule {
 	tmp, err := template.New("css").Parse(rules)
 	if err != nil {
 		panic(err)
@@ -98,7 +98,3 @@ func (r *Rule) morphRule(base *bcss.Rule, parentNode string) {
 		}
 	}
 }
-
-// CSS takes a giving css ruleset with the provided context and returns a
-// provided stylesheet, for usage.
-// func CSS()

@@ -6,8 +6,7 @@ import (
 	. "github.com/influx6/gu/trees/elems"
 )
 
-// _ defines the resource page associated with the speed resource.
-var _ = Resource(func() {
+_ = Resource(func() {
 
 	DoTitle("Dashboard App")
 
