@@ -13,6 +13,7 @@ import (
 // its markup.
 type StaticView struct {
 	Content *trees.Markup
+	Morph   bool
 }
 
 // Static defines a toplevel function which returns a new instance of a StaticView using the
@@ -25,6 +26,10 @@ func Static(tree *trees.Markup) *StaticView {
 
 // Render returns the markup for the static view.
 func (s *StaticView) Render() *trees.Markup {
+	if s.Morph {
+		return s.Content.ApplyMorphers()
+	}
+
 	return s.Content
 }
 
@@ -91,6 +96,7 @@ func (v *view) Render() *trees.Markup {
 	}
 
 	var root *trees.Markup
+
 	if len(v.renders) > 1 {
 		root = trees.NewMarkup(v.tag, false)
 
@@ -115,7 +121,10 @@ func (v *view) Render() *trees.Markup {
 		root.Reconcile(live)
 
 		// Clear out internal references with the current live markup.
-		live.Empty()
+		// TODO: Check if this will cause unknown side effects.
+		if live != root {
+			live.Empty()
+		}
 	}
 
 	root.SwapUID(v.uuid)

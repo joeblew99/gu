@@ -20,13 +20,13 @@ type RouteApplier interface {
 // RouteManager defines a router which handles creation and registering of a
 // set of level connecting routes
 type RouteManager struct {
-	levels map[string]RouteApplier
+	Levels map[string]RouteApplier
 }
 
 // NewRoutingManager returns a new instance of  RouteManager.
 func NewRouteManager() *RouteManager {
 	return &RouteManager{
-		levels: make(map[string]RouteApplier),
+		Levels: make(map[string]RouteApplier),
 	}
 }
 
@@ -39,7 +39,7 @@ func (r *RouteManager) L(path string) RouteApplier {
 // Level creates a new route level using the provided string as the base path
 // for its root router.
 func (r *RouteManager) Level(path string, morpher trees.SwitchMorpher) RouteApplier {
-	if rx, ok := r.levels[path]; ok {
+	if rx, ok := r.Levels[path]; ok {
 		return rx
 	}
 
@@ -47,7 +47,7 @@ func (r *RouteManager) Level(path string, morpher trees.SwitchMorpher) RouteAppl
 	root.level = make(map[string]RouteApplier)
 	root.routing = newRouting(path, morpher)
 
-	r.levels[path] = &root
+	r.Levels[path] = &root
 
 	return &root
 }
@@ -82,7 +82,7 @@ func (r *rm) Next(path string, morpher trees.SwitchMorpher) RouteApplier {
 	}
 
 	block := newRouting(path, morpher)
-	r.routing.Resolver.Register(block.Resolver)
+	r.Resolver.Register(block.Resolver)
 
 	var nextRoot rm
 	nextRoot.level = make(map[string]RouteApplier)
@@ -108,8 +108,15 @@ func newRouting(path string, morpher trees.SwitchMorpher) *routing {
 	var rs routing
 	rs.m = morpher
 	rs.Resolver = dispatch.NewResolver(path)
-	rs.Resolver.ResolvedPassed(func(p dispatch.Path) { morpher.Off(p) })
-	rs.Resolver.ResolvedFailed(func(p dispatch.Path) { morpher.On(p) })
+
+	rs.Resolver.ResolvedPassed(func(p dispatch.Path) {
+		morpher.Off(p)
+	}).ResolvedFailed(func(p dispatch.Path) {
+		morpher.On(p)
+	})
+
+	morpher.On(nil)
+
 	return &rs
 }
 

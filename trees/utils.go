@@ -283,15 +283,15 @@ func ReplaceORAddAttribute(m Properties, name string, val string) {
 // ElementsUsingStyle returns the children within the element matching the
 // stlye restrictions passed.
 // NOTE: is uses StyleContains
-func ElementsUsingStyle(root *Markup, key string, val string) []Markup {
-	var found []Markup
+func ElementsUsingStyle(root *Markup, key string, val string) []*Markup {
+	var found []*Markup
 
 	for _, ch := range root.Children() {
-		if StyleContains(&ch, key, val) {
+		if StyleContains(ch, key, val) {
 			found = append(found, ch)
 		}
 
-		found = append(found, ElementsUsingStyle(&ch, key, val)...)
+		found = append(found, ElementsUsingStyle(ch, key, val)...)
 	}
 
 	return found
@@ -300,15 +300,15 @@ func ElementsUsingStyle(root *Markup, key string, val string) []Markup {
 // ElementsWithAttr returns the children within the element matching the
 // stlye restrictions passed.
 // NOTE: is uses AttrContains
-func ElementsWithAttr(root *Markup, key string, val string) []Markup {
-	var found []Markup
+func ElementsWithAttr(root *Markup, key string, val string) []*Markup {
+	var found []*Markup
 
 	for _, ch := range root.Children() {
-		if AttrContains(&ch, key, val) {
+		if AttrContains(ch, key, val) {
 			found = append(found, ch)
 		}
 
-		found = append(found, ElementsWithAttr(&ch, key, val)...)
+		found = append(found, ElementsWithAttr(ch, key, val)...)
 	}
 
 	return found
@@ -316,8 +316,8 @@ func ElementsWithAttr(root *Markup, key string, val string) []Markup {
 
 // ElementsWithTag returns elements matching the tag type in the parent markup children list
 // only without going deeper into children's children lists.
-func ElementsWithTag(root *Markup, tag string) []Markup {
-	var found []Markup
+func ElementsWithTag(root *Markup, tag string) []*Markup {
+	var found []*Markup
 
 	tag = strings.TrimSpace(strings.ToLower(tag))
 	for _, ch := range root.Children() {
@@ -325,7 +325,7 @@ func ElementsWithTag(root *Markup, tag string) []Markup {
 			found = append(found, ch)
 		}
 
-		found = append(found, ElementsWithTag(&ch, tag)...)
+		found = append(found, ElementsWithTag(ch, tag)...)
 	}
 
 	return found

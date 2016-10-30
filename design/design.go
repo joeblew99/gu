@@ -1,6 +1,7 @@
 package design
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/gopherjs/gopherjs/js"
@@ -35,7 +36,7 @@ func getResources() *Resources {
 // ResourceRenderer  defines an interface for a resource rendering structure which handles rendering
 // of a giving resource.
 type ResourceRenderer interface {
-	Render(...ResourceDefinition)
+	Render(...*ResourceDefinition)
 	BindEvent(*trees.Event, *js.Object)
 	RenderUpdate(gu.Renderable, string, bool)
 	TriggerBindEvent(*js.Object, *js.Object, *trees.Event)
@@ -47,7 +48,7 @@ type ResourceRenderer interface {
 // current resources available.
 type Resources struct {
 	lastPath  dispatch.Path
-	Resources []ResourceDefinition
+	Resources []*ResourceDefinition
 	renderer  ResourceRenderer
 }
 
@@ -75,12 +76,13 @@ func New(renderer ...ResourceRenderer) *Resources {
 
 	var res Resources
 	res.renderer = rn
-	return collection.root
+
+	return &res
 }
 
 // GetIndex returns the resource for this giving index.
 func (rs *Resources) GetIndex(index int) *ResourceDefinition {
-	return &(rs.Resources[index])
+	return rs.Resources[index]
 }
 
 // Init intializes all attached resources under its giving resource list.
@@ -92,6 +94,8 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 	}
 
 	dispatch.Subscribe(func(pd dispatch.PathDirective) {
+		fmt.Printf("Path dispatch called")
+
 		if !watchHash {
 			psx := dispatch.UseDirective(pd)
 			if psx.String() == rs.lastPath.String() {
@@ -131,7 +135,6 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 
 	for _, dsl := range dslList {
 		res := newResource(rs, dsl)
-		rs.Resources = append(rs.Resources, *res)
 		res.Init()
 	}
 
@@ -145,7 +148,7 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 }
 
 // Resolve returns the giving definitions that matches the provided path.
-func (rs *Resources) Resolve(path dispatch.Path) []ResourceDefinition {
+func (rs *Resources) Resolve(path dispatch.Path) []*ResourceDefinition {
 	res := rs.ResolveWith(path.Rem)
 
 	for _, rs := range res {
@@ -159,8 +162,8 @@ func (rs *Resources) Resolve(path dispatch.Path) []ResourceDefinition {
 // ResolveWith resolves the giving path by testing all available resource definitions to be
 // rendered and returns a slice of all Resources sorted against the order which they should be
 // rendered.
-func (rs *Resources) ResolveWith(path string) []ResourceDefinition {
-	var first, last, any []ResourceDefinition
+func (rs *Resources) ResolveWith(path string) []*ResourceDefinition {
+	var first, last, any []*ResourceDefinition
 
 	for _, resource := range rs.Resources {
 		if _, _, passed := resource.Resolver.Test(path); passed {
@@ -195,29 +198,30 @@ func (rs *Resources) CurrentResource() *ResourceDefinition {
 		return nil
 	}
 
-	return &(rs.Resources[rlen-1])
+	return rs.Resources[rlen-1]
 }
 
 // Render creates a complete markup definition using the giving set of Resource
 // Definition by applying the giving path.
 func (rs *Resources) Render(path dispatch.Path) *trees.Markup {
-	return rs.render(rs.Resolve(path)...)
+	result := rs.Resolve(path)
+	return rs.render(result...)
 }
 
 // render performs the needed work of collecting the giving markups and
 // creating the complete html rendering.
-func (rs *Resources) render(rsx ...ResourceDefinition) *trees.Markup {
+func (rs *Resources) render(rsx ...*ResourceDefinition) *trees.Markup {
 	var head = trees.NewMarkup("head", false)
 	var body = trees.NewMarkup("body", false)
 
 	for _, rx := range rsx {
 
 		for _, item := range rx.Links {
-			item.Render().ApplyMorphers().Apply(head)
+			item.Render().Apply(head)
 		}
 
 		for _, item := range rx.Renderables {
-			markup := item.View.Render().ApplyMorphers()
+			markup := item.View.Render()
 
 			if item.Targets != "" {
 				for _, target := range trees.MarkupQueries.QueryAll(body, item.Targets) {
@@ -232,7 +236,7 @@ func (rs *Resources) render(rsx ...ResourceDefinition) *trees.Markup {
 
 		// Render all deferred renderables into the body markup
 		for _, item := range rx.DRenderables {
-			markup := item.View.Render().ApplyMorphers()
+			markup := item.View.Render()
 
 			if item.Targets != "" {
 				for _, target := range trees.MarkupQueries.QueryAll(body, item.Targets) {
@@ -246,7 +250,7 @@ func (rs *Resources) render(rsx ...ResourceDefinition) *trees.Markup {
 		}
 
 		for _, item := range rx.DeferLinks {
-			item.Render().ApplyMorphers().Apply(body)
+			item.Render().Apply(body)
 		}
 	}
 
@@ -274,6 +278,7 @@ type ResourceDefinition struct {
 	DRenderables []targetRenderable
 
 	Order    RenderingOrder
+	Manager  *gu.RouteManager
 	Renderer ResourceRenderer
 	Resolver dispatch.Resolver
 	Root     *Resources
@@ -295,12 +300,12 @@ func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 	rs.Order = Any
 	rs.Root = root
 	rs.uuid = gu.NewKey()
-	rs.Renderer = root.renderer
+	rs.Manager = gu.NewRouteManager()
 	rs.Resolver = dispatch.NewResolver("*")
 
-	root.Resources = append(root.Resources, rs)
-
 	rsp := &rs
+	root.Resources = append(root.Resources, rsp)
+
 	dispatch.Subscribe(func(rv ResourceViewUpdate) {
 		if rv.Resource != rsp.uuid {
 			return
@@ -310,7 +315,7 @@ func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 			return
 		}
 
-		rs.Renderer.RenderUpdate(rv.View, rv.Target, true)
+		rs.Root.renderer.RenderUpdate(rv.View, rv.Target, true)
 	})
 
 	return rsp
@@ -325,6 +330,10 @@ func (rd *ResourceDefinition) UUID() string {
 func (rd *ResourceDefinition) Init() {
 	rd.Dsl()
 	rd.Resolver.Flush()
+
+	for _, level := range rd.Manager.Levels {
+		rd.Resolver.Register(level)
+	}
 
 	for _, view := range rd.Views {
 		rd.Resolver.ResolvedPassed(view.Resolve)
@@ -359,6 +368,48 @@ func UseRoute(path string) {
 	getResources().MustCurrentResource().Resolver = dispatch.NewResolver(path)
 }
 
+// LocalRouter returns a gu.RouteApplier which can be used to localize the
+// internal routes for the base resource router and allow usage with markup
+// and views.
+func LocalRouter(basePath string, mx ...trees.SwitchMorpher) gu.RouteApplier {
+	var mo trees.SwitchMorpher
+
+	if len(mx) != 0 {
+		mo = mx[0]
+	} else {
+		mo = &trees.RemoveMorpher{}
+	}
+
+	return getResources().MustCurrentResource().Manager.Level(basePath, mo)
+}
+
+// DoRoute takes a giving route applier returning the last route created
+// from the route levels of the applier.
+func DoRoute(level gu.RouteApplier, routes ...string) gu.RouteApplier {
+	if len(routes) == 0 {
+		return level
+	}
+
+	var last gu.RouteApplier
+
+	for _, route := range routes {
+		if last == nil {
+			last = level.N(route)
+			continue
+		}
+
+		last = last.N(route)
+	}
+
+	return last
+}
+
+// ForRoute allows definition of a route level to applying all the giving
+// routes path returning the last applier.
+func ForRoute(base string, routes ...string) gu.RouteApplier {
+	return DoRoute(LocalRouter(base), routes...)
+}
+
 //==============================================================================
 
 // Viewable defines a generic interface for a generic return type. It exists to
@@ -381,21 +432,17 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 		immediate = immediateRender[0]
 	}
 
-	var markupFn []trees.Markup
+	var markupFn []*trees.Markup
 
 	switch mo := markup.(type) {
-	case func() []trees.Markup:
+	case func() []*trees.Markup:
 		markupFn = mo()
-	case []trees.Markup:
+	case []*trees.Markup:
 		markupFn = mo
 	case func() *trees.Markup:
-		markupFn = []trees.Markup{*(mo())}
+		markupFn = []*trees.Markup{mo()}
 	case *trees.Markup:
-		markupFn = []trees.Markup{*mo}
-	case func() trees.Markup:
-		markupFn = []trees.Markup{mo()}
-	case trees.Markup:
-		markupFn = []trees.Markup{mo}
+		markupFn = []*trees.Markup{mo}
 	case string:
 		mp, err := trees.ParseTree(mo)
 		if err != nil {
@@ -408,8 +455,11 @@ func Markup(markup Viewable, targets string, immediateRender ...bool) {
 	}
 
 	current := getResources().MustCurrentResource()
+
 	for _, markup := range markupFn {
-		static := gu.Static(&markup)
+		static := gu.Static(markup)
+		static.Morph = true
+
 		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
 
 		if targets != "" && immediate {
@@ -552,6 +602,7 @@ func Metas(props map[string]string) {
 // page content.
 func mLink(tag string, deffer bool) gu.StaticView {
 	var static gu.StaticView
+	static.Morph = true
 	static.Content = trees.NewMarkup(tag, false)
 
 	current := getResources().MustCurrentResource()

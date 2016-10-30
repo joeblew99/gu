@@ -40,15 +40,15 @@ func (r *RemoveMorpher) Off(m interface{}) {
 // Morph sets the markup received as removed.
 func (r *RemoveMorpher) Morph(m *Markup) *Markup {
 	r.wl.RLock()
-	{
-		if r.remove {
-			m.Remove()
-		} else {
-			m.UnRemove()
-		}
-	}
-	r.wl.RUnlock()
+	if r.remove {
+		m.Remove()
+		r.wl.RUnlock()
 
+		return m
+	}
+
+	m.UnRemove()
+	r.wl.RUnlock()
 	return m
 }
 

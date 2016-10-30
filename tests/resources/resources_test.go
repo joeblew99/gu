@@ -1,7 +1,6 @@
 package resources_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/influx6/gu"
@@ -29,7 +28,7 @@ func TestResource(t *testing.T) {
 		design.Markup(func() *trees.Markup {
 			return elems.Div(
 				elems.Section(
-					elems.Label(elems.Text("Current Speed")),
+					elems.Label(elems.Text("Total Current Speed")),
 				),
 			)
 		}, "", false)
@@ -75,8 +74,11 @@ func TestResource(t *testing.T) {
 		tests.Failed(t, "Should have added a div tag static view as the second item: %q", name)
 	}
 	tests.Passed(t, "Should have added a style tag static view as the second item")
-
 }
+
+var flatRender = "<html data-gen=\"gu\">\n<head data-gen=\"gu\">\n</head>\n<body data-gen=\"gu\">\n</body>\n</html>\n"
+var fullRender = "<html data-gen=\"gu\">\n<head data-gen=\"gu\">\n<link data-gen=\"gu\"  href=\"../some.css\"  rel=\"stylesheet\"  type=\"text/css\">\n</link>\n<script data-gen=\"gu\"  src=\"../some.js\"  type=\"text/javascript\">\n</script>\n</head>\n<body data-gen=\"gu\">\n<h1 data-gen=\"gu\"  resource-id=\"2-3bce4931-6c75-41ab-afe0-2ec108a30860\">\nSpeed Dashboard</h1>\n<div data-gen=\"gu\"  resource-id=\"2-3bce4931-6c75-41ab-afe0-2ec108a30860\">\n<section data-gen=\"gu\">\n<label data-gen=\"gu\">\nCurrent Speed</label>\n</section>\n</div>\n<div data-gen=\"gu\">\n</div>\n</body>\n</html>\n"
+var routedRender = "<html data-gen=\"gu\">\n<head data-gen=\"gu\">\n<link data-gen=\"gu\"  href=\"../some.css\"  rel=\"stylesheet\"  type=\"text/css\">\n</link>\n<script data-gen=\"gu\"  src=\"../some.js\"  type=\"text/javascript\">\n</script>\n</head>\n<body data-gen=\"gu\">\n<h1 data-gen=\"gu\"  resource-id=\"2-3bce4931-6c75-41ab-afe0-2ec108a30860\">\nSpeed Dashboard</h1>\n<div data-gen=\"gu\"  resource-id=\"2-3bce4931-6c75-41ab-afe0-2ec108a30860\">\n<section data-gen=\"gu\">\n<label data-gen=\"gu\">\nCurrent Speed</label>\n</section>\n</div>\n<div data-gen=\"gu\">\n<section data-gen=\"gu\">\n<label data-gen=\"gu\">\nTotal Speed</label>\n</section>\n</div>\n</body>\n</html>\n"
 
 func TestResourceRendering(t *testing.T) {
 	trees.SetMode(trees.Testing)
@@ -84,9 +86,7 @@ func TestResourceRendering(t *testing.T) {
 
 	_ = design.Resource(func() {
 		design.Order(design.Any)
-		design.UseRoute("/home")
-
-		routes := gu.NewRouteManager()
+		design.UseRoute("/home/*")
 
 		design.CSS("../some.css", false)
 		design.Scripts("../some.js", "text/javascript", false)
@@ -103,8 +103,8 @@ func TestResourceRendering(t *testing.T) {
 
 		design.View(gu.Static(elems.Div(
 			elems.Section(
-				routes.L("/home/*").N("/speed"),
-				elems.Label(elems.Text("Current Speed")),
+				design.ForRoute("/models/*", "/:speed"),
+				elems.Label(elems.Text("Total Speed")),
 			),
 		)), "", false)
 
@@ -112,9 +112,28 @@ func TestResourceRendering(t *testing.T) {
 
 	master := design.New().Init()
 
-	testRender := master.Render(dispatch.UseLocation("/home"))
-	fmt.Printf("Param: %q\n", testRender.HTML())
+	testRender := master.Render(dispatch.UseLocation("/home/"))
+	if testRender.HTML() != fullRender {
+		t.Logf("\t\tExpected: %q", fullRender)
+		t.Logf("\t\tReceived: %q", testRender.HTML())
+		tests.Failed(t, "Should have rendered the expected full markup")
+	}
+	tests.Passed(t, "Should have rendered the expected full markup")
 
-	testRender = master.Render(dispatch.UseLocation("/root"))
-	fmt.Printf("Param: %q\n", testRender.HTML())
+	testRender2 := master.Render(dispatch.UseLocation("/home/models/340mph"))
+	if testRender2.HTML() != routedRender {
+		t.Logf("\t\tExpected: %q", routedRender)
+		t.Logf("\t\tReceived: %q", testRender2.HTML())
+		tests.Failed(t, "Should have rendered the routed full markup")
+	}
+	tests.Passed(t, "Should have rendered the routed full markup")
+
+	testFlatRender := master.Render(dispatch.UseLocation("/root"))
+	if testFlatRender.HTML() != flatRender {
+		t.Logf("\t\tExpected: %q", flatRender)
+		t.Logf("\t\tReceived: %q", testFlatRender.HTML())
+		tests.Failed(t, "Should have rendered the expected markup")
+	}
+	tests.Passed(t, "Should have rendered the expected markup")
+
 }

@@ -214,7 +214,7 @@ func (m *ElementWriter) Print(e *Markup) string {
 			continue
 		}
 
-		children = append(children, m.Print(&ch))
+		children = append(children, m.Print(ch))
 	}
 
 	//lets create the elements markup now

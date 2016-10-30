@@ -33,6 +33,23 @@ func TestResolver(t *testing.T) {
 	rx.Resolve(dispatch.UseLocation("/12"))
 }
 
+func TestResolverLevels(t *testing.T) {
+	home := dispatch.NewResolver("/home/*")
+	rx := dispatch.NewResolver("/:id")
+
+	home.Register(rx)
+
+	rx.ResolvedPassed(func(px dispatch.Path) {
+		tests.Passed(t, "Should have notified with Path %#v", px)
+	})
+
+	rx.ResolvedFailed(func(px dispatch.Path) {
+		tests.Failed(t, "Should have notified with Path %#v", px)
+	})
+
+	home.Resolve(dispatch.UseLocation("home/12"))
+}
+
 func TestResolverFailed(t *testing.T) {
 	rx := dispatch.NewResolver("/:id")
 	rx.ResolvedPassed(func(px dispatch.Path) {

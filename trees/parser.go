@@ -9,7 +9,7 @@ import (
 // ParseTree takes a string markup and returns a *Markup which
 // contains the full structure transpiled
 // into the gutrees markup block structure.
-func ParseTree(markup string) ([]Markup, error) {
+func ParseTree(markup string) ([]*Markup, error) {
 	tokens := html.NewTokenizer(strings.NewReader(markup))
 
 	rootElem := NewMarkup("div", false)

@@ -21,7 +21,7 @@ type DOMRenderer struct {
 
 // Render renders the giving set of resources into the provided body and header
 // of the DOM.
-func (dm *DOMRenderer) Render(rs ...design.ResourceDefinition) {
+func (dm *DOMRenderer) Render(rs ...*design.ResourceDefinition) {
 	head := dm.Document.QuerySelector("head")
 	body := dm.Document.QuerySelector("body")
 

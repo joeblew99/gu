@@ -24,7 +24,7 @@ type Markup struct {
 	textContent string
 
 	events         []Event
-	children       []Markup
+	children       []*Markup
 	styles         []Property
 	attrs          []Property
 	morphers       []Morpher
@@ -182,26 +182,15 @@ func (e *Markup) AddMorpher(m ...Morpher) {
 // any morpher returns nil, then the element is reused again until all morphers
 // are called.
 func (e *Markup) ApplyMorphers() *Markup {
-	var base *Markup
-
-	for index, child := range e.children {
-		e.children[index] = *child.ApplyMorphers()
+	for _, child := range e.children {
+		child.ApplyMorphers()
 	}
 
 	for _, morpher := range e.morphers {
-		if base == nil {
-			base = morpher.Morph(e)
-			continue
-		}
-
-		base = morpher.Morph(base)
+		morpher.Morph(e)
 	}
 
-	if base == nil {
-		base = e
-	}
-
-	return base
+	return e
 }
 
 //==============================================================================
@@ -294,6 +283,9 @@ func (e *Markup) UpdateHash() {
 // either changed and returned to normal values eg display: none to display: block
 // and vise-versa, so only attributes are used in the check process.
 func (e *Markup) Reconcile(em *Markup) bool {
+	if e == em {
+		return false
+	}
 
 	// are we reconciling the proper elements type ? if not skip (i.e different types cant reconcile eachother)]
 	// TODO: decide if we should mark the markup as removed in this case as a catchall system
@@ -353,12 +345,12 @@ func (e *Markup) Reconcile(em *Markup) bool {
 			nch := newChildren[n]
 			if nch.Name() != och.Name() {
 				och.Remove()
-				e.AddChild(&och)
+				e.AddChild(och)
 				childChanged = true
 				continue
 			}
 
-			if nch.Reconcile(&och) {
+			if nch.Reconcile(och) {
 				childChanged = true
 			}
 
@@ -366,7 +358,7 @@ func (e *Markup) Reconcile(em *Markup) bool {
 		}
 
 		och.Remove()
-		e.AddChild(&och)
+		e.AddChild(och)
 		childChanged = true
 	}
 
@@ -385,12 +377,16 @@ func (e *Markup) AddChild(child ...*Markup) {
 	}
 
 	for _, ch := range child {
-		e.children = append(e.children, *ch)
+		if ch == e {
+			continue
+		}
+
+		e.children = append(e.children, ch)
 	}
 }
 
 // Children returns the children list for the element
-func (e *Markup) Children() []Markup {
+func (e *Markup) Children() []*Markup {
 	return e.children
 }
 

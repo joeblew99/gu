@@ -21,6 +21,7 @@ type Resolver interface {
 	Resolvable
 
 	Flush()
+	Path() string
 	Register(Resolver)
 	ResolvedPassed(ResolveSubscriber) Resolver
 	ResolvedFailed(ResolveSubscriber) Resolver
@@ -31,8 +32,6 @@ type Resolver interface {
 // the Resolver interface.
 func NewResolver(path string) Resolver {
 	var br basicResolver
-	br.path = path
-
 	if path != "" {
 		br.matcher = URIMatcher(path)
 	}
@@ -42,7 +41,6 @@ func NewResolver(path string) Resolver {
 
 // basicResolver defines a struct that implements
 type basicResolver struct {
-	path     string
 	children []Resolver
 	fails    []ResolveSubscriber
 	subs     []ResolveSubscriber
@@ -54,6 +52,11 @@ func (b *basicResolver) Flush() {
 	b.subs = nil
 	b.fails = nil
 	b.children = nil
+}
+
+// Path returns the giving path pattern used by this resolver.
+func (b *basicResolver) Path() string {
+	return b.matcher.Pattern()
 }
 
 // Register adds a resolver into the list which will get triggerd
