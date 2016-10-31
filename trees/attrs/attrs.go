@@ -93,7 +93,10 @@ func Autofocus(val string) trees.Property {
 	return &trees.Attribute{Name: "autofocus", Value: val}
 }
 
-// ID defines attributes of type "Id" for html element types
+// ID defines attributes of type "Id" for html element types.
+// This is rather special in that, it uses the after effect function field
+// to set the markups internal Id field to its value. This is intentional
+// has it helps the css system provide a more accurate selector for the element.
 func ID(val string) trees.Property {
 	return &trees.Attribute{Name: "id", Value: val, After: func(owner *trees.Markup) { owner.Id = val }}
 }

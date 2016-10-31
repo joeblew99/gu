@@ -3,10 +3,14 @@ package apps
 import (
 	. "github.com/influx6/gu/design"
 	. "github.com/influx6/gu/trees"
+	. "github.com/influx6/gu/trees/attrs"
 	. "github.com/influx6/gu/trees/elems"
 )
 
-type feel struct{ Color string }
+type feel struct {
+	Color      string
+	Background string
+}
 
 var _ = Resource(func() {
 
@@ -20,20 +24,37 @@ var _ = Resource(func() {
 
 	DoMarkup(func() *Markup {
 		return Div(
+			ID("hello"),
 			CSS(`
 				${
 					width: 500px;
 					height: 500px;
 				}
 
-				section{
+				$:hover{
+					background: {{ .Background }};
+				}
+
+				section.super{
 					width: 50%;
 					height: 50%;
 					margin: 0 auto;
 					background: {{ .Color }};
 				}
-			`, feel{Color: "#eee"}),
+
+				@media (max-width: 400px){
+
+					$:hover {
+						background: red;
+					}
+
+				}
+			`, feel{
+				Color:      "#eee",
+				Background: "pink",
+			}),
 			Section(
+				Class("super"),
 				Label(Text("Hello")),
 			),
 		)

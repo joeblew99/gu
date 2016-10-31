@@ -63,21 +63,25 @@ func (r *Rule) Stylesheet(bind interface{}, parentNode string) (*bcss.Stylesheet
 	return &stylesheet, nil
 }
 
+// adjustName adjust the provided name according to the set rules of for specific
+// css selectors.
+func (r *Rule) adjustName(sel string, parentNode string) string {
+	sel = strings.TrimSpace(sel)
+
+	switch {
+	case strings.Contains(sel, "$"):
+		return strings.Replace(sel, "$", parentNode, -1)
+	case strings.HasPrefix(sel, ":"):
+		return parentNode + "" + sel
+	default:
+		return parentNode + " " + sel
+	}
+}
+
 // morphRules adjusts the provided rules with the parent selector.
 func (r *Rule) morphRule(base *bcss.Rule, parentNode string) {
 	for index, sel := range base.Selectors {
-		var newSel string
-
-		switch {
-		case strings.HasPrefix(sel, "$"):
-			newSel = strings.Replace(sel, "$", parentNode, 1)
-		case strings.HasPrefix(sel, ":"):
-			newSel = parentNode + "" + sel
-		default:
-			newSel = parentNode + " " + sel
-		}
-
-		base.Selectors[index] = newSel
+		base.Selectors[index] = r.adjustName(sel, parentNode)
 	}
 
 	for _, rule := range base.Rules {
@@ -87,16 +91,7 @@ func (r *Rule) morphRule(base *bcss.Rule, parentNode string) {
 		}
 
 		for index, sel := range rule.Selectors {
-			var newSel string
-
-			switch {
-			case strings.HasPrefix(sel, ":"):
-				newSel = parentNode + "" + sel
-			default:
-				newSel = parentNode + " " + sel
-			}
-
-			rule.Selectors[index] = newSel
+			rule.Selectors[index] = r.adjustName(sel, parentNode)
 		}
 	}
 }

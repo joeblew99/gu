@@ -44394,68 +44394,83 @@ $packages["github.com/influx6/gu/css"] = (function() {
 		}
 		_ref$1 = sheet$1.Rules;
 		_i$1 = 0;
-		while (true) {
-			if (!(_i$1 < _ref$1.$length)) { break; }
+		/* while (true) { */ case 6:
+			/* if (!(_i$1 < _ref$1.$length)) { break; } */ if(!(_i$1 < _ref$1.$length)) { $s = 7; continue; }
 			rule$1 = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
-			r.morphRule(rule$1, parentNode);
+			$r = r.morphRule(rule$1, parentNode); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			_i$1++;
-		}
+		/* } */ $s = 6; continue; case 7:
 		stylesheet[0].Rules = $appendSlice(stylesheet[0].Rules, sheet$1.Rules);
 		$s = -1; return [stylesheet[0], $ifaceNil];
 		return [stylesheet[0], $ifaceNil];
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Rule.ptr.prototype.Stylesheet }; } $f.$ptr = $ptr; $f._i = _i; $f._i$1 = _i$1; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._ref = _ref; $f._ref$1 = _ref$1; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.bind = bind; $f.content = content; $f.err = err; $f.err$1 = err$1; $f.err$2 = err$2; $f.parentNode = parentNode; $f.r = r; $f.rule = rule; $f.rule$1 = rule$1; $f.sheet = sheet; $f.sheet$1 = sheet$1; $f.stylesheet = stylesheet; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	Rule.prototype.Stylesheet = function(bind, parentNode) { return this.$val.Stylesheet(bind, parentNode); };
+	Rule.ptr.prototype.adjustName = function(sel, parentNode) {
+		var $ptr, _r, parentNode, r, sel, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; parentNode = $f.parentNode; r = $f.r; sel = $f.sel; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		r = this;
+		_r = strings.TrimSpace(sel); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		sel = _r;
+		if (strings.Contains(sel, "$")) {
+			$s = -1; return strings.Replace(sel, "$", parentNode, -1);
+			return strings.Replace(sel, "$", parentNode, -1);
+		} else if (strings.HasPrefix(sel, ":")) {
+			$s = -1; return parentNode + "" + sel;
+			return parentNode + "" + sel;
+		} else {
+			$s = -1; return parentNode + " " + sel;
+			return parentNode + " " + sel;
+		}
+		$s = -1; return "";
+		return "";
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Rule.ptr.prototype.adjustName }; } $f.$ptr = $ptr; $f._r = _r; $f.parentNode = parentNode; $f.r = r; $f.sel = sel; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Rule.prototype.adjustName = function(sel, parentNode) { return this.$val.adjustName(sel, parentNode); };
 	Rule.ptr.prototype.morphRule = function(base, parentNode) {
-		var $ptr, _i, _i$1, _i$2, _ref, _ref$1, _ref$2, base, index, index$1, newSel, newSel$1, parentNode, r, rule, sel, sel$1, x, x$1;
+		var $ptr, _i, _i$1, _i$2, _r, _r$1, _ref, _ref$1, _ref$2, base, index, index$1, parentNode, r, rule, sel, sel$1, x, x$1, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _i$1 = $f._i$1; _i$2 = $f._i$2; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; base = $f.base; index = $f.index; index$1 = $f.index$1; parentNode = $f.parentNode; r = $f.r; rule = $f.rule; sel = $f.sel; sel$1 = $f.sel$1; x = $f.x; x$1 = $f.x$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		r = this;
 		_ref = base.Selectors;
 		_i = 0;
-		while (true) {
-			if (!(_i < _ref.$length)) { break; }
+		/* while (true) { */ case 1:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 2; continue; }
 			index = _i;
 			sel = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
-			newSel = "";
-			if (strings.HasPrefix(sel, "$")) {
-				newSel = strings.Replace(sel, "$", parentNode, 1);
-			} else if (strings.HasPrefix(sel, ":")) {
-				newSel = parentNode + "" + sel;
-			} else {
-				newSel = parentNode + " " + sel;
-			}
-			(x = base.Selectors, ((index < 0 || index >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + index] = newSel));
+			_r = r.adjustName(sel, parentNode); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			(x = base.Selectors, ((index < 0 || index >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + index] = _r));
 			_i++;
-		}
+		/* } */ $s = 1; continue; case 2:
 		_ref$1 = base.Rules;
 		_i$1 = 0;
-		while (true) {
-			if (!(_i$1 < _ref$1.$length)) { break; }
+		/* while (true) { */ case 4:
+			/* if (!(_i$1 < _ref$1.$length)) { break; } */ if(!(_i$1 < _ref$1.$length)) { $s = 5; continue; }
 			rule = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
-			if (rule.Kind === 1) {
-				r.morphRule(rule, parentNode);
+			/* */ if (rule.Kind === 1) { $s = 6; continue; }
+			/* */ $s = 7; continue;
+			/* if (rule.Kind === 1) { */ case 6:
+				$r = r.morphRule(rule, parentNode); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				_i$1++;
-				continue;
-			}
+				/* continue; */ $s = 4; continue;
+			/* } */ case 7:
 			_ref$2 = rule.Selectors;
 			_i$2 = 0;
-			while (true) {
-				if (!(_i$2 < _ref$2.$length)) { break; }
+			/* while (true) { */ case 9:
+				/* if (!(_i$2 < _ref$2.$length)) { break; } */ if(!(_i$2 < _ref$2.$length)) { $s = 10; continue; }
 				index$1 = _i$2;
 				sel$1 = ((_i$2 < 0 || _i$2 >= _ref$2.$length) ? $throwRuntimeError("index out of range") : _ref$2.$array[_ref$2.$offset + _i$2]);
-				newSel$1 = "";
-				if (strings.HasPrefix(sel$1, ":")) {
-					newSel$1 = parentNode + "" + sel$1;
-				} else {
-					newSel$1 = parentNode + " " + sel$1;
-				}
-				(x$1 = rule.Selectors, ((index$1 < 0 || index$1 >= x$1.$length) ? $throwRuntimeError("index out of range") : x$1.$array[x$1.$offset + index$1] = newSel$1));
+				_r$1 = r.adjustName(sel$1, parentNode); /* */ $s = 11; case 11: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+				(x$1 = rule.Selectors, ((index$1 < 0 || index$1 >= x$1.$length) ? $throwRuntimeError("index out of range") : x$1.$array[x$1.$offset + index$1] = _r$1));
 				_i$2++;
-			}
+			/* } */ $s = 9; continue; case 10:
 			_i$1++;
-		}
+		/* } */ $s = 4; continue; case 5:
+		$s = -1; return;
+		return;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Rule.ptr.prototype.morphRule }; } $f.$ptr = $ptr; $f._i = _i; $f._i$1 = _i$1; $f._i$2 = _i$2; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f.base = base; $f.index = index; $f.index$1 = index$1; $f.parentNode = parentNode; $f.r = r; $f.rule = rule; $f.sel = sel; $f.sel$1 = sel$1; $f.x = x; $f.x$1 = x$1; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	Rule.prototype.morphRule = function(base, parentNode) { return this.$val.morphRule(base, parentNode); };
-	ptrType$1.methods = [{prop: "Stylesheet", name: "Stylesheet", pkg: "", typ: $funcType([$emptyInterface, $String], [ptrType$3, $error], false)}, {prop: "morphRule", name: "morphRule", pkg: "github.com/influx6/gu/css", typ: $funcType([ptrType$2, $String], [], false)}];
+	ptrType$1.methods = [{prop: "Stylesheet", name: "Stylesheet", pkg: "", typ: $funcType([$emptyInterface, $String], [ptrType$3, $error], false)}, {prop: "adjustName", name: "adjustName", pkg: "github.com/influx6/gu/css", typ: $funcType([$String, $String], [$String], false)}, {prop: "morphRule", name: "morphRule", pkg: "github.com/influx6/gu/css", typ: $funcType([ptrType$2, $String], [], false)}];
 	Rule.init("github.com/influx6/gu/css", [{prop: "template", name: "template", exported: false, typ: ptrType, tag: ""}, {prop: "depends", name: "depends", exported: false, typ: sliceType, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
@@ -54766,6 +54781,33 @@ $packages["github.com/influx6/gu/dom"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
+$packages["github.com/influx6/gu/trees/attrs"] = (function() {
+	var $pkg = {}, $init, trees, strings, Class, ID;
+	trees = $packages["github.com/influx6/gu/trees"];
+	strings = $packages["strings"];
+	Class = function(val) {
+		var $ptr, val;
+		return new trees.Attribute.ptr("class", strings.Join(val, " "), $throwNilPointerError);
+	};
+	$pkg.Class = Class;
+	ID = function(val) {
+		var $ptr, val;
+		return new trees.Attribute.ptr("id", val, (function(owner) {
+			var $ptr, owner;
+			owner.Id = val;
+		}));
+	};
+	$pkg.ID = ID;
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = trees.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = strings.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
 $packages["github.com/influx6/gu/trees/elems"] = (function() {
 	var $pkg = {}, $init, css, trees, ptrType, sliceType, Text, CSS, Div, Label, Section, Header1;
 	css = $packages["github.com/influx6/gu/css"];
@@ -54898,29 +54940,34 @@ $packages["github.com/influx6/gu/trees/elems"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/examples/dashboard/apps"] = (function() {
-	var $pkg = {}, $init, design, trees, elems, feel, sliceType, sliceType$1, ptrType, funcType, _r;
+	var $pkg = {}, $init, design, trees, attrs, elems, feel, sliceType, sliceType$1, ptrType, funcType, sliceType$2, _r;
 	design = $packages["github.com/influx6/gu/design"];
 	trees = $packages["github.com/influx6/gu/trees"];
+	attrs = $packages["github.com/influx6/gu/trees/attrs"];
 	elems = $packages["github.com/influx6/gu/trees/elems"];
-	feel = $pkg.feel = $newType(0, $kindStruct, "apps.feel", true, "github.com/influx6/gu/examples/dashboard/apps", false, function(Color_) {
+	feel = $pkg.feel = $newType(0, $kindStruct, "apps.feel", true, "github.com/influx6/gu/examples/dashboard/apps", false, function(Color_, Background_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Color = "";
+			this.Background = "";
 			return;
 		}
 		this.Color = Color_;
+		this.Background = Background_;
 	});
 	sliceType = $sliceType(trees.Appliable);
 	sliceType$1 = $sliceType($Bool);
 	ptrType = $ptrType(trees.Markup);
 	funcType = $funcType([], [ptrType], false);
-	feel.init("", [{prop: "Color", name: "Color", exported: true, typ: $String, tag: ""}]);
+	sliceType$2 = $sliceType($String);
+	feel.init("", [{prop: "Color", name: "Color", exported: true, typ: $String, tag: ""}, {prop: "Background", name: "Background", exported: true, typ: $String, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		$r = design.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = trees.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = elems.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = attrs.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = elems.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		_r = design.Resource((function $b() {
 			var $ptr, _r, _r$1, $s, $r;
 			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -54932,23 +54979,26 @@ $packages["github.com/influx6/gu/examples/dashboard/apps"] = (function() {
 			_r$1 = elems.Header1(new sliceType([_r])); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 			$r = design.DoMarkup(_r$1, "", new sliceType$1([false])); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$r = design.DoMarkup(new funcType((function $b() {
-				var $ptr, _arg, _arg$1, _r$2, _r$3, _r$4, _r$5, _r$6, x, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				_r$2 = elems.CSS("\n\t\t\t\t${\n\t\t\t\t\twidth: 500px;\n\t\t\t\t\theight: 500px;\n\t\t\t\t}\n\n\t\t\t\tsection{\n\t\t\t\t\twidth: 50%;\n\t\t\t\t\theight: 50%;\n\t\t\t\t\tmargin: 0 auto;\n\t\t\t\t\tbackground: {{ .Color }};\n\t\t\t\t}\n\t\t\t", (x = new feel.ptr("#eee"), new x.constructor.elem(x))); /* */ $s = 1; case 1: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-				_arg = _r$2;
+				var $ptr, _arg, _arg$1, _arg$2, _arg$3, _arg$4, _r$2, _r$3, _r$4, _r$5, _r$6, x, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _arg$4 = $f._arg$4; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				_arg = attrs.ID("hello");
+				_r$2 = elems.CSS("\n\t\t\t\t${\n\t\t\t\t\twidth: 500px;\n\t\t\t\t\theight: 500px;\n\t\t\t\t}\n\n\t\t\t\t$:hover{\n\t\t\t\t\tbackground: {{ .Background}};\n\t\t\t\t}\n\n\t\t\t\tsection.super{\n\t\t\t\t\twidth: 50%;\n\t\t\t\t\theight: 50%;\n\t\t\t\t\tmargin: 0 auto;\n\t\t\t\t\tbackground: {{ .Color }};\n\t\t\t\t}\n\n\t\t\t\t@media (max-width: 400px){\n\n\t\t\t\t\t$:hover {\n\t\t\t\t\t\tbackground: red;\n\t\t\t\t\t}\n\n\t\t\t\t}\n\t\t\t", (x = new feel.ptr("#eee", "pink"), new x.constructor.elem(x))); /* */ $s = 1; case 1: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+				_arg$1 = _r$2;
+				_arg$2 = attrs.Class(new sliceType$2(["super"]));
 				_r$3 = elems.Text("Hello"); /* */ $s = 2; case 2: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 				_r$4 = elems.Label(new sliceType([_r$3])); /* */ $s = 3; case 3: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-				_r$5 = elems.Section(new sliceType([_r$4])); /* */ $s = 4; case 4: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-				_arg$1 = _r$5;
-				_r$6 = elems.Div(new sliceType([_arg, _arg$1])); /* */ $s = 5; case 5: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+				_arg$3 = _r$4;
+				_r$5 = elems.Section(new sliceType([_arg$2, _arg$3])); /* */ $s = 4; case 4: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+				_arg$4 = _r$5;
+				_r$6 = elems.Div(new sliceType([_arg, _arg$1, _arg$4])); /* */ $s = 5; case 5: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
 				$s = -1; return _r$6;
 				return _r$6;
-				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
+				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._arg$4 = _arg$4; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 			})), "", new sliceType$1([false])); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;
 			return;
 			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.$s = $s; $f.$r = $r; return $f;
-		})); /* */ $s = 4; case 4: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		})); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		_r;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
