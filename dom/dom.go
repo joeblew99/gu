@@ -3,6 +3,8 @@
 package dom
 
 import (
+	"fmt"
+
 	hdom "honnef.co/go/js/dom"
 
 	gjs "github.com/gopherjs/gopherjs/js"
@@ -80,6 +82,7 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 
 		if !update {
 			markup.EachEvent(func(ev *trees.Event, root *trees.Markup) {
+				fmt.Printf("Setting events %#v to body\n", ev)
 				dm.BindEvent(ev, body.Underlying())
 			})
 		}
@@ -117,6 +120,8 @@ func (dm *DOMRenderer) BindEvent(source *trees.Event, root *gjs.Object) {
 // TriggerBindEvent connects the giving event with the provided dom target.
 func (dm *DOMRenderer) TriggerBindEvent(event *gjs.Object, root *gjs.Object, source *trees.Event) {
 	target := event.Get("target")
+
+	fmt.Printf("Received event %#v -> %#v : %#v\n", event, root, source)
 
 	children := root.Call("querySelectorAll", source.Target)
 	if children == nil || children == gjs.Undefined {

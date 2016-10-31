@@ -6,7 +6,7 @@ import (
 	. "github.com/influx6/gu/trees"
 	. "github.com/influx6/gu/trees/attrs"
 	. "github.com/influx6/gu/trees/elems"
-	. "github.com/influx6/gu/trees/events"
+	"github.com/influx6/gu/trees/events"
 )
 
 type feel struct {
@@ -56,7 +56,7 @@ var _ = Resource(func() {
 				Background: "pink",
 			}),
 			Section(
-				Click(func(ev EventObject, root *Markup) {
+				events.Click(func(ev EventObject, root *Markup) {
 					js.Global.Call("alert", "Am clicked!")
 				}, ""),
 				Class("super"),

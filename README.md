@@ -1,5 +1,5 @@
 # Gu
-  A fast UI component library for building web components
+  A component rendering library for go.
 
 ## Install
 

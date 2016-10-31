@@ -89,7 +89,7 @@ type Event struct {
 func NewEvent(evtype string, evtarget string) *Event {
 	return &Event{
 		Target: evtarget,
-		Type:   evtarget,
+		Type:   evtype,
 	}
 }
 
