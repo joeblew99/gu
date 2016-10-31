@@ -33,7 +33,7 @@ type Markup struct {
 	morphers       []Morpher
 	finalizers     []FinalizeHandle
 	onceFinalizers []FinalizeHandle
-	// parent         *Markup
+	parent         *Markup
 }
 
 // NewText returns a new Text instance element
@@ -50,22 +50,32 @@ func NewText(txt string) *Markup {
 //==============================================================================
 
 // CSSStylesheet returns a new instance of a CSSStylesheet.
-func CSSStylesheet(rule *css.Rule, bind interface{}, parentSel string) *Markup {
+func CSSStylesheet(rule *css.Rule, bind interface{}, sel ...string) *Markup {
+	var parentSel string
+
+	if len(sel) > 0 {
+		parentSel = sel[0]
+	}
+
 	content := NewMarkup("style", false)
 	content.allowChildren = false
 	content.allowAttributes = false
 	content.allowStyles = false
 	content.allowEvents = false
 	content.textContentFn = func(owner *Markup) string {
-		// var parentNode string
-		// if owner.parent != nil {
-		// 	id, err := GetAttr(owner.parent, "id")
-		// 	if err != nil {
-		// 		id = Property(NewAttr("id", owner.parent.tagname+"-"+owner.parent.uid))
-		// 		id.Apply(owner.parent)
-		// 	}
-		// 	parentNode, _ = id.Render()
-		// }
+		if parentSel == "" {
+			if owner.parent != nil {
+				id, err := GetAttr(owner.parent, "id")
+				if err != nil {
+					val := owner.parent.tagname + "-" + owner.parent.uid
+					Property(NewAttr("id", parentSel)).Apply(owner.parent)
+					parentSel = "#" + val
+				} else {
+					_, val := id.Render()
+					parentSel = "#" + val
+				}
+			}
+		}
 
 		sheet, err := rule.Stylesheet(bind, parentSel)
 		if err != nil {
@@ -421,7 +431,7 @@ func (e *Markup) AddChild(child ...*Markup) {
 			continue
 		}
 
-		// ch.parent = e
+		ch.parent = e
 		e.children = append(e.children, ch)
 	}
 }

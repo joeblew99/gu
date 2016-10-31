@@ -6,7 +6,9 @@ import (
 	. "github.com/influx6/gu/trees/elems"
 )
 
-_ = Resource(func() {
+type feel struct{ Color string }
+
+var _ = Resource(func() {
 
 	DoTitle("Dashboard App")
 
@@ -18,9 +20,14 @@ _ = Resource(func() {
 
 	DoMarkup(func() *Markup {
 		return Div(
-			Style(
-				Text("* { font-size: 1em; }"),
-			),
+			CSS(`
+				section{
+					width: 50%;
+					height: 50%;
+					margin: 0 auto;
+					background: {{ .Color }};
+				}
+			`, feel{Color: "#eee"}, "#hello-wrapper"),
 			Section(
 				Label(Text("Hello")),
 			),
