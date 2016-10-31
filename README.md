@@ -21,3 +21,5 @@ go install github.com/influx6/gu/...
 ## Examples
   Basic examples lay within the [Examples](./examples/) directory.
 
+## Contributions
+ Contributions will be received with much fan fare and gratitude.
