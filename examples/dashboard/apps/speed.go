@@ -21,13 +21,18 @@ var _ = Resource(func() {
 	DoMarkup(func() *Markup {
 		return Div(
 			CSS(`
+				${
+					width: 500px;
+					height: 500px;
+				}
+
 				section{
 					width: 50%;
 					height: 50%;
 					margin: 0 auto;
 					background: {{ .Color }};
 				}
-			`, feel{Color: "#eee"}, "#hello-wrapper"),
+			`, feel{Color: "#eee"}),
 			Section(
 				Label(Text("Hello")),
 			),

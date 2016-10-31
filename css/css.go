@@ -69,6 +69,8 @@ func (r *Rule) morphRule(base *bcss.Rule, parentNode string) {
 		var newSel string
 
 		switch {
+		case strings.HasPrefix(sel, "$"):
+			newSel = strings.Replace(sel, "$", parentNode, 1)
 		case strings.HasPrefix(sel, ":"):
 			newSel = parentNode + "" + sel
 		default:

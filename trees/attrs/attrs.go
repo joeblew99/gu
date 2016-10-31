@@ -95,7 +95,7 @@ func Autofocus(val string) trees.Property {
 
 // ID defines attributes of type "Id" for html element types
 func ID(val string) trees.Property {
-	return &trees.Attribute{Name: "id", Value: val}
+	return &trees.Attribute{Name: "id", Value: val, After: func(owner *trees.Markup) { owner.Id = val }}
 }
 
 // HTMLFor defines attributes of type "HtmlFor" for html element types

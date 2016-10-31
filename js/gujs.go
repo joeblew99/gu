@@ -134,11 +134,14 @@ func AppendChild(o *js.Object, osets ...*js.Object) {
 }
 
 var headerKids = map[string]bool{
-	"style": true,
 	"meta":  true,
 	"link":  true,
 	"title": true,
 	"base":  true,
+}
+
+var bodyKids = map[string]bool{
+	"scripts": true,
 }
 
 // ContextAppendChild takes a list of objects and calls appendNode on the given object
@@ -147,12 +150,6 @@ func ContextAppendChild(o *js.Object, osets ...*js.Object) {
 
 		if doHeadAppend(onode) {
 			continue
-		}
-
-		if styles := QuerySelectorAll(onode, "style"); len(styles) != 0 {
-			for _, style := range styles {
-				doHeadAppend(style)
-			}
 		}
 
 		if scripts := QuerySelectorAll(onode, "scripts"); len(scripts) != 0 {
@@ -172,8 +169,11 @@ func doHeadAppend(onode *js.Object) bool {
 	}
 
 	tagName := strings.ToLower(tagNameObject.String())
-	uid := GetAttribute(onode, "uid")
+	if !headerKids[tagName] {
+		return false
+	}
 
+	uid := GetAttribute(onode, "uid")
 	header := QuerySelector(GetDocument(), "head")
 	body := QuerySelector(GetDocument(), "body")
 
@@ -188,7 +188,7 @@ func doHeadAppend(onode *js.Object) bool {
 		return true
 	}
 
-	if tagName == "script" && body != nil && body != js.Undefined {
+	if bodyKids[tagName] && body != nil && body != js.Undefined {
 		possibleNode := QuerySelector(body, tagName+"[uid='"+uid+"']")
 		if possibleNode != nil && possibleNode != js.Undefined {
 			ReplaceNode(body, onode, possibleNode)

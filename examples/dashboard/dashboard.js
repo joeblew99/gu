@@ -44416,7 +44416,9 @@ $packages["github.com/influx6/gu/css"] = (function() {
 			index = _i;
 			sel = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
 			newSel = "";
-			if (strings.HasPrefix(sel, ":")) {
+			if (strings.HasPrefix(sel, "$")) {
+				newSel = strings.Replace(sel, "$", parentNode, 1);
+			} else if (strings.HasPrefix(sel, ":")) {
 				newSel = parentNode + "" + sel;
 			} else {
 				newSel = parentNode + " " + sel;
@@ -46860,7 +46862,7 @@ $packages["html/template"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/trees"] = (function() {
-	var $pkg = {}, $init, rand, errors, fmt, detect, js, mque, css, html, template, strings, sync, FinalizeHandle, Markup, Appliable, EventObject, EventBroadcast, WrapperEvent, Event, Morpher, SwitchMorpher, RemoveMorpher, Mode, AttrPrinter, AttrWriter, StylePrinter, StyleWriter, TextPrinter, TextWriter, ElementWriter, Property, Attribute, queryCtrl, structType, ptrType, sliceType, sliceType$1, sliceType$2, sliceType$3, sliceType$4, sliceType$5, sliceType$6, sliceType$7, ptrType$3, ptrType$4, funcType, funcType$1, ptrType$5, ptrType$6, funcType$2, ptrType$7, ptrType$9, cu, NewText, CSSStylesheet, NewMarkup, NewWrapperEvent, ParseTree, pullNode, GetMode, NewElementWriter, NewAttr, RandString, EqualStyles, EqualAttributes, GetStyle, GetAttr;
+	var $pkg = {}, $init, rand, errors, fmt, detect, js, mque, css, html, template, strings, sync, FinalizeHandle, Markup, Appliable, EventObject, EventBroadcast, WrapperEvent, Event, Morpher, SwitchMorpher, RemoveMorpher, Mode, AttrPrinter, AttrWriter, StylePrinter, StyleWriter, TextPrinter, TextWriter, ElementWriter, Property, Attribute, queryCtrl, structType, ptrType, sliceType, sliceType$1, sliceType$2, sliceType$3, sliceType$4, sliceType$5, sliceType$6, sliceType$7, ptrType$3, ptrType$4, funcType, funcType$1, ptrType$5, ptrType$6, funcType$2, ptrType$7, ptrType$9, funcType$3, cu, NewText, CSSStylesheet, NewMarkup, NewWrapperEvent, ParseTree, pullNode, GetMode, NewElementWriter, NewAttr, RandString, EqualStyles, EqualAttributes, GetStyle, GetAttr;
 	rand = $packages["crypto/rand"];
 	errors = $packages["errors"];
 	fmt = $packages["fmt"];
@@ -46873,9 +46875,10 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	strings = $packages["strings"];
 	sync = $packages["sync"];
 	FinalizeHandle = $pkg.FinalizeHandle = $newType(4, $kindFunc, "trees.FinalizeHandle", true, "github.com/influx6/gu/trees", true, null);
-	Markup = $pkg.Markup = $newType(0, $kindStruct, "trees.Markup", true, "github.com/influx6/gu/trees", true, function(removed_, autoclose_, allowEvents_, allowChildren_, allowStyles_, allowAttributes_, uid_, hash_, tagname_, textContent_, textContentFn_, events_, children_, styles_, attrs_, morphers_, finalizers_, onceFinalizers_, parent_) {
+	Markup = $pkg.Markup = $newType(0, $kindStruct, "trees.Markup", true, "github.com/influx6/gu/trees", true, function(Id_, removed_, autoclose_, allowEvents_, allowChildren_, allowStyles_, allowAttributes_, uid_, hash_, tagname_, textContent_, textContentFn_, events_, children_, styles_, attrs_, morphers_, finalizers_, onceFinalizers_, parent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
+			this.Id = "";
 			this.removed = false;
 			this.autoclose = false;
 			this.allowEvents = false;
@@ -46897,6 +46900,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 			this.parent = ptrType.nil;
 			return;
 		}
+		this.Id = Id_;
 		this.removed = removed_;
 		this.autoclose = autoclose_;
 		this.allowEvents = allowEvents_;
@@ -47004,15 +47008,17 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		this.text = text_;
 	});
 	Property = $pkg.Property = $newType(8, $kindInterface, "trees.Property", true, "github.com/influx6/gu/trees", true, null);
-	Attribute = $pkg.Attribute = $newType(0, $kindStruct, "trees.Attribute", true, "github.com/influx6/gu/trees", true, function(Name_, Value_) {
+	Attribute = $pkg.Attribute = $newType(0, $kindStruct, "trees.Attribute", true, "github.com/influx6/gu/trees", true, function(Name_, Value_, After_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Name = "";
 			this.Value = "";
+			this.After = $throwNilPointerError;
 			return;
 		}
 		this.Name = Name_;
 		this.Value = Value_;
+		this.After = After_;
 	});
 	queryCtrl = $pkg.queryCtrl = $newType(0, $kindStruct, "trees.queryCtrl", true, "github.com/influx6/gu/trees", false, function() {
 		this.$val = this;
@@ -47039,6 +47045,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	funcType$2 = $funcType([ptrType$5], [], false);
 	ptrType$7 = $ptrType(RemoveMorpher);
 	ptrType$9 = $ptrType(ElementWriter);
+	funcType$3 = $funcType([ptrType], [], false);
 	NewText = function(txt) {
 		var $ptr, _r, em, txt, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; em = $f.em; txt = $f.txt; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -47054,70 +47061,47 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: NewText }; } $f.$ptr = $ptr; $f._r = _r; $f.em = em; $f.txt = txt; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.NewText = NewText;
-	CSSStylesheet = function(rule, bind, sel) {
-		var $ptr, _r, bind, content, parentSel, rule, sel, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; bind = $f.bind; content = $f.content; parentSel = $f.parentSel; rule = $f.rule; sel = $f.sel; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+	CSSStylesheet = function(rule, bind) {
+		var $ptr, _r, bind, content, rule, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; bind = $f.bind; content = $f.content; rule = $f.rule; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		bind = [bind];
-		parentSel = [parentSel];
 		rule = [rule];
-		parentSel[0] = "";
-		if (sel.$length > 0) {
-			parentSel[0] = (0 >= sel.$length ? $throwRuntimeError("index out of range") : sel.$array[sel.$offset + 0]);
-		}
 		_r = NewMarkup("style", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		content = _r;
 		content.allowChildren = false;
 		content.allowAttributes = false;
 		content.allowStyles = false;
 		content.allowEvents = false;
-		content.textContentFn = (function(bind, parentSel, rule) { return function $b(owner) {
-			var $ptr, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _tuple, _tuple$1, _tuple$2, err, err$1, id, owner, sheet, val, val$1, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; err = $f.err; err$1 = $f.err$1; id = $f.id; owner = $f.owner; sheet = $f.sheet; val = $f.val; val$1 = $f.val$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-			/* */ if (parentSel[0] === "") { $s = 1; continue; }
-			/* */ $s = 2; continue;
-			/* if (parentSel[0] === "") { */ case 1:
-				/* */ if (!(owner.parent === ptrType.nil)) { $s = 3; continue; }
-				/* */ $s = 4; continue;
-				/* if (!(owner.parent === ptrType.nil)) { */ case 3:
-					_r$1 = GetAttr(owner.parent, "id"); /* */ $s = 5; case 5: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-					_tuple = _r$1;
-					id = _tuple[0];
-					err = _tuple[1];
-					/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 6; continue; }
-					/* */ $s = 7; continue;
-					/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 6:
-						val = owner.parent.tagname + "-" + owner.parent.uid;
-						_r$2 = NewAttr("id", parentSel[0]); /* */ $s = 9; case 9: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-						$r = _r$2.Apply(owner.parent); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-						parentSel[0] = "#" + val;
-						$s = 8; continue;
-					/* } else { */ case 7:
-						_r$3 = id.Render(); /* */ $s = 11; case 11: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-						_tuple$1 = _r$3;
-						val$1 = _tuple$1[1];
-						parentSel[0] = "#" + val$1;
-					/* } */ case 8:
-				/* } */ case 4:
-			/* } */ case 2:
-			_r$4 = rule[0].Stylesheet(bind[0], parentSel[0]); /* */ $s = 12; case 12: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-			_tuple$2 = _r$4;
-			sheet = _tuple$2[0];
-			err$1 = _tuple$2[1];
-			/* */ if (!($interfaceIsEqual(err$1, $ifaceNil))) { $s = 13; continue; }
-			/* */ $s = 14; continue;
-			/* if (!($interfaceIsEqual(err$1, $ifaceNil))) { */ case 13:
-				_r$5 = err$1.Error(); /* */ $s = 15; case 15: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-				$s = -1; return _r$5;
-				return _r$5;
-			/* } */ case 14:
-			_r$6 = sheet.String(); /* */ $s = 16; case 16: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
-			$s = -1; return _r$6;
-			return _r$6;
-			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f.err = err; $f.err$1 = err$1; $f.id = id; $f.owner = owner; $f.sheet = sheet; $f.val = val; $f.val$1 = val$1; $f.$s = $s; $f.$r = $r; return $f;
-		}; })(bind, parentSel, rule);
+		content.textContentFn = (function(bind, rule) { return function $b(owner) {
+			var $ptr, _r$1, _r$2, _r$3, _tuple, err, owner, parentName, sheet, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _tuple = $f._tuple; err = $f.err; owner = $f.owner; parentName = $f.parentName; sheet = $f.sheet; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			parentName = "";
+			if (!(owner.parent === ptrType.nil)) {
+				if (owner.parent.Id === "") {
+					parentName = owner.parent.tagname + "[uid='" + owner.parent.uid + "']";
+				} else {
+					parentName = "#" + owner.parent.Id;
+				}
+			}
+			_r$1 = rule[0].Stylesheet(bind[0], parentName); /* */ $s = 1; case 1: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			_tuple = _r$1;
+			sheet = _tuple[0];
+			err = _tuple[1];
+			/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 2; continue; }
+			/* */ $s = 3; continue;
+			/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 2:
+				_r$2 = err.Error(); /* */ $s = 4; case 4: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+				$s = -1; return _r$2;
+				return _r$2;
+			/* } */ case 3:
+			_r$3 = sheet.String(); /* */ $s = 5; case 5: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			$s = -1; return _r$3;
+			return _r$3;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._tuple = _tuple; $f.err = err; $f.owner = owner; $f.parentName = parentName; $f.sheet = sheet; $f.$s = $s; $f.$r = $r; return $f;
+		}; })(bind, rule);
 		$s = -1; return content;
 		return content;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: CSSStylesheet }; } $f.$ptr = $ptr; $f._r = _r; $f.bind = bind; $f.content = content; $f.parentSel = parentSel; $f.rule = rule; $f.sel = sel; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CSSStylesheet }; } $f.$ptr = $ptr; $f._r = _r; $f.bind = bind; $f.content = content; $f.rule = rule; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.CSSStylesheet = CSSStylesheet;
 	NewMarkup = function(tag, hasNoEndingTag) {
@@ -47128,8 +47112,8 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		_r$2 = strings.TrimSpace(tag); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 		_r$3 = strings.ToLower(_r$2); /* */ $s = 4; case 4: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 		_r$4 = NewAttr("data-gen", "gu"); /* */ $s = 5; case 5: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-		$s = -1; return new Markup.ptr(false, hasNoEndingTag, true, true, true, true, _r, _r$1, _r$3, "", $throwNilPointerError, sliceType.nil, sliceType$1.nil, sliceType$2.nil, new sliceType$2([_r$4]), sliceType$3.nil, sliceType$4.nil, sliceType$4.nil, ptrType.nil);
-		return new Markup.ptr(false, hasNoEndingTag, true, true, true, true, _r, _r$1, _r$3, "", $throwNilPointerError, sliceType.nil, sliceType$1.nil, sliceType$2.nil, new sliceType$2([_r$4]), sliceType$3.nil, sliceType$4.nil, sliceType$4.nil, ptrType.nil);
+		$s = -1; return new Markup.ptr("", false, hasNoEndingTag, true, true, true, true, _r, _r$1, _r$3, "", $throwNilPointerError, sliceType.nil, sliceType$1.nil, sliceType$2.nil, new sliceType$2([_r$4]), sliceType$3.nil, sliceType$4.nil, sliceType$4.nil, ptrType.nil);
+		return new Markup.ptr("", false, hasNoEndingTag, true, true, true, true, _r, _r$1, _r$3, "", $throwNilPointerError, sliceType.nil, sliceType$1.nil, sliceType$2.nil, new sliceType$2([_r$4]), sliceType$3.nil, sliceType$4.nil, sliceType$4.nil, ptrType.nil);
 		/* */ } return; } if ($f === undefined) { $f = { $blk: NewMarkup }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f.hasNoEndingTag = hasNoEndingTag; $f.tag = tag; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.NewMarkup = NewMarkup;
@@ -47336,7 +47320,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		var $ptr, e;
 		e = this;
 		if (!e.Removed()) {
-			e.attrs = $append(e.attrs, new Attribute.ptr("NodeRemoved", ""));
+			e.attrs = $append(e.attrs, new Attribute.ptr("NodeRemoved", "", $throwNilPointerError));
 			e.removed = true;
 		}
 	};
@@ -47537,6 +47521,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		co = _r;
 		co.textContent = e.textContent;
 		co.textContentFn = e.textContentFn;
+		co.Id = e.Id;
 		co.allowChildren = e.allowChildren;
 		co.allowEvents = e.allowEvents;
 		co.allowAttributes = e.allowAttributes;
@@ -47906,8 +47891,8 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		/* */ if (_r$2 < 1) { $s = 10; continue; }
 		/* */ $s = 11; continue;
 		/* if (_r$2 < 1) { */ case 10:
-			hash = new Attribute.ptr("hash", e.Hash());
-			uid = new Attribute.ptr("uid", e.UID());
+			hash = new Attribute.ptr("hash", e.Hash(), $throwNilPointerError);
+			uid = new Attribute.ptr("uid", e.UID(), $throwNilPointerError);
 			mido = $append(mido, hash, uid);
 		/* } */ case 11:
 		_r$3 = m.attrWriter.Print(mido); /* */ $s = 13; case 13: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
@@ -47971,7 +47956,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; a = $f.a; name = $f.name; val = $f.val; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		a = [a];
 		_r = strings.ToLower(name); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		a[0] = new Attribute.ptr(_r, val);
+		a[0] = new Attribute.ptr(_r, val, $throwNilPointerError);
 		$s = -1; return a[0];
 		return a[0];
 		/* */ } return; } if ($f === undefined) { $f = { $blk: NewAttr }; } $f.$ptr = $ptr; $f._r = _r; $f.a = a; $f.name = name; $f.val = val; $f.$s = $s; $f.$r = $r; return $f;
@@ -47984,17 +47969,28 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	};
 	Attribute.prototype.Render = function() { return this.$val.Render(); };
 	Attribute.ptr.prototype.Apply = function(e) {
-		var $ptr, a, e;
+		var $ptr, a, e, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; a = $f.a; e = $f.e; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		a = this;
-		if (e.allowAttributes) {
+		/* */ if (e.allowAttributes) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (e.allowAttributes) { */ case 1:
 			e.AddAttribute(a);
-		}
+			/* */ if (!(a.After === $throwNilPointerError)) { $s = 3; continue; }
+			/* */ $s = 4; continue;
+			/* if (!(a.After === $throwNilPointerError)) { */ case 3:
+				$r = a.After(e); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* } */ case 4:
+		/* } */ case 2:
+		$s = -1; return;
+		return;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Attribute.ptr.prototype.Apply }; } $f.$ptr = $ptr; $f.a = a; $f.e = e; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	Attribute.prototype.Apply = function(e) { return this.$val.Apply(e); };
 	Attribute.ptr.prototype.Clone = function() {
 		var $ptr, a;
 		a = this;
-		return new Attribute.ptr(a.Name, a.Value);
+		return new Attribute.ptr(a.Name, a.Value, a.After);
 	};
 	Attribute.prototype.Clone = function() { return this.$val.Clone(); };
 	queryCtrl.ptr.prototype.Query = function(root, sel) {
@@ -48185,7 +48181,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	ptrType$3.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [$String, $String], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [Property], false)}];
 	queryCtrl.methods = [{prop: "Query", name: "Query", pkg: "", typ: $funcType([ptrType, $String], [ptrType], false)}, {prop: "QueryAll", name: "QueryAll", pkg: "", typ: $funcType([ptrType, $String], [sliceType$1], false)}, {prop: "classFor", name: "classFor", pkg: "github.com/influx6/gu/trees", typ: $funcType([ptrType, $String], [ptrType], false)}, {prop: "idFor", name: "idFor", pkg: "github.com/influx6/gu/trees", typ: $funcType([ptrType, $String], [ptrType], false)}, {prop: "contentContainsFor", name: "contentContainsFor", pkg: "github.com/influx6/gu/trees", typ: $funcType([ptrType, $String, $String], [ptrType], false)}, {prop: "contentMatchFor", name: "contentMatchFor", pkg: "github.com/influx6/gu/trees", typ: $funcType([ptrType, $String, $String], [ptrType], false)}];
 	FinalizeHandle.init([ptrType, ptrType], [], false);
-	Markup.init("github.com/influx6/gu/trees", [{prop: "removed", name: "removed", exported: false, typ: $Bool, tag: ""}, {prop: "autoclose", name: "autoclose", exported: false, typ: $Bool, tag: ""}, {prop: "allowEvents", name: "allowEvents", exported: false, typ: $Bool, tag: ""}, {prop: "allowChildren", name: "allowChildren", exported: false, typ: $Bool, tag: ""}, {prop: "allowStyles", name: "allowStyles", exported: false, typ: $Bool, tag: ""}, {prop: "allowAttributes", name: "allowAttributes", exported: false, typ: $Bool, tag: ""}, {prop: "uid", name: "uid", exported: false, typ: $String, tag: ""}, {prop: "hash", name: "hash", exported: false, typ: $String, tag: ""}, {prop: "tagname", name: "tagname", exported: false, typ: $String, tag: ""}, {prop: "textContent", name: "textContent", exported: false, typ: $String, tag: ""}, {prop: "textContentFn", name: "textContentFn", exported: false, typ: funcType$1, tag: ""}, {prop: "events", name: "events", exported: false, typ: sliceType, tag: ""}, {prop: "children", name: "children", exported: false, typ: sliceType$1, tag: ""}, {prop: "styles", name: "styles", exported: false, typ: sliceType$2, tag: ""}, {prop: "attrs", name: "attrs", exported: false, typ: sliceType$2, tag: ""}, {prop: "morphers", name: "morphers", exported: false, typ: sliceType$3, tag: ""}, {prop: "finalizers", name: "finalizers", exported: false, typ: sliceType$4, tag: ""}, {prop: "onceFinalizers", name: "onceFinalizers", exported: false, typ: sliceType$4, tag: ""}, {prop: "parent", name: "parent", exported: false, typ: ptrType, tag: ""}]);
+	Markup.init("github.com/influx6/gu/trees", [{prop: "Id", name: "Id", exported: true, typ: $String, tag: ""}, {prop: "removed", name: "removed", exported: false, typ: $Bool, tag: ""}, {prop: "autoclose", name: "autoclose", exported: false, typ: $Bool, tag: ""}, {prop: "allowEvents", name: "allowEvents", exported: false, typ: $Bool, tag: ""}, {prop: "allowChildren", name: "allowChildren", exported: false, typ: $Bool, tag: ""}, {prop: "allowStyles", name: "allowStyles", exported: false, typ: $Bool, tag: ""}, {prop: "allowAttributes", name: "allowAttributes", exported: false, typ: $Bool, tag: ""}, {prop: "uid", name: "uid", exported: false, typ: $String, tag: ""}, {prop: "hash", name: "hash", exported: false, typ: $String, tag: ""}, {prop: "tagname", name: "tagname", exported: false, typ: $String, tag: ""}, {prop: "textContent", name: "textContent", exported: false, typ: $String, tag: ""}, {prop: "textContentFn", name: "textContentFn", exported: false, typ: funcType$1, tag: ""}, {prop: "events", name: "events", exported: false, typ: sliceType, tag: ""}, {prop: "children", name: "children", exported: false, typ: sliceType$1, tag: ""}, {prop: "styles", name: "styles", exported: false, typ: sliceType$2, tag: ""}, {prop: "attrs", name: "attrs", exported: false, typ: sliceType$2, tag: ""}, {prop: "morphers", name: "morphers", exported: false, typ: sliceType$3, tag: ""}, {prop: "finalizers", name: "finalizers", exported: false, typ: sliceType$4, tag: ""}, {prop: "onceFinalizers", name: "onceFinalizers", exported: false, typ: sliceType$4, tag: ""}, {prop: "parent", name: "parent", exported: false, typ: ptrType, tag: ""}]);
 	Appliable.init([{prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}]);
 	EventObject.init([{prop: "PreventDefault", name: "PreventDefault", pkg: "", typ: $funcType([], [], false)}, {prop: "StopImmediatePropagation", name: "StopImmediatePropagation", pkg: "", typ: $funcType([], [], false)}, {prop: "StopPropagation", name: "StopPropagation", pkg: "", typ: $funcType([], [], false)}, {prop: "Underlying", name: "Underlying", pkg: "", typ: $funcType([], [ptrType$5], false)}]);
 	EventBroadcast.init("", [{prop: "EventID", name: "EventID", exported: true, typ: $String, tag: ""}, {prop: "Event", name: "Event", exported: true, typ: EventObject, tag: ""}]);
@@ -48202,7 +48198,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	TextWriter.init("", []);
 	ElementWriter.init("github.com/influx6/gu/trees", [{prop: "attrWriter", name: "attrWriter", exported: false, typ: AttrPrinter, tag: ""}, {prop: "styleWriter", name: "styleWriter", exported: false, typ: StylePrinter, tag: ""}, {prop: "text", name: "text", exported: false, typ: TextPrinter, tag: ""}]);
 	Property.init([{prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [Property], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [$String, $String], false)}]);
-	Attribute.init("", [{prop: "Name", name: "Name", exported: true, typ: $String, tag: ""}, {prop: "Value", name: "Value", exported: true, typ: $String, tag: ""}]);
+	Attribute.init("", [{prop: "Name", name: "Name", exported: true, typ: $String, tag: ""}, {prop: "Value", name: "Value", exported: true, typ: $String, tag: ""}, {prop: "After", name: "After", exported: true, typ: funcType$3, tag: ""}]);
 	queryCtrl.init("", []);
 	$init = function() {
 		$pkg.$init = function() {};
@@ -49148,7 +49144,7 @@ $packages["github.com/influx6/gu/design"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/js"] = (function() {
-	var $pkg = {}, $init, fmt, detect, js, strings, ptrType, sliceType, sliceType$1, sliceType$2, headerKids, DOMObjectToList, ChildNodeList, Attributes, GetWindow, GetDocument, CreateElement, CreateDocumentFragment, EmptyTextNode, CleanAllTextNode, InsertBefore, ContextAppendChild, doHeadAppend, RemoveChild, IsEqualNode, ReplaceNode, QuerySelectorAll, QuerySelector, GetTag, GetAttribute, HasAttribute, SetAttribute, SetInnerHTML, CreateFragment, AddNodeIfNone, AddNodeIfNoneInList, Patch, allEmpty;
+	var $pkg = {}, $init, fmt, detect, js, strings, ptrType, sliceType, sliceType$1, sliceType$2, headerKids, bodyKids, DOMObjectToList, ChildNodeList, Attributes, GetWindow, GetDocument, CreateElement, CreateDocumentFragment, EmptyTextNode, CleanAllTextNode, InsertBefore, ContextAppendChild, doHeadAppend, RemoveChild, IsEqualNode, ReplaceNode, QuerySelectorAll, QuerySelector, GetTag, GetAttribute, HasAttribute, SetAttribute, SetInnerHTML, CreateFragment, AddNodeIfNone, AddNodeIfNoneInList, Patch, allEmpty;
 	fmt = $packages["fmt"];
 	detect = $packages["github.com/go-humble/detect"];
 	js = $packages["github.com/gopherjs/gopherjs/js"];
@@ -49275,8 +49271,8 @@ $packages["github.com/influx6/gu/js"] = (function() {
 	};
 	$pkg.InsertBefore = InsertBefore;
 	ContextAppendChild = function(o, osets) {
-		var $ptr, _i, _i$1, _i$2, _r, _r$1, _r$2, _ref, _ref$1, _ref$2, o, onode, osets, script, scripts, style, styles, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _i$1 = $f._i$1; _i$2 = $f._i$2; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; o = $f.o; onode = $f.onode; osets = $f.osets; script = $f.script; scripts = $f.scripts; style = $f.style; styles = $f.styles; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _i, _i$1, _r, _r$1, _ref, _ref$1, o, onode, osets, script, scripts, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _i$1 = $f._i$1; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; _ref$1 = $f._ref$1; o = $f.o; onode = $f.onode; osets = $f.osets; script = $f.script; scripts = $f.scripts; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		_ref = osets;
 		_i = 0;
 		/* while (true) { */ case 1:
@@ -49289,45 +49285,31 @@ $packages["github.com/influx6/gu/js"] = (function() {
 				_i++;
 				/* continue; */ $s = 1; continue;
 			/* } */ case 4:
-			styles = QuerySelectorAll(onode, "style");
-			/* */ if (!((styles.$length === 0))) { $s = 6; continue; }
+			scripts = QuerySelectorAll(onode, "scripts");
+			/* */ if (!((scripts.$length === 0))) { $s = 6; continue; }
 			/* */ $s = 7; continue;
-			/* if (!((styles.$length === 0))) { */ case 6:
-				_ref$1 = styles;
+			/* if (!((scripts.$length === 0))) { */ case 6:
+				_ref$1 = scripts;
 				_i$1 = 0;
 				/* while (true) { */ case 8:
 					/* if (!(_i$1 < _ref$1.$length)) { break; } */ if(!(_i$1 < _ref$1.$length)) { $s = 9; continue; }
-					style = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
-					_r$1 = doHeadAppend(style); /* */ $s = 10; case 10: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+					script = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
+					_r$1 = doHeadAppend(script); /* */ $s = 10; case 10: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 					_r$1;
 					_i$1++;
 				/* } */ $s = 8; continue; case 9:
 			/* } */ case 7:
-			scripts = QuerySelectorAll(onode, "scripts");
-			/* */ if (!((scripts.$length === 0))) { $s = 11; continue; }
-			/* */ $s = 12; continue;
-			/* if (!((scripts.$length === 0))) { */ case 11:
-				_ref$2 = scripts;
-				_i$2 = 0;
-				/* while (true) { */ case 13:
-					/* if (!(_i$2 < _ref$2.$length)) { break; } */ if(!(_i$2 < _ref$2.$length)) { $s = 14; continue; }
-					script = ((_i$2 < 0 || _i$2 >= _ref$2.$length) ? $throwRuntimeError("index out of range") : _ref$2.$array[_ref$2.$offset + _i$2]);
-					_r$2 = doHeadAppend(script); /* */ $s = 15; case 15: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-					_r$2;
-					_i$2++;
-				/* } */ $s = 13; continue; case 14:
-			/* } */ case 12:
 			o.appendChild(onode);
 			_i++;
 		/* } */ $s = 1; continue; case 2:
 		$s = -1; return;
 		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: ContextAppendChild }; } $f.$ptr = $ptr; $f._i = _i; $f._i$1 = _i$1; $f._i$2 = _i$2; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f.o = o; $f.onode = onode; $f.osets = osets; $f.script = script; $f.scripts = scripts; $f.style = style; $f.styles = styles; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: ContextAppendChild }; } $f.$ptr = $ptr; $f._i = _i; $f._i$1 = _i$1; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._ref$1 = _ref$1; $f.o = o; $f.onode = onode; $f.osets = osets; $f.script = script; $f.scripts = scripts; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.ContextAppendChild = ContextAppendChild;
 	doHeadAppend = function(onode) {
-		var $ptr, _entry, _r, body, header, onode, possibleNode, possibleNode$1, tagName, tagNameObject, uid, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _entry = $f._entry; _r = $f._r; body = $f.body; header = $f.header; onode = $f.onode; possibleNode = $f.possibleNode; possibleNode$1 = $f.possibleNode$1; tagName = $f.tagName; tagNameObject = $f.tagNameObject; uid = $f.uid; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _entry, _entry$1, _entry$2, _r, body, header, onode, possibleNode, possibleNode$1, tagName, tagNameObject, uid, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _entry = $f._entry; _entry$1 = $f._entry$1; _entry$2 = $f._entry$2; _r = $f._r; body = $f.body; header = $f.header; onode = $f.onode; possibleNode = $f.possibleNode; possibleNode$1 = $f.possibleNode$1; tagName = $f.tagName; tagNameObject = $f.tagNameObject; uid = $f.uid; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		tagNameObject = onode.tagName;
 		if (tagNameObject === null || tagNameObject === undefined) {
 			$s = -1; return false;
@@ -49335,10 +49317,14 @@ $packages["github.com/influx6/gu/js"] = (function() {
 		}
 		_r = strings.ToLower($internalize(tagNameObject, $String)); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		tagName = _r;
+		if (!(_entry = headerKids[$String.keyFor(tagName)], _entry !== undefined ? _entry.v : false)) {
+			$s = -1; return false;
+			return false;
+		}
 		uid = GetAttribute(onode, "uid");
 		header = QuerySelector(GetDocument(), "head");
 		body = QuerySelector(GetDocument(), "body");
-		if ((_entry = headerKids[$String.keyFor(tagName)], _entry !== undefined ? _entry.v : false) && !(header === null) && !(header === undefined)) {
+		if ((_entry$1 = headerKids[$String.keyFor(tagName)], _entry$1 !== undefined ? _entry$1.v : false) && !(header === null) && !(header === undefined)) {
 			possibleNode = QuerySelector(header, tagName + "[uid='" + uid + "']");
 			if (!(possibleNode === null) && !(possibleNode === undefined)) {
 				ReplaceNode(header, onode, possibleNode);
@@ -49349,7 +49335,7 @@ $packages["github.com/influx6/gu/js"] = (function() {
 			$s = -1; return true;
 			return true;
 		}
-		if (tagName === "script" && !(body === null) && !(body === undefined)) {
+		if ((_entry$2 = bodyKids[$String.keyFor(tagName)], _entry$2 !== undefined ? _entry$2.v : false) && !(body === null) && !(body === undefined)) {
 			possibleNode$1 = QuerySelector(body, tagName + "[uid='" + uid + "']");
 			if (!(possibleNode$1 === null) && !(possibleNode$1 === undefined)) {
 				ReplaceNode(body, onode, possibleNode$1);
@@ -49362,7 +49348,7 @@ $packages["github.com/influx6/gu/js"] = (function() {
 		}
 		$s = -1; return false;
 		return false;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: doHeadAppend }; } $f.$ptr = $ptr; $f._entry = _entry; $f._r = _r; $f.body = body; $f.header = header; $f.onode = onode; $f.possibleNode = possibleNode; $f.possibleNode$1 = possibleNode$1; $f.tagName = tagName; $f.tagNameObject = tagNameObject; $f.uid = uid; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: doHeadAppend }; } $f.$ptr = $ptr; $f._entry = _entry; $f._entry$1 = _entry$1; $f._entry$2 = _entry$2; $f._r = _r; $f.body = body; $f.header = header; $f.onode = onode; $f.possibleNode = possibleNode; $f.possibleNode$1 = possibleNode$1; $f.tagName = tagName; $f.tagNameObject = tagNameObject; $f.uid = uid; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	RemoveChild = function(o, co) {
 		var $ptr, _i, _ref, co, o, onode;
@@ -49711,7 +49697,8 @@ $packages["github.com/influx6/gu/js"] = (function() {
 		$r = detect.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = js.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = strings.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		headerKids = $makeMap($String.keyFor, [{ k: "style", v: true }, { k: "meta", v: true }, { k: "link", v: true }, { k: "title", v: true }, { k: "base", v: true }]);
+		headerKids = $makeMap($String.keyFor, [{ k: "meta", v: true }, { k: "link", v: true }, { k: "title", v: true }, { k: "base", v: true }]);
+		bodyKids = $makeMap($String.keyFor, [{ k: "scripts", v: true }]);
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
@@ -54794,14 +54781,14 @@ $packages["github.com/influx6/gu/trees/elems"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Text }; } $f.$ptr = $ptr; $f._r = _r; $f.content = content; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.Text = Text;
-	CSS = function(styles, bind, sel) {
-		var $ptr, _r, _r$1, bind, sel, styles, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; bind = $f.bind; sel = $f.sel; styles = $f.styles; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+	CSS = function(styles, bind) {
+		var $ptr, _r, _r$1, bind, styles, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; bind = $f.bind; styles = $f.styles; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		_r = css.New(styles, new sliceType([])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_r$1 = trees.CSSStylesheet(_r, bind, sel); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_r$1 = trees.CSSStylesheet(_r, bind); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		$s = -1; return _r$1;
 		return _r$1;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: CSS }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.bind = bind; $f.sel = sel; $f.styles = styles; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CSS }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.bind = bind; $f.styles = styles; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.CSS = CSS;
 	Div = function(markup) {
@@ -54947,7 +54934,7 @@ $packages["github.com/influx6/gu/examples/dashboard/apps"] = (function() {
 			$r = design.DoMarkup(new funcType((function $b() {
 				var $ptr, _arg, _arg$1, _r$2, _r$3, _r$4, _r$5, _r$6, x, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				_r$2 = elems.CSS("\n\t\t\t\tsection{\n\t\t\t\t\twidth: 50%;\n\t\t\t\t\theight: 50%;\n\t\t\t\t\tmargin: 0 auto;\n\t\t\t\t\tbackground: {{ .Color }};\n\t\t\t\t}\n\t\t\t", (x = new feel.ptr("#eee"), new x.constructor.elem(x)), "#hello-wrapper"); /* */ $s = 1; case 1: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+				_r$2 = elems.CSS("\n\t\t\t\t${\n\t\t\t\t\twidth: 500px;\n\t\t\t\t\theight: 500px;\n\t\t\t\t}\n\n\t\t\t\tsection{\n\t\t\t\t\twidth: 50%;\n\t\t\t\t\theight: 50%;\n\t\t\t\t\tmargin: 0 auto;\n\t\t\t\t\tbackground: {{ .Color }};\n\t\t\t\t}\n\t\t\t", (x = new feel.ptr("#eee"), new x.constructor.elem(x))); /* */ $s = 1; case 1: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 				_arg = _r$2;
 				_r$3 = elems.Text("Hello"); /* */ $s = 2; case 2: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 				_r$4 = elems.Label(new sliceType([_r$3])); /* */ $s = 3; case 3: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }

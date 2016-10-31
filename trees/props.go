@@ -39,11 +39,19 @@ func When(state bool, first Property, other Property) Property {
 type Attribute struct {
 	Name  string
 	Value string
+	After func(*Markup)
 }
 
-// NewAttr returns a new attribute instance
+// NewAttr returns a new attribute instance.
 func NewAttr(name, val string) *Attribute {
 	a := Attribute{Name: strings.ToLower(name), Value: val}
+	return &a
+}
+
+// NewAttrWith returns a new attribute instance with a provided function
+// to call to provide a after effect to the markup.
+func NewAttrWith(name, val string, after func(*Markup)) *Attribute {
+	a := Attribute{Name: strings.ToLower(name), Value: val, After: after}
 	return &a
 }
 
@@ -56,12 +64,16 @@ func (a *Attribute) Render() (string, string) {
 func (a *Attribute) Apply(e *Markup) {
 	if e.allowAttributes {
 		e.AddAttribute(a)
+
+		if a.After != nil {
+			a.After(e)
+		}
 	}
 }
 
 //Clone replicates the attribute into a unique instance
 func (a *Attribute) Clone() Property {
-	return &Attribute{Name: a.Name, Value: a.Value}
+	return &Attribute{Name: a.Name, Value: a.Value, After: a.After}
 }
 
 //==============================================================================

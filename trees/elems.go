@@ -13,6 +13,7 @@ type FinalizeHandle func(root, item *Markup)
 
 // Markup represent a concrete implementation of a element node.
 type Markup struct {
+	Id              string
 	removed         bool
 	autoclose       bool
 	allowEvents     bool
@@ -47,37 +48,25 @@ func NewText(txt string) *Markup {
 	return em
 }
 
-//==============================================================================
-
 // CSSStylesheet returns a new instance of a CSSStylesheet.
-func CSSStylesheet(rule *css.Rule, bind interface{}, sel ...string) *Markup {
-	var parentSel string
-
-	if len(sel) > 0 {
-		parentSel = sel[0]
-	}
-
+func CSSStylesheet(rule *css.Rule, bind interface{}) *Markup {
 	content := NewMarkup("style", false)
 	content.allowChildren = false
 	content.allowAttributes = false
 	content.allowStyles = false
 	content.allowEvents = false
 	content.textContentFn = func(owner *Markup) string {
-		if parentSel == "" {
-			if owner.parent != nil {
-				id, err := GetAttr(owner.parent, "id")
-				if err != nil {
-					val := owner.parent.tagname + "-" + owner.parent.uid
-					Property(NewAttr("id", parentSel)).Apply(owner.parent)
-					parentSel = "#" + val
-				} else {
-					_, val := id.Render()
-					parentSel = "#" + val
-				}
+		var parentName string
+
+		if owner.parent != nil {
+			if owner.parent.Id == "" {
+				parentName = owner.parent.tagname + "[uid='" + owner.parent.uid + "']"
+			} else {
+				parentName = "#" + owner.parent.Id
 			}
 		}
 
-		sheet, err := rule.Stylesheet(bind, parentSel)
+		sheet, err := rule.Stylesheet(bind, parentName)
 		if err != nil {
 			return err.Error()
 		}
@@ -272,7 +261,7 @@ func (e *Markup) Clean() {
 // Remove sets the markup as removable and adds a 'NodeRemoved' attribute to it.
 func (e *Markup) Remove() {
 	if !e.Removed() {
-		e.attrs = append(e.attrs, &Attribute{"NodeRemoved", ""})
+		e.attrs = append(e.attrs, &Attribute{Name: "NodeRemoved", Value: ""})
 		e.removed = true
 	}
 }
@@ -467,6 +456,7 @@ func (e *Markup) Clone() *Markup {
 	//copy over the textContent
 	co.textContent = e.textContent
 	co.textContentFn = e.textContentFn
+	co.Id = e.Id
 
 	//copy over the attribute lockers
 	co.allowChildren = e.allowChildren
