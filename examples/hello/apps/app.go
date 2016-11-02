@@ -1,10 +1,12 @@
 package apps
 
 import (
+	"github.com/gopherjs/gopherjs/js"
 	. "github.com/influx6/gu/design"
 	. "github.com/influx6/gu/trees"
 	. "github.com/influx6/gu/trees/attrs"
 	. "github.com/influx6/gu/trees/elems"
+	events "github.com/influx6/gu/trees/events"
 )
 
 var _ = Resource(func() {
@@ -37,7 +39,12 @@ var _ = Resource(func() {
 
 			`, struct{ Size string }{Size: "130px"}),
 			ID("hello"),
-			Header1(Text("Hello")),
+			Header1(
+				Text("Hello"),
+				events.Click(func(ev EventObject, tree *Markup) {
+					js.Global.Call("alert", "I just got clicked, Yaay!!!")
+				}, ""),
+			),
 		)
 	}, "", false)
 
