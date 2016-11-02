@@ -23,7 +23,14 @@ var _ = Resource(func() {
 				$ h1 {
 					font-size: {{ .Size }};
 					text-align: center;
-					margin: 20% auto;
+					margin: 20% 0  0 5%;
+				}
+
+				$ span {
+					text-align: center;
+					font-weight: bold;
+					margin: 0 0 0 50%;
+					color: rgba(0,0,0,0.5);
 				}
 
 				$ h1::after{
@@ -45,6 +52,7 @@ var _ = Resource(func() {
 					js.Global.Call("alert", "I just got clicked, Yaay!!!")
 				}, ""),
 			),
+			Span(Text("Click me")),
 		)
 	}, "", false)
 

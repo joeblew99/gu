@@ -54785,7 +54785,7 @@ $packages["github.com/influx6/gu/trees/attrs"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/trees/elems"] = (function() {
-	var $pkg = {}, $init, css, trees, ptrType, sliceType, Text, CSS, Div, Header1;
+	var $pkg = {}, $init, css, trees, ptrType, sliceType, Text, CSS, Div, Span, Header1;
 	css = $packages["github.com/influx6/gu/css"];
 	trees = $packages["github.com/influx6/gu/trees"];
 	ptrType = $ptrType(css.Rule);
@@ -54833,6 +54833,30 @@ $packages["github.com/influx6/gu/trees/elems"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Div }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._ref = _ref; $f.e = e; $f.m = m; $f.markup = markup; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.Div = Div;
+	Span = function(markup) {
+		var $ptr, _i, _r, _ref, e, m, markup, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; e = $f.e; m = $f.m; markup = $f.markup; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		_r = trees.NewMarkup("span", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		e = _r;
+		_ref = markup;
+		_i = 0;
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+			m = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			/* */ if ($interfaceIsEqual(m, $ifaceNil)) { $s = 4; continue; }
+			/* */ $s = 5; continue;
+			/* if ($interfaceIsEqual(m, $ifaceNil)) { */ case 4:
+				_i++;
+				/* continue; */ $s = 2; continue;
+			/* } */ case 5:
+			$r = m.Apply(e); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_i++;
+		/* } */ $s = 2; continue; case 3:
+		$s = -1; return e;
+		return e;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Span }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._ref = _ref; $f.e = e; $f.m = m; $f.markup = markup; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.Span = Span;
 	Header1 = function(markup) {
 		var $ptr, _i, _r, _ref, e, m, markup, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; e = $f.e; m = $f.m; markup = $f.markup; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -54936,9 +54960,9 @@ $packages["github.com/influx6/gu/examples/hello/apps"] = (function() {
 			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 			$r = design.DoTitle("Hello App"); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$r = design.DoMarkup(new funcType((function $b() {
-				var $ptr, _arg, _arg$1, _arg$2, _arg$3, _arg$4, _r, _r$1, _r$2, _r$3, _r$4, x, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _arg$4 = $f._arg$4; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				_r = elems.CSS("\n\t\t\t\t${\n\t\t\t\t\twidth:100%;\n\t\t\t\t\theight: 100%;\n\t\t\t\t}\n\n\t\t\t\t$ h1 {\n\t\t\t\t\tfont-size: {{ .Size }};\n\t\t\t\t\ttext-align: center;\n\t\t\t\t\tmargin: 20% auto;\n\t\t\t\t}\n\n\t\t\t\t$ h1::after{\n\t\t\t\t\tcontent:\"!\";\n\t\t\t\t\tdisplay: inline-block;\n\t\t\t\t}\n\n\t\t\t\t$ h1:hover::after{\n\t\t\t\t\tcontent:\"*\";\n\t\t\t\t\tcolor: red;\n\t\t\t\t\tdisplay: inline-block;\n\t\t\t\t}\n\n\t\t\t", (x = new structType.ptr("130px"), new x.constructor.elem(x))); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+				var $ptr, _arg, _arg$1, _arg$2, _arg$3, _arg$4, _arg$5, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, x, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _arg$4 = $f._arg$4; _arg$5 = $f._arg$5; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				_r = elems.CSS("\n\t\t\t\t${\n\t\t\t\t\twidth:100%;\n\t\t\t\t\theight: 100%;\n\t\t\t\t}\n\n\t\t\t\t$ h1 {\n\t\t\t\t\tfont-size: {{ .Size }};\n\t\t\t\t\ttext-align: center;\n\t\t\t\t\tmargin: 20% 0  0 5%;\n\t\t\t\t}\n\n\t\t\t\t$ span {\n\t\t\t\t\ttext-align: center;\n\t\t\t\t\tfont-weight: bold;\n\t\t\t\t\tmargin: 0 0 0 50%;\n\t\t\t\t\tcolor: rgba(0,0,0,0.5);\n\t\t\t\t}\n\n\t\t\t\t$ h1::after{\n\t\t\t\t\tcontent:\"!\";\n\t\t\t\t\tdisplay: inline-block;\n\t\t\t\t}\n\n\t\t\t\t$ h1:hover::after{\n\t\t\t\t\tcontent:\"*\";\n\t\t\t\t\tcolor: red;\n\t\t\t\t\tdisplay: inline-block;\n\t\t\t\t}\n\n\t\t\t", (x = new structType.ptr("130px"), new x.constructor.elem(x))); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 				_arg = _r;
 				_arg$1 = attrs.ID("hello");
 				_r$1 = elems.Text("Hello"); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
@@ -54950,10 +54974,13 @@ $packages["github.com/influx6/gu/examples/hello/apps"] = (function() {
 				_arg$3 = _r$2;
 				_r$3 = elems.Header1(new sliceType([_arg$2, _arg$3])); /* */ $s = 4; case 4: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 				_arg$4 = _r$3;
-				_r$4 = elems.Div(new sliceType([_arg, _arg$1, _arg$4])); /* */ $s = 5; case 5: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-				$s = -1; return _r$4;
-				return _r$4;
-				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._arg$4 = _arg$4; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
+				_r$4 = elems.Text("Click me"); /* */ $s = 5; case 5: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+				_r$5 = elems.Span(new sliceType([_r$4])); /* */ $s = 6; case 6: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+				_arg$5 = _r$5;
+				_r$6 = elems.Div(new sliceType([_arg, _arg$1, _arg$4, _arg$5])); /* */ $s = 7; case 7: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+				$s = -1; return _r$6;
+				return _r$6;
+				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._arg$4 = _arg$4; $f._arg$5 = _arg$5; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 			})), "", new sliceType$1([false])); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;
 			return;
