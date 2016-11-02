@@ -28,6 +28,13 @@ var _ = Resource(func() {
 					content:"!";
 					display: inline-block;
 				}
+
+				$ h1:hover::after{
+					content:"*";
+					color: red;
+					display: inline-block;
+				}
+
 			`, struct{ Size string }{Size: "130px"}),
 			ID("hello"),
 			Header1(Text("Hello")),
