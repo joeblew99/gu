@@ -14,7 +14,7 @@ func TestParser(t *testing.T) {
 	trees.SetMode(trees.Testing)
 	defer trees.SetMode(trees.Normal)
 
-	result, err := trees.ParseTree(`
+	result := trees.ParseTree(`
 		<!doctype html>
 		<html>
 			<head></head>
@@ -31,10 +31,6 @@ func TestParser(t *testing.T) {
 			</body>
 		</html>
   `)
-
-	if err != nil {
-		t.Fatalf("\t%s\t Parser should have produced markup for html: %q", failed, err)
-	}
 
 	var html []string
 	for _, res := range result {

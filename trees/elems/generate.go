@@ -161,18 +161,28 @@ func Text(content string) *trees.Markup {
 	return trees.NewText(content)
 }
 
+// Markup returns the giving markup structure generated from the string.
+func Markup(markup string) *trees.Markup {
+	return trees.ParseAsRoot("section", markup)
+}
+
+// MarkupWith returns the giving markup structure generated from the string.
+func MarkupWith(root string,markup string) *trees.Markup {
+	return trees.ParseAsRoot(root, markup)
+}
+
 // CSSWith provides a custom markup which returns a stylesheet embeded into 
 // the provided element parent retrieved from the proved css.Rule. 
 // You can optional pass in the css selector for the parent, only the first is used.
 func CSSWith(rs *css.Rule, bind interface{}, sel ...string) *trees.Markup {
-	return trees.CSSStylesheet(rs, bind, sel...)
+	return trees.CSSStylesheet(rs, bind)
 }
 
 // CSS provides a custom markup which returns a stylesheet embeded into 
 // the provided element parent.
 // You can optional pass in the css selector for the parent, only the first is used.
-func CSS(styles string, bind interface{}, sel ...string) *trees.Markup {
-	return trees.CSSStylesheet(css.New(styles), bind, sel...)
+func CSS(styles string, bind interface{}) *trees.Markup {
+	return trees.CSSStylesheet(css.New(styles), bind)
 }
 
 // SVG provides the markup generator for the <svg> xml tag.

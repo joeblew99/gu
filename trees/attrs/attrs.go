@@ -2,11 +2,7 @@
 
 package attrs
 
-import (
-	"strings"
-
-	"github.com/influx6/gu/trees"
-)
+import "github.com/influx6/gu/trees"
 
 // InputType defines the set type of input values for the input elements
 type InputType string
@@ -79,8 +75,8 @@ func Checked(val string) trees.Property {
 }
 
 // Class defines attributes of type "Class" for html element types
-func Class(val ...string) trees.Property {
-	return &trees.Attribute{Name: "class", Value: strings.Join(val, " ")}
+func Class(vals ...string) trees.Property {
+	return &trees.ClassList{List: vals}
 }
 
 // ClassName defines attributes of type "ClassName" for html element types

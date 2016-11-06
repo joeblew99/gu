@@ -6,15 +6,52 @@ import (
 	"golang.org/x/net/html"
 )
 
+// ParseToRoot passes the markup generated from the markup added to the provided
+// root.
+func ParseToRoot(root *Markup, markup string) {
+	trees := ParseTree(markup)
+	for _, child := range trees {
+		child.Apply(root)
+	}
+}
+
+// ParseAsRoot returns the markup generated from the provided markup,
+// returning them as children of the provided root.
+func ParseAsRoot(root string, markup string) *Markup {
+	tokens := html.NewTokenizer(strings.NewReader(markup))
+
+	var sel *Selector
+	if sels := Query.ParseSelector(root); sels != nil {
+		sel = sels[0]
+	} else {
+		sel.Tag = root
+	}
+
+	rootElem := NewMarkup(sel.Tag, false)
+
+	if sel.Id != "" {
+		NewAttr("id", sel.Id).Apply(rootElem)
+	}
+
+	if sel.Classes != nil {
+		(&ClassList{list: sel.Classes}).Apply(rootElem)
+	}
+
+	pullNode(tokens, rootElem)
+
+	return rootElem
+}
+
 // ParseTree takes a string markup and returns a *Markup which
 // contains the full structure transpiled
 // into the gutrees markup block structure.
-func ParseTree(markup string) ([]*Markup, error) {
+func ParseTree(markup string) []*Markup {
 	tokens := html.NewTokenizer(strings.NewReader(markup))
 
 	rootElem := NewMarkup("div", false)
 	pullNode(tokens, rootElem)
-	return rootElem.Children(), nil
+
+	return rootElem.Children()
 }
 
 func pullNode(tokens *html.Tokenizer, root *Markup) {

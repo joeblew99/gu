@@ -1,13 +1,6 @@
 package trees
 
-var (
-	dot        = byte('.')
-	coma       = byte(',')
-	hash       = byte('#')
-	space      = byte(' ')
-	bracket    = byte('[')
-	endbracket = byte(']')
-)
+import "strings"
 
 // Query defines a package level variable for access the query interface
 // which handles running css queries on markup structures.
@@ -18,96 +11,258 @@ type queryCtrl struct{}
 // Selector defines a structure which defines the requirements for a given
 // matching to be processed.
 type Selector struct {
-	Tag      string
-	Id       string
-	Attr     string
-	Classes  []string
-	Children []*Selector
+	Tag       string
+	Id        string
+	Psuedo    string
+	AttrOp    string
+	AttrName  string
+	AttrValue string
+	Classes   []string
+	Children  []*Selector
 }
+
+// Query returns the first element matching the giving selector.
+func (q queryCtrl) Query(root *Markup, sel string) *Markup {
+	sels := q.ParseSelector(sel)
+	if sels == nil {
+		return nil
+	}
+
+	return q.QuerySelector(root, sels[0])
+}
+
+// QueryAll returns the first element matching the giving selector.
+func (q queryCtrl) QueryAll(root *Markup, sel string) []*Markup {
+	sels := q.ParseSelector(sel)
+	if sels == nil {
+		return nil
+	}
+
+	return q.QueryAllSelector(root, sels[0])
+}
+
+// QuerySelector uses the provided selector and root returning the first
+// element that matches the selector's criteria.
+func (q queryCtrl) QuerySelector(root *Markup, sel *Selector) *Markup {
+	var filtered *Markup
+
+childloop:
+	for _, child := range root.children {
+		if q.queryOne(child, sel) {
+			filtered = child
+			break childloop
+		}
+
+		for _, kid := range child.children {
+			if q.queryOne(kid, sel) {
+				filtered = kid
+				break childloop
+			}
+
+			if item := q.QuerySelector(kid, sel); item != nil {
+				filtered = item
+				break childloop
+			}
+		}
+	}
+
+	if sel.Children == nil {
+		return filtered
+	}
+
+	for _, child := range sel.Children {
+		filtered = q.QuerySelector(filtered, child)
+		if filtered == nil {
+			return nil
+		}
+	}
+
+	return filtered
+}
+
+// QueryAllSelector uses the provided selector and root returning all
+// elements that matches the selector's criteria.
+func (q queryCtrl) QueryAllSelector(root *Markup, sel *Selector) []*Markup {
+	var found []*Markup
+
+	for _, child := range root.children {
+		if !q.queryOne(child, sel) {
+
+			for _, kid := range child.children {
+				if q.queryOne(kid, sel) {
+					found = append(found, kid)
+				}
+
+				found = append(found, q.QueryAllSelector(kid, sel)...)
+			}
+
+			continue
+		}
+
+		if sel.Children == nil {
+			found = append(found, child)
+
+			for _, kid := range child.children {
+				if q.queryOne(kid, sel) {
+					found = append(found, kid)
+				}
+
+				found = append(found, q.QueryAllSelector(kid, sel)...)
+			}
+
+			continue
+		}
+
+		kid := child
+		for _, kidSel := range sel.Children {
+			kid = q.QuerySelector(kid, kidSel)
+			if kid == nil {
+				continue
+			}
+		}
+
+		for _, mkid := range child.children {
+			if q.queryOne(mkid, sel) {
+				found = append(found, mkid)
+			}
+
+			found = append(found, q.QueryAllSelector(mkid, sel)...)
+		}
+
+		found = append(found, kid)
+	}
+
+	return found
+}
+
+func (q queryCtrl) queryOne(target *Markup, sel *Selector) bool {
+	if sel.Tag != "" && !q.tagFor(target, sel.Tag) {
+		return false
+	}
+
+	if sel.Id != "" && !q.idFor(target, sel.Id) {
+		return false
+	}
+
+	if sel.Classes != nil {
+		for _, class := range sel.Classes {
+			if !q.classFor(target, class) {
+				return false
+			}
+		}
+
+		return true
+	}
+
+	if sel.AttrName != "" && !q.attrFor(target, sel.AttrName, sel.AttrValue, sel.AttrOp) {
+		return false
+	}
+
+	return true
+}
+
+var (
+	dot        = byte('.')
+	coma       = byte(',')
+	hash       = byte('#')
+	space      = byte(' ')
+	bracket    = byte('[')
+	endbracket = byte(']')
+)
 
 // ParseSelector returns the giving selector parsed out into its individual
 // sections.
-func (queryCtrl) ParseSelector(sel string) []*Selector {
+func (q queryCtrl) ParseSelector(sel string) []*Selector {
 	var sels []*Selector
 	items := []byte(sel)
 	itemsLen := len(items)
 
 	var index int
-	var block []byte
 	var doChildren bool
 	var seenSpace bool
+	var seenComa bool
 
+	var child *Selector
 	sels = append(sels, &Selector{})
 
-parseLoop:
-	for index < itemsLen {
-		item := items[index]
+	{
 
-		if seenSpace && item == space {
-			index++
-			continue
-		}
-
-		csel := sels[len(sels)-1]
-
-		switch item {
-		case space:
-			if len(block) != 0 {
-				if doChildren {
-					child := csel.Children[len(csel.Children)-1]
-					child.Tag = string(block)
-					block = nil
-				} else {
-					csel.Tag = string(block)
-					block = nil
-				}
+	parseLoop:
+		for {
+			if index >= itemsLen {
+				break
 			}
 
-			seenSpace = true
-			index++
-			continue parseLoop
-
-		case coma:
-			if len(block) != 0 {
-				if doChildren {
-					child := csel.Children[len(csel.Children)-1]
-					child.Tag = string(block)
-					block = nil
-				} else {
-					csel.Tag = string(block)
-					block = nil
-				}
+			item := items[index]
+			if seenSpace && item == space {
+				index++
+				continue
 			}
 
-			seenSpace = false
-			doChildren = false
+			if seenSpace && item != space {
+				seenSpace = false
+			}
 
-			newSel := &Selector{}
-			sels = append(sels, newSel)
-			csel = newSel
-			index++
-			continue parseLoop
+			csel := sels[len(sels)-1]
 
-		case dot:
-			var child *Selector
-			if len(block) != 0 {
+			switch item {
+			case space:
+				if seenComa {
+					doChildren = false
+				}
+
+				if !seenComa {
+					doChildren = true
+				}
+
+				if !seenComa {
+					doChildren = true
+				}
+
+				if !seenSpace && !seenComa {
+					csel.Children = append(csel.Children, &Selector{})
+				}
+
+				index++
+				seenSpace = true
+				continue parseLoop
+
+			case coma:
+				seenComa = true
+
+				sels = append(sels, &Selector{})
+
+				index++
+				continue parseLoop
+
+			case dot:
 				if doChildren {
 					child = csel.Children[len(csel.Children)-1]
-					child.Tag = string(block)
-					block = nil
-				} else {
-					csel.Tag = string(block)
-					block = nil
 				}
-			}
 
-			{
-				var blk []byte
+				{
+					var blk []byte
 
-				for {
-					index++
-					if index >= itemsLen {
-						if len(blk) != 0 {
+					for {
+						index++
+
+						if index >= itemsLen {
+							if len(blk) != 0 {
+								if doChildren {
+									child.Classes = append(child.Classes, string(blk))
+								} else {
+									csel.Classes = append(csel.Classes, string(blk))
+								}
+
+								blk = nil
+							}
+
+							break
+						}
+
+						item = items[index]
+
+						if item == dot {
 							if doChildren {
 								child.Classes = append(child.Classes, string(blk))
 							} else {
@@ -115,176 +270,311 @@ parseLoop:
 							}
 
 							blk = nil
+							continue
 						}
 
-						break
-					}
-
-					item = items[index]
-
-					if item == dot {
-						if doChildren {
-							child.Classes = append(child.Classes, string(blk))
-						} else {
-							csel.Classes = append(csel.Classes, string(blk))
-						}
-
-						blk = nil
-						continue
-					}
-
-					if item == space || item == coma {
-						if doChildren {
-							child.Classes = append(child.Classes, string(blk))
-						} else {
-							csel.Classes = append(csel.Classes, string(blk))
-						}
-
-						blk = nil
-						continue parseLoop
-					}
-
-					blk = append(blk, item)
-				}
-			}
-
-		case hash:
-			var child *Selector
-			if len(block) != 0 {
-				if doChildren {
-					child = csel.Children[len(csel.Children)-1]
-					child.Tag = string(block)
-					block = nil
-				} else {
-					csel.Tag = string(block)
-					block = nil
-				}
-			}
-
-			{
-				var blk []byte
-				for {
-					index++
-
-					if index >= itemsLen {
-						if doChildren {
-							child.Id = string(blk)
-						} else {
-							csel.Id = string(blk)
-						}
-
-						blk = nil
-						break
-					}
-
-					item = items[index]
-					if item == dot || item == space || item == coma {
-						index--
-
-						if doChildren {
-							child.Id = string(blk)
-						} else {
-							csel.Id = string(blk)
-						}
-
-						blk = nil
-						continue parseLoop
-					}
-
-					blk = append(blk, item)
-				}
-			}
-
-		case bracket:
-			var child *Selector
-			if len(block) != 0 {
-				if doChildren {
-					child = csel.Children[len(csel.Children)-1]
-					child.Tag = string(block)
-					block = nil
-				} else {
-					csel.Tag = string(block)
-					block = nil
-				}
-			}
-
-			{
-				var blk []byte
-
-				for {
-					index++
-					if index >= itemsLen {
-						if len(blk) != 0 {
+						if item == space || item == coma || item == hash {
 							if doChildren {
-								child.Attr = string(blk)
+								child.Classes = append(child.Classes, string(blk))
 							} else {
-								csel.Attr = string(blk)
+								csel.Classes = append(csel.Classes, string(blk))
 							}
-						}
-						break
-					}
 
-					item = items[index]
-					if item == endbracket {
+							blk = nil
+							continue parseLoop
+						}
+
 						blk = append(blk, item)
+					}
+				}
 
-						if doChildren {
-							child.Attr = string(blk)
-						} else {
-							csel.Attr = string(blk)
+				continue parseLoop
+
+			case hash:
+				if doChildren {
+					child = csel.Children[len(csel.Children)-1]
+				}
+
+				{
+					var blk []byte
+
+					for {
+						index++
+
+						if index >= itemsLen {
+							if doChildren {
+								child.Id = string(blk)
+							} else {
+								csel.Id = string(blk)
+							}
+
+							blk = nil
+							break
 						}
 
-						continue parseLoop
+						item = items[index]
+						if item == dot || item == space || item == coma {
+
+							if doChildren {
+								child.Id = string(blk)
+							} else {
+								csel.Id = string(blk)
+							}
+
+							blk = nil
+							continue parseLoop
+						}
+
+						blk = append(blk, item)
+					}
+				}
+
+			case bracket:
+				if doChildren {
+					child = csel.Children[len(csel.Children)-1]
+				}
+
+				{
+					var blk []byte
+					blk = append(blk, item)
+
+					for {
+						index++
+
+						if index >= itemsLen {
+							break
+						}
+
+						item := items[index]
+						if item == endbracket {
+							blk = append(blk, item)
+
+							attr, val, op := q.splitBracketSelector(string(blk))
+							val = strings.Replace(val, "'", "", -1)
+							val = strings.Replace(val, "\"", "", -1)
+
+							if doChildren {
+								child.AttrOp = op
+								child.AttrName = attr
+								child.AttrValue = val
+							} else {
+								csel.AttrOp = op
+								csel.AttrName = attr
+								csel.AttrValue = val
+							}
+
+							index++
+							continue parseLoop
+						}
+
+						blk = append(blk, item)
 					}
 
-					blk = append(blk, item)
+					continue parseLoop
 				}
+
+			default:
+				if doChildren {
+					child = csel.Children[len(csel.Children)-1]
+				}
+
+				{
+					var blk []byte
+					blk = append(blk, item)
+
+					for {
+						index++
+
+						if index >= itemsLen {
+							if len(blk) != 0 {
+								if doChildren {
+									child.Tag = string(blk)
+									if psud := strings.Index(child.Tag, ":"); psud != -1 {
+										psuedo := child.Tag[psud:]
+										child.Tag = child.Tag[:psud]
+										child.Psuedo = psuedo
+									}
+								} else {
+									csel.Tag = string(blk)
+									if psud := strings.Index(csel.Tag, ":"); psud != -1 {
+										psuedo := csel.Tag[psud:]
+										csel.Tag = csel.Tag[:psud]
+										csel.Psuedo = psuedo
+									}
+								}
+							}
+
+							break
+						}
+
+						item := items[index]
+						if item == space || item == coma || item == hash || item == dot || item == bracket || item == endbracket {
+							if doChildren {
+								child.Tag = string(blk)
+								if psud := strings.Index(child.Tag, ":"); psud != -1 {
+									psuedo := child.Tag[psud:]
+									child.Tag = child.Tag[:psud]
+									child.Psuedo = psuedo
+								}
+							} else {
+								csel.Tag = string(blk)
+								if psud := strings.Index(csel.Tag, ":"); psud != -1 {
+									psuedo := csel.Tag[psud:]
+									csel.Tag = csel.Tag[:psud]
+									csel.Psuedo = psuedo
+								}
+							}
+
+							continue parseLoop
+						}
+
+						blk = append(blk, item)
+					}
+
+					continue parseLoop
+				}
+
 			}
 
-		default:
-			block = append(block, item)
+			index++
 		}
-
-		index++
 	}
 
 	return sels
 }
 
-// Query returns the first element matching the giving selector.
-func (queryCtrl) Query(root *Markup, sel string) *Markup {
-	var found *Markup
+var (
+	exactMatch           = "="
+	exactWordInListMatch = "~="
+	beginOrExactlyMatch  = "|="
+	prefixMatch          = "^="
+	suffixMatch          = "$="
+	containsMatch        = "*="
+)
 
-	return found
+// splitBracketSelector returns the attribute name, value and operator if available
+// for attribute selector.
+func (queryCtrl) splitBracketSelector(sel string) (string, string, string) {
+	sel = strings.TrimPrefix(sel, "[")
+	sel = strings.TrimSuffix(sel, "]")
+
+	switch {
+	case strings.Contains(sel, exactWordInListMatch):
+		splits := strings.Split(sel, exactWordInListMatch)
+		if len(splits) == 1 {
+			return splits[0], "", exactWordInListMatch
+		}
+
+		return splits[0], splits[1], exactWordInListMatch
+
+	case strings.Contains(sel, beginOrExactlyMatch):
+		splits := strings.Split(sel, beginOrExactlyMatch)
+		if len(splits) == 1 {
+			return splits[0], "", beginOrExactlyMatch
+		}
+
+		return splits[0], splits[1], beginOrExactlyMatch
+
+	case strings.Contains(sel, prefixMatch):
+		splits := strings.Split(sel, prefixMatch)
+		if len(splits) == 1 {
+			return splits[0], "", prefixMatch
+		}
+
+		return splits[0], splits[1], prefixMatch
+
+	case strings.Contains(sel, suffixMatch):
+		splits := strings.Split(sel, suffixMatch)
+		if len(splits) == 1 {
+			return splits[0], "", suffixMatch
+		}
+
+		return splits[0], splits[1], suffixMatch
+
+	case strings.Contains(sel, containsMatch):
+		splits := strings.Split(sel, containsMatch)
+		if len(splits) == 1 {
+			return splits[0], "", containsMatch
+		}
+
+		return splits[0], splits[1], containsMatch
+
+	case strings.Contains(sel, exactMatch):
+		splits := strings.Split(sel, exactMatch)
+		if len(splits) == 1 {
+			return splits[0], "", exactMatch
+		}
+
+		return splits[0], splits[1], exactMatch
+	}
+
+	return sel, "", ""
 }
 
-// QueryAll returns all elements matching the giving selector.
-func (queryCtrl) QueryAll(root *Markup, sel string) []*Markup {
-	var found []*Markup
+func (queryCtrl) attrFor(target *Markup, attrName string, attrVal string, op string) bool {
+	attr, err := GetAttr(target, attrName)
+	if err != nil {
+		return false
+	}
 
-	return found
+	_, val := attr.Render()
+
+	switch op {
+	case exactMatch:
+		return val == attrVal
+
+	case exactWordInListMatch:
+		splits := strings.Split(val, " ")
+		for _, item := range splits {
+			if item != attrVal {
+				continue
+			}
+
+			return true
+		}
+
+	case beginOrExactlyMatch:
+		if strings.HasPrefix(val, attrVal+"-") {
+			return true
+		}
+
+		return val == attrVal
+
+	case prefixMatch:
+		return strings.HasPrefix(val, attrVal)
+
+	case suffixMatch:
+		return strings.HasSuffix(val, attrVal)
+
+	case containsMatch:
+		return strings.Contains(val, attrVal)
+
+	default:
+		return true
+	}
+
+	return false
 }
 
-func (queryCtrl) classFor(root *Markup, class string) *Markup {
-	var found *Markup
-
-	return found
+func (queryCtrl) tagFor(target *Markup, tag string) bool {
+	return target.tagname == tag
 }
 
-func (queryCtrl) idFor(root *Markup, id string) *Markup {
-	var found *Markup
+func (queryCtrl) classFor(target *Markup, class string) bool {
+	if attr, err := GetAttr(target, "class"); err == nil {
+		_, val := attr.Render()
+		return strings.Contains(val, class)
+	}
 
-	return found
+	return false
 }
 
-func (queryCtrl) contentContainsFor(root *Markup, attr string, content string) *Markup {
-	var found *Markup
+func (queryCtrl) idFor(target *Markup, id string) bool {
+	if attr, err := GetAttr(target, "id"); err == nil {
+		if _, val := attr.Render(); val == id {
+			return true
+		}
+	}
 
-	return found
-}
-
-func (queryCtrl) contentMatchFor(root *Markup, attr string, content string) *Markup {
-	var found *Markup
-
-	return found
+	return false
 }

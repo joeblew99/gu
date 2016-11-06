@@ -112,67 +112,58 @@ func (s *CSSStyle) Apply(e *Markup) {
 // ClassList defines the list type for class lists.
 type ClassList struct {
 	list []string
-	name string
 }
 
 // NewClassList returns a new ClassList instance.
-func NewClassList(name string) *ClassList {
-	cl := ClassList{
-		name: strings.ToLower(name),
-	}
-
-	return &cl
+func NewClassList() *ClassList {
+	return &ClassList{}
 }
 
 // Add adds a class name into the lists.
-func (c *ClassList) Add(class string) {
-	c.list = append(c.list, class)
+func (c *ClassList) Add(classes ...string) {
+	c.list = append(c.list, classes...)
 }
 
 // Render returns the key and value for this style rendered.
 func (c *ClassList) Render() (string, string) {
-	return c.name, strings.Join(c.list, " ")
+	return "class", strings.Join(c.list, " ")
 }
 
 // Apply checks for a class attribute
 func (c *ClassList) Apply(em *Markup) {
-	if em.allowStyles {
-		em.AddStyle(c)
+	if em.allowAttributes {
+		var old Property
+		index := -1
+
+		for ind, attr := range em.attrs {
+			name, _ := attr.Render()
+			if name != "class" {
+				continue
+			}
+
+			old = attr
+			index = ind
+			break
+		}
+
+		if index == -1 {
+			em.AddAttribute(c)
+			return
+		}
+
+		if cold, ok := old.(*ClassList); ok {
+			cold.Add(c.list...)
+		}
+
+		_, val := old.Render()
+		c.Add(strings.Split(val, " ")...)
+		em.attrs[index] = c
 	}
 }
 
 // Clone replicates the lists of classnames.
 func (c ClassList) Clone() Property {
 	return &ClassList{
-		name: c.name,
 		list: c.list[:len(c.list)],
 	}
-}
-
-// Reconcile checks each item against the given lists
-// and replaces/add any missing item.
-func (c *ClassList) Reconcile(m Property) bool {
-	var added bool
-
-	if mc, ok := m.(*ClassList); ok {
-		maxlen := len(c.list)
-
-		for ind, val := range mc.list {
-
-			if ind >= maxlen {
-				added = true
-				c.list = append(c.list, val)
-				continue
-			}
-
-			if (c.list[ind]) == val {
-				continue
-			}
-
-			added = true
-			c.list[ind] = val
-		}
-	}
-
-	return added
 }

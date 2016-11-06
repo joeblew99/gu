@@ -270,12 +270,15 @@ func ReplaceORAddAttribute(m Properties, name string, val string) {
 		return
 	}
 
-	attrm, ok := attr.(*Attribute)
-	if !ok {
+	if attrm, ok := attr.(*Attribute); ok {
+		attrm.Value = val
 		return
 	}
 
-	attrm.Value = val
+	if classlist, ok := attr.(*ClassList); ok {
+		classlist.list = nil
+		classlist.list = append(classlist.list, val)
+	}
 }
 
 //==============================================================================

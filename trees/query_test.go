@@ -1,7 +1,6 @@
 package trees_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/influx6/gu/tests"
@@ -23,8 +22,8 @@ func TestParseSelector(t *testing.T) {
 	}
 	tests.Passed(t, "Should have div as selector tag")
 
-	if elem.Attr != "" {
-		tests.Failed(t, "Should not have a attribute match required: %q", elem.Attr)
+	if elem.AttrName != "" {
+		tests.Failed(t, "Should not have a attribute match required: %q", elem.AttrName)
 	}
 	tests.Passed(t, "Should not have a attribute match required")
 
@@ -45,22 +44,113 @@ func TestParseSelector(t *testing.T) {
 
 }
 
-func TestParseMultiSelectors(t *testing.T) {
-	sels := trees.Query.ParseSelector("div.shower.ball, a.embeded, h1#header.bots.call")
+func TestParseAttr(t *testing.T) {
+	sels := trees.Query.ParseSelector("div[rel|='bull']")
 	if sels == nil {
 		tests.Failed(t, "Should have returned lists of selectors")
 	}
 	tests.Passed(t, "Should have returned lists of selectors")
 
-	for _, sel := range sels {
-		fmt.Printf("%#v\n", sel)
+	sel := sels[0]
 
-		if sel.Children != nil {
-			for _, sel := range sel.Children {
-				fmt.Printf("\t%#v\n", sel)
-			}
-		}
-
-		fmt.Println(" ")
+	if sel.AttrName != "rel" {
+		tests.Failed(t, "Should have selector with attribute name 'rel'")
 	}
+	tests.Passed(t, "Should have selector with attribute name 'rel'")
+
+	if sel.AttrOp != "|=" {
+		tests.Failed(t, "Should have selector with attribute op '|='")
+	}
+	tests.Passed(t, "Should have selector with attribute op '|='")
+
+	if sel.AttrValue != "bull" {
+		tests.Failed(t, "Should have selector with attribute value 'bull'")
+	}
+	tests.Passed(t, "Should have selector with attribute value 'bull'")
+}
+
+func TestParseMultiSelectors(t *testing.T) {
+	sels := trees.Query.ParseSelector("div.shower.ball a.embeded, h1#header.main-header.color, div[alt*='blocker'], div::nth-child(2n+1)")
+	if sels == nil {
+		tests.Failed(t, "Should have returned lists of selectors")
+	}
+	tests.Passed(t, "Should have returned lists of selectors")
+
+	if len(sels) != 4 {
+		tests.Failed(t, "Should have returned only 4 elements")
+	}
+	tests.Passed(t, "Should have returned only 4 elements")
+
+	if len(sels[0].Children) != 1 {
+		tests.Failed(t, "Should have atleast first element with only 1 elements")
+	}
+	tests.Passed(t, "Should have atleast first element with only 1 elements")
+}
+
+func TestQueries(t *testing.T) {
+	tree := trees.ParseAsRoot("section.tree-house#house", `
+    <div class="wrapper" aria="wrapper-div">
+      <section id="header" class="section"></section>
+      <section id="menu" class="section"></section>
+      <section id="content" class="section"></section>
+    </div>
+
+    <div class="links">
+      <a rel="delay" href="#delay">Delay</a>
+    </div>
+  `)
+
+	class, err := trees.GetAttr(tree, "class")
+	if err != nil {
+		tests.Failed(t, "Should have root with provided class property")
+	}
+	tests.Passed(t, "Should have root with provided class property")
+
+	if _, val := class.Render(); val != "tree-house" {
+		tests.Failed(t, "Should have class value matching 'tree-house': %q", val)
+	}
+	tests.Passed(t, "Should have class value matching 'tree-house'")
+
+	id, err := trees.GetAttr(tree, "id")
+	if err != nil {
+		tests.Failed(t, "Should have root with provided id property")
+	}
+	tests.Passed(t, "Should have root with provided id property")
+
+	if _, val := id.Render(); val != "house" {
+		tests.Failed(t, "Should have class value matching 'house': %q", val)
+	}
+	tests.Passed(t, "Should have class value matching 'house'")
+
+	if div := trees.Query.Query(tree, "div.wrapper"); div == nil {
+		tests.Failed(t, "Should have returned a div with provided class 'wrapper'")
+	}
+	tests.Passed(t, "Should have returned a div with provided class 'wrapper'")
+
+	if item := trees.Query.Query(tree, "section#menu"); item == nil {
+		tests.Failed(t, "Should have returned a section with provided id 'menu'")
+	}
+	tests.Passed(t, "Should have returned a section with provided id 'menu'")
+
+	if div := trees.Query.Query(tree, "div[aria*=wrapper-div]"); div == nil {
+		tests.Failed(t, "Should have returned a div with provided attr 'div[aria*=wrapper-div]'")
+	}
+	tests.Passed(t, "Should have returned a div with provided attr 'div[aria*=wrapper-div]'")
+
+	if div := trees.Query.Query(tree, "div[aria=wrapper-div]"); div == nil {
+		tests.Failed(t, "Should have returned a div with provided attr 'div[aria*=wrapper-div]'")
+	}
+	tests.Passed(t, "Should have returned a div with provided attr 'div[aria*=wrapper-div]'")
+
+	if div := trees.Query.QueryAll(tree, "div[aria*=wrapper-div]"); len(div) != 1 {
+		tests.Failed(t, "Should have returned a div with provided attr 'div[aria*=wrapper-div]': %d", len(div))
+	}
+	tests.Passed(t, "Should have returned a div with provided attr 'div[aria*=wrapper-div]'")
+
+	items := trees.Query.QueryAll(tree, "section.section")
+	if items == nil {
+		tests.Failed(t, "Should have returned 3 elements for selector 'section.section': %d", len(items))
+	}
+	tests.Passed(t, "Should have returned 3 elements for selector 'section.section'")
+
 }
