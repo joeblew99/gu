@@ -148,7 +148,7 @@ func TestQueries(t *testing.T) {
 	tests.Passed(t, "Should have returned a div with provided attr 'div[aria*=wrapper-div]'")
 
 	items := trees.Query.QueryAll(tree, "section.section")
-	if items == nil {
+	if len(items) != 3 {
 		tests.Failed(t, "Should have returned 3 elements for selector 'section.section': %d", len(items))
 	}
 	tests.Passed(t, "Should have returned 3 elements for selector 'section.section'")
