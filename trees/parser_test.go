@@ -37,10 +37,9 @@ func TestParser(t *testing.T) {
 	}
 
 	var html []string
-
 	for _, res := range result {
 		html = append(html, res.HTML())
 	}
 
-	t.Logf("\t%s\t Parser should have produced markup for html: %s", success, strings.Join(html, ""))
+	t.Logf("\t%s\t Parser should have produced markup for html: %q", success, strings.Join(html, ""))
 }
