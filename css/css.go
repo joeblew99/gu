@@ -69,9 +69,6 @@ func (r *Rule) adjustName(sel string, parentNode string) string {
 	sel = strings.TrimSpace(sel)
 
 	switch {
-	case strings.Contains(sel, "-"):
-		return strings.Replace(sel, "-", "", -1)
-
 	case strings.Contains(sel, "$"):
 		return strings.Replace(sel, "$", parentNode, -1)
 
@@ -79,7 +76,7 @@ func (r *Rule) adjustName(sel string, parentNode string) string {
 		return parentNode + "" + sel
 
 	default:
-		return parentNode + " " + sel
+		return sel
 	}
 }
 

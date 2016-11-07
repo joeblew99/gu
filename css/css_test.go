@@ -12,22 +12,22 @@ func TestBasicCSS(t *testing.T) {
 
 	csr := css.New(`
 
-    :hover {
+    $:hover {
       color: red;
     }
 
-    ::before {
+    $::before {
       content: "bugger";
     }
 
-    div a {
+    $ div a {
       color: black;
       font-family: {{ .Font }}
     }
 
     @media (max-width: 400px){
 
-      :hover {
+      $:hover {
         color: blue;
         font-family: {{ .Font }}
       }
