@@ -12,6 +12,7 @@ import (
 var _ = Resource(func() {
 
 	DoTitle("Hello App")
+	
 	DoMarkup(func() *Markup {
 		return Div(
 			CSS(`
