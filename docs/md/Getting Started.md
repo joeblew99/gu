@@ -69,6 +69,7 @@ import (
 var _ = Resource(func() {
 
     DoTitle("Hello App")
+
     DoMarkup(func() *Markup {
       return Div(
         CSS(`
@@ -127,29 +128,31 @@ Rendered Page:
 ![Image of Page](../../examples/hello/normal.png)
 
 Rendered Page with Hover Effect:
-![Image of Page](../../examples/hello/on-hover.png)
+![Image of Page with Hover](../../examples/hello/on-hover.png)
 
 Rendered Page with clicked "Hello" text:
-![Image of Page](../../examples/hello/on-click.png)
-
+![Image of Page when clicked](../../examples/hello/on-click.png)
 
 The code above flurishes with  declarations of  intent which when read fully describes the  
 outcome expected on the page. As stated within Gu, a Resource is a single page, which encapsulates
  what is expected with its logic and architecture which then gets rendered as a page based on the URI
  critieria.
 
-We create a resource 
+We create a resource by calling the [Design Package](./designs) `Resource` function which generates 
+a function to be instantiated and executed by the managing `ResourcesManager` to create the resource.
+It simple returns the index position which that resource will be located in within the `ResourcesManager`.
+But this is usually not needed but also exists to allwo the pattern of declaration.
 ```go
 var _ = Resource(func() {
     ....
 })
 ```
 
-The main function handles the creation of the `ResourceManager` by calling the `New`
-function from the `gu/design` package which expects as an optional argument a 
-renderer which will be called when on the client to handle page rendering during 
-initial load and change of browsers URi. Gu already provides this and can be provided 
-at load to get the client rendering adequately.
+The main function handles the creation of the `ResourcesManager` by calling the `New`
+function from the [Design Package](./designs) package. The `ResourcesManager` expects an an optional 
+argument, which is a `ResourceRenderer` type to handle the rendering of the resources on the client.  
+The   `ResourceRenderer` if passed in will only be ever used on the client, to handle the automatic update of the DOM
+during the initial load and continous updates request either by a component or the browsers URI.  
 
 ```go
 	New(&redom.DOMRenderer{
@@ -157,47 +160,82 @@ at load to get the client rendering adequately.
 	}).Init()
 ```
 
-The internals of the resource definition are as simple, by using the design package 
-functions we quickly define the title expected for that page and the route criteria 
-which is matched by looking at the hash if on the client and through the url supplied 
-through calling a render function which builds the adequate response of the complete 
-page when dealing on the server.
+**Note**: The `Init()` function is the core of a `ResourcesManager` to intialize all present `Resource` functions 
+already loaded either as part of the package or from an externally imported package. Which brings me to the need to 
+explain how the `New` works. The `design.Resource(func())` works by stacking the provided function in a global 
+resource stack, when the `New` function is called to create a `ResourcesManager`, it takes all available functions 
+added into the package resource stack, clearing out all. This is done to ensure only the `ResourcesManager` created
+ever owns those resources. Generally there should ever be only one `ResourcesManager` created and passed to 
+either your client or server code, has it works on either end.
 
+We continue in the Resource function which immediately sets the route to be targeted for which this `Resource`
+should be rendered, now this particular code is excluded in the example code but added here for breadth and also 
+to provide the opportunity to showcase how a Resource is locked to a given URI, generally by the hash of the page.
 ```go
 	UseRoute("/hello")
+```
 
+Next we set the title expected for the page, by calling the `DoTitle` function which ensures a `<title>`tag is included 
+in the head, thereby setting the seen title when this is rendered.
+```go
 	DoTitle("Hello App")
 ```
 
-The final piece and meat of the page is the intention declared about the markup to be 
-rendered. As Gu provides a functional approach which creates structures underline 
-that describes to the renderer what it expects on the page as its content, this is something
-which will be heavily used has its the core of what makes it possible to render both 
-on either the client or backend seperating a tight coupling between either ground
+The final piece the page is the simple markup we intently desire that the page display, which is a simple "Hello Text"
+with a faded "Click Me!" below it.
 
 ```go
-	DoMarkup(func() *Markup {
-		return Div(
-			CSS(`
-				${
-					width:100%;
-					height: 100%;
-				}
-			`, struct{ Size string }{Size: "130px"}),
-			ID("hello"),
-			Header1(
-				Text("Hello"),
-				events.Click(func(ev EventObject, tree *Markup) {
-					js.Global.Call("alert", "I just got clicked, Yaay!!!")
-				}, ""),
-			),
-			Span(Text("Click me")),
-		)
-	}, "", false)
+DoMarkup(func() *Markup {
+      return Div(
+        CSS(`
+          ${
+            width:100%;
+            height: 100%;
+          }
 
+          $ h1 {
+            font-size: {{ .Size }};
+            text-align: center;
+            margin: 20% 0  0 5%;
+          }
+
+          $ span {
+            text-align: center;
+            font-weight: bold;
+            margin: 0 0 0 50%;
+            color: rgba(0,0,0,0.5);
+          }
+
+          $ h1::after{
+            content:"!";
+            display: inline-block;
+          }
+
+          $ h1:hover::after{
+            content:"*";
+            color: red;
+            display: inline-block;
+          }
+
+        `, struct{ Size string }{Size: "130px"}),
+        IDAttr("hello"),
+        Header1(
+          Text("Hello"),
+          ClickEvent(func(ev EventObject, tree *Markup) {
+            js.Global.Call("alert", "I just got clicked, Yaay!!!")
+          }, ""),
+        ),
+        Span(Text("Click me")),
+      )
+    }, "", false)
 ```
 
-The `DoMarkup` function accepts either a `Markup` structure or a function which 
+The `DoMarkup` function accepts three types of input:
+
+  1. A `Markup` structure
+  2. A function which returns a single or a list of markup structure (when a list is returned it gets wrap in a section tag)
+  3. A string which will be passed to generate the markup structure 
+
 returns a markup or a lsits of markup points, which are then organized with in 
 the resource to make up its content. The reason we use this approach is because 
 by the very name of the function, an intent of contents gets declared and allows 
