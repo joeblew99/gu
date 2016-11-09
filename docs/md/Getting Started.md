@@ -123,8 +123,15 @@ func main(){
 }
 ```
 
-<iframe width="560" height="315" src="./examples/hello/index.html" frameborder="0" allowfullscreen="allowfullscreen"> 
-</iframe>
+Render Page
+![Image of Page]("./examples/hello/normal.png")
+
+Render Page with Hover Effect
+![Image of Page]("./examples/hello/on-hover.png")
+
+Render Page with Hello text clicked
+![Image of Page]("./examples/hello/on-click.png")
+
 
 The code above flurishes with  declarations of  intent which when read fully describes the  
 outcome expected on the page. As stated within Gu, a Resource is a single page, which encapsulates
