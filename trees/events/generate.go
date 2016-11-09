@@ -21,6 +21,7 @@ type event struct {
 
 func main() {
 	nameMap := map[string]string{
+		"afterscriptexecute":      "AfterScriptExecute",
 		"afterprint":              "AfterPrint",
 		"animationend":            "AnimationEnd",
 		"animationiteration":      "AnimationIteration",
@@ -187,12 +188,13 @@ type EventHandler func(trees.EventObject, *trees.Markup)
 	for _, name := range names {
 		e := events[name]
 		fmt.Fprintf(file, ` 
-
-// %s Documentation is as below: %q
+// %sEvent Documentation is as below: %q
 // https://developer.mozilla.org%s
-/* This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if the selector value is not empty then that becomes the default selector used
-match the event with. */
-func %s(callback EventHandler, sel string) *trees.Event {
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector 
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an 
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if 
+// the selector value is not empty then that becomes the default selector used match the event with. 
+func %sEvent(callback EventHandler, sel string) *trees.Event {
 	ev := trees.NewEvent("%s",sel)
 	ev.Handle = dispatch.Subscribe(func(evm trees.EventBroadcast){
 		if ev.EventID != evm.EventID{

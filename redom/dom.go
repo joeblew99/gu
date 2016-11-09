@@ -1,9 +1,9 @@
-// Package dom contains the DOM RenderTarget for rendering gu markup into a
+// Package redom contains the DOM RenderTarget for rendering gu markup into a
 // browser DOM.
-package dom
+package redom
 
 import (
-	hdom "honnef.co/go/js/dom"
+	dom "honnef.co/go/js/dom"
 
 	gjs "github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/gu"
@@ -16,7 +16,7 @@ import (
 // DOMRenderer defines an implementation for gu.design.ResourceRenderere
 // and handles rendering of a giving group of resources into the live DOM body root.
 type DOMRenderer struct {
-	Document hdom.Document
+	Document dom.Document
 }
 
 // Render renders the giving set of resources into the provided body and header
