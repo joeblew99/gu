@@ -123,13 +123,13 @@ func main(){
 }
 ```
 
-Render Page
+Rendered Page:
 ![Image of Page](../../examples/hello/normal.png)
 
-Render Page with Hover Effect
+Rendered Page with Hover Effect:
 ![Image of Page](../../examples/hello/on-hover.png)
 
-Render Page with Hello text clicked
+Rendered Page with clicked "Hello" text:
 ![Image of Page](../../examples/hello/on-click.png)
 
 
