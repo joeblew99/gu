@@ -4,15 +4,15 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 	. "github.com/influx6/gu/design"
 	. "github.com/influx6/gu/trees"
-	. "github.com/influx6/gu/trees/attrs"
 	. "github.com/influx6/gu/trees/elems"
 	events "github.com/influx6/gu/trees/events"
+	. "github.com/influx6/gu/trees/property"
 )
 
 var _ = Resource(func() {
 
 	DoTitle("Hello App")
-	
+
 	DoMarkup(func() *Markup {
 		return Div(
 			CSS(`
@@ -46,7 +46,7 @@ var _ = Resource(func() {
 				}
 
 			`, struct{ Size string }{Size: "130px"}),
-			ID("hello"),
+			IDAttr("hello"),
 			Header1(
 				Text("Hello"),
 				events.Click(func(ev EventObject, tree *Markup) {

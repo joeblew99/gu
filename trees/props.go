@@ -115,8 +115,8 @@ type ClassList struct {
 }
 
 // NewClassList returns a new ClassList instance.
-func NewClassList() *ClassList {
-	return &ClassList{}
+func NewClassList(c ...string) *ClassList {
+	return &ClassList{list: c}
 }
 
 // Add adds a class name into the lists.

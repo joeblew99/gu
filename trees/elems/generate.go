@@ -161,13 +161,13 @@ func Text(content string) *trees.Markup {
 	return trees.NewText(content)
 }
 
-// Markup returns the giving markup structure generated from the string.
-func Markup(markup string) *trees.Markup {
+// Parse returns the giving markup structure generated from the string.
+func Parse(markup string) *trees.Markup {
 	return trees.ParseAsRoot("section", markup)
 }
 
-// MarkupWith returns the giving markup structure generated from the string.
-func MarkupWith(root string,markup string) *trees.Markup {
+// ParseIn returns the giving markup structure generated from the string.
+func ParseIn(root string,markup string) *trees.Markup {
 	return trees.ParseAsRoot(root, markup)
 }
 

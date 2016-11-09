@@ -1,40 +1,40 @@
 # Getting Started 
 Gu is fundamentally a library built to handle view rendering, nothing more nor less.
 When creating Gu, my main focus was on creating a solution that did not bind itself 
-tightly to the perculiarities of eiter the front or backend but allow each content to 
-be renderable either ends. 
+tightly to the perculiarities of either the frontend or backend, but allow each content to 
+be renderable regardless of where it is loaded. 
 
-The concepts of Gu are practially simple and relies heavily on the functional 
-approach as possible in gu. Basically Gu provides sets of constructs that help 
-describe the html to be generated for each component or page and more so allows 
-types to meet specific interfaces which help in providing a organized means for 
-which a type can declare what and how it should be rendered and if possible, listen 
-to for change or an update.
+The concepts in Gu are practially simple and rely majorly on a functional and interface based system,
+where the structures which define the markup to be rendered are combined functionally and components 
+are required to match/implement specific interfaces to enable specific features eg Reaction for page/view update.
 
-Gu is in no way a Flux-like framework, nor does it provide complex structures and 
-ideas by which such can be attained, it simply provides a baseline to render and 
-gives the freedom for the develop to determine how his/her application data flow 
-works.
+Gu is in no way a Flux-like framework or library, nor does it provide complex structures and 
+layed down paths by which such can be attained, It simply provides a baseline to render the desire output and 
+gives the freedom for the developer to determine how his/her application data flow  works.
 
+
+## The Guide
 In this guide, we simply will be looking at Gu is its only two possible representation 
-or in essense, the two ways you will ever you them. This allows you to grasp the 
-possible spectrum and capabilities and to evolve and define for yourself how you 
-wish to mix and match Gu into your structures.
+or in essense, the two ways you will ever use its constructs, which are as a `Page` and as `Component`. 
+This allows you to grasp the available spectrum and capabilities provided by Gu and 
+to evolve and define for yourself how you wish to mix and match Gu into your projects and workflow.
 
-*Gu has evolved over its development lifetime alot has been kept and more has been
-lost to ensure to keep the tenant of simplicity, non-intrusive or comformative usage 
-to allow freedom of application architecture by the user.*
+*Gu has evolved over its development lifetime alot, loosing and adding new ideas into the way it works but 
+I have ensured to keep the tenant of simplicity and a non-intrusive architecture, that greatly meet the rendering 
+needs of the developer and also grant freedom in how it should be used with in projects.*
 
-## A Page
-The page scheme is pretty much as its called, the "Page". The earlier variations 
-of Gu did not have this has they highly relied on the organization decision of the 
-developer, but taking inspiration from Goa's DSL and a different thinking to either 
-multipage or single page structures, Gu's page scheme was made. 
+### A Page
+The Page approach is pretty much as its called, a "Page".  Combining ideas from [Goa](https://goa.design/) in 
+the way its structures are defined and generated, Gu's [Design Package](./designs) defines structures which 
+unlike [Goa](https://goa.design/)  do not provide any form of code generation but produces the desired effect of defining with intent 
+the content expected on a page. In a sense, it is the organizational structure when wanting to define multipage or 
+single page applications with gu.
 
 Basically a page is a resource amongs many resources which depending on the availability
-of a predefined route to be validated against, will be rendered. On the client side
-this means any resource which matches the current URL hash and updates the pages 
-content(Head and Body) sections appropriately. 
+of a predefined route to be validated against, will be rendered. 
+On the client side this means any resource which matches the current URL hash which gets
+rendered onto the browser DOM, while on the client it is the URL provided to generated a complete 
+html response to render a full page with its differents parts (i.e head, links, scripts, styles and body tags).
 
 Pages as well listen for update requests from the things they render if this matches
 the library reaction interface, which effectively provides a easy but simply way 

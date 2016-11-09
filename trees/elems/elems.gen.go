@@ -18,26 +18,26 @@ func Text(content string) *trees.Markup {
 	return trees.NewText(content)
 }
 
-// Markup returns the giving markup structure generated from the string.
-func Markup(markup string) *trees.Markup {
+// Parse returns the giving markup structure generated from the string.
+func Parse(markup string) *trees.Markup {
 	return trees.ParseAsRoot("section", markup)
 }
 
-// MarkupWith returns the giving markup structure generated from the string.
-func MarkupWith(root string, markup string) *trees.Markup {
+// ParseIn returns the giving markup structure generated from the string.
+func ParseIn(root string, markup string) *trees.Markup {
 	return trees.ParseAsRoot(root, markup)
 }
 
-// CSSWith provides a custom markup which returns a stylesheet embeded into
-// the provided element parent retrieved from the proved css.Rule.
-// You can optional pass in the css selector for the parent, only the first is used.
+// CSSWith provides a function that takes css.Rule which returns a stylesheet embeded into
+// the provided element parent and is built on the gu/css package which collects
+// necessary details from its parent to only target where it gets mounted.
 func CSSWith(rs *css.Rule, bind interface{}, sel ...string) *trees.Markup {
 	return trees.CSSStylesheet(rs, bind)
 }
 
-// CSS provides a custom markup which returns a stylesheet embeded into
-// the provided element parent.
-// You can optional pass in the css selector for the parent, only the first is used.
+// CSS provides a function that takes style rules which returns a stylesheet embeded into
+// the provided element parent and is built on the gu/css package which collects
+// necessary details from its parent to only target where it gets mounted.
 func CSS(styles string, bind interface{}) *trees.Markup {
 	return trees.CSSStylesheet(css.New(styles), bind)
 }

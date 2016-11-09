@@ -230,7 +230,7 @@ func (rs *Resources) render(rsx ...*ResourceDefinition) *trees.Markup {
 			markup := item.View.Render()
 
 			if item.Targets != "" {
-				for _, target := range trees.MarkupQueries.QueryAll(body, item.Targets) {
+				for _, target := range trees.Query.QueryAll(body, item.Targets) {
 					markup.Apply(target)
 				}
 
@@ -245,7 +245,7 @@ func (rs *Resources) render(rsx ...*ResourceDefinition) *trees.Markup {
 			markup := item.View.Render()
 
 			if item.Targets != "" {
-				for _, target := range trees.MarkupQueries.QueryAll(body, item.Targets) {
+				for _, target := range trees.Query.QueryAll(body, item.Targets) {
 					markup.Apply(target)
 				}
 
@@ -450,12 +450,7 @@ func DoMarkup(markup Viewable, targets string, immediateRender ...bool) {
 	case *trees.Markup:
 		markupFn = []*trees.Markup{mo}
 	case string:
-		mp, err := trees.ParseTree(mo)
-		if err != nil {
-			panic("Unable to parse markup string: " + err.Error())
-		}
-
-		markupFn = mp
+		markupFn = trees.ParseTree(mo)
 	default:
 		panic("Unknown markup processable type")
 	}
