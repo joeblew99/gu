@@ -124,13 +124,13 @@ func main(){
 ```
 
 Render Page
-![Image of Page](examples/hello/normal.png)
+![Image of Page](../../examples/hello/normal.png)
 
 Render Page with Hover Effect
-![Image of Page](examples/hello/on-hover.png)
+![Image of Page](../../examples/hello/on-hover.png)
 
 Render Page with Hello text clicked
-![Image of Page](examples/hello/on-click.png)
+![Image of Page](../../examples/hello/on-click.png)
 
 
 The code above flurishes with  declarations of  intent which when read fully describes the  
