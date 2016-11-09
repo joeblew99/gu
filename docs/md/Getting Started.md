@@ -169,6 +169,9 @@ by the very name of the function, an intent of contents gets declared and allows
 us to either target or vary the organizational architecture to which a page is to 
 be describe it.
 
+The `DoMarkup` as well as an alternative function within the `gu/design` package,
+called the `DoView`. In Gu
+
 The `Markup` architecture found in the `gu/trees` package, defines structures which
 varying and provides a complete set of HTML/HTML5 sturctures through functions 
 that easily define either the CSS to be include and the attributes and markup content.
