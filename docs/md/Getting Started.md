@@ -58,38 +58,63 @@ Below is an example of a page which a single Hello text printed on the page.
 package main
 
 import (
-        "honnef.co/go/js/dom"
-	"github.com/gopherjs/gopherjs/js"
-        . "github.com/influx6/gu/design"
-        . "github.com/influx6/gu/trees"
-        . "github.com/influx6/gu/trees/elems"
-        . "github.com/influx6/gu/trees/events"
-        . "github.com/influx6/gu/trees/property"
+  "github.com/gopherjs/gopherjs/js"
+  . "github.com/influx6/gu/design"
+  . "github.com/influx6/gu/trees"
+  . "github.com/influx6/gu/trees/elems"
+  . "github.com/influx6/gu/trees/events"
+  . "github.com/influx6/gu/trees/property"
 )
 
 var _ = Resource(func() {
-        DoTitle("Hello App")
-	UseRoute("/hello")
 
-	DoMarkup(func() *Markup {
-		return Div(
-			CSS(`
-				${
-					width:100%;
-					height: 100%;
-				}
-			`),
-                          IDAttr("hello-page"),
-			Header1(
-				Text("Hello"),
-				ClickEvent(func(ev EventObject, tree *Markup) {
-					js.Global.Call("alert", "I just got clicked, Yaay!!!")
-				}, ""),
-			),
-			Span(Text("Click me")),
-		)
-	}, "", false)
-})
+    DoTitle("Hello App")
+    DoMarkup(func() *Markup {
+      return Div(
+        CSS(`
+          ${
+            width:100%;
+            height: 100%;
+          }
+
+          $ h1 {
+            font-size: {{ .Size }};
+            text-align: center;
+            margin: 20% 0  0 5%;
+          }
+
+          $ span {
+            text-align: center;
+            font-weight: bold;
+            margin: 0 0 0 50%;
+            color: rgba(0,0,0,0.5);
+          }
+
+          $ h1::after{
+            content:"!";
+            display: inline-block;
+          }
+
+          $ h1:hover::after{
+            content:"*";
+            color: red;
+            display: inline-block;
+          }
+
+        `, struct{ Size string }{Size: "130px"}),
+        IDAttr("hello"),
+        Header1(
+          Text("Hello"),
+          ClickEvent(func(ev EventObject, tree *Markup) {
+            js.Global.Call("alert", "I just got clicked, Yaay!!!")
+          }, ""),
+        ),
+        Span(Text("Click me")),
+      )
+    }, "", false)
+
+  })
+
 
 func main(){
 	New(&redom.DOMRenderer{
@@ -97,6 +122,9 @@ func main(){
 	}).Init()
 }
 ```
+
+<iframe width="560" height="315" src="./examples/hello/index.html" frameborder="0" allowfullscreen="allowfullscreen"> 
+</iframe>
 
 The code above flurishes with  declarations of  intent which when read fully describes the  
 outcome expected on the page. As stated within Gu, a Resource is a single page, which encapsulates
