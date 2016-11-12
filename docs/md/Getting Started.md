@@ -120,7 +120,7 @@ var _ = Resource(func() {
 func main(){
 	New(&redom.DOMRenderer{
 		Document: dom.GetWindow().Document(),
-	}).Init()
+	}).Init(true)
 }
 ```
 
@@ -133,7 +133,7 @@ Rendered Page with Hover Effect:
 Rendered Page with clicked "Hello" text:
 ![Image of Page when clicked](../../examples/hello/on-click.png)
 
-The code above flurishes with  declarations of  intent which when read fully describes the  
+The code above flurishes with  declarations of  intent which when read fully describes the
 outcome expected on the page. As stated within Gu, a Resource is a single page, which encapsulates
  what is expected with its logic and architecture which then gets rendered as a page based on the URI
  critieria.
@@ -150,14 +150,14 @@ var _ = Resource(func() {
 
 The main function handles the creation of the `ResourcesManager` by calling the `New`
 function from the [Design Package](./designs) package. The `ResourcesManager` expects an an optional 
-argument, which is a `ResourceRenderer` type to handle the rendering of the resources on the client.  
+argument, which is a `ResourceRenderer` type to handle the rendering of the resources on the client.
 The   `ResourceRenderer` if passed in will only be ever used on the client, to handle the automatic update of the DOM
-during the initial load and continous updates request either by a component or the browsers URI.  
+during the initial load and continous updates request either by a component or the browsers URI.
 
 ```go
 	New(&redom.DOMRenderer{
 		Document: dom.GetWindow().Document(),
-	}).Init()
+	}).Init(true)
 ```
 
 **Note**: The `Init()` function is the core of a `ResourcesManager` to intialize all present `Resource` functions 
@@ -232,21 +232,57 @@ DoMarkup(func() *Markup {
 
 The `DoMarkup` function accepts three types of input:
 
-  1. A `Markup` structure
-  2. A function which returns a single or a list of markup structure (when a list is returned it gets wrap in a section tag)
-  3. A string which will be passed to generate the markup structure 
+  1. A `Markup` structure provided by the `trees`, `trees\elems` and `trees\property` packages.
+  2. A function which returns a single or a slice/list of markup structures (When a list is returned it gets wrap in a section tag)
+  3. A string which will be parsed to generate the markup structure representing it.
 
-returns a markup or a lsits of markup points, which are then organized with in 
-the resource to make up its content. The reason we use this approach is because 
-by the very name of the function, an intent of contents gets declared and allows 
-us to either target or vary the organizational architecture to which a page is to 
-be describe it.
+The use of a functional style allows us to easily and intently describe the structure 
+for any markup combination and grants us the full power of functional Go.
+
+The special item in all the structures provided is the `CSS` function which will 
+take the style properties described into it and create a `<style>` that whoes content
+is the string within and where all `$` characters are replaced by the parents unique 
+UUID. This ensures that whatever properties are defined are enforced to only apply to 
+the parent and its children.
 
 The `DoMarkup` as well as an alternative function within the `gu/design` package,
-called the `DoView`. In Gu
+called the `DoView`.
 
-The `Markup` architecture found in the `gu/trees` package, defines structures which
-varying and provides a complete set of HTML/HTML5 sturctures through functions 
-that easily define either the CSS to be include and the attributes and markup content.
+```go
+type ReactiveSubscription interface {
+	React(func())
+}
 
-## A Component
+type Reactive interface {
+	ReactiveSubscription
+	Publish()
+}
+```
+
+The `DoView` provides an alternative which focus more on a region of markup which 
+is dynamic and changes due to some operation, data or condition. The view automatically 
+updates itself content based on the `Reactive` interface for any structure which meets 
+that interface.
+
+*The basic rules of choosing between `DoMarkup` and `DoView` is simply on the basis of 
+whether the contents and its data are dynamic and dependent on some system, data or 
+structure which changes and requires efficient update.*
+
+```go
+type Renderable interface {
+	Render() *trees.Markup
+}
+```
+
+The `DoView` expects as input on structures which matches the `Renderable` interface
+and then passes those to build its markup output. If any of these structures implement 
+the `Reactive` interface then it subscribes to listen for changes updates and updates 
+the renderered content if on the client automatically. Which ensures such dynamic 
+regions and data keep updated without any effort on the developers side.
+
+
+### A Component
+Component are the secondary system Gu caters to. Components are represent as views 
+or regions of markup which are dynamic and change, even if they are not dynamic, they 
+are region which are fed their markup by external structures that meet the `Renderable`
+interface.

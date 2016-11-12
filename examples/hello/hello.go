@@ -11,6 +11,6 @@ func main() {
 
 	New(&DOMRenderer{
 		Document: dom.GetWindow().Document(),
-	}).Init()
+	}).Init(true)
 
 }

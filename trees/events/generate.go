@@ -183,6 +183,22 @@ import (
 
 // EventHandler defines a function type for event callbacks.
 type EventHandler func(trees.EventObject, *trees.Markup)
+
+// WrapHandler wraps the function returning a EventHandler to call the provided 
+// function to be called when the event occurs without need for the arguments.
+func WrapHandler(callback func()) EventHandler {
+	return func(ev trees.EventObject, root *trees.Markup){
+		callback()
+	}
+}
+
+// WrapEventOnlyHandler wraps the function returning a EventHandler to call the provided
+// function to be called when the event occurs without need for the arguments.
+func WrapEventOnlyHandler(callback func(trees.EventObject)) EventHandler {
+	return func(ev trees.EventObject, root *trees.Markup) {
+		callback(ev)
+	}
+}
 `)
 
 	for _, name := range names {
@@ -194,14 +210,27 @@ type EventHandler func(trees.EventObject, *trees.Markup)
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an 
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if 
 // the selector value is not empty then that becomes the default selector used match the event with. 
-func %sEvent(callback EventHandler, sel string) *trees.Event {
+func %sEvent(callback interface{}, sel string) *trees.Event {
+	var handler EventHandler
+
+	switch cb := callback.(type){
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
 	ev := trees.NewEvent("%s",sel)
 	ev.Handle = dispatch.Subscribe(func(evm trees.EventBroadcast){
 		if ev.EventID != evm.EventID{
 			return
 		}
 
-		callback(evm.Event, ev.Tree)
+		handler(evm.Event, ev.Tree)
 	})
 
 	return ev

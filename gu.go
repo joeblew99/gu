@@ -54,13 +54,6 @@ type ReactiveSubscription interface {
 	React(func())
 }
 
-// ReactiveRenderable defines an interface of a Renderable capable of
-// notifying subscribe functions of changes to allow them to React.
-type ReactiveRenderable interface {
-	Renderable
-	ReactiveSubscription
-}
-
 // Reactive extends the ReactiveRenderable by exposing a Publish method
 // which allows calling the update notifications list of a ReactiveRenderable.
 type Reactive interface {

@@ -184,21 +184,11 @@ func CSSWith(rs *css.Rule, bind interface{}, sel ...string) *trees.Markup {
 func CSS(styles string, bind interface{}) *trees.Markup {
 	return trees.CSSStylesheet(css.New(styles), bind)
 }
-
-// SVG provides the markup generator for the <svg> xml tag.
-func SVG(markup ...trees.Appliable) *trees.Markup {
-	e := trees.NewMarkup("svg",false)
-	for _, m := range markup {
-		if m == nil { continue }
-		m.Apply(e)
-	}
-	return e
-}
-
 `)
 
 	code := regexp.MustCompile("</?code>")
 
+	doneSvg := make(map[string]bool)
 	err = pullDoc("https://developer.mozilla.org/en-US/docs/Web/SVG/Element", func(doc *goquery.Document) {
 		doc.Find(".index ul li a").Each(func(i int, s *goquery.Selection) {
 			link, _ := s.Attr("href")
@@ -223,7 +213,12 @@ func SVG(markup ...trees.Appliable) *trees.Markup {
 			// 	}
 			// }
 
+			if doneSvg[name] {
+				return
+			}
+
 			writeSVGElem(file, name, desc, link)
+			doneSvg[name] = true
 		})
 	})
 
@@ -231,6 +226,7 @@ func SVG(markup ...trees.Appliable) *trees.Markup {
 		log.Fatalf("Unable to pull SVG ELEMENTS: %s", err)
 	}
 
+	doneHtml := make(map[string]bool)
 	err = pullDoc("https://developer.mozilla.org/en-US/docs/Web/HTML/Element", func(doc *goquery.Document) {
 		doc.Find(".quick-links a").Each(func(i int, s *goquery.Selection) {
 			link, _ := s.Attr("href")
@@ -261,7 +257,12 @@ func SVG(markup ...trees.Appliable) *trees.Markup {
 				return
 			}
 
+			if doneHtml[name] {
+				return
+			}
+
 			writeElem(file, name, desc, link)
+			doneHtml[name] = true
 		})
 	})
 
@@ -290,11 +291,15 @@ func writeSVGElem(w io.Writer, name, desc, link string) {
 		funName = capitalize(funName)
 	}
 
+	if funName != "Svg" {
+		funName = "Svg" + funName
+	}
+
 	fmt.Fprintf(w, `
-// SVG%s provides the following for SVG XML elements ->
+// %s provides the following for SVG XML elements ->
 // %s
 // https://developer.mozilla.org%s
-func SVG%s(markup ...trees.Appliable) *trees.Markup {
+func %s(markup ...trees.Appliable) *trees.Markup {
 	e := trees.NewMarkup("%s",%t)
 	for _, m := range markup {
 		if m == nil { continue }
@@ -310,11 +315,20 @@ func writeElem(w io.Writer, name, desc, link string) {
 	funName := elemNameMap[name]
 
 	if funName == "" {
-		funName = capitalize(name)
+		funName = name
+
+		for badsymbs.MatchString(funName) {
+			if simbs := badsymbs.FindStringSubmatch(funName); len(simbs) > 0 {
+				item := capitalize(simbs[1])
+				funName = badsymbs.ReplaceAllString(funName, item)
+			}
+		}
+
+		funName = capitalize(funName)
 	}
 
 	fmt.Fprintf(w, `
-// %s provides the following for html elements ->
+// %s provides the following for HTML elements ->
 // %s
 // https://developer.mozilla.org%s
 func %s(markup ...trees.Appliable) *trees.Markup {
