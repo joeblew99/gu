@@ -434,7 +434,7 @@ type targetRenderable struct {
 func DoMarkup(markup Viewable, targets string, immediateRender ...bool) {
 	var immediate bool
 
-	if len(immediateRender) == 0 {
+	if len(immediateRender) != 0 {
 		immediate = immediateRender[0]
 	}
 
@@ -494,7 +494,7 @@ func DoMarkup(markup Viewable, targets string, immediateRender ...bool) {
 func DoView(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
 	var immediate bool
 
-	if len(immediateRender) == 0 {
+	if len(immediateRender) != 0 {
 		immediate = immediateRender[0]
 	}
 

@@ -26,6 +26,11 @@ type Subscriber struct{}
 func (s Subscriber) Render() *Markup {
 	return Section(
 		CSS(`
+      html, body {
+        width: 100%;
+        height: 100%;
+      }
+
       $ {
         width: 100%;
         height: 100%;
@@ -33,64 +38,48 @@ func (s Subscriber) Render() *Markup {
 
       $.subscription form{
         width: 100%;
-        height: 100%;
+        height: 60px;
       }
 
-      $.subscription .form .form-control{
-
-      }
-
-      $.subscription .form .form-control .submit-wrapper {
-        width: 100%;
-        height: 100%;
-      }
-
-      $.subscription .form .form-control .submit-wrapper .submit-email {
+      $.subscription .form .submit-email {
+        display: inline-block;
         width: 70%;
         height: 100%;
       }
 
-      $.subscription .form .form-control .submit-wrapper .submit-button {
-        width: 30%;
-        height: 100%;
-        float: left;
+      $.subscription .form .submit-button {
+        display: inline-block;
       }
 
-      $.subscription .form .form-control .submit-wrapper .submit-arrow {
+      $.subscription .form .submit-arrow {
         display: none;
-        width: 300px;
-        height: 100%;
-        float: left;
       }
     `, nil),
 		ClassAttr("subscription"),
 		Form(
 			ClassAttr("form", "form-control"),
 			Section(
-				ClassAttr("submit-wrapper"),
+				ClassAttr("cover"),
 				Input(
 					ClassAttr("submit-email"),
 					PlaceholderAttr("Email"),
 					TypeAttr("email"),
 				),
-				Div(
-					ClassAttr("submit-wrapper-button"),
-					Input(
-						ClassAttr("submit-arrow"),
-						TypeAttr("submit"),
-						ValueAttr(">"),
-						ClickEvent(func(event EventObject) {
+				Input(
+					ClassAttr("submit-button"),
+					TypeAttr("submit"),
+					ValueAttr("Subscribe"),
+					ClickEvent(func(event EventObject) {
 
-						}, ""),
-					),
-					Input(
-						ClassAttr("submit-button"),
-						TypeAttr("submit"),
-						ValueAttr("Subscribe"),
-						ClickEvent(func(event EventObject) {
+					}, ""),
+				),
+				Input(
+					ClassAttr("submit-arrow"),
+					TypeAttr("submit"),
+					ValueAttr(">"),
+					ClickEvent(func(event EventObject) {
 
-						}, ""),
-					),
+					}, ""),
 				),
 			),
 		),
