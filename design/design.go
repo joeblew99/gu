@@ -432,10 +432,14 @@ type targetRenderable struct {
 // which returns a needed trees.Markup or a trees.Markup or slice of trees.Markup
 // itself.
 func DoMarkup(markup Viewable, targets string, immediateRender ...bool) {
-	var immediate bool
+	var immediate, forceDefer bool
 
 	if len(immediateRender) != 0 {
 		immediate = immediateRender[0]
+
+		if len(immediateRender) > 1 {
+			forceDefer = immediateRender[1]
+		}
 	}
 
 	var markupFn []*trees.Markup
@@ -462,6 +466,13 @@ func DoMarkup(markup Viewable, targets string, immediateRender ...bool) {
 		static.Morph = true
 
 		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
+
+		if forceDefer {
+			current.DRenderables = append(current.DRenderables, targetRenderable{
+				Targets: targets,
+				View:    static,
+			})
+		}
 
 		if targets != "" && immediate {
 			current.Renderables = append(current.Renderables, targetRenderable{
@@ -492,10 +503,14 @@ func DoMarkup(markup Viewable, targets string, immediateRender ...bool) {
 
 // DoView creates a gu.RenderView and applies it to the provided resource.
 func DoView(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
-	var immediate bool
+	var immediate, forceDefer bool
 
 	if len(immediateRender) != 0 {
 		immediate = immediateRender[0]
+
+		if len(immediateRender) > 1 {
+			forceDefer = immediateRender[1]
+		}
 	}
 
 	var rs gu.Renderables
@@ -527,6 +542,15 @@ func DoView(vrs Viewable, target string, immediateRender ...bool) gu.RenderView 
 	}
 
 	current.Views = append(current.Views, view)
+
+	if forceDefer {
+		current.DRenderables = append(current.DRenderables, targetRenderable{
+			View:    view,
+			Targets: target,
+		})
+
+		return view
+	}
 
 	if target != "" && immediate {
 		current.Renderables = append(current.Renderables, targetRenderable{

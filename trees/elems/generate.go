@@ -163,7 +163,17 @@ func Text(content string) *trees.Markup {
 
 // Parse returns the giving markup structure generated from the string.
 func Parse(markup string) *trees.Markup {
-	return trees.ParseAsRoot("section", markup)
+	tms := trees.ParseTree(markup)
+	if len(tms) > 1 {
+		sec := trees.NewMarkup("section",false)
+		for _, el := range tms {
+			el.Apply(sec)
+		}
+		
+		return sec
+	}
+
+	return tms[0]
 }
 
 // ParseIn returns the giving markup structure generated from the string.

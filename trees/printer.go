@@ -233,11 +233,9 @@ func (m *ElementWriter) Print(e *Markup) string {
 			return ""
 		}()),
 		beginbrack,
-		"\n",
 		e.TextContent(),
 		strings.Join(children, ""),
 		closer,
-		"\n",
 	}, "")
 }
 

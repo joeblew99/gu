@@ -15,6 +15,17 @@ func ParseToRoot(root *Markup, markup string) {
 	}
 }
 
+// ParseAndFirst expects the markup provided to only have one root element which
+// will be returned.
+func ParseAndFirst(markup string) *Markup {
+	trees := ParseTree(markup)
+	if len(trees) != 1 {
+		panic("Markup must only returned single item in tree")
+	}
+
+	return trees[0]
+}
+
 // ParseAsRoot returns the markup generated from the provided markup,
 // returning them as children of the provided root.
 func ParseAsRoot(root string, markup string) *Markup {
@@ -65,7 +76,11 @@ func pullNode(tokens *html.Tokenizer, root *Markup) {
 			return
 
 		case html.TextToken, html.CommentToken, html.DoctypeToken:
-			text := string(tokens.Text())
+			text := strings.TrimSpace(string(tokens.Text()))
+
+			if text == "" {
+				continue
+			}
 
 			if token == html.CommentToken {
 				text = "<!--" + text + "-->"

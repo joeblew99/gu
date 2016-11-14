@@ -19,64 +19,32 @@ type SubscriptionNotification struct {
 	Status bool `json:"status"`
 }
 
-// Subscriber defines the
-type Subscriber struct{}
+// Subscriber defines the Subscriber component which renders a subscriber
+// submission form which collects the data received and submits it to the API.
+type Subscriber struct {
+	SubmitBtnColor string
+}
 
 // Render returns the markup for the subscription component.
-func (s Subscriber) Render() *Markup {
+func (s *Subscriber) Render() *Markup {
 	return Section(
-		CSS(`
-      html, body {
-        width: 100%;
-        height: 100%;
-      }
-
-      $ {
-        width: 100%;
-        height: 100%;
-      }
-
-      $.subscription form{
-        width: 100%;
-        height: 60px;
-      }
-
-      $.subscription .form .submit-email {
-        display: inline-block;
-        width: 70%;
-        height: 100%;
-      }
-
-      $.subscription .form .submit-button {
-        display: inline-block;
-      }
-
-      $.subscription .form .submit-arrow {
-        display: none;
-      }
-    `, nil),
+		CSS(SubscribeCSS, s),
 		ClassAttr("subscription"),
 		Form(
 			ClassAttr("form", "form-control"),
 			Section(
-				ClassAttr("cover"),
+				ClassAttr("email"),
 				Input(
-					ClassAttr("submit-email"),
-					PlaceholderAttr("Email"),
+					ClassAttr("email"),
+					PlaceholderAttr("example@mail.com"),
 					TypeAttr("email"),
 				),
-				Input(
-					ClassAttr("submit-button"),
-					TypeAttr("submit"),
-					ValueAttr("Subscribe"),
-					ClickEvent(func(event EventObject) {
-
-					}, ""),
-				),
-				Input(
-					ClassAttr("submit-arrow"),
-					TypeAttr("submit"),
-					ValueAttr(">"),
+			),
+			Section(
+				ClassAttr("buttons"),
+				Button(
+					Text("Subscribe"),
+					ClassAttr("button", "named"),
 					ClickEvent(func(event EventObject) {
 
 					}, ""),

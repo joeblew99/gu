@@ -409,6 +409,27 @@ func (e *Markup) Reconcile(em *Markup) bool {
 	return true
 }
 
+// FirstChild returns the first child in the markup children list.
+func (e *Markup) FirstChild() *Markup {
+	return e.NthChild(0)
+}
+
+// LastChild returns the last child in the markup children list.
+func (e *Markup) LastChild() *Markup {
+	return e.NthChild(len(e.children) - 1)
+}
+
+// NthChild returns the giving child at the index position.
+func (e *Markup) NthChild(index int) *Markup {
+	childrenLen := len(e.children)
+
+	if index >= childrenLen && index <= -1 {
+		return nil
+	}
+
+	return e.children[index]
+}
+
 // AddChild adds a new markup as the children of this element
 func (e *Markup) AddChild(child ...*Markup) {
 	if !e.allowChildren {
