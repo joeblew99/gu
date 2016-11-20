@@ -13,8 +13,14 @@ var RootCSS = css.New(`
     padding: 0;
   }
 
-  svg {
-    height: 0px;
+  body {
+    max-wdith: 800px;
+  }
+
+  svg path, svg rect {
+    fill: inherit;
+    stroke: inherit;
+    stroke-wdith: inherit;
   }
 
   $, $ *{
@@ -97,6 +103,7 @@ var SubscribeCSS = css.New(`
     width: 100%;
     height: 100%;
     font-size: 1.0em;
+    font-weight: bold;
     {{ if ne .SubmitBtnColor "" }}
     background: {{ .SubmitBtnColor }};
     {{ else }}

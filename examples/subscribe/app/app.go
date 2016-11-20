@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	. "github.com/influx6/gu/trees"
 	. "github.com/influx6/gu/trees/elems"
 	. "github.com/influx6/gu/trees/events"
@@ -46,7 +47,9 @@ func (s *Subscriber) Render() *Markup {
 					Text("Subscribe"),
 					ClassAttr("button", "named"),
 					ClickEvent(func(event EventObject) {
-
+						fmt.Println("Button clicked!")
+						event.StopPropagation()
+						event.PreventDefault()
 					}, ""),
 				),
 			),
