@@ -17,10 +17,10 @@ var _ = Resource(func() {
     Header1(
       Text("Become A Subscriber"),
     ),
-  ), "")
+  ), "",false, false)
 
   DoView(&Subscriber{
     SubmitBtnColor: "",
-  }, "")
+  }, "", false, false)
 
 })

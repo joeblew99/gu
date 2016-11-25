@@ -55,6 +55,6 @@ var _ = Resource(func() {
 			),
 			Span(Text("Click me")),
 		)
-	}, "", false)
+	}, "", false, false)
 
 })

@@ -1,7 +1,6 @@
 package design
 
 import (
-	"fmt"
 	"sync"
 
 	"github.com/go-humble/detect"
@@ -95,8 +94,6 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 	}
 
 	dispatch.Subscribe(func(pd dispatch.PathDirective) {
-		fmt.Printf("Path dispatch called")
-
 		if !watchHash {
 			psx := dispatch.UseDirective(pd)
 			if psx.String() == rs.lastPath.String() {
@@ -211,12 +208,29 @@ func (rs *Resources) CurrentResource() *ResourceDefinition {
 // Definition by applying the giving path.
 func (rs *Resources) Render(path dispatch.Path) *trees.Markup {
 	result := rs.Resolve(path)
-	return rs.render(result...)
+	return rs.render(nil,result...)
+}
+
+// RenderWithScript creates a complete markup definition using the giving set of Resource
+// Definition by applying the giving path, adding the path as a script tag.
+func (rs *Resources) RenderWithScript(path dispatch.Path, script string) *trees.Markup {
+	result := rs.Resolve(path)
+
+	if script != "" {
+		src := trees.NewAttr("src", script)
+		scriptElem := trees.NewMarkup("script",false)
+
+		src.Apply(scriptElem)
+
+		return rs.render([]*trees.Markup{scriptElem}, result...)
+	}
+
+	return rs.render(nil,result...)
 }
 
 // render performs the needed work of collecting the giving markups and
 // creating the complete html rendering.
-func (rs *Resources) render(rsx ...*ResourceDefinition) *trees.Markup {
+func (rs *Resources) render(attachElems []*trees.Markup, rsx ...*ResourceDefinition) *trees.Markup {
 	var head = trees.NewMarkup("head", false)
 	var body = trees.NewMarkup("body", false)
 
@@ -258,6 +272,10 @@ func (rs *Resources) render(rsx ...*ResourceDefinition) *trees.Markup {
 		for _, item := range rx.DeferLinks {
 			item.Render().Apply(body)
 		}
+	}
+
+	for _, item := range attachElems {
+		item.Apply(body)
 	}
 
 	htmlMarkup := trees.NewMarkup("html", false)
@@ -431,17 +449,7 @@ type targetRenderable struct {
 // DoMarkup returns a new instance of a provided value which either is a function
 // which returns a needed trees.Markup or a trees.Markup or slice of trees.Markup
 // itself.
-func DoMarkup(markup Viewable, targets string, immediateRender ...bool) {
-	var immediate, forceDefer bool
-
-	if len(immediateRender) != 0 {
-		immediate = immediateRender[0]
-
-		if len(immediateRender) > 1 {
-			forceDefer = immediateRender[1]
-		}
-	}
-
+func DoMarkup(markup Viewable, targets string, deferRender bool, targetAlreadyInDom bool) {
 	var markupFn []*trees.Markup
 
 	switch mo := markup.(type) {
@@ -467,14 +475,16 @@ func DoMarkup(markup Viewable, targets string, immediateRender ...bool) {
 
 		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
 
-		if forceDefer {
+		if deferRender {
 			current.DRenderables = append(current.DRenderables, targetRenderable{
 				Targets: targets,
 				View:    static,
 			})
+
+			continue
 		}
 
-		if targets != "" && immediate {
+		if !deferRender && targetAlreadyInDom {
 			current.Renderables = append(current.Renderables, targetRenderable{
 				Targets: targets,
 				View:    static,
@@ -483,36 +493,27 @@ func DoMarkup(markup Viewable, targets string, immediateRender ...bool) {
 			continue
 		}
 
-		if targets == "" {
-			current.Renderables = append(current.Renderables, targetRenderable{
-				Targets: targets,
+		if !deferRender && !targetAlreadyInDom && targets != "" {
+			current.DRenderables = append(current.DRenderables, targetRenderable{
 				View:    static,
+				Targets: targets,
 			})
 
 			continue
 		}
 
-		current.DRenderables = append(current.DRenderables, targetRenderable{
-			Targets: targets,
+		current.Renderables = append(current.Renderables, targetRenderable{
 			View:    static,
+			Targets: targets,
 		})
+
 	}
 }
 
 //==============================================================================
 
 // DoView creates a gu.RenderView and applies it to the provided resource.
-func DoView(vrs Viewable, target string, immediateRender ...bool) gu.RenderView {
-	var immediate, forceDefer bool
-
-	if len(immediateRender) != 0 {
-		immediate = immediateRender[0]
-
-		if len(immediateRender) > 1 {
-			forceDefer = immediateRender[1]
-		}
-	}
-
+func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom bool) gu.RenderView {
 	var rs gu.Renderables
 
 	switch vwo := vrs.(type) {
@@ -535,7 +536,7 @@ func DoView(vrs Viewable, target string, immediateRender ...bool) gu.RenderView 
 		rvw.React(func() {
 			dispatch.Dispatch(ResourceViewUpdate{
 				View:     view,
-				Target:   target,
+				Target:   targets,
 				Resource: current.UUID(),
 			})
 		})
@@ -543,28 +544,28 @@ func DoView(vrs Viewable, target string, immediateRender ...bool) gu.RenderView 
 
 	current.Views = append(current.Views, view)
 
-	if forceDefer {
+	if deferRender {
 		current.DRenderables = append(current.DRenderables, targetRenderable{
 			View:    view,
-			Targets: target,
+			Targets: targets,
 		})
 
 		return view
 	}
 
-	if target != "" && immediate {
+	if !deferRender && targetAlreadyInDom {
 		current.Renderables = append(current.Renderables, targetRenderable{
-			Targets: target,
 			View:    view,
+			Targets: targets,
 		})
 
 		return view
 	}
 
-	if target != "" {
+	if !deferRender && !targetAlreadyInDom && targets != "" {
 		current.DRenderables = append(current.DRenderables, targetRenderable{
 			View:    view,
-			Targets: target,
+			Targets: targets,
 		})
 
 		return view
@@ -572,7 +573,7 @@ func DoView(vrs Viewable, target string, immediateRender ...bool) gu.RenderView 
 
 	current.Renderables = append(current.Renderables, targetRenderable{
 		View:    view,
-		Targets: target,
+		Targets: targets,
 	})
 
 	return view

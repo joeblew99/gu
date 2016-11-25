@@ -2352,6 +2352,36 @@ $packages["runtime"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
+$packages["github.com/go-humble/detect"] = (function() {
+	var $pkg = {}, $init, js, IsBrowser, IsServer, IsJavascript;
+	js = $packages["github.com/gopherjs/gopherjs/js"];
+	IsBrowser = function() {
+		var $ptr;
+		return IsJavascript() && !($global.document === undefined);
+	};
+	$pkg.IsBrowser = IsBrowser;
+	IsServer = function() {
+		var $ptr;
+		if (IsJavascript()) {
+			return !IsBrowser();
+		}
+		return true;
+	};
+	$pkg.IsServer = IsServer;
+	IsJavascript = function() {
+		var $ptr;
+		return !($global === null);
+	};
+	$pkg.IsJavascript = IsJavascript;
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = js.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
 $packages["errors"] = (function() {
 	var $pkg = {}, $init, errorString, ptrType, New;
 	errorString = $pkg.errorString = $newType(0, $kindStruct, "errors.errorString", true, "errors", false, function(s_) {
@@ -15556,7 +15586,7 @@ $packages["reflect"] = (function() {
 	return $pkg;
 })();
 $packages["fmt"] = (function() {
-	var $pkg = {}, $init, errors, io, math, os, reflect, strconv, sync, utf8, fmtFlags, fmt, State, Formatter, Stringer, GoStringer, buffer, pp, ScanState, Scanner, stringReader, scanError, ss, ssave, readRune, sliceType, ptrType, ptrType$1, arrayType, arrayType$1, sliceType$1, sliceType$2, ptrType$2, ptrType$3, ptrType$4, ptrType$5, arrayType$2, ptrType$6, ptrType$7, ptrType$8, ptrType$9, ptrType$10, ptrType$11, ptrType$12, ptrType$13, ptrType$14, ptrType$15, ptrType$16, ptrType$17, ptrType$18, ptrType$19, ptrType$20, ptrType$21, ptrType$22, ptrType$23, ptrType$24, ptrType$25, funcType, ptrType$26, ppFree, byteType, space, ssFree, complexError, boolError, newPrinter, Fprintf, Printf, Sprintf, Errorf, Fprint, Sprint, Sprintln, getField, tooLarge, parsenum, intFromArg, parseArgNumber, Sscan, Fscan, isSpace, notSpace, newScanState, indexRune, hexDigit, errorHandler;
+	var $pkg = {}, $init, errors, io, math, os, reflect, strconv, sync, utf8, fmtFlags, fmt, State, Formatter, Stringer, GoStringer, buffer, pp, ScanState, Scanner, stringReader, scanError, ss, ssave, readRune, sliceType, ptrType, ptrType$1, arrayType, arrayType$1, sliceType$1, sliceType$2, ptrType$2, ptrType$3, ptrType$4, ptrType$5, arrayType$2, ptrType$6, ptrType$7, ptrType$8, ptrType$9, ptrType$10, ptrType$11, ptrType$12, ptrType$13, ptrType$14, ptrType$15, ptrType$16, ptrType$17, ptrType$18, ptrType$19, ptrType$20, ptrType$21, ptrType$22, ptrType$23, ptrType$24, ptrType$25, funcType, ptrType$26, ppFree, byteType, space, ssFree, complexError, boolError, newPrinter, Fprintf, Sprintf, Errorf, Fprint, Sprint, Sprintln, getField, tooLarge, parsenum, intFromArg, parseArgNumber, Sscan, Fscan, isSpace, notSpace, newScanState, indexRune, hexDigit, errorHandler;
 	errors = $packages["errors"];
 	io = $packages["io"];
 	math = $packages["math"];
@@ -16266,20 +16296,6 @@ $packages["fmt"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Fprintf }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._tuple = _tuple; $f.a = a; $f.err = err; $f.format = format; $f.n = n; $f.p = p; $f.w = w; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.Fprintf = Fprintf;
-	Printf = function(format, a) {
-		var $ptr, _r, _tuple, a, err, format, n, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; a = $f.a; err = $f.err; format = $f.format; n = $f.n; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		n = 0;
-		err = $ifaceNil;
-		_r = Fprintf(os.Stdout, format, a); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_tuple = _r;
-		n = _tuple[0];
-		err = _tuple[1];
-		$s = -1; return [n, err];
-		return [n, err];
-		/* */ } return; } if ($f === undefined) { $f = { $blk: Printf }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.a = a; $f.err = err; $f.format = format; $f.n = n; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.Printf = Printf;
 	Sprintf = function(format, a) {
 		var $ptr, _r, a, format, p, s, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; a = $f.a; format = $f.format; p = $f.p; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -19269,36 +19285,6 @@ $packages["fmt"] = (function() {
 		}));
 		complexError = errors.New("syntax error scanning complex number");
 		boolError = errors.New("syntax error scanning boolean");
-		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.$init = $init;
-	return $pkg;
-})();
-$packages["github.com/go-humble/detect"] = (function() {
-	var $pkg = {}, $init, js, IsBrowser, IsServer, IsJavascript;
-	js = $packages["github.com/gopherjs/gopherjs/js"];
-	IsBrowser = function() {
-		var $ptr;
-		return IsJavascript() && !($global.document === undefined);
-	};
-	$pkg.IsBrowser = IsBrowser;
-	IsServer = function() {
-		var $ptr;
-		if (IsJavascript()) {
-			return !IsBrowser();
-		}
-		return true;
-	};
-	$pkg.IsServer = IsServer;
-	IsJavascript = function() {
-		var $ptr;
-		return !($global === null);
-	};
-	$pkg.IsJavascript = IsJavascript;
-	$init = function() {
-		$pkg.$init = function() {};
-		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = js.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
@@ -47519,6 +47505,28 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Markup.ptr.prototype.Reconcile }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f.attrChanged = attrChanged; $f.childChanged = childChanged; $f.e = e; $f.em = em; $f.maxSize = maxSize; $f.n = n; $f.nch = nch; $f.newChildren = newChildren; $f.och = och; $f.oldChildren = oldChildren; $f.oldHash = oldHash; $f.oldMaxSize = oldMaxSize; $f.styleChanged = styleChanged; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	Markup.prototype.Reconcile = function(em) { return this.$val.Reconcile(em); };
+	Markup.ptr.prototype.FirstChild = function() {
+		var $ptr, e;
+		e = this;
+		return e.NthChild(0);
+	};
+	Markup.prototype.FirstChild = function() { return this.$val.FirstChild(); };
+	Markup.ptr.prototype.LastChild = function() {
+		var $ptr, e;
+		e = this;
+		return e.NthChild(e.children.$length - 1 >> 0);
+	};
+	Markup.prototype.LastChild = function() { return this.$val.LastChild(); };
+	Markup.ptr.prototype.NthChild = function(index) {
+		var $ptr, childrenLen, e, index, x;
+		e = this;
+		childrenLen = e.children.$length;
+		if (index >= childrenLen && index <= -1) {
+			return ptrType.nil;
+		}
+		return (x = e.children, ((index < 0 || index >= x.$length) ? $throwRuntimeError("index out of range") : x.$array[x.$offset + index]));
+	};
+	Markup.prototype.NthChild = function(index) { return this.$val.NthChild(index); };
 	Markup.ptr.prototype.AddChild = function(child) {
 		var $ptr, _i, _ref, ch, child, e;
 		e = this;
@@ -47746,8 +47754,8 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	};
 	$pkg.ParseTree = ParseTree;
 	pullNode = function(tokens, root) {
-		var $ptr, _1, _r, _r$1, _r$2, _r$3, _r$4, _tuple, _tuple$1, hasAttr, key, more, node, root, tagName, text, token, tokens, val, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _1 = $f._1; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; hasAttr = $f.hasAttr; key = $f.key; more = $f.more; node = $f.node; root = $f.root; tagName = $f.tagName; text = $f.text; token = $f.token; tokens = $f.tokens; val = $f.val; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _1, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _tuple, _tuple$1, hasAttr, key, more, node, root, tagName, text, token, tokens, val, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _1 = $f._1; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; hasAttr = $f.hasAttr; key = $f.key; more = $f.more; node = $f.node; root = $f.root; tagName = $f.tagName; text = $f.text; token = $f.token; tokens = $f.tokens; val = $f.val; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		node = ptrType.nil;
 		/* while (true) { */ case 1:
 			_r = tokens.Next(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
@@ -47761,19 +47769,25 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 					$s = -1; return;
 					return;
 				/* } else if ((_1 === (1)) || (_1 === (5)) || (_1 === (6))) { */ case 6:
-					text = $bytesToString(tokens.Text());
+					_r$1 = strings.TrimSpace($bytesToString(tokens.Text())); /* */ $s = 9; case 9: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+					text = _r$1;
+					/* */ if (text === "") { $s = 10; continue; }
+					/* */ $s = 11; continue;
+					/* if (text === "") { */ case 10:
+						/* continue; */ $s = 1; continue;
+					/* } */ case 11:
 					if (token === 5) {
 						text = "<!--" + text + "-->";
 					}
-					/* */ if (!(node === ptrType.nil)) { $s = 9; continue; }
-					/* */ $s = 10; continue;
-					/* if (!(node === ptrType.nil)) { */ case 9:
-						_r$1 = NewText(text); /* */ $s = 11; case 11: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-						$r = _r$1.Apply(node); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					/* */ if (!(node === ptrType.nil)) { $s = 12; continue; }
+					/* */ $s = 13; continue;
+					/* if (!(node === ptrType.nil)) { */ case 12:
+						_r$2 = NewText(text); /* */ $s = 14; case 14: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+						$r = _r$2.Apply(node); /* */ $s = 15; case 15: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 						/* continue; */ $s = 1; continue;
-					/* } */ case 10:
-					_r$2 = NewText(text); /* */ $s = 13; case 13: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-					$r = _r$2.Apply(root); /* */ $s = 14; case 14: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					/* } */ case 13:
+					_r$3 = NewText(text); /* */ $s = 16; case 16: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+					$r = _r$3.Apply(root); /* */ $s = 17; case 17: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 					/* continue; */ $s = 1; continue;
 					$s = 8; continue;
 				/* } else if ((_1 === (2)) || (_1 === (3)) || (_1 === (4))) { */ case 7:
@@ -47785,36 +47799,36 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 					_tuple = tokens.TagName();
 					tagName = _tuple[0];
 					hasAttr = _tuple[1];
-					_r$3 = NewMarkup($bytesToString(tagName), token === 4); /* */ $s = 15; case 15: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-					node = _r$3;
+					_r$4 = NewMarkup($bytesToString(tagName), token === 4); /* */ $s = 18; case 18: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+					node = _r$4;
 					node.Apply(root);
-					/* */ if (hasAttr) { $s = 16; continue; }
-					/* */ $s = 17; continue;
-					/* if (hasAttr) { */ case 16:
-						/* while (true) { */ case 18:
+					/* */ if (hasAttr) { $s = 19; continue; }
+					/* */ $s = 20; continue;
+					/* if (hasAttr) { */ case 19:
+						/* while (true) { */ case 21:
 							_tuple$1 = tokens.TagAttr();
 							key = _tuple$1[0];
 							val = _tuple$1[1];
 							more = _tuple$1[2];
-							_r$4 = NewAttr($bytesToString(key), $bytesToString(val)); /* */ $s = 20; case 20: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-							$r = _r$4.Apply(node); /* */ $s = 21; case 21: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+							_r$5 = NewAttr($bytesToString(key), $bytesToString(val)); /* */ $s = 23; case 23: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+							$r = _r$5.Apply(node); /* */ $s = 24; case 24: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 							if (!more) {
-								/* break attrLoop; */ $s = 19; continue s;
+								/* break attrLoop; */ $s = 22; continue s;
 							}
-						/* } */ $s = 18; continue; case 19:
-					/* } */ case 17:
-					/* */ if (token === 4) { $s = 22; continue; }
-					/* */ $s = 23; continue;
-					/* if (token === 4) { */ case 22:
+						/* } */ $s = 21; continue; case 22:
+					/* } */ case 20:
+					/* */ if (token === 4) { $s = 25; continue; }
+					/* */ $s = 26; continue;
+					/* if (token === 4) { */ case 25:
 						/* continue; */ $s = 1; continue;
-					/* } */ case 23:
-					$r = pullNode(tokens, node); /* */ $s = 24; case 24: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					/* } */ case 26:
+					$r = pullNode(tokens, node); /* */ $s = 27; case 27: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				/* } */ case 8:
 			case 4:
 		/* } */ $s = 1; continue; case 2:
 		$s = -1; return;
 		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: pullNode }; } $f.$ptr = $ptr; $f._1 = _1; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.hasAttr = hasAttr; $f.key = key; $f.more = more; $f.node = node; $f.root = root; $f.tagName = tagName; $f.text = text; $f.token = token; $f.tokens = tokens; $f.val = val; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: pullNode }; } $f.$ptr = $ptr; $f._1 = _1; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.hasAttr = hasAttr; $f.key = key; $f.more = more; $f.node = node; $f.root = root; $f.tagName = tagName; $f.text = text; $f.token = token; $f.tokens = tokens; $f.val = val; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	GetMode = function() {
 		var $ptr, $s, $deferred, $r;
@@ -47989,7 +48003,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$9 = _r$9; $f.$s = $s; $f.$r = $r; return $f;
 		}; })(style)(); /* */ $s = 26; case 26: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
 		_r$10 = e.TextContent(); /* */ $s = 27; case 27: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
-		_r$11 = strings.Join(new sliceType$7([_r$8, hashes, attrs, _r$9, beginbrack, "\n", _r$10, strings.Join(children, ""), closer, "\n"]), ""); /* */ $s = 28; case 28: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
+		_r$11 = strings.Join(new sliceType$7([_r$8, hashes, attrs, _r$9, beginbrack, _r$10, strings.Join(children, ""), closer]), ""); /* */ $s = 28; case 28: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
 		$s = -1; return _r$11;
 		return _r$11;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: ElementWriter.ptr.prototype.Print }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f._ref = _ref; $f._v = _v; $f.attrs = attrs; $f.beginbrack = beginbrack; $f.ch = ch; $f.children = children; $f.closer = closer; $f.e = e; $f.hash$1 = hash$1; $f.hashes = hashes; $f.m = m; $f.mido = mido; $f.style = style; $f.uid = uid; $f.$s = $s; $f.$r = $r; return $f;
@@ -48802,7 +48816,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: GetAttr }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._tuple = _tuple; $f.as = as; $f.e = e; $f.f = f; $f.name = name; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.GetAttr = GetAttr;
-	ptrType.methods = [{prop: "Empty", name: "Empty", pkg: "", typ: $funcType([], [], false)}, {prop: "EHTML", name: "EHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "HTML", name: "HTML", pkg: "", typ: $funcType([], [$String], false)}, {prop: "AutoClosed", name: "AutoClosed", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "AddEvent", name: "AddEvent", pkg: "", typ: $funcType([Event], [], false)}, {prop: "EachEvent", name: "EachEvent", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [sliceType], false)}, {prop: "Styles", name: "Styles", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "AddStyle", name: "AddStyle", pkg: "", typ: $funcType([Property], [], false)}, {prop: "Attributes", name: "Attributes", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "AddAttribute", name: "AddAttribute", pkg: "", typ: $funcType([Property], [], false)}, {prop: "EventID", name: "EventID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Name", name: "Name", pkg: "", typ: $funcType([], [$String], false)}, {prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Hash", name: "Hash", pkg: "", typ: $funcType([], [$String], false)}, {prop: "AddMorpher", name: "AddMorpher", pkg: "", typ: $funcType([sliceType$3], [], true)}, {prop: "ApplyMorphers", name: "ApplyMorphers", pkg: "", typ: $funcType([], [ptrType], false)}, {prop: "TextContent", name: "TextContent", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Clean", name: "Clean", pkg: "", typ: $funcType([], [], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([], [], false)}, {prop: "UnRemove", name: "UnRemove", pkg: "", typ: $funcType([], [], false)}, {prop: "Removed", name: "Removed", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "SwapUID", name: "SwapUID", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SwapHash", name: "SwapHash", pkg: "", typ: $funcType([$String], [], false)}, {prop: "UpdateHash", name: "UpdateHash", pkg: "", typ: $funcType([], [], false)}, {prop: "Reconcile", name: "Reconcile", pkg: "", typ: $funcType([ptrType], [$Bool], false)}, {prop: "AddChild", name: "AddChild", pkg: "", typ: $funcType([sliceType$1], [], true)}, {prop: "Children", name: "Children", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [ptrType], false)}];
+	ptrType.methods = [{prop: "Empty", name: "Empty", pkg: "", typ: $funcType([], [], false)}, {prop: "EHTML", name: "EHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "HTML", name: "HTML", pkg: "", typ: $funcType([], [$String], false)}, {prop: "AutoClosed", name: "AutoClosed", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "AddEvent", name: "AddEvent", pkg: "", typ: $funcType([Event], [], false)}, {prop: "EachEvent", name: "EachEvent", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [sliceType], false)}, {prop: "Styles", name: "Styles", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "AddStyle", name: "AddStyle", pkg: "", typ: $funcType([Property], [], false)}, {prop: "Attributes", name: "Attributes", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "AddAttribute", name: "AddAttribute", pkg: "", typ: $funcType([Property], [], false)}, {prop: "EventID", name: "EventID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Name", name: "Name", pkg: "", typ: $funcType([], [$String], false)}, {prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Hash", name: "Hash", pkg: "", typ: $funcType([], [$String], false)}, {prop: "AddMorpher", name: "AddMorpher", pkg: "", typ: $funcType([sliceType$3], [], true)}, {prop: "ApplyMorphers", name: "ApplyMorphers", pkg: "", typ: $funcType([], [ptrType], false)}, {prop: "TextContent", name: "TextContent", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Clean", name: "Clean", pkg: "", typ: $funcType([], [], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([], [], false)}, {prop: "UnRemove", name: "UnRemove", pkg: "", typ: $funcType([], [], false)}, {prop: "Removed", name: "Removed", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "SwapUID", name: "SwapUID", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SwapHash", name: "SwapHash", pkg: "", typ: $funcType([$String], [], false)}, {prop: "UpdateHash", name: "UpdateHash", pkg: "", typ: $funcType([], [], false)}, {prop: "Reconcile", name: "Reconcile", pkg: "", typ: $funcType([ptrType], [$Bool], false)}, {prop: "FirstChild", name: "FirstChild", pkg: "", typ: $funcType([], [ptrType], false)}, {prop: "LastChild", name: "LastChild", pkg: "", typ: $funcType([], [ptrType], false)}, {prop: "NthChild", name: "NthChild", pkg: "", typ: $funcType([$Int], [ptrType], false)}, {prop: "AddChild", name: "AddChild", pkg: "", typ: $funcType([sliceType$1], [], true)}, {prop: "Children", name: "Children", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [ptrType], false)}];
 	ptrType$7.methods = [{prop: "Underlying", name: "Underlying", pkg: "", typ: $funcType([], [ptrType$6], false)}, {prop: "PreventDefault", name: "PreventDefault", pkg: "", typ: $funcType([], [], false)}, {prop: "StopPropagation", name: "StopPropagation", pkg: "", typ: $funcType([], [], false)}, {prop: "StopImmediatePropagation", name: "StopImmediatePropagation", pkg: "", typ: $funcType([], [], false)}];
 	ptrType$5.methods = [{prop: "ID", name: "ID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [ptrType$5], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}];
 	ptrType$8.methods = [{prop: "On", name: "On", pkg: "", typ: $funcType([$emptyInterface], [], false)}, {prop: "Off", name: "Off", pkg: "", typ: $funcType([$emptyInterface], [], false)}, {prop: "Morph", name: "Morph", pkg: "", typ: $funcType([ptrType], [ptrType], false)}];
@@ -49138,8 +49152,7 @@ $packages["github.com/influx6/gu"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/design"] = (function() {
-	var $pkg = {}, $init, fmt, detect, js, gu, dispatch, trees, sync, ResourceRenderer, Resources, DSL, ResourceDefinition, ResourceViewUpdate, RenderingOrder, targetRenderable, ptrType, sliceType, structType, ptrType$1, sliceType$1, funcType, sliceType$2, funcType$1, sliceType$3, sliceType$4, sliceType$5, sliceType$6, ptrType$2, funcType$2, ptrType$3, sliceType$8, funcType$3, funcType$4, ptrType$4, ptrType$5, sliceType$10, collection, getResources, Resource, New, newResource, DoMarkup, DoTitle, mLink;
-	fmt = $packages["fmt"];
+	var $pkg = {}, $init, detect, js, gu, dispatch, trees, sync, ResourceRenderer, Resources, DSL, ResourceDefinition, ResourceViewUpdate, RenderingOrder, targetRenderable, ptrType, sliceType, structType, ptrType$1, sliceType$1, funcType, funcType$1, sliceType$2, ptrType$2, sliceType$3, sliceType$4, sliceType$5, sliceType$6, ptrType$3, funcType$2, funcType$3, funcType$4, ptrType$4, ptrType$5, sliceType$9, collection, getResources, Resource, New, newResource, DoMarkup, DoTitle, mLink;
 	detect = $packages["github.com/go-humble/detect"];
 	js = $packages["github.com/gopherjs/gopherjs/js"];
 	gu = $packages["github.com/influx6/gu"];
@@ -49172,7 +49185,7 @@ $packages["github.com/influx6/gu/design"] = (function() {
 			this.Renderables = sliceType$6.nil;
 			this.DRenderables = sliceType$6.nil;
 			this.Order = 0;
-			this.Manager = ptrType$2.nil;
+			this.Manager = ptrType$3.nil;
 			this.Renderer = $ifaceNil;
 			this.Resolver = $ifaceNil;
 			this.Root = ptrType.nil;
@@ -49221,21 +49234,20 @@ $packages["github.com/influx6/gu/design"] = (function() {
 	ptrType$1 = $ptrType(ResourceDefinition);
 	sliceType$1 = $sliceType(ptrType$1);
 	funcType = $funcType([dispatch.PathDirective], [], false);
-	sliceType$2 = $sliceType($emptyInterface);
 	funcType$1 = $funcType([], [], false);
-	sliceType$3 = $sliceType(funcType$1);
+	sliceType$2 = $sliceType(funcType$1);
+	ptrType$2 = $ptrType(trees.Markup);
+	sliceType$3 = $sliceType(ptrType$2);
 	sliceType$4 = $sliceType(gu.RenderView);
 	sliceType$5 = $sliceType(gu.StaticView);
 	sliceType$6 = $sliceType(targetRenderable);
-	ptrType$2 = $ptrType(gu.RouteManager);
+	ptrType$3 = $ptrType(gu.RouteManager);
 	funcType$2 = $funcType([ResourceViewUpdate], [], false);
-	ptrType$3 = $ptrType(trees.Markup);
-	sliceType$8 = $sliceType(ptrType$3);
-	funcType$3 = $funcType([], [sliceType$8], false);
-	funcType$4 = $funcType([], [ptrType$3], false);
+	funcType$3 = $funcType([], [sliceType$3], false);
+	funcType$4 = $funcType([], [ptrType$2], false);
 	ptrType$4 = $ptrType(trees.Event);
 	ptrType$5 = $ptrType(js.Object);
-	sliceType$10 = $sliceType($Bool);
+	sliceType$9 = $sliceType($Bool);
 	getResources = function() {
 		var $ptr, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -49294,54 +49306,52 @@ $packages["github.com/influx6/gu/design"] = (function() {
 			watchHash[0] = (0 >= useHashOnly.$length ? $throwRuntimeError("index out of range") : useHashOnly.$array[useHashOnly.$offset + 0]);
 		}
 		_r = dispatch.Subscribe(new funcType((function(rs, watchHash) { return function $b(pd) {
-			var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, pd, psx, psx$1, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; pd = $f.pd; psx = $f.psx; psx$1 = $f.psx$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, pd, psx, psx$1, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; pd = $f.pd; psx = $f.psx; psx$1 = $f.psx$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 			pd = $clone(pd, dispatch.PathDirective);
-			_r = fmt.Printf("Path dispatch called", new sliceType$2([])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-			_r;
-			/* */ if (!watchHash[0]) { $s = 2; continue; }
-			/* */ $s = 3; continue;
-			/* if (!watchHash[0]) { */ case 2:
-				_r$1 = dispatch.UseDirective(pd); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-				psx = $clone(_r$1, dispatch.Path);
-				_r$2 = psx.PathDirective.String(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-				_r$3 = rs[0].lastPath.PathDirective.String(); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-				/* */ if (_r$2 === _r$3) { $s = 5; continue; }
-				/* */ $s = 6; continue;
-				/* if (_r$2 === _r$3) { */ case 5:
+			/* */ if (!watchHash[0]) { $s = 1; continue; }
+			/* */ $s = 2; continue;
+			/* if (!watchHash[0]) { */ case 1:
+				_r = dispatch.UseDirective(pd); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+				psx = $clone(_r, dispatch.Path);
+				_r$1 = psx.PathDirective.String(); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+				_r$2 = rs[0].lastPath.PathDirective.String(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+				/* */ if (_r$1 === _r$2) { $s = 4; continue; }
+				/* */ $s = 5; continue;
+				/* if (_r$1 === _r$2) { */ case 4:
 					$s = -1; return;
 					return;
-				/* } */ case 6:
+				/* } */ case 5:
 				dispatch.Path.copy(rs[0].lastPath, psx);
-				/* */ if (!($interfaceIsEqual(rs[0].renderer, $ifaceNil))) { $s = 9; continue; }
-				/* */ $s = 10; continue;
-				/* if (!($interfaceIsEqual(rs[0].renderer, $ifaceNil))) { */ case 9:
-					_r$4 = rs[0].Resolve(psx); /* */ $s = 11; case 11: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-					$r = rs[0].renderer.Render(_r$4); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				/* } */ case 10:
+				/* */ if (!($interfaceIsEqual(rs[0].renderer, $ifaceNil))) { $s = 8; continue; }
+				/* */ $s = 9; continue;
+				/* if (!($interfaceIsEqual(rs[0].renderer, $ifaceNil))) { */ case 8:
+					_r$3 = rs[0].Resolve(psx); /* */ $s = 10; case 10: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+					$r = rs[0].renderer.Render(_r$3); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				/* } */ case 9:
 				$s = -1; return;
 				return;
-			/* } */ case 3:
+			/* } */ case 2:
 			psx$1 = $clone(dispatch.UseHashDirective(pd), dispatch.Path);
-			_r$5 = psx$1.PathDirective.String(); /* */ $s = 15; case 15: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-			_r$6 = rs[0].lastPath.PathDirective.String(); /* */ $s = 16; case 16: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
-			/* */ if (_r$5 === _r$6) { $s = 13; continue; }
-			/* */ $s = 14; continue;
-			/* if (_r$5 === _r$6) { */ case 13:
+			_r$4 = psx$1.PathDirective.String(); /* */ $s = 14; case 14: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			_r$5 = rs[0].lastPath.PathDirective.String(); /* */ $s = 15; case 15: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+			/* */ if (_r$4 === _r$5) { $s = 12; continue; }
+			/* */ $s = 13; continue;
+			/* if (_r$4 === _r$5) { */ case 12:
 				$s = -1; return;
 				return;
-			/* } */ case 14:
+			/* } */ case 13:
 			dispatch.Path.copy(rs[0].lastPath, psx$1);
-			/* */ if (!($interfaceIsEqual(rs[0].renderer, $ifaceNil))) { $s = 17; continue; }
-			/* */ $s = 18; continue;
-			/* if (!($interfaceIsEqual(rs[0].renderer, $ifaceNil))) { */ case 17:
-				_r$7 = rs[0].Resolve(psx$1); /* */ $s = 19; case 19: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
-				$r = rs[0].renderer.Render(_r$7); /* */ $s = 20; case 20: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			/* } */ case 18:
+			/* */ if (!($interfaceIsEqual(rs[0].renderer, $ifaceNil))) { $s = 16; continue; }
+			/* */ $s = 17; continue;
+			/* if (!($interfaceIsEqual(rs[0].renderer, $ifaceNil))) { */ case 16:
+				_r$6 = rs[0].Resolve(psx$1); /* */ $s = 18; case 18: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+				$r = rs[0].renderer.Render(_r$6); /* */ $s = 19; case 19: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* } */ case 17:
 			$s = -1; return;
 			return;
-			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f.pd = pd; $f.psx = psx; $f.psx$1 = psx$1; $f.$s = $s; $f.$r = $r; return $f;
-		}; })(rs, watchHash)), new sliceType$3([])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f.pd = pd; $f.psx = psx; $f.psx$1 = psx$1; $f.$s = $s; $f.$r = $r; return $f;
+		}; })(rs, watchHash)), new sliceType$2([])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		_r;
 		dslList = sliceType.nil;
 		$r = collection.cl.Lock(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
@@ -49458,15 +49468,40 @@ $packages["github.com/influx6/gu/design"] = (function() {
 		rs = this;
 		_r = rs.Resolve(path); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		result = _r;
-		_r$1 = rs.render(result); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_r$1 = rs.render(sliceType$3.nil, result); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		$s = -1; return _r$1;
 		return _r$1;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Resources.ptr.prototype.Render }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.path = path; $f.result = result; $f.rs = rs; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	Resources.prototype.Render = function(path) { return this.$val.Render(path); };
-	Resources.ptr.prototype.render = function(rsx) {
-		var $ptr, _i, _i$1, _i$2, _i$3, _i$4, _i$5, _i$6, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, _ref$6, body, head, htmlMarkup, item, item$1, item$2, item$3, markup, markup$1, rs, rsx, rx, target, target$1, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _i$1 = $f._i$1; _i$2 = $f._i$2; _i$3 = $f._i$3; _i$4 = $f._i$4; _i$5 = $f._i$5; _i$6 = $f._i$6; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; _ref$3 = $f._ref$3; _ref$4 = $f._ref$4; _ref$5 = $f._ref$5; _ref$6 = $f._ref$6; body = $f.body; head = $f.head; htmlMarkup = $f.htmlMarkup; item = $f.item; item$1 = $f.item$1; item$2 = $f.item$2; item$3 = $f.item$3; markup = $f.markup; markup$1 = $f.markup$1; rs = $f.rs; rsx = $f.rsx; rx = $f.rx; target = $f.target; target$1 = $f.target$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+	Resources.ptr.prototype.RenderWithScript = function(path, script) {
+		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, path, result, rs, script, scriptElem, src, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; path = $f.path; result = $f.result; rs = $f.rs; script = $f.script; scriptElem = $f.scriptElem; src = $f.src; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		path = $clone(path, dispatch.Path);
+		rs = this;
+		_r = rs.Resolve(path); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		result = _r;
+		/* */ if (!(script === "")) { $s = 2; continue; }
+		/* */ $s = 3; continue;
+		/* if (!(script === "")) { */ case 2:
+			_r$1 = trees.NewAttr("src", script); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			src = _r$1;
+			_r$2 = trees.NewMarkup("script", false); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			scriptElem = _r$2;
+			$r = src.Apply(scriptElem); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_r$3 = rs.render(new sliceType$3([scriptElem]), result); /* */ $s = 7; case 7: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			$s = -1; return _r$3;
+			return _r$3;
+		/* } */ case 3:
+		_r$4 = rs.render(sliceType$3.nil, result); /* */ $s = 8; case 8: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+		$s = -1; return _r$4;
+		return _r$4;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Resources.ptr.prototype.RenderWithScript }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f.path = path; $f.result = result; $f.rs = rs; $f.script = script; $f.scriptElem = scriptElem; $f.src = src; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Resources.prototype.RenderWithScript = function(path, script) { return this.$val.RenderWithScript(path, script); };
+	Resources.ptr.prototype.render = function(attachElems, rsx) {
+		var $ptr, _i, _i$1, _i$2, _i$3, _i$4, _i$5, _i$6, _i$7, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, _ref$6, _ref$7, attachElems, body, head, htmlMarkup, item, item$1, item$2, item$3, item$4, markup, markup$1, rs, rsx, rx, target, target$1, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _i$1 = $f._i$1; _i$2 = $f._i$2; _i$3 = $f._i$3; _i$4 = $f._i$4; _i$5 = $f._i$5; _i$6 = $f._i$6; _i$7 = $f._i$7; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; _ref$3 = $f._ref$3; _ref$4 = $f._ref$4; _ref$5 = $f._ref$5; _ref$6 = $f._ref$6; _ref$7 = $f._ref$7; attachElems = $f.attachElems; body = $f.body; head = $f.head; htmlMarkup = $f.htmlMarkup; item = $f.item; item$1 = $f.item$1; item$2 = $f.item$2; item$3 = $f.item$3; item$4 = $f.item$4; markup = $f.markup; markup$1 = $f.markup$1; rs = $f.rs; rsx = $f.rsx; rx = $f.rx; target = $f.target; target$1 = $f.target$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		rs = this;
 		_r = trees.NewMarkup("head", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		head = _r;
@@ -49547,21 +49582,29 @@ $packages["github.com/influx6/gu/design"] = (function() {
 			/* } */ $s = 25; continue; case 26:
 			_i++;
 		/* } */ $s = 3; continue; case 4:
+		_ref$7 = attachElems;
+		_i$7 = 0;
+		while (true) {
+			if (!(_i$7 < _ref$7.$length)) { break; }
+			item$4 = ((_i$7 < 0 || _i$7 >= _ref$7.$length) ? $throwRuntimeError("index out of range") : _ref$7.$array[_ref$7.$offset + _i$7]);
+			item$4.Apply(body);
+			_i$7++;
+		}
 		_r$8 = trees.NewMarkup("html", false); /* */ $s = 29; case 29: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
 		htmlMarkup = _r$8;
 		head.Apply(htmlMarkup);
 		body.Apply(htmlMarkup);
 		$s = -1; return htmlMarkup;
 		return htmlMarkup;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: Resources.ptr.prototype.render }; } $f.$ptr = $ptr; $f._i = _i; $f._i$1 = _i$1; $f._i$2 = _i$2; $f._i$3 = _i$3; $f._i$4 = _i$4; $f._i$5 = _i$5; $f._i$6 = _i$6; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f._ref$3 = _ref$3; $f._ref$4 = _ref$4; $f._ref$5 = _ref$5; $f._ref$6 = _ref$6; $f.body = body; $f.head = head; $f.htmlMarkup = htmlMarkup; $f.item = item; $f.item$1 = item$1; $f.item$2 = item$2; $f.item$3 = item$3; $f.markup = markup; $f.markup$1 = markup$1; $f.rs = rs; $f.rsx = rsx; $f.rx = rx; $f.target = target; $f.target$1 = target$1; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Resources.ptr.prototype.render }; } $f.$ptr = $ptr; $f._i = _i; $f._i$1 = _i$1; $f._i$2 = _i$2; $f._i$3 = _i$3; $f._i$4 = _i$4; $f._i$5 = _i$5; $f._i$6 = _i$6; $f._i$7 = _i$7; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f._ref$3 = _ref$3; $f._ref$4 = _ref$4; $f._ref$5 = _ref$5; $f._ref$6 = _ref$6; $f._ref$7 = _ref$7; $f.attachElems = attachElems; $f.body = body; $f.head = head; $f.htmlMarkup = htmlMarkup; $f.item = item; $f.item$1 = item$1; $f.item$2 = item$2; $f.item$3 = item$3; $f.item$4 = item$4; $f.markup = markup; $f.markup$1 = markup$1; $f.rs = rs; $f.rsx = rsx; $f.rx = rx; $f.target = target; $f.target$1 = target$1; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	Resources.prototype.render = function(rsx) { return this.$val.render(rsx); };
+	Resources.prototype.render = function(attachElems, rsx) { return this.$val.render(attachElems, rsx); };
 	newResource = function(root, dsl) {
 		var $ptr, _r, _r$1, _r$2, dsl, root, rs, rsp, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; dsl = $f.dsl; root = $f.root; rs = $f.rs; rsp = $f.rsp; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		rs = [rs];
 		rsp = [rsp];
-		rs[0] = new ResourceDefinition.ptr($throwNilPointerError, false, "", sliceType$4.nil, sliceType$5.nil, sliceType$5.nil, sliceType$6.nil, sliceType$6.nil, 0, ptrType$2.nil, $ifaceNil, $ifaceNil, ptrType.nil);
+		rs[0] = new ResourceDefinition.ptr($throwNilPointerError, false, "", sliceType$4.nil, sliceType$5.nil, sliceType$5.nil, sliceType$6.nil, sliceType$6.nil, 0, ptrType$3.nil, $ifaceNil, $ifaceNil, ptrType.nil);
 		rs[0].Dsl = dsl;
 		rs[0].Order = 3;
 		rs[0].Root = root;
@@ -49588,7 +49631,7 @@ $packages["github.com/influx6/gu/design"] = (function() {
 			$s = -1; return;
 			return;
 			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.rv = rv; $f.$s = $s; $f.$r = $r; return $f;
-		}; })(rs, rsp)), new sliceType$3([])); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		}; })(rs, rsp)), new sliceType$2([])); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 		_r$2;
 		$s = -1; return rsp[0];
 		return rsp[0];
@@ -49634,19 +49677,15 @@ $packages["github.com/influx6/gu/design"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: ResourceDefinition.ptr.prototype.Init }; } $f.$ptr = $ptr; $f._entry = _entry; $f._i = _i; $f._i$1 = _i$1; $f._keys = _keys; $f._r = _r; $f._ref = _ref; $f._ref$1 = _ref$1; $f.level = level; $f.rd = rd; $f.view = view; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	ResourceDefinition.prototype.Init = function() { return this.$val.Init(); };
-	DoMarkup = function(markup, targets, immediateRender) {
-		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _ref, _ref$1, current, immediate, immediateRender, markup, markup$1, markupFn, mo, mo$1, mo$2, mo$3, mo$4, mo$5, static$1, targets, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _ref = $f._ref; _ref$1 = $f._ref$1; current = $f.current; immediate = $f.immediate; immediateRender = $f.immediateRender; markup = $f.markup; markup$1 = $f.markup$1; markupFn = $f.markupFn; mo = $f.mo; mo$1 = $f.mo$1; mo$2 = $f.mo$2; mo$3 = $f.mo$3; mo$4 = $f.mo$4; mo$5 = $f.mo$5; static$1 = $f.static$1; targets = $f.targets; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		immediate = false;
-		if (immediateRender.$length === 0) {
-			immediate = (0 >= immediateRender.$length ? $throwRuntimeError("index out of range") : immediateRender.$array[immediateRender.$offset + 0]);
-		}
-		markupFn = sliceType$8.nil;
+	DoMarkup = function(markup, targets, deferRender, targetAlreadyInDom) {
+		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _ref, _ref$1, current, deferRender, markup, markup$1, markupFn, mo, mo$1, mo$2, mo$3, mo$4, mo$5, static$1, targetAlreadyInDom, targets, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _ref = $f._ref; _ref$1 = $f._ref$1; current = $f.current; deferRender = $f.deferRender; markup = $f.markup; markup$1 = $f.markup$1; markupFn = $f.markupFn; mo = $f.mo; mo$1 = $f.mo$1; mo$2 = $f.mo$2; mo$3 = $f.mo$3; mo$4 = $f.mo$4; mo$5 = $f.mo$5; static$1 = $f.static$1; targetAlreadyInDom = $f.targetAlreadyInDom; targets = $f.targets; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		markupFn = sliceType$3.nil;
 		_ref = markup;
 		/* */ if ($assertType(_ref, funcType$3, true)[1]) { $s = 1; continue; }
-		/* */ if ($assertType(_ref, sliceType$8, true)[1]) { $s = 2; continue; }
+		/* */ if ($assertType(_ref, sliceType$3, true)[1]) { $s = 2; continue; }
 		/* */ if ($assertType(_ref, funcType$4, true)[1]) { $s = 3; continue; }
-		/* */ if ($assertType(_ref, ptrType$3, true)[1]) { $s = 4; continue; }
+		/* */ if ($assertType(_ref, ptrType$2, true)[1]) { $s = 4; continue; }
 		/* */ if ($assertType(_ref, $String, true)[1]) { $s = 5; continue; }
 		/* */ $s = 6; continue;
 		/* if ($assertType(_ref, funcType$3, true)[1]) { */ case 1:
@@ -49654,18 +49693,18 @@ $packages["github.com/influx6/gu/design"] = (function() {
 			_r = mo(); /* */ $s = 8; case 8: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 			markupFn = _r;
 			$s = 7; continue;
-		/* } else if ($assertType(_ref, sliceType$8, true)[1]) { */ case 2:
+		/* } else if ($assertType(_ref, sliceType$3, true)[1]) { */ case 2:
 			mo$1 = _ref.$val;
 			markupFn = mo$1;
 			$s = 7; continue;
 		/* } else if ($assertType(_ref, funcType$4, true)[1]) { */ case 3:
 			mo$2 = _ref.$val;
 			_r$1 = mo$2(); /* */ $s = 9; case 9: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			markupFn = new sliceType$8([_r$1]);
+			markupFn = new sliceType$3([_r$1]);
 			$s = 7; continue;
-		/* } else if ($assertType(_ref, ptrType$3, true)[1]) { */ case 4:
+		/* } else if ($assertType(_ref, ptrType$2, true)[1]) { */ case 4:
 			mo$3 = _ref.$val;
-			markupFn = new sliceType$8([mo$3]);
+			markupFn = new sliceType$3([mo$3]);
 			$s = 7; continue;
 		/* } else if ($assertType(_ref, $String, true)[1]) { */ case 5:
 			mo$4 = _ref.$val;
@@ -49688,22 +49727,27 @@ $packages["github.com/influx6/gu/design"] = (function() {
 			static$1.Morph = true;
 			_r$5 = trees.NewAttr("resource-id", current.UUID()); /* */ $s = 15; case 15: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
 			$r = _r$5.Apply(static$1.Content); /* */ $s = 16; case 16: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			if (!(targets === "") && immediate) {
+			if (deferRender) {
+				current.DRenderables = $append(current.DRenderables, new targetRenderable.ptr(static$1, targets));
+				_i++;
+				/* continue; */ $s = 13; continue;
+			}
+			if (!deferRender && targetAlreadyInDom) {
 				current.Renderables = $append(current.Renderables, new targetRenderable.ptr(static$1, targets));
 				_i++;
 				/* continue; */ $s = 13; continue;
 			}
-			if (targets === "") {
-				current.Renderables = $append(current.Renderables, new targetRenderable.ptr(static$1, targets));
+			if (!deferRender && !targetAlreadyInDom && !(targets === "")) {
+				current.DRenderables = $append(current.DRenderables, new targetRenderable.ptr(static$1, targets));
 				_i++;
 				/* continue; */ $s = 13; continue;
 			}
-			current.DRenderables = $append(current.DRenderables, new targetRenderable.ptr(static$1, targets));
+			current.Renderables = $append(current.Renderables, new targetRenderable.ptr(static$1, targets));
 			_i++;
 		/* } */ $s = 13; continue; case 14:
 		$s = -1; return;
 		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: DoMarkup }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._ref = _ref; $f._ref$1 = _ref$1; $f.current = current; $f.immediate = immediate; $f.immediateRender = immediateRender; $f.markup = markup; $f.markup$1 = markup$1; $f.markupFn = markupFn; $f.mo = mo; $f.mo$1 = mo$1; $f.mo$2 = mo$2; $f.mo$3 = mo$3; $f.mo$4 = mo$4; $f.mo$5 = mo$5; $f.static$1 = static$1; $f.targets = targets; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: DoMarkup }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._ref = _ref; $f._ref$1 = _ref$1; $f.current = current; $f.deferRender = deferRender; $f.markup = markup; $f.markup$1 = markup$1; $f.markupFn = markupFn; $f.mo = mo; $f.mo$1 = mo$1; $f.mo$2 = mo$2; $f.mo$3 = mo$3; $f.mo$4 = mo$4; $f.mo$5 = mo$5; $f.static$1 = static$1; $f.targetAlreadyInDom = targetAlreadyInDom; $f.targets = targets; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.DoMarkup = DoMarkup;
 	DoTitle = function(title) {
@@ -49721,7 +49765,7 @@ $packages["github.com/influx6/gu/design"] = (function() {
 	mLink = function(tag, deffer) {
 		var $ptr, _r, _r$1, _r$2, current, deffer, static$1, tag, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; current = $f.current; deffer = $f.deffer; static$1 = $f.static$1; tag = $f.tag; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		static$1 = new gu.StaticView.ptr(ptrType$3.nil, false);
+		static$1 = new gu.StaticView.ptr(ptrType$2.nil, false);
 		static$1.Morph = true;
 		_r = trees.NewMarkup(tag, false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		static$1.Content = _r;
@@ -49737,24 +49781,23 @@ $packages["github.com/influx6/gu/design"] = (function() {
 		return static$1;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: mLink }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f.current = current; $f.deffer = deffer; $f.static$1 = static$1; $f.tag = tag; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	ptrType.methods = [{prop: "GetIndex", name: "GetIndex", pkg: "", typ: $funcType([$Int], [ptrType$1], false)}, {prop: "Init", name: "Init", pkg: "", typ: $funcType([sliceType$10], [ptrType], true)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([dispatch.Path], [sliceType$1], false)}, {prop: "ResolveWith", name: "ResolveWith", pkg: "", typ: $funcType([$String], [sliceType$1], false)}, {prop: "MustCurrentResource", name: "MustCurrentResource", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "CurrentResource", name: "CurrentResource", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([dispatch.Path], [ptrType$3], false)}, {prop: "render", name: "render", pkg: "github.com/influx6/gu/design", typ: $funcType([sliceType$1], [ptrType$3], true)}];
+	ptrType.methods = [{prop: "GetIndex", name: "GetIndex", pkg: "", typ: $funcType([$Int], [ptrType$1], false)}, {prop: "Init", name: "Init", pkg: "", typ: $funcType([sliceType$9], [ptrType], true)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([dispatch.Path], [sliceType$1], false)}, {prop: "ResolveWith", name: "ResolveWith", pkg: "", typ: $funcType([$String], [sliceType$1], false)}, {prop: "MustCurrentResource", name: "MustCurrentResource", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "CurrentResource", name: "CurrentResource", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([dispatch.Path], [ptrType$2], false)}, {prop: "RenderWithScript", name: "RenderWithScript", pkg: "", typ: $funcType([dispatch.Path, $String], [ptrType$2], false)}, {prop: "render", name: "render", pkg: "github.com/influx6/gu/design", typ: $funcType([sliceType$3, sliceType$1], [ptrType$2], true)}];
 	ptrType$1.methods = [{prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Init", name: "Init", pkg: "", typ: $funcType([], [], false)}];
 	ResourceRenderer.init([{prop: "BindEvent", name: "BindEvent", pkg: "", typ: $funcType([ptrType$4, ptrType$5], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([sliceType$1], [], true)}, {prop: "RenderUpdate", name: "RenderUpdate", pkg: "", typ: $funcType([gu.Renderable, $String, $Bool], [], false)}, {prop: "TriggerBindEvent", name: "TriggerBindEvent", pkg: "", typ: $funcType([ptrType$5, ptrType$5, ptrType$4], [], false)}]);
 	Resources.init("github.com/influx6/gu/design", [{prop: "lastPath", name: "lastPath", exported: false, typ: dispatch.Path, tag: ""}, {prop: "Resources", name: "Resources", exported: true, typ: sliceType$1, tag: ""}, {prop: "renderer", name: "renderer", exported: false, typ: ResourceRenderer, tag: ""}]);
 	DSL.init([], [], false);
-	ResourceDefinition.init("github.com/influx6/gu/design", [{prop: "Dsl", name: "Dsl", exported: true, typ: DSL, tag: ""}, {prop: "active", name: "active", exported: false, typ: $Bool, tag: ""}, {prop: "uuid", name: "uuid", exported: false, typ: $String, tag: ""}, {prop: "Views", name: "Views", exported: true, typ: sliceType$4, tag: ""}, {prop: "Links", name: "Links", exported: true, typ: sliceType$5, tag: ""}, {prop: "DeferLinks", name: "DeferLinks", exported: true, typ: sliceType$5, tag: ""}, {prop: "Renderables", name: "Renderables", exported: true, typ: sliceType$6, tag: ""}, {prop: "DRenderables", name: "DRenderables", exported: true, typ: sliceType$6, tag: ""}, {prop: "Order", name: "Order", exported: true, typ: RenderingOrder, tag: ""}, {prop: "Manager", name: "Manager", exported: true, typ: ptrType$2, tag: ""}, {prop: "Renderer", name: "Renderer", exported: true, typ: ResourceRenderer, tag: ""}, {prop: "Resolver", name: "Resolver", exported: true, typ: dispatch.Resolver, tag: ""}, {prop: "Root", name: "Root", exported: true, typ: ptrType, tag: ""}]);
+	ResourceDefinition.init("github.com/influx6/gu/design", [{prop: "Dsl", name: "Dsl", exported: true, typ: DSL, tag: ""}, {prop: "active", name: "active", exported: false, typ: $Bool, tag: ""}, {prop: "uuid", name: "uuid", exported: false, typ: $String, tag: ""}, {prop: "Views", name: "Views", exported: true, typ: sliceType$4, tag: ""}, {prop: "Links", name: "Links", exported: true, typ: sliceType$5, tag: ""}, {prop: "DeferLinks", name: "DeferLinks", exported: true, typ: sliceType$5, tag: ""}, {prop: "Renderables", name: "Renderables", exported: true, typ: sliceType$6, tag: ""}, {prop: "DRenderables", name: "DRenderables", exported: true, typ: sliceType$6, tag: ""}, {prop: "Order", name: "Order", exported: true, typ: RenderingOrder, tag: ""}, {prop: "Manager", name: "Manager", exported: true, typ: ptrType$3, tag: ""}, {prop: "Renderer", name: "Renderer", exported: true, typ: ResourceRenderer, tag: ""}, {prop: "Resolver", name: "Resolver", exported: true, typ: dispatch.Resolver, tag: ""}, {prop: "Root", name: "Root", exported: true, typ: ptrType, tag: ""}]);
 	ResourceViewUpdate.init("", [{prop: "View", name: "View", exported: true, typ: gu.Renderable, tag: ""}, {prop: "Resource", name: "Resource", exported: true, typ: $String, tag: ""}, {prop: "Target", name: "Target", exported: true, typ: $String, tag: ""}]);
 	targetRenderable.init("", [{prop: "View", name: "View", exported: true, typ: gu.Renderable, tag: ""}, {prop: "Targets", name: "Targets", exported: true, typ: $String, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = fmt.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = detect.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = js.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gu.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = dispatch.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = trees.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = sync.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = detect.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = js.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = gu.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dispatch.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = trees.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = sync.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		collection = new structType.ptr(ptrType.nil, new sync.Mutex.ptr(0, 0), sliceType.nil);
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
@@ -49777,13 +49820,30 @@ $packages["github.com/influx6/gu/trees/elems"] = (function() {
 	};
 	$pkg.Text = Text;
 	CSS = function(styles, bind) {
-		var $ptr, _r, _r$1, bind, styles, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; bind = $f.bind; styles = $f.styles; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		_r = css.New(styles, new sliceType([])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_r$1 = trees.CSSStylesheet(_r, bind); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		var $ptr, _r, _r$1, _ref, bind, rs, so, so$1, so$2, styles, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; bind = $f.bind; rs = $f.rs; so = $f.so; so$1 = $f.so$1; so$2 = $f.so$2; styles = $f.styles; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		rs = ptrType.nil;
+		_ref = styles;
+		/* */ if ($assertType(_ref, $String, true)[1]) { $s = 1; continue; }
+		/* */ if ($assertType(_ref, ptrType, true)[1]) { $s = 2; continue; }
+		/* */ $s = 3; continue;
+		/* if ($assertType(_ref, $String, true)[1]) { */ case 1:
+			so = _ref.$val;
+			_r = css.New(so, new sliceType([])); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			rs = _r;
+			$s = 4; continue;
+		/* } else if ($assertType(_ref, ptrType, true)[1]) { */ case 2:
+			so$1 = _ref.$val;
+			rs = so$1;
+			$s = 4; continue;
+		/* } else { */ case 3:
+			so$2 = _ref;
+			$panic(new $String("Invalid Acceptable type for css: Only string or *css.Rule"));
+		/* } */ case 4:
+		_r$1 = trees.CSSStylesheet(rs, bind); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		$s = -1; return _r$1;
 		return _r$1;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: CSS }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.bind = bind; $f.styles = styles; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CSS }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f.bind = bind; $f.rs = rs; $f.so = so; $f.so$1 = so$1; $f.so$2 = so$2; $f.styles = styles; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.CSS = CSS;
 	Div = function(markup) {
@@ -49869,13 +49929,14 @@ $packages["github.com/influx6/gu/trees/elems"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/trees/events"] = (function() {
-	var $pkg = {}, $init, dispatch, trees, funcType, ptrType, funcType$1, funcType$2, sliceType, WrapHandler, ClickEvent;
+	var $pkg = {}, $init, dispatch, trees, funcType, funcType$1, ptrType, funcType$2, funcType$3, sliceType, WrapHandler, WrapEventOnlyHandler, ClickEvent;
 	dispatch = $packages["github.com/influx6/gu/dispatch"];
 	trees = $packages["github.com/influx6/gu/trees"];
 	funcType = $funcType([], [], false);
+	funcType$1 = $funcType([trees.EventObject], [], false);
 	ptrType = $ptrType(trees.Markup);
-	funcType$1 = $funcType([trees.EventObject, ptrType], [], false);
-	funcType$2 = $funcType([trees.EventBroadcast], [], false);
+	funcType$2 = $funcType([trees.EventObject, ptrType], [], false);
+	funcType$3 = $funcType([trees.EventBroadcast], [], false);
 	sliceType = $sliceType(funcType);
 	WrapHandler = function(callback) {
 		var $ptr, callback;
@@ -49889,9 +49950,21 @@ $packages["github.com/influx6/gu/trees/events"] = (function() {
 		});
 	};
 	$pkg.WrapHandler = WrapHandler;
+	WrapEventOnlyHandler = function(callback) {
+		var $ptr, callback;
+		return (function $b(ev, root) {
+			var $ptr, ev, root, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; ev = $f.ev; root = $f.root; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			$r = callback(ev); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$s = -1; return;
+			return;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.ev = ev; $f.root = root; $f.$s = $s; $f.$r = $r; return $f;
+		});
+	};
+	$pkg.WrapEventOnlyHandler = WrapEventOnlyHandler;
 	ClickEvent = function(callback, sel) {
-		var $ptr, _r, _ref, callback, cb, cb$1, cb$2, ev, handler, sel, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _ref = $f._ref; callback = $f.callback; cb = $f.cb; cb$1 = $f.cb$1; cb$2 = $f.cb$2; ev = $f.ev; handler = $f.handler; sel = $f.sel; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _r, _ref, callback, cb, cb$1, cb$2, cb$3, ev, handler, sel, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _ref = $f._ref; callback = $f.callback; cb = $f.cb; cb$1 = $f.cb$1; cb$2 = $f.cb$2; cb$3 = $f.cb$3; ev = $f.ev; handler = $f.handler; sel = $f.sel; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		ev = [ev];
 		handler = [handler];
 		handler[0] = $throwNilPointerError;
@@ -49901,13 +49974,16 @@ $packages["github.com/influx6/gu/trees/events"] = (function() {
 			handler[0] = WrapHandler(cb);
 		} else if ($assertType(_ref, funcType$1, true)[1]) {
 			cb$1 = _ref.$val;
-			handler[0] = cb$1;
+			handler[0] = WrapEventOnlyHandler(cb$1);
+		} else if ($assertType(_ref, funcType$2, true)[1]) {
+			cb$2 = _ref.$val;
+			handler[0] = cb$2;
 		} else {
-			cb$2 = _ref;
+			cb$3 = _ref;
 			$panic(new $String("Unacceptable type for event callback"));
 		}
 		ev[0] = trees.NewEvent("click", sel);
-		_r = dispatch.Subscribe(new funcType$2((function(ev, handler) { return function $b(evm) {
+		_r = dispatch.Subscribe(new funcType$3((function(ev, handler) { return function $b(evm) {
 			var $ptr, evm, $s, $r;
 			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; evm = $f.evm; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 			evm = $clone(evm, trees.EventBroadcast);
@@ -49923,7 +49999,7 @@ $packages["github.com/influx6/gu/trees/events"] = (function() {
 		ev[0].Handle = _r;
 		$s = -1; return ev[0];
 		return ev[0];
-		/* */ } return; } if ($f === undefined) { $f = { $blk: ClickEvent }; } $f.$ptr = $ptr; $f._r = _r; $f._ref = _ref; $f.callback = callback; $f.cb = cb; $f.cb$1 = cb$1; $f.cb$2 = cb$2; $f.ev = ev; $f.handler = handler; $f.sel = sel; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: ClickEvent }; } $f.$ptr = $ptr; $f._r = _r; $f._ref = _ref; $f.callback = callback; $f.cb = cb; $f.cb$1 = cb$1; $f.cb$2 = cb$2; $f.cb$3 = cb$3; $f.ev = ev; $f.handler = handler; $f.sel = sel; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.ClickEvent = ClickEvent;
 	$init = function() {
@@ -49957,7 +50033,7 @@ $packages["github.com/influx6/gu/trees/property"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/examples/hello/apps"] = (function() {
-	var $pkg = {}, $init, js, design, trees, elems, events, property, ptrType, funcType, structType, funcType$1, sliceType, sliceType$1, _r;
+	var $pkg = {}, $init, js, design, trees, elems, events, property, ptrType, funcType, structType, funcType$1, sliceType, _r;
 	js = $packages["github.com/gopherjs/gopherjs/js"];
 	design = $packages["github.com/influx6/gu/design"];
 	trees = $packages["github.com/influx6/gu/trees"];
@@ -49969,7 +50045,6 @@ $packages["github.com/influx6/gu/examples/hello/apps"] = (function() {
 	structType = $structType("", [{prop: "Size", name: "Size", exported: true, typ: $String, tag: ""}]);
 	funcType$1 = $funcType([trees.EventObject, ptrType], [], false);
 	sliceType = $sliceType(trees.Appliable);
-	sliceType$1 = $sliceType($Bool);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -49986,7 +50061,7 @@ $packages["github.com/influx6/gu/examples/hello/apps"] = (function() {
 			$r = design.DoMarkup(new funcType((function $b() {
 				var $ptr, _arg, _arg$1, _arg$2, _arg$3, _arg$4, _arg$5, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, x, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _arg$4 = $f._arg$4; _arg$5 = $f._arg$5; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				_r = elems.CSS("\n\t\t\t\t${\n\t\t\t\t\twidth:100%;\n\t\t\t\t\theight: 100%;\n\t\t\t\t}\n\n\t\t\t\t$ h1 {\n\t\t\t\t\tfont-size: {{ .Size }};\n\t\t\t\t\ttext-align: center;\n\t\t\t\t\tmargin: 20% 0  0 5%;\n\t\t\t\t}\n\n\t\t\t\t$ span {\n\t\t\t\t\ttext-align: center;\n\t\t\t\t\tfont-weight: bold;\n\t\t\t\t\tmargin: 0 0 0 50%;\n\t\t\t\t\tcolor: rgba(0,0,0,0.5);\n\t\t\t\t}\n\n\t\t\t\t$ h1::after{\n\t\t\t\t\tcontent:\"!\";\n\t\t\t\t\tdisplay: inline-block;\n\t\t\t\t}\n\n\t\t\t\t$ h1:hover::after{\n\t\t\t\t\tcontent:\"*\";\n\t\t\t\t\tcolor: red;\n\t\t\t\t\tdisplay: inline-block;\n\t\t\t\t}\n\n\t\t\t", (x = new structType.ptr("130px"), new x.constructor.elem(x))); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+				_r = elems.CSS(new $String("\n\t\t\t\t${\n\t\t\t\t\twidth:100%;\n\t\t\t\t\theight: 100%;\n\t\t\t\t}\n\n\t\t\t\t$ h1 {\n\t\t\t\t\tfont-size: {{ .Size }};\n\t\t\t\t\ttext-align: center;\n\t\t\t\t\tmargin: 20% 0  0 5%;\n\t\t\t\t}\n\n\t\t\t\t$ span {\n\t\t\t\t\ttext-align: center;\n\t\t\t\t\tfont-weight: bold;\n\t\t\t\t\tmargin: 0 0 0 50%;\n\t\t\t\t\tcolor: rgba(0,0,0,0.5);\n\t\t\t\t}\n\n\t\t\t\t$ h1::after{\n\t\t\t\t\tcontent:\"!\";\n\t\t\t\t\tdisplay: inline-block;\n\t\t\t\t}\n\n\t\t\t\t$ h1:hover::after{\n\t\t\t\t\tcontent:\"*\";\n\t\t\t\t\tcolor: red;\n\t\t\t\t\tdisplay: inline-block;\n\t\t\t\t}\n\n\t\t\t"), (x = new structType.ptr("130px"), new x.constructor.elem(x))); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 				_arg = _r;
 				_arg$1 = property.IDAttr("hello");
 				_r$1 = elems.Text("Hello"); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
@@ -50005,7 +50080,7 @@ $packages["github.com/influx6/gu/examples/hello/apps"] = (function() {
 				$s = -1; return _r$6;
 				return _r$6;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._arg$4 = _arg$4; $f._arg$5 = _arg$5; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
-			})), "", new sliceType$1([false])); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			})), "", false, false); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;
 			return;
 			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
@@ -55652,7 +55727,7 @@ $packages["main"] = (function() {
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		_r = dom.GetWindow().Document(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		_r$1 = design.New(new sliceType([new redom.DOMRenderer.ptr(_r)])); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		_r$2 = _r$1.Init(new sliceType$1([])); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		_r$2 = _r$1.Init(new sliceType$1([true])); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 		_r$2;
 		$s = -1; return;
 		return;
