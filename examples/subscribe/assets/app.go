@@ -1,16 +1,10 @@
 package main
 
-
 import (
-  . "github.com/influx6/gu/design"
-  . "github.com/influx6/gu/redom"
-  _ "github.com/influx6/gu/examples/subscribe/pages"
-  "honnef.co/go/js/dom"
+  "github.com/influx6/gu/examples/subscribe"
 )
 
 func main(){
-  New(&DOMRenderer{
-    Document: dom.GetWindow().Document(),
-  }).Init(true)
+  subscribe.App.Init(true)
 }
 

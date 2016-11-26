@@ -35,6 +35,11 @@ func MakePath(path string) (PathDirective, error) {
 		return PathDirective{}, err
 	}
 
+	hash := strings.TrimSpace(ups.Fragment)
+	if hash == "" {
+		hash = "/#"
+	}
+
 	return PathDirective{
 		Path: ups.Path,
 		Host: ups.Host,
@@ -81,6 +86,7 @@ func UseLocationHash(path string) Path {
 	if err != nil {
 		return Path{}
 	}
+
 
 	return Path{
 		Rem:           directive.Hash,
@@ -350,6 +356,10 @@ func PopStatePath(ps PathSequencer) (*PathObserver, error) {
 
 // Follow creates a Pathspec from the hash and path and sends it
 func (p *PathObserver) Follow(host, path, hash string) {
+	if hash == ""{
+		hash = "/#"
+	}
+
 	Dispatch(PathDirective{
 		Host:     host,
 		Hash:     hash,

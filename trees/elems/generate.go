@@ -152,13 +152,14 @@ func main() {
 package elems
 
 import (
+	"fmt"
 	"github.com/influx6/gu/trees"
 	"github.com/influx6/gu/css"
 )
 
 // Text provides custom type for defining text nodes with the trees markup.
-func Text(content string) *trees.Markup {
-	return trees.NewText(content)
+func Text(content string, dl ...interface{}) *trees.Markup {
+	return trees.NewText(fmt.Sprintf(content, dl...))
 }
 
 // Parse returns the giving markup structure generated from the string.

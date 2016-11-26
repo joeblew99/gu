@@ -23,6 +23,24 @@ func WhenElse(first Property, other Property) Property {
 	return other
 }
 
+// MarkupWhenElse returns the first markup if its not nil else the second.
+func MarkupWhenElse(first, other *Markup) *Markup {
+	if first != nil{
+		return first
+	}
+
+	return other
+}
+
+// MarkupWhen returns the markup when the giving state is false or true.
+func MarkupWhen(state bool, first, other *Markup) *Markup{
+	if state {
+		return first
+	}
+
+	return other
+}
+
 // When checks if the giving state is true and returns the first property else
 // returns the second.
 func When(state bool, first Property, other Property) Property {

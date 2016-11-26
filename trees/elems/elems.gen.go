@@ -9,13 +9,14 @@
 package elems
 
 import (
+	"fmt"
 	"github.com/influx6/gu/trees"
 	"github.com/influx6/gu/css"
 )
 
 // Text provides custom type for defining text nodes with the trees markup.
-func Text(content string) *trees.Markup {
-	return trees.NewText(content)
+func Text(content string, dl ...interface{}) *trees.Markup {
+	return trees.NewText(fmt.Sprintf(content, dl...))
 }
 
 // Parse returns the giving markup structure generated from the string.
@@ -957,7 +958,7 @@ func SvgSet(markup ...trees.Appliable) *trees.Markup {
 }
 
 // SvgSolidcolor provides the following for SVG XML elements ->
-// The documentation about this has not yet been written; please consider contributing!
+// The <solidColor> SVG element lets authors define a single color for use in multiple places in an SVG document.
 // https://developer.mozilla.org/en-US/docs/Web/SVG/Element/solidcolor
 func SvgSolidcolor(markup ...trees.Appliable) *trees.Markup {
 	e := trees.NewMarkup("solidcolor",false)
@@ -1473,7 +1474,7 @@ func Div(markup ...trees.Appliable) *trees.Markup {
 }
 
 // DescriptionList provides the following for HTML elements ->
-// The HTML <dl> element (or HTML Description List Element) encloses a list of pairs of terms and descriptions. Common uses for this element are to implement a glossary or to display metadata (a list of key-value pairs).
+// The HTML <dl> element (or HTML Description List Element) encloses a list of groups of terms and descriptions. Common uses for this element are to implement a glossary or to display metadata (a list of key-value pairs).
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
 func DescriptionList(markup ...trees.Appliable) *trees.Markup {
 	e := trees.NewMarkup("dl",false)
@@ -2073,7 +2074,7 @@ func Sample(markup ...trees.Appliable) *trees.Markup {
 }
 
 // Script provides the following for HTML elements ->
-// The HTML Script Element (<script>) is used to embed or reference an executable script within an HTML or XHTML document.
+// The <script> element (or HTML Script Element ) is used to embed or reference an executable script within an HTML or XHTML document.
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
 func Script(markup ...trees.Appliable) *trees.Markup {
 	e := trees.NewMarkup("script",false)
@@ -2491,3 +2492,4 @@ func Header6(markup ...trees.Appliable) *trees.Markup {
 	}
 	return e
 }
+

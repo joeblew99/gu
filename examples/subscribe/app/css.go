@@ -40,6 +40,22 @@ var RootCSS = css.New(`
   }
 `)
 
+// NotificationCSS defines the css component which defines the rendering for 
+// a notification page.
+var NotificationCSS = css.New(`
+  $, $ *{
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+  
+  $ {
+    width: 100%;
+    height: 100px;
+  }
+`)
+
 // SubscribeCSS defines the css component which defines the rendering for a
 // subscriber form.
 var SubscribeCSS = css.New(`

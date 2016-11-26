@@ -9,8 +9,6 @@ import (
   _ "github.com/influx6/gu/examples/subscribe/pages"
 )
 
-var subApp = design.New().Init(true)
-
 func main() {
 
   app_http := fhttp.NewHTTP([]fhttp.DriveMiddleware{
