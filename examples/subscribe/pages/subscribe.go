@@ -10,7 +10,6 @@ import (
 var _ = Resource(func() {
 
   UseRoute("#")
-  DoTitle("App Subscribe")
 
   DoMarkup(Div(
     CSS(RootCSS, nil),

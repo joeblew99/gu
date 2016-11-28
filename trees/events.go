@@ -78,8 +78,8 @@ func (d *WrapperEvent) StopImmediatePropagation() {
 // which is translated to the nodes themselves
 type Event struct {
 	Type    string
-	Target  string
 	EventID string
+	secTarget string
 	Tree    *Markup
 	Handle  mque.End
 	Link    func(*js.Object)
@@ -88,9 +88,17 @@ type Event struct {
 // NewEvent returns a event object that allows registering events to eventlisteners
 func NewEvent(evtype string, evtarget string) *Event {
 	return &Event{
-		Target: evtarget,
 		Type:   evtype,
+		secTarget: evtarget,
 	}
+}
+
+func (e *Event) Target() string {
+	if e.Tree != nil {
+		return e.Tree.EventID()
+	}
+
+	return e.secTarget
 }
 
 // ID returns the uique event id string for the event.
@@ -101,8 +109,8 @@ func (e *Event) ID() string {
 // Clone  returns a new Event object from this.
 func (e *Event) Clone() *Event {
 	return &Event{
-		Target: e.Target,
 		Type:   e.Type,
+		secTarget: e.secTarget,
 	}
 }
 
@@ -113,10 +121,6 @@ func (e *Event) Apply(ex *Markup) {
 	}
 
 	e.Tree = ex
-
-	if e.Target == "" {
-		e.Target = ex.EventID()
-	}
 
 	e.EventID = fmt.Sprintf("%s-%s", e.Type, ex.UID())
 	ex.AddEvent(*e)

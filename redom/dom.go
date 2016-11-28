@@ -3,7 +3,7 @@
 package redom
 
 import (
-	dom "honnef.co/go/js/dom"
+	"honnef.co/go/js/dom"
 
 	gjs "github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/gu"
@@ -12,6 +12,16 @@ import (
 	"github.com/influx6/gu/js"
 	"github.com/influx6/gu/trees"
 )
+
+// AddStylesheet adds an external stylesheet to the document into the document
+// DOM using the provide URL.
+func AddStylesheet(url string) {
+	link := gjs.Global.Get("document").Call("createElement", "link")
+	link.Set("href", url)
+	link.Set("rel", "stylesheet")
+	
+	gjs.Global.Get("document").Get("head").Call("appendChild", link)
+}
 
 // DOMRenderer defines an implementation for gu.design.ResourceRenderere
 // and handles rendering of a giving group of resources into the live DOM body root.
@@ -34,9 +44,8 @@ func (dm *DOMRenderer) Render(rs ...*design.ResourceDefinition) {
 		item.ParentNode().RemoveChild(item)
 	}
 
+	// Render the normal links first.
 	for _, res := range rs {
-
-		// Render the normal links first.
 		for _, item := range res.Links {
 			markup := item.Render()
 
@@ -46,18 +55,24 @@ func (dm *DOMRenderer) Render(rs ...*design.ResourceDefinition) {
 
 			js.Patch(js.CreateFragment(markup.HTML()), head.Underlying(), false)
 		}
+	}
 
-		// Render all basic views which are not to be deffered.
+	// Render all basic views which are not to be deffered.
+	for _, res := range rs {
 		for _, render := range res.Renderables {
 			dm.RenderUpdate(render.View, render.Targets, false)
 		}
+	}
 
-		// Render all defered views.
+	// Render all defered views.
+	for _, res := range rs {
 		for _, render := range res.DRenderables {
 			dm.RenderUpdate(render.View, render.Targets, false)
 		}
+	}
 
-		// Render the defered links.
+	// Render the defered links.
+	for _, res := range rs {
 		for _, item := range res.DeferLinks {
 			markup := item.Render()
 
@@ -84,6 +99,11 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 			})
 		}
 
+		if kvr, ok := rv.(gu.RenderView); ok {
+			js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), !kvr.RenderedBefore())
+			return
+		}
+
 		js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), false)
 		return
 	}
@@ -97,6 +117,11 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 			markup.EachEvent(func(ev *trees.Event, root *trees.Markup) {
 				dm.BindEvent(ev, targetDOM.Underlying())
 			})
+		}
+
+		if kvr, ok := rv.(gu.RenderView); ok {
+			js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), !kvr.RenderedBefore())
+			continue
 		}
 
 		js.Patch(js.CreateFragment(markup.HTML()), targetDOM.Underlying(), false)
@@ -118,13 +143,13 @@ func (dm *DOMRenderer) BindEvent(source *trees.Event, root *gjs.Object) {
 func (dm *DOMRenderer) TriggerBindEvent(event *gjs.Object, root *gjs.Object, source *trees.Event) {
 	target := event.Get("target")
 
-	children := root.Call("querySelectorAll", source.Target)
+	children := root.Call("querySelectorAll", source.Target())
 	if children == nil || children == gjs.Undefined {
 		return
 	}
 
-	kids := js.DOMObjectToList(children)
 
+	kids := js.DOMObjectToList(children)
 	var match bool
 
 	for _, item := range kids {

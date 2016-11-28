@@ -5,4 +5,4 @@ import (
   _ "github.com/influx6/gu/examples/subscribe/pages"
 )
 
-var App = app.New().Init(true)
+var App = app.New()

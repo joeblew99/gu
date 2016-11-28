@@ -15586,7 +15586,7 @@ $packages["reflect"] = (function() {
 	return $pkg;
 })();
 $packages["fmt"] = (function() {
-	var $pkg = {}, $init, errors, io, math, os, reflect, strconv, sync, utf8, fmtFlags, fmt, State, Formatter, Stringer, GoStringer, buffer, pp, ScanState, Scanner, stringReader, scanError, ss, ssave, readRune, sliceType, ptrType, ptrType$1, arrayType, arrayType$1, sliceType$1, sliceType$2, ptrType$2, ptrType$3, ptrType$4, ptrType$5, arrayType$2, ptrType$6, ptrType$7, ptrType$8, ptrType$9, ptrType$10, ptrType$11, ptrType$12, ptrType$13, ptrType$14, ptrType$15, ptrType$16, ptrType$17, ptrType$18, ptrType$19, ptrType$20, ptrType$21, ptrType$22, ptrType$23, ptrType$24, ptrType$25, funcType, ptrType$26, ppFree, byteType, space, ssFree, complexError, boolError, newPrinter, Fprintf, Sprintf, Errorf, Fprint, Sprint, Fprintln, Println, Sprintln, getField, tooLarge, parsenum, intFromArg, parseArgNumber, Sscan, Fscan, isSpace, notSpace, newScanState, indexRune, hexDigit, errorHandler;
+	var $pkg = {}, $init, errors, io, math, os, reflect, strconv, sync, utf8, fmtFlags, fmt, State, Formatter, Stringer, GoStringer, buffer, pp, ScanState, Scanner, stringReader, scanError, ss, ssave, readRune, sliceType, ptrType, ptrType$1, arrayType, arrayType$1, sliceType$1, sliceType$2, ptrType$2, ptrType$3, ptrType$4, ptrType$5, arrayType$2, ptrType$6, ptrType$7, ptrType$8, ptrType$9, ptrType$10, ptrType$11, ptrType$12, ptrType$13, ptrType$14, ptrType$15, ptrType$16, ptrType$17, ptrType$18, ptrType$19, ptrType$20, ptrType$21, ptrType$22, ptrType$23, ptrType$24, ptrType$25, funcType, ptrType$26, ppFree, byteType, space, ssFree, complexError, boolError, newPrinter, Fprintf, Printf, Sprintf, Errorf, Fprint, Sprint, Sprintln, getField, tooLarge, parsenum, intFromArg, parseArgNumber, Sscan, Fscan, isSpace, notSpace, newScanState, indexRune, hexDigit, errorHandler;
 	errors = $packages["errors"];
 	io = $packages["io"];
 	math = $packages["math"];
@@ -16296,6 +16296,20 @@ $packages["fmt"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Fprintf }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._tuple = _tuple; $f.a = a; $f.err = err; $f.format = format; $f.n = n; $f.p = p; $f.w = w; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.Fprintf = Fprintf;
+	Printf = function(format, a) {
+		var $ptr, _r, _tuple, a, err, format, n, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; a = $f.a; err = $f.err; format = $f.format; n = $f.n; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		n = 0;
+		err = $ifaceNil;
+		_r = Fprintf(os.Stdout, format, a); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r;
+		n = _tuple[0];
+		err = _tuple[1];
+		$s = -1; return [n, err];
+		return [n, err];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Printf }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.a = a; $f.err = err; $f.format = format; $f.n = n; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.Printf = Printf;
 	Sprintf = function(format, a) {
 		var $ptr, _r, a, format, p, s, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; a = $f.a; format = $f.format; p = $f.p; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -16350,38 +16364,6 @@ $packages["fmt"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Sprint }; } $f.$ptr = $ptr; $f._r = _r; $f.a = a; $f.p = p; $f.s = s; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.Sprint = Sprint;
-	Fprintln = function(w, a) {
-		var $ptr, _r, _r$1, _tuple, a, err, n, p, w, x, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _tuple = $f._tuple; a = $f.a; err = $f.err; n = $f.n; p = $f.p; w = $f.w; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		n = 0;
-		err = $ifaceNil;
-		_r = newPrinter(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		p = _r;
-		$r = p.doPrintln(a); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		_r$1 = w.Write((x = p.buf, $subslice(new sliceType$2(x.$array), x.$offset, x.$offset + x.$length))); /* */ $s = 3; case 3: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		_tuple = _r$1;
-		n = _tuple[0];
-		err = _tuple[1];
-		p.free();
-		$s = -1; return [n, err];
-		return [n, err];
-		/* */ } return; } if ($f === undefined) { $f = { $blk: Fprintln }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._tuple = _tuple; $f.a = a; $f.err = err; $f.n = n; $f.p = p; $f.w = w; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.Fprintln = Fprintln;
-	Println = function(a) {
-		var $ptr, _r, _tuple, a, err, n, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; a = $f.a; err = $f.err; n = $f.n; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		n = 0;
-		err = $ifaceNil;
-		_r = Fprintln(os.Stdout, a); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_tuple = _r;
-		n = _tuple[0];
-		err = _tuple[1];
-		$s = -1; return [n, err];
-		return [n, err];
-		/* */ } return; } if ($f === undefined) { $f = { $blk: Println }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.a = a; $f.err = err; $f.n = n; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.Println = Println;
 	Sprintln = function(a) {
 		var $ptr, _r, a, p, s, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; a = $f.a; p = $f.p; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -21435,403 +21417,6 @@ $packages["strings"] = (function() {
 		$r = io.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = unicode.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = utf8.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.$init = $init;
-	return $pkg;
-})();
-$packages["github.com/influx6/faux/reflection"] = (function() {
-	var $pkg = {}, $init, errors, fmt, reflect, strings, sliceType, IsFuncType, FuncValue, FuncType, GetFuncArgumentsType;
-	errors = $packages["errors"];
-	fmt = $packages["fmt"];
-	reflect = $packages["reflect"];
-	strings = $packages["strings"];
-	sliceType = $sliceType(reflect.Type);
-	IsFuncType = function(elem) {
-		var $ptr, _r, _tuple, elem, err, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; elem = $f.elem; err = $f.err; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		_r = FuncType(elem); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_tuple = _r;
-		err = _tuple[1];
-		if (!($interfaceIsEqual(err, $ifaceNil))) {
-			$s = -1; return false;
-			return false;
-		}
-		$s = -1; return true;
-		return true;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: IsFuncType }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.elem = elem; $f.err = err; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.IsFuncType = IsFuncType;
-	FuncValue = function(elem) {
-		var $ptr, _r, _r$1, elem, tl, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; elem = $f.elem; tl = $f.tl; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		_r = reflect.ValueOf(elem); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		tl = _r;
-		/* */ if (tl.Kind() === 22) { $s = 2; continue; }
-		/* */ $s = 3; continue;
-		/* if (tl.Kind() === 22) { */ case 2:
-			_r$1 = tl.Elem(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			tl = _r$1;
-		/* } */ case 3:
-		if (!((tl.Kind() === 19))) {
-			$s = -1; return [tl, $pkg.ErrNotFunction];
-			return [tl, $pkg.ErrNotFunction];
-		}
-		$s = -1; return [tl, $ifaceNil];
-		return [tl, $ifaceNil];
-		/* */ } return; } if ($f === undefined) { $f = { $blk: FuncValue }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.elem = elem; $f.tl = tl; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.FuncValue = FuncValue;
-	FuncType = function(elem) {
-		var $ptr, _r, _r$1, _r$2, elem, tl, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; elem = $f.elem; tl = $f.tl; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		tl = reflect.TypeOf(elem);
-		_r = tl.Kind(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		/* */ if (_r === 22) { $s = 1; continue; }
-		/* */ $s = 2; continue;
-		/* if (_r === 22) { */ case 1:
-			_r$1 = tl.Elem(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			tl = _r$1;
-		/* } */ case 2:
-		_r$2 = tl.Kind(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		/* */ if (!((_r$2 === 19))) { $s = 5; continue; }
-		/* */ $s = 6; continue;
-		/* if (!((_r$2 === 19))) { */ case 5:
-			$s = -1; return [$ifaceNil, $pkg.ErrNotFunction];
-			return [$ifaceNil, $pkg.ErrNotFunction];
-		/* } */ case 6:
-		$s = -1; return [tl, $ifaceNil];
-		return [tl, $ifaceNil];
-		/* */ } return; } if ($f === undefined) { $f = { $blk: FuncType }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f.elem = elem; $f.tl = tl; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.FuncType = FuncType;
-	GetFuncArgumentsType = function(elem) {
-		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, elem, i, indElem, input, tl, totalFields, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; elem = $f.elem; i = $f.i; indElem = $f.indElem; input = $f.input; tl = $f.tl; totalFields = $f.totalFields; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		tl = reflect.TypeOf(elem);
-		_r = tl.Kind(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		/* */ if (_r === 22) { $s = 1; continue; }
-		/* */ $s = 2; continue;
-		/* if (_r === 22) { */ case 1:
-			_r$1 = tl.Elem(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			tl = _r$1;
-		/* } */ case 2:
-		_r$2 = tl.Kind(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		/* */ if (!((_r$2 === 19))) { $s = 5; continue; }
-		/* */ $s = 6; continue;
-		/* if (!((_r$2 === 19))) { */ case 5:
-			$s = -1; return [sliceType.nil, $pkg.ErrNotFunction];
-			return [sliceType.nil, $pkg.ErrNotFunction];
-		/* } */ case 6:
-		_r$3 = tl.NumIn(); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		totalFields = _r$3;
-		input = sliceType.nil;
-		i = 0;
-		/* while (true) { */ case 9:
-			/* if (!(i < totalFields)) { break; } */ if(!(i < totalFields)) { $s = 10; continue; }
-			_r$4 = tl.In(i); /* */ $s = 11; case 11: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-			indElem = _r$4;
-			input = $append(input, indElem);
-			i = i + (1) >> 0;
-		/* } */ $s = 9; continue; case 10:
-		$s = -1; return [input, $ifaceNil];
-		return [input, $ifaceNil];
-		/* */ } return; } if ($f === undefined) { $f = { $blk: GetFuncArgumentsType }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f.elem = elem; $f.i = i; $f.indElem = indElem; $f.input = input; $f.tl = tl; $f.totalFields = totalFields; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.GetFuncArgumentsType = GetFuncArgumentsType;
-	$init = function() {
-		$pkg.$init = function() {};
-		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = errors.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = fmt.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = reflect.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = strings.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$pkg.ErrNotFunction = errors.New("Not A Function Type");
-		$pkg.ErrNotStruct = errors.New("Not a struct type");
-		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
-	};
-	$pkg.$init = $init;
-	return $pkg;
-})();
-$packages["github.com/influx6/faux/mque"] = (function() {
-	var $pkg = {}, $init, reflection, reflect, sync, End, MQue, mqueSubIndex, mqueSub, sliceType, ptrType, sliceType$1, funcType, sliceType$2, ptrType$1, ptrType$2, ptrType$3, New;
-	reflection = $packages["github.com/influx6/faux/reflection"];
-	reflect = $packages["reflect"];
-	sync = $packages["sync"];
-	End = $pkg.End = $newType(8, $kindInterface, "mque.End", true, "github.com/influx6/faux/mque", true, null);
-	MQue = $pkg.MQue = $newType(0, $kindStruct, "mque.MQue", true, "github.com/influx6/faux/mque", true, function(l_, muxers_, any_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.l = new sync.RWMutex.ptr(new sync.Mutex.ptr(0, 0), 0, 0, 0, 0);
-			this.muxers = sliceType$1.nil;
-			this.any = ptrType.nil;
-			return;
-		}
-		this.l = l_;
-		this.muxers = muxers_;
-		this.any = any_;
-	});
-	mqueSubIndex = $pkg.mqueSubIndex = $newType(0, $kindStruct, "mque.mqueSubIndex", true, "github.com/influx6/faux/mque", false, function(index_, queue_, ending_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.index = 0;
-			this.queue = ptrType.nil;
-			this.ending = sliceType$2.nil;
-			return;
-		}
-		this.index = index_;
-		this.queue = queue_;
-		this.ending = ending_;
-	});
-	mqueSub = $pkg.mqueSub = $newType(0, $kindStruct, "mque.mqueSub", true, "github.com/influx6/faux/mque", false, function(has_, am_, tms_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.has = false;
-			this.am = $ifaceNil;
-			this.tms = sliceType.nil;
-			return;
-		}
-		this.has = has_;
-		this.am = am_;
-		this.tms = tms_;
-	});
-	sliceType = $sliceType(reflect.Value);
-	ptrType = $ptrType(mqueSub);
-	sliceType$1 = $sliceType(ptrType);
-	funcType = $funcType([], [], false);
-	sliceType$2 = $sliceType(funcType);
-	ptrType$1 = $ptrType(reflect.rtype);
-	ptrType$2 = $ptrType(MQue);
-	ptrType$3 = $ptrType(mqueSubIndex);
-	New = function() {
-		var $ptr, any;
-		any = new mqueSub.ptr(false, $ifaceNil, sliceType.nil);
-		return new MQue.ptr(new sync.RWMutex.ptr(new sync.Mutex.ptr(0, 0), 0, 0, 0, 0), sliceType$1.nil, any);
-	};
-	$pkg.New = New;
-	MQue.ptr.prototype.Flush = function() {
-		var $ptr, m, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; m = $f.m; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		m = this;
-		$r = m.l.Lock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		m.muxers = sliceType$1.nil;
-		$r = m.l.Unlock(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$s = -1; return;
-		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: MQue.ptr.prototype.Flush }; } $f.$ptr = $ptr; $f.m = m; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	MQue.prototype.Flush = function() { return this.$val.Flush(); };
-	MQue.ptr.prototype.Run = function(val) {
-		var $ptr, _i, _r, _ref, ctype, m, mux, val, $s, $deferred, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; ctype = $f.ctype; m = $f.m; mux = $f.mux; val = $f.val; $s = $f.$s; $deferred = $f.$deferred; $r = $f.$r; } var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $deferred.index = $curGoroutine.deferStack.length; $curGoroutine.deferStack.push($deferred);
-		m = this;
-		$r = m.l.RLock(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$deferred.push([$methodVal(m.l, "RUnlock"), []]);
-		ctype = reflect.TypeOf(val);
-		$r = m.any.Run(val, ctype); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		_ref = m.muxers;
-		_i = 0;
-		/* while (true) { */ case 3:
-			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 4; continue; }
-			mux = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
-			_r = mux.CanRun(ctype); /* */ $s = 7; case 7: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-			/* */ if (_r) { $s = 5; continue; }
-			/* */ $s = 6; continue;
-			/* if (_r) { */ case 5:
-				$r = mux.Run(val, ctype); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			/* } */ case 6:
-			_i++;
-		/* } */ $s = 3; continue; case 4:
-		$s = -1; return;
-		return;
-		/* */ } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { if ($f === undefined) { $f = { $blk: MQue.ptr.prototype.Run }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._ref = _ref; $f.ctype = ctype; $f.m = m; $f.mux = mux; $f.val = val; $f.$s = $s; $f.$deferred = $deferred; $f.$r = $r; return $f; } }
-	};
-	MQue.prototype.Run = function(val) { return this.$val.Run(val); };
-	MQue.ptr.prototype.Q = function(mx, rmx) {
-		var $ptr, _i, _r, _r$1, _r$2, _r$3, _ref, _tuple, _tuple$1, args, hasArgs, index, m, mq, mx, rmx, size, sub, tSub, tindex, tm, tu, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; args = $f.args; hasArgs = $f.hasArgs; index = $f.index; m = $f.m; mq = $f.mq; mx = $f.mx; rmx = $f.rmx; size = $f.size; sub = $f.sub; tSub = $f.tSub; tindex = $f.tindex; tm = $f.tm; tu = $f.tu; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		mq = [mq];
-		m = this;
-		_r = reflection.IsFuncType(mx); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		/* */ if (!_r) { $s = 1; continue; }
-		/* */ $s = 2; continue;
-		/* if (!_r) { */ case 1:
-			$s = -1; return $ifaceNil;
-			return $ifaceNil;
-		/* } */ case 2:
-		_r$1 = reflection.FuncValue(mx); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		_tuple = _r$1;
-		tm = _tuple[0];
-		hasArgs = false;
-		tu = $ifaceNil;
-		_r$2 = reflection.GetFuncArgumentsType(mx); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		_tuple$1 = _r$2;
-		args = _tuple$1[0];
-		size = args.$length;
-		if (!((size === 0))) {
-			tu = (0 >= args.$length ? $throwRuntimeError("index out of range") : args.$array[args.$offset + 0]);
-			hasArgs = true;
-		}
-		if (!hasArgs) {
-			index = m.any.tms.$length;
-			m.any.tms = $append(m.any.tms, tm);
-			$s = -1; return new mqueSubIndex.ptr(index, m.any, rmx);
-			return new mqueSubIndex.ptr(index, m.any, rmx);
-		}
-		sub = ptrType.nil;
-		$r = m.l.RLock(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		_ref = m.muxers;
-		_i = 0;
-		/* while (true) { */ case 7:
-			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 8; continue; }
-			tSub = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
-			_r$3 = tSub.CanRun(tu); /* */ $s = 11; case 11: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-			/* */ if (_r$3) { $s = 9; continue; }
-			/* */ $s = 10; continue;
-			/* if (_r$3) { */ case 9:
-				sub = tSub;
-				/* break; */ $s = 8; continue;
-			/* } */ case 10:
-			_i++;
-		/* } */ $s = 7; continue; case 8:
-		$r = m.l.RUnlock(); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		if (!(sub === ptrType.nil)) {
-			tindex = sub.tms.$length;
-			sub.tms = $append(sub.tms, tm);
-			$s = -1; return new mqueSubIndex.ptr(tindex, sub, rmx);
-			return new mqueSubIndex.ptr(tindex, sub, rmx);
-		}
-		mq[0] = new mqueSub.ptr(false, $ifaceNil, sliceType.nil);
-		mq[0].has = true;
-		mq[0].am = tu;
-		mq[0].tms = new sliceType([$clone(tm, reflect.Value)]);
-		$r = m.l.Lock(); /* */ $s = 13; case 13: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		m.muxers = $append(m.muxers, mq[0]);
-		$r = m.l.Unlock(); /* */ $s = 14; case 14: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$s = -1; return new mqueSubIndex.ptr(0, mq[0], rmx);
-		return new mqueSubIndex.ptr(0, mq[0], rmx);
-		/* */ } return; } if ($f === undefined) { $f = { $blk: MQue.ptr.prototype.Q }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.args = args; $f.hasArgs = hasArgs; $f.index = index; $f.m = m; $f.mq = mq; $f.mx = mx; $f.rmx = rmx; $f.size = size; $f.sub = sub; $f.tSub = tSub; $f.tindex = tindex; $f.tm = tm; $f.tu = tu; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	MQue.prototype.Q = function(mx, rmx) { return this.$val.Q(mx, rmx); };
-	mqueSubIndex.ptr.prototype.AddEnd = function(fx) {
-		var $ptr, fx, m;
-		m = this;
-		m.ending = $append(m.ending, fx);
-	};
-	mqueSubIndex.prototype.AddEnd = function(fx) { return this.$val.AddEnd(fx); };
-	mqueSubIndex.ptr.prototype.End = function() {
-		var $ptr, _i, _ref, fx, m, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _ref = $f._ref; fx = $f.fx; m = $f.m; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		m = this;
-		if (m.queue === ptrType.nil) {
-			$s = -1; return;
-			return;
-		}
-		m.queue.tms = $appendSlice($subslice(m.queue.tms, 0, m.index), $subslice(m.queue.tms, (m.index + 1 >> 0)));
-		_ref = m.ending;
-		_i = 0;
-		/* while (true) { */ case 1:
-			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 2; continue; }
-			fx = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
-			$r = fx(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			_i++;
-		/* } */ $s = 1; continue; case 2:
-		m.ending = sliceType$2.nil;
-		m.queue = ptrType.nil;
-		$s = -1; return;
-		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: mqueSubIndex.ptr.prototype.End }; } $f.$ptr = $ptr; $f._i = _i; $f._ref = _ref; $f.fx = fx; $f.m = m; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	mqueSubIndex.prototype.End = function() { return this.$val.End(); };
-	mqueSub.ptr.prototype.Flush = function() {
-		var $ptr, m;
-		m = this;
-		m.tms = sliceType.nil;
-	};
-	mqueSub.prototype.Flush = function() { return this.$val.Flush(); };
-	mqueSub.ptr.prototype.CanRun = function(d) {
-		var $ptr, _r, d, m, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; d = $f.d; m = $f.m; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		m = this;
-		_r = d.AssignableTo(m.am); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		/* */ if (!_r) { $s = 1; continue; }
-		/* */ $s = 2; continue;
-		/* if (!_r) { */ case 1:
-			$s = -1; return false;
-			return false;
-		/* } */ case 2:
-		$s = -1; return true;
-		return true;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: mqueSub.ptr.prototype.CanRun }; } $f.$ptr = $ptr; $f._r = _r; $f.d = d; $f.m = m; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	mqueSub.prototype.CanRun = function(d) { return this.$val.CanRun(d); };
-	mqueSub.ptr.prototype.Run = function(d, ctype) {
-		var $ptr, _i, _i$1, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _ref, _ref$1, configVal, ctype, d, m, tm, tm$1, vum, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _i$1 = $f._i$1; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _ref = $f._ref; _ref$1 = $f._ref$1; configVal = $f.configVal; ctype = $f.ctype; d = $f.d; m = $f.m; tm = $f.tm; tm$1 = $f.tm$1; vum = $f.vum; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		m = this;
-		/* */ if (!m.has) { $s = 1; continue; }
-		/* */ $s = 2; continue;
-		/* if (!m.has) { */ case 1:
-			_ref = m.tms;
-			_i = 0;
-			/* while (true) { */ case 3:
-				/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 4; continue; }
-				tm = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
-				_r = tm.Call(new sliceType([])); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-				_r;
-				_i++;
-			/* } */ $s = 3; continue; case 4:
-			$s = -1; return;
-			return;
-		/* } */ case 2:
-		configVal = new reflect.Value.ptr(ptrType$1.nil, 0, 0);
-		_r$1 = ctype.AssignableTo(m.am); /* */ $s = 9; case 9: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		/* */ if (!_r$1) { $s = 6; continue; }
-		/* */ $s = 7; continue;
-		/* if (!_r$1) { */ case 6:
-			_r$2 = ctype.ConvertibleTo(m.am); /* */ $s = 12; case 12: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			/* */ if (!_r$2) { $s = 10; continue; }
-			/* */ $s = 11; continue;
-			/* if (!_r$2) { */ case 10:
-				$s = -1; return;
-				return;
-			/* } */ case 11:
-			_r$3 = reflect.ValueOf(d); /* */ $s = 13; case 13: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-			vum = _r$3;
-			_r$4 = vum.Convert(m.am); /* */ $s = 14; case 14: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-			configVal = _r$4;
-			$s = 8; continue;
-		/* } else { */ case 7:
-			_r$5 = reflect.ValueOf(d); /* */ $s = 15; case 15: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-			configVal = _r$5;
-		/* } */ case 8:
-		_ref$1 = m.tms;
-		_i$1 = 0;
-		/* while (true) { */ case 16:
-			/* if (!(_i$1 < _ref$1.$length)) { break; } */ if(!(_i$1 < _ref$1.$length)) { $s = 17; continue; }
-			tm$1 = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
-			_r$6 = tm$1.Call(new sliceType([$clone(configVal, reflect.Value)])); /* */ $s = 18; case 18: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
-			_r$6;
-			_i$1++;
-		/* } */ $s = 16; continue; case 17:
-		$s = -1; return;
-		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: mqueSub.ptr.prototype.Run }; } $f.$ptr = $ptr; $f._i = _i; $f._i$1 = _i$1; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._ref = _ref; $f._ref$1 = _ref$1; $f.configVal = configVal; $f.ctype = ctype; $f.d = d; $f.m = m; $f.tm = tm; $f.tm$1 = tm$1; $f.vum = vum; $f.$s = $s; $f.$r = $r; return $f;
-	};
-	mqueSub.prototype.Run = function(d, ctype) { return this.$val.Run(d, ctype); };
-	ptrType$2.methods = [{prop: "Flush", name: "Flush", pkg: "", typ: $funcType([], [], false)}, {prop: "Run", name: "Run", pkg: "", typ: $funcType([$emptyInterface], [], false)}, {prop: "Q", name: "Q", pkg: "", typ: $funcType([$emptyInterface, sliceType$2], [End], true)}];
-	ptrType$3.methods = [{prop: "AddEnd", name: "AddEnd", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "End", name: "End", pkg: "", typ: $funcType([], [], false)}];
-	ptrType.methods = [{prop: "Flush", name: "Flush", pkg: "", typ: $funcType([], [], false)}, {prop: "CanRun", name: "CanRun", pkg: "", typ: $funcType([reflect.Type], [$Bool], false)}, {prop: "Run", name: "Run", pkg: "", typ: $funcType([$emptyInterface, reflect.Type], [], false)}];
-	End.init([{prop: "AddEnd", name: "AddEnd", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "End", name: "End", pkg: "", typ: $funcType([], [], false)}]);
-	MQue.init("github.com/influx6/faux/mque", [{prop: "l", name: "l", exported: false, typ: sync.RWMutex, tag: ""}, {prop: "muxers", name: "muxers", exported: false, typ: sliceType$1, tag: ""}, {prop: "any", name: "any", exported: false, typ: ptrType, tag: ""}]);
-	mqueSubIndex.init("github.com/influx6/faux/mque", [{prop: "index", name: "index", exported: false, typ: $Int, tag: ""}, {prop: "queue", name: "queue", exported: false, typ: ptrType, tag: ""}, {prop: "ending", name: "ending", exported: false, typ: sliceType$2, tag: ""}]);
-	mqueSub.init("github.com/influx6/faux/mque", [{prop: "has", name: "has", exported: false, typ: $Bool, tag: ""}, {prop: "am", name: "am", exported: false, typ: reflect.Type, tag: ""}, {prop: "tms", name: "tms", exported: false, typ: sliceType, tag: ""}]);
-	$init = function() {
-		$pkg.$init = function() {};
-		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = reflection.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = reflect.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = sync.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
@@ -30470,6 +30055,387 @@ $packages["github.com/influx6/faux/pattern"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
+$packages["github.com/influx6/faux/reflection"] = (function() {
+	var $pkg = {}, $init, errors, fmt, reflect, strings, sliceType, IsFuncType, FuncValue, FuncType, GetFuncArgumentsType;
+	errors = $packages["errors"];
+	fmt = $packages["fmt"];
+	reflect = $packages["reflect"];
+	strings = $packages["strings"];
+	sliceType = $sliceType(reflect.Type);
+	IsFuncType = function(elem) {
+		var $ptr, _r, _tuple, elem, err, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; elem = $f.elem; err = $f.err; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		_r = FuncType(elem); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r;
+		err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			$s = -1; return false;
+			return false;
+		}
+		$s = -1; return true;
+		return true;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: IsFuncType }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.elem = elem; $f.err = err; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.IsFuncType = IsFuncType;
+	FuncValue = function(elem) {
+		var $ptr, _r, _r$1, elem, tl, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; elem = $f.elem; tl = $f.tl; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		_r = reflect.ValueOf(elem); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		tl = _r;
+		/* */ if (tl.Kind() === 22) { $s = 2; continue; }
+		/* */ $s = 3; continue;
+		/* if (tl.Kind() === 22) { */ case 2:
+			_r$1 = tl.Elem(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			tl = _r$1;
+		/* } */ case 3:
+		if (!((tl.Kind() === 19))) {
+			$s = -1; return [tl, $pkg.ErrNotFunction];
+			return [tl, $pkg.ErrNotFunction];
+		}
+		$s = -1; return [tl, $ifaceNil];
+		return [tl, $ifaceNil];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: FuncValue }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.elem = elem; $f.tl = tl; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.FuncValue = FuncValue;
+	FuncType = function(elem) {
+		var $ptr, _r, _r$1, _r$2, elem, tl, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; elem = $f.elem; tl = $f.tl; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		tl = reflect.TypeOf(elem);
+		_r = tl.Kind(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		/* */ if (_r === 22) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (_r === 22) { */ case 1:
+			_r$1 = tl.Elem(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			tl = _r$1;
+		/* } */ case 2:
+		_r$2 = tl.Kind(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		/* */ if (!((_r$2 === 19))) { $s = 5; continue; }
+		/* */ $s = 6; continue;
+		/* if (!((_r$2 === 19))) { */ case 5:
+			$s = -1; return [$ifaceNil, $pkg.ErrNotFunction];
+			return [$ifaceNil, $pkg.ErrNotFunction];
+		/* } */ case 6:
+		$s = -1; return [tl, $ifaceNil];
+		return [tl, $ifaceNil];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: FuncType }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f.elem = elem; $f.tl = tl; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.FuncType = FuncType;
+	GetFuncArgumentsType = function(elem) {
+		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, elem, i, indElem, input, tl, totalFields, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; elem = $f.elem; i = $f.i; indElem = $f.indElem; input = $f.input; tl = $f.tl; totalFields = $f.totalFields; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		tl = reflect.TypeOf(elem);
+		_r = tl.Kind(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		/* */ if (_r === 22) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (_r === 22) { */ case 1:
+			_r$1 = tl.Elem(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			tl = _r$1;
+		/* } */ case 2:
+		_r$2 = tl.Kind(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		/* */ if (!((_r$2 === 19))) { $s = 5; continue; }
+		/* */ $s = 6; continue;
+		/* if (!((_r$2 === 19))) { */ case 5:
+			$s = -1; return [sliceType.nil, $pkg.ErrNotFunction];
+			return [sliceType.nil, $pkg.ErrNotFunction];
+		/* } */ case 6:
+		_r$3 = tl.NumIn(); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+		totalFields = _r$3;
+		input = sliceType.nil;
+		i = 0;
+		/* while (true) { */ case 9:
+			/* if (!(i < totalFields)) { break; } */ if(!(i < totalFields)) { $s = 10; continue; }
+			_r$4 = tl.In(i); /* */ $s = 11; case 11: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			indElem = _r$4;
+			input = $append(input, indElem);
+			i = i + (1) >> 0;
+		/* } */ $s = 9; continue; case 10:
+		$s = -1; return [input, $ifaceNil];
+		return [input, $ifaceNil];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: GetFuncArgumentsType }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f.elem = elem; $f.i = i; $f.indElem = indElem; $f.input = input; $f.tl = tl; $f.totalFields = totalFields; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.GetFuncArgumentsType = GetFuncArgumentsType;
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = errors.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = fmt.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = reflect.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = strings.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$pkg.ErrNotFunction = errors.New("Not A Function Type");
+		$pkg.ErrNotStruct = errors.New("Not a struct type");
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
+$packages["github.com/influx6/gu/dispatch/mque"] = (function() {
+	var $pkg = {}, $init, reflection, reflect, End, MQue, mqueSubIndex, mqueSub, sliceType, ptrType, sliceType$1, funcType, sliceType$2, ptrType$1, ptrType$2, ptrType$3, New;
+	reflection = $packages["github.com/influx6/faux/reflection"];
+	reflect = $packages["reflect"];
+	End = $pkg.End = $newType(8, $kindInterface, "mque.End", true, "github.com/influx6/gu/dispatch/mque", true, null);
+	MQue = $pkg.MQue = $newType(0, $kindStruct, "mque.MQue", true, "github.com/influx6/gu/dispatch/mque", true, function(muxers_, any_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.muxers = sliceType$1.nil;
+			this.any = ptrType.nil;
+			return;
+		}
+		this.muxers = muxers_;
+		this.any = any_;
+	});
+	mqueSubIndex = $pkg.mqueSubIndex = $newType(0, $kindStruct, "mque.mqueSubIndex", true, "github.com/influx6/gu/dispatch/mque", false, function(index_, queue_, ending_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.index = 0;
+			this.queue = ptrType.nil;
+			this.ending = sliceType$2.nil;
+			return;
+		}
+		this.index = index_;
+		this.queue = queue_;
+		this.ending = ending_;
+	});
+	mqueSub = $pkg.mqueSub = $newType(0, $kindStruct, "mque.mqueSub", true, "github.com/influx6/gu/dispatch/mque", false, function(has_, am_, tms_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.has = false;
+			this.am = $ifaceNil;
+			this.tms = sliceType.nil;
+			return;
+		}
+		this.has = has_;
+		this.am = am_;
+		this.tms = tms_;
+	});
+	sliceType = $sliceType(reflect.Value);
+	ptrType = $ptrType(mqueSub);
+	sliceType$1 = $sliceType(ptrType);
+	funcType = $funcType([], [], false);
+	sliceType$2 = $sliceType(funcType);
+	ptrType$1 = $ptrType(reflect.rtype);
+	ptrType$2 = $ptrType(MQue);
+	ptrType$3 = $ptrType(mqueSubIndex);
+	New = function() {
+		var $ptr, any;
+		any = new mqueSub.ptr(false, $ifaceNil, sliceType.nil);
+		return new MQue.ptr(sliceType$1.nil, any);
+	};
+	$pkg.New = New;
+	MQue.ptr.prototype.Flush = function() {
+		var $ptr, m;
+		m = this;
+		m.muxers = sliceType$1.nil;
+	};
+	MQue.prototype.Flush = function() { return this.$val.Flush(); };
+	MQue.ptr.prototype.Run = function(val) {
+		var $ptr, _i, _r, _ref, ctype, m, mux, val, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; ctype = $f.ctype; m = $f.m; mux = $f.mux; val = $f.val; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		m = this;
+		ctype = reflect.TypeOf(val);
+		$r = m.any.Run(val, ctype); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		_ref = m.muxers;
+		_i = 0;
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+			mux = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			_r = mux.CanRun(ctype); /* */ $s = 6; case 6: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			/* */ if (_r) { $s = 4; continue; }
+			/* */ $s = 5; continue;
+			/* if (_r) { */ case 4:
+				$r = mux.Run(val, ctype); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* } */ case 5:
+			_i++;
+		/* } */ $s = 2; continue; case 3:
+		$s = -1; return;
+		return;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: MQue.ptr.prototype.Run }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._ref = _ref; $f.ctype = ctype; $f.m = m; $f.mux = mux; $f.val = val; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	MQue.prototype.Run = function(val) { return this.$val.Run(val); };
+	MQue.ptr.prototype.Q = function(mx, rmx) {
+		var $ptr, _i, _r, _r$1, _r$2, _r$3, _ref, _tuple, _tuple$1, args, hasArgs, index, m, mq, mx, rmx, size, sub, tSub, tindex, tm, tu, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; args = $f.args; hasArgs = $f.hasArgs; index = $f.index; m = $f.m; mq = $f.mq; mx = $f.mx; rmx = $f.rmx; size = $f.size; sub = $f.sub; tSub = $f.tSub; tindex = $f.tindex; tm = $f.tm; tu = $f.tu; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		mq = [mq];
+		m = this;
+		_r = reflection.IsFuncType(mx); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		/* */ if (!_r) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (!_r) { */ case 1:
+			$s = -1; return $ifaceNil;
+			return $ifaceNil;
+		/* } */ case 2:
+		_r$1 = reflection.FuncValue(mx); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_tuple = _r$1;
+		tm = _tuple[0];
+		hasArgs = false;
+		tu = $ifaceNil;
+		_r$2 = reflection.GetFuncArgumentsType(mx); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		_tuple$1 = _r$2;
+		args = _tuple$1[0];
+		size = args.$length;
+		if (!((size === 0))) {
+			tu = (0 >= args.$length ? $throwRuntimeError("index out of range") : args.$array[args.$offset + 0]);
+			hasArgs = true;
+		}
+		if (!hasArgs) {
+			index = m.any.tms.$length;
+			m.any.tms = $append(m.any.tms, tm);
+			$s = -1; return new mqueSubIndex.ptr(index, m.any, rmx);
+			return new mqueSubIndex.ptr(index, m.any, rmx);
+		}
+		sub = ptrType.nil;
+		_ref = m.muxers;
+		_i = 0;
+		/* while (true) { */ case 6:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 7; continue; }
+			tSub = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			_r$3 = tSub.CanRun(tu); /* */ $s = 10; case 10: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			/* */ if (_r$3) { $s = 8; continue; }
+			/* */ $s = 9; continue;
+			/* if (_r$3) { */ case 8:
+				sub = tSub;
+				/* break; */ $s = 7; continue;
+			/* } */ case 9:
+			_i++;
+		/* } */ $s = 6; continue; case 7:
+		if (!(sub === ptrType.nil)) {
+			tindex = sub.tms.$length;
+			sub.tms = $append(sub.tms, tm);
+			$s = -1; return new mqueSubIndex.ptr(tindex, sub, rmx);
+			return new mqueSubIndex.ptr(tindex, sub, rmx);
+		}
+		mq[0] = new mqueSub.ptr(false, $ifaceNil, sliceType.nil);
+		mq[0].has = true;
+		mq[0].am = tu;
+		mq[0].tms = new sliceType([$clone(tm, reflect.Value)]);
+		m.muxers = $append(m.muxers, mq[0]);
+		$s = -1; return new mqueSubIndex.ptr(0, mq[0], rmx);
+		return new mqueSubIndex.ptr(0, mq[0], rmx);
+		/* */ } return; } if ($f === undefined) { $f = { $blk: MQue.ptr.prototype.Q }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.args = args; $f.hasArgs = hasArgs; $f.index = index; $f.m = m; $f.mq = mq; $f.mx = mx; $f.rmx = rmx; $f.size = size; $f.sub = sub; $f.tSub = tSub; $f.tindex = tindex; $f.tm = tm; $f.tu = tu; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	MQue.prototype.Q = function(mx, rmx) { return this.$val.Q(mx, rmx); };
+	mqueSubIndex.ptr.prototype.AddEnd = function(fx) {
+		var $ptr, fx, m;
+		m = this;
+		m.ending = $append(m.ending, fx);
+	};
+	mqueSubIndex.prototype.AddEnd = function(fx) { return this.$val.AddEnd(fx); };
+	mqueSubIndex.ptr.prototype.End = function() {
+		var $ptr, _i, _ref, fx, m, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _ref = $f._ref; fx = $f.fx; m = $f.m; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		m = this;
+		if (m.queue === ptrType.nil) {
+			$s = -1; return;
+			return;
+		}
+		m.queue.tms = $appendSlice($subslice(m.queue.tms, 0, m.index), $subslice(m.queue.tms, (m.index + 1 >> 0)));
+		_ref = m.ending;
+		_i = 0;
+		/* while (true) { */ case 1:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 2; continue; }
+			fx = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			$r = fx(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_i++;
+		/* } */ $s = 1; continue; case 2:
+		m.ending = sliceType$2.nil;
+		m.queue = ptrType.nil;
+		$s = -1; return;
+		return;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: mqueSubIndex.ptr.prototype.End }; } $f.$ptr = $ptr; $f._i = _i; $f._ref = _ref; $f.fx = fx; $f.m = m; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	mqueSubIndex.prototype.End = function() { return this.$val.End(); };
+	mqueSub.ptr.prototype.Flush = function() {
+		var $ptr, m;
+		m = this;
+		m.tms = sliceType.nil;
+	};
+	mqueSub.prototype.Flush = function() { return this.$val.Flush(); };
+	mqueSub.ptr.prototype.CanRun = function(d) {
+		var $ptr, _r, d, m, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; d = $f.d; m = $f.m; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		m = this;
+		_r = d.AssignableTo(m.am); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		/* */ if (!_r) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (!_r) { */ case 1:
+			$s = -1; return false;
+			return false;
+		/* } */ case 2:
+		$s = -1; return true;
+		return true;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: mqueSub.ptr.prototype.CanRun }; } $f.$ptr = $ptr; $f._r = _r; $f.d = d; $f.m = m; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	mqueSub.prototype.CanRun = function(d) { return this.$val.CanRun(d); };
+	mqueSub.ptr.prototype.Run = function(d, ctype) {
+		var $ptr, _i, _i$1, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _ref, _ref$1, configVal, ctype, d, m, tm, tm$1, vum, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _i$1 = $f._i$1; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _ref = $f._ref; _ref$1 = $f._ref$1; configVal = $f.configVal; ctype = $f.ctype; d = $f.d; m = $f.m; tm = $f.tm; tm$1 = $f.tm$1; vum = $f.vum; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		m = this;
+		/* */ if (!m.has) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (!m.has) { */ case 1:
+			_ref = m.tms;
+			_i = 0;
+			/* while (true) { */ case 3:
+				/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 4; continue; }
+				tm = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+				_r = tm.Call(new sliceType([])); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+				_r;
+				_i++;
+			/* } */ $s = 3; continue; case 4:
+			$s = -1; return;
+			return;
+		/* } */ case 2:
+		configVal = new reflect.Value.ptr(ptrType$1.nil, 0, 0);
+		_r$1 = ctype.AssignableTo(m.am); /* */ $s = 9; case 9: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		/* */ if (!_r$1) { $s = 6; continue; }
+		/* */ $s = 7; continue;
+		/* if (!_r$1) { */ case 6:
+			_r$2 = ctype.ConvertibleTo(m.am); /* */ $s = 12; case 12: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			/* */ if (!_r$2) { $s = 10; continue; }
+			/* */ $s = 11; continue;
+			/* if (!_r$2) { */ case 10:
+				$s = -1; return;
+				return;
+			/* } */ case 11:
+			_r$3 = reflect.ValueOf(d); /* */ $s = 13; case 13: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			vum = _r$3;
+			_r$4 = vum.Convert(m.am); /* */ $s = 14; case 14: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			configVal = _r$4;
+			$s = 8; continue;
+		/* } else { */ case 7:
+			_r$5 = reflect.ValueOf(d); /* */ $s = 15; case 15: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+			configVal = _r$5;
+		/* } */ case 8:
+		_ref$1 = m.tms;
+		_i$1 = 0;
+		/* while (true) { */ case 16:
+			/* if (!(_i$1 < _ref$1.$length)) { break; } */ if(!(_i$1 < _ref$1.$length)) { $s = 17; continue; }
+			tm$1 = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? $throwRuntimeError("index out of range") : _ref$1.$array[_ref$1.$offset + _i$1]);
+			_r$6 = tm$1.Call(new sliceType([$clone(configVal, reflect.Value)])); /* */ $s = 18; case 18: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+			_r$6;
+			_i$1++;
+		/* } */ $s = 16; continue; case 17:
+		$s = -1; return;
+		return;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: mqueSub.ptr.prototype.Run }; } $f.$ptr = $ptr; $f._i = _i; $f._i$1 = _i$1; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._ref = _ref; $f._ref$1 = _ref$1; $f.configVal = configVal; $f.ctype = ctype; $f.d = d; $f.m = m; $f.tm = tm; $f.tm$1 = tm$1; $f.vum = vum; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	mqueSub.prototype.Run = function(d, ctype) { return this.$val.Run(d, ctype); };
+	ptrType$2.methods = [{prop: "Flush", name: "Flush", pkg: "", typ: $funcType([], [], false)}, {prop: "Run", name: "Run", pkg: "", typ: $funcType([$emptyInterface], [], false)}, {prop: "Q", name: "Q", pkg: "", typ: $funcType([$emptyInterface, sliceType$2], [End], true)}];
+	ptrType$3.methods = [{prop: "AddEnd", name: "AddEnd", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "End", name: "End", pkg: "", typ: $funcType([], [], false)}];
+	ptrType.methods = [{prop: "Flush", name: "Flush", pkg: "", typ: $funcType([], [], false)}, {prop: "CanRun", name: "CanRun", pkg: "", typ: $funcType([reflect.Type], [$Bool], false)}, {prop: "Run", name: "Run", pkg: "", typ: $funcType([$emptyInterface, reflect.Type], [], false)}];
+	End.init([{prop: "AddEnd", name: "AddEnd", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "End", name: "End", pkg: "", typ: $funcType([], [], false)}]);
+	MQue.init("github.com/influx6/gu/dispatch/mque", [{prop: "muxers", name: "muxers", exported: false, typ: sliceType$1, tag: ""}, {prop: "any", name: "any", exported: false, typ: ptrType, tag: ""}]);
+	mqueSubIndex.init("github.com/influx6/gu/dispatch/mque", [{prop: "index", name: "index", exported: false, typ: $Int, tag: ""}, {prop: "queue", name: "queue", exported: false, typ: ptrType, tag: ""}, {prop: "ending", name: "ending", exported: false, typ: sliceType$2, tag: ""}]);
+	mqueSub.init("github.com/influx6/gu/dispatch/mque", [{prop: "has", name: "has", exported: false, typ: $Bool, tag: ""}, {prop: "am", name: "am", exported: false, typ: reflect.Type, tag: ""}, {prop: "tms", name: "tms", exported: false, typ: sliceType, tag: ""}]);
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = reflection.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = reflect.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
 $packages["net/url"] = (function() {
 	var $pkg = {}, $init, bytes, errors, fmt, sort, strconv, strings, Error, timeout, temporary, EscapeError, InvalidHostError, URL, Userinfo, Values, sliceType, ptrType, ptrType$1, sliceType$1, arrayType, arrayType$1, sliceType$2, ptrType$2, ishex, unhex, shouldEscape, QueryUnescape, unescape, QueryEscape, escape, User, UserPassword, getscheme, split, Parse, parse, parseAuthority, parseHost, validEncodedPath, validOptionalPort, ParseQuery, parseQuery, resolvePath;
 	bytes = $packages["bytes"];
@@ -31547,16 +31513,17 @@ $packages["net/url"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/dispatch"] = (function() {
-	var $pkg = {}, $init, errors, fmt, detect, js, mque, pattern, url, strings, sync, PathDirective, Path, PathSequencer, PathObserver, HistoryProvider, ResolveSubscriber, Resolvable, Resolver, basicResolver, ptrType, sliceType, funcType$1, ptrType$1, sliceType$2, sliceType$3, mapType, ptrType$2, history, dispatch, matchers, matchlock, Subscribe, Dispatch, init, URIMatcher, UseDirective, UseHashDirective, GetLocationHashAsPath, HashSequencer, URLPathSequencer, NewPathObserver, GetLocation, GetLocationDirective, HashChangePath, BrowserSupportsPushState, PopStatePath, PushDOMState, SetDOMHash, History, panicBrowserDetect, NewResolver;
+	var $pkg = {}, $init, errors, fmt, detect, js, pattern, mque, url, strings, sync, time, PathDirective, Path, PathSequencer, PathObserver, HistoryProvider, ResolveSubscriber, Resolvable, Resolver, basicResolver, ptrType, sliceType, funcType$1, ptrType$1, sliceType$2, sliceType$3, mapType, ptrType$2, history, dispatch, matchers, matchlock, Subscribe, Dispatch, init, URIMatcher, UseDirective, UseHashDirective, GetLocationHashAsPath, HashSequencer, URLPathSequencer, NewPathObserver, GetLocation, GetLocationDirective, HashChangePath, BrowserSupportsPushState, PopStatePath, History, panicBrowserDetect, PushDOMState, SetDOMHash, NavigateHash, NewResolver;
 	errors = $packages["errors"];
 	fmt = $packages["fmt"];
 	detect = $packages["github.com/go-humble/detect"];
 	js = $packages["github.com/gopherjs/gopherjs/js"];
-	mque = $packages["github.com/influx6/faux/mque"];
 	pattern = $packages["github.com/influx6/faux/pattern"];
+	mque = $packages["github.com/influx6/gu/dispatch/mque"];
 	url = $packages["net/url"];
 	strings = $packages["strings"];
 	sync = $packages["sync"];
+	time = $packages["time"];
 	PathDirective = $pkg.PathDirective = $newType(0, $kindStruct, "dispatch.PathDirective", true, "github.com/influx6/gu/dispatch", true, function(Host_, Hash_, Path_, Sequence_) {
 		this.$val = this;
 		if (arguments.length === 0) {
@@ -31829,6 +31796,9 @@ $packages["github.com/influx6/gu/dispatch"] = (function() {
 		var $ptr, _r, hash, host, p, path, x, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; hash = $f.hash; host = $f.host; p = $f.p; path = $f.path; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		p = this;
+		if (hash === "") {
+			hash = "/#";
+		}
 		_r = p.sequencer(path, hash); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		$r = Dispatch((x = new PathDirective.ptr(host, hash, path, _r), new x.constructor.elem(x))); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$s = -1; return;
@@ -31836,21 +31806,6 @@ $packages["github.com/influx6/gu/dispatch"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: PathObserver.ptr.prototype.Follow }; } $f.$ptr = $ptr; $f._r = _r; $f.hash = hash; $f.host = host; $f.p = p; $f.path = path; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	PathObserver.prototype.Follow = function(host, path, hash) { return this.$val.Follow(host, path, hash); };
-	PushDOMState = function(path) {
-		var $ptr, path;
-		if (!detect.IsBrowser()) {
-			return;
-		}
-		$global.history.pushState(null, $externalize("", $String), $externalize(path, $String));
-		$global.location.hash = $externalize(path, $String);
-	};
-	$pkg.PushDOMState = PushDOMState;
-	SetDOMHash = function(hash) {
-		var $ptr, hash;
-		panicBrowserDetect();
-		$global.location.hash = $externalize(hash, $String);
-	};
-	$pkg.SetDOMHash = SetDOMHash;
 	History = function(ps) {
 		var $ptr, _tuple, err, pop, ps;
 		_tuple = PopStatePath(ps);
@@ -31862,22 +31817,74 @@ $packages["github.com/influx6/gu/dispatch"] = (function() {
 		return new HistoryProvider.ptr(pop);
 	};
 	$pkg.History = History;
-	HistoryProvider.ptr.prototype.Go = function(path) {
-		var $ptr, h, path;
+	HistoryProvider.ptr.prototype.Go = function(path, hash) {
+		var $ptr, h, hash, path, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; h = $f.h; hash = $f.hash; path = $f.path; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		h = this;
 		if (h.PathObserver.usingHash) {
-			SetDOMHash(path);
+			SetDOMHash(path, hash);
+			$s = -1; return;
 			return;
 		}
-		PushDOMState(path);
+		$r = PushDOMState(path, hash); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$s = -1; return;
+		return;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: HistoryProvider.ptr.prototype.Go }; } $f.$ptr = $ptr; $f.h = h; $f.hash = hash; $f.path = path; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	HistoryProvider.prototype.Go = function(path) { return this.$val.Go(path); };
+	HistoryProvider.prototype.Go = function(path, hash) { return this.$val.Go(path, hash); };
 	panicBrowserDetect = function() {
 		var $ptr;
 		if (!detect.IsBrowser()) {
 			$panic(new $String("expected to be used in a dom/browser env"));
 		}
 	};
+	PushDOMState = function(path, hash) {
+		var $ptr, _r, _r$1, _r$2, _tuple, baseURI, hash, path, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _tuple = $f._tuple; baseURI = $f.baseURI; hash = $f.hash; path = $f.path; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		panicBrowserDetect();
+		/* */ if (path === "") { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (path === "") { */ case 1:
+			_r = GetLocation(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			_tuple = _r;
+			path = _tuple[1];
+		/* } */ case 2:
+		if (!strings.HasPrefix(hash, "#")) {
+			hash = "#" + hash;
+		}
+		_r$1 = fmt.Sprintf("%s%s", new sliceType([new $String(path), new $String(hash)])); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		baseURI = _r$1;
+		_r$2 = fmt.Printf("Base: %s\n", new sliceType([new $String(baseURI)])); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		_r$2;
+		$global.history.pushState(null, $externalize(baseURI, $String));
+		$global.location.hash = $externalize(hash, $String);
+		$s = -1; return;
+		return;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: PushDOMState }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._tuple = _tuple; $f.baseURI = baseURI; $f.hash = hash; $f.path = path; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.PushDOMState = PushDOMState;
+	SetDOMHash = function(path, hash) {
+		var $ptr, hash, path;
+		panicBrowserDetect();
+		if (!(path === "")) {
+			$global.location.path = $externalize(path, $String);
+		}
+		$global.location.hash = $externalize(hash, $String);
+	};
+	$pkg.SetDOMHash = SetDOMHash;
+	NavigateHash = function(path, to, from) {
+		var $ptr, from, path, to, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; from = $f.from; path = $f.path; to = $f.to; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		if (history === ptrType.nil) {
+			$s = -1; return;
+			return;
+		}
+		$r = history.Go(path, to); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$s = -1; return;
+		return;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: NavigateHash }; } $f.$ptr = $ptr; $f.from = from; $f.path = path; $f.to = to; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.NavigateHash = NavigateHash;
 	NewResolver = function(path) {
 		var $ptr, _r, br, path, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; br = $f.br; path = $f.path; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -32028,7 +32035,7 @@ $packages["github.com/influx6/gu/dispatch"] = (function() {
 	basicResolver.prototype.ResolvedPassed = function(sub) { return this.$val.ResolvedPassed(sub); };
 	PathDirective.methods = [{prop: "String", name: "String", pkg: "", typ: $funcType([], [$String], false)}];
 	ptrType$1.methods = [{prop: "Follow", name: "Follow", pkg: "", typ: $funcType([$String, $String, $String], [], false)}];
-	ptrType.methods = [{prop: "Go", name: "Go", pkg: "", typ: $funcType([$String], [], false)}];
+	ptrType.methods = [{prop: "Go", name: "Go", pkg: "", typ: $funcType([$String, $String], [], false)}];
 	ptrType$2.methods = [{prop: "Flush", name: "Flush", pkg: "", typ: $funcType([], [], false)}, {prop: "Path", name: "Path", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Register", name: "Register", pkg: "", typ: $funcType([Resolver], [], false)}, {prop: "Test", name: "Test", pkg: "", typ: $funcType([$String], [mapType, $String, $Bool], false)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([Path], [], false)}, {prop: "ResolvedFailed", name: "ResolvedFailed", pkg: "", typ: $funcType([ResolveSubscriber], [Resolver], false)}, {prop: "ResolvedPassed", name: "ResolvedPassed", pkg: "", typ: $funcType([ResolveSubscriber], [Resolver], false)}];
 	PathDirective.init("", [{prop: "Host", name: "Host", exported: true, typ: $String, tag: ""}, {prop: "Hash", name: "Hash", exported: true, typ: $String, tag: ""}, {prop: "Path", name: "Path", exported: true, typ: $String, tag: ""}, {prop: "Sequence", name: "Sequence", exported: true, typ: $String, tag: ""}]);
 	Path.init("", [{prop: "PathDirective", name: "", exported: true, typ: PathDirective, tag: ""}, {prop: "Rem", name: "Rem", exported: true, typ: $String, tag: ""}, {prop: "Params", name: "Params", exported: true, typ: mapType, tag: ""}]);
@@ -32046,17 +32053,18 @@ $packages["github.com/influx6/gu/dispatch"] = (function() {
 		$r = fmt.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = detect.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = js.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = mque.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = pattern.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = pattern.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = mque.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = url.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = strings.$init(); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = sync.$init(); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = time.$init(); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		history = ptrType.nil;
 		matchlock = new sync.RWMutex.ptr(new sync.Mutex.ptr(0, 0), 0, 0, 0, 0);
 		dispatch = mque.New();
 		matchers = {};
 		$pkg.ErrNotSupported = errors.New("Feature not supported");
-		$r = init(); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = init(); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
@@ -36245,6 +36253,25 @@ $packages["crypto/rand"] = (function() {
 		$pkg.Reader = $ifaceNil;
 		smallPrimesProduct = new big.Int.ptr(false, big.nat.nil).SetUint64(new $Uint64(3793877372, 820596253));
 		init();
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
+$packages["github.com/influx6/faux/mque"] = (function() {
+	var $pkg = {}, $init, reflection, reflect, sync, End, funcType;
+	reflection = $packages["github.com/influx6/faux/reflection"];
+	reflect = $packages["reflect"];
+	sync = $packages["sync"];
+	End = $pkg.End = $newType(8, $kindInterface, "mque.End", true, "github.com/influx6/faux/mque", true, null);
+	funcType = $funcType([], [], false);
+	End.init([{prop: "AddEnd", name: "AddEnd", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "End", name: "End", pkg: "", typ: $funcType([], [], false)}]);
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		$r = reflection.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = reflect.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = sync.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
@@ -46897,7 +46924,7 @@ $packages["html/template"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/trees"] = (function() {
-	var $pkg = {}, $init, rand, errors, fmt, detect, js, mque, css, html, template, strings, sync, FinalizeHandle, Markup, Appliable, EventObject, EventBroadcast, WrapperEvent, Event, Morpher, SwitchMorpher, RemoveMorpher, Mode, AttrPrinter, AttrWriter, StylePrinter, StyleWriter, TextPrinter, TextWriter, ElementWriter, Property, Attribute, ClassList, queryCtrl, Selector, structType, ptrType, sliceType, sliceType$1, sliceType$2, sliceType$3, sliceType$4, sliceType$5, ptrType$1, sliceType$6, sliceType$7, ptrType$2, sliceType$8, ptrType$4, ptrType$5, funcType, funcType$1, ptrType$6, ptrType$7, funcType$2, ptrType$8, ptrType$10, funcType$3, cu, dot, coma, hash, space, bracket, endbracket, exactMatch, exactWordInListMatch, beginOrExactlyMatch, prefixMatch, suffixMatch, containsMatch, NewText, CSSStylesheet, NewMarkup, NewWrapperEvent, NewEvent, ParseTree, pullNode, GetMode, NewElementWriter, MarkupWhen, NewAttr, NewClassList, RandString, EqualStyles, EqualAttributes, GetStyle, GetAttr;
+	var $pkg = {}, $init, rand, errors, fmt, detect, js, mque, css, html, template, strings, sync, FinalizeHandle, Markup, Appliable, EventObject, EventBroadcast, WrapperEvent, Event, Morpher, SwitchMorpher, RemoveMorpher, Mode, AttrPrinter, AttrWriter, StylePrinter, StyleWriter, TextPrinter, TextWriter, ElementWriter, Property, Attribute, ClassList, queryCtrl, Selector, structType, ptrType, sliceType, sliceType$1, sliceType$2, sliceType$3, sliceType$4, sliceType$5, funcType, ptrType$1, sliceType$6, sliceType$7, ptrType$2, sliceType$8, ptrType$4, ptrType$5, funcType$1, funcType$2, ptrType$6, ptrType$7, funcType$3, ptrType$8, ptrType$10, funcType$4, cu, dot, coma, hash, space, bracket, endbracket, exactMatch, exactWordInListMatch, beginOrExactlyMatch, prefixMatch, suffixMatch, containsMatch, NewText, CSSStylesheet, NewMarkup, NewWrapperEvent, NewEvent, ParseTree, pullNode, GetMode, NewElementWriter, MarkupWhen, NewAttr, NewClassList, RandString, EqualStyles, EqualAttributes, GetStyle, GetAttr;
 	rand = $packages["crypto/rand"];
 	errors = $packages["errors"];
 	fmt = $packages["fmt"];
@@ -46978,20 +47005,20 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		this.dummy = dummy_;
 		this.isDum = isDum_;
 	});
-	Event = $pkg.Event = $newType(0, $kindStruct, "trees.Event", true, "github.com/influx6/gu/trees", true, function(Type_, Target_, EventID_, Tree_, Handle_, Link_) {
+	Event = $pkg.Event = $newType(0, $kindStruct, "trees.Event", true, "github.com/influx6/gu/trees", true, function(Type_, EventID_, secTarget_, Tree_, Handle_, Link_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Type = "";
-			this.Target = "";
 			this.EventID = "";
+			this.secTarget = "";
 			this.Tree = ptrType.nil;
 			this.Handle = $ifaceNil;
 			this.Link = $throwNilPointerError;
 			return;
 		}
 		this.Type = Type_;
-		this.Target = Target_;
 		this.EventID = EventID_;
+		this.secTarget = secTarget_;
 		this.Tree = Tree_;
 		this.Handle = Handle_;
 		this.Link = Link_;
@@ -47099,6 +47126,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	sliceType$3 = $sliceType(Morpher);
 	sliceType$4 = $sliceType(FinalizeHandle);
 	sliceType$5 = $sliceType($emptyInterface);
+	funcType = $funcType([], [$String], false);
 	ptrType$1 = $ptrType(Selector);
 	sliceType$6 = $sliceType(ptrType$1);
 	sliceType$7 = $sliceType($String);
@@ -47106,14 +47134,14 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	sliceType$8 = $sliceType($Uint8);
 	ptrType$4 = $ptrType(Attribute);
 	ptrType$5 = $ptrType(Event);
-	funcType = $funcType([ptrType$5, ptrType], [], false);
-	funcType$1 = $funcType([ptrType], [$String], false);
+	funcType$1 = $funcType([ptrType$5, ptrType], [], false);
+	funcType$2 = $funcType([ptrType], [$String], false);
 	ptrType$6 = $ptrType(js.Object);
 	ptrType$7 = $ptrType(WrapperEvent);
-	funcType$2 = $funcType([ptrType$6], [], false);
+	funcType$3 = $funcType([ptrType$6], [], false);
 	ptrType$8 = $ptrType(RemoveMorpher);
 	ptrType$10 = $ptrType(ElementWriter);
-	funcType$3 = $funcType([ptrType], [], false);
+	funcType$4 = $funcType([ptrType], [], false);
 	NewText = function(txt) {
 		var $ptr, _r, em, txt, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; em = $f.em; txt = $f.txt; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -47454,8 +47482,8 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	};
 	Markup.prototype.UpdateHash = function() { return this.$val.UpdateHash(); };
 	Markup.ptr.prototype.Reconcile = function(em) {
-		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _ref, attrChanged, childChanged, e, em, maxSize, n, nch, newChildren, och, oldChildren, oldHash, oldMaxSize, styleChanged, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; attrChanged = $f.attrChanged; childChanged = $f.childChanged; e = $f.e; em = $f.em; maxSize = $f.maxSize; n = $f.n; nch = $f.nch; newChildren = $f.newChildren; och = $f.och; oldChildren = $f.oldChildren; oldHash = $f.oldHash; oldMaxSize = $f.oldMaxSize; styleChanged = $f.styleChanged; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _ref, childChanged, e, em, equalAttr, equalStyle, maxSize, n, nch, newChildren, och, oldChildren, oldHash, oldMaxSize, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; childChanged = $f.childChanged; e = $f.e; em = $f.em; equalAttr = $f.equalAttr; equalStyle = $f.equalStyle; maxSize = $f.maxSize; n = $f.n; nch = $f.nch; newChildren = $f.newChildren; och = $f.och; oldChildren = $f.oldChildren; oldHash = $f.oldHash; oldMaxSize = $f.oldMaxSize; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		e = this;
 		if (e === em) {
 			$s = -1; return false;
@@ -47488,21 +47516,21 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		maxSize = newChildren.$length;
 		oldMaxSize = oldChildren.$length;
 		_r$2 = EqualAttributes(e, em); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		attrChanged = _r$2;
+		equalAttr = _r$2;
 		_r$3 = EqualStyles(e, em); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		styleChanged = _r$3;
-		if (maxSize < 1) {
-			if (oldMaxSize > 1) {
+		equalStyle = _r$3;
+		if (maxSize === 0) {
+			if (oldMaxSize > 0) {
 				$s = -1; return true;
 				return true;
 			}
-			if (!attrChanged || !styleChanged) {
-				$s = -1; return true;
-				return true;
+			if (!equalAttr && !equalStyle) {
+				e.SwapHash(oldHash);
+				$s = -1; return false;
+				return false;
 			}
-			e.SwapHash(oldHash);
-			$s = -1; return false;
-			return false;
+			$s = -1; return true;
+			return true;
 		}
 		childChanged = false;
 		_ref = oldChildren;
@@ -47538,14 +47566,14 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 			childChanged = true;
 			_i++;
 		/* } */ $s = 9; continue; case 10:
-		if (!childChanged && attrChanged && styleChanged) {
+		if (!childChanged && equalAttr && equalStyle) {
 			e.SwapHash(oldHash);
 			$s = -1; return false;
 			return false;
 		}
 		$s = -1; return true;
 		return true;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: Markup.ptr.prototype.Reconcile }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f.attrChanged = attrChanged; $f.childChanged = childChanged; $f.e = e; $f.em = em; $f.maxSize = maxSize; $f.n = n; $f.nch = nch; $f.newChildren = newChildren; $f.och = och; $f.oldChildren = oldChildren; $f.oldHash = oldHash; $f.oldMaxSize = oldMaxSize; $f.styleChanged = styleChanged; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Markup.ptr.prototype.Reconcile }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f.childChanged = childChanged; $f.e = e; $f.em = em; $f.equalAttr = equalAttr; $f.equalStyle = equalStyle; $f.maxSize = maxSize; $f.n = n; $f.nch = nch; $f.newChildren = newChildren; $f.och = och; $f.oldChildren = oldChildren; $f.oldHash = oldHash; $f.oldMaxSize = oldMaxSize; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	Markup.prototype.Reconcile = function(em) { return this.$val.Reconcile(em); };
 	Markup.ptr.prototype.FirstChild = function() {
@@ -47581,7 +47609,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		while (true) {
 			if (!(_i < _ref.$length)) { break; }
 			ch = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
-			if (ch === e) {
+			if (ch === e || ch === ptrType.nil) {
 				_i++;
 				continue;
 			}
@@ -47600,6 +47628,9 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	Markup.ptr.prototype.Apply = function(em) {
 		var $ptr, e, em;
 		e = this;
+		if (em === ptrType.nil) {
+			return;
+		}
 		em.AddChild(new sliceType$1([e]));
 	};
 	Markup.prototype.Apply = function(em) { return this.$val.Apply(em); };
@@ -47697,14 +47728,30 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	WrapperEvent.prototype.StopImmediatePropagation = function() { return this.$val.StopImmediatePropagation(); };
 	NewEvent = function(evtype, evtarget) {
 		var $ptr, evtarget, evtype;
-		return new Event.ptr(evtype, evtarget, "", ptrType.nil, $ifaceNil, $throwNilPointerError);
+		return new Event.ptr(evtype, "", evtarget, ptrType.nil, $ifaceNil, $throwNilPointerError);
 	};
 	$pkg.NewEvent = NewEvent;
+	Event.ptr.prototype.Target = function() {
+		var $ptr, _r, e, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; e = $f.e; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		e = this;
+		/* */ if (!(e.Tree === ptrType.nil)) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (!(e.Tree === ptrType.nil)) { */ case 1:
+			_r = e.Tree.EventID(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			$s = -1; return _r;
+			return _r;
+		/* } */ case 2:
+		$s = -1; return e.secTarget;
+		return e.secTarget;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Event.ptr.prototype.Target }; } $f.$ptr = $ptr; $f._r = _r; $f.e = e; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	Event.prototype.Target = function() { return this.$val.Target(); };
 	Event.ptr.prototype.ID = function() {
 		var $ptr, _r, e, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; e = $f.e; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		e = this;
-		_r = fmt.Sprintf("%s#%s", new sliceType$5([new $String(e.Target), new $String(e.Type)])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = fmt.Sprintf("%s#%s", new sliceType$5([new funcType($methodVal(e, "Target")), new $String(e.Type)])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		$s = -1; return _r;
 		return _r;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Event.ptr.prototype.ID }; } $f.$ptr = $ptr; $f._r = _r; $f.e = e; $f.$s = $s; $f.$r = $r; return $f;
@@ -47713,30 +47760,24 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	Event.ptr.prototype.Clone = function() {
 		var $ptr, e;
 		e = this;
-		return new Event.ptr(e.Type, e.Target, "", ptrType.nil, $ifaceNil, $throwNilPointerError);
+		return new Event.ptr(e.Type, "", e.secTarget, ptrType.nil, $ifaceNil, $throwNilPointerError);
 	};
 	Event.prototype.Clone = function() { return this.$val.Clone(); };
 	Event.ptr.prototype.Apply = function(ex) {
-		var $ptr, _r, _r$1, e, ex, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; e = $f.e; ex = $f.ex; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _r, e, ex, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; e = $f.e; ex = $f.ex; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		e = this;
 		if (!ex.allowEvents) {
 			$s = -1; return;
 			return;
 		}
 		e.Tree = ex;
-		/* */ if (e.Target === "") { $s = 1; continue; }
-		/* */ $s = 2; continue;
-		/* if (e.Target === "") { */ case 1:
-			_r = ex.EventID(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-			e.Target = _r;
-		/* } */ case 2:
-		_r$1 = fmt.Sprintf("%s-%s", new sliceType$5([new $String(e.Type), new $String(ex.UID())])); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		e.EventID = _r$1;
+		_r = fmt.Sprintf("%s-%s", new sliceType$5([new $String(e.Type), new $String(ex.UID())])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		e.EventID = _r;
 		ex.AddEvent(e);
 		$s = -1; return;
 		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: Event.ptr.prototype.Apply }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.e = e; $f.ex = ex; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Event.ptr.prototype.Apply }; } $f.$ptr = $ptr; $f._r = _r; $f.e = e; $f.ex = ex; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	Event.prototype.Apply = function(ex) { return this.$val.Apply(ex); };
 	RemoveMorpher.ptr.prototype.On = function(m) {
@@ -48938,9 +48979,9 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: GetAttr }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._tuple = _tuple; $f.as = as; $f.e = e; $f.f = f; $f.name = name; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.GetAttr = GetAttr;
-	ptrType.methods = [{prop: "Empty", name: "Empty", pkg: "", typ: $funcType([], [], false)}, {prop: "EHTML", name: "EHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "HTML", name: "HTML", pkg: "", typ: $funcType([], [$String], false)}, {prop: "AutoClosed", name: "AutoClosed", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "AddEvent", name: "AddEvent", pkg: "", typ: $funcType([Event], [], false)}, {prop: "EachEvent", name: "EachEvent", pkg: "", typ: $funcType([funcType], [], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [sliceType], false)}, {prop: "Styles", name: "Styles", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "AddStyle", name: "AddStyle", pkg: "", typ: $funcType([Property], [], false)}, {prop: "Attributes", name: "Attributes", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "AddAttribute", name: "AddAttribute", pkg: "", typ: $funcType([Property], [], false)}, {prop: "EventID", name: "EventID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Name", name: "Name", pkg: "", typ: $funcType([], [$String], false)}, {prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Hash", name: "Hash", pkg: "", typ: $funcType([], [$String], false)}, {prop: "AddMorpher", name: "AddMorpher", pkg: "", typ: $funcType([sliceType$3], [], true)}, {prop: "ApplyMorphers", name: "ApplyMorphers", pkg: "", typ: $funcType([], [ptrType], false)}, {prop: "TextContent", name: "TextContent", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Clean", name: "Clean", pkg: "", typ: $funcType([], [], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([], [], false)}, {prop: "UnRemove", name: "UnRemove", pkg: "", typ: $funcType([], [], false)}, {prop: "Removed", name: "Removed", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "SwapUID", name: "SwapUID", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SwapHash", name: "SwapHash", pkg: "", typ: $funcType([$String], [], false)}, {prop: "UpdateHash", name: "UpdateHash", pkg: "", typ: $funcType([], [], false)}, {prop: "Reconcile", name: "Reconcile", pkg: "", typ: $funcType([ptrType], [$Bool], false)}, {prop: "FirstChild", name: "FirstChild", pkg: "", typ: $funcType([], [ptrType], false)}, {prop: "LastChild", name: "LastChild", pkg: "", typ: $funcType([], [ptrType], false)}, {prop: "NthChild", name: "NthChild", pkg: "", typ: $funcType([$Int], [ptrType], false)}, {prop: "AddChild", name: "AddChild", pkg: "", typ: $funcType([sliceType$1], [], true)}, {prop: "Children", name: "Children", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [ptrType], false)}];
+	ptrType.methods = [{prop: "Empty", name: "Empty", pkg: "", typ: $funcType([], [], false)}, {prop: "EHTML", name: "EHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "HTML", name: "HTML", pkg: "", typ: $funcType([], [$String], false)}, {prop: "AutoClosed", name: "AutoClosed", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "AddEvent", name: "AddEvent", pkg: "", typ: $funcType([Event], [], false)}, {prop: "EachEvent", name: "EachEvent", pkg: "", typ: $funcType([funcType$1], [], false)}, {prop: "Events", name: "Events", pkg: "", typ: $funcType([], [sliceType], false)}, {prop: "Styles", name: "Styles", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "AddStyle", name: "AddStyle", pkg: "", typ: $funcType([Property], [], false)}, {prop: "Attributes", name: "Attributes", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "AddAttribute", name: "AddAttribute", pkg: "", typ: $funcType([Property], [], false)}, {prop: "EventID", name: "EventID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Name", name: "Name", pkg: "", typ: $funcType([], [$String], false)}, {prop: "UID", name: "UID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Hash", name: "Hash", pkg: "", typ: $funcType([], [$String], false)}, {prop: "AddMorpher", name: "AddMorpher", pkg: "", typ: $funcType([sliceType$3], [], true)}, {prop: "ApplyMorphers", name: "ApplyMorphers", pkg: "", typ: $funcType([], [ptrType], false)}, {prop: "TextContent", name: "TextContent", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Clean", name: "Clean", pkg: "", typ: $funcType([], [], false)}, {prop: "Remove", name: "Remove", pkg: "", typ: $funcType([], [], false)}, {prop: "UnRemove", name: "UnRemove", pkg: "", typ: $funcType([], [], false)}, {prop: "Removed", name: "Removed", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "SwapUID", name: "SwapUID", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SwapHash", name: "SwapHash", pkg: "", typ: $funcType([$String], [], false)}, {prop: "UpdateHash", name: "UpdateHash", pkg: "", typ: $funcType([], [], false)}, {prop: "Reconcile", name: "Reconcile", pkg: "", typ: $funcType([ptrType], [$Bool], false)}, {prop: "FirstChild", name: "FirstChild", pkg: "", typ: $funcType([], [ptrType], false)}, {prop: "LastChild", name: "LastChild", pkg: "", typ: $funcType([], [ptrType], false)}, {prop: "NthChild", name: "NthChild", pkg: "", typ: $funcType([$Int], [ptrType], false)}, {prop: "AddChild", name: "AddChild", pkg: "", typ: $funcType([sliceType$1], [], true)}, {prop: "Children", name: "Children", pkg: "", typ: $funcType([], [sliceType$1], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [ptrType], false)}];
 	ptrType$7.methods = [{prop: "Underlying", name: "Underlying", pkg: "", typ: $funcType([], [ptrType$6], false)}, {prop: "PreventDefault", name: "PreventDefault", pkg: "", typ: $funcType([], [], false)}, {prop: "StopPropagation", name: "StopPropagation", pkg: "", typ: $funcType([], [], false)}, {prop: "StopImmediatePropagation", name: "StopImmediatePropagation", pkg: "", typ: $funcType([], [], false)}];
-	ptrType$5.methods = [{prop: "ID", name: "ID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [ptrType$5], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}];
+	ptrType$5.methods = [{prop: "Target", name: "Target", pkg: "", typ: $funcType([], [$String], false)}, {prop: "ID", name: "ID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [ptrType$5], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}];
 	ptrType$8.methods = [{prop: "On", name: "On", pkg: "", typ: $funcType([$emptyInterface], [], false)}, {prop: "Off", name: "Off", pkg: "", typ: $funcType([$emptyInterface], [], false)}, {prop: "Morph", name: "Morph", pkg: "", typ: $funcType([ptrType], [ptrType], false)}];
 	AttrWriter.methods = [{prop: "Print", name: "Print", pkg: "", typ: $funcType([sliceType$2], [$String], false)}];
 	StyleWriter.methods = [{prop: "Print", name: "Print", pkg: "", typ: $funcType([sliceType$2], [$String], false)}];
@@ -48951,12 +48992,12 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	ptrType$2.methods = [{prop: "Add", name: "Add", pkg: "", typ: $funcType([sliceType$7], [], true)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [$String, $String], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}];
 	queryCtrl.methods = [{prop: "Query", name: "Query", pkg: "", typ: $funcType([ptrType, $String], [ptrType], false)}, {prop: "QueryAll", name: "QueryAll", pkg: "", typ: $funcType([ptrType, $String], [sliceType$1], false)}, {prop: "QuerySelector", name: "QuerySelector", pkg: "", typ: $funcType([ptrType, ptrType$1], [ptrType], false)}, {prop: "QueryAllSelector", name: "QueryAllSelector", pkg: "", typ: $funcType([ptrType, ptrType$1], [sliceType$1], false)}, {prop: "queryOne", name: "queryOne", pkg: "github.com/influx6/gu/trees", typ: $funcType([ptrType, ptrType$1], [$Bool], false)}, {prop: "ParseSelector", name: "ParseSelector", pkg: "", typ: $funcType([$String], [sliceType$6], false)}, {prop: "splitBracketSelector", name: "splitBracketSelector", pkg: "github.com/influx6/gu/trees", typ: $funcType([$String], [$String, $String, $String], false)}, {prop: "attrFor", name: "attrFor", pkg: "github.com/influx6/gu/trees", typ: $funcType([ptrType, $String, $String, $String], [$Bool], false)}, {prop: "tagFor", name: "tagFor", pkg: "github.com/influx6/gu/trees", typ: $funcType([ptrType, $String], [$Bool], false)}, {prop: "classFor", name: "classFor", pkg: "github.com/influx6/gu/trees", typ: $funcType([ptrType, $String], [$Bool], false)}, {prop: "idFor", name: "idFor", pkg: "github.com/influx6/gu/trees", typ: $funcType([ptrType, $String], [$Bool], false)}];
 	FinalizeHandle.init([ptrType, ptrType], [], false);
-	Markup.init("github.com/influx6/gu/trees", [{prop: "Id", name: "Id", exported: true, typ: $String, tag: ""}, {prop: "removed", name: "removed", exported: false, typ: $Bool, tag: ""}, {prop: "autoclose", name: "autoclose", exported: false, typ: $Bool, tag: ""}, {prop: "allowEvents", name: "allowEvents", exported: false, typ: $Bool, tag: ""}, {prop: "allowChildren", name: "allowChildren", exported: false, typ: $Bool, tag: ""}, {prop: "allowStyles", name: "allowStyles", exported: false, typ: $Bool, tag: ""}, {prop: "allowAttributes", name: "allowAttributes", exported: false, typ: $Bool, tag: ""}, {prop: "uid", name: "uid", exported: false, typ: $String, tag: ""}, {prop: "hash", name: "hash", exported: false, typ: $String, tag: ""}, {prop: "tagname", name: "tagname", exported: false, typ: $String, tag: ""}, {prop: "textContent", name: "textContent", exported: false, typ: $String, tag: ""}, {prop: "textContentFn", name: "textContentFn", exported: false, typ: funcType$1, tag: ""}, {prop: "events", name: "events", exported: false, typ: sliceType, tag: ""}, {prop: "children", name: "children", exported: false, typ: sliceType$1, tag: ""}, {prop: "styles", name: "styles", exported: false, typ: sliceType$2, tag: ""}, {prop: "attrs", name: "attrs", exported: false, typ: sliceType$2, tag: ""}, {prop: "morphers", name: "morphers", exported: false, typ: sliceType$3, tag: ""}, {prop: "finalizers", name: "finalizers", exported: false, typ: sliceType$4, tag: ""}, {prop: "onceFinalizers", name: "onceFinalizers", exported: false, typ: sliceType$4, tag: ""}, {prop: "parent", name: "parent", exported: false, typ: ptrType, tag: ""}]);
+	Markup.init("github.com/influx6/gu/trees", [{prop: "Id", name: "Id", exported: true, typ: $String, tag: ""}, {prop: "removed", name: "removed", exported: false, typ: $Bool, tag: ""}, {prop: "autoclose", name: "autoclose", exported: false, typ: $Bool, tag: ""}, {prop: "allowEvents", name: "allowEvents", exported: false, typ: $Bool, tag: ""}, {prop: "allowChildren", name: "allowChildren", exported: false, typ: $Bool, tag: ""}, {prop: "allowStyles", name: "allowStyles", exported: false, typ: $Bool, tag: ""}, {prop: "allowAttributes", name: "allowAttributes", exported: false, typ: $Bool, tag: ""}, {prop: "uid", name: "uid", exported: false, typ: $String, tag: ""}, {prop: "hash", name: "hash", exported: false, typ: $String, tag: ""}, {prop: "tagname", name: "tagname", exported: false, typ: $String, tag: ""}, {prop: "textContent", name: "textContent", exported: false, typ: $String, tag: ""}, {prop: "textContentFn", name: "textContentFn", exported: false, typ: funcType$2, tag: ""}, {prop: "events", name: "events", exported: false, typ: sliceType, tag: ""}, {prop: "children", name: "children", exported: false, typ: sliceType$1, tag: ""}, {prop: "styles", name: "styles", exported: false, typ: sliceType$2, tag: ""}, {prop: "attrs", name: "attrs", exported: false, typ: sliceType$2, tag: ""}, {prop: "morphers", name: "morphers", exported: false, typ: sliceType$3, tag: ""}, {prop: "finalizers", name: "finalizers", exported: false, typ: sliceType$4, tag: ""}, {prop: "onceFinalizers", name: "onceFinalizers", exported: false, typ: sliceType$4, tag: ""}, {prop: "parent", name: "parent", exported: false, typ: ptrType, tag: ""}]);
 	Appliable.init([{prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}]);
 	EventObject.init([{prop: "PreventDefault", name: "PreventDefault", pkg: "", typ: $funcType([], [], false)}, {prop: "StopImmediatePropagation", name: "StopImmediatePropagation", pkg: "", typ: $funcType([], [], false)}, {prop: "StopPropagation", name: "StopPropagation", pkg: "", typ: $funcType([], [], false)}, {prop: "Underlying", name: "Underlying", pkg: "", typ: $funcType([], [ptrType$6], false)}]);
 	EventBroadcast.init("", [{prop: "EventID", name: "EventID", exported: true, typ: $String, tag: ""}, {prop: "Event", name: "Event", exported: true, typ: EventObject, tag: ""}]);
 	WrapperEvent.init("github.com/influx6/gu/trees", [{prop: "dummy", name: "dummy", exported: false, typ: ptrType$6, tag: ""}, {prop: "isDum", name: "isDum", exported: false, typ: $Bool, tag: ""}]);
-	Event.init("", [{prop: "Type", name: "Type", exported: true, typ: $String, tag: ""}, {prop: "Target", name: "Target", exported: true, typ: $String, tag: ""}, {prop: "EventID", name: "EventID", exported: true, typ: $String, tag: ""}, {prop: "Tree", name: "Tree", exported: true, typ: ptrType, tag: ""}, {prop: "Handle", name: "Handle", exported: true, typ: mque.End, tag: ""}, {prop: "Link", name: "Link", exported: true, typ: funcType$2, tag: ""}]);
+	Event.init("github.com/influx6/gu/trees", [{prop: "Type", name: "Type", exported: true, typ: $String, tag: ""}, {prop: "EventID", name: "EventID", exported: true, typ: $String, tag: ""}, {prop: "secTarget", name: "secTarget", exported: false, typ: $String, tag: ""}, {prop: "Tree", name: "Tree", exported: true, typ: ptrType, tag: ""}, {prop: "Handle", name: "Handle", exported: true, typ: mque.End, tag: ""}, {prop: "Link", name: "Link", exported: true, typ: funcType$3, tag: ""}]);
 	Morpher.init([{prop: "Morph", name: "Morph", pkg: "", typ: $funcType([ptrType], [ptrType], false)}]);
 	SwitchMorpher.init([{prop: "Morph", name: "Morph", pkg: "", typ: $funcType([ptrType], [ptrType], false)}, {prop: "Off", name: "Off", pkg: "", typ: $funcType([$emptyInterface], [], false)}, {prop: "On", name: "On", pkg: "", typ: $funcType([$emptyInterface], [], false)}]);
 	RemoveMorpher.init("github.com/influx6/gu/trees", [{prop: "wl", name: "wl", exported: false, typ: sync.RWMutex, tag: ""}, {prop: "remove", name: "remove", exported: false, typ: $Bool, tag: ""}]);
@@ -48968,7 +49009,7 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	TextWriter.init("", []);
 	ElementWriter.init("github.com/influx6/gu/trees", [{prop: "attrWriter", name: "attrWriter", exported: false, typ: AttrPrinter, tag: ""}, {prop: "styleWriter", name: "styleWriter", exported: false, typ: StylePrinter, tag: ""}, {prop: "text", name: "text", exported: false, typ: TextPrinter, tag: ""}]);
 	Property.init([{prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType], [], false)}, {prop: "Clone", name: "Clone", pkg: "", typ: $funcType([], [Property], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [$String, $String], false)}]);
-	Attribute.init("", [{prop: "Name", name: "Name", exported: true, typ: $String, tag: ""}, {prop: "Value", name: "Value", exported: true, typ: $String, tag: ""}, {prop: "After", name: "After", exported: true, typ: funcType$3, tag: ""}]);
+	Attribute.init("", [{prop: "Name", name: "Name", exported: true, typ: $String, tag: ""}, {prop: "Value", name: "Value", exported: true, typ: $String, tag: ""}, {prop: "After", name: "After", exported: true, typ: funcType$4, tag: ""}]);
 	ClassList.init("github.com/influx6/gu/trees", [{prop: "list", name: "list", exported: false, typ: sliceType$7, tag: ""}]);
 	queryCtrl.init("", []);
 	Selector.init("", [{prop: "Tag", name: "Tag", exported: true, typ: $String, tag: ""}, {prop: "Id", name: "Id", exported: true, typ: $String, tag: ""}, {prop: "Psuedo", name: "Psuedo", exported: true, typ: $String, tag: ""}, {prop: "AttrOp", name: "AttrOp", exported: true, typ: $String, tag: ""}, {prop: "AttrName", name: "AttrName", exported: true, typ: $String, tag: ""}, {prop: "AttrValue", name: "AttrValue", exported: true, typ: $String, tag: ""}, {prop: "Classes", name: "Classes", exported: true, typ: sliceType$7, tag: ""}, {prop: "Children", name: "Children", exported: true, typ: sliceType$6, tag: ""}]);
@@ -49016,10 +49057,8 @@ $packages["github.com/influx6/gu/trees"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu"] = (function() {
-	var $pkg = {}, $init, fmt, detect, js, dispatch, trees, template, sync, Renderable, Renderables, ReactiveSubscription, Reactive, reactive, RenderView, RouteApplier, RouteManager, rm, routing, StaticView, view, structType, sliceType, funcType, sliceType$1, ptrType, sliceType$2, ptrType$1, sliceType$3, ptrType$2, mapType, ptrType$3, mapType$1, ptrType$4, ptrType$5, ptrType$6, countKeeper, NewKey, NewReactive, NewRouteManager, newRouting, Static, CustomView;
+	var $pkg = {}, $init, fmt, dispatch, trees, template, sync, Renderable, Renderables, ReactiveSubscription, Reactive, reactive, RenderView, RouteApplier, RouteManager, rm, routing, StaticView, view, structType, sliceType, funcType, sliceType$1, ptrType, sliceType$2, ptrType$1, sliceType$3, ptrType$2, mapType, ptrType$3, mapType$1, ptrType$4, ptrType$5, ptrType$6, countKeeper, NewKey, NewReactive, NewRouteManager, newRouting, Static, CustomView;
 	fmt = $packages["fmt"];
-	detect = $packages["github.com/go-humble/detect"];
-	js = $packages["github.com/gopherjs/gopherjs/js"];
 	dispatch = $packages["github.com/influx6/gu/dispatch"];
 	trees = $packages["github.com/influx6/gu/trees"];
 	template = $packages["html/template"];
@@ -49080,21 +49119,23 @@ $packages["github.com/influx6/gu"] = (function() {
 		this.Content = Content_;
 		this.Morph = Morph_;
 	});
-	view = $pkg.view = $newType(0, $kindStruct, "gu.view", true, "github.com/influx6/gu", false, function(Reactive_, tag_, uuid_, hide_, live_, renders_) {
+	view = $pkg.view = $newType(0, $kindStruct, "gu.view", true, "github.com/influx6/gu", false, function(Reactive_, hide_, tag_, uuid_, renderedBefore_, live_, renders_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Reactive = $ifaceNil;
+			this.hide = false;
 			this.tag = "";
 			this.uuid = "";
-			this.hide = false;
+			this.renderedBefore = false;
 			this.live = ptrType$1.nil;
 			this.renders = sliceType$3.nil;
 			return;
 		}
 		this.Reactive = Reactive_;
+		this.hide = hide_;
 		this.tag = tag_;
 		this.uuid = uuid_;
-		this.hide = hide_;
+		this.renderedBefore = renderedBefore_;
 		this.live = live_;
 		this.renders = renders_;
 	});
@@ -49316,7 +49357,7 @@ $packages["github.com/influx6/gu"] = (function() {
 		var $ptr, _i, _r, _ref, _tuple, ok, r, rws, tag, vr, vw, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; _tuple = $f._tuple; ok = $f.ok; r = $f.r; rws = $f.rws; tag = $f.tag; vr = $f.vr; vw = $f.vw; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		vw = [vw];
-		vw[0] = new view.ptr($ifaceNil, "", "", false, ptrType$1.nil, sliceType$3.nil);
+		vw[0] = new view.ptr($ifaceNil, false, "", "", false, ptrType$1.nil, sliceType$3.nil);
 		vw[0].tag = tag;
 		vw[0].renders = r;
 		_r = NewKey(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
@@ -49367,6 +49408,12 @@ $packages["github.com/influx6/gu"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: view.ptr.prototype.Resolve }; } $f.$ptr = $ptr; $f._i = _i; $f._ref = _ref; $f._tuple = _tuple; $f.ok = ok; $f.path = path; $f.rs = rs; $f.v = v; $f.vmr = vmr; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	view.prototype.Resolve = function(path) { return this.$val.Resolve(path); };
+	view.ptr.prototype.RenderedBefore = function() {
+		var $ptr, v;
+		v = this;
+		return v.renderedBefore;
+	};
+	view.prototype.RenderedBefore = function() { return this.$val.RenderedBefore(); };
 	view.ptr.prototype.UUID = function() {
 		var $ptr, v;
 		v = this;
@@ -49388,6 +49435,7 @@ $packages["github.com/influx6/gu"] = (function() {
 		var $ptr, _i, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _ref, live, root, v, view$1, x, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _ref = $f._ref; live = $f.live; root = $f.root; v = $f.v; view$1 = $f.view$1; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		v = this;
+		v.renderedBefore = true;
 		/* */ if (v.renders.$length === 0) { $s = 1; continue; }
 		/* */ $s = 2; continue;
 		/* if (v.renders.$length === 0) { */ case 1:
@@ -49452,29 +49500,27 @@ $packages["github.com/influx6/gu"] = (function() {
 	ptrType$4.methods = [{prop: "Root", name: "Root", pkg: "", typ: $funcType([], [RouteApplier], false)}, {prop: "N", name: "N", pkg: "", typ: $funcType([$String], [RouteApplier], false)}, {prop: "Next", name: "Next", pkg: "", typ: $funcType([$String, trees.SwitchMorpher], [RouteApplier], false)}];
 	ptrType.methods = [{prop: "Morph", name: "Morph", pkg: "", typ: $funcType([ptrType$1], [ptrType$1], false)}, {prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType$1], [], false)}];
 	ptrType$5.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}];
-	ptrType$6.methods = [{prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([dispatch.Path], [], false)}, {prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [ptrType$1], false)}];
+	ptrType$6.methods = [{prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([dispatch.Path], [], false)}, {prop: "RenderedBefore", name: "RenderedBefore", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [ptrType$1], false)}];
 	Renderable.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [ptrType$1], false)}]);
 	Renderables.init(Renderable);
 	ReactiveSubscription.init([{prop: "React", name: "React", pkg: "", typ: $funcType([funcType], [], false)}]);
 	Reactive.init([{prop: "Publish", name: "Publish", pkg: "", typ: $funcType([], [], false)}, {prop: "React", name: "React", pkg: "", typ: $funcType([funcType], [], false)}]);
 	reactive.init("github.com/influx6/gu", [{prop: "subs", name: "subs", exported: false, typ: sliceType$1, tag: ""}]);
-	RenderView.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([dispatch.Path], [], false)}, {prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}]);
+	RenderView.init([{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "RenderHTML", name: "RenderHTML", pkg: "", typ: $funcType([], [template.HTML], false)}, {prop: "RenderedBefore", name: "RenderedBefore", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([dispatch.Path], [], false)}, {prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}]);
 	RouteApplier.init([{prop: "Apply", name: "Apply", pkg: "", typ: $funcType([ptrType$1], [], false)}, {prop: "Flush", name: "Flush", pkg: "", typ: $funcType([], [], false)}, {prop: "Morph", name: "Morph", pkg: "", typ: $funcType([ptrType$1], [ptrType$1], false)}, {prop: "N", name: "N", pkg: "", typ: $funcType([$String], [RouteApplier], false)}, {prop: "Next", name: "Next", pkg: "", typ: $funcType([$String, trees.SwitchMorpher], [RouteApplier], false)}, {prop: "Path", name: "Path", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Register", name: "Register", pkg: "", typ: $funcType([dispatch.Resolver], [], false)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([dispatch.Path], [], false)}, {prop: "ResolvedFailed", name: "ResolvedFailed", pkg: "", typ: $funcType([dispatch.ResolveSubscriber], [dispatch.Resolver], false)}, {prop: "ResolvedPassed", name: "ResolvedPassed", pkg: "", typ: $funcType([dispatch.ResolveSubscriber], [dispatch.Resolver], false)}, {prop: "Root", name: "Root", pkg: "", typ: $funcType([], [RouteApplier], false)}, {prop: "Test", name: "Test", pkg: "", typ: $funcType([$String], [mapType, $String, $Bool], false)}]);
 	RouteManager.init("", [{prop: "Levels", name: "Levels", exported: true, typ: mapType$1, tag: ""}]);
 	rm.init("github.com/influx6/gu", [{prop: "routing", name: "", exported: false, typ: ptrType, tag: ""}, {prop: "prev", name: "prev", exported: false, typ: RouteApplier, tag: ""}, {prop: "next", name: "next", exported: false, typ: RouteApplier, tag: ""}, {prop: "level", name: "level", exported: false, typ: mapType$1, tag: ""}]);
 	routing.init("github.com/influx6/gu", [{prop: "Resolver", name: "", exported: true, typ: dispatch.Resolver, tag: ""}, {prop: "m", name: "m", exported: false, typ: trees.Morpher, tag: ""}]);
 	StaticView.init("", [{prop: "Content", name: "Content", exported: true, typ: ptrType$1, tag: ""}, {prop: "Morph", name: "Morph", exported: true, typ: $Bool, tag: ""}]);
-	view.init("github.com/influx6/gu", [{prop: "Reactive", name: "", exported: true, typ: Reactive, tag: ""}, {prop: "tag", name: "tag", exported: false, typ: $String, tag: ""}, {prop: "uuid", name: "uuid", exported: false, typ: $String, tag: ""}, {prop: "hide", name: "hide", exported: false, typ: $Bool, tag: ""}, {prop: "live", name: "live", exported: false, typ: ptrType$1, tag: ""}, {prop: "renders", name: "renders", exported: false, typ: sliceType$3, tag: ""}]);
+	view.init("github.com/influx6/gu", [{prop: "Reactive", name: "", exported: true, typ: Reactive, tag: ""}, {prop: "hide", name: "hide", exported: false, typ: $Bool, tag: ""}, {prop: "tag", name: "tag", exported: false, typ: $String, tag: ""}, {prop: "uuid", name: "uuid", exported: false, typ: $String, tag: ""}, {prop: "renderedBefore", name: "renderedBefore", exported: false, typ: $Bool, tag: ""}, {prop: "live", name: "live", exported: false, typ: ptrType$1, tag: ""}, {prop: "renders", name: "renders", exported: false, typ: sliceType$3, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		$r = fmt.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = detect.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = js.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = dispatch.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = trees.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = template.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = sync.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dispatch.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = trees.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = template.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = sync.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		countKeeper = new structType.ptr(new sync.Mutex.ptr(0, 0), "3bce4931-6c75-41ab-afe0-2ec108a30860", 0);
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
@@ -49482,10 +49528,12 @@ $packages["github.com/influx6/gu"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/design"] = (function() {
-	var $pkg = {}, $init, detect, js, gu, dispatch, trees, sync, ResourceRenderer, Resources, DSL, ResourceDefinition, ResourceViewUpdate, RenderingOrder, targetRenderable, ptrType, sliceType, structType, ptrType$1, sliceType$1, funcType, funcType$1, sliceType$2, ptrType$2, sliceType$3, sliceType$4, sliceType$5, sliceType$6, ptrType$3, funcType$2, funcType$3, funcType$4, funcType$5, funcType$6, sliceType$8, ptrType$4, ptrType$5, sliceType$9, collection, getResources, Resource, New, newResource, UseRoute, DoMarkup, DoView, DoTitle, mLink;
+	var $pkg = {}, $init, fmt, detect, js, gu, css, dispatch, trees, sync, ResourceRenderer, Resources, DSL, ResourceDefinition, ResourceViewUpdate, RenderingOrder, targetRenderable, ptrType, sliceType, structType, ptrType$1, sliceType$1, funcType, funcType$1, sliceType$2, ptrType$2, sliceType$3, sliceType$4, sliceType$5, sliceType$6, ptrType$3, funcType$2, funcType$3, funcType$4, ptrType$4, sliceType$8, funcType$5, funcType$6, sliceType$9, sliceType$10, ptrType$5, ptrType$6, sliceType$11, collection, getResources, Resource, New, newResource, UseRoute, DoMarkup, DoStyle, DoView, DoTitle, DoLink, mLink;
+	fmt = $packages["fmt"];
 	detect = $packages["github.com/go-humble/detect"];
 	js = $packages["github.com/gopherjs/gopherjs/js"];
 	gu = $packages["github.com/influx6/gu"];
+	css = $packages["github.com/influx6/gu/css"];
 	dispatch = $packages["github.com/influx6/gu/dispatch"];
 	trees = $packages["github.com/influx6/gu/trees"];
 	sync = $packages["sync"];
@@ -49575,12 +49623,15 @@ $packages["github.com/influx6/gu/design"] = (function() {
 	funcType$2 = $funcType([ResourceViewUpdate], [], false);
 	funcType$3 = $funcType([], [sliceType$3], false);
 	funcType$4 = $funcType([], [ptrType$2], false);
+	ptrType$4 = $ptrType(css.Rule);
+	sliceType$8 = $sliceType(ptrType$4);
 	funcType$5 = $funcType([], [gu.Renderable], false);
 	funcType$6 = $funcType([], [gu.Renderables], false);
-	sliceType$8 = $sliceType(gu.Renderable);
-	ptrType$4 = $ptrType(trees.Event);
-	ptrType$5 = $ptrType(js.Object);
-	sliceType$9 = $sliceType($Bool);
+	sliceType$9 = $sliceType(gu.Renderable);
+	sliceType$10 = $sliceType($emptyInterface);
+	ptrType$5 = $ptrType(trees.Event);
+	ptrType$6 = $ptrType(js.Object);
+	sliceType$11 = $sliceType($Bool);
 	getResources = function() {
 		var $ptr, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -50095,6 +50146,47 @@ $packages["github.com/influx6/gu/design"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: DoMarkup }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._ref = _ref; $f._ref$1 = _ref$1; $f.current = current; $f.deferRender = deferRender; $f.markup = markup; $f.markup$1 = markup$1; $f.markupFn = markupFn; $f.mo = mo; $f.mo$1 = mo$1; $f.mo$2 = mo$2; $f.mo$3 = mo$3; $f.mo$4 = mo$4; $f.mo$5 = mo$5; $f.static$1 = static$1; $f.targetAlreadyInDom = targetAlreadyInDom; $f.targets = targets; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.DoMarkup = DoMarkup;
+	DoStyle = function(styles, bind, deferRender) {
+		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _ref, bind, current, deferRender, rs, so, so$1, so$2, static$1, styles, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; bind = $f.bind; current = $f.current; deferRender = $f.deferRender; rs = $f.rs; so = $f.so; so$1 = $f.so$1; so$2 = $f.so$2; static$1 = $f.static$1; styles = $f.styles; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		rs = ptrType$4.nil;
+		_ref = styles;
+		/* */ if ($assertType(_ref, $String, true)[1]) { $s = 1; continue; }
+		/* */ if ($assertType(_ref, ptrType$4, true)[1]) { $s = 2; continue; }
+		/* */ $s = 3; continue;
+		/* if ($assertType(_ref, $String, true)[1]) { */ case 1:
+			so = _ref.$val;
+			_r = css.New(so, new sliceType$8([])); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			rs = _r;
+			$s = 4; continue;
+		/* } else if ($assertType(_ref, ptrType$4, true)[1]) { */ case 2:
+			so$1 = _ref.$val;
+			rs = so$1;
+			$s = 4; continue;
+		/* } else { */ case 3:
+			so$2 = _ref;
+			$panic(new $String("Invalid Acceptable type for css: Only string or *css.Rule"));
+		/* } */ case 4:
+		_r$1 = getResources(); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		_r$2 = _r$1.MustCurrentResource(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		current = _r$2;
+		static$1 = new gu.StaticView.ptr(ptrType$2.nil, false);
+		static$1.Morph = true;
+		_r$3 = trees.CSSStylesheet(rs, bind); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+		static$1.Content = _r$3;
+		_r$4 = trees.NewAttr("resource-id", current.UUID()); /* */ $s = 9; case 9: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+		$r = _r$4.Apply(static$1.Content); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		if (deferRender) {
+			current.DeferLinks = $append(current.DeferLinks, static$1);
+			$s = -1; return;
+			return;
+		}
+		current.Links = $append(current.Links, static$1);
+		$s = -1; return;
+		return;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: DoStyle }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f.bind = bind; $f.current = current; $f.deferRender = deferRender; $f.rs = rs; $f.so = so; $f.so$1 = so$1; $f.so$2 = so$2; $f.static$1 = static$1; $f.styles = styles; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.DoStyle = DoStyle;
 	DoView = function(vrs, targets, deferRender, targetAlreadyInDom) {
 		var $ptr, _r, _r$1, _r$2, _r$3, _r$4, _ref, _tuple, current, deferRender, ok, rs, rvw, targetAlreadyInDom, targets, view, vrs, vwo, vwo$1, vwo$2, vwo$3, vwo$4, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _tuple = $f._tuple; current = $f.current; deferRender = $f.deferRender; ok = $f.ok; rs = $f.rs; rvw = $f.rvw; targetAlreadyInDom = $f.targetAlreadyInDom; targets = $f.targets; view = $f.view; vrs = $f.vrs; vwo = $f.vwo; vwo$1 = $f.vwo$1; vwo$2 = $f.vwo$2; vwo$3 = $f.vwo$3; vwo$4 = $f.vwo$4; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -50133,7 +50225,7 @@ $packages["github.com/influx6/gu/design"] = (function() {
 		_r$2 = getResources(); /* */ $s = 9; case 9: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 		_r$3 = _r$2.MustCurrentResource(); /* */ $s = 10; case 10: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 		current[0] = _r$3;
-		_r$4 = gu.CustomView("section", $subslice(new sliceType$8(rs.$array), rs.$offset, rs.$offset + rs.$length)); /* */ $s = 11; case 11: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+		_r$4 = gu.CustomView("section", $subslice(new sliceType$9(rs.$array), rs.$offset, rs.$offset + rs.$length)); /* */ $s = 11; case 11: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
 		view[0] = _r$4;
 		_tuple = $assertType(view[0], gu.Reactive, true);
 		rvw = _tuple[0];
@@ -50142,12 +50234,16 @@ $packages["github.com/influx6/gu/design"] = (function() {
 		/* */ $s = 13; continue;
 		/* if (ok) { */ case 12:
 			$r = rvw.React((function(current, targets, view) { return function $b() {
-				var $ptr, x, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = dispatch.Dispatch((x = new ResourceViewUpdate.ptr(view[0], current[0].UUID(), targets[0]), new x.constructor.elem(x))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				var $ptr, _arg, _r$5, _r$6, x, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _r$5 = $f._r$5; _r$6 = $f._r$6; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				_r$5 = view[0].UUID(); /* */ $s = 1; case 1: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+				_arg = new $String(_r$5);
+				_r$6 = fmt.Printf("Received rendering update %s\n", new sliceType$10([_arg])); /* */ $s = 2; case 2: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+				_r$6;
+				$r = dispatch.Dispatch((x = new ResourceViewUpdate.ptr(view[0], current[0].UUID(), targets[0]), new x.constructor.elem(x))); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
-				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
+				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg = _arg; $f._r$5 = _r$5; $f._r$6 = _r$6; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(current, targets, view)); /* */ $s = 14; case 14: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		/* } */ case 13:
 		current[0].Views = $append(current[0].Views, view[0]);
@@ -50184,6 +50280,20 @@ $packages["github.com/influx6/gu/design"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: DoTitle }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.ml = ml; $f.title = title; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.DoTitle = DoTitle;
+	DoLink = function(url, mtype, defered) {
+		var $ptr, _r, _r$1, _r$2, defered, ml, mtype, url, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; defered = $f.defered; ml = $f.ml; mtype = $f.mtype; url = $f.url; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		_r = mLink("link", defered); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		ml = $clone(_r, gu.StaticView);
+		_r$1 = trees.NewAttr("href", url); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		$r = _r$1.Apply(ml.Content); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		_r$2 = trees.NewAttr("rel", mtype); /* */ $s = 4; case 4: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		$r = _r$2.Apply(ml.Content); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$s = -1; return;
+		return;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: DoLink }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f.defered = defered; $f.ml = ml; $f.mtype = mtype; $f.url = url; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.DoLink = DoLink;
 	mLink = function(tag, deffer) {
 		var $ptr, _r, _r$1, _r$2, current, deffer, static$1, tag, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; current = $f.current; deffer = $f.deffer; static$1 = $f.static$1; tag = $f.tag; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -50203,9 +50313,9 @@ $packages["github.com/influx6/gu/design"] = (function() {
 		return static$1;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: mLink }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f.current = current; $f.deffer = deffer; $f.static$1 = static$1; $f.tag = tag; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	ptrType.methods = [{prop: "GetIndex", name: "GetIndex", pkg: "", typ: $funcType([$Int], [ptrType$1], false)}, {prop: "Init", name: "Init", pkg: "", typ: $funcType([sliceType$9], [ptrType], true)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([dispatch.Path], [sliceType$1], false)}, {prop: "ResolveWith", name: "ResolveWith", pkg: "", typ: $funcType([$String], [sliceType$1], false)}, {prop: "MustCurrentResource", name: "MustCurrentResource", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "CurrentResource", name: "CurrentResource", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([dispatch.Path], [ptrType$2], false)}, {prop: "RenderWithScript", name: "RenderWithScript", pkg: "", typ: $funcType([dispatch.Path, $String], [ptrType$2], false)}, {prop: "render", name: "render", pkg: "github.com/influx6/gu/design", typ: $funcType([sliceType$3, sliceType$1], [ptrType$2], true)}];
+	ptrType.methods = [{prop: "GetIndex", name: "GetIndex", pkg: "", typ: $funcType([$Int], [ptrType$1], false)}, {prop: "Init", name: "Init", pkg: "", typ: $funcType([sliceType$11], [ptrType], true)}, {prop: "Resolve", name: "Resolve", pkg: "", typ: $funcType([dispatch.Path], [sliceType$1], false)}, {prop: "ResolveWith", name: "ResolveWith", pkg: "", typ: $funcType([$String], [sliceType$1], false)}, {prop: "MustCurrentResource", name: "MustCurrentResource", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "CurrentResource", name: "CurrentResource", pkg: "", typ: $funcType([], [ptrType$1], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([dispatch.Path], [ptrType$2], false)}, {prop: "RenderWithScript", name: "RenderWithScript", pkg: "", typ: $funcType([dispatch.Path, $String], [ptrType$2], false)}, {prop: "render", name: "render", pkg: "github.com/influx6/gu/design", typ: $funcType([sliceType$3, sliceType$1], [ptrType$2], true)}];
 	ptrType$1.methods = [{prop: "UUID", name: "UUID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Init", name: "Init", pkg: "", typ: $funcType([], [], false)}];
-	ResourceRenderer.init([{prop: "BindEvent", name: "BindEvent", pkg: "", typ: $funcType([ptrType$4, ptrType$5], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([sliceType$1], [], true)}, {prop: "RenderUpdate", name: "RenderUpdate", pkg: "", typ: $funcType([gu.Renderable, $String, $Bool], [], false)}, {prop: "TriggerBindEvent", name: "TriggerBindEvent", pkg: "", typ: $funcType([ptrType$5, ptrType$5, ptrType$4], [], false)}]);
+	ResourceRenderer.init([{prop: "BindEvent", name: "BindEvent", pkg: "", typ: $funcType([ptrType$5, ptrType$6], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([sliceType$1], [], true)}, {prop: "RenderUpdate", name: "RenderUpdate", pkg: "", typ: $funcType([gu.Renderable, $String, $Bool], [], false)}, {prop: "TriggerBindEvent", name: "TriggerBindEvent", pkg: "", typ: $funcType([ptrType$6, ptrType$6, ptrType$5], [], false)}]);
 	Resources.init("github.com/influx6/gu/design", [{prop: "lastPath", name: "lastPath", exported: false, typ: dispatch.Path, tag: ""}, {prop: "Resources", name: "Resources", exported: true, typ: sliceType$1, tag: ""}, {prop: "renderer", name: "renderer", exported: false, typ: ResourceRenderer, tag: ""}]);
 	DSL.init([], [], false);
 	ResourceDefinition.init("github.com/influx6/gu/design", [{prop: "Dsl", name: "Dsl", exported: true, typ: DSL, tag: ""}, {prop: "active", name: "active", exported: false, typ: $Bool, tag: ""}, {prop: "uuid", name: "uuid", exported: false, typ: $String, tag: ""}, {prop: "Views", name: "Views", exported: true, typ: sliceType$4, tag: ""}, {prop: "Links", name: "Links", exported: true, typ: sliceType$5, tag: ""}, {prop: "DeferLinks", name: "DeferLinks", exported: true, typ: sliceType$5, tag: ""}, {prop: "Renderables", name: "Renderables", exported: true, typ: sliceType$6, tag: ""}, {prop: "DRenderables", name: "DRenderables", exported: true, typ: sliceType$6, tag: ""}, {prop: "Order", name: "Order", exported: true, typ: RenderingOrder, tag: ""}, {prop: "Manager", name: "Manager", exported: true, typ: ptrType$3, tag: ""}, {prop: "Renderer", name: "Renderer", exported: true, typ: ResourceRenderer, tag: ""}, {prop: "Resolver", name: "Resolver", exported: true, typ: dispatch.Resolver, tag: ""}, {prop: "Root", name: "Root", exported: true, typ: ptrType, tag: ""}]);
@@ -50214,12 +50324,14 @@ $packages["github.com/influx6/gu/design"] = (function() {
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		$r = detect.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = js.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = gu.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = dispatch.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = trees.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = sync.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = fmt.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = detect.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = js.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = gu.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = css.$init(); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = dispatch.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = trees.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = sync.$init(); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		collection = new structType.ptr(ptrType.nil, new sync.Mutex.ptr(0, 0), sliceType.nil);
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
@@ -55588,8 +55700,8 @@ $packages["github.com/influx6/gu/redom"] = (function() {
 	ptrType$2 = $ptrType(trees.Event);
 	ptrType$3 = $ptrType(DOMRenderer);
 	DOMRenderer.ptr.prototype.Render = function(rs) {
-		var $ptr, _arg, _arg$1, _arg$2, _arg$3, _i, _i$1, _i$2, _i$3, _i$4, _i$5, _i$6, _r, _r$1, _r$10, _r$11, _r$12, _r$13, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, _ref$6, body, dm, head, item, item$1, item$2, item$3, markup, markup$1, render, render$1, res, rs, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _i = $f._i; _i$1 = $f._i$1; _i$2 = $f._i$2; _i$3 = $f._i$3; _i$4 = $f._i$4; _i$5 = $f._i$5; _i$6 = $f._i$6; _r = $f._r; _r$1 = $f._r$1; _r$10 = $f._r$10; _r$11 = $f._r$11; _r$12 = $f._r$12; _r$13 = $f._r$13; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; _ref$3 = $f._ref$3; _ref$4 = $f._ref$4; _ref$5 = $f._ref$5; _ref$6 = $f._ref$6; body = $f.body; dm = $f.dm; head = $f.head; item = $f.item; item$1 = $f.item$1; item$2 = $f.item$2; item$3 = $f.item$3; markup = $f.markup; markup$1 = $f.markup$1; render = $f.render; render$1 = $f.render$1; res = $f.res; rs = $f.rs; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _arg, _arg$1, _arg$2, _arg$3, _i, _i$1, _i$2, _i$3, _i$4, _i$5, _i$6, _i$7, _i$8, _i$9, _r, _r$1, _r$10, _r$11, _r$12, _r$13, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, _ref$6, _ref$7, _ref$8, _ref$9, body, dm, head, item, item$1, item$2, item$3, markup, markup$1, render, render$1, res, res$1, res$2, res$3, rs, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _i = $f._i; _i$1 = $f._i$1; _i$2 = $f._i$2; _i$3 = $f._i$3; _i$4 = $f._i$4; _i$5 = $f._i$5; _i$6 = $f._i$6; _i$7 = $f._i$7; _i$8 = $f._i$8; _i$9 = $f._i$9; _r = $f._r; _r$1 = $f._r$1; _r$10 = $f._r$10; _r$11 = $f._r$11; _r$12 = $f._r$12; _r$13 = $f._r$13; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; _ref = $f._ref; _ref$1 = $f._ref$1; _ref$2 = $f._ref$2; _ref$3 = $f._ref$3; _ref$4 = $f._ref$4; _ref$5 = $f._ref$5; _ref$6 = $f._ref$6; _ref$7 = $f._ref$7; _ref$8 = $f._ref$8; _ref$9 = $f._ref$9; body = $f.body; dm = $f.dm; head = $f.head; item = $f.item; item$1 = $f.item$1; item$2 = $f.item$2; item$3 = $f.item$3; markup = $f.markup; markup$1 = $f.markup$1; render = $f.render; render$1 = $f.render$1; res = $f.res; res$1 = $f.res$1; res$2 = $f.res$2; res$3 = $f.res$3; rs = $f.rs; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		body = [body];
 		dm = [dm];
 		head = [head];
@@ -55649,28 +55761,49 @@ $packages["github.com/influx6/gu/redom"] = (function() {
 				$r = js$1.Patch(_arg, _arg$1, false); /* */ $s = 22; case 22: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				_i$3++;
 			/* } */ $s = 15; continue; case 16:
-			_ref$4 = res.Renderables;
-			_i$4 = 0;
-			/* while (true) { */ case 23:
-				/* if (!(_i$4 < _ref$4.$length)) { break; } */ if(!(_i$4 < _ref$4.$length)) { $s = 24; continue; }
-				render = $clone(((_i$4 < 0 || _i$4 >= _ref$4.$length) ? $throwRuntimeError("index out of range") : _ref$4.$array[_ref$4.$offset + _i$4]), design.targetRenderable);
-				$r = dm[0].RenderUpdate(render.View, render.Targets, false); /* */ $s = 25; case 25: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				_i$4++;
-			/* } */ $s = 23; continue; case 24:
-			_ref$5 = res.DRenderables;
+			_i$2++;
+		/* } */ $s = 13; continue; case 14:
+		_ref$4 = rs;
+		_i$4 = 0;
+		/* while (true) { */ case 23:
+			/* if (!(_i$4 < _ref$4.$length)) { break; } */ if(!(_i$4 < _ref$4.$length)) { $s = 24; continue; }
+			res$1 = ((_i$4 < 0 || _i$4 >= _ref$4.$length) ? $throwRuntimeError("index out of range") : _ref$4.$array[_ref$4.$offset + _i$4]);
+			_ref$5 = res$1.Renderables;
 			_i$5 = 0;
-			/* while (true) { */ case 26:
-				/* if (!(_i$5 < _ref$5.$length)) { break; } */ if(!(_i$5 < _ref$5.$length)) { $s = 27; continue; }
-				render$1 = $clone(((_i$5 < 0 || _i$5 >= _ref$5.$length) ? $throwRuntimeError("index out of range") : _ref$5.$array[_ref$5.$offset + _i$5]), design.targetRenderable);
-				$r = dm[0].RenderUpdate(render$1.View, render$1.Targets, false); /* */ $s = 28; case 28: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* while (true) { */ case 25:
+				/* if (!(_i$5 < _ref$5.$length)) { break; } */ if(!(_i$5 < _ref$5.$length)) { $s = 26; continue; }
+				render = $clone(((_i$5 < 0 || _i$5 >= _ref$5.$length) ? $throwRuntimeError("index out of range") : _ref$5.$array[_ref$5.$offset + _i$5]), design.targetRenderable);
+				$r = dm[0].RenderUpdate(render.View, render.Targets, false); /* */ $s = 27; case 27: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				_i$5++;
-			/* } */ $s = 26; continue; case 27:
-			_ref$6 = res.DeferLinks;
-			_i$6 = 0;
-			/* while (true) { */ case 29:
-				/* if (!(_i$6 < _ref$6.$length)) { break; } */ if(!(_i$6 < _ref$6.$length)) { $s = 30; continue; }
-				item$3 = $clone(((_i$6 < 0 || _i$6 >= _ref$6.$length) ? $throwRuntimeError("index out of range") : _ref$6.$array[_ref$6.$offset + _i$6]), gu.StaticView);
-				_r$10 = item$3.Render(); /* */ $s = 31; case 31: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
+			/* } */ $s = 25; continue; case 26:
+			_i$4++;
+		/* } */ $s = 23; continue; case 24:
+		_ref$6 = rs;
+		_i$6 = 0;
+		/* while (true) { */ case 28:
+			/* if (!(_i$6 < _ref$6.$length)) { break; } */ if(!(_i$6 < _ref$6.$length)) { $s = 29; continue; }
+			res$2 = ((_i$6 < 0 || _i$6 >= _ref$6.$length) ? $throwRuntimeError("index out of range") : _ref$6.$array[_ref$6.$offset + _i$6]);
+			_ref$7 = res$2.DRenderables;
+			_i$7 = 0;
+			/* while (true) { */ case 30:
+				/* if (!(_i$7 < _ref$7.$length)) { break; } */ if(!(_i$7 < _ref$7.$length)) { $s = 31; continue; }
+				render$1 = $clone(((_i$7 < 0 || _i$7 >= _ref$7.$length) ? $throwRuntimeError("index out of range") : _ref$7.$array[_ref$7.$offset + _i$7]), design.targetRenderable);
+				$r = dm[0].RenderUpdate(render$1.View, render$1.Targets, false); /* */ $s = 32; case 32: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				_i$7++;
+			/* } */ $s = 30; continue; case 31:
+			_i$6++;
+		/* } */ $s = 28; continue; case 29:
+		_ref$8 = rs;
+		_i$8 = 0;
+		/* while (true) { */ case 33:
+			/* if (!(_i$8 < _ref$8.$length)) { break; } */ if(!(_i$8 < _ref$8.$length)) { $s = 34; continue; }
+			res$3 = ((_i$8 < 0 || _i$8 >= _ref$8.$length) ? $throwRuntimeError("index out of range") : _ref$8.$array[_ref$8.$offset + _i$8]);
+			_ref$9 = res$3.DeferLinks;
+			_i$9 = 0;
+			/* while (true) { */ case 35:
+				/* if (!(_i$9 < _ref$9.$length)) { break; } */ if(!(_i$9 < _ref$9.$length)) { $s = 36; continue; }
+				item$3 = $clone(((_i$9 < 0 || _i$9 >= _ref$9.$length) ? $throwRuntimeError("index out of range") : _ref$9.$array[_ref$9.$offset + _i$9]), gu.StaticView);
+				_r$10 = item$3.Render(); /* */ $s = 37; case 37: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
 				markup$1 = _r$10;
 				$r = markup$1.EachEvent((function(body, dm, head) { return function $b(ev, root) {
 					var $ptr, _arg$2, _arg$3, _r$11, ev, root, $s, $r;
@@ -55682,25 +55815,25 @@ $packages["github.com/influx6/gu/redom"] = (function() {
 					$s = -1; return;
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._r$11 = _r$11; $f.ev = ev; $f.root = root; $f.$s = $s; $f.$r = $r; return $f;
-				}; })(body, dm, head)); /* */ $s = 32; case 32: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				_r$11 = markup$1.HTML(); /* */ $s = 33; case 33: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
-				_r$12 = js$1.CreateFragment(_r$11); /* */ $s = 34; case 34: if($c) { $c = false; _r$12 = _r$12.$blk(); } if (_r$12 && _r$12.$blk !== undefined) { break s; }
+				}; })(body, dm, head)); /* */ $s = 38; case 38: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				_r$11 = markup$1.HTML(); /* */ $s = 39; case 39: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
+				_r$12 = js$1.CreateFragment(_r$11); /* */ $s = 40; case 40: if($c) { $c = false; _r$12 = _r$12.$blk(); } if (_r$12 && _r$12.$blk !== undefined) { break s; }
 				_arg$2 = _r$12;
-				_r$13 = body[0].Underlying(); /* */ $s = 35; case 35: if($c) { $c = false; _r$13 = _r$13.$blk(); } if (_r$13 && _r$13.$blk !== undefined) { break s; }
+				_r$13 = body[0].Underlying(); /* */ $s = 41; case 41: if($c) { $c = false; _r$13 = _r$13.$blk(); } if (_r$13 && _r$13.$blk !== undefined) { break s; }
 				_arg$3 = _r$13;
-				$r = js$1.Patch(_arg$2, _arg$3, false); /* */ $s = 36; case 36: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				_i$6++;
-			/* } */ $s = 29; continue; case 30:
-			_i$2++;
-		/* } */ $s = 13; continue; case 14:
+				$r = js$1.Patch(_arg$2, _arg$3, false); /* */ $s = 42; case 42: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				_i$9++;
+			/* } */ $s = 35; continue; case 36:
+			_i$8++;
+		/* } */ $s = 33; continue; case 34:
 		$s = -1; return;
 		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: DOMRenderer.ptr.prototype.Render }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._i = _i; $f._i$1 = _i$1; $f._i$2 = _i$2; $f._i$3 = _i$3; $f._i$4 = _i$4; $f._i$5 = _i$5; $f._i$6 = _i$6; $f._r = _r; $f._r$1 = _r$1; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$12 = _r$12; $f._r$13 = _r$13; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f._ref$3 = _ref$3; $f._ref$4 = _ref$4; $f._ref$5 = _ref$5; $f._ref$6 = _ref$6; $f.body = body; $f.dm = dm; $f.head = head; $f.item = item; $f.item$1 = item$1; $f.item$2 = item$2; $f.item$3 = item$3; $f.markup = markup; $f.markup$1 = markup$1; $f.render = render; $f.render$1 = render$1; $f.res = res; $f.rs = rs; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: DOMRenderer.ptr.prototype.Render }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._i = _i; $f._i$1 = _i$1; $f._i$2 = _i$2; $f._i$3 = _i$3; $f._i$4 = _i$4; $f._i$5 = _i$5; $f._i$6 = _i$6; $f._i$7 = _i$7; $f._i$8 = _i$8; $f._i$9 = _i$9; $f._r = _r; $f._r$1 = _r$1; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$12 = _r$12; $f._r$13 = _r$13; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f._ref = _ref; $f._ref$1 = _ref$1; $f._ref$2 = _ref$2; $f._ref$3 = _ref$3; $f._ref$4 = _ref$4; $f._ref$5 = _ref$5; $f._ref$6 = _ref$6; $f._ref$7 = _ref$7; $f._ref$8 = _ref$8; $f._ref$9 = _ref$9; $f.body = body; $f.dm = dm; $f.head = head; $f.item = item; $f.item$1 = item$1; $f.item$2 = item$2; $f.item$3 = item$3; $f.markup = markup; $f.markup$1 = markup$1; $f.render = render; $f.render$1 = render$1; $f.res = res; $f.res$1 = res$1; $f.res$2 = res$2; $f.res$3 = res$3; $f.rs = rs; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	DOMRenderer.prototype.Render = function(rs) { return this.$val.Render(rs); };
 	DOMRenderer.ptr.prototype.RenderUpdate = function(rv, targets, update) {
-		var $ptr, _arg, _arg$1, _arg$2, _arg$3, _i, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, body, dm, kernels, markup, markup$1, rv, targetDOM, targets, update, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; _ref = $f._ref; body = $f.body; dm = $f.dm; kernels = $f.kernels; markup = $f.markup; markup$1 = $f.markup$1; rv = $f.rv; targetDOM = $f.targetDOM; targets = $f.targets; update = $f.update; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _arg, _arg$1, _arg$2, _arg$3, _arg$4, _arg$5, _arg$6, _arg$7, _arg$8, _arg$9, _i, _r, _r$1, _r$10, _r$11, _r$12, _r$13, _r$14, _r$15, _r$16, _r$17, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _tuple, _tuple$1, body, dm, kernels, kvr, kvr$1, markup, markup$1, ok, ok$1, rv, targetDOM, targets, update, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _arg$4 = $f._arg$4; _arg$5 = $f._arg$5; _arg$6 = $f._arg$6; _arg$7 = $f._arg$7; _arg$8 = $f._arg$8; _arg$9 = $f._arg$9; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _r$10 = $f._r$10; _r$11 = $f._r$11; _r$12 = $f._r$12; _r$13 = $f._r$13; _r$14 = $f._r$14; _r$15 = $f._r$15; _r$16 = $f._r$16; _r$17 = $f._r$17; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; body = $f.body; dm = $f.dm; kernels = $f.kernels; kvr = $f.kvr; kvr$1 = $f.kvr$1; markup = $f.markup; markup$1 = $f.markup$1; ok = $f.ok; ok$1 = $f.ok$1; rv = $f.rv; targetDOM = $f.targetDOM; targets = $f.targets; update = $f.update; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		body = [body];
 		dm = [dm];
 		targetDOM = [targetDOM];
@@ -55727,50 +55860,84 @@ $packages["github.com/influx6/gu/redom"] = (function() {
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._r$2 = _r$2; $f.ev = ev; $f.root = root; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(body, dm, targetDOM)); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			/* } */ case 6:
-			_r$2 = markup.HTML(); /* */ $s = 8; case 8: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			_r$3 = js$1.CreateFragment(_r$2); /* */ $s = 9; case 9: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-			_arg = _r$3;
-			_r$4 = body[0].Underlying(); /* */ $s = 10; case 10: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-			_arg$1 = _r$4;
-			$r = js$1.Patch(_arg, _arg$1, false); /* */ $s = 11; case 11: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_tuple = $assertType(rv, gu.RenderView, true);
+			kvr = _tuple[0];
+			ok = _tuple[1];
+			/* */ if (ok) { $s = 8; continue; }
+			/* */ $s = 9; continue;
+			/* if (ok) { */ case 8:
+				_r$2 = markup.HTML(); /* */ $s = 10; case 10: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+				_r$3 = js$1.CreateFragment(_r$2); /* */ $s = 11; case 11: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+				_arg = _r$3;
+				_r$4 = body[0].Underlying(); /* */ $s = 12; case 12: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+				_arg$1 = _r$4;
+				_r$5 = kvr.RenderedBefore(); /* */ $s = 13; case 13: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+				_arg$2 = !_r$5;
+				$r = js$1.Patch(_arg, _arg$1, _arg$2); /* */ $s = 14; case 14: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$s = -1; return;
+				return;
+			/* } */ case 9:
+			_r$6 = markup.HTML(); /* */ $s = 15; case 15: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+			_r$7 = js$1.CreateFragment(_r$6); /* */ $s = 16; case 16: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
+			_arg$3 = _r$7;
+			_r$8 = body[0].Underlying(); /* */ $s = 17; case 17: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
+			_arg$4 = _r$8;
+			$r = js$1.Patch(_arg$3, _arg$4, false); /* */ $s = 18; case 18: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;
 			return;
 		/* } */ case 3:
-		_r$5 = body[0].QuerySelectorAll(targets); /* */ $s = 12; case 12: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-		kernels = _r$5;
+		_r$9 = body[0].QuerySelectorAll(targets); /* */ $s = 19; case 19: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
+		kernels = _r$9;
 		_ref = kernels;
 		_i = 0;
-		/* while (true) { */ case 13:
-			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 14; continue; }
+		/* while (true) { */ case 20:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 21; continue; }
 			targetDOM[0] = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
-			_r$6 = rv.Render(); /* */ $s = 15; case 15: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
-			markup$1 = _r$6;
-			/* */ if (!update) { $s = 16; continue; }
-			/* */ $s = 17; continue;
-			/* if (!update) { */ case 16:
+			_r$10 = rv.Render(); /* */ $s = 22; case 22: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
+			markup$1 = _r$10;
+			/* */ if (!update) { $s = 23; continue; }
+			/* */ $s = 24; continue;
+			/* if (!update) { */ case 23:
 				$r = markup$1.EachEvent((function(body, dm, targetDOM) { return function $b(ev, root) {
-					var $ptr, _arg$2, _arg$3, _r$7, ev, root, $s, $r;
-					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _r$7 = $f._r$7; ev = $f.ev; root = $f.root; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-					_arg$2 = ev;
-					_r$7 = targetDOM[0].Underlying(); /* */ $s = 1; case 1: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
-					_arg$3 = _r$7;
-					$r = dm[0].BindEvent(_arg$2, _arg$3); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					var $ptr, _arg$5, _arg$6, _r$11, ev, root, $s, $r;
+					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg$5 = $f._arg$5; _arg$6 = $f._arg$6; _r$11 = $f._r$11; ev = $f.ev; root = $f.root; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+					_arg$5 = ev;
+					_r$11 = targetDOM[0].Underlying(); /* */ $s = 1; case 1: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
+					_arg$6 = _r$11;
+					$r = dm[0].BindEvent(_arg$5, _arg$6); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 					$s = -1; return;
 					return;
-					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._r$7 = _r$7; $f.ev = ev; $f.root = root; $f.$s = $s; $f.$r = $r; return $f;
-				}; })(body, dm, targetDOM)); /* */ $s = 18; case 18: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			/* } */ case 17:
-			_r$7 = markup$1.HTML(); /* */ $s = 19; case 19: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
-			_r$8 = js$1.CreateFragment(_r$7); /* */ $s = 20; case 20: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
-			_arg$2 = _r$8;
-			_r$9 = targetDOM[0].Underlying(); /* */ $s = 21; case 21: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
-			_arg$3 = _r$9;
-			$r = js$1.Patch(_arg$2, _arg$3, false); /* */ $s = 22; case 22: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg$5 = _arg$5; $f._arg$6 = _arg$6; $f._r$11 = _r$11; $f.ev = ev; $f.root = root; $f.$s = $s; $f.$r = $r; return $f;
+				}; })(body, dm, targetDOM)); /* */ $s = 25; case 25: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* } */ case 24:
+			_tuple$1 = $assertType(rv, gu.RenderView, true);
+			kvr$1 = _tuple$1[0];
+			ok$1 = _tuple$1[1];
+			/* */ if (ok$1) { $s = 26; continue; }
+			/* */ $s = 27; continue;
+			/* if (ok$1) { */ case 26:
+				_r$11 = markup$1.HTML(); /* */ $s = 28; case 28: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
+				_r$12 = js$1.CreateFragment(_r$11); /* */ $s = 29; case 29: if($c) { $c = false; _r$12 = _r$12.$blk(); } if (_r$12 && _r$12.$blk !== undefined) { break s; }
+				_arg$5 = _r$12;
+				_r$13 = body[0].Underlying(); /* */ $s = 30; case 30: if($c) { $c = false; _r$13 = _r$13.$blk(); } if (_r$13 && _r$13.$blk !== undefined) { break s; }
+				_arg$6 = _r$13;
+				_r$14 = kvr$1.RenderedBefore(); /* */ $s = 31; case 31: if($c) { $c = false; _r$14 = _r$14.$blk(); } if (_r$14 && _r$14.$blk !== undefined) { break s; }
+				_arg$7 = !_r$14;
+				$r = js$1.Patch(_arg$5, _arg$6, _arg$7); /* */ $s = 32; case 32: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				_i++;
+				/* continue; */ $s = 20; continue;
+			/* } */ case 27:
+			_r$15 = markup$1.HTML(); /* */ $s = 33; case 33: if($c) { $c = false; _r$15 = _r$15.$blk(); } if (_r$15 && _r$15.$blk !== undefined) { break s; }
+			_r$16 = js$1.CreateFragment(_r$15); /* */ $s = 34; case 34: if($c) { $c = false; _r$16 = _r$16.$blk(); } if (_r$16 && _r$16.$blk !== undefined) { break s; }
+			_arg$8 = _r$16;
+			_r$17 = targetDOM[0].Underlying(); /* */ $s = 35; case 35: if($c) { $c = false; _r$17 = _r$17.$blk(); } if (_r$17 && _r$17.$blk !== undefined) { break s; }
+			_arg$9 = _r$17;
+			$r = js$1.Patch(_arg$8, _arg$9, false); /* */ $s = 36; case 36: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			_i++;
-		/* } */ $s = 13; continue; case 14:
+		/* } */ $s = 20; continue; case 21:
 		$s = -1; return;
 		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: DOMRenderer.ptr.prototype.RenderUpdate }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f._ref = _ref; $f.body = body; $f.dm = dm; $f.kernels = kernels; $f.markup = markup; $f.markup$1 = markup$1; $f.rv = rv; $f.targetDOM = targetDOM; $f.targets = targets; $f.update = update; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: DOMRenderer.ptr.prototype.RenderUpdate }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._arg$4 = _arg$4; $f._arg$5 = _arg$5; $f._arg$6 = _arg$6; $f._arg$7 = _arg$7; $f._arg$8 = _arg$8; $f._arg$9 = _arg$9; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$12 = _r$12; $f._r$13 = _r$13; $f._r$14 = _r$14; $f._r$15 = _r$15; $f._r$16 = _r$16; $f._r$17 = _r$17; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.body = body; $f.dm = dm; $f.kernels = kernels; $f.kvr = kvr; $f.kvr$1 = kvr$1; $f.markup = markup; $f.markup$1 = markup$1; $f.ok = ok; $f.ok$1 = ok$1; $f.rv = rv; $f.targetDOM = targetDOM; $f.targets = targets; $f.update = update; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	DOMRenderer.prototype.RenderUpdate = function(rv, targets, update) { return this.$val.RenderUpdate(rv, targets, update); };
 	DOMRenderer.ptr.prototype.BindEvent = function(source, root) {
@@ -55799,11 +55966,12 @@ $packages["github.com/influx6/gu/redom"] = (function() {
 	};
 	DOMRenderer.prototype.BindEvent = function(source, root) { return this.$val.BindEvent(source, root); };
 	DOMRenderer.ptr.prototype.TriggerBindEvent = function(event, root, source) {
-		var $ptr, _i, _ref, children, dm, event, item, kids, match, root, source, target, x, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _ref = $f._ref; children = $f.children; dm = $f.dm; event = $f.event; item = $f.item; kids = $f.kids; match = $f.match; root = $f.root; source = $f.source; target = $f.target; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _i, _r, _ref, children, dm, event, item, kids, match, root, source, target, x, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; children = $f.children; dm = $f.dm; event = $f.event; item = $f.item; kids = $f.kids; match = $f.match; root = $f.root; source = $f.source; target = $f.target; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		dm = this;
 		target = event.target;
-		children = root.querySelectorAll($externalize(source.Target, $String));
+		_r = source.Target(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		children = root.querySelectorAll($externalize(_r, $String));
 		if (children === null || children === undefined) {
 			$s = -1; return;
 			return;
@@ -55812,24 +55980,24 @@ $packages["github.com/influx6/gu/redom"] = (function() {
 		match = false;
 		_ref = kids;
 		_i = 0;
-		/* while (true) { */ case 1:
-			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 2; continue; }
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
 			item = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
 			if (!(item === target)) {
 				_i++;
-				/* continue; */ $s = 1; continue;
+				/* continue; */ $s = 2; continue;
 			}
 			match = true;
-			/* break; */ $s = 2; continue;
-		/* } */ $s = 1; continue; case 2:
-		/* */ if (match) { $s = 3; continue; }
-		/* */ $s = 4; continue;
-		/* if (match) { */ case 3:
-			$r = dispatch.Dispatch((x = new trees.EventBroadcast.ptr(source.EventID, trees.NewWrapperEvent(event)), new x.constructor.elem(x))); /* */ $s = 5; case 5: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		/* } */ case 4:
+			/* break; */ $s = 3; continue;
+		/* } */ $s = 2; continue; case 3:
+		/* */ if (match) { $s = 4; continue; }
+		/* */ $s = 5; continue;
+		/* if (match) { */ case 4:
+			$r = dispatch.Dispatch((x = new trees.EventBroadcast.ptr(source.EventID, trees.NewWrapperEvent(event)), new x.constructor.elem(x))); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* } */ case 5:
 		$s = -1; return;
 		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: DOMRenderer.ptr.prototype.TriggerBindEvent }; } $f.$ptr = $ptr; $f._i = _i; $f._ref = _ref; $f.children = children; $f.dm = dm; $f.event = event; $f.item = item; $f.kids = kids; $f.match = match; $f.root = root; $f.source = source; $f.target = target; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: DOMRenderer.ptr.prototype.TriggerBindEvent }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._ref = _ref; $f.children = children; $f.dm = dm; $f.event = event; $f.item = item; $f.kids = kids; $f.match = match; $f.root = root; $f.source = source; $f.target = target; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	DOMRenderer.prototype.TriggerBindEvent = function(event, root, source) { return this.$val.TriggerBindEvent(event, root, source); };
 	ptrType$3.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([sliceType], [], true)}, {prop: "RenderUpdate", name: "RenderUpdate", pkg: "", typ: $funcType([gu.Renderable, $String, $Bool], [], false)}, {prop: "BindEvent", name: "BindEvent", pkg: "", typ: $funcType([ptrType$2, ptrType], [], false)}, {prop: "TriggerBindEvent", name: "TriggerBindEvent", pkg: "", typ: $funcType([ptrType, ptrType, ptrType$2], [], false)}];
@@ -55885,7 +56053,7 @@ $packages["github.com/influx6/gu/app"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/trees/elems"] = (function() {
-	var $pkg = {}, $init, fmt, css, trees, ptrType, sliceType, Text, CSS, Button, Div, Form, Input, Paragraph, Section, Header1, Header2;
+	var $pkg = {}, $init, fmt, css, trees, ptrType, sliceType, Text, CSS, Button, Div, Form, Input, Paragraph, Section, Span, Header1, Header2;
 	fmt = $packages["fmt"];
 	css = $packages["github.com/influx6/gu/css"];
 	trees = $packages["github.com/influx6/gu/trees"];
@@ -56072,6 +56240,30 @@ $packages["github.com/influx6/gu/trees/elems"] = (function() {
 		/* */ } return; } if ($f === undefined) { $f = { $blk: Section }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._ref = _ref; $f.e = e; $f.m = m; $f.markup = markup; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.Section = Section;
+	Span = function(markup) {
+		var $ptr, _i, _r, _ref, e, m, markup, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; e = $f.e; m = $f.m; markup = $f.markup; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		_r = trees.NewMarkup("span", false); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		e = _r;
+		_ref = markup;
+		_i = 0;
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+			m = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			/* */ if ($interfaceIsEqual(m, $ifaceNil)) { $s = 4; continue; }
+			/* */ $s = 5; continue;
+			/* if ($interfaceIsEqual(m, $ifaceNil)) { */ case 4:
+				_i++;
+				/* continue; */ $s = 2; continue;
+			/* } */ case 5:
+			$r = m.Apply(e); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_i++;
+		/* } */ $s = 2; continue; case 3:
+		$s = -1; return e;
+		return e;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Span }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._ref = _ref; $f.e = e; $f.m = m; $f.markup = markup; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.Span = Span;
 	Header1 = function(markup) {
 		var $ptr, _i, _r, _ref, e, m, markup, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; e = $f.e; m = $f.m; markup = $f.markup; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -56243,7 +56435,7 @@ $packages["github.com/influx6/gu/trees/property"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/examples/subscribe/app"] = (function() {
-	var $pkg = {}, $init, fmt, gu, css, dispatch, trees, elems, events, property, SubscriptionSubmitEvent, SubmissionNotifier, Subscriber, ptrType, sliceType, funcType, funcType$1, sliceType$1, sliceType$2, sliceType$3, sliceType$4, funcType$2, ptrType$1, ptrType$2, ptrType$3, _r, _r$1, _r$2, NewNotifier;
+	var $pkg = {}, $init, fmt, gu, css, dispatch, trees, elems, events, property, dom, SubscriptionSubmitEvent, SubmissionNotifier, Subscriber, ptrType, sliceType, funcType, sliceType$1, funcType$1, sliceType$2, sliceType$3, sliceType$4, ptrType$1, funcType$2, ptrType$2, ptrType$3, ptrType$4, _r, _r$1, _r$2, _r$3, NewNotifier;
 	fmt = $packages["fmt"];
 	gu = $packages["github.com/influx6/gu"];
 	css = $packages["github.com/influx6/gu/css"];
@@ -56252,6 +56444,7 @@ $packages["github.com/influx6/gu/examples/subscribe/app"] = (function() {
 	elems = $packages["github.com/influx6/gu/trees/elems"];
 	events = $packages["github.com/influx6/gu/trees/events"];
 	property = $packages["github.com/influx6/gu/trees/property"];
+	dom = $packages["honnef.co/go/js/dom"];
 	SubscriptionSubmitEvent = $pkg.SubscriptionSubmitEvent = $newType(0, $kindStruct, "app.SubscriptionSubmitEvent", true, "github.com/influx6/gu/examples/subscribe/app", true, function(Email_, Status_) {
 		this.$val = this;
 		if (arguments.length === 0) {
@@ -56283,15 +56476,16 @@ $packages["github.com/influx6/gu/examples/subscribe/app"] = (function() {
 	ptrType = $ptrType(css.Rule);
 	sliceType = $sliceType(ptrType);
 	funcType = $funcType([SubscriptionSubmitEvent], [], false);
+	sliceType$1 = $sliceType($emptyInterface);
 	funcType$1 = $funcType([], [], false);
-	sliceType$1 = $sliceType(funcType$1);
-	sliceType$2 = $sliceType($emptyInterface);
-	sliceType$3 = $sliceType(trees.Appliable);
-	sliceType$4 = $sliceType($String);
-	funcType$2 = $funcType([trees.EventObject], [], false);
+	sliceType$2 = $sliceType(funcType$1);
+	sliceType$3 = $sliceType($String);
+	sliceType$4 = $sliceType(trees.Appliable);
 	ptrType$1 = $ptrType(trees.Markup);
-	ptrType$2 = $ptrType(SubmissionNotifier);
-	ptrType$3 = $ptrType(Subscriber);
+	funcType$2 = $funcType([trees.EventObject, ptrType$1], [], false);
+	ptrType$2 = $ptrType(dom.HTMLInputElement);
+	ptrType$3 = $ptrType(SubmissionNotifier);
+	ptrType$4 = $ptrType(Subscriber);
 	NewNotifier = function() {
 		var $ptr, sn, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; sn = $f.sn; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
@@ -56304,117 +56498,137 @@ $packages["github.com/influx6/gu/examples/subscribe/app"] = (function() {
 	};
 	$pkg.NewNotifier = NewNotifier;
 	SubmissionNotifier.ptr.prototype.start = function() {
-		var $ptr, _r$3, s, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$3 = $f._r$3; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _r$4, s, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$4 = $f._r$4; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		s = [s];
 		s[0] = this;
-		_r$3 = dispatch.Subscribe(new funcType((function(s) { return function $b(sme) {
-			var $ptr, sme, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; sme = $f.sme; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		_r$4 = dispatch.Subscribe(new funcType((function(s) { return function $b(sme) {
+			var $ptr, _r$4, sme, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$4 = $f._r$4; sme = $f.sme; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 			sme = $clone(sme, SubscriptionSubmitEvent);
+			_r$4 = fmt.Printf("Received submit %#v\n", new sliceType$1([new sme.constructor.elem(sme)])); /* */ $s = 1; case 1: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			_r$4;
 			SubscriptionSubmitEvent.copy(s[0].c, sme);
-			$r = s[0].Reactive.Publish(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = s[0].Reactive.Publish(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;
 			return;
-			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.sme = sme; $f.$s = $s; $f.$r = $r; return $f;
-		}; })(s)), new sliceType$1([])); /* */ $s = 1; case 1: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		_r$3;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$4 = _r$4; $f.sme = sme; $f.$s = $s; $f.$r = $r; return $f;
+		}; })(s)), new sliceType$2([])); /* */ $s = 1; case 1: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+		_r$4;
 		$s = -1; return;
 		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: SubmissionNotifier.ptr.prototype.start }; } $f.$ptr = $ptr; $f._r$3 = _r$3; $f.s = s; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: SubmissionNotifier.ptr.prototype.start }; } $f.$ptr = $ptr; $f._r$4 = _r$4; $f.s = s; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	SubmissionNotifier.prototype.start = function() { return this.$val.start(); };
 	SubmissionNotifier.ptr.prototype.Render = function() {
-		var $ptr, _arg, _arg$1, _arg$10, _arg$11, _arg$12, _arg$13, _arg$14, _arg$15, _arg$16, _arg$17, _arg$2, _arg$3, _arg$4, _arg$5, _arg$6, _arg$7, _arg$8, _arg$9, _r$10, _r$11, _r$12, _r$13, _r$14, _r$15, _r$16, _r$17, _r$18, _r$19, _r$20, _r$21, _r$22, _r$23, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, s, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$10 = $f._arg$10; _arg$11 = $f._arg$11; _arg$12 = $f._arg$12; _arg$13 = $f._arg$13; _arg$14 = $f._arg$14; _arg$15 = $f._arg$15; _arg$16 = $f._arg$16; _arg$17 = $f._arg$17; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _arg$4 = $f._arg$4; _arg$5 = $f._arg$5; _arg$6 = $f._arg$6; _arg$7 = $f._arg$7; _arg$8 = $f._arg$8; _arg$9 = $f._arg$9; _r$10 = $f._r$10; _r$11 = $f._r$11; _r$12 = $f._r$12; _r$13 = $f._r$13; _r$14 = $f._r$14; _r$15 = $f._r$15; _r$16 = $f._r$16; _r$17 = $f._r$17; _r$18 = $f._r$18; _r$19 = $f._r$19; _r$20 = $f._r$20; _r$21 = $f._r$21; _r$22 = $f._r$22; _r$23 = $f._r$23; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _arg, _arg$1, _arg$10, _arg$11, _arg$12, _arg$13, _arg$14, _arg$15, _arg$16, _arg$17, _arg$18, _arg$19, _arg$2, _arg$20, _arg$21, _arg$22, _arg$23, _arg$24, _arg$25, _arg$3, _arg$4, _arg$5, _arg$6, _arg$7, _arg$8, _arg$9, _r$10, _r$11, _r$12, _r$13, _r$14, _r$15, _r$16, _r$17, _r$18, _r$19, _r$20, _r$21, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, s, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$10 = $f._arg$10; _arg$11 = $f._arg$11; _arg$12 = $f._arg$12; _arg$13 = $f._arg$13; _arg$14 = $f._arg$14; _arg$15 = $f._arg$15; _arg$16 = $f._arg$16; _arg$17 = $f._arg$17; _arg$18 = $f._arg$18; _arg$19 = $f._arg$19; _arg$2 = $f._arg$2; _arg$20 = $f._arg$20; _arg$21 = $f._arg$21; _arg$22 = $f._arg$22; _arg$23 = $f._arg$23; _arg$24 = $f._arg$24; _arg$25 = $f._arg$25; _arg$3 = $f._arg$3; _arg$4 = $f._arg$4; _arg$5 = $f._arg$5; _arg$6 = $f._arg$6; _arg$7 = $f._arg$7; _arg$8 = $f._arg$8; _arg$9 = $f._arg$9; _r$10 = $f._r$10; _r$11 = $f._r$11; _r$12 = $f._r$12; _r$13 = $f._r$13; _r$14 = $f._r$14; _r$15 = $f._r$15; _r$16 = $f._r$16; _r$17 = $f._r$17; _r$18 = $f._r$18; _r$19 = $f._r$19; _r$20 = $f._r$20; _r$21 = $f._r$21; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		s = this;
-		_r$3 = elems.CSS($pkg.NotificationCSS, s); /* */ $s = 1; case 1: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		_arg = _r$3;
-		_r$4 = elems.Text("App Subscriptuon Completed", new sliceType$2([])); /* */ $s = 2; case 2: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-		_r$5 = elems.Header1(new sliceType$3([_r$4])); /* */ $s = 3; case 3: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-		_arg$1 = _r$5;
-		_arg$2 = property.ClassAttr(new sliceType$4(["submission", "header"]));
-		_arg$3 = s.c.Status;
-		_r$6 = elems.Text("200!", new sliceType$2([])); /* */ $s = 4; case 4: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
-		_r$7 = elems.Header2(new sliceType$3([_r$6])); /* */ $s = 5; case 5: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
-		_arg$4 = _r$7;
-		_r$8 = elems.Text("404!", new sliceType$2([])); /* */ $s = 6; case 6: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
-		_r$9 = elems.Header2(new sliceType$3([_r$8])); /* */ $s = 7; case 7: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
-		_arg$5 = _r$9;
-		_r$10 = trees.MarkupWhen(_arg$3, _arg$4, _arg$5); /* */ $s = 8; case 8: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
-		_arg$6 = _r$10;
-		_r$11 = elems.Section(new sliceType$3([_arg$2, _arg$6])); /* */ $s = 9; case 9: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
-		_arg$7 = _r$11;
-		_arg$8 = property.ClassAttr(new sliceType$4(["submission", "content"]));
-		_arg$9 = s.c.Status;
-		_r$12 = elems.Text("Done!", new sliceType$2([])); /* */ $s = 10; case 10: if($c) { $c = false; _r$12 = _r$12.$blk(); } if (_r$12 && _r$12.$blk !== undefined) { break s; }
-		_r$13 = elems.Header2(new sliceType$3([_r$12])); /* */ $s = 11; case 11: if($c) { $c = false; _r$13 = _r$13.$blk(); } if (_r$13 && _r$13.$blk !== undefined) { break s; }
-		_arg$10 = _r$13;
-		_r$14 = elems.Text("Failed!", new sliceType$2([])); /* */ $s = 12; case 12: if($c) { $c = false; _r$14 = _r$14.$blk(); } if (_r$14 && _r$14.$blk !== undefined) { break s; }
-		_r$15 = elems.Header2(new sliceType$3([_r$14])); /* */ $s = 13; case 13: if($c) { $c = false; _r$15 = _r$15.$blk(); } if (_r$15 && _r$15.$blk !== undefined) { break s; }
-		_arg$11 = _r$15;
-		_r$16 = trees.MarkupWhen(_arg$9, _arg$10, _arg$11); /* */ $s = 14; case 14: if($c) { $c = false; _r$16 = _r$16.$blk(); } if (_r$16 && _r$16.$blk !== undefined) { break s; }
-		_arg$12 = _r$16;
+		_r$4 = elems.CSS($pkg.NotificationCSS, s); /* */ $s = 1; case 1: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+		_arg = _r$4;
+		_arg$1 = property.ClassAttr(new sliceType$3(["submission", "title"]));
+		_r$5 = elems.Text("App Subscription", new sliceType$1([])); /* */ $s = 2; case 2: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+		_arg$2 = _r$5;
+		_r$6 = elems.Header1(new sliceType$4([_arg$1, _arg$2])); /* */ $s = 3; case 3: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+		_arg$3 = _r$6;
+		_arg$4 = property.ClassAttr(new sliceType$3(["submission", "content"]));
+		_arg$5 = s.c.Status && !(s.c.Email === "");
+		_arg$6 = property.ClassAttr(new sliceType$3(["header", "roboto", "passed"]));
+		_r$7 = elems.Text("Done!", new sliceType$1([])); /* */ $s = 4; case 4: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
+		_arg$7 = _r$7;
+		_r$8 = elems.Header2(new sliceType$4([_arg$6, _arg$7])); /* */ $s = 5; case 5: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
+		_arg$8 = _r$8;
+		_arg$9 = property.ClassAttr(new sliceType$3(["header", "roboto", "failed"]));
+		_r$9 = elems.Text("Failed!", new sliceType$1([])); /* */ $s = 6; case 6: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
+		_arg$10 = _r$9;
+		_r$10 = elems.Header2(new sliceType$4([_arg$9, _arg$10])); /* */ $s = 7; case 7: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
+		_arg$11 = _r$10;
+		_r$11 = trees.MarkupWhen(_arg$5, _arg$8, _arg$11); /* */ $s = 8; case 8: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
+		_arg$12 = _r$11;
 		_arg$13 = !(s.c.Email === "");
-		_r$17 = elems.Text("Welcome %q to App Subsciption.", new sliceType$2([new $String(s.c.Email)])); /* */ $s = 15; case 15: if($c) { $c = false; _r$17 = _r$17.$blk(); } if (_r$17 && _r$17.$blk !== undefined) { break s; }
-		_r$18 = elems.Paragraph(new sliceType$3([_r$17])); /* */ $s = 16; case 16: if($c) { $c = false; _r$18 = _r$18.$blk(); } if (_r$18 && _r$18.$blk !== undefined) { break s; }
-		_arg$14 = _r$18;
-		_r$19 = elems.Text("We are sorry %q, subscription failed.", new sliceType$2([new $String(s.c.Email)])); /* */ $s = 17; case 17: if($c) { $c = false; _r$19 = _r$19.$blk(); } if (_r$19 && _r$19.$blk !== undefined) { break s; }
-		_r$20 = elems.Paragraph(new sliceType$3([_r$19])); /* */ $s = 18; case 18: if($c) { $c = false; _r$20 = _r$20.$blk(); } if (_r$20 && _r$20.$blk !== undefined) { break s; }
-		_arg$15 = _r$20;
-		_r$21 = trees.MarkupWhen(_arg$13, _arg$14, _arg$15); /* */ $s = 19; case 19: if($c) { $c = false; _r$21 = _r$21.$blk(); } if (_r$21 && _r$21.$blk !== undefined) { break s; }
-		_arg$16 = _r$21;
-		_r$22 = elems.Section(new sliceType$3([_arg$8, _arg$12, _arg$16])); /* */ $s = 20; case 20: if($c) { $c = false; _r$22 = _r$22.$blk(); } if (_r$22 && _r$22.$blk !== undefined) { break s; }
-		_arg$17 = _r$22;
-		_r$23 = elems.Div(new sliceType$3([_arg, _arg$1, _arg$7, _arg$17])); /* */ $s = 21; case 21: if($c) { $c = false; _r$23 = _r$23.$blk(); } if (_r$23 && _r$23.$blk !== undefined) { break s; }
-		$s = -1; return _r$23;
-		return _r$23;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: SubmissionNotifier.ptr.prototype.Render }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$10 = _arg$10; $f._arg$11 = _arg$11; $f._arg$12 = _arg$12; $f._arg$13 = _arg$13; $f._arg$14 = _arg$14; $f._arg$15 = _arg$15; $f._arg$16 = _arg$16; $f._arg$17 = _arg$17; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._arg$4 = _arg$4; $f._arg$5 = _arg$5; $f._arg$6 = _arg$6; $f._arg$7 = _arg$7; $f._arg$8 = _arg$8; $f._arg$9 = _arg$9; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$12 = _r$12; $f._r$13 = _r$13; $f._r$14 = _r$14; $f._r$15 = _r$15; $f._r$16 = _r$16; $f._r$17 = _r$17; $f._r$18 = _r$18; $f._r$19 = _r$19; $f._r$20 = _r$20; $f._r$21 = _r$21; $f._r$22 = _r$22; $f._r$23 = _r$23; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f.s = s; $f.$s = $s; $f.$r = $r; return $f;
+		_arg$14 = property.ClassAttr(new sliceType$3(["desc"]));
+		_r$12 = elems.Text("Welcome ", new sliceType$1([])); /* */ $s = 9; case 9: if($c) { $c = false; _r$12 = _r$12.$blk(); } if (_r$12 && _r$12.$blk !== undefined) { break s; }
+		_arg$15 = _r$12;
+		_arg$16 = property.ClassAttr(new sliceType$3(["email"]));
+		_r$13 = elems.Text("%q", new sliceType$1([new $String(s.c.Email)])); /* */ $s = 10; case 10: if($c) { $c = false; _r$13 = _r$13.$blk(); } if (_r$13 && _r$13.$blk !== undefined) { break s; }
+		_arg$17 = _r$13;
+		_r$14 = elems.Span(new sliceType$4([_arg$16, _arg$17])); /* */ $s = 11; case 11: if($c) { $c = false; _r$14 = _r$14.$blk(); } if (_r$14 && _r$14.$blk !== undefined) { break s; }
+		_arg$18 = _r$14;
+		_r$15 = elems.Text(" to the App.", new sliceType$1([])); /* */ $s = 12; case 12: if($c) { $c = false; _r$15 = _r$15.$blk(); } if (_r$15 && _r$15.$blk !== undefined) { break s; }
+		_arg$19 = _r$15;
+		_r$16 = elems.Paragraph(new sliceType$4([_arg$14, _arg$15, _arg$18, _arg$19])); /* */ $s = 13; case 13: if($c) { $c = false; _r$16 = _r$16.$blk(); } if (_r$16 && _r$16.$blk !== undefined) { break s; }
+		_arg$20 = _r$16;
+		_arg$21 = property.ClassAttr(new sliceType$3(["desc"]));
+		_r$17 = elems.Text("We are sorry but subscription failed.", new sliceType$1([])); /* */ $s = 14; case 14: if($c) { $c = false; _r$17 = _r$17.$blk(); } if (_r$17 && _r$17.$blk !== undefined) { break s; }
+		_arg$22 = _r$17;
+		_r$18 = elems.Paragraph(new sliceType$4([_arg$21, _arg$22])); /* */ $s = 15; case 15: if($c) { $c = false; _r$18 = _r$18.$blk(); } if (_r$18 && _r$18.$blk !== undefined) { break s; }
+		_arg$23 = _r$18;
+		_r$19 = trees.MarkupWhen(_arg$13, _arg$20, _arg$23); /* */ $s = 16; case 16: if($c) { $c = false; _r$19 = _r$19.$blk(); } if (_r$19 && _r$19.$blk !== undefined) { break s; }
+		_arg$24 = _r$19;
+		_r$20 = elems.Section(new sliceType$4([_arg$4, _arg$12, _arg$24])); /* */ $s = 17; case 17: if($c) { $c = false; _r$20 = _r$20.$blk(); } if (_r$20 && _r$20.$blk !== undefined) { break s; }
+		_arg$25 = _r$20;
+		_r$21 = elems.Div(new sliceType$4([_arg, _arg$3, _arg$25])); /* */ $s = 18; case 18: if($c) { $c = false; _r$21 = _r$21.$blk(); } if (_r$21 && _r$21.$blk !== undefined) { break s; }
+		$s = -1; return _r$21;
+		return _r$21;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: SubmissionNotifier.ptr.prototype.Render }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$10 = _arg$10; $f._arg$11 = _arg$11; $f._arg$12 = _arg$12; $f._arg$13 = _arg$13; $f._arg$14 = _arg$14; $f._arg$15 = _arg$15; $f._arg$16 = _arg$16; $f._arg$17 = _arg$17; $f._arg$18 = _arg$18; $f._arg$19 = _arg$19; $f._arg$2 = _arg$2; $f._arg$20 = _arg$20; $f._arg$21 = _arg$21; $f._arg$22 = _arg$22; $f._arg$23 = _arg$23; $f._arg$24 = _arg$24; $f._arg$25 = _arg$25; $f._arg$3 = _arg$3; $f._arg$4 = _arg$4; $f._arg$5 = _arg$5; $f._arg$6 = _arg$6; $f._arg$7 = _arg$7; $f._arg$8 = _arg$8; $f._arg$9 = _arg$9; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$12 = _r$12; $f._r$13 = _r$13; $f._r$14 = _r$14; $f._r$15 = _r$15; $f._r$16 = _r$16; $f._r$17 = _r$17; $f._r$18 = _r$18; $f._r$19 = _r$19; $f._r$20 = _r$20; $f._r$21 = _r$21; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f.s = s; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	SubmissionNotifier.prototype.Render = function() { return this.$val.Render(); };
 	Subscriber.ptr.prototype.Render = function() {
-		var $ptr, _arg, _arg$1, _arg$10, _arg$11, _arg$12, _arg$2, _arg$3, _arg$4, _arg$5, _arg$6, _arg$7, _arg$8, _arg$9, _r$10, _r$11, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, s, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$10 = $f._arg$10; _arg$11 = $f._arg$11; _arg$12 = $f._arg$12; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _arg$4 = $f._arg$4; _arg$5 = $f._arg$5; _arg$6 = $f._arg$6; _arg$7 = $f._arg$7; _arg$8 = $f._arg$8; _arg$9 = $f._arg$9; _r$10 = $f._r$10; _r$11 = $f._r$11; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _arg, _arg$1, _arg$10, _arg$11, _arg$12, _arg$2, _arg$3, _arg$4, _arg$5, _arg$6, _arg$7, _arg$8, _arg$9, _r$10, _r$11, _r$12, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, s, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$10 = $f._arg$10; _arg$11 = $f._arg$11; _arg$12 = $f._arg$12; _arg$2 = $f._arg$2; _arg$3 = $f._arg$3; _arg$4 = $f._arg$4; _arg$5 = $f._arg$5; _arg$6 = $f._arg$6; _arg$7 = $f._arg$7; _arg$8 = $f._arg$8; _arg$9 = $f._arg$9; _r$10 = $f._r$10; _r$11 = $f._r$11; _r$12 = $f._r$12; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; s = $f.s; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		s = this;
-		_r$3 = elems.CSS($pkg.SubscribeCSS, s); /* */ $s = 1; case 1: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		_arg = _r$3;
-		_arg$1 = property.ClassAttr(new sliceType$4(["subscription"]));
-		_arg$2 = property.ClassAttr(new sliceType$4(["form", "form-control"]));
-		_arg$3 = property.ClassAttr(new sliceType$4(["email"]));
-		_r$4 = elems.Input(new sliceType$3([property.ClassAttr(new sliceType$4(["email"])), property.PlaceholderAttr("example@mail.com"), property.TypeAttr("email")])); /* */ $s = 2; case 2: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-		_arg$4 = _r$4;
-		_r$5 = elems.Section(new sliceType$3([_arg$3, _arg$4])); /* */ $s = 3; case 3: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-		_arg$5 = _r$5;
-		_arg$6 = property.ClassAttr(new sliceType$4(["buttons"]));
-		_r$6 = elems.Text("Subscribe", new sliceType$2([])); /* */ $s = 4; case 4: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
-		_arg$7 = _r$6;
-		_arg$8 = property.ClassAttr(new sliceType$4(["button", "named"]));
-		_r$7 = events.ClickEvent(new funcType$2((function $b(event) {
-			var $ptr, _r$7, event, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$7 = $f._r$7; event = $f.event; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-			_r$7 = fmt.Println(new sliceType$2([new $String("Button clicked!")])); /* */ $s = 1; case 1: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
-			_r$7;
+		_r$4 = elems.CSS($pkg.SubscribeCSS, s); /* */ $s = 1; case 1: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+		_arg = _r$4;
+		_arg$1 = property.ClassAttr(new sliceType$3(["subscription"]));
+		_arg$2 = property.ClassAttr(new sliceType$3(["form", "form-control"]));
+		_arg$3 = property.ClassAttr(new sliceType$3(["email"]));
+		_r$5 = elems.Input(new sliceType$4([property.PlaceholderAttr("example@mail.com"), property.TypeAttr("email")])); /* */ $s = 2; case 2: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+		_arg$4 = _r$5;
+		_r$6 = elems.Section(new sliceType$4([_arg$3, _arg$4])); /* */ $s = 3; case 3: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+		_arg$5 = _r$6;
+		_arg$6 = property.ClassAttr(new sliceType$3(["buttons"]));
+		_r$7 = elems.Text("Subscribe", new sliceType$1([])); /* */ $s = 4; case 4: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
+		_arg$7 = _r$7;
+		_arg$8 = property.ClassAttr(new sliceType$3(["button", "named"]));
+		_r$8 = events.ClickEvent(new funcType$2((function $b(event, tree) {
+			var $ptr, _r$8, _r$9, _tuple, doc, event, input, ok, tree, x, x$1, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$8 = $f._r$8; _r$9 = $f._r$9; _tuple = $f._tuple; doc = $f.doc; event = $f.event; input = $f.input; ok = $f.ok; tree = $f.tree; x = $f.x; x$1 = $f.x$1; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			$r = event.PreventDefault(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$r = event.StopPropagation(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			$r = event.PreventDefault(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_r$8 = dom.GetWindow().Document(); /* */ $s = 3; case 3: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
+			doc = _r$8;
+			_r$9 = doc.QuerySelector(".subscription .form .email input"); /* */ $s = 4; case 4: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
+			_tuple = $assertType(_r$9, ptrType$2, true);
+			input = _tuple[0];
+			ok = _tuple[1];
+			/* */ if (!ok) { $s = 5; continue; }
+			/* */ $s = 6; continue;
+			/* if (!ok) { */ case 5:
+				$r = dispatch.Dispatch((x = new SubscriptionSubmitEvent.ptr("", false), new x.constructor.elem(x))); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$s = -1; return;
+				return;
+			/* } */ case 6:
+			$r = dispatch.NavigateHash("/", "#subscriptions/submit", "#"); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = dispatch.Dispatch((x$1 = new SubscriptionSubmitEvent.ptr($internalize(input.BasicHTMLElement.BasicElement.BasicNode.Object.value, $String), true), new x$1.constructor.elem(x$1))); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;
 			return;
-			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$7 = _r$7; $f.event = event; $f.$s = $s; $f.$r = $r; return $f;
-		})), ""); /* */ $s = 5; case 5: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
-		_arg$9 = _r$7;
-		_r$8 = elems.Button(new sliceType$3([_arg$7, _arg$8, _arg$9])); /* */ $s = 6; case 6: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
-		_arg$10 = _r$8;
-		_r$9 = elems.Section(new sliceType$3([_arg$6, _arg$10])); /* */ $s = 7; case 7: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
-		_arg$11 = _r$9;
-		_r$10 = elems.Form(new sliceType$3([_arg$2, _arg$5, _arg$11])); /* */ $s = 8; case 8: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
-		_arg$12 = _r$10;
-		_r$11 = elems.Section(new sliceType$3([_arg, _arg$1, _arg$12])); /* */ $s = 9; case 9: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
-		$s = -1; return _r$11;
-		return _r$11;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: Subscriber.ptr.prototype.Render }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$10 = _arg$10; $f._arg$11 = _arg$11; $f._arg$12 = _arg$12; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._arg$4 = _arg$4; $f._arg$5 = _arg$5; $f._arg$6 = _arg$6; $f._arg$7 = _arg$7; $f._arg$8 = _arg$8; $f._arg$9 = _arg$9; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f.s = s; $f.$s = $s; $f.$r = $r; return $f;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$8 = _r$8; $f._r$9 = _r$9; $f._tuple = _tuple; $f.doc = doc; $f.event = event; $f.input = input; $f.ok = ok; $f.tree = tree; $f.x = x; $f.x$1 = x$1; $f.$s = $s; $f.$r = $r; return $f;
+		})), ""); /* */ $s = 5; case 5: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
+		_arg$9 = _r$8;
+		_r$9 = elems.Button(new sliceType$4([_arg$7, _arg$8, _arg$9])); /* */ $s = 6; case 6: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
+		_arg$10 = _r$9;
+		_r$10 = elems.Section(new sliceType$4([_arg$6, _arg$10])); /* */ $s = 7; case 7: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
+		_arg$11 = _r$10;
+		_r$11 = elems.Form(new sliceType$4([_arg$2, _arg$5, _arg$11])); /* */ $s = 8; case 8: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
+		_arg$12 = _r$11;
+		_r$12 = elems.Section(new sliceType$4([_arg, _arg$1, _arg$12])); /* */ $s = 9; case 9: if($c) { $c = false; _r$12 = _r$12.$blk(); } if (_r$12 && _r$12.$blk !== undefined) { break s; }
+		$s = -1; return _r$12;
+		return _r$12;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: Subscriber.ptr.prototype.Render }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$10 = _arg$10; $f._arg$11 = _arg$11; $f._arg$12 = _arg$12; $f._arg$2 = _arg$2; $f._arg$3 = _arg$3; $f._arg$4 = _arg$4; $f._arg$5 = _arg$5; $f._arg$6 = _arg$6; $f._arg$7 = _arg$7; $f._arg$8 = _arg$8; $f._arg$9 = _arg$9; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$12 = _r$12; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f.s = s; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	Subscriber.prototype.Render = function() { return this.$val.Render(); };
-	ptrType$2.methods = [{prop: "start", name: "start", pkg: "github.com/influx6/gu/examples/subscribe/app", typ: $funcType([], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [ptrType$1], false)}];
-	ptrType$3.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [ptrType$1], false)}];
+	ptrType$3.methods = [{prop: "start", name: "start", pkg: "github.com/influx6/gu/examples/subscribe/app", typ: $funcType([], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [ptrType$1], false)}];
+	ptrType$4.methods = [{prop: "Render", name: "Render", pkg: "", typ: $funcType([], [ptrType$1], false)}];
 	SubscriptionSubmitEvent.init("", [{prop: "Email", name: "Email", exported: true, typ: $String, tag: "json:\"email\""}, {prop: "Status", name: "Status", exported: true, typ: $Bool, tag: "json:\"status\""}]);
 	SubmissionNotifier.init("github.com/influx6/gu/examples/subscribe/app", [{prop: "Reactive", name: "", exported: true, typ: gu.Reactive, tag: ""}, {prop: "c", name: "c", exported: false, typ: SubscriptionSubmitEvent, tag: ""}]);
 	Subscriber.init("", [{prop: "SubmitBtnColor", name: "SubmitBtnColor", exported: true, typ: $String, tag: ""}]);
@@ -56429,19 +56643,22 @@ $packages["github.com/influx6/gu/examples/subscribe/app"] = (function() {
 		$r = elems.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = events.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = property.$init(); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		_r = css.New("\n  html, body {\n    width: 100%;\n    height: 100%;\n    margin: 0;\n    padding: 0;\n  }\n\n  body {\n    max-wdith: 800px;\n  }\n\n  svg path, svg rect {\n    fill: inherit;\n    stroke: inherit;\n    stroke-wdith: inherit;\n  }\n\n  $, $ *{\n    box-sizing: border-box;\n    -o-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    -webkit-box-sizing: border-box;\n  }\n\n  $ {\n    text-align: center;\n    margin: 100px 0px;\n  }\n\n  $ h1 {\n    color: rgba(0,0,0,0.7);\n  }\n", new sliceType([])); /* */ $s = 9; case 9: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		$pkg.RootCSS = _r;
-		_r$1 = css.New("\n  $, $ *{\n    box-sizing: border-box;\n    -o-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    -webkit-box-sizing: border-box;\n  }\n  \n  $ {\n    width: 100%;\n    height: 100px;\n  }\n", new sliceType([])); /* */ $s = 10; case 10: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		$pkg.NotificationCSS = _r$1;
-		_r$2 = css.New("\n\n  $, $ *{\n    box-sizing: border-box;\n    -o-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    -webkit-box-sizing: border-box;\n  }\n\n  $ {\n    width: 100%;\n    height: 100%;\n    margin: 0;\n    padding: 0;\n  }\n\n  $.subscription .form{\n    width: 85%;\n    height: 70px;\n    margin: 0 auto;\n    border: 1px solid rgba(0,0,0,0.3);\n  }\n\n  $.subscription .form .email, $.subscription .form .buttons {\n    vertical-align: top;\n    display: block;\n  }\n\n  $.subscription .form .email {\n    width: 100%;\n    height: 100%;\n  }\n\n  $.subscription .form .email input{\n    width: 100%;\n    height: 100%;\n    outline: none;\n    border: none;\n    display: block;\n    font-size: 1.3em;\n    padding: 5px 10px;\n  }\n\n  $.subscription .form .buttons {\n    display: block;\n    width: 100%;\n    height: 100%;\n  }\n\n  $.subscription .form .buttons button {\n    outline: none;\n    border: none;\n    display: block;\n    cursor: pointer;\n    border: 1px solid rgba(26, 143, 187, 1); \n  }\n\n  $.subscription .form .buttons .button.named {\n    width: 100%;\n    height: 100%;\n    font-size: 1.0em;\n    font-weight: bold;\n    {{ if ne .SubmitBtnColor \"\" }}\n    background: {{ .SubmitBtnColor }};\n    {{ else }}\n    background: #42b0da;\n    {{ end }}\n  }\n\n  @media (min-width:640px){\n\n    $.subscription .form .email {\n      width: 75%;\n      display: inline-block;\n    }\n\n    $.subscription .form .buttons {\n      width: 25%;\n      display: inline-block;\n    }\n\n  }\n", new sliceType([])); /* */ $s = 11; case 11: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		$pkg.SubscribeCSS = _r$2;
+		$r = dom.$init(); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		_r = css.New("\n  *{\n    margin: 0;\n    padding: 0;\n    font-family: \"Lato\", \"Open Sans\",sans-serif;\n  }\n\n  html, body {\n    width: 100%;\n    height: 100%;\n    margin: 0;\n    padding: 0;\n  }\n\n  body {\n    width: 100%;\n    margin: 0 auto;\n    background: #efefef;\n  }\n\n  .roboto {\n    font-family: \"Roboto\", \"Lato\", \"helvetica\";\n  }\n", new sliceType([])); /* */ $s = 10; case 10: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		$pkg.IndexCSS = _r;
+		_r$1 = css.New("\n  $, $ *{\n    box-sizing: border-box;\n    -o-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    -webkit-box-sizing: border-box;\n  }\n\n  $ {\n    text-align: center;\n    margin: 150px 0px;\n  }\n\n  $ h1 {\n    color: rgba(0,0,0,0.7);\n    font-size: 3em;\n  }\n", new sliceType([])); /* */ $s = 11; case 11: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		$pkg.RootCSS = _r$1;
+		_r$2 = css.New("\n  $, $ *{\n    box-sizing: border-box;\n    -o-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    -webkit-box-sizing: border-box;\n  }\n\n  $ {\n    width: 800px; \n    height: 100px;\n    margin:0px auto;\n  }\n\n  $ .submission.title {\n    margin:90px auto;\n    text-align: center;\n  }\n\n  $ .submission.content .header {\n    margin:0px auto;\n  }\n\n  $ .submission.content h2{\n    font-size: 10em;\n    text-align: center;\n    color: rgba(0,0,0,0.2);\n  }\n\n  $ .submission.content h2.failed{\n    color: #ab3809;\n  }\n\n  $ .submission.content h2.passed{\n    color: #8caf29;\n  }\n\n  $ .submission.content .desc{\n    margin:50px auto auto auto;\n    font-size: 2em;\n    text-align: center;\n  }\n\n  $ .submission.content .desc .email{\n    color: rgba(255,255,255,1);\n    background: rgba(67, 164, 189, 0.87);\n  }\n\n", new sliceType([])); /* */ $s = 12; case 12: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		$pkg.NotificationCSS = _r$2;
+		_r$3 = css.New("\n  $, $ *{\n    box-sizing: border-box;\n    -o-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    -webkit-box-sizing: border-box;\n  }\n\n  $ {\n    width: 100%;\n    height: auto;\n    margin: 0;\n    padding: 0;\n  }\n\n  $.subscription {\n    height: 70px;\n    margin: 60px 0px 0px 0px;\n  }\n\n  $.subscription .form{\n    width: 85%;\n    height: 100%;\n    margin: 0 auto;\n    border: 1px solid rgba(0,0,0,0.3);\n  }\n\n  $.subscription .form .email, $.subscription .form .buttons {\n    vertical-align: top;\n    display: block;\n  }\n\n  $.subscription .form .email {\n    width: 100%;\n    height: 100%;\n  }\n\n  $.subscription .form .email input{\n    width: 100%;\n    height: 100%;\n    outline: none;\n    border: none;\n    display: block;\n    font-size: 1.3em;\n    padding: 5px 10px;\n  }\n\n  $.subscription .form .buttons {\n    display: block;\n    width: 100%;\n    height: 100%;\n  }\n\n  $.subscription .form .buttons button {\n    outline: none;\n    border: none;\n    display: block;\n    cursor: pointer;\n    border: 1px solid rgba(26, 143, 187, 1); \n  }\n\n  $.subscription .form .buttons .button.named {\n    width: 100%;\n    height: 100%;\n    font-size: 1.0em;\n    font-weight: bold;\n\n    {{ if ne .SubmitBtnColor \"\" }}\n    background: {{ .SubmitBtnColor }};\n    {{ else }}\n    background: #42b0da;\n    {{ end }}\n\n  }\n\n  $.subscription .form .buttons .button.named {\n    font-weight: bold;\n    font-size: 1.7em;\n  }\n\n  @media (min-width:640px){\n\n    $.subscription .form .email {\n      width: 75%;\n      display: inline-block;\n    }\n\n    $.subscription .form .buttons {\n      width: 25%;\n      display: inline-block;\n    }\n\n  }\n", new sliceType([])); /* */ $s = 13; case 13: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+		$pkg.SubscribeCSS = _r$3;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/examples/subscribe/pages"] = (function() {
-	var $pkg = {}, $init, design, app, elems, property, sliceType, sliceType$1, sliceType$2, _r, _r$1;
+	var $pkg = {}, $init, design, app, elems, property, sliceType, sliceType$1, sliceType$2, _r, _r$1, _r$2;
 	design = $packages["github.com/influx6/gu/design"];
 	app = $packages["github.com/influx6/gu/examples/subscribe/app"];
 	elems = $packages["github.com/influx6/gu/trees/elems"];
@@ -56457,57 +56674,64 @@ $packages["github.com/influx6/gu/examples/subscribe/pages"] = (function() {
 		$r = elems.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = property.$init(); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		_r = design.Resource((function $b() {
-			var $ptr, _r, _r$1, notifier, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; notifier = $f.notifier; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-			$r = design.UseRoute("#subscriptions/submit"); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			$r = design.DoTitle("App Subscription Submission"); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			_r = app.NewNotifier(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-			notifier = _r;
-			_r$1 = design.DoView(notifier, "", false, false); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_r$1;
+			var $ptr, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			$r = design.DoTitle("App Subscription Submission"); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = design.DoLink("https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto", "stylesheet", false); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$r = design.DoStyle(app.IndexCSS, $ifaceNil, false); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;
 			return;
-			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.notifier = notifier; $f.$s = $s; $f.$r = $r; return $f;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 		})); /* */ $s = 5; case 5: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		_r;
 		_r$1 = design.Resource((function $b() {
-			var $ptr, _arg, _arg$1, _arg$2, _r$1, _r$2, _r$3, _r$4, _r$5, $s, $r;
-			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-			$r = design.UseRoute("#"); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			$r = design.DoTitle("App Subscribe"); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			_r$1 = elems.CSS(app.RootCSS, $ifaceNil); /* */ $s = 3; case 3: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_arg = _r$1;
-			_arg$1 = property.ClassAttr(new sliceType(["root"]));
-			_r$2 = elems.Text("Become A Subscriber", new sliceType$1([])); /* */ $s = 4; case 4: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			_r$3 = elems.Header1(new sliceType$2([_r$2])); /* */ $s = 5; case 5: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-			_arg$2 = _r$3;
-			_r$4 = elems.Div(new sliceType$2([_arg, _arg$1, _arg$2])); /* */ $s = 6; case 6: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-			$r = design.DoMarkup(_r$4, "", false, false); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			_r$5 = design.DoView(new app.Subscriber.ptr(""), "", false, false); /* */ $s = 8; case 8: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-			_r$5;
+			var $ptr, _r$1, _r$2, notifier, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r$1 = $f._r$1; _r$2 = $f._r$2; notifier = $f.notifier; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			$r = design.UseRoute("#subscriptions/submit"); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_r$1 = app.NewNotifier(); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			notifier = _r$1;
+			_r$2 = design.DoView(notifier, "", false, false); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			_r$2;
 			$s = -1; return;
 			return;
-			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f.$s = $s; $f.$r = $r; return $f;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r$1 = _r$1; $f._r$2 = _r$2; $f.notifier = notifier; $f.$s = $s; $f.$r = $r; return $f;
 		})); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		_r$1;
+		_r$2 = design.Resource((function $b() {
+			var $ptr, _arg, _arg$1, _arg$2, _r$2, _r$3, _r$4, _r$5, _r$6, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _arg = $f._arg; _arg$1 = $f._arg$1; _arg$2 = $f._arg$2; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			$r = design.UseRoute("#"); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_r$2 = elems.CSS(app.RootCSS, $ifaceNil); /* */ $s = 2; case 2: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			_arg = _r$2;
+			_arg$1 = property.ClassAttr(new sliceType(["root"]));
+			_r$3 = elems.Text("Become A Subscriber", new sliceType$1([])); /* */ $s = 3; case 3: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			_r$4 = elems.Header1(new sliceType$2([_r$3])); /* */ $s = 4; case 4: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			_arg$2 = _r$4;
+			_r$5 = elems.Div(new sliceType$2([_arg, _arg$1, _arg$2])); /* */ $s = 5; case 5: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+			$r = design.DoMarkup(_r$5, "", false, false); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_r$6 = design.DoView(new app.Subscriber.ptr(""), "", false, false); /* */ $s = 7; case 7: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+			_r$6;
+			$s = -1; return;
+			return;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._arg = _arg; $f._arg$1 = _arg$1; $f._arg$2 = _arg$2; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f.$s = $s; $f.$r = $r; return $f;
+		})); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		_r$2;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
 	return $pkg;
 })();
 $packages["github.com/influx6/gu/examples/subscribe"] = (function() {
-	var $pkg = {}, $init, app, pages, sliceType, _r, _r$1;
+	var $pkg = {}, $init, app, pages, _r;
 	app = $packages["github.com/influx6/gu/app"];
 	pages = $packages["github.com/influx6/gu/examples/subscribe/pages"];
-	sliceType = $sliceType($Bool);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		$r = app.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = pages.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		_r = app.New(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		_r$1 = _r.Init(new sliceType([true])); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-		$pkg.App = _r$1;
+		$pkg.App = _r;
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;

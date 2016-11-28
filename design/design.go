@@ -2,10 +2,12 @@ package design
 
 import (
 	"sync"
+	"fmt"
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/gu"
+	"github.com/influx6/gu/css"
 	"github.com/influx6/gu/dispatch"
 	"github.com/influx6/gu/trees"
 )
@@ -510,6 +512,72 @@ func DoMarkup(markup Viewable, targets string, deferRender bool, targetAlreadyIn
 	}
 }
 
+// DoHead adds the provided markup as part of the children to the head tag. 
+func DoHead(markup Viewable, deferRender bool) {
+	var markupFn []*trees.Markup
+
+	switch mo := markup.(type) {
+	case func() []*trees.Markup:
+		markupFn = mo()
+	case []*trees.Markup:
+		markupFn = mo
+	case func() *trees.Markup:
+		markupFn = []*trees.Markup{mo()}
+	case *trees.Markup:
+		markupFn = []*trees.Markup{mo}
+	case string:
+		markupFn = trees.ParseTree(mo)
+	default:
+		panic("Unknown markup processable type")
+	}
+
+	current := getResources().MustCurrentResource()
+
+	for _, item := range markupFn {
+		var static gu.StaticView
+		static.Morph = true
+		static.Content = item 
+
+		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
+
+		if deferRender {
+			current.DeferLinks = append(current.DeferLinks, static)
+			continue
+		}
+
+		current.Links = append(current.Links, static)
+	}
+}
+
+// DoStyle adds a element which generates a <style> tag.
+func DoStyle(styles interface{}, bind interface{}, deferRender bool) {
+	var rs *css.Rule
+
+	switch so := styles.(type) {
+    case string:
+      rs = css.New(so)
+    case *css.Rule:
+      rs = so
+    default:
+      panic("Invalid Acceptable type for css: Only string or *css.Rule")
+  }
+
+	current := getResources().MustCurrentResource()
+
+	var static gu.StaticView
+	static.Morph = true
+	static.Content = trees.CSSStylesheet(rs, bind)
+
+	trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
+		
+	if deferRender {
+		current.DeferLinks = append(current.DeferLinks, static)
+		return
+	}
+
+	current.Links = append(current.Links, static)
+}
+
 //==============================================================================
 
 // DoView creates a gu.RenderView and applies it to the provided resource.
@@ -534,6 +602,8 @@ func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom b
 
 	if rvw, ok := view.(gu.Reactive); ok {
 		rvw.React(func() {
+			fmt.Printf("Received rendering update %s\n", view.UUID())
+
 			dispatch.Dispatch(ResourceViewUpdate{
 				View:     view,
 				Target:   targets,
@@ -587,11 +657,12 @@ func DoTitle(title string) {
 	trees.NewText(title).Apply(ml.Content)
 }
 
+
 // DoLink adds a element which generates a <link> tag.
 func DoLink(url string, mtype string, defered bool) {
 	ml := mLink("link", defered)
 	trees.NewAttr("href", url).Apply(ml.Content)
-	trees.NewAttr("type", mtype).Apply(ml.Content)
+	trees.NewAttr("rel", mtype).Apply(ml.Content)
 }
 
 // DoCSS adds a element which generates a <style> tag.
@@ -602,12 +673,6 @@ func DoCSS(src string, defered bool) {
 	trees.NewAttr("type", "text/css").Apply(ml.Content)
 }
 
-// DoStyle adds a element which generates a <style> tag.
-func DoStyle(src string, defered bool) {
-	ml := mLink("style", defered)
-	trees.NewAttr("src", src).Apply(ml.Content)
-	trees.NewAttr("type", "text/css").Apply(ml.Content)
-}
 
 // DoScript adds a element which generates a <style> tag.
 func DoScript(src string, mtype string, defered bool) {

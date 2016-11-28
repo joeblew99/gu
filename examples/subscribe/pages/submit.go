@@ -8,7 +8,6 @@ import (
 var _ = Resource(func(){
 
   UseRoute("#subscriptions/submit")
-  DoTitle("App Subscription Submission")
 
   notifier := NewNotifier()
   DoView(notifier, "", false, false)

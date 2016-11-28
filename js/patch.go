@@ -72,15 +72,10 @@ func Patch(fragment, live *js.Object, onlyReplace bool) {
 		return
 	}
 
-	// log.Printf("doing patching")
-	// shadowNodes := fragment.ChildNodes()
-
 	shadowNodes := ChildNodeList(fragment)
 	liveNodes := ChildNodeList(live)
 
 	// FIXED: instead of going through the children which may be many,
-	// liveNodes := fragment.ChildNodes()
-	// log.Printf("patchtree will now add: \n%+s", shadowNodes)
 
 patchloop:
 	for n, node := range shadowNodes {
@@ -133,11 +128,6 @@ patchloop:
 			uid = GetAttribute(node, "uid")
 		}
 
-		// if tagname == "tmlview" {
-		// 	frstchild := node.()
-		// 	frstchild.
-		// }
-
 		// if we have no id,class, uid or hash, we digress to bad approach of using Node.IsEqualNode
 		if allEmpty(id, hash, uid) {
 			AddNodeIfNone(live, node)
@@ -179,6 +169,7 @@ patchloop:
 		// lets use our unique id to check for the element if it exists
 		sel := fmt.Sprintf(`%s[uid='%s']`, strings.ToLower(tagname), uid)
 
+
 		// we know hash and uid are not empty so we kick ass the easy way
 		targets := QuerySelectorAll(live, sel)
 
@@ -189,18 +180,8 @@ patchloop:
 		}
 
 		for _, target := range targets {
-			// log.Printf("textElem %s -> %s -> %s : target -> %+s", node, node.Get("tagName"), sel, target)
-
-			// // if we are nil then its a new node add it and return
-			// if target == nil || target == js.Undefined {
-			// 	ContextAppendChild(live, node)
-			// 	// continue patchloop
-			// 	continue
-			// }
-
 			if onlyReplace {
 				ReplaceNode(live, node, target)
-				// continue patchloop
 				continue
 			}
 
@@ -225,13 +206,11 @@ patchloop:
 
 				// Lastly attempt to remove from target itself.
 				RemoveChild(target, target)
-				// continue patchloop
 				continue
 			}
 
 			// if the target hash is exactly the same with ours skip it
 			if GetAttribute(target, "hash") == hash {
-				// continue patchloop
 				continue
 			}
 

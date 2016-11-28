@@ -62,9 +62,10 @@ func CustomView(tag string, r ...Renderable) RenderView {
 // view defines a base level implementation for a set of Renderables.
 type view struct {
 	Reactive
+	hide    bool
 	tag     string
 	uuid    string
-	hide    bool
+	renderedBefore    bool
 	live    *trees.Markup
 	renders []Renderable
 }
@@ -79,6 +80,11 @@ func (v *view) Resolve(path dispatch.Path) {
 	}
 }
 
+// RenderedBefore returns true/false if the view has been rendered before.
+func (v *view) RenderedBefore() bool {
+	return v.renderedBefore
+}
+
 // UUID returns the RenderGroup UUID for identification.
 func (v *view) UUID() string {
 	return v.uuid
@@ -91,6 +97,8 @@ func (v *view) RenderHTML() template.HTML {
 
 // Render returns the groups markup for the giving render group.
 func (v *view) Render() *trees.Markup {
+	v.renderedBefore = true
+
 	if len(v.renders) == 0 {
 		return trees.NewMarkup(v.tag, false)
 	}
@@ -117,7 +125,6 @@ func (v *view) Render() *trees.Markup {
 		})
 
 		v.live = nil
-
 		root.Reconcile(live)
 
 		// Clear out internal references with the current live markup.

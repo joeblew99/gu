@@ -1,11 +1,12 @@
 package app
 
 import (
-	"fmt"
+	"github.com/influx6/gu/dispatch"
 	. "github.com/influx6/gu/trees"
 	. "github.com/influx6/gu/trees/elems"
 	. "github.com/influx6/gu/trees/events"
 	. "github.com/influx6/gu/trees/property"
+	"honnef.co/go/js/dom"
 )
 
 // Subscription defines a component which collects the subscribers email received through
@@ -36,7 +37,6 @@ func (s *Subscriber) Render() *Markup {
 			Section(
 				ClassAttr("email"),
 				Input(
-					ClassAttr("email"),
 					PlaceholderAttr("example@mail.com"),
 					TypeAttr("email"),
 				),
@@ -46,10 +46,28 @@ func (s *Subscriber) Render() *Markup {
 				Button(
 					Text("Subscribe"),
 					ClassAttr("button", "named"),
-					ClickEvent(func(event EventObject) {
-						fmt.Println("Button clicked!")
-						event.StopPropagation()
+					ClickEvent(func(event EventObject, tree *Markup) {
 						event.PreventDefault()
+						event.StopPropagation()
+
+						doc := dom.GetWindow().Document()
+						input, ok := doc.QuerySelector(".subscription .form .email input").(*dom.HTMLInputElement)
+
+						if !ok {
+							dispatch.Dispatch(SubscriptionSubmitEvent{
+								Status: false,
+							})
+
+							return
+						}
+
+						dispatch.NavigateHash("/", "#subscriptions/submit", "#")
+
+						dispatch.Dispatch(SubscriptionSubmitEvent{
+							Email:  input.Value,
+							Status: true,
+						})
+
 					}, ""),
 				),
 			),
