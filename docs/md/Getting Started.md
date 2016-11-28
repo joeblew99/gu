@@ -290,8 +290,8 @@ interface.
 Rendered Page:
 ![Image of Page](../../examples/subscribe/index.png)
 
-Rendered Page with Hover Effect:
+Rendered Page when subscription passes:
 ![Image of Page When Passed](../../examples/subscribe/pass.png)
 
-Rendered Page with clicked "Hello" text:
+Rendered Page when subscription fails:
 ![Image of Page When Failed](../../examples/subscribe/failed.png)
