@@ -286,3 +286,12 @@ Component are the secondary system Gu caters to. Components are represent as vie
 or regions of markup which are dynamic and change, even if they are not dynamic, they 
 are region which are fed their markup by external structures that meet the `Renderable`
 interface.
+
+Rendered Page:
+![Image of Page](../../examples/subscribe/index.png)
+
+Rendered Page with Hover Effect:
+![Image of Page When Passed](../../examples/subscribe/pass.png)
+
+Rendered Page with clicked "Hello" text:
+![Image of Page When Failed](../../examples/subscribe/failed.png)
