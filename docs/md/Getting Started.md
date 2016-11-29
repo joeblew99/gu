@@ -313,9 +313,20 @@ which described best the contents and order in which the App was to be built.
 ![Expanded App File Structure](../../examples/subscribe/file-structure-full.png)
 
 - The CSS style Rules
-  This are not components but sturctures provided by `Gu` which defines the css 
-  used by the components themselves in providing the styles that affect only those 
-  components and the page.
+
+This are not components but sturctures provided by `Gu` which defines the css 
+used by the components themselves in providing the styles that affect only those 
+components and the page.
+
+The css system which `Gu` provides combines the power of Go's `text/template` package
+and a css parser to create a system that allows targeted styles which target the 
+parent which it gets loaded into through which the `$` represents. This allows 
+us the flexibility which markups can be influenced by css.
+
+
+Like the above section which uses the power of Go templates which uses a context 
+which can influence the value of a styles generated based on the value of the 
+context's attributes. 
 
 ```go
 package app
@@ -523,9 +534,15 @@ var SubscribeCSS = css.New(`
 ```
 
 - The Subscriber component
- This component defines the structure which defines how a subscription is collected.
- It provides the necessary HTML structure, styles and events needed to create a fully 
- functioning subscription input and submitter.
+
+This component defines the structure which defines how a subscription is collected.
+It provides the necessary HTML structure, styles and events needed to create a fully 
+functioning subscription input and submitter.
+
+We import the packages which provides the functionality we need. A few are imported 
+into the package using the `.` approach which allows us the use of the methods,
+structures without using a package name alias and this is done for convenience and 
+not a general rule or a advised rule.
 
 ```go
 package app
@@ -538,20 +555,45 @@ import (
   . "github.com/influx6/gu/trees/property"
   "honnef.co/go/js/dom"
 )
+```
 
+Next is defined a event type which will be used to communicate an event through 
+the internal dispatch which allows communication of types across components. 
+But this system is neither a rule and developers are free to define how their 
+components communicate and behave. 
+
+The `SubscriptionSubmitEvent` contains the email address and a status which 
+defines if the subscription can be considered valid.
+
+```go
 // SubscriptionSubmitEvent defines a event sent out to define the status of a subscription
 // event.
 type SubscriptionSubmitEvent struct {
   Email  string `json:"email"`
   Status bool   `json:"status"`
 }
+```
 
+The component itself is called `Subscriber`, these defines a struct which implements 
+the `Renderable` interface defined by Gu, which allows this structure the power to 
+encapsulate its markup representation, behaviour and event expected. It as well 
+has only a single attribute which allows customization of the color of the subscribe
+submit button.
+
+```go
 // Subscriber defines the Subscriber component which renders a subscriber
 // submission form which collects the data received and submits it to the API.
 type Subscriber struct {
   SubmitBtnColor string
 }
+```
 
+The `Render` function returns a instance of a pointer to a markup structure defined 
+by Gu which allows functional composition of markup structures to define the expected
+markup which will be generated for the component and more so the events which are expected
+against particular markup and the action to which should be performed on that event.
+
+```go
 // Render returns the markup for the subscription component.
 func (s *Subscriber) Render() *Markup {
   return Section(
@@ -600,6 +642,29 @@ func (s *Subscriber) Render() *Markup {
   )
 }
 ```
+
+  Notably is this portion of its `Render` function which adds a CSS markup and 
+  passes the subscriber as its context which allows us to effect the styles value 
+
+```go
+CSS(SubscribeCSS, s),
+```
+
+```go 
+  $.subscription .form .buttons .button.named {
+    width: 100%;
+    height: 100%;
+    font-size: 1.0em;
+    font-weight: bold;
+
+    {{ if ne .SubmitBtnColor "" }}
+    background: {{ .SubmitBtnColor }};
+    {{ else }}
+    background: #42b0da;
+    {{ end }}
+
+  }
+```  
 
 - The Notifier component
  This component defines the structure which defines how the subscription notification 
