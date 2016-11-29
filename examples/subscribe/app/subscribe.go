@@ -9,16 +9,11 @@ import (
 	"honnef.co/go/js/dom"
 )
 
-// Subscription defines a component which collects the subscribers email received through
-// a subscription form to be submitted to a API.
-type Subscription struct {
-	Email string `json:"email"`
-}
-
-// SubscriptionNotification defines a type which exposes the notification and status
-// of a subscription submission.
-type SubscriptionNotification struct {
-	Status bool `json:"status"`
+// SubscriptionSubmitEvent defines a event sent out to define the status of a subscription
+// event.
+type SubscriptionSubmitEvent struct {
+	Email  string `json:"email"`
+	Status bool   `json:"status"`
 }
 
 // Subscriber defines the Subscriber component which renders a subscriber

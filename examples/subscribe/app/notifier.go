@@ -9,13 +9,6 @@ import (
 	. "github.com/influx6/gu/trees/property"
 )
 
-// SubscriptionSubmitEvent defines a event sent out to define the status of a subscription
-// event.
-type SubscriptionSubmitEvent struct {
-	Email  string `json:"email"`
-	Status bool   `json:"status"`
-}
-
 // SubmissionNotifier defines the handler which displays the notification on the success or
 // failure of a subscription.
 type SubmissionNotifier struct {
