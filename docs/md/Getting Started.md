@@ -562,9 +562,6 @@ the internal dispatch which allows communication of types across components.
 But this system is neither a rule and developers are free to define how their 
 components communicate and behave. 
 
-The `SubscriptionSubmitEvent` contains the email address and a status which 
-defines if the subscription can be considered valid.
-
 ```go
 // SubscriptionSubmitEvent defines a event sent out to define the status of a subscription
 // event.
@@ -573,6 +570,17 @@ type SubscriptionSubmitEvent struct {
   Status bool   `json:"status"`
 }
 ```
+
+```go
+dispatch.Dispatch(SubscriptionSubmitEvent{
+  Email:  input.Value,
+  Status: true,
+})
+```
+
+The `SubscriptionSubmitEvent` contains the email address and a status which 
+defines if the subscription can be considered valid.
+
 
 The component itself is called `Subscriber`, these defines a struct which implements 
 the `Renderable` interface defined by Gu, which allows this structure the power to 
