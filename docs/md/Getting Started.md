@@ -138,7 +138,7 @@ outcome expected on the page. As stated within Gu, a Resource is a single page, 
  what is expected with its logic and architecture which then gets rendered as a page based on the URI
  critieria.
 
-We create a resource by calling the [Design Package](./designs) `Resource` function which generates 
+We create a resource by calling the [Design Package](../../designs) `Resource` function which generates 
 a function to be instantiated and executed by the managing `ResourcesManager` to create the resource.
 It simple returns the index position which that resource will be located in within the `ResourcesManager`.
 But this is usually not needed but also exists to allwo the pattern of declaration.
@@ -149,7 +149,7 @@ var _ = Resource(func() {
 ```
 
 The main function handles the creation of the `ResourcesManager` by calling the `New`
-function from the [Design Package](./designs) package. The `ResourcesManager` expects an an optional 
+function from the [Design Package](../../designs) package. The `ResourcesManager` expects an an optional 
 argument, which is a `ResourceRenderer` type to handle the rendering of the resources on the client.
 The   `ResourceRenderer` if passed in will only be ever used on the client, to handle the automatic update of the DOM
 during the initial load and continous updates request either by a component or the browsers URI.
@@ -282,10 +282,15 @@ regions and data keep updated without any effort on the developers side.
 
 
 ### A Component
-Component are the secondary system Gu caters to. Components are represent as views 
+Component are the secondary system Gu caters to. Components are represented as views 
 or regions of markup which are dynamic and change, even if they are not dynamic, they 
 are region which are fed their markup by external structures that meet the `Renderable`
 interface.
+
+We will be building a simple email subscription app has displayed by the images below.
+This example show cases well enough how components can be built with `Gu` and how 
+communicating between components is highly decoupled and allows and ensures that 
+each component encapsulates its markup and behaviour(i.e events, look and feel).
 
 Rendered Page:
 ![Image of Page](../../examples/subscribe/index.png)
@@ -295,3 +300,18 @@ Rendered Page when subscription passes:
 
 Rendered Page when subscription fails:
 ![Image of Page When Failed](../../examples/subscribe/failed.png)
+
+The app is simple in that it requires entering an email address which is supposed
+to added to the App mailing list and returns either a pass or failure as to the end 
+result of such a subscription. In truth we won't be adding the functionality of calling 
+an external API has this only demonstrates how components can be built but assurdedly 
+the code will be completed on the basis of component creation and intercommunication.
+
+When building the sample App, file structure wise things were arranged in an order 
+which described best the contents and order in which the App was to be built.
+
+App File Structure:
+![App File Structure](../../examples/subscribe/file-structure.png)
+
+Expanded App File Structure:
+![Expanded App File Structure](../../examples/subscribe/file-structure-full.png)
