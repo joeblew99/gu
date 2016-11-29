@@ -312,6 +312,4 @@ which described best the contents and order in which the App was to be built.
 
 App File Structure:
 ![App File Structure](../../examples/subscribe/file-structure.png)
-
-Expanded App File Structure:
 ![Expanded App File Structure](../../examples/subscribe/file-structure-full.png)
