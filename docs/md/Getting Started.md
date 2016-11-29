@@ -310,5 +310,4 @@ the code will be completed on the basis of component creation and intercommunica
 When building the sample App, file structure wise things were arranged in an order 
 which described best the contents and order in which the App was to be built.
 
-![App File Structure](../../examples/subscribe/file-structure.png)
 ![Expanded App File Structure](../../examples/subscribe/file-structure-full.png)
