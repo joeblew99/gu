@@ -5,7 +5,8 @@
 
  1. Gu provides no react like flux structure
 
- 2. Gu provides only focuses on providing you sets of structures able to work on the client and server for rendering.
+ 2. Gu only focuses on providing you sets of structures able to work on the client and server for rendering.
 
  3. Gu component are simply structures that implements its provided interfaces and nothing else.
 
+ 4. Gu has no complex internal system to update DOM over the wire, it is basic and simple at its core.
