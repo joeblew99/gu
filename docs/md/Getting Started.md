@@ -142,6 +142,7 @@ We create a resource by calling the [Design Package](../../designs) `Resource` f
 a function to be instantiated and executed by the managing `ResourcesManager` to create the resource.
 It simple returns the index position which that resource will be located in within the `ResourcesManager`.
 But this is usually not needed but also exists to allwo the pattern of declaration.
+
 ```go
 var _ = Resource(func() {
     ....
@@ -171,6 +172,7 @@ either your client or server code, has it works on either end.
 We continue in the Resource function which immediately sets the route to be targeted for which this `Resource`
 should be rendered, now this particular code is excluded in the example code but added here for breadth and also 
 to provide the opportunity to showcase how a Resource is locked to a given URI, generally by the hash of the page.
+
 ```go
 	UseRoute("/hello")
 ```
@@ -292,6 +294,8 @@ This example show cases well enough how components can be built with `Gu` and ho
 communicating between components is highly decoupled and allows and ensures that 
 each component encapsulates its markup and behaviour(i.e events, look and feel).
 
+** Source Files are in [Subscribe Sample](../../examples/subscribe)**
+
 Rendered Page:
 ![Image of Page](../../examples/subscribe/index.png)
 
@@ -323,117 +327,120 @@ and a css parser to create a system that allows targeted styles which target the
 parent which it gets loaded into through which the `$` represents. This allows 
 us the flexibility which markups can be influenced by css.
 
+```go
+import "github.com/influx6/gu/css"
 
-Like the above section which uses the power of Go templates which uses a context 
-which can influence the value of a styles generated based on the value of the 
-context's attributes. 
+csr := css.New(`
+
+  $:hover {
+    color: red;
+  }
+
+  $::before {
+    content: "bugger";
+  }
+
+  $ div a {
+    color: black;
+    font-family: {{ .Font }}
+  }
+
+  @media (max-width: 400px){
+
+    $:hover {
+      color: blue;
+      font-family: {{ .Font }}
+    }
+
+  }
+`)
+
+  sheet, err := csr.Stylesheet(struct {
+    Font string
+  }{
+    Font: "Helvetica"
+  }, "#galatica")
+
+
+  sheet.String()
+
+```
+
+Like the above code, `Gu CSS` combines the power of Go templates to allow usage of  
+context objects which can influence the value of a style property generated based 
+on the value of the context's attributes. 
+
+
+- The Subscriber component
+
+This component defines the structure which defines how a subscription is collected.
+It provides the necessary HTML structure, styles and events needed to create a fully 
+functioning subscription input and submitter.
+
+We import the packages which provides the functionality we need. A few are imported 
+into the package using the `.` approach which allows us the use of the methods,
+structures without using a package name alias and this is done for convenience and 
+not a general rule or a advised rule.
 
 ```go
 package app
 
 import (
+  "github.com/influx6/gu/dispatch"
+  . "github.com/influx6/gu/trees"
+  . "github.com/influx6/gu/trees/elems"
+  . "github.com/influx6/gu/trees/events"
+  . "github.com/influx6/gu/trees/property"
   "github.com/influx6/gu/css"
+  "honnef.co/go/js/dom"
 )
+```
 
-// IndexCSS defines the css component which defines the rendering for
-// a notification page.
-var IndexCSS = css.New(`
-  *{
-    margin: 0;
-    padding: 0;
-    font-family: "Lato", "Open Sans",sans-serif;
-  }
+Next is defined a event type which will be used to communicate an event through 
+the internal dispatch which allows communication of types across components. 
+But this system is neither a rule and developers are free to define how their 
+components communicate and behave. 
 
-  html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
+```go
+// SubscriptionSubmitEvent defines a event sent out to define the status of a subscription
+// event.
+type SubscriptionSubmitEvent struct {
+  Email  string `json:"email"`
+  Status bool   `json:"status"`
+}
+```
 
-  body {
-    width: 100%;
-    margin: 0 auto;
-    background: #efefef;
-  }
+```go
+dispatch.Dispatch(SubscriptionSubmitEvent{
+  Email:  input.Value,
+  Status: true,
+})
+```
 
-  .roboto {
-    font-family: "Roboto", "Lato", "helvetica";
-  }
-`)
+The `SubscriptionSubmitEvent` contains the email address and a status which 
+defines if the subscription can be considered valid.
 
-// RootCSS defines a css component which defines the page rendering styles.
-var RootCSS = css.New(`
-  $, $ *{
-    box-sizing: border-box;
-    -o-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-  }
 
-  $ {
-    text-align: center;
-    margin: 150px 0px;
-  }
+The component itself is called `Subscriber`, these defines a struct which implements 
+the `Renderable` interface defined by Gu, which allows this structure the power to 
+encapsulate its markup representation, behaviour and event expected. It as well 
+has only a single attribute which allows customization of the color of the subscribe
+submit button.
 
-  $ h1 {
-    color: rgba(0,0,0,0.7);
-    font-size: 3em;
-  }
-`)
+```go
+// Subscriber defines the Subscriber component which renders a subscriber
+// submission form which collects the data received and submits it to the API.
+type Subscriber struct {
+  SubmitBtnColor string
+}
+```
 
-// NotificationCSS defines the css component which defines the rendering for
-// a notification page.
-var NotificationCSS = css.New(`
-  $, $ *{
-    box-sizing: border-box;
-    -o-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-  }
+The `Render` function returns a instance of a pointer to a markup structure defined 
+by Gu which allows functional composition of markup structures to define the expected
+markup which will be generated for the component and more so the events which are expected
+against particular markup and the action to which should be performed on that event.
 
-  $ {
-    width: 800px; 
-    height: 100px;
-    margin:0px auto;
-  }
-
-  $ .submission.title {
-    margin:90px auto;
-    text-align: center;
-  }
-
-  $ .submission.content .header {
-    margin:0px auto;
-  }
-
-  $ .submission.content h2{
-    font-size: 10em;
-    text-align: center;
-    color: rgba(0,0,0,0.2);
-  }
-
-  $ .submission.content h2.failed{
-    color: #ab3809;
-  }
-
-  $ .submission.content h2.passed{
-    color: #8caf29;
-  }
-
-  $ .submission.content .desc{
-    margin:50px auto auto auto;
-    font-size: 2em;
-    text-align: center;
-  }
-
-  $ .submission.content .desc .email{
-    color: rgba(255,255,255,1);
-    background: rgba(67, 164, 189, 0.87);
-  }
-
-`)
-
+```go
 // SubscribeCSS defines the css component which defines the rendering for a
 // subscriber form.
 var SubscribeCSS = css.New(`
@@ -531,77 +538,6 @@ var SubscribeCSS = css.New(`
   }
 `)
 
-```
-
-- The Subscriber component
-
-This component defines the structure which defines how a subscription is collected.
-It provides the necessary HTML structure, styles and events needed to create a fully 
-functioning subscription input and submitter.
-
-We import the packages which provides the functionality we need. A few are imported 
-into the package using the `.` approach which allows us the use of the methods,
-structures without using a package name alias and this is done for convenience and 
-not a general rule or a advised rule.
-
-```go
-package app
-
-import (
-  "github.com/influx6/gu/dispatch"
-  . "github.com/influx6/gu/trees"
-  . "github.com/influx6/gu/trees/elems"
-  . "github.com/influx6/gu/trees/events"
-  . "github.com/influx6/gu/trees/property"
-  "honnef.co/go/js/dom"
-)
-```
-
-Next is defined a event type which will be used to communicate an event through 
-the internal dispatch which allows communication of types across components. 
-But this system is neither a rule and developers are free to define how their 
-components communicate and behave. 
-
-```go
-// SubscriptionSubmitEvent defines a event sent out to define the status of a subscription
-// event.
-type SubscriptionSubmitEvent struct {
-  Email  string `json:"email"`
-  Status bool   `json:"status"`
-}
-```
-
-```go
-dispatch.Dispatch(SubscriptionSubmitEvent{
-  Email:  input.Value,
-  Status: true,
-})
-```
-
-The `SubscriptionSubmitEvent` contains the email address and a status which 
-defines if the subscription can be considered valid.
-
-
-The component itself is called `Subscriber`, these defines a struct which implements 
-the `Renderable` interface defined by Gu, which allows this structure the power to 
-encapsulate its markup representation, behaviour and event expected. It as well 
-has only a single attribute which allows customization of the color of the subscribe
-submit button.
-
-```go
-// Subscriber defines the Subscriber component which renders a subscriber
-// submission form which collects the data received and submits it to the API.
-type Subscriber struct {
-  SubmitBtnColor string
-}
-```
-
-The `Render` function returns a instance of a pointer to a markup structure defined 
-by Gu which allows functional composition of markup structures to define the expected
-markup which will be generated for the component and more so the events which are expected
-against particular markup and the action to which should be performed on that event.
-
-```go
 // Render returns the markup for the subscription component.
 func (s *Subscriber) Render() *Markup {
   return Section(
@@ -689,6 +625,7 @@ import (
   . "github.com/influx6/gu/trees"
   . "github.com/influx6/gu/trees/elems"
   . "github.com/influx6/gu/trees/property"
+  "github.com/influx6/gu/css"
 )
 
 // SubmissionNotifier defines the handler which displays the notification on the success or
@@ -717,6 +654,58 @@ func (s *SubmissionNotifier) start() {
   })
 }
 
+// NotificationCSS defines the css component which defines the rendering for
+// a notification page.
+var NotificationCSS = css.New(`
+  $, $ *{
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+
+  $ {
+    width: 800px; 
+    height: 100px;
+    margin:0px auto;
+  }
+
+  $ .submission.title {
+    margin:90px auto;
+    text-align: center;
+  }
+
+  $ .submission.content .header {
+    margin:0px auto;
+  }
+
+  $ .submission.content h2{
+    font-size: 10em;
+    text-align: center;
+    color: rgba(0,0,0,0.2);
+  }
+
+  $ .submission.content h2.failed{
+    color: #ab3809;
+  }
+
+  $ .submission.content h2.passed{
+    color: #8caf29;
+  }
+
+  $ .submission.content .desc{
+    margin:50px auto auto auto;
+    font-size: 2em;
+    text-align: center;
+  }
+
+  $ .submission.content .desc .email{
+    color: rgba(255,255,255,1);
+    background: rgba(67, 164, 189, 0.87);
+  }
+
+`)
+
 // Render returns the markup for the page which displays the end result of a
 // subscription submission.
 func (s *SubmissionNotifier) Render() *Markup {
@@ -740,3 +729,201 @@ func (s *SubmissionNotifier) Render() *Markup {
   )
 }
 ```
+
+With this components we require pages built with the `Gu` Resources which allows 
+us to organize the components into adequate routes which we can then render with.
+
+In Gu components are not rendered only off themselves but exists to be rendered within
+a `Resource`.
+
+- Layout Resource
+
+This resource will be rendered on all pages which we allows us to use it as a layout 
+for other pages to inherit or be rendered along with.
+
+```go
+package pages
+
+import (
+  . "github.com/influx6/gu/design"
+  . "github.com/influx6/gu/examples/subscribe/app"
+  "github.com/influx6/gu/css"
+)
+
+// IndexCSS defines the css component which defines the rendering for
+// a notification page.
+var IndexCSS = css.New(`
+  *{
+    margin: 0;
+    padding: 0;
+    font-family: "Lato", "Open Sans",sans-serif;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    width: 100%;
+    margin: 0 auto;
+    background: #efefef;
+  }
+
+  .roboto {
+    font-family: "Roboto", "Lato", "helvetica";
+  }
+`)
+
+var _ = Resource(func(){
+
+  // Set the pages title tag.
+  DoTitle("App Subscription Submission")
+
+  // Add a link tag with the google fonts.
+  DoLink("https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto","stylesheet",false)
+
+  // Add a style tag with the css as content for the page.
+  DoStyle(IndexCSS, nil,false)
+})
+```
+
+- Subscribe Resource
+This handles the subscription page which is rendered as the root of the app, this 
+encapsulates all the markup expected to be rendered within this page. What confines 
+a resource only for a specific route is the `UseRoute` function provided by the 
+`Gu/design` package, this sets the resource to only ever be considered for rendering
+when either the path or hash matches the set path. Whether the full path or hash is used
+is set by the resource manager.
+
+
+```go
+package pages
+
+import (
+  . "github.com/influx6/gu/design"
+  . "github.com/influx6/gu/examples/subscribe/app"
+  . "github.com/influx6/gu/trees/elems"
+  . "github.com/influx6/gu/trees/property"
+  "github.com/influx6/gu/css"
+)
+
+// RootCSS defines a css component which defines the page rendering styles.
+var RootCSS = css.New(`
+  $, $ *{
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+
+  $ {
+    text-align: center;
+    margin: 150px 0px;
+  }
+
+  $ h1 {
+    color: rgba(0,0,0,0.7);
+    font-size: 3em;
+  }
+`)
+
+var _ = Resource(func() {
+
+  UseRoute("#")
+
+  DoMarkup(Div(
+    CSS(RootCSS, nil),
+    ClassAttr("root"),
+    Header1(
+      Text("Become A Subscriber"),
+    ),
+  ), "",false, false)
+
+  DoView(&Subscriber{
+    SubmitBtnColor: "",
+  }, "", false, false)
+
+})
+
+```
+
+In `Gu`, as mentioned before, two functions are used to define renderable regions,
+the `DoMarkup` which handles rendering of static, non-dynamic or unchanging content
+and the `DoView`. 
+
+`DoView` defers from `DoMarkup` in that it creates a region within the DOM where 
+based on the criteria that any registered change or notification change it receives
+will cause the re-rendering of the region, updated the DOM has necessary and efficiently.
+That means if you have a component or region which must be dynamic and update regularly 
+then `DoView` is the right choice.
+
+Also, the internal view system checks its arguments for any that implements the `Reactive`
+interface and ensures to listen for change updates to cause DOM upates, these way, a level 
+of reactivity is provided as well.
+
+- Notification Page
+This page contains the component which renders out the notification of the result 
+of the subscription to the app. 
+
+```go
+package pages
+
+import (
+  . "github.com/influx6/gu/design"
+  . "github.com/influx6/gu/examples/subscribe/app"
+)
+
+var _ = Resource(func(){
+
+  UseRoute("#subscriptions/submit")
+
+  notifier := NewNotifier()
+  DoView(notifier, "", false, false)
+
+})
+```
+
+It initializes a new Notifier and passes that to a the `DoView` function, these
+creates a view which can be dynamically updated to update its content as explained earlier.
+
+
+Once all resources have been created and contents organized as desired, then all that is left 
+is to create a central Resource manager which handles all the registered resources.
+
+Only resources loaded through import calls or defined within the same package as 
+the app handle will be managed.
+
+```go
+package subscribe
+
+import (
+  "github.com/influx6/gu/app"
+  _ "github.com/influx6/gu/examples/subscribe/pages"
+)
+
+var App = app.New()
+```
+
+The `App` variable becomes the central home of all loaded resources and provides 
+methods to render the current resources by calling it's `Render` method with a 
+required path. This is useful when rendering on the server but it actually 
+automatically handles all update and rendering to the browser DOM on the client and 
+requires no active settings.
+
+Once the handle has been created then all that is left is to tell the ResourceManager
+to initialize all resources and whether to use full paths or location hashes has 
+its routing means. This is passed as a boolean value to the `Init` method. 
+
+Here a true indicates usage of hash and a false indicates usage of full path of 
+the location within the browser or the passed in path when rendering through
+the `App.Render` method.
+
+```go
+func main(){
+  App.Init(true)
+}
+```
+
