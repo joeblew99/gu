@@ -587,8 +587,8 @@ func (s *Subscriber) Render() *Markup {
 }
 ```
 
-  Notably is this portion of its `Render` function which adds a CSS markup and 
-  passes the subscriber as its context which allows us to effect the styles value 
+Notably is this portion of its `Render` function which adds a CSS markup and 
+passes the subscriber as its context which allows us to effect the styles value 
 
 ```go
 CSS(SubscribeCSS, s),
@@ -611,6 +611,7 @@ CSS(SubscribeCSS, s),
 ```  
 
 - The Notifier component
+
  This component defines the structure which defines how the subscription notification 
  of success or failure. It provides the necessary HTML structure, styles and events 
  needed to create a fully functioning subscription input and submitter.
@@ -791,6 +792,7 @@ var _ = Resource(func(){
 ```
 
 - Subscribe Resource
+
 This handles the subscription page which is rendered as the root of the app, this 
 encapsulates all the markup expected to be rendered within this page. What confines 
 a resource only for a specific route is the `UseRoute` function provided by the 
@@ -865,6 +867,7 @@ interface and ensures to listen for change updates to cause DOM upates, these wa
 of reactivity is provided as well.
 
 - Notification Page
+
 This page contains the component which renders out the notification of the result 
 of the subscription to the app. 
 
