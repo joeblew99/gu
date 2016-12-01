@@ -16,7 +16,7 @@ go install github.com/influx6/gu/...
 
 ## Documentation
   **[Getting Started](./docs/Getting Started.md)**
-  **[Limitations](./docs/Limited.md)**
+  **[Limitations](./docs/Limitations.md)**
 
 ## Examples
   Basic examples lay within the [Examples](./examples/) directory.
