@@ -15,7 +15,9 @@ go install github.com/influx6/gu/...
   - Share code between backend and frontend
 
 ## Documentation
+  
   **[Getting Started](./docs/Getting Started.md)**
+
   **[Limitations](./docs/Limitations.md)**
 
 ## Examples
