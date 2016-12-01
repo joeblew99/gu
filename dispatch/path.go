@@ -44,7 +44,7 @@ func MakePath(path string) (PathDirective, error) {
 	return PathDirective{
 		Path: ups.Path,
 		Host: ups.Host,
-		Hash: ups.Fragment,
+		Hash: hash,
 	}, nil
 }
 
