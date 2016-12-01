@@ -356,24 +356,25 @@ func (e *Markup) Reconcile(em *Markup) bool {
 
 	newChildren := e.Children()
 	oldChildren := em.Children()
+
 	maxSize := len(newChildren)
 	oldMaxSize := len(oldChildren)
 
-	attrChanged := EqualAttributes(e, em)
-	styleChanged := EqualStyles(e, em)
+	equalAttr := EqualAttributes(e, em)
+	equalStyle := EqualStyles(e, em)
 
 	// if the element had no children too, swap hash.
-	if maxSize < 1 {
-		if oldMaxSize > 1 {
+	if maxSize == 0 {
+		if oldMaxSize > 0 {
 			return true
 		}
 
-		if !attrChanged || !styleChanged {
-			return true
+		if !equalAttr && !equalStyle {
+			e.SwapHash(oldHash)
+			return false
 		}
 
-		e.SwapHash(oldHash)
-		return false
+		return true
 	}
 
 	var childChanged bool
@@ -383,6 +384,7 @@ func (e *Markup) Reconcile(em *Markup) bool {
 
 			nch := newChildren[n]
 			if nch.Name() != och.Name() {
+
 				och.Remove()
 				e.AddChild(och)
 				childChanged = true
@@ -401,12 +403,33 @@ func (e *Markup) Reconcile(em *Markup) bool {
 		childChanged = true
 	}
 
-	if !childChanged && attrChanged && styleChanged {
+	if !childChanged && equalAttr && equalStyle {
 		e.SwapHash(oldHash)
 		return false
 	}
 
 	return true
+}
+
+// FirstChild returns the first child in the markup children list.
+func (e *Markup) FirstChild() *Markup {
+	return e.NthChild(0)
+}
+
+// LastChild returns the last child in the markup children list.
+func (e *Markup) LastChild() *Markup {
+	return e.NthChild(len(e.children) - 1)
+}
+
+// NthChild returns the giving child at the index position.
+func (e *Markup) NthChild(index int) *Markup {
+	childrenLen := len(e.children)
+
+	if index >= childrenLen && index <= -1 {
+		return nil
+	}
+
+	return e.children[index]
 }
 
 // AddChild adds a new markup as the children of this element
@@ -416,7 +439,7 @@ func (e *Markup) AddChild(child ...*Markup) {
 	}
 
 	for _, ch := range child {
-		if ch == e {
+		if ch == e || ch == nil {
 			continue
 		}
 
@@ -439,6 +462,8 @@ type Appliable interface {
 
 //Apply adds the giving element into the current elements children tree
 func (e *Markup) Apply(em *Markup) {
+	if em == nil { return }
+	
 	em.AddChild(e)
 }
 

@@ -6,8 +6,6 @@ import (
 	"html/template"
 	"sync"
 
-	"github.com/go-humble/detect"
-	"github.com/gopherjs/gopherjs/js"
 	"github.com/influx6/gu/dispatch"
 	"github.com/influx6/gu/trees"
 )
@@ -54,13 +52,6 @@ type ReactiveSubscription interface {
 	React(func())
 }
 
-// ReactiveRenderable defines an interface of a Renderable capable of
-// notifying subscribe functions of changes to allow them to React.
-type ReactiveRenderable interface {
-	Renderable
-	ReactiveSubscription
-}
-
 // Reactive extends the ReactiveRenderable by exposing a Publish method
 // which allows calling the update notifications list of a ReactiveRenderable.
 type Reactive interface {
@@ -101,6 +92,7 @@ type RenderView interface {
 	dispatch.Resolvable
 
 	UUID() string
+	RenderedBefore() bool
 }
 
 // Renderer defines an interface which takes responsiblity in translating
@@ -111,18 +103,6 @@ type Renderer interface {
 
 //==============================================================================
 
-// AddStylesheet adds an external stylesheet to the document into the document
-// DOM using the provide URL.
-func AddStylesheet(url string) {
-	if !detect.IsBrowser() {
-		return
-	}
-
-	link := js.Global.Get("document").Call("createElement", "link")
-	link.Set("rel", "stylesheet")
-	link.Set("href", url)
-	js.Global.Get("document").Get("head").Call("appendChild", link)
-}
 
 // AttachURL attaches the view to the provided Route pattern,
 // Using the internal route pattern, it matches all route changes

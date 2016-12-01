@@ -152,18 +152,29 @@ func main() {
 package elems
 
 import (
+	"fmt"
 	"github.com/influx6/gu/trees"
 	"github.com/influx6/gu/css"
 )
 
 // Text provides custom type for defining text nodes with the trees markup.
-func Text(content string) *trees.Markup {
-	return trees.NewText(content)
+func Text(content string, dl ...interface{}) *trees.Markup {
+	return trees.NewText(fmt.Sprintf(content, dl...))
 }
 
 // Parse returns the giving markup structure generated from the string.
 func Parse(markup string) *trees.Markup {
-	return trees.ParseAsRoot("section", markup)
+	tms := trees.ParseTree(markup)
+	if len(tms) > 1 {
+		sec := trees.NewMarkup("section",false)
+		for _, el := range tms {
+			el.Apply(sec)
+		}
+		
+		return sec
+	}
+
+	return tms[0]
 }
 
 // ParseIn returns the giving markup structure generated from the string.
@@ -171,34 +182,28 @@ func ParseIn(root string,markup string) *trees.Markup {
 	return trees.ParseAsRoot(root, markup)
 }
 
-// CSSWith provides a function that takes css.Rule which returns a stylesheet embeded into 
-// the provided element parent and is built on the gu/css package which collects 
-// necessary details from its parent to only target where it gets mounted.
-func CSSWith(rs *css.Rule, bind interface{}, sel ...string) *trees.Markup {
-	return trees.CSSStylesheet(rs, bind)
-}
-
 // CSS provides a function that takes style rules which returns a stylesheet embeded into 
 // the provided element parent and is built on the gu/css package which collects 
 // necessary details from its parent to only target where it gets mounted.
-func CSS(styles string, bind interface{}) *trees.Markup {
-	return trees.CSSStylesheet(css.New(styles), bind)
-}
+func CSS(styles interface{}, bind interface{}) *trees.Markup {
+  var rs *css.Rule 
 
-// SVG provides the markup generator for the <svg> xml tag.
-func SVG(markup ...trees.Appliable) *trees.Markup {
-	e := trees.NewMarkup("svg",false)
-	for _, m := range markup {
-		if m == nil { continue }
-		m.Apply(e)
-	}
-	return e
-}
+  switch so := styles.(type) {
+    case string:
+      rs = css.New(so)
+    case *css.Rule:
+      rs = so
+    default:
+      panic("Invalid Acceptable type for css: Only string or *css.Rule")
+  }
 
+	return trees.CSSStylesheet(rs, bind)
+}
 `)
 
 	code := regexp.MustCompile("</?code>")
 
+	doneSvg := make(map[string]bool)
 	err = pullDoc("https://developer.mozilla.org/en-US/docs/Web/SVG/Element", func(doc *goquery.Document) {
 		doc.Find(".index ul li a").Each(func(i int, s *goquery.Selection) {
 			link, _ := s.Attr("href")
@@ -223,7 +228,12 @@ func SVG(markup ...trees.Appliable) *trees.Markup {
 			// 	}
 			// }
 
+			if doneSvg[name] {
+				return
+			}
+
 			writeSVGElem(file, name, desc, link)
+			doneSvg[name] = true
 		})
 	})
 
@@ -231,6 +241,7 @@ func SVG(markup ...trees.Appliable) *trees.Markup {
 		log.Fatalf("Unable to pull SVG ELEMENTS: %s", err)
 	}
 
+	doneHtml := make(map[string]bool)
 	err = pullDoc("https://developer.mozilla.org/en-US/docs/Web/HTML/Element", func(doc *goquery.Document) {
 		doc.Find(".quick-links a").Each(func(i int, s *goquery.Selection) {
 			link, _ := s.Attr("href")
@@ -261,7 +272,12 @@ func SVG(markup ...trees.Appliable) *trees.Markup {
 				return
 			}
 
+			if doneHtml[name] {
+				return
+			}
+
 			writeElem(file, name, desc, link)
+			doneHtml[name] = true
 		})
 	})
 
@@ -290,11 +306,15 @@ func writeSVGElem(w io.Writer, name, desc, link string) {
 		funName = capitalize(funName)
 	}
 
+	if funName != "Svg" {
+		funName = "Svg" + funName
+	}
+
 	fmt.Fprintf(w, `
-// SVG%s provides the following for SVG XML elements ->
+// %s provides the following for SVG XML elements ->
 // %s
 // https://developer.mozilla.org%s
-func SVG%s(markup ...trees.Appliable) *trees.Markup {
+func %s(markup ...trees.Appliable) *trees.Markup {
 	e := trees.NewMarkup("%s",%t)
 	for _, m := range markup {
 		if m == nil { continue }
@@ -310,11 +330,20 @@ func writeElem(w io.Writer, name, desc, link string) {
 	funName := elemNameMap[name]
 
 	if funName == "" {
-		funName = capitalize(name)
+		funName = name
+
+		for badsymbs.MatchString(funName) {
+			if simbs := badsymbs.FindStringSubmatch(funName); len(simbs) > 0 {
+				item := capitalize(simbs[1])
+				funName = badsymbs.ReplaceAllString(funName, item)
+			}
+		}
+
+		funName = capitalize(funName)
 	}
 
 	fmt.Fprintf(w, `
-// %s provides the following for html elements ->
+// %s provides the following for HTML elements ->
 // %s
 // https://developer.mozilla.org%s
 func %s(markup ...trees.Appliable) *trees.Markup {

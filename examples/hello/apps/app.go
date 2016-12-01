@@ -5,7 +5,7 @@ import (
 	. "github.com/influx6/gu/design"
 	. "github.com/influx6/gu/trees"
 	. "github.com/influx6/gu/trees/elems"
-	events "github.com/influx6/gu/trees/events"
+	. "github.com/influx6/gu/trees/events"
 	. "github.com/influx6/gu/trees/property"
 )
 
@@ -49,12 +49,12 @@ var _ = Resource(func() {
 			IDAttr("hello"),
 			Header1(
 				Text("Hello"),
-				events.Click(func(ev EventObject, tree *Markup) {
+				ClickEvent(func(ev EventObject, tree *Markup) {
 					js.Global.Call("alert", "I just got clicked, Yaay!!!")
 				}, ""),
 			),
 			Span(Text("Click me")),
 		)
-	}, "", false)
+	}, "", false, false)
 
 })

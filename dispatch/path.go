@@ -3,6 +3,7 @@ package dispatch
 import (
 	"errors"
 	"fmt"
+	"time"
 	"net/url"
 	"strings"
 
@@ -33,6 +34,11 @@ func MakePath(path string) (PathDirective, error) {
 	ups, err := url.Parse(path)
 	if err != nil {
 		return PathDirective{}, err
+	}
+
+	hash := strings.TrimSpace(ups.Fragment)
+	if hash == "" {
+		hash = "/#"
 	}
 
 	return PathDirective{
@@ -81,6 +87,7 @@ func UseLocationHash(path string) Path {
 	if err != nil {
 		return Path{}
 	}
+
 
 	return Path{
 		Rem:           directive.Hash,
@@ -350,6 +357,10 @@ func PopStatePath(ps PathSequencer) (*PathObserver, error) {
 
 // Follow creates a Pathspec from the hash and path and sends it
 func (p *PathObserver) Follow(host, path, hash string) {
+	if hash == ""{
+		hash = "/#"
+	}
+
 	Dispatch(PathDirective{
 		Host:     host,
 		Hash:     hash,
@@ -358,28 +369,6 @@ func (p *PathObserver) Follow(host, path, hash string) {
 	})
 }
 
-//==============================================================================
-
-// PushDOMState adds a new state the dom push history.
-func PushDOMState(path string) {
-	if !detect.IsBrowser() {
-		return
-	}
-
-	// Use the advance pushState feature.
-	js.Global.Get("history").Call("pushState", nil, "", path)
-
-	// Set the browsers hash accordinly.
-	js.Global.Get("location").Set("hash", path)
-}
-
-// SetDOMHash sets the dom location hash.
-func SetDOMHash(hash string) {
-	panicBrowserDetect()
-	js.Global.Get("location").Set("hash", hash)
-}
-
-//==============================================================================
 
 // HistoryProvider wraps the PathObserver with methods that allow easy control of
 // client location
@@ -402,12 +391,13 @@ func History(ps PathSequencer) *HistoryProvider {
 // Go changes the path of the current browser location depending on wether
 // its underline observer is hashed based or pushState based,
 // it will use SetDOMHash or PushDOMState appropriately.
-func (h *HistoryProvider) Go(path string) {
+func (h *HistoryProvider) Go(path string, hash string) {
 	if h.usingHash {
-		SetDOMHash(path)
+		SetDOMHash(path, hash)
 		return
 	}
-	PushDOMState(path)
+
+	PushDOMState(path, hash)
 }
 
 //==============================================================================
@@ -419,3 +409,94 @@ func panicBrowserDetect() {
 		panic("expected to be used in a dom/browser env")
 	}
 }
+
+//==============================================================================
+
+// PushDOMState adds a new state the dom push history.
+func PushDOMState(path string, hash string) {
+	panicBrowserDetect()
+
+	if path == "" {
+		_, path, _ = GetLocation()
+	}
+
+	if !strings.HasPrefix(hash, "#"){
+		hash = "#" + hash
+	}
+
+	// Use the advance pushState feature.
+	baseURI := fmt.Sprintf("%s%s", path,hash)
+	fmt.Printf("Base: %s\n", baseURI)
+	js.Global.Get("history").Call("pushState",nil, baseURI)
+
+	// Set the browsers hash accordinly.
+	js.Global.Get("location").Set("hash", hash)
+}
+
+// SetDOMHash sets the dom location hash.
+func SetDOMHash(path string, hash string) {
+	panicBrowserDetect()
+
+
+	if path != "" {
+		js.Global.Get("location").Set("path", path)
+	}
+
+	js.Global.Get("location").Set("hash", hash)
+}
+
+// Navigate changes the URI path of the host browser accordingly.
+func Navigate(path string, hash string) {
+	if history != nil {
+		history.Go(path, hash)
+	}
+}
+
+// NavigateFor changes the URI path of the host browser to the 'to' path 
+// then returns to the 'from' after the experiation of the giving duration.
+func NavigateFor(to string, from string, ms time.Duration) {
+	if history == nil {
+		return
+	}
+
+	history.Go(to, "")
+
+	go func(){
+		<-time.After(ms)
+		history.Go(from, "")
+	}()
+}
+
+// NavigateHash changes the URI path of the host browser to the 'to' path 
+// then returns to the 'from' after the experiation of the giving duration.
+func NavigateHash(path string, to string, from string) {
+	if history == nil {
+		return
+	}
+
+	history.Go(path, to)
+}
+
+// NavigateHashFor changes the URI path of the host browser to the 'to' path 
+// then returns to the 'from' after the experiation of the giving duration.
+func NavigateHashFor(path string, to string, from string, ms time.Duration) {
+	if history == nil {
+		return
+	}
+
+	history.Go(path, to)
+
+	go func(){
+		<-time.After(ms)
+		history.Go(path, from)
+	}()
+}
+
+// Follow calls a redirection of the history router with the follow information.
+func Follow(host, path, hash string) {
+	if history != nil {
+		history.Follow(host, path, hash)
+	}
+}
+
+//==============================================================================
