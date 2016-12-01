@@ -77,18 +77,18 @@ func (d *WrapperEvent) StopImmediatePropagation() {
 // Event provide a meta registry for helps in registering events for dom markups
 // which is translated to the nodes themselves
 type Event struct {
-	Type    string
-	EventID string
+	Type      string
+	EventID   string
 	secTarget string
-	Tree    *Markup
-	Handle  mque.End
-	Link    func(*js.Object)
+	Tree      *Markup
+	Handle    mque.End
+	Link      func(*js.Object)
 }
 
 // NewEvent returns a event object that allows registering events to eventlisteners
 func NewEvent(evtype string, evtarget string) *Event {
 	return &Event{
-		Type:   evtype,
+		Type:      evtype,
 		secTarget: evtarget,
 	}
 }
@@ -109,7 +109,7 @@ func (e *Event) ID() string {
 // Clone  returns a new Event object from this.
 func (e *Event) Clone() *Event {
 	return &Event{
-		Type:   e.Type,
+		Type:      e.Type,
 		secTarget: e.secTarget,
 	}
 }

@@ -1,8 +1,8 @@
 package design
 
 import (
-	"sync"
 	"fmt"
+	"sync"
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
@@ -210,7 +210,7 @@ func (rs *Resources) CurrentResource() *ResourceDefinition {
 // Definition by applying the giving path.
 func (rs *Resources) Render(path dispatch.Path) *trees.Markup {
 	result := rs.Resolve(path)
-	return rs.render(nil,result...)
+	return rs.render(nil, result...)
 }
 
 // RenderWithScript creates a complete markup definition using the giving set of Resource
@@ -220,14 +220,14 @@ func (rs *Resources) RenderWithScript(path dispatch.Path, script string) *trees.
 
 	if script != "" {
 		src := trees.NewAttr("src", script)
-		scriptElem := trees.NewMarkup("script",false)
+		scriptElem := trees.NewMarkup("script", false)
 
 		src.Apply(scriptElem)
 
 		return rs.render([]*trees.Markup{scriptElem}, result...)
 	}
 
-	return rs.render(nil,result...)
+	return rs.render(nil, result...)
 }
 
 // render performs the needed work of collecting the giving markups and
@@ -512,7 +512,7 @@ func DoMarkup(markup Viewable, targets string, deferRender bool, targetAlreadyIn
 	}
 }
 
-// DoHead adds the provided markup as part of the children to the head tag. 
+// DoHead adds the provided markup as part of the children to the head tag.
 func DoHead(markup Viewable, deferRender bool) {
 	var markupFn []*trees.Markup
 
@@ -536,7 +536,7 @@ func DoHead(markup Viewable, deferRender bool) {
 	for _, item := range markupFn {
 		var static gu.StaticView
 		static.Morph = true
-		static.Content = item 
+		static.Content = item
 
 		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
 
@@ -554,13 +554,13 @@ func DoStyle(styles interface{}, bind interface{}, deferRender bool) {
 	var rs *css.Rule
 
 	switch so := styles.(type) {
-    case string:
-      rs = css.New(so)
-    case *css.Rule:
-      rs = so
-    default:
-      panic("Invalid Acceptable type for css: Only string or *css.Rule")
-  }
+	case string:
+		rs = css.New(so)
+	case *css.Rule:
+		rs = so
+	default:
+		panic("Invalid Acceptable type for css: Only string or *css.Rule")
+	}
 
 	current := getResources().MustCurrentResource()
 
@@ -569,7 +569,7 @@ func DoStyle(styles interface{}, bind interface{}, deferRender bool) {
 	static.Content = trees.CSSStylesheet(rs, bind)
 
 	trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
-		
+
 	if deferRender {
 		current.DeferLinks = append(current.DeferLinks, static)
 		return
@@ -657,7 +657,6 @@ func DoTitle(title string) {
 	trees.NewText(title).Apply(ml.Content)
 }
 
-
 // DoLink adds a element which generates a <link> tag.
 func DoLink(url string, mtype string, defered bool) {
 	ml := mLink("link", defered)
@@ -672,7 +671,6 @@ func DoCSS(src string, defered bool) {
 	trees.NewAttr("rel", "stylesheet").Apply(ml.Content)
 	trees.NewAttr("type", "text/css").Apply(ml.Content)
 }
-
 
 // DoScript adds a element which generates a <style> tag.
 func DoScript(src string, mtype string, defered bool) {

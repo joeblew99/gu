@@ -62,12 +62,12 @@ func CustomView(tag string, r ...Renderable) RenderView {
 // view defines a base level implementation for a set of Renderables.
 type view struct {
 	Reactive
-	hide    bool
-	tag     string
-	uuid    string
-	renderedBefore    bool
-	live    *trees.Markup
-	renders []Renderable
+	hide           bool
+	tag            string
+	uuid           string
+	renderedBefore bool
+	live           *trees.Markup
+	renders        []Renderable
 }
 
 // Resolves exposes the internal renderables and passes the supplied path

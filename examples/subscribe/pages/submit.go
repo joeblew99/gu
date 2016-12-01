@@ -1,15 +1,15 @@
 package pages
 
 import (
-  . "github.com/influx6/gu/design"
-  . "github.com/influx6/gu/examples/subscribe/app"
+	. "github.com/influx6/gu/design"
+	. "github.com/influx6/gu/examples/subscribe/app"
 )
 
-var _ = Resource(func(){
+var _ = Resource(func() {
 
-  UseRoute("#subscriptions/submit")
+	UseRoute("#subscriptions/submit")
 
-  notifier := NewNotifier()
-  DoView(notifier, "", false, false)
+	notifier := NewNotifier()
+	DoView(notifier, "", false, false)
 
 })

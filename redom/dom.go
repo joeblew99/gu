@@ -19,7 +19,7 @@ func AddStylesheet(url string) {
 	link := gjs.Global.Get("document").Call("createElement", "link")
 	link.Set("href", url)
 	link.Set("rel", "stylesheet")
-	
+
 	gjs.Global.Get("document").Get("head").Call("appendChild", link)
 }
 
@@ -147,7 +147,6 @@ func (dm *DOMRenderer) TriggerBindEvent(event *gjs.Object, root *gjs.Object, sou
 	if children == nil || children == gjs.Undefined {
 		return
 	}
-
 
 	kids := js.DOMObjectToList(children)
 	var match bool

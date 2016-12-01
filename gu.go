@@ -103,7 +103,6 @@ type Renderer interface {
 
 //==============================================================================
 
-
 // AttachURL attaches the view to the provided Route pattern,
 // Using the internal route pattern, it matches all route changes
 // and checks against the full URL(Path+Hash).

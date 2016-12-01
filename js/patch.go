@@ -169,7 +169,6 @@ patchloop:
 		// lets use our unique id to check for the element if it exists
 		sel := fmt.Sprintf(`%s[uid='%s']`, strings.ToLower(tagname), uid)
 
-
 		// we know hash and uid are not empty so we kick ass the easy way
 		targets := QuerySelectorAll(live, sel)
 

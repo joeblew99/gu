@@ -3,9 +3,9 @@ package dispatch
 import (
 	"errors"
 	"fmt"
-	"time"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
@@ -87,7 +87,6 @@ func UseLocationHash(path string) Path {
 	if err != nil {
 		return Path{}
 	}
-
 
 	return Path{
 		Rem:           directive.Hash,
@@ -357,7 +356,7 @@ func PopStatePath(ps PathSequencer) (*PathObserver, error) {
 
 // Follow creates a Pathspec from the hash and path and sends it
 func (p *PathObserver) Follow(host, path, hash string) {
-	if hash == ""{
+	if hash == "" {
 		hash = "/#"
 	}
 
@@ -368,7 +367,6 @@ func (p *PathObserver) Follow(host, path, hash string) {
 		Sequence: p.sequencer(path, hash),
 	})
 }
-
 
 // HistoryProvider wraps the PathObserver with methods that allow easy control of
 // client location
@@ -420,14 +418,14 @@ func PushDOMState(path string, hash string) {
 		_, path, _ = GetLocation()
 	}
 
-	if !strings.HasPrefix(hash, "#"){
+	if !strings.HasPrefix(hash, "#") {
 		hash = "#" + hash
 	}
 
 	// Use the advance pushState feature.
-	baseURI := fmt.Sprintf("%s%s", path,hash)
+	baseURI := fmt.Sprintf("%s%s", path, hash)
 	fmt.Printf("Base: %s\n", baseURI)
-	js.Global.Get("history").Call("pushState",nil, baseURI)
+	js.Global.Get("history").Call("pushState", nil, baseURI)
 
 	// Set the browsers hash accordinly.
 	js.Global.Get("location").Set("hash", hash)
@@ -436,7 +434,6 @@ func PushDOMState(path string, hash string) {
 // SetDOMHash sets the dom location hash.
 func SetDOMHash(path string, hash string) {
 	panicBrowserDetect()
-
 
 	if path != "" {
 		js.Global.Get("location").Set("path", path)
@@ -452,7 +449,7 @@ func Navigate(path string, hash string) {
 	}
 }
 
-// NavigateFor changes the URI path of the host browser to the 'to' path 
+// NavigateFor changes the URI path of the host browser to the 'to' path
 // then returns to the 'from' after the experiation of the giving duration.
 func NavigateFor(to string, from string, ms time.Duration) {
 	if history == nil {
@@ -461,13 +458,13 @@ func NavigateFor(to string, from string, ms time.Duration) {
 
 	history.Go(to, "")
 
-	go func(){
+	go func() {
 		<-time.After(ms)
 		history.Go(from, "")
 	}()
 }
 
-// NavigateHash changes the URI path of the host browser to the 'to' path 
+// NavigateHash changes the URI path of the host browser to the 'to' path
 // then returns to the 'from' after the experiation of the giving duration.
 func NavigateHash(path string, to string, from string) {
 	if history == nil {
@@ -477,7 +474,7 @@ func NavigateHash(path string, to string, from string) {
 	history.Go(path, to)
 }
 
-// NavigateHashFor changes the URI path of the host browser to the 'to' path 
+// NavigateHashFor changes the URI path of the host browser to the 'to' path
 // then returns to the 'from' after the experiation of the giving duration.
 func NavigateHashFor(path string, to string, from string, ms time.Duration) {
 	if history == nil {
@@ -486,7 +483,7 @@ func NavigateHashFor(path string, to string, from string, ms time.Duration) {
 
 	history.Go(path, to)
 
-	go func(){
+	go func() {
 		<-time.After(ms)
 		history.Go(path, from)
 	}()

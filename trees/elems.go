@@ -462,8 +462,10 @@ type Appliable interface {
 
 //Apply adds the giving element into the current elements children tree
 func (e *Markup) Apply(em *Markup) {
-	if em == nil { return }
-	
+	if em == nil {
+		return
+	}
+
 	em.AddChild(e)
 }
 
