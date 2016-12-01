@@ -29,11 +29,11 @@ end components and projects with Go. It's simplicity will be heavily guarded and
 maintained. 
 
 If more complex ideas arise, then those will be built ontop of Gu has seperate 
-libraries to offer that niche and methods. But Gu will remain as so, to allow 
+libraries to offer that niche. But Gu will remain as so, to allow 
 anyone to graft and build on top as they see fit.
 
 Only changes that will ever come to the library will be updates for performance, 
-fixes or needed change that simplify and provide better usage for the developer.
+fixes or needed changes that simplify and provide better usage for the developer.
 
 
 ## Contributions
