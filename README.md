@@ -23,5 +23,15 @@ Basic examples lay within the [Examples](./examples/) directory. To run examples
 simply open up the corresponding `index.html` within the example directory to see 
 the end result within your browser.
 
+## Why Gu and What next for Gu.
+Gu main purpose is to provide a very simple and elegant approach in rendering front 
+end components and projects with Go. It's simplicity will be heavily guarded and
+maintained. 
+
+If more complex ideas arise, then those will be built ontop of Gu has seperate 
+libraries to offer that niche and methods. But Gu will remain as so, to allow 
+anyone to graft and build on top as they see fit.
+
+
 ## Contributions
  Contributions will be received with much fan fare and gratitude.
