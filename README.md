@@ -19,7 +19,9 @@ go install github.com/influx6/gu/...
   **[Limitations](./docs/Limitations.md)**
 
 ## Examples
-  Basic examples lay within the [Examples](./examples/) directory.
+Basic examples lay within the [Examples](./examples/) directory. To run examples 
+simply open up the corresponding `index.html` within the example directory to see 
+the end result within your browser.
 
 ## Contributions
  Contributions will be received with much fan fare and gratitude.
