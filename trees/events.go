@@ -103,7 +103,7 @@ func (e *Event) Target() string {
 
 // ID returns the uique event id string for the event.
 func (e *Event) ID() string {
-	return fmt.Sprintf("%s#%s", e.Target, e.Type)
+	return fmt.Sprintf("%s#%s", e.Target(), e.Type)
 }
 
 // Clone  returns a new Event object from this.
