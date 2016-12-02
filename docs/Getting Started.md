@@ -352,10 +352,9 @@ to be added to the App mailing list and returns either a pass or failure message
 
 In truth, we won't be adding the functionality of calling an external API has this only demonstrates how components can be built, but assuredly the code will be completed on the basis of component creation and intercommunication.
 
-When building the sample App, file structure wise things were arranged in an order
-which described best the contents and order in which the App was to be built.
+When building the sample App, the file structure of the subscribe app was intended to be simple, and to provide the best intuitive description of it's structure of the different parts that make up the application.
 
-File Structure of the subscribe app is rather simple and it provides a nice intuitive description of it's structure of the different parts that make up the application. This is not a law and you are free to create whatever structure suits but let your structures speak loudly and descriptively.
+* This is not a law and you are free to create whatever structure suits but let your structures speak loudly and descriptively. *
 
 ```bash
  > tree ./gu/examples/subscribe
