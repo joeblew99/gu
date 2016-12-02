@@ -30,6 +30,6 @@ It also shows how the app can be rendered on the server with a sample http serve
 
 You can find the `index.html` file for the `Subscribe` app in the [Subscribe Directory](./subscribe).
 
-You can find the server file for the `Subscribe` app in the [Server Directory](./subscribe/server).
+You can find the `server` file for the `Subscribe` app in the [Server Directory](./subscribe/server).
 
 
