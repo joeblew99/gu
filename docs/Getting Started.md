@@ -139,7 +139,7 @@ The main function handles the creation of the `ResourcesManager` by calling the 
 The `ResourceRenderer` if passed in will only be ever used on the client, to handle the automatic update of the DOM, during the initial load and continuous update request either by a component or the browser DOM.
 
 ```go
-	New(&redom.DOMRenderer{
+	design.New(&redom.DOMRenderer{
 		Document: dom.GetWindow().Document(),
 	}).Init(true)
 ```
@@ -168,13 +168,13 @@ The `Init(bool)` function accepts a boolean value to set the routing method to b
 We continue in the Resource function which immediately sets the route to be targeted for which this `Resource` should be rendered only in. Now this particular code is excluded in the example code but added here for breadth and also to provide the opportunity to showcase how a Resource is locked to a given route, generally by the hash of the page.
 
 ```go
-	UseRoute("/hello")
+	design.UseRoute("/hello")
 ```
 
 Next we set the title expected for the page, by calling the `DoTitle` function which ensures a `<title>`tag is included in the head, thereby setting the title when this is rendered.
 
 ```go
-	DoTitle("Hello App")
+	design.DoTitle("Hello App")
 ```
 
 The final piece the page is the simple markup we intently desire that the page display, which is a simple "Hello Text" with a faded "Click Me!" below it.
@@ -846,16 +846,16 @@ design.UseRoute("#subscriptions/submit")
 package pages
 
 import (
-	. "github.com/influx6/gu/design"
+	"github.com/influx6/gu/design"
 	. "github.com/influx6/gu/examples/subscribe/app"
 )
 
-var _ = Resource(func() {
+var _ = design.Resource(func() {
 
-	UseRoute("#subscriptions/submit")
+	design.UseRoute("#subscriptions/submit")
 
 	notifier := NewNotifier()
-	DoView(notifier, "", false, false)
+	design.DoView(notifier, "", false, false)
 
 })
 ```
