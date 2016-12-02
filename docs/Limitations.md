@@ -1,12 +1,10 @@
-# Limitations
- Gu by its very design and architecture was constructed to be "Simple".
- It lacks the bells and whistles of frameworks today and its geared to solve your rendering needs and due to this,
- certain limitations exists with it.
+Limitations
+===========
 
- 1. Gu provides no react like flux structure
+Gu by its very design and architecture was constructed to be "Simple". It lacks the bells and whistles of frameworks today and its geared to solve your rendering needs and due to this, certain limitations exists with it.
 
- 2. Gu only focuses on providing you sets of structures able to work on the client and server for rendering.
+1.	Gu provides no react like flux structure
 
- 3. Gu component are simply structures that implements its provided interfaces and nothing else.
+2.	Gu provides only focuses on providing you sets of structures able to work on the client and server for rendering.
 
- 4. Gu has no complex internal system to update DOM over the wire, it is basic and simple at its core.
+3.	Gu component are simply structures that implements its provided interfaces and nothing else.
