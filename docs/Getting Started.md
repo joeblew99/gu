@@ -7,14 +7,9 @@ to define for themselves how they should be rendered and also allow developers t
 how those components and other content should be rendered, and ensuring it works both
 on the server and browser, which will be often referred to as the backend and frontend.
 
-The concepts in Gu are practially simple and rely majorly on a functional and interface based constructs,
-where structures can define the markup to be rendered by implementing certain interfaces and also elivate
-themselves as reactive by implement others. These approach provides a high level of simplicity and ease
-in both thinking and use without enforcing any rigid rules.
+The concepts in Gu are practially simple and rely majorly on a functional and interface based constructs, where structures can define the markup to be rendered by implementing certain interfaces and also elivate themselves as reactive by implement others. These approach provides a high level of simplicity and ease in both thinking and use without enforcing any rigid rules.
 
-*Gu is in no way a Flux-like framework. It is just a library. It does provide complex structures and
-layed down paths by which such can be attained, it simply provides a baseline to render the desire output and
-gives the freedom for the developer to determine how their application data flow should works.*
+*Gu is in no way a Flux-like framework. It is just a library. It does provide complex structures and layed down paths by which such can be attained, it simply provides a baseline to render the desire output and gives the freedom for the developer to determine how their application data flow should works.*
 
 ## The Guide
 
@@ -26,9 +21,7 @@ This will allow you to grasp the available spectrum and capabilities provided by
 which will help evolve and define for you how you will mix and match Gu capabilities
 into your projects and workflow.
 
-*Gu has evolved over its development lifetime, loosing and adding new ideas into the way it works but
-I have ensured to keep the tenant of simplicity and a non-intrusive architecture consistent, whilst still
-ensuring that it meet the rendering needs of the user and also grant freedom in all other aspects.*
+*Gu has evolved over its development lifetime, loosing and adding new ideas into the way it works but I have ensured to keep the tenant of simplicity and a non-intrusive architecture consistent, whilst still ensuring that it meet the rendering needs of the user and also grant freedom in all other aspects.*
 
 ### A Page
 
@@ -39,7 +32,7 @@ and rules for API to be generated are layed,  Gu's [Design Package](./designs) d
 unlike [Goa](https://goa.design/) do not provide any form of code generation, but produces the desired
 effect of defining with intent the content expected on a page.
 
-* In a sense, it is the organizational structure used to organize what is to be rendered. *
+*In a sense, it is the organizational structure used to organize what is to be rendered.*
 
 Basically a page is a `resource` amongs many, which depending on the availability
 of predefined rules to be validated against, will be rendered.  
@@ -202,7 +195,7 @@ Which brings me to the need to explain how the `Init` works:
   The `Init(bool)` function accepts a boolean value to set the routing method to
   be used. The boolean value of true indicates whether only the hash of the location on the client or the provided path on the server is to be used for routing
 
-*Note*: * A `False` value tells the resource manager to use the full path while a `True` indicates that the routes should work by the hash part. *
+**Note**: *A `False` value tells the resource manager to use the full path while a `True` indicates that the routes should work by the hash part.*
 
 We continue in the Resource function which immediately sets the route to be targeted for which this `Resource` should be rendered only in. Now this particular code is excluded in the example code but added here for breadth and also to provide the opportunity to showcase how a Resource is locked to a given route, generally by the hash of the page.
 
@@ -871,8 +864,8 @@ because of the route it is peg to. This encapsulates all the markup expected to 
 
 What confines a resource only for a specific route is the `UseRoute` function provided by the `Gu/design` package, this sets the resource to only ever be considered for rendering when either the path or hash matches the set path depending on the boolean value giving to the ResourceManager `Init()` method.
 
-* A `False` value tells the resource manager to use the full path while a `True`
-indicates that the routes should work by the hash part. *
+*A `False` value tells the resource manager to use the full path while a `True`
+indicates that the routes should work by the hash part.*
 
 ```go
 package pages
@@ -1051,8 +1044,8 @@ This is done because `gopherjs` produces a complete javascript file which contai
 takes over in the browser when rendered we need to ensure that generated/built javascript
 file is include.
 
-* So `RenderWithScript` will prodcue a markup with a script tag insert which ensures that
-the `.js` file built with `gopherjs build`, will be included into the generated markup. *
+*So `RenderWithScript` will prodcue a markup with a script tag insert which ensures that
+the `.js` file built with `gopherjs build`, will be included into the generated markup.*
 
 
 ## Last Note
