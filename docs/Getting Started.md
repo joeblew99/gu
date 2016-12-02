@@ -1,74 +1,69 @@
-# Getting Started 
-Gu is fundamentally a library built to handle rendering of html on either front or backend. 
+# Getting Started
+Gu is fundamentally a library built to handle rendering of html on either front or backend.
 
-When creating Gu, my main focus was on creating a solution that did not bind itself 
-tightly to the perculiarities of either the browser or server, but allow each structures 
-to define for themselves how they should be rendered and also allow developers to define 
-how those components and other content should be rendered, and ensuring it works both 
+When creating Gu, my main focus was on creating a solution that did not bind itself
+tightly to the perculiarities of either the browser or server, but allow each structures
+to define for themselves how they should be rendered and also allow developers to define
+how those components and other content should be rendered, and ensuring it works both
 on the server and browser, which will be often referred to as the backend and frontend.
 
 The concepts in Gu are practially simple and rely majorly on a functional and interface based constructs,
-where structures can define the markup to be rendered by implementing certain interfaces and also elivate 
-themselves as reactive by implement others. These approach provides a high level of simplicity and ease 
+where structures can define the markup to be rendered by implementing certain interfaces and also elivate
+themselves as reactive by implement others. These approach provides a high level of simplicity and ease
 in both thinking and use without enforcing any rigid rules.
 
-*Gu is in no way a Flux-like framework. It is just a library. It does provide complex structures and 
-layed down paths by which such can be attained, it simply provides a baseline to render the desire output and 
+*Gu is in no way a Flux-like framework. It is just a library. It does provide complex structures and
+layed down paths by which such can be attained, it simply provides a baseline to render the desire output and
 gives the freedom for the developer to determine how their application data flow should works.*
 
 ## The Guide
 
-In this guide, we will be looking at Gu in its only two possible use. 
+In this guide, we will be looking at Gu in its only two possible use.
 
-Gu provides construct to build a `Page` and a `Component`. 
+Gu provides construct to build a `Page` and a `Component`.
 
-This will allow you to grasp the available spectrum and capabilities provided by Gu, 
-which will help evolve and define for you how you will mix and match Gu capabilities 
+This will allow you to grasp the available spectrum and capabilities provided by Gu,
+which will help evolve and define for you how you will mix and match Gu capabilities
 into your projects and workflow.
 
-*Gu has evolved over its development lifetime, loosing and adding new ideas into the way it works but 
-I have ensured to keep the tenant of simplicity and a non-intrusive architecture consistent, whilst still 
+*Gu has evolved over its development lifetime, loosing and adding new ideas into the way it works but
+I have ensured to keep the tenant of simplicity and a non-intrusive architecture consistent, whilst still
 ensuring that it meet the rendering needs of the user and also grant freedom in all other aspects.*
 
 ### A Page
 
 The Page simply defines a complete HTML page.  
 
-Taking the declarative style from [Goa](https://goa.design/) in the way the structures 
-and rules for API to be generated are layed,  Gu's [Design Package](./designs) defines structures which 
-unlike [Goa](https://goa.design/) do not provide any form of code generation, but produces the desired 
-effect of defining with intent the content expected on a page. 
+Taking the declarative style from [Goa](https://goa.design/) in the way the structures
+and rules for API to be generated are layed,  Gu's [Design Package](./designs) defines structures which
+unlike [Goa](https://goa.design/) do not provide any form of code generation, but produces the desired
+effect of defining with intent the content expected on a page.
 
-*In a sense, it is the organizational structure used to organize what is to be rendered. *
+* In a sense, it is the organizational structure used to organize what is to be rendered. *
 
 Basically a page is a `resource` amongs many, which depending on the availability
 of predefined rules to be validated against, will be rendered.  
 
-On the client side this means any resource which matches the current URL or hash 
-depending on how it is setup, will be rendered to the DOM, while on the server, 
-It is the URL provided to generated a complete HTML response which contains a complete page 
-with its differents parts (i.e head, links, scripts, styles and body tags).
+On the client side this means any resource which matches the current URL or hash
+depending on how it is setup, will be rendered to the DOM, while on the server,
+It is the URL provided to generated a complete HTML response which contains a complete page with its different parts (i.e head, links, scripts, styles and body tags).
 
-Pages on the client listen for update requests from the things they render if 
-this matches the library React interface, which effectively provides a easy but 
+Pages on the client listen for update requests from the things they render if
+this matches the library React interface, which effectively provides a easy but
 simply way for developers to add reactivity to structures.
 
-With Pages in `Gu`, comes the concept of a ResourcesManager, this manager is created to managed and handle 
-the response and rendering of all pages according to the current requested URI on the client,
-while on the server, a provided path called to its render methods.
+With Pages in `Gu`, comes the concept of a ResourcesManager, this is created to managed and handle the response and rendering of all pages according to the
+current requested URI on the client, while on the server, a provided path called to its render methods.
 
-Generally a Resource/Page object, are not directly handled by the developer has they are 
-generated by the internals of  Gu's [Design Package](./designs) during initialization.  
+Generally a Resource/Page object, are not directly handled by the developer has they are generated by the internals of  Gu's [Design Package](./designs) during initialization.  
 
-As a note, what defines the criteria for which page or pages get rendered by the ResourcesManager is the routes 
-to which this resources get pegged down to. If no route is provided then it is understood that the page is simply 
-a part of any URI to be rendered. This is intentional for structurally and organization reasons. 
+As a note, what defines the criteria for which page or pages get rendered by the ResourcesManager is the routes to which this resources get pegged down to.
+If no route is provided then it is understood that the page is simply
+a part of any URI to be rendered. This is intentional for structurally and organization reasons.
 
-*Generally resources should be self encapsulating of their entire components and parts, but you can share 
-things as you decide.*
+*Generally resources should be self encapsulating of their entire components and parts, but you can structure as you decide.*
 
-Creating a page is rather simple has it requires the calling of the Resource function which embodies the 
-content or intent of content for that page through the provided functions and structures Gu provides.
+Creating a page is rather simple, has it requires the calling of the `Resource` function which embodies the content or intent of content for that page through the provided functions and structures Gu provides.
 
 Below is an example of a page which a single Hello text printed on the page.
 
@@ -86,6 +81,7 @@ import (
 
 var _ = Resource(func() {
 
+    UseRoute("/hello")
     DoTitle("Hello App")
 
     DoMarkup(func() *Markup {
@@ -151,15 +147,11 @@ Rendered Page with Hover Effect:
 Rendered Page with clicked "Hello" text:
 ![Image of Page when clicked](../examples/hello/on-click.png)
 
-The code above flurishes with  declarations of  intent which when read fully describes the
-outcome expected on the page. As stated within Gu, a Resource is a single page, which encapsulates
- what is expected with its logic and architecture which then gets rendered as a page based on the URI
- critieria.
+The code above flourishes with  declarations of intent which when read, fully describes the outcome expected on the page. As stated within Gu, a Resource is a single page, which encapsulates what is expected with its logic and architecture which then gets rendered as a page based on the URI criteria.
 
-We create a resource by calling the [Design Package](../designs) `Resource` function which generates 
-a function to be instantiated and executed by the managing `ResourcesManager` to create the resource.
-It simple returns the index position which that resource will be located in within the `ResourcesManager`.
-But this is usually not needed but also exists to allwo the pattern of declaration.
+We create a resource by calling the [Design Package](../designs) `Resource` function which generates a function to be instantiated and executed by the managing `ResourcesManager` to create the resource.
+
+It simply returns the index position, which indicates the position of the resource in the `ResourcesManager`. But this is usually not needed but is returned to allow this pattern of declaration.
 
 ```go
 var _ = Resource(func() {
@@ -168,10 +160,9 @@ var _ = Resource(func() {
 ```
 
 The main function handles the creation of the `ResourcesManager` by calling the `New`
-function from the [Design Package](../designs) package. The `ResourcesManager` expects an an optional 
-argument, which is a `ResourceRenderer` type to handle the rendering of the resources on the client.
-The   `ResourceRenderer` if passed in will only be ever used on the client, to handle the automatic update of the DOM
-during the initial load and continous updates request either by a component or the browsers URI.
+function from the [Design Package](../designs) package. The `ResourcesManager` expects an an optional argument, which is a `ResourceRenderer` type to handle the rendering of the resources on the client.
+
+The   `ResourceRenderer` if passed in will only be ever used on the client, to handle the automatic update of the DOM, during the initial load and continuous update request either by a component or the browser DOM.
 
 ```go
 	New(&redom.DOMRenderer{
@@ -179,30 +170,64 @@ during the initial load and continous updates request either by a component or t
 	}).Init(true)
 ```
 
-**Note**: The `Init()` function is the core of a `ResourcesManager` to intialize all present `Resource` functions 
-already loaded either as part of the package or from an externally imported package. Which brings me to the need to 
-explain how the `New` works. The `design.Resource(func())` works by stacking the provided function in a global 
-resource stack, when the `New` function is called to create a `ResourcesManager`, it takes all available functions 
-added into the package resource stack, clearing out all. This is done to ensure only the `ResourcesManager` created
-ever owns those resources. Generally there should ever be only one `ResourcesManager` created and passed to 
-either your client or server code, has it works on either end.
+Generally the developer need not ever deal with this, has `Gu` has a `gu/app` package
+which already encapsulates this call and returns the appropriate ResourceManager
+for use for either the browser or the server. This makes the declaration rather
+simple.
 
-We continue in the Resource function which immediately sets the route to be targeted for which this `Resource`
-should be rendered, now this particular code is excluded in the example code but added here for breadth and also 
-to provide the opportunity to showcase how a Resource is locked to a given URI, generally by the hash of the page.
+```go
+import "github.com/influx6/gu/app"
+
+func main(){
+  app := app.New()
+  app.Init(true)  
+}
+```
+
+**Note**: The `Init()` function is the core of a `ResourcesManager`, it initializes all present `Resource` functions already loaded either as part of the package or from an externally imported package.
+
+Which brings me to the need to explain how the `Init` works:
+
+  The `design.Resource(func())` works by stacking the provided function in a global
+  resource stack. When the `Init()` function is called to create a `ResourcesManager`, it takes all available functions in the resource stack, clearing the stack and
+  initializes them within itself accordingly. This allows us to pull in different
+  resources from different packages then having a single ResourceManager when it's
+  `Init()` method is called to collect and own those resources alone.
+  Generally there should ever be only one `ResourcesManager` created and passed to
+  either your client or server code, has it works on either end. Never create and
+  initialize two ResourceManager else ensure that they don't spill into each other
+  and that each has being initialized within its own package with its corresponding
+  resources.
+
+  The `Init(bool)` function accepts a boolean value to set the routing method to
+  be used. The boolean value of true indicates whether only the hash of the location on the client or the provided path on the server is to be used for routing
+
+*Note*: * A `False` value tells the resource manager to use the full path while a `True` indicates that the routes should work by the hash part. *
+
+We continue in the Resource function which immediately sets the route to be targeted for which this `Resource` should be rendered only in. Now this particular code is excluded in the example code but added here for breadth and also to provide the opportunity to showcase how a Resource is locked to a given route, generally by the hash of the page.
 
 ```go
 	UseRoute("/hello")
 ```
 
-Next we set the title expected for the page, by calling the `DoTitle` function which ensures a `<title>`tag is included 
-in the head, thereby setting the seen title when this is rendered.
+Next we set the title expected for the page, by calling the `DoTitle` function which ensures a `<title>`tag is included in the head, thereby setting the  title when this is rendered.
+
 ```go
 	DoTitle("Hello App")
 ```
 
-The final piece the page is the simple markup we intently desire that the page display, which is a simple "Hello Text"
-with a faded "Click Me!" below it.
+The final piece the page is the simple markup we intently desire that the page display, which is a simple "Hello Text" with a faded "Click Me!" below it.
+
+Gu has stated provides a function markup package which lets us use functions
+to compose what we expect the HTML to look like. It allows us define the markup,
+events and styles to which that markup will be affected by. This provides great
+power because of the composing nature of the declaration style.
+
+All understandable HTML tags have similar functions named accordingly, and this is
+the case for events as well.
+
+This functions can be found in the [Tree](../trees) which defines the core markup
+structure and the [Elems](../trees/elems) and [Events](../trees/events) packages.
 
 ```go
 DoMarkup(func() *Markup {
@@ -253,20 +278,26 @@ DoMarkup(func() *Markup {
 The `DoMarkup` function accepts three types of input:
 
   1. A `Markup` structure provided by the `trees`, `trees\elems` and `trees\property` packages.
-  2. A function which returns a single or a slice/list of markup structures (When a list is returned it gets wrap in a section tag)
+
+  2. A function which returns a single or a slice/list of markup structures
+  (When a list is returned it gets wrap in a section tag).
+
   3. A string which will be parsed to generate the markup structure representing it.
 
-The use of a functional style allows us to easily and intently describe the structure 
+The use of a functional style allows us to easily and intently describe the structure
 for any markup combination and grants us the full power of functional Go.
 
-The special item in all the structures provided is the `CSS` function which will 
-take the style properties described into it and create a `<style>` that whoes content
-is the string within and where all `$` characters are replaced by the parents unique 
-UUID. This ensures that whatever properties are defined are enforced to only apply to 
-the parent and its children.
+The special item in all the structures provided is the `CSS` function which will
+take the style properties described into it and create a `<style>` tag, which content
+gets applied to the DOM. It has within a `$` character, which is used to create styles that only references the component when created. This allows us to create target styles that do not affect components of the same type but of the specific component and its markup after initialization. The dollar sign gets replaced with the unique
+attribute for this component. This ensures that whatever properties are defined are enforced to only apply to the parent and its children.
 
-The `DoMarkup` as well as an alternative function within the `gu/design` package,
-called the `DoView`.
+*Note: The `DoMarkup` as well as an alternative function within the `gu/design` package,called the `DoView`.*
+
+The `DoView` provides an alternative which focus more on a region of markup which
+is dynamic and changes due to some operation, data or condition. The view automatically
+updates itself content based on the `Reactive` interface for any structure which meets
+that interface.
 
 ```go
 type ReactiveSubscription interface {
@@ -279,13 +310,8 @@ type Reactive interface {
 }
 ```
 
-The `DoView` provides an alternative which focus more on a region of markup which 
-is dynamic and changes due to some operation, data or condition. The view automatically 
-updates itself content based on the `Reactive` interface for any structure which meets 
-that interface.
-
-*The basic rules of choosing between `DoMarkup` and `DoView` is simply on the basis of 
-whether the contents and its data are dynamic and dependent on some system, data or 
+*The basic rules of choosing between `DoMarkup` and `DoView` is simply on the basis of
+whether the contents and its data are dynamic and dependent on some system, data or
 structure which changes and requires efficient update.*
 
 ```go
@@ -294,25 +320,53 @@ type Renderable interface {
 }
 ```
 
-The `DoView` expects as input on structures which matches the `Renderable` interface
-and then passes those to build its markup output. If any of these structures implement 
-the `Reactive` interface then it subscribes to listen for changes updates and updates 
-the renderered content if on the client automatically. Which ensures such dynamic 
-regions and data keep updated without any effort on the developers side.
+The `DoView` expects as input structures which matches the `Renderable` interface
+and then passes those to build its markup output. If any of these structures implement
+the `Reactive` interface then the view subscribes to listen for changes notifications,
+this then updates the rendered content of that view only, if on the client automatically. Which ensures such dynamic regions and data keep updated without any effort on the developers side.
 
 
 ### A Component
-Component are the secondary system Gu caters to. Components are represented as views 
-or regions of markup which are dynamic and change, even if they are not dynamic, they 
+Component are the secondary system `Gu` caters to. Components are represented as views
+or regions of markup which are dynamic and change, even if they are not dynamic, they
 are region which are fed their markup by external structures that meet the `Renderable`
 interface.
 
-We will be building a simple email subscription app has displayed by the images below.
-This example show cases well enough how components can be built with `Gu` and how 
-communicating between components is highly decoupled and allows and ensures that 
-each component encapsulates its markup and behaviour(i.e events, look and feel).
+We will be building a simple email subscription app which is displayed by the images below.
 
-** Source Files are in [Subscribe Sample](../examples/subscribe)**
+This example show cases well enough how components can be built with `Gu` and how
+communicating between components is highly decoupled and allows and ensures that
+each component encapsulates its markup and behaviour (i.e events, look and feel).
+
+File Structure of the subscribe app is rather simple and it provides a nice intuitive description of it's structure of the different parts that make up the application. This is not a law and you are free to create whatever structure suits but let your structures speak loudly and descriptively.
+
+```bash
+ > tree ./gu/examples/subscribe
+ ./examples/subscribe/
+ ├── app
+ │   ├── css.go
+ │   ├── notifier.go
+ │   └── subscribe.go
+ ├── app.go
+ ├── assets
+ │   ├── app.go
+ │   ├── app.js
+ │   └── app.js.map
+ ├── failed.png
+ ├── file-structure-full.png
+ ├── file-structure.png
+ ├── index.html
+ ├── index.png
+ ├── pages
+ │   ├── index.go
+ │   ├── submit.go
+ │   └── subscribe.go
+ ├── pass.png
+ └── server
+     └── server.go
+
+ 4 directories, 17 files
+```
 
 Rendered Page:
 ![Image of Page](../examples/subscribe/index.png)
@@ -324,26 +378,31 @@ Rendered Page when subscription fails:
 ![Image of Page When Failed](../examples/subscribe/failed.png)
 
 The app is simple in that it requires entering an email address which is supposed
-to added to the App mailing list and returns either a pass or failure as to the end 
-result of such a subscription. In truth we won't be adding the functionality of calling 
-an external API has this only demonstrates how components can be built but assurdedly 
-the code will be completed on the basis of component creation and intercommunication.
+to be added to the App mailing list and returns either a pass or failure message as to the end result of such a subscription.
 
-When building the sample App, file structure wise things were arranged in an order 
+In truth, we won't be adding the functionality of calling an external API has this only demonstrates how components can be built, but assuredly the code will be completed on the basis of component creation and intercommunication.
+
+When building the sample App, file structure wise things were arranged in an order
 which described best the contents and order in which the App was to be built.
 
 ![Expanded App File Structure](../examples/subscribe/file-structure-full.png)
 
+In this project, we will divide these by areas of uniqueness that best explains
+the structures and how they work together to create the end result. The codes have been re-arrange and sorted to provided the best means of demonstration to aid
+in understanding.
+
+#### Components
+
 - The CSS style Rules
 
-This are not components but sturctures provided by `Gu` which defines the css 
-used by the components themselves in providing the styles that affect only those 
+This are not components but structures provided by `Gu`, which defines the css
+used by the components themselves in providing the styles that affect only those
 components and the page.
 
 The css system which `Gu` provides combines the power of Go's `text/template` package
-and a css parser to create a system that allows targeted styles which target the 
-parent which it gets loaded into through which the `$` represents. This allows 
-us the flexibility which markups can be influenced by css.
+and a css parser to create a system that allows targeted styles which target the
+parent which it gets loaded into through which the `$` symbol. This allows
+us the flexibility to enforce that styles affect only their corresponding markup.
 
 ```go
 import "github.com/influx6/gu/css"
@@ -384,20 +443,16 @@ csr := css.New(`
 
 ```
 
-Like the above code, `Gu CSS` combines the power of Go templates to allow usage of  
-context objects which can influence the value of a style property generated based 
-on the value of the context's attributes. 
-
 
 - The Subscriber component
 
 This component defines the structure which defines how a subscription is collected.
-It provides the necessary HTML structure, styles and events needed to create a fully 
+It provides the necessary HTML structure, styles and events needed to create a fully
 functioning subscription input and submitter.
 
-We import the packages which provides the functionality we need. A few are imported 
+We import the packages which provides the functionality we need. A few are imported
 into the package using the `.` approach which allows us the use of the methods,
-structures without using a package name alias and this is done for convenience and 
+structures without using a package name alias and this is done for convenience and
 not a general rule or a advised rule.
 
 ```go
@@ -414,10 +469,11 @@ import (
 )
 ```
 
-Next is defined a event type which will be used to communicate an event through 
-the internal dispatch which allows communication of types across components. 
-But this system is neither a rule and developers are free to define how their 
-components communicate and behave. 
+Next is defined a event type which will be used to communicate an event through
+the internal dispatch mechanism `Gu` provides. These is an optional package but it is used heavily in `Gu` to allow decoupled communication between parts, developers are free to come up with their own approaches.
+
+*Remember, this system is neither a rule and developers are free to define how their
+components communicate and behave.*
 
 ```go
 // SubscriptionSubmitEvent defines a event sent out to define the status of a subscription
@@ -435,13 +491,13 @@ dispatch.Dispatch(SubscriptionSubmitEvent{
 })
 ```
 
-The `SubscriptionSubmitEvent` contains the email address and a status which 
-defines if the subscription can be considered valid.
+The `SubscriptionSubmitEvent` contains the email address and a status which
+defines if the subscription can be considered valid and it is dispatched through
+the `Dispatch` system for anyone listening for this type to react accordingly.
 
-
-The component itself is called `Subscriber`, these defines a struct which implements 
-the `Renderable` interface defined by Gu, which allows this structure the power to 
-encapsulate its markup representation, behaviour and event expected. It as well 
+The component itself is called `Subscriber`, this defines a struct which implements
+the `Renderable` interface defined by `Gu`, which allows this structure the power to
+encapsulate its markup representation, behavior and event expected. It as well
 has only a single attribute which allows customization of the color of the subscribe
 submit button.
 
@@ -453,10 +509,9 @@ type Subscriber struct {
 }
 ```
 
-The `Render` function returns a instance of a pointer to a markup structure defined 
-by Gu which allows functional composition of markup structures to define the expected
-markup which will be generated for the component and more so the events which are expected
-against particular markup and the action to which should be performed on that event.
+The `Render` function returns a instance of a pointer to a markup structure defined
+by `Gu` which allows functional composition of markup structures to define the expected
+markup which will be generated for the component and more so the events which are expected against particular markup and the action to which should be performed on that event.
 
 ```go
 // SubscribeCSS defines the css component which defines the rendering for a
@@ -519,7 +574,7 @@ var SubscribeCSS = css.New(`
     border: none;
     display: block;
     cursor: pointer;
-    border: 1px solid rgba(26, 143, 187, 1); 
+    border: 1px solid rgba(26, 143, 187, 1);
   }
 
   $.subscription .form .buttons .button.named {
@@ -605,14 +660,14 @@ func (s *Subscriber) Render() *Markup {
 }
 ```
 
-Notably is this portion of its `Render` function which adds a CSS markup and 
-passes the subscriber as its context which allows us to effect the styles value 
+Notably is this portion of its `Render` function, which adds a CSS markup and
+passes the subscriber as its context which allows us to effect the styles value
 
 ```go
 CSS(SubscribeCSS, s),
 ```
 
-```go 
+```go
   $.subscription .form .buttons .button.named {
     width: 100%;
     height: 100%;
@@ -630,8 +685,8 @@ CSS(SubscribeCSS, s),
 
 - The Notifier component
 
- This component defines the structure which defines how the subscription notification 
- of success or failure. It provides the necessary HTML structure, styles and events 
+ This component defines the structure which defines how the subscription notification
+ of success or failure. It provides the necessary HTML structure, styles and events
  needed to create a fully functioning subscription input and submitter.
 
 ```go
@@ -684,7 +739,7 @@ var NotificationCSS = css.New(`
   }
 
   $ {
-    width: 800px; 
+    width: 800px;
     height: 100px;
     margin:0px auto;
   }
@@ -749,16 +804,23 @@ func (s *SubmissionNotifier) Render() *Markup {
 }
 ```
 
-With this components we require pages built with the `Gu` Resources which allows 
-us to organize the components into adequate routes which we can then render with.
+#### Resources
 
-In Gu components are not rendered only off themselves but exists to be rendered within
-a `Resource`.
+With this components, we require pages built with the `Gu Resource` system, which allows us to organize the components into adequate routes which we can then render with.
+
+In Gu, components are not rendered only by themselves though this is possible, but they exists to be rendered within a `Resource`.
 
 - Layout Resource
 
-This resource will be rendered on all pages which we allows us to use it as a layout 
+This resource will be rendered on all pages which we allows us to use it as a layout
 for other pages to inherit or be rendered along with.
+
+This is so because this resource does not define a `Route` using the `UseRoute`
+method. Resources which do not peg themselves down by routes indicate to the
+resource manager that they are to be rendered every single time a render call is made.
+
+*This allows us to create resources which may set layout or certain properties that
+should exists on all pages.*
 
 ```go
 package pages
@@ -811,13 +873,13 @@ var _ = Resource(func(){
 
 - Subscribe Resource
 
-This handles the subscription page which is rendered as the root of the app, this 
-encapsulates all the markup expected to be rendered within this page. What confines 
-a resource only for a specific route is the `UseRoute` function provided by the 
-`Gu/design` package, this sets the resource to only ever be considered for rendering
-when either the path or hash matches the set path. Whether the full path or hash is used
-is set by the resource manager.
+This resource handles the subscription page, which is rendered as the root of the app
+because of the route it is peg to. This encapsulates all the markup expected to be rendered within this page.
 
+What confines a resource only for a specific route is the `UseRoute` function provided by the `Gu/design` package, this sets the resource to only ever be considered for rendering when either the path or hash matches the set path depending on the boolean value giving to the ResourceManager `Init()` method.
+
+* A `False` value tells the resource manager to use the full path while a `True`
+indicates that the routes should work by the hash part. *
 
 ```go
 package pages
@@ -872,22 +934,25 @@ var _ = Resource(func() {
 
 In `Gu`, as mentioned before, two functions are used to define renderable regions,
 the `DoMarkup` which handles rendering of static, non-dynamic or unchanging content
-and the `DoView`. 
+and the `DoView`.
 
-`DoView` defers from `DoMarkup` in that it creates a region within the DOM where 
+`DoView` defers from `DoMarkup` in that it creates a region within the DOM where
 based on the criteria that any registered change or notification change it receives
-will cause the re-rendering of the region, updated the DOM has necessary and efficiently.
-That means if you have a component or region which must be dynamic and update regularly 
-then `DoView` is the right choice.
+will cause the re-rendering of the region, updated the DOM has necessary and efficiently. That means if you have a component or region which must be dynamic and update regularly then `DoView` is the right choice.
 
-Also, the internal view system checks its arguments for any that implements the `Reactive`
-interface and ensures to listen for change updates to cause DOM upates, these way, a level 
-of reactivity is provided as well.
+Also, the internal view system checks its arguments for any that implements the `Reactive` interface and ensures to listen for change updates to cause DOM upate, these way, a level of reactivity is provided as well.
 
 - Notification Page
 
-This page contains the component which renders out the notification of the result 
-of the subscription to the app. 
+This page contains the component which renders out the notification of the result
+of the subscription to the app. It also pegs itself to a specific route using
+the hash path by using the `UseRoute`.
+
+```go
+UseRoute("#subscriptions/submit")
+```
+
+* With the ResourceManager `Init(boo)` method: A `False` value tells the resource manager to use the full path while a `True` indicates that the routes should work by the hash part. *
 
 ```go
 package pages
@@ -910,11 +975,11 @@ var _ = Resource(func(){
 It initializes a new Notifier and passes that to a the `DoView` function, these
 creates a view which can be dynamically updated to update its content as explained earlier.
 
+- The Resource Manager
 
-Once all resources have been created and contents organized as desired, then all that is left 
-is to create a central Resource manager which handles all the registered resources.
+Once all resources have been created and contents organized as desired, then all that is left is to create a central Resource manager which handles all the registered resources.
 
-Only resources loaded through import calls or defined within the same package as 
+Only resources loaded through import calls or defined within the same package as
 the app handle will be managed.
 
 ```go
@@ -928,17 +993,15 @@ import (
 var App = app.New()
 ```
 
-The `App` variable becomes the central home of all loaded resources and provides 
-methods to render the current resources by calling it's `Render` method with a 
-required path. This is useful when rendering on the server but it actually 
-automatically handles all update and rendering to the browser DOM on the client and 
+The `App` variable becomes the central home of all loaded resources when initialized and provides methods to render the current resources by calling it's `Render` method with a required path. This is useful when rendering on the server but it actually
+automatically handles all update and rendering to the browser DOM on the client and
 requires no active settings.
 
 Once the handle has been created then all that is left is to tell the ResourceManager
-to initialize all resources and whether to use full paths or location hashes has 
-its routing means. This is passed as a boolean value to the `Init` method. 
+to initialize all resources and whether to use full paths or location hashes has
+its routing means. This is passed as a boolean value to the `Init` method.
 
-Here a true indicates usage of hash and a false indicates usage of full path of 
+Here a true indicates usage of hash and a false indicates usage of full path of
 the location within the browser or the passed in path when rendering through
 the `App.Render` method.
 
@@ -948,3 +1011,67 @@ func main(){
 }
 ```
 
+- The Server Side rendering
+
+Rendering the pages through the Resource Manager is as simple as the concept of
+of `Gu`.
+
+To render on the server, simply first ensure that the Resource Manager is initialized as below:
+
+```go
+import "github.com/influx6/examples/subscribe"
+
+func main(){
+  subscribe.App.Init(true)  
+}
+```
+
+And then within the handlers for any route for the server, simply call the Resource
+Manager's `Render` or `RenderWithScript` method to produce a full complete html page
+which contains all the rendered elements with respect the provided path.
+
+```go
+app_router(fhttp.Endpoint{
+  Path:   "/",
+  Method: "GET",
+  Action: func(ctx context.Context, rw *fhttp.Request) error {
+    content := subscribe.App.RenderWithScript("/#", "assets/app.js")
+    rw.RespondAny(200, "text/html", []byte(content.HTML()))
+    return nil
+  },
+})
+```
+
+The `Render(string)` function simply produces a complete markup with the provided path as
+target, this ensures only elements which should be see when that path is provided ever
+gets rendered. The router is intentionally made to be simple, to allow others to build on
+it or deviate from it as desired, since its only job is producing content that must exists
+at the current state of the paths provided.
+
+```go
+content := subscribe.App.RenderWithScript("/#", "assets/app.js")
+```
+
+The `RenderWithScript(path, script_path string)` does the same thing as the `Render` method, but adds a script tag at the end of all the content with the provided path of the second argument.
+
+This is done because `gopherjs` produces a complete javascript file which contains the app and its initialization but to ensure the generated markup works as expected and the client
+takes over in the browser when rendered we need to ensure that generated/built javascript
+file is include.
+
+* So `RenderWithScript` will prodcue a markup with a script tag insert which ensures that
+the `.js` file built with `gopherjs build`, will be included into the generated markup. *
+
+
+## Last Note
+
+Last of all, this guide does not contain a the organization of code as in the source files,
+everything is re-organized to ensure easy understanding as best as possible.
+
+Please ensure to check out the [Examples](../examples) directory of the source to
+both study and understand the code writting within the examples with this explanations
+to help provide insightful understanding of how `Gu` works.
+
+Please feel free to issue PRs and file issues on suggestions, changes and improvement or
+just questions to help you better understand Gu.
+
+God bless.
