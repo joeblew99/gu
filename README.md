@@ -1,5 +1,6 @@
 # Gu
-  A component rendering library for go.
+  A component rendering library for go able to render standard HTML both on 
+  the frontend and backend.
 
 ## Install
 
@@ -21,9 +22,12 @@ go install github.com/influx6/gu/...
   **[Limitations](./docs/Limitations.md)**
 
 ## Examples
-Basic examples lay within the [Examples](./examples/) directory. To run examples 
-simply open up the corresponding `index.html` within the example directory to see 
-the end result within your browser.
+Basic examples lay within the [Examples](./examples/) directory. 
+
+All examples have `index.html` files within them, these are the points through which 
+they can be runned. Simply open up the corresponding `index.html` within the example directory 
+to see the end result within your browser.
+
 
 ## Why Gu and What next for Gu.
 Gu main purpose is to provide a very simple and elegant approach in rendering front 
