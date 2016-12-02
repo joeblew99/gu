@@ -10,6 +10,10 @@ There are not binaries to run, but simple html files to open.
 browser except when stated otherwise, more examples showcasing rendering from 
 the server will be included later*
 
+*Also there are no need to build examples with `go build` if you wish to rebuild 
+js files then gopjerjs build would be more appropriate but that is neither necessary
+as they are already built within the example directories already*
+
 Two examples showcasing the possibility of using Gu for creating components 
 and how they are used.
 
