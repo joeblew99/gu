@@ -354,7 +354,7 @@ In truth, we won't be adding the functionality of calling an external API has th
 
 When building the sample App, the file structure of the subscribe app was intended to be simple, and to provide the best intuitive description of it's structure of the different parts that make up the application.
 
-*This is not a law and you are free to create whatever structure suits but let your structures speak loudly and descriptively. *
+*This is not a law and you are free to create whatever structure suits but let your structures speak loudly and descriptively.*
 
 ```bash
  > tree ./gu/examples/subscribe
