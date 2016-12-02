@@ -338,6 +338,23 @@ This example show cases well enough how components can be built with `Gu` and ho
 communicating between components is highly decoupled and allows and ensures that
 each component encapsulates its markup and behaviour (i.e events, look and feel).
 
+Rendered Page:
+![Image of Page](../examples/subscribe/index.png)
+
+Rendered Page when subscription passes:
+![Image of Page When Passed](../examples/subscribe/pass.png)
+
+Rendered Page when subscription fails:
+![Image of Page When Failed](../examples/subscribe/failed.png)
+
+The app is simple in that it requires entering an email address which is supposed
+to be added to the App mailing list and returns either a pass or failure message as to the end result of such a subscription.
+
+In truth, we won't be adding the functionality of calling an external API has this only demonstrates how components can be built, but assuredly the code will be completed on the basis of component creation and intercommunication.
+
+When building the sample App, file structure wise things were arranged in an order
+which described best the contents and order in which the App was to be built.
+
 File Structure of the subscribe app is rather simple and it provides a nice intuitive description of it's structure of the different parts that make up the application. This is not a law and you are free to create whatever structure suits but let your structures speak loudly and descriptively.
 
 ```bash
@@ -363,25 +380,6 @@ File Structure of the subscribe app is rather simple and it provides a nice intu
 
  4 directories, 17 files
 ```
-
-Rendered Page:
-![Image of Page](../examples/subscribe/index.png)
-
-Rendered Page when subscription passes:
-![Image of Page When Passed](../examples/subscribe/pass.png)
-
-Rendered Page when subscription fails:
-![Image of Page When Failed](../examples/subscribe/failed.png)
-
-The app is simple in that it requires entering an email address which is supposed
-to be added to the App mailing list and returns either a pass or failure message as to the end result of such a subscription.
-
-In truth, we won't be adding the functionality of calling an external API has this only demonstrates how components can be built, but assuredly the code will be completed on the basis of component creation and intercommunication.
-
-When building the sample App, file structure wise things were arranged in an order
-which described best the contents and order in which the App was to be built.
-
-![Expanded App File Structure](../examples/subscribe/file-structure-full.png)
 
 In this project, we will divide these by areas of uniqueness that best explains
 the structures and how they work together to create the end result. The codes have been re-arrange and sorted to provided the best means of demonstration to aid
