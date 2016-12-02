@@ -1,53 +1,71 @@
 # Getting Started 
-Gu is fundamentally a library built to handle view rendering, nothing more nor less.
+Gu is fundamentally a library built to handle rendering of html on either front or backend. 
+
 When creating Gu, my main focus was on creating a solution that did not bind itself 
-tightly to the perculiarities of either the frontend or backend, but allow each content to 
-be renderable regardless of where it is loaded. 
+tightly to the perculiarities of either the browser or server, but allow each structures 
+to define for themselves how they should be rendered and also allow developers to define 
+how those components and other content should be rendered, and ensuring it works both 
+on the server and browser, which will be often referred to as the backend and frontend.
 
-The concepts in Gu are practially simple and rely majorly on a functional and interface based system,
-where the structures which define the markup to be rendered are combined functionally and components 
-are required to match/implement specific interfaces to enable specific features eg Reaction for page/view update.
+The concepts in Gu are practially simple and rely majorly on a functional and interface based constructs,
+where structures can define the markup to be rendered by implementing certain interfaces and also elivate 
+themselves as reactive by implement others. These approach provides a high level of simplicity and ease 
+in both thinking and use without enforcing any rigid rules.
 
-Gu is in no way a Flux-like framework or library, nor does it provide complex structures and 
-layed down paths by which such can be attained, It simply provides a baseline to render the desire output and 
-gives the freedom for the developer to determine how his/her application data flow  works.
-
+*Gu is in no way a Flux-like framework. It is just a library. It does provide complex structures and 
+layed down paths by which such can be attained, it simply provides a baseline to render the desire output and 
+gives the freedom for the developer to determine how their application data flow should works.*
 
 ## The Guide
-In this guide, we simply will be looking at Gu is its only two possible representation 
-or in essense, the two ways you will ever use its constructs, which are as a `Page` and as `Component`. 
-This allows you to grasp the available spectrum and capabilities provided by Gu and 
-to evolve and define for yourself how you wish to mix and match Gu into your projects and workflow.
 
-*Gu has evolved over its development lifetime alot, loosing and adding new ideas into the way it works but 
-I have ensured to keep the tenant of simplicity and a non-intrusive architecture, that greatly meet the rendering 
-needs of the developer and also grant freedom in how it should be used with in projects.*
+In this guide, we will be looking at Gu in its only two possible use. 
+
+Gu provides construct to build a `Page` and a `Component`. 
+
+This will allow you to grasp the available spectrum and capabilities provided by Gu, 
+which will help evolve and define for you how you will mix and match Gu capabilities 
+into your projects and workflow.
+
+*Gu has evolved over its development lifetime, loosing and adding new ideas into the way it works but 
+I have ensured to keep the tenant of simplicity and a non-intrusive architecture consistent, whilst still 
+ensuring that it meet the rendering needs of the user and also grant freedom in all other aspects.*
 
 ### A Page
-The Page approach is pretty much as its called, a "Page".  Combining ideas from [Goa](https://goa.design/) in 
-the way its structures are defined and generated, Gu's [Design Package](./designs) defines structures which 
-unlike [Goa](https://goa.design/)  do not provide any form of code generation but produces the desired effect of defining with intent 
-the content expected on a page. In a sense, it is the organizational structure when wanting to define multipage or 
-single page applications with gu.
 
-Basically a page is a resource amongs many resources which depending on the availability
-of a predefined route to be validated against, will be rendered.  On the client side this means any resource which 
-matches the current URL hash which gets rendered onto the browser DOM, while on the client it is the 
-URL provided to generated a complete html response to render a full page 
+The Page simply defines a complete HTML page.  
+
+Taking the declarative style from [Goa](https://goa.design/) in the way the structures 
+and rules for API to be generated are layed,  Gu's [Design Package](./designs) defines structures which 
+unlike [Goa](https://goa.design/) do not provide any form of code generation, but produces the desired 
+effect of defining with intent the content expected on a page. 
+
+*In a sense, it is the organizational structure used to organize what is to be rendered. *
+
+Basically a page is a `resource` amongs many, which depending on the availability
+of predefined rules to be validated against, will be rendered.  
+
+On the client side this means any resource which matches the current URL or hash 
+depending on how it is setup, will be rendered to the DOM, while on the server, 
+It is the URL provided to generated a complete HTML response which contains a complete page 
 with its differents parts (i.e head, links, scripts, styles and body tags).
 
-Pages on the client listen for update requests from the things they render if this matches the library reaction interface, 
-which effectively provides a easy but simply way  for developers to build reactivity to changes in structures.
+Pages on the client listen for update requests from the things they render if 
+this matches the library React interface, which effectively provides a easy but 
+simply way for developers to add reactivity to structures.
 
-With Pages in Gu, comes the concept of a ResourcesManager, this manager is created to managed and handle 
-the response and rendering of all pages according to the current requested URI on the client and on the server
-the provided URI. Generally a Resource/Page object, are not directly handled by the  developer has they are 
-generated by the internals of  Gu's [Design Package](./designs) during initialization and runtime.  
+With Pages in `Gu`, comes the concept of a ResourcesManager, this manager is created to managed and handle 
+the response and rendering of all pages according to the current requested URI on the client,
+while on the server, a provided path called to its render methods.
+
+Generally a Resource/Page object, are not directly handled by the developer has they are 
+generated by the internals of  Gu's [Design Package](./designs) during initialization.  
 
 As a note, what defines the criteria for which page or pages get rendered by the ResourcesManager is the routes 
-to which this resources get pegged down to, if no route is provided then it is understood that the page is simply 
-a part of any URI to be rendered. This is intentional but not advised has structurally and organization wise, resources 
-should be self encapsulating of their entire components and parts.
+to which this resources get pegged down to. If no route is provided then it is understood that the page is simply 
+a part of any URI to be rendered. This is intentional for structurally and organization reasons. 
+
+*Generally resources should be self encapsulating of their entire components and parts, but you can share 
+things as you decide.*
 
 Creating a page is rather simple has it requires the calling of the Resource function which embodies the 
 content or intent of content for that page through the provided functions and structures Gu provides.

@@ -29,7 +29,6 @@ func NewNotifier() *SubmissionNotifier {
 // starts begin listening for a SubmitNotification which gets displayed.
 func (s *SubmissionNotifier) start() {
 	dispatch.Subscribe(func(sme SubscriptionSubmitEvent) {
-		fmt.Printf("Received submit %#v\n", sme)
 		s.c = sme
 		s.Publish()
 	})

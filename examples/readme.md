@@ -30,6 +30,11 @@ It also shows how the app can be rendered on the server with a sample http serve
 
 You can find the `index.html` file for the `Subscribe` app in the [Subscribe Directory](./subscribe).
 
-You can find the `server` file for the `Subscribe` app in the [Server Directory](./subscribe/server).
+You can find the `server` file for the `Subscribe` app in the [Subscribe Server Directory](./subscribe/server).
+You can build the `server.go` file in the `./subscribe/server/` directory or run it directly using `go run`.
+
+
+## Note to All
+Please feel free to reach out or start an issue on this repo for help or borader explanations.
 
 
