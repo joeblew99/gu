@@ -352,16 +352,12 @@ File Structure of the subscribe app is rather simple and it provides a nice intu
  │   ├── app.go
  │   ├── app.js
  │   └── app.js.map
- ├── failed.png
- ├── file-structure-full.png
- ├── file-structure.png
  ├── index.html
  ├── index.png
  ├── pages
  │   ├── index.go
  │   ├── submit.go
  │   └── subscribe.go
- ├── pass.png
  └── server
      └── server.go
 
