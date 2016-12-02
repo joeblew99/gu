@@ -21,7 +21,7 @@ and how that can be achieved.
 This example showcases how the organization structures of `Gu`, also known as `Resources`,
 in helping define a page and it's content.
 
-You can find the `index.html` code for the `Hello` app in the [Hello Directory](./Hello)
+You can find the `index.html` code for the `Hello` app in the [Hello Directory](./hello)
 
 ## [Subscribe](./subscribe)
 This example showcases how components can be built with their own markup with `Gu`
