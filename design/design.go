@@ -208,14 +208,26 @@ func (rs *Resources) CurrentResource() *ResourceDefinition {
 
 // Render creates a complete markup definition using the giving set of Resource
 // Definition by applying the giving path.
-func (rs *Resources) Render(path dispatch.Path) *trees.Markup {
+func (rs *Resources) Render(path string) *trees.Markup {
+	return rs.RenderPath(dispatch.UseLocation(path))
+}
+
+// RenderWithScript creates a complete markup definition using the giving set of Resource
+// Definition by applying the giving path.
+func (rs *Resources) RenderWithScript(path string, script string) *trees.Markup {
+	return rs.RenderPathWithScript(dispatch.UseLocation(path), script)
+}
+
+// RenderPath creates a complete markup definition using the giving set of Resource
+// Definition by applying the giving dispatch.Path.
+func (rs *Resources) RenderPath(path dispatch.Path) *trees.Markup {
 	result := rs.Resolve(path)
 	return rs.render(nil, result...)
 }
 
-// RenderWithScript creates a complete markup definition using the giving set of Resource
-// Definition by applying the giving path, adding the path as a script tag.
-func (rs *Resources) RenderWithScript(path dispatch.Path, script string) *trees.Markup {
+// RenderPathWithScript creates a complete markup definition using the giving set of Resource
+// Definition by applying the giving dispatch.Path, and adding the script path as a script tag.
+func (rs *Resources) RenderPathWithScript(path dispatch.Path, script string) *trees.Markup {
 	result := rs.Resolve(path)
 
 	if script != "" {
