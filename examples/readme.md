@@ -7,7 +7,8 @@ handles rendering on the frontend in the browser.
 There are not binaries to run, but simple html files to open.
 
 *Please all there is to running the examples is opening the `index.html` file in 
-browser, more examples showcasing rendering from the server will be included later*
+browser except when stated otherwise, more examples showcasing rendering from 
+the server will be included later*
 
 Two examples showcasing the possibility of using Gu for creating components 
 and how they are used.
@@ -16,7 +17,14 @@ and how they are used.
 This example showcases how the organization structures of `Gu`, also known as resources
 help define a page and its content.
 
+You can find the `index.html` code for the `Hello` app in the [Hello Directory](./Hello)
+
 ## [Subscribe](./subscribe)
 This example showcases how components can be built with self descriptive markups
-and layered within `Gu` resources to build a app with it's corresponding pages.
+and layered within `Gu` resources, to build a app with it's corresponding pages and 
+also how this project can be rendered on the server with a sample http server.
+
+You can find the `index.html` code for the `Subscribe` app in the [Subscribe Directory](./subscribe)
+You can find the server code for the `Subscribe` app in the [Server Directory](./subscribe/server)
+
 
