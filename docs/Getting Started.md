@@ -1054,7 +1054,7 @@ Last of all, this guide does not contain a the organization of code as in the so
 everything is re-organized to ensure easy understanding as best as possible.
 
 Please ensure to check out the [Examples](../examples) directory of the source to
-both study and understand the code writting within the examples with this explanations
+both study and understand the code for the examples, and accompany it with these explanations
 to help provide insightful understanding of how `Gu` works.
 
 Please feel free to issue PRs and file issues on suggestions, changes and improvement or
