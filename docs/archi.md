@@ -4,7 +4,7 @@
 ## toc - Future planned aspects for gi in general.
 Just putting it here for now, and will move to main GU repo when it makes sense
 
-- mdl components
+- mdl components (in seperate repo now)
 
 - Storage client side using PouchDB (https://github.com/flimzy/go-pouchdb)
 	- Agnostic
@@ -37,20 +37,8 @@ Just putting it here for now, and will move to main GU repo when it makes sense
 
 ## Refs
 
-### MDL
-- https://github.com/google/material-design-lite/blob/master/docs/developer.md
-- https://github.com/google/material-design-lite/blob/master/docs/architecture.md
-	- Google is preping to make MDL much easier to extend. Great 
-	- Foundation level look perfect for us. It handles the layout and leaves us to do bat binding, etc etc
 
-https://github.com/mh-cbon/mdl-go-components
--  setup:
-	- go get github.com/mh-cbon/mdl-go-components
-	- cd $GOPATH/src/github.com/mh-cbon/mdl-go-components
-	- glide get github.com/mh-cbon/mdl-go-components
-- issues
-	- not css yet.
-	- needs show horning into GU archi
+
 
 ### bundling
 - https://github.com/mh-cbon/gump
