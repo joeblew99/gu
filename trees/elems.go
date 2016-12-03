@@ -79,8 +79,9 @@ func CSSStylesheet(rule *css.Rule, bind interface{}) *Markup {
 
 //==============================================================================
 
-// NewMarkup returns a new element instance giving the specificed name
-func NewMarkup(tag string, hasNoEndingTag bool) *Markup {
+// NewMarkup returns a new element instance giving the specificed name which is
+// used as a tag name.
+func NewMarkup(tag string, autoClose bool) *Markup {
 	return &Markup{
 		allowChildren:   true,
 		allowStyles:     true,
@@ -88,7 +89,7 @@ func NewMarkup(tag string, hasNoEndingTag bool) *Markup {
 		allowEvents:     true,
 		uid:             RandString(8),
 		hash:            RandString(10),
-		autoclose:       hasNoEndingTag,
+		autoclose:       autoClose,
 		tagname:         strings.ToLower(strings.TrimSpace(tag)),
 		attrs:           []Property{NewAttr("data-gen", "gu")},
 	}

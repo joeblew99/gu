@@ -1,10 +1,9 @@
 package app
 
 import (
-	"fmt"
 	"github.com/influx6/gu"
 	"github.com/influx6/gu/dispatch"
-	. "github.com/influx6/gu/trees"
+	"github.com/influx6/gu/trees"
 	. "github.com/influx6/gu/trees/elems"
 	. "github.com/influx6/gu/trees/property"
 )
@@ -36,23 +35,28 @@ func (s *SubmissionNotifier) start() {
 
 // Render returns the markup for the page which displays the end result of a
 // subscription submission.
-func (s *SubmissionNotifier) Render() *Markup {
+func (s *SubmissionNotifier) Render() *trees.Markup {
 	return Div(
 		CSS(NotificationCSS, s),
 		Header1(ClassAttr("submission", "title"), Text("App Subscription")),
 		Section(
 			ClassAttr("submission", "content"),
-			MarkupWhen((s.c.Status && s.c.Email != ""), Header2(ClassAttr("header", "roboto", "passed"), Text("Done!")), Header2(ClassAttr("header", "roboto", "failed"), Text("Failed!"))),
-			MarkupWhen(s.c.Email != "", Paragraph(
-				ClassAttr("desc"),
-				Text("Welcome "),
-				Span(ClassAttr("email"), Text("%q", s.c.Email)),
-				Text(" to the App."),
+			trees.MarkupWhen((s.c.Status && s.c.Email != ""),
+				Header2(ClassAttr("header", "roboto", "passed"), Text("Done!")),
+				Header2(ClassAttr("header", "roboto", "failed"), Text("Failed!")),
 			),
+			trees.MarkupWhen(s.c.Email != "",
+				Paragraph(
+					ClassAttr("desc"),
+					Text("Welcome "),
+					Span(ClassAttr("email"), Text("%q", s.c.Email)),
+					Text(" to the App."),
+				),
 				Paragraph(
 					ClassAttr("desc"),
 					Text("We are sorry but subscription failed."),
-				)),
+				),
+			),
 		),
 	)
 }
