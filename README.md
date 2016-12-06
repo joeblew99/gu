@@ -5,7 +5,7 @@
 ## Install
 
 ```bash
-go install github.com/influx6/gu/...
+go install github.com/gu-io/gu/...
 ```
 
 ## Goals
