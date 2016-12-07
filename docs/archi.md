@@ -5,23 +5,14 @@
 
 These are ordered in terms of a sensible roadmap.
 
-- Bootloader
-	- Why ? 
-		- Because we need to be able to load external resources (css and js), but gopherjs is monolithic.
-		- So we need a way for these external resources to be loaded, and for components to be able to tell the bootloader what to load at Build & Runtime.
-	- Design time.
-		- Each GU component decorates its class with what external resources it needs for itself. These CSS and JS file are either:
-			1. Strings inside the golang code;  
-			2. External files, with the golang code modeling its file name;
-	- Build time.
-		- Using golang code gen, the resources are embedded & a global manifest is put in root.
-	- Runtime:
-		- When GU boots in the browser, the first thing it does is load the external resources.
-		- It will need a placeholder in the index.html i expect.
+- RPC Examples
+	- See Roadmap
 
-- MDL components (in seperate repo now)
-	- on hold until bootloader done.
-	- see "gu-mdl" repo
+- External Resources
+	- See Roadamp
+
+- MDL components
+	- on hold until External Resources done.
 
 - Storage 
 	- Will be in "gu-store" repo.  
