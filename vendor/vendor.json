@@ -1,0 +1,115 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "ew6PapbTwsXcwAymkdJx5mnsXKM=",
+			"path": "github.com/aymerick/douceur/css",
+			"revision": "7176f146738114e7386d4f915a0bbf55945e22c9",
+			"revisionTime": "2015-08-27T15:13:52Z"
+		},
+		{
+			"checksumSHA1": "UDfZCifbs3mf0UO91WuNiTpwKq4=",
+			"path": "github.com/aymerick/douceur/parser",
+			"revision": "7176f146738114e7386d4f915a0bbf55945e22c9",
+			"revisionTime": "2015-08-27T15:13:52Z"
+		},
+		{
+			"checksumSHA1": "67Ufp7gCzJyjLVW3iW3og8uVtkw=",
+			"path": "github.com/dimfeld/httppath",
+			"revision": "c8e499c3ef3c3e272ed8bdcc1ccf39f73c88debc",
+			"revisionTime": "2014-05-15T16:47:37Z"
+		},
+		{
+			"checksumSHA1": "nIykkBgco5LIwtjzs0WDcgiIAWg=",
+			"path": "github.com/dimfeld/httptreemux",
+			"revision": "612c3d8e47f5a166d9346b694cf2aeb68eff5369",
+			"revisionTime": "2016-04-05T15:43:20Z"
+		},
+		{
+			"checksumSHA1": "l+9zkLpQoH1bWRCY3hx3nTRsAos=",
+			"path": "github.com/go-humble/detect",
+			"revision": "714e9e4d821cb7daac42b10f6f91fe5da00fa6fb",
+			"revisionTime": "2015-07-12T05:04:33Z"
+		},
+		{
+			"checksumSHA1": "P3zGmsNjW8m15a+nks4FdVpFKwE=",
+			"path": "github.com/gopherjs/gopherjs/js",
+			"revision": "e34a5cd6a1bc7c4fde759f2d3039852fc68b5fcc",
+			"revisionTime": "2016-10-31T10:43:57Z"
+		},
+		{
+			"checksumSHA1": "UNlILKZlAiLwYYwj70y+Q8n13D0=",
+			"path": "github.com/gorilla/css/scanner",
+			"revision": "a80e24ada2699166544311f07c26ef37eaf64012",
+			"revisionTime": "2015-03-17T22:22:38Z"
+		},
+		{
+			"checksumSHA1": "RGMbX6cdOUwcnfbc4w9rNxcmadU=",
+			"path": "github.com/influx6/faux/context",
+			"revision": "99cf13bb9bd310c796e07190fe71807dc288fbb7",
+			"revisionTime": "2016-10-29T11:30:06Z"
+		},
+		{
+			"checksumSHA1": "oDV1KxHCxpnOTovTR66MHz9BqOQ=",
+			"path": "github.com/influx6/faux/pattern",
+			"revision": "99cf13bb9bd310c796e07190fe71807dc288fbb7",
+			"revisionTime": "2016-10-29T11:30:06Z"
+		},
+		{
+			"checksumSHA1": "FgdyME+rxOGxXHuB2cbyLUS4GnU=",
+			"path": "github.com/influx6/faux/reflection",
+			"revision": "99cf13bb9bd310c796e07190fe71807dc288fbb7",
+			"revisionTime": "2016-10-29T11:30:06Z"
+		},
+		{
+			"checksumSHA1": "Y/iD2vvGctJZCDCnLo3EXPbGUVQ=",
+			"path": "github.com/influx6/faux/regos",
+			"revision": "99cf13bb9bd310c796e07190fe71807dc288fbb7",
+			"revisionTime": "2016-10-29T11:30:06Z"
+		},
+		{
+			"checksumSHA1": "wb74Q+l2zo0uZh5ie40NOIJJMz0=",
+			"path": "github.com/influx6/fractals",
+			"revision": "de9ddac0f161ab235d8268fae09964d0f78e3cf1",
+			"revisionTime": "2016-10-05T19:06:29Z"
+		},
+		{
+			"checksumSHA1": "u8mk2yhbGDN0L64n9lyvgSZ61/4=",
+			"path": "github.com/influx6/fractals/fhttp",
+			"revision": "de9ddac0f161ab235d8268fae09964d0f78e3cf1",
+			"revisionTime": "2016-10-05T19:06:29Z"
+		},
+		{
+			"checksumSHA1": "NtoFaQiY1XlcFw10vjFORWzDH60=",
+			"path": "github.com/influx6/fractals/fhttp/mimes",
+			"revision": "de9ddac0f161ab235d8268fae09964d0f78e3cf1",
+			"revisionTime": "2016-10-05T19:06:29Z"
+		},
+		{
+			"checksumSHA1": "UBuNFmBZ0SEPB6kvNUO0MDo8oTQ=",
+			"path": "github.com/influx6/fractals/fs",
+			"revision": "de9ddac0f161ab235d8268fae09964d0f78e3cf1",
+			"revisionTime": "2016-10-05T19:06:29Z"
+		},
+		{
+			"checksumSHA1": "vqc3a+oTUGX8PmD0TS+qQ7gmN8I=",
+			"path": "golang.org/x/net/html",
+			"revision": "8b4af36cd21a1f85a7484b49feb7c79363106d8e",
+			"revisionTime": "2016-10-13T03:31:11Z"
+		},
+		{
+			"checksumSHA1": "00eQaGynDYrv3tL+C7l9xH0IDZg=",
+			"path": "golang.org/x/net/html/atom",
+			"revision": "8b4af36cd21a1f85a7484b49feb7c79363106d8e",
+			"revisionTime": "2016-10-13T03:31:11Z"
+		},
+		{
+			"checksumSHA1": "6PkY6SMHvZdN99cSZDMGYRZ/SX8=",
+			"path": "honnef.co/go/js/dom",
+			"revision": "24aa052bc5c63cfb9383bf59493ee48621ca788c",
+			"revisionTime": "2016-03-10T11:26:45Z"
+		}
+	],
+	"rootPath": "github.com/gu-io/gu"
+}
