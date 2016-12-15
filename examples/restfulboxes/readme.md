@@ -9,3 +9,5 @@ Simple navigate into the `./server` directory in your terminal and run as below.
 ```bash
 go run main.go
 ```
+
+Navigate your browser to `http://localhost:6040`
