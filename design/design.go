@@ -6,10 +6,10 @@ import (
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/gu"
-	"github.com/influx6/gu/css"
-	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/trees"
+	"github.com/gu-io/gu"
+	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/trees"
 )
 
 //==============================================================================

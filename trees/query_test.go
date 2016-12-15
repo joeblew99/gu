@@ -3,8 +3,8 @@ package trees_test
 import (
 	"testing"
 
-	"github.com/influx6/gu/tests"
-	"github.com/influx6/gu/trees"
+	"github.com/gu-io/gu/tests"
+	"github.com/gu-io/gu/trees"
 )
 
 func TestParseSelector(t *testing.T) {

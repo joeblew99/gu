@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/faux/mque"
+	"github.com/gu-io/faux/mque"
 )
 
 // EventObject defines a interface for the basic methods which events needs

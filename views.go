@@ -3,8 +3,8 @@ package gu
 import (
 	"html/template"
 
-	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/trees"
+	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/trees"
 )
 
 //==============================================================================

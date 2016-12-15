@@ -6,11 +6,11 @@ import (
 	"honnef.co/go/js/dom"
 
 	gjs "github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/gu"
-	"github.com/influx6/gu/design"
-	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/js"
-	"github.com/influx6/gu/trees"
+	"github.com/gu-io/gu"
+	"github.com/gu-io/gu/design"
+	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/js"
+	"github.com/gu-io/gu/trees"
 )
 
 // AddStylesheet adds an external stylesheet to the document into the document

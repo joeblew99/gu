@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/ardanlabs/kit/tests"
-	"github.com/influx6/faux/mque"
+	"github.com/gu-io/faux/mque"
 )
 
 func init() {

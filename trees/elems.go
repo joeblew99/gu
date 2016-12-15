@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"strings"
 
-	"github.com/influx6/gu/css"
+	"github.com/gu-io/gu/css"
 )
 
 // FinalizeHandle defines a function type which has the root and item concerned.

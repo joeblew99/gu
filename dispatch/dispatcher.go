@@ -2,7 +2,7 @@ package dispatch
 
 import (
 	"github.com/go-humble/detect"
-	"github.com/influx6/gu/dispatch/mque"
+	"github.com/gu-io/gu/dispatch/mque"
 )
 
 //==============================================================================

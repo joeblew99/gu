@@ -2,8 +2,8 @@ package app
 
 import (
 	"github.com/go-humble/detect"
-	"github.com/influx6/gu/design"
-	"github.com/influx6/gu/redom"
+	"github.com/gu-io/gu/design"
+	"github.com/gu-io/gu/redom"
 	"honnef.co/go/js/dom"
 )
 

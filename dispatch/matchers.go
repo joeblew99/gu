@@ -3,7 +3,7 @@ package dispatch
 import (
 	"sync"
 
-	"github.com/influx6/faux/pattern"
+	"github.com/gu-io/faux/pattern"
 )
 
 // matchers define a lists of pattern associated with url match validators.

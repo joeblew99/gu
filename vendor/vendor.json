@@ -65,8 +65,8 @@
 		{
 			"checksumSHA1": "P3zGmsNjW8m15a+nks4FdVpFKwE=",
 			"path": "github.com/gopherjs/gopherjs/js",
-			"revision": "6f5a3c4a73badf117936d7d61a046e2fab8e2adb",
-			"revisionTime": "2016-10-23T18:47:00Z"
+			"revision": "e34a5cd6a1bc7c4fde759f2d3039852fc68b5fcc",
+			"revisionTime": "2016-10-31T10:43:57Z"
 		},
 		{
 			"checksumSHA1": "UNlILKZlAiLwYYwj70y+Q8n13D0=",
@@ -77,18 +77,6 @@
 		{
 			"checksumSHA1": "RGMbX6cdOUwcnfbc4w9rNxcmadU=",
 			"path": "github.com/influx6/faux/context",
-			"revision": "99cf13bb9bd310c796e07190fe71807dc288fbb7",
-			"revisionTime": "2016-10-29T11:30:06Z"
-		},
-		{
-			"checksumSHA1": "jI6VhvtNbR1kulGFvqUtFG6+SdM=",
-			"path": "github.com/influx6/faux/mque",
-			"revision": "99cf13bb9bd310c796e07190fe71807dc288fbb7",
-			"revisionTime": "2016-10-29T11:30:06Z"
-		},
-		{
-			"checksumSHA1": "oDV1KxHCxpnOTovTR66MHz9BqOQ=",
-			"path": "github.com/influx6/faux/pattern",
 			"revision": "99cf13bb9bd310c796e07190fe71807dc288fbb7",
 			"revisionTime": "2016-10-29T11:30:06Z"
 		},
@@ -107,38 +95,38 @@
 		{
 			"checksumSHA1": "wb74Q+l2zo0uZh5ie40NOIJJMz0=",
 			"path": "github.com/influx6/fractals",
-			"revision": "87db2fdc89211eb6818780af12a2478061864136",
-			"revisionTime": "2016-12-02T10:23:01Z"
+			"revision": "de9ddac0f161ab235d8268fae09964d0f78e3cf1",
+			"revisionTime": "2016-10-05T19:06:29Z"
 		},
 		{
-			"checksumSHA1": "WZMqM/8+WF6WjbDl4B9NRKCgT6Y=",
+			"checksumSHA1": "u8mk2yhbGDN0L64n9lyvgSZ61/4=",
 			"path": "github.com/influx6/fractals/fhttp",
-			"revision": "87db2fdc89211eb6818780af12a2478061864136",
-			"revisionTime": "2016-12-02T10:23:01Z"
+			"revision": "de9ddac0f161ab235d8268fae09964d0f78e3cf1",
+			"revisionTime": "2016-10-05T19:06:29Z"
 		},
 		{
-			"checksumSHA1": "Q8rQXufco6HsyJ3AwtzQmxTldRo=",
+			"checksumSHA1": "NtoFaQiY1XlcFw10vjFORWzDH60=",
 			"path": "github.com/influx6/fractals/fhttp/mimes",
-			"revision": "87db2fdc89211eb6818780af12a2478061864136",
-			"revisionTime": "2016-12-02T10:23:01Z"
+			"revision": "de9ddac0f161ab235d8268fae09964d0f78e3cf1",
+			"revisionTime": "2016-10-05T19:06:29Z"
 		},
 		{
-			"checksumSHA1": "XaMPRsuFot86DMEIjeNh9oKf02M=",
+			"checksumSHA1": "UBuNFmBZ0SEPB6kvNUO0MDo8oTQ=",
 			"path": "github.com/influx6/fractals/fs",
-			"revision": "87db2fdc89211eb6818780af12a2478061864136",
-			"revisionTime": "2016-12-02T10:23:01Z"
+			"revision": "de9ddac0f161ab235d8268fae09964d0f78e3cf1",
+			"revisionTime": "2016-10-05T19:06:29Z"
 		},
 		{
 			"checksumSHA1": "vqc3a+oTUGX8PmD0TS+qQ7gmN8I=",
 			"path": "golang.org/x/net/html",
-			"revision": "73058b0420c0c24a7f9ec3eb6f624ac85d2ed035",
-			"revisionTime": "2016-10-30T16:20:31Z"
+			"revision": "8b4af36cd21a1f85a7484b49feb7c79363106d8e",
+			"revisionTime": "2016-10-13T03:31:11Z"
 		},
 		{
 			"checksumSHA1": "00eQaGynDYrv3tL+C7l9xH0IDZg=",
 			"path": "golang.org/x/net/html/atom",
-			"revision": "73058b0420c0c24a7f9ec3eb6f624ac85d2ed035",
-			"revisionTime": "2016-10-30T16:20:31Z"
+			"revision": "8b4af36cd21a1f85a7484b49feb7c79363106d8e",
+			"revisionTime": "2016-10-13T03:31:11Z"
 		},
 		{
 			"checksumSHA1": "bDSCvmvwCYcN5mPjePIzpPyqGYM=",
@@ -175,5 +163,5 @@
 			"revisionTime": "2016-03-10T11:26:45Z"
 		}
 	],
-	"rootPath": "github.com/influx6/gu"
+	"rootPath": "github.com/gu-io/gu"
 }
