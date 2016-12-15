@@ -14,12 +14,18 @@ type Mux func(float64)
 
 // RequestAnimationFrame provides a cover for RAF using the js
 // api for requestAnimationFrame.
-func RequestAnimationFrame(r Mux) int {
+func RequestAnimationFrame(r Mux, f ...func()) int {
 	if !detect.IsBrowser() {
 		return 0
 	}
 
-	return js.Global.Call("requestAnimationFrame", r).Int()
+	id := js.Global.Call("requestAnimationFrame", r).Int()
+
+	for _, fx := range f {
+		fx()
+	}
+
+	return id
 }
 
 // CancelAnimationFrame provides a cover for RAF using the
@@ -30,6 +36,7 @@ func CancelAnimationFrame(id int, f ...func()) {
 	}
 
 	js.Global.Call("cancelAnimationFrame", id)
+
 	for _, fx := range f {
 		fx()
 	}
