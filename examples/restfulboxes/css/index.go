@@ -8,6 +8,9 @@ var Index = css.New(`
   *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
   }
 
   html, body {
@@ -19,7 +22,7 @@ var Index = css.New(`
 
   body {
     margin: 0 auto;
-    padding: 250px;
+    padding: 250px 0px 250px 400px;
     background: #efefef;
   }
 `)

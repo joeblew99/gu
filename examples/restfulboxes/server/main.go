@@ -1,9 +1,13 @@
 package main
 
 import (
+	"fmt"
+	"math"
+	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/influx6/faux/context"
 	"github.com/influx6/fractals/fhttp"
@@ -36,7 +40,9 @@ func main() {
 		Path:   "/colors",
 		Method: "GET",
 		Action: func(ctx context.Context, rw *fhttp.Request) error {
-			rw.Respond(200, []byte(""))
+			newColorDigit := int64(math.Floor(rand.Float64() * 16777215))
+			newColorString := strconv.FormatInt(newColorDigit, 16)
+			rw.RespondAny(200, "text/plain", []byte(fmt.Sprintf("#%s", newColorString)))
 			return nil
 		},
 	})

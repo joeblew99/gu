@@ -33,11 +33,10 @@ func New(endpoint string, interval time.Duration) *RestfulBox {
 
 	// Lunch the go routine which checks for update signals.
 	go func() {
+		rb.update()
+
 		for {
-			_, closed := <-rb.ticker.C
-			if closed {
-				break
-			}
+			<-rb.ticker.C
 
 			rb.update()
 		}
@@ -62,7 +61,7 @@ func (r *RestfulBox) update() {
 	r.Color = string(buf.Bytes())
 
 	// Publish and update the views.
-	r.Publish()
+	go r.Publish()
 }
 
 // Render returns the markup which defines the look for the struct.
@@ -76,6 +75,7 @@ func (r *RestfulBox) Render() *trees.Markup {
         margin: 20px;
         padding: 10px;
         background: {{ .Color }};
+        display: inline-block;
       }
     `, r),
 	)
