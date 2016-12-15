@@ -9,7 +9,7 @@ import (
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/gu-io/faux/pattern"
+	"github.com/influx6/faux/pattern"
 )
 
 //==============================================================================

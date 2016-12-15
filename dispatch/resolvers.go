@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/gu-io/faux/pattern"
+	"github.com/influx6/faux/pattern"
 )
 
 // ResolveSubscriber defines a function type for a Resolver subcriber.

@@ -1,6 +1,6 @@
 package property
 
-import "github.com/influx6/gu/trees"
+import "github.com/gu-io/gu/trees"
 
 // BackgroundStyle provides the color style value
 func BackgroundStyle(value string) trees.Property {

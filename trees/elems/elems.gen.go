@@ -10,8 +10,9 @@ package elems
 
 import (
 	"fmt"
-	"github.com/influx6/gu/css"
-	"github.com/influx6/gu/trees"
+
+	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/trees"
 )
 
 // Text provides custom type for defining text nodes with the trees markup.

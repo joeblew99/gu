@@ -4,14 +4,8 @@ which define their look by the data they receive. The example code is highly tri
 
 
 ## Run
-First of all pull in servex or any prefer http server lunch tool
+Simple navigate into the `./server` directory in your terminal and run as below.
 
 ```bash
-go get -u github.com/influx6/clis/...
-```
-
-Then run servex or desired lunch tool with port `4040`
-
-```bash
-servex -addr :4040
+go run main.go
 ```

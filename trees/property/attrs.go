@@ -1,6 +1,6 @@
 package property
 
-import "github.com/influx6/gu/trees"
+import "github.com/gu-io/gu/trees"
 
 // NameAttr defines attributes of type "Name" for html element types.
 func NameAttr(val string) trees.Property {

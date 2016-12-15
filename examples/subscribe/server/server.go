@@ -1,14 +1,15 @@
 package main
 
 import (
-	"github.com/influx6/faux/context"
-	"github.com/influx6/fractals/fhttp"
 	"net/http"
 	"os"
 	"path/filepath"
 
-	"github.com/influx6/gu/examples/subscribe"
-	_ "github.com/influx6/gu/examples/subscribe/pages"
+	"github.com/influx6/faux/context"
+	"github.com/influx6/fractals/fhttp"
+
+	"github.com/gu-io/gu/examples/subscribe"
+	_ "github.com/gu-io/gu/examples/subscribe/pages"
 )
 
 func main() {

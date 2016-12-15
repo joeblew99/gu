@@ -3,9 +3,9 @@ package routes
 import (
 	"testing"
 
-	"github.com/influx6/gu"
-	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/tests"
+	"github.com/gu-io/gu"
+	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/tests"
 )
 
 func TestRoute(t *testing.T) {

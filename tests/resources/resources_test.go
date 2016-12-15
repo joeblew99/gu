@@ -3,12 +3,12 @@ package resources_test
 import (
 	"testing"
 
-	"github.com/influx6/gu"
-	"github.com/influx6/gu/design"
-	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/tests"
-	"github.com/influx6/gu/trees"
-	"github.com/influx6/gu/trees/elems"
+	"github.com/gu-io/gu"
+	"github.com/gu-io/gu/design"
+	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/tests"
+	"github.com/gu-io/gu/trees"
+	"github.com/gu-io/gu/trees/elems"
 )
 
 func TestResource(t *testing.T) {

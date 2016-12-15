@@ -1,6 +1,8 @@
 package app
 
 import (
+	"bytes"
+	"io"
 	"net/http"
 	"time"
 
@@ -21,7 +23,7 @@ type RestfulBox struct {
 }
 
 func New(endpoint string, interval time.Duration) *RestfulBox {
-	rb := &RestfulBox{
+	rb := RestfulBox{
 		Reactive: gu.NewReactive(),
 		endpoint: endpoint,
 	}
@@ -52,10 +54,12 @@ func (r *RestfulBox) update() {
 		return
 	}
 
-	defer res.Body.Close()
+	var buf bytes.Buffer
 
-	newColor := res.Body.Bytes()
-	r.Color = string(newColor)
+	defer res.Body.Close()
+	io.Copy(&buf, res.Body)
+
+	r.Color = string(buf.Bytes())
 
 	// Publish and update the views.
 	r.Publish()

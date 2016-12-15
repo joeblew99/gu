@@ -4,8 +4,9 @@
 package mque
 
 import (
-	"github.com/gu-io/faux/reflection"
 	"reflect"
+
+	"github.com/influx6/faux/reflection"
 )
 
 //==============================================================================
