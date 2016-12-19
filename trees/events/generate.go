@@ -177,14 +177,14 @@ func main() {
 package events
 
 import (
-	"github.com/influx6/gu/trees"
-	"github.com/influx6/gu/dispatch"
+	"github.com/gu-io/gu/trees"
+	"github.com/gu-io/gu/dispatch"
 )
 
 // EventHandler defines a function type for event callbacks.
 type EventHandler func(trees.EventObject, *trees.Markup)
 
-// WrapHandler wraps the function returning a EventHandler to call the provided 
+// WrapHandler wraps the function returning a EventHandler to call the provided
 // function to be called when the event occurs without need for the arguments.
 func WrapHandler(callback func()) EventHandler {
 	return func(ev trees.EventObject, root *trees.Markup){
@@ -203,13 +203,13 @@ func WrapEventOnlyHandler(callback func(trees.EventObject)) EventHandler {
 
 	for _, name := range names {
 		e := events[name]
-		fmt.Fprintf(file, ` 
+		fmt.Fprintf(file, `
 // %sEvent Documentation is as below: %q
 // https://developer.mozilla.org%s
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector 
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an 
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if 
-// the selector value is not empty then that becomes the default selector used match the event with. 
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
 func %sEvent(callback interface{}, sel string) *trees.Event {
 	var handler EventHandler
 

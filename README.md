@@ -1,11 +1,11 @@
 # Gu
-  A component rendering library for go able to render standard HTML both on 
+  A component rendering library for Go. it efficiently renders standard HTML both on 
   the frontend and backend.
 
 ## Install
 
 ```bash
-go install github.com/influx6/gu/...
+go install github.com/gu-io/gu/...
 ```
 
 ## Goals

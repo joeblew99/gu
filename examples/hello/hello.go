@@ -1,9 +1,9 @@
 package main
 
 import (
-	. "github.com/influx6/gu/design"
-	_ "github.com/influx6/gu/examples/hello/apps"
-	. "github.com/influx6/gu/redom"
+	. "github.com/gu-io/gu/design"
+	_ "github.com/gu-io/gu/examples/hello/apps"
+	. "github.com/gu-io/gu/redom"
 	"honnef.co/go/js/dom"
 )
 

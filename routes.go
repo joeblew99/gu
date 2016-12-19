@@ -1,8 +1,8 @@
 package gu
 
 import (
-	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/trees"
+	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/trees"
 )
 
 // RouteApplier defines a interface which composes trees Applier, Morpher and

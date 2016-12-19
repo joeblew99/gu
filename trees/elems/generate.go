@@ -153,8 +153,8 @@ package elems
 
 import (
 	"fmt"
-	"github.com/influx6/gu/trees"
-	"github.com/influx6/gu/css"
+	"github.com/gu-io/gu/trees"
+	"github.com/gu-io/gu/css"
 )
 
 // Text provides custom type for defining text nodes with the trees markup.
@@ -170,7 +170,7 @@ func Parse(markup string) *trees.Markup {
 		for _, el := range tms {
 			el.Apply(sec)
 		}
-		
+
 		return sec
 	}
 
@@ -182,11 +182,11 @@ func ParseIn(root string,markup string) *trees.Markup {
 	return trees.ParseAsRoot(root, markup)
 }
 
-// CSS provides a function that takes style rules which returns a stylesheet embeded into 
-// the provided element parent and is built on the gu/css package which collects 
+// CSS provides a function that takes style rules which returns a stylesheet embeded into
+// the provided element parent and is built on the gu/css package which collects
 // necessary details from its parent to only target where it gets mounted.
 func CSS(styles interface{}, bind interface{}) *trees.Markup {
-  var rs *css.Rule 
+  var rs *css.Rule
 
   switch so := styles.(type) {
     case string:

@@ -3,19 +3,17 @@ package mque_test
 import (
 	"testing"
 
-	"github.com/ardanlabs/kit/tests"
-	"github.com/influx6/faux/mque"
+	"github.com/gu-io/gu/dispatch/mque"
 )
 
-func init() {
-	tests.Init("")
-}
+// failedMark is the Unicode codepoint for an X mark.
+const failedMark = "\u2717"
+
+// succeedMark is the Unicode codepoint for a check mark.
+const succeedMark = "\u2713"
 
 // TestQueue validates the behaviour of que api.
 func TestQueue(t *testing.T) {
-	tests.ResetLog()
-	defer tests.DisplayLog()
-
 	t.Logf("Should be able to use a argument selective queue")
 	{
 
@@ -39,9 +37,9 @@ func TestQueue(t *testing.T) {
 
 			select {
 			case <-passed:
-				t.Logf("\t%s\tShould have received a string", tests.Success)
+				t.Logf("\t%s\tShould have received a string", succeedMark)
 			case <-failed:
-				t.Errorf("\t%s\tShould have received a string", tests.Failed)
+				t.Errorf("\t%s\tShould have received a string", failedMark)
 			}
 
 		}
@@ -65,9 +63,9 @@ func TestQueue(t *testing.T) {
 
 			select {
 			case <-failed:
-				t.Fatalf("\t%s\tShould have received a integer", tests.Failed)
+				t.Fatalf("\t%s\tShould have received a integer", failedMark)
 			case <-passed:
-				t.Logf("\t%s\tShould have received a integer", tests.Success)
+				t.Logf("\t%s\tShould have received a integer", succeedMark)
 			}
 		}
 	}
@@ -103,9 +101,6 @@ func BenchmarkQueueWithMultitypes(b *testing.B) {
 
 // TestQueueEnd validates the behaviour of que subscriber End call.
 func TestQueueEnd(t *testing.T) {
-	tests.ResetLog()
-	defer tests.DisplayLog()
-
 	t.Logf("Should be able to use a argument selective queue")
 	{
 
@@ -133,14 +128,14 @@ func TestQueueEnd(t *testing.T) {
 			q.Run(40)
 
 			if count <= 2 || count >= 4 {
-				t.Fatalf("\t%s\tShould have received only two events", tests.Failed)
+				t.Fatalf("\t%s\tShould have received only two events", failedMark)
 			}
-			t.Logf("\t%s\tShould have received only two events", tests.Success)
+			t.Logf("\t%s\tShould have received only two events", succeedMark)
 
 			if !ended {
-				t.Fatalf("\t%s\tShould have ended subscriber", tests.Failed)
+				t.Fatalf("\t%s\tShould have ended subscriber", failedMark)
 			}
-			t.Logf("\t%s\tShould have ended subscriber", tests.Success)
+			t.Logf("\t%s\tShould have ended subscriber", succeedMark)
 
 		}
 	}

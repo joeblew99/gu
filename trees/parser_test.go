@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/influx6/gu/trees"
+	"github.com/gu-io/gu/trees"
 )
 
 var success = "\u2713"

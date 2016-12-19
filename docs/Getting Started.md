@@ -51,11 +51,11 @@ package main
 
 import (
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/gu/design"
-	. "github.com/influx6/gu/trees"
-	. "github.com/influx6/gu/trees/elems"
-	. "github.com/influx6/gu/trees/events"
-	. "github.com/influx6/gu/trees/property"
+	"github.com/gu-io/gu/design"
+	. "github.com/gu-io/gu/trees"
+	. "github.com/gu-io/gu/trees/elems"
+	. "github.com/gu-io/gu/trees/events"
+	. "github.com/gu-io/gu/trees/property"
 )
 
 var _ = design.Resource(func() {
@@ -147,7 +147,7 @@ The `ResourceRenderer` if passed in will only be ever used on the client, to han
 Generally the developer need not ever deal with this, has `Gu` has a `gu/app` package which already encapsulates this call and returns the appropriate ResourceManager for use for either the browser or the server. This makes the declaration rather simple.
 
 ```go
-import "github.com/influx6/gu/app"
+import "github.com/gu-io/gu/app"
 
 func main() {
 	app := app.New()
@@ -325,7 +325,7 @@ This are not components but structures provided by `Gu`, which defines the css u
 The css system which `Gu` provides combines the power of Go's `text/template` package and a css parser to create a system that allows targeted styles which target the parent which it gets loaded into through which the `$` symbol. This allows us the flexibility to enforce that styles affect only their corresponding markup.
 
 ```go
-import "github.com/influx6/gu/css"
+import "github.com/gu-io/gu/css"
 
 csr := css.New(`
 
@@ -373,12 +373,12 @@ We import the packages which provides the functionality we need. A few are impor
 package app
 
 import (
-	"github.com/influx6/gu/css"
-	"github.com/influx6/gu/dispatch"
-	. "github.com/influx6/gu/trees"
-	. "github.com/influx6/gu/trees/elems"
-	. "github.com/influx6/gu/trees/events"
-	. "github.com/influx6/gu/trees/property"
+	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/dispatch"
+	. "github.com/gu-io/gu/trees"
+	. "github.com/gu-io/gu/trees/elems"
+	. "github.com/gu-io/gu/trees/events"
+	. "github.com/gu-io/gu/trees/property"
 	"honnef.co/go/js/dom"
 )
 ```
@@ -595,12 +595,12 @@ package app
 
 import (
 	"fmt"
-	"github.com/influx6/gu"
-	"github.com/influx6/gu/css"
-	"github.com/influx6/gu/dispatch"
-	. "github.com/influx6/gu/trees"
-	. "github.com/influx6/gu/trees/elems"
-	. "github.com/influx6/gu/trees/property"
+	"github.com/gu-io/gu"
+	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/dispatch"
+	. "github.com/gu-io/gu/trees"
+	. "github.com/gu-io/gu/trees/elems"
+	. "github.com/gu-io/gu/trees/property"
 )
 
 // SubmissionNotifier defines the handler which displays the notification on the success or
@@ -723,9 +723,9 @@ This is so because this resource does not define a `Route` using the `UseRoute` 
 package pages
 
 import (
-	"github.com/influx6/gu/css"
-	"github.com/influx6/gu/design"
-	. "github.com/influx6/gu/examples/subscribe/app"
+	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/design"
+	. "github.com/gu-io/gu/examples/subscribe/app"
 )
 
 // IndexCSS defines the css component which defines the rendering for
@@ -780,11 +780,11 @@ What confines a resource only for a specific route is the `UseRoute` function pr
 package pages
 
 import (
-	"github.com/influx6/gu/css"
-  "github.com/influx6/gu/design"
-	. "github.com/influx6/gu/examples/subscribe/app"
-	. "github.com/influx6/gu/trees/elems"
-	. "github.com/influx6/gu/trees/property"
+	"github.com/gu-io/gu/css"
+  "github.com/gu-io/gu/design"
+	. "github.com/gu-io/gu/examples/subscribe/app"
+	. "github.com/gu-io/gu/trees/elems"
+	. "github.com/gu-io/gu/trees/property"
 )
 
 // RootCSS defines a css component which defines the page rendering styles.
@@ -846,8 +846,8 @@ design.UseRoute("#subscriptions/submit")
 package pages
 
 import (
-	"github.com/influx6/gu/design"
-	. "github.com/influx6/gu/examples/subscribe/app"
+	"github.com/gu-io/gu/design"
+	. "github.com/gu-io/gu/examples/subscribe/app"
 )
 
 var _ = design.Resource(func() {
@@ -872,8 +872,8 @@ Only resources loaded through import calls or defined within the same package as
 package subscribe
 
 import (
-	"github.com/influx6/gu/app"
-	_ "github.com/influx6/gu/examples/subscribe/pages"
+	"github.com/gu-io/gu/app"
+	_ "github.com/gu-io/gu/examples/subscribe/pages"
 )
 
 var App = app.New()
@@ -898,7 +898,7 @@ Rendering the pages through the Resource Manager is as simple as the concept of 
 To render on the server, simply first ensure that the Resource Manager is initialized as below:
 
 ```go
-import "github.com/influx6/examples/subscribe"
+import "github.com/gu-io/examples/subscribe"
 
 func main() {
 	subscribe.App.Init(true)

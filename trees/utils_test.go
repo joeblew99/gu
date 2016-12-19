@@ -3,7 +3,7 @@ package trees_test
 import (
 	"testing"
 
-	"github.com/influx6/gu/trees"
+	"github.com/gu-io/gu/trees"
 )
 
 // TestFinders validates the utility functions which help in retrieving underline

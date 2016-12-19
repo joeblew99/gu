@@ -8,8 +8,8 @@
 package events
 
 import (
-	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/trees"
+	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/trees"
 )
 
 // EventHandler defines a function type for event callbacks.

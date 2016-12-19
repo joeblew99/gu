@@ -6,7 +6,7 @@ flexible way by using the power of Go templates and css parsers.
 ## Install
 
 ```bash
-go get -u github.com/influx6/gu/css
+go get -u github.com/gu-io/gu/css
 ```
 
 ## Example

@@ -1,15 +1,14 @@
 package design
 
 import (
-	"fmt"
 	"sync"
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/gu"
-	"github.com/influx6/gu/css"
-	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/trees"
+	"github.com/gu-io/gu"
+	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/trees"
 )
 
 //==============================================================================
@@ -599,12 +598,16 @@ func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom b
 	switch vwo := vrs.(type) {
 	case gu.Renderables:
 		rs = vwo
+		break
 	case gu.Renderable:
 		rs = gu.Renderables{vwo}
+		break
 	case func() gu.Renderable:
 		rs = gu.Renderables{vwo()}
+		break
 	case func() gu.Renderables:
 		rs = vwo()
+		break
 	default:
 		panic("View must either recieve a function that returns Renderables or Renderables themselves")
 	}
@@ -614,8 +617,6 @@ func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom b
 
 	if rvw, ok := view.(gu.Reactive); ok {
 		rvw.React(func() {
-			fmt.Printf("Received rendering update %s\n", view.UUID())
-
 			dispatch.Dispatch(ResourceViewUpdate{
 				View:     view,
 				Target:   targets,

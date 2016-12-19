@@ -3,8 +3,8 @@ package css_test
 import (
 	"testing"
 
-	"github.com/influx6/gu/css"
-	"github.com/influx6/gu/tests"
+	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/tests"
 )
 
 func TestBasicCSS(t *testing.T) {
