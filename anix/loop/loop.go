@@ -1,7 +1,9 @@
 package loop
 
 import (
-  "github.com/gu-io/gu/anix/loop"
+	"time"
+
+	"github.com/gu-io/gu/anix/loop"
 )
 
 // RenderFn defines the function called to render an animation after its update
@@ -12,19 +14,76 @@ type RenderFn func(interpolation float64)
 // UpdateFn defines the function called during update cycles for animations. It
 // is provided with the totaltime passed, the delta value calculated and current
 // step.
-type UpdateFn func(totalTime int64, delta float64)
+type UpdateFn func(totalRunningTime int64, step int64, delta float64)
 
 // Options defines a struct configuration which affects the running of the animation
 // calls with these values.
-type Options struct{
-  Fps int64
+// Fps - Defines the total fps expected for animation.
+// DeltaDivider - Defines the values used to retrieve the delta value from it's seconds time.
+// MaxDeltaStep - Defines the maximum step size for frame delta which will be
+// used of larger elapsed time detlas.
+// StepSize - Defines the maximum step size divided by the Fps to get the step
+// size of each frame.
+type Options struct {
+	Fps          int
+	StepSize     int
+	MaxDeltaStep int
+	DeltaDivider int
 }
+
+// DefaultOptions defines a default set of options for use in run calls.
+var DefaultOptions = &Options{Fps: 60, StepSize: 1, DeltaDivider: 1000, MaxDeltaStep: 0.2}
 
 // Run registers the pair of function calls for animation and returns a central
 // loop.Clock pointer instance which allows the control of the animation calls.
-func Run(un UpdateFn, rn RenderFn, o *Options) *loop.Clock{
+func Run(un UpdateFn, rn RenderFn, options *Options) *loop.Clock {
+	if o == nil {
+		options = DefaultOptions
+	}
 
-  return loop.New(func(tick float64){
+	var step = options.StepSize / options.Fps
 
-  })
+	var lastTime time.Time
+	var startTime time.Time
+	var deltaDur time.Duration
+	var totalRunTime time.Duration
+
+	var totalRun float64
+	var delta float64
+	var accumulator float64
+
+	return loop.New(func(tick float64) {
+		if startTime.IsZero() {
+			startTime = time.Now()
+			lastTime = startTime
+			return
+		}
+
+		now = time.Now()
+		deltaDur = lastTime.Sub(u)
+		delta = delta.Seconds() / options.DeltaSize
+		totalRunTime += delta
+		lastTime = now
+
+		if delta > options.MaxDeltaStep {
+			delta = options.MaxDeltaStep
+		}
+
+		accumulator += delta
+
+		for accumulator >= step {
+			// Call the update method here with stepsize, total time and delta.
+			un(totalRunTime, step, totalRun)
+
+			// Update the deltas values and accumulator values.
+			totalRun += delta
+			accumulator -= step
+		}
+
+		// Calculate interpolation values with available accumulator with step size.
+		interpolate := accumulator / step
+
+		// Call the render handler with interpolation value.
+		rn(interpolate)
+	})
 }
