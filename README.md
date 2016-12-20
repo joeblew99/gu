@@ -1,10 +1,10 @@
 # Gu
-  A component rendering library for Go. it efficiently renders standard HTML both on 
+  A component rendering library for Go. It efficiently renders standard HTML both on 
   the frontend and backend.
 
 ## Install
 
-```bash
+```
 go install github.com/gu-io/gu/...
 ```
 
@@ -15,6 +15,12 @@ go install github.com/gu-io/gu/...
   - Quickly craft your UI without touching HTML
   - Share code between backend and frontend
 
+## Advantages
+  - Complex widget libraries can be built up and shared as Golang packages.
+  - Widgets are hierarchical allowing further reuse.
+  - Event handling is simple and strongly typed.
+  - Compile time safety
+  - Fast to develop on, thanks to auto-reload.
 
 ## Documentation
   
@@ -23,7 +29,7 @@ go install github.com/gu-io/gu/...
   **[Limitations](./docs/Limitations.md)**
 
 ## Examples
-Basic examples lay within the [Examples](./examples/) directory. 
+Basic examples are within the [Examples](./examples/) directory. 
 
 All examples have `index.html` files within them, these are the points through which 
 they can be runned. Simply open up the corresponding `index.html` within the example directory 
@@ -35,7 +41,7 @@ Gu main purpose is to provide a very simple and elegant approach in rendering fr
 end components and projects with Go. It's simplicity will be heavily guarded and
 maintained. 
 
-If more complex ideas arise, then those will be built ontop of Gu has seperate 
+If more complex ideas arise, then those will be built ontop of Gu as seperate 
 libraries to offer that niche. But Gu will remain as so, to allow 
 anyone to graft and build on top as they see fit.
 
