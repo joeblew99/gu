@@ -13,11 +13,8 @@ To run a Build just do:
 gopherjs build -o hello.go hello.js
 ````
 
-T run Continuous Build do:
+To run Continuous Build do:
 
 ````
 http://localhost:8080/github.com/gu-io/gu/examples/hello/
 ````
-
-
-

@@ -17,7 +17,7 @@ To run a Build just do:
 gopherjs build -o assets/app.go assets/app.js
 ````
 
-T run Continuous Build do:
+To run Continuous Build do:
 
 ````
 http://localhost:8080/github.com/gu-io/gu/examples/subscribe/
