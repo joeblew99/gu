@@ -31,6 +31,7 @@ type Options struct {
 	MaxDeltaStep int
 	DeltaDivider int
 	Reversible   bool
+	Repeatable   bool
 }
 
 // DefaultOptions defines a default set of options for use in run calls.
@@ -122,6 +123,21 @@ func RunWithin(total time.Duration, un UpdateFn, rn RenderFn, options *Options) 
 		}
 
 		if totalRun >= total.Seconds() {
+			if options.Repeatable {
+				if options.Reversible && reverse {
+					delta = 0
+					deltaDur = 0
+					totalRun = 0
+					accumulator = 0
+					accumulator = 0
+					totalRunTime = 0
+					startTime = Time{}
+					lastTime = Time{}
+				}
+				
+				return
+			}
+
 			if !options.Reversible {
 				return
 			}

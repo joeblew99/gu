@@ -4,8 +4,8 @@ import (
 	"time"
 
 	. "github.com/gu-io/gu/design"
-	"github.com/gu-io/gu/examples/restfulboxes/app"
-	"github.com/gu-io/gu/examples/restfulboxes/css"
+	"github.com/gu-io/gu/examples/colorboxes/app"
+	"github.com/gu-io/gu/examples/colorboxes/css"
 )
 
 var _ = Resource(func() {

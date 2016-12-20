@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gu-io/gu/app"
-	_ "github.com/gu-io/gu/examples/restfulboxes/resources"
+	_ "github.com/gu-io/gu/examples/colorboxes/resources"
 )
 
 func main() {

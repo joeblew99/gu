@@ -13,7 +13,7 @@ import (
 	"github.com/influx6/fractals/fhttp"
 
 	"github.com/gu-io/gu/app"
-	_ "github.com/gu-io/gu/examples/restfulboxes/resources"
+	_ "github.com/gu-io/gu/examples/colorboxes/resources"
 )
 
 func main() {
