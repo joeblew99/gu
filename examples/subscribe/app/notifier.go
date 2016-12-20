@@ -1,11 +1,11 @@
 package app
 
 import (
-	"github.com/influx6/gu"
-	"github.com/influx6/gu/dispatch"
-	"github.com/influx6/gu/trees"
-	. "github.com/influx6/gu/trees/elems"
-	. "github.com/influx6/gu/trees/property"
+	"github.com/gu-io/gu"
+	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/trees"
+	. "github.com/gu-io/gu/trees/elems"
+	. "github.com/gu-io/gu/trees/property"
 )
 
 // SubmissionNotifier defines the handler which displays the notification on the success or

@@ -2,11 +2,11 @@ package apps
 
 import (
 	"github.com/gopherjs/gopherjs/js"
-	. "github.com/influx6/gu/design"
-	. "github.com/influx6/gu/trees"
-	. "github.com/influx6/gu/trees/elems"
-	. "github.com/influx6/gu/trees/events"
-	. "github.com/influx6/gu/trees/property"
+	. "github.com/gu-io/gu/design"
+	. "github.com/gu-io/gu/trees"
+	. "github.com/gu-io/gu/trees/elems"
+	. "github.com/gu-io/gu/trees/events"
+	. "github.com/gu-io/gu/trees/property"
 )
 
 var _ = Resource(func() {

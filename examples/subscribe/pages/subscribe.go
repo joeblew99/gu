@@ -1,10 +1,10 @@
 package pages
 
 import (
-	. "github.com/influx6/gu/design"
-	. "github.com/influx6/gu/examples/subscribe/app"
-	. "github.com/influx6/gu/trees/elems"
-	. "github.com/influx6/gu/trees/property"
+	. "github.com/gu-io/gu/design"
+	. "github.com/gu-io/gu/examples/subscribe/app"
+	. "github.com/gu-io/gu/trees/elems"
+	. "github.com/gu-io/gu/trees/property"
 )
 
 var _ = Resource(func() {

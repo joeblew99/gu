@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/influx6/gu/examples/subscribe"
+	"github.com/gu-io/gu/examples/subscribe"
 )
 
 func main() {

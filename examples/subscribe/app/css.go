@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/influx6/gu/css"
+	"github.com/gu-io/gu/css"
 )
 
 // IndexCSS defines the css component which defines the rendering for
@@ -62,7 +62,7 @@ var NotificationCSS = css.New(`
   }
 
   $ {
-    width: 800px; 
+    width: 800px;
     height: 100px;
     margin:0px auto;
   }
@@ -163,7 +163,7 @@ var SubscribeCSS = css.New(`
     border: none;
     display: block;
     cursor: pointer;
-    border: 1px solid rgba(26, 143, 187, 1); 
+    border: 1px solid rgba(26, 143, 187, 1);
   }
 
   $.subscription .form .buttons .button.named {
