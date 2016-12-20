@@ -14,7 +14,7 @@ type RenderFn func(interpolation float64)
 // UpdateFn defines the function called during update cycles for animations. It
 // is provided with the totaltime passed, the delta value calculated and current
 // step.
-type UpdateFn func(step int64, delta float64)
+type UpdateFn func(step int64, delta float64, reverse bool)
 
 // Options defines a struct configuration which affects the running of the animation
 // calls with these values.
@@ -40,7 +40,7 @@ var DefaultOptions = &Options{Fps: 60, SlowSize: 1, StepSize: 1, DeltaDivider: 1
 // loop.Clock pointer instance which allows the control of the animation calls.
 // The last item which is the options call be left as nil, which uses the DefaultOptions
 // for animation.
-func Run(un UpdateFn, rn RenderFn, options *Options) *loop.Clock {
+func Run(un UpdateFn, rn RenderFn, options *Options) *raf.Clock {
 	if o == nil {
 		options = DefaultOptions
 	}
@@ -77,7 +77,7 @@ func Run(un UpdateFn, rn RenderFn, options *Options) *loop.Clock {
 
 		for accumulator >= step {
 			// Call the update method here with stepsize, total time and delta.
-			un(step, totalRun)
+			un(step, totalRun, false)
 
 			// Update the deltas values and accumulator values.
 			totalRun += delta
@@ -97,7 +97,7 @@ func Run(un UpdateFn, rn RenderFn, options *Options) *loop.Clock {
 // the animation calls.
 // The last item which is the options call be left as nil, which uses the DefaultOptions
 // for animation.
-func RunWithin(total time.Duration, un UpdateFn, rn RenderFn, options *Options) *loop.Clock {
+func RunWithin(total time.Duration, un UpdateFn, rn RenderFn, options *Options) *raf.Clock {
 	if o == nil {
 		options = DefaultOptions
 	}
@@ -147,7 +147,7 @@ func RunWithin(total time.Duration, un UpdateFn, rn RenderFn, options *Options) 
 
 		for accumulator >= step {
 			// Call the update method here with stepsize, total time and delta.
-			un(step, totalRun)
+			un(step, totalRun, reverse)
 
 			// Update the deltas values and accumulator values.
 			if options.Reversible && reverse {

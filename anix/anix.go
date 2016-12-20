@@ -17,12 +17,12 @@ type FunnelRenderer func() Renderable
 // FunnelTargets defines a function which receives targets to be used for applying
 // against a series of pre-provided set of Renderables and returns a pointer of
 // a loop.Clock type.
-type FunnelTargets func(targets ...interface{}) *loop.Clock
+type FunnelTargets func(targets ...interface{}) *raf.Clock
 
 // Animate registers a series of animation builders and callers which generate
 // appliers for all provided elements.
 func Animate(f ...FunnelRenderer) FunnelTargets {
-	return func(targets ...interface{}) *loop.Clock {
+	return func(targets ...interface{}) *raf.Clock {
 		var renderers []Renderable
 
 		for _, fr := range f {
