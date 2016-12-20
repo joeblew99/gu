@@ -14,23 +14,23 @@ type Mux func(float64)
 //==============================================================================
 
 // Clock defines an interface which exposes methods which allow a timeloop run.
-type Clock struct{
-	mux Mux
-	paused int64
+type Clock struct {
+	mux     Mux
+	paused  int64
 	clockID int64
 }
 
 // New returns a new instance pointer of the Clock type.
-func New(m Mux) *Clock{
+func New(m Mux) *Clock {
 	return &Clock{
-		mux: m,
-		clockID:-1,
+		mux:     m,
+		clockID: -1,
 	}
 }
 
 // Start registers the clock with the animation call loop. Calls all passed in
 // functions once the clock has being successfully registered.
-func (c *Clock) Start(f ...func()){
+func (c *Clock) Start(f ...func()) {
 	if atomic.LoadInt64(&c.clockID) != -1 {
 		return
 	}
@@ -40,7 +40,7 @@ func (c *Clock) Start(f ...func()){
 
 // Stops deregisters the clock and stops all loop calls and calls the passed in
 // functions.
-func (c *Clock) Stop(f ...func()){
+func (c *Clock) Stop(f ...func()) {
 	if atomic.LoadInt64(&c.clockID) == -1 {
 		return
 	}
@@ -50,7 +50,7 @@ func (c *Clock) Stop(f ...func()){
 }
 
 // Resume enables the clocks ticking if it has been paused.
-func (c *Clock) Tick(f float64){
+func (c *Clock) Tick(f float64) {
 	if atomic.LoadInt64(&c.paused) != -1 {
 		return
 	}
@@ -58,13 +58,23 @@ func (c *Clock) Tick(f float64){
 	c.mux(f)
 }
 
+// Toggle switches the state of the clock from paused to resume and vise versa.
+func (c *Clock) Toggle() {
+	if atomic.LoadInt64(&c.paused) < 0 {
+		atomic.StoreInt64(&c.paused, 1)
+		return
+	}
+
+	atomic.StoreInt64(&c.paused, -1)
+}
+
 // Resume enables the clocks ticking if it has been paused.
-func (c *Clock) Resume(){
+func (c *Clock) Resume() {
 	atomic.StoreInt64(&c.paused, -1)
 }
 
 // Pause disabbles the clocks ticking if it has been paused.
-func (c *Clock) Pause(){
+func (c *Clock) Pause() {
 	atomic.StoreInt64(&c.paused, 1)
 }
 
