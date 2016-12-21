@@ -179,6 +179,13 @@ func (rs *Resources) ResolveWith(path string) []*ResourceDefinition {
 			case Any:
 				any = append(any, resource)
 			}
+
+			continue
+		}
+
+		if resource.active {
+			resource.Unmount()
+			resource.active = false
 		}
 	}
 
@@ -231,9 +238,11 @@ func (rs *Resources) RenderPathWithScript(path dispatch.Path, script string) *tr
 
 	if script != "" {
 		src := trees.NewAttr("src", script)
+		srctype := trees.NewAttr("gu-script-root", "true")
 		scriptElem := trees.NewMarkup("script", false)
 
 		src.Apply(scriptElem)
+		srctype.Apply(scriptElem)
 
 		return rs.render([]*trees.Markup{scriptElem}, result...)
 	}
@@ -308,6 +317,7 @@ type ResourceDefinition struct {
 	active bool
 	uuid   string
 
+	ViewHooks        []gu.ViewHooks
 	Views        []gu.RenderView
 	Links        []gu.StaticView
 	DeferLinks   []gu.StaticView
@@ -343,7 +353,8 @@ func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 	rsp := &rs
 	root.Resources = append(root.Resources, rsp)
 
-	dispatch.Subscribe(func(rv ResourceViewUpdate) {
+	dispatch.Subscribe(func(rv *ResourceViewUpdate) {
+
 		if rv.Resource != rsp.uuid {
 			return
 		}
@@ -356,6 +367,19 @@ func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 	})
 
 	return rsp
+}
+
+// Unmount propagates to all views which define the ViewHooks
+func (rd *ResourceDefinition) Unmount() {
+	for _, view := range rd.ViewHooks {
+		mount, rendered, unmount := view.Hooks()
+		unmount.Publish()
+
+		// Reset mount and rendering subscriptions since we are removing this from
+		// the DOM.
+		mount.Reset()
+		rendered.Reset()
+	}
 }
 
 // UUID returns the uuid associated with the ResourceDefinition.
@@ -615,9 +639,13 @@ func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom b
 	current := getResources().MustCurrentResource()
 	view := gu.CustomView("section", rs...)
 
+	if vh, ok := view.(gu.ViewHooks); ok {
+		current.ViewHooks = append(current.ViewHooks, vh)
+	}
+
 	if rvw, ok := view.(gu.Reactive); ok {
 		rvw.React(func() {
-			dispatch.Dispatch(ResourceViewUpdate{
+			dispatch.Dispatch(&ResourceViewUpdate{
 				View:     view,
 				Target:   targets,
 				Resource: current.UUID(),

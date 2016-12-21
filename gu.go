@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"sync"
+	"sync/atomic"
 
 	"github.com/gu-io/gu/dispatch"
 	"github.com/gu-io/gu/trees"
@@ -46,38 +47,72 @@ type MarkupRenderer interface {
 	RenderHTML() template.HTML
 }
 
-// ReactiveSubscription defines an interface for functions subscribing for
+
+// Reactor defines an interface for functions subscribing for
 // notifications to react.
-type ReactiveSubscription interface {
+type Reactor interface {
 	React(func())
 }
 
 // Reactive extends the ReactiveRenderable by exposing a Publish method
 // which allows calling the update notifications list of a ReactiveRenderable.
 type Reactive interface {
-	ReactiveSubscription
+	Reactor
 	Publish()
 }
 
+
 // NewReactive returns an instance of a Reactive struct.
 func NewReactive() Reactive {
-	var rc reactive
+	var rc Subscription
 	return &rc
 }
 
-// reactive defines a baseline structure that can be composed into
+// Subscriptions exposes an interface which combines a Reactive type and a clear
+// function to dispose of subscribers.
+type Subscriptions interface {
+	Reactive
+	Clear()
+	Reset()
+	Used() bool
+}
+
+// Subscription defines a baseline structure that can be composed into
 // any struct to provide a reactive view.
-type reactive struct {
+type Subscription struct {
 	subs []func()
+	totalPublished int64
+}
+
+// NewSubscriptions returns an instance of a Subscription pointer.
+func NewSubscriptions() *Subscription {
+	return &Subscription{}
 }
 
 // React adds a function into the subscription list for this reactor.
-func (r *reactive) React(sub func()) {
+func (r *Subscription) React(sub func()) {
 	r.subs = append(r.subs, sub)
 }
 
+// Clear destroys all subscribers in the lists.
+func (r *Subscription) Clear() {
+	r.subs = nil
+}
+
+// Reset resets the subscription has unused.
+func (r *Subscription) Reset() {
+	atomic.StoreInt64(&r.totalPublished,0)
+}
+
+// Used returns true/false if the subscription has been called to publish.
+func (r *Subscription) Used() bool {
+	return atomic.LoadInt64(&r.totalPublished) > 0
+}
+
 // Publish runs a through the subscription list and calls the registerd functions.
-func (r *reactive) Publish() {
+func (r *Subscription) Publish() {
+	atomic.AddInt64(&r.totalPublished,1)
+
 	for _, sub := range r.subs {
 		sub()
 	}
@@ -94,6 +129,7 @@ type RenderView interface {
 	UUID() string
 	RenderedBefore() bool
 }
+
 
 // Renderer defines an interface which takes responsiblity in translating
 // the provided markup into the appropriate media.

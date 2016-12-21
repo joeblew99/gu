@@ -51,7 +51,7 @@ func main() {
 		Path:   "/",
 		Method: "GET",
 		Action: func(ctx context.Context, rw *fhttp.Request) error {
-			content := boxes.RenderWithScript("/#", "assets/restful.js")
+			content := boxes.RenderWithScript("/#", "assets/box.js")
 			rw.RespondAny(200, "text/html", []byte(content.HTML()))
 			return nil
 		},

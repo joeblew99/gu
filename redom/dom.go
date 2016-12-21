@@ -37,11 +37,15 @@ func (dm *DOMRenderer) Render(rs ...*design.ResourceDefinition) {
 
 	// clear all children of head and body if the belong to us.
 	for _, item := range head.QuerySelectorAll("[data-gen*='gu']") {
-		item.ParentNode().RemoveChild(item)
+		if !item.HasAttribute("gu-script-root") {
+			item.ParentNode().RemoveChild(item)
+		}
 	}
 
 	for _, item := range body.QuerySelectorAll("[data-gen*='gu']") {
-		item.ParentNode().RemoveChild(item)
+		if !item.HasAttribute("gu-script-root") {
+			item.ParentNode().RemoveChild(item)
+		}
 	}
 
 	// Render the normal links first.
@@ -101,10 +105,26 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 
 		if kvr, ok := rv.(gu.RenderView); ok {
 			js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), !kvr.RenderedBefore())
+
+			if cvs, ok := rv.(gu.ViewHooks); ok {
+				mounted, _,_ := cvs.Hooks()
+				if !mounted.Used() {
+					mounted.Publish()
+				}
+			}
+
 			return
 		}
 
 		js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), false)
+
+		if cvs, ok := rv.(gu.ViewHooks); ok {
+			mounted, _,_ := cvs.Hooks()
+			if !mounted.Used() {
+				mounted.Publish()
+			}
+		}
+
 		return
 	}
 
@@ -126,6 +146,23 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 
 		js.Patch(js.CreateFragment(markup.HTML()), targetDOM.Underlying(), false)
 	}
+
+	if cvs, ok := rv.(gu.ViewHooks); ok {
+		mounted, _,_ := cvs.Hooks()
+
+		if !mounted.Used() {
+			mounted.Publish()
+		}
+	}
+}
+
+// BindNodeEvent binds the removal events and addition events to fire the mount and
+// unmount handlers for a rendered source.
+// NOTE: Currently only handles registering for removals has resources RenderUpdate
+// handles insertion(mount) calls.
+// TODO: Implement removal calls.
+func (dm *DOMRenderer) BindNodeEvent(source *trees.Event, root *gjs.Object) {
+
 }
 
 // BindEvent connects the event with the provided event object and root.

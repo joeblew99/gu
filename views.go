@@ -13,6 +13,8 @@ import (
 // its markup.
 type StaticView struct {
 	Content *trees.Markup
+	Mounted Subscriptions
+	Rendered Subscriptions
 	Morph   bool
 }
 
@@ -40,6 +42,12 @@ func (s *StaticView) RenderHTML() template.HTML {
 
 //==============================================================================
 
+// ViewSubscriptions defines an interface for structures which expose a subscription
+// hooks to be used to register hooks for callers.
+type ViewSubscriptions interface {
+	OnSubscriptions(mounts, renders, unmount Subscriptions)
+}
+
 // CustomView generates a RenderView for the provided Renderable.
 func CustomView(tag string, r ...Renderable) RenderView {
 	var vw view
@@ -47,9 +55,16 @@ func CustomView(tag string, r ...Renderable) RenderView {
 	vw.renders = r
 	vw.uuid = NewKey()
 	vw.Reactive = NewReactive()
+	vw.mounted = NewSubscriptions()
+	vw.unmounted = NewSubscriptions()
+	vw.rendered = NewSubscriptions()
 
 	for _, vr := range r {
-		if rws, ok := vr.(ReactiveSubscription); ok {
+		if vs, ok := vr.(ViewSubscriptions); ok {
+			vs.OnSubscriptions(vw.mounted, vw.rendered, vw.unmounted)
+		}
+
+		if rws, ok := vr.(Reactor); ok {
 			rws.React(vw.Reactive.Publish)
 		}
 	}
@@ -62,6 +77,9 @@ func CustomView(tag string, r ...Renderable) RenderView {
 // view defines a base level implementation for a set of Renderables.
 type view struct {
 	Reactive
+	mounted Subscriptions
+	unmounted Subscriptions
+	rendered Subscriptions
 	hide           bool
 	tag            string
 	uuid           string
@@ -78,6 +96,16 @@ func (v *view) Resolve(path dispatch.Path) {
 			rs.Resolve(path)
 		}
 	}
+}
+
+// ViewHooks defines an interface which exposes a view internal hooks.
+type ViewHooks interface{
+	Hooks() (mounted Subscriptions, rendered Subscriptions, unmount Subscriptions)
+}
+
+// Hooks return the Subscriptions hooks used by the view.
+func (v *view) Hooks() (Subscriptions, Subscriptions, Subscriptions) {
+	return v.mounted, v.rendered, v.unmounted
 }
 
 // RenderedBefore returns true/false if the view has been rendered before.
@@ -97,6 +125,8 @@ func (v *view) RenderHTML() template.HTML {
 
 // Render returns the groups markup for the giving render group.
 func (v *view) Render() *trees.Markup {
+	defer v.rendered.Publish()
+
 	v.renderedBefore = true
 
 	if len(v.renders) == 0 {

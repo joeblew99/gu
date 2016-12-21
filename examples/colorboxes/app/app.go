@@ -20,29 +20,45 @@ type RestfulBox struct {
 	Color    string
 	endpoint string
 	ticker   *time.Ticker
+	closer chan struct{}
 }
 
 func New(endpoint string, interval time.Duration) *RestfulBox {
 	rb := RestfulBox{
-		Reactive: gu.NewReactive(),
 		endpoint: endpoint,
+		Reactive: gu.NewReactive(),
+		ticker: time.NewTicker(interval),
+		closer: make(chan struct{}),
 	}
 
-	// Create a ticker.
-	rb.ticker = time.NewTicker(interval)
-
-	// Lunch the go routine which checks for update signals.
-	go func() {
-		rb.update()
-
-		for {
-			<-rb.ticker.C
-
-			rb.update()
-		}
-	}()
-
 	return &rb
+}
+
+// OnSubscriptions registers the components actions for the two main steps for
+// a component lifecycle.
+func (r *RestfulBox) OnSubscriptions(mounted, render, unmounted gu.Subscriptions) {
+	unmounted.React(func() {
+		r.closer <- struct{}{}
+	})
+
+	// Lunch the go routine when the component gets mounted
+	// which checks for update signals.
+	mounted.React(func() {
+		go func() {
+			r.update()
+
+			mloop:
+			for {
+				select{
+				case <-r.ticker.C:
+					r.update()
+				case <-r.closer:
+					break mloop
+				}
+			}
+		}()
+	})
+
 }
 
 // update sends a request to the server expecting a new color to be delivered
