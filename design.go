@@ -1,11 +1,10 @@
-package design
+package gu
 
 import (
 	"sync"
 
 	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/gu-io/gu"
 	"github.com/gu-io/gu/css"
 	"github.com/gu-io/gu/dispatch"
 	"github.com/gu-io/gu/trees"
@@ -39,7 +38,7 @@ func getResources() *Resources {
 type ResourceRenderer interface {
 	Render(...*ResourceDefinition)
 	BindEvent(*trees.Event, *js.Object)
-	RenderUpdate(gu.Renderable, string, bool)
+	RenderUpdate(Renderable, string, bool)
 	TriggerBindEvent(*js.Object, *js.Object, *trees.Event)
 }
 
@@ -317,15 +316,15 @@ type ResourceDefinition struct {
 	active bool
 	uuid   string
 
-	ViewHooks        []gu.ViewHooks
-	Views        []gu.RenderView
-	Links        []gu.StaticView
-	DeferLinks   []gu.StaticView
+	ViewHooks    []ViewHooks
+	Views        []RenderView
+	Links        []StaticView
+	DeferLinks   []StaticView
 	Renderables  []targetRenderable
 	DRenderables []targetRenderable
 
 	Order    RenderingOrder
-	Manager  *gu.RouteManager
+	Manager  *RouteManager
 	Renderer ResourceRenderer
 	Resolver dispatch.Resolver
 	Root     *Resources
@@ -334,7 +333,7 @@ type ResourceDefinition struct {
 // ResourceViewUpdate defines a view update notification which contains the name of the
 // view to be notified for an update.
 type ResourceViewUpdate struct {
-	View     gu.Renderable
+	View     Renderable
 	Resource string
 	Target   string
 }
@@ -346,8 +345,8 @@ func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 	rs.Dsl = dsl
 	rs.Order = Any
 	rs.Root = root
-	rs.uuid = gu.NewKey()
-	rs.Manager = gu.NewRouteManager()
+	rs.uuid = NewKey()
+	rs.Manager = NewRouteManager()
 	rs.Resolver = dispatch.NewResolver("*")
 
 	rsp := &rs
@@ -387,7 +386,8 @@ func (rd *ResourceDefinition) UUID() string {
 	return rd.uuid
 }
 
-// Initialize runs the underline DSL for the
+// Init initialize runs the underline DSL for the operation, loads all resolvers
+// and connects all internal views for immediate usage.
 func (rd *ResourceDefinition) Init() {
 	rd.Dsl()
 	rd.Resolver.Flush()
@@ -429,10 +429,10 @@ func UseRoute(path string) {
 	getResources().MustCurrentResource().Resolver = dispatch.NewResolver(path)
 }
 
-// DoLocalRouter returns a gu.RouteApplier which can be used to localize the
+// DoLocalRouter returns a RouteApplier which can be used to localize the
 // internal routes for the base resource router and allow usage with markup
 // and views.
-func DoLocalRouter(basePath string, mx ...trees.SwitchMorpher) gu.RouteApplier {
+func DoLocalRouter(basePath string, mx ...trees.SwitchMorpher) RouteApplier {
 	var mo trees.SwitchMorpher
 
 	if len(mx) != 0 {
@@ -446,12 +446,12 @@ func DoLocalRouter(basePath string, mx ...trees.SwitchMorpher) gu.RouteApplier {
 
 // DoRouteLevel takes a giving route applier returning the last route created
 // from the route levels of the applier.
-func DoRouteLevel(level gu.RouteApplier, routes ...string) gu.RouteApplier {
+func DoRouteLevel(level RouteApplier, routes ...string) RouteApplier {
 	if len(routes) == 0 {
 		return level
 	}
 
-	var last gu.RouteApplier
+	var last RouteApplier
 
 	for _, route := range routes {
 		if last == nil {
@@ -467,7 +467,7 @@ func DoRouteLevel(level gu.RouteApplier, routes ...string) gu.RouteApplier {
 
 // DoRoute allows definition of a route level to applying all the giving
 // routes path returning the last applier.
-func DoRoute(base string, routes ...string) gu.RouteApplier {
+func DoRoute(base string, routes ...string) RouteApplier {
 	return DoRouteLevel(DoLocalRouter(base), routes...)
 }
 
@@ -479,7 +479,7 @@ func DoRoute(base string, routes ...string) gu.RouteApplier {
 type Viewable interface{}
 
 type targetRenderable struct {
-	View    gu.Renderable
+	View    Renderable
 	Targets string
 }
 
@@ -507,7 +507,7 @@ func DoMarkup(markup Viewable, targets string, deferRender bool, targetAlreadyIn
 	current := getResources().MustCurrentResource()
 
 	for _, markup := range markupFn {
-		static := gu.Static(markup)
+		static := Static(markup)
 		static.Morph = true
 
 		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
@@ -569,7 +569,7 @@ func DoHead(markup Viewable, deferRender bool) {
 	current := getResources().MustCurrentResource()
 
 	for _, item := range markupFn {
-		var static gu.StaticView
+		var static StaticView
 		static.Morph = true
 		static.Content = item
 
@@ -599,7 +599,7 @@ func DoStyle(styles interface{}, bind interface{}, deferRender bool) {
 
 	current := getResources().MustCurrentResource()
 
-	var static gu.StaticView
+	var static StaticView
 	static.Morph = true
 	static.Content = trees.CSSStylesheet(rs, bind)
 
@@ -615,21 +615,21 @@ func DoStyle(styles interface{}, bind interface{}, deferRender bool) {
 
 //==============================================================================
 
-// DoView creates a gu.RenderView and applies it to the provided resource.
-func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom bool) gu.RenderView {
-	var rs gu.Renderables
+// DoView creates a RenderView and applies it to the provided resource.
+func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom bool) RenderView {
+	var rs Renderables
 
 	switch vwo := vrs.(type) {
-	case gu.Renderables:
+	case Renderables:
 		rs = vwo
 		break
-	case gu.Renderable:
-		rs = gu.Renderables{vwo}
+	case Renderable:
+		rs = Renderables{vwo}
 		break
-	case func() gu.Renderable:
-		rs = gu.Renderables{vwo()}
+	case func() Renderable:
+		rs = Renderables{vwo()}
 		break
-	case func() gu.Renderables:
+	case func() Renderables:
 		rs = vwo()
 		break
 	default:
@@ -637,13 +637,13 @@ func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom b
 	}
 
 	current := getResources().MustCurrentResource()
-	view := gu.CustomView("section", rs...)
+	view := CustomView("section", rs...)
 
-	if vh, ok := view.(gu.ViewHooks); ok {
+	if vh, ok := view.(ViewHooks); ok {
 		current.ViewHooks = append(current.ViewHooks, vh)
 	}
 
-	if rvw, ok := view.(gu.Reactive); ok {
+	if rvw, ok := view.(Reactive); ok {
 		rvw.React(func() {
 			dispatch.Dispatch(&ResourceViewUpdate{
 				View:     view,
@@ -730,8 +730,8 @@ func DoMeta(props map[string]string) {
 
 // mLink adds tagName with the provided value into the header bar for the
 // page content.
-func mLink(tag string, deffer bool) gu.StaticView {
-	var static gu.StaticView
+func mLink(tag string, deffer bool) StaticView {
+	var static StaticView
 	static.Morph = true
 	static.Content = trees.NewMarkup(tag, false)
 
