@@ -5,6 +5,7 @@ import (
 
 	"github.com/gu-io/gu/dispatch"
 	"github.com/gu-io/gu/trees"
+	"github.com/gu-io/shell"
 )
 
 //==============================================================================
@@ -12,10 +13,10 @@ import (
 // StaticView defines a MarkupRenderer implementing structure which returns its Content has
 // its markup.
 type StaticView struct {
-	Content *trees.Markup
-	Mounted Subscriptions
+	Content  *trees.Markup
+	Mounted  Subscriptions
 	Rendered Subscriptions
-	Morph   bool
+	Morph    bool
 }
 
 // Static defines a toplevel function which returns a new instance of a StaticView using the
@@ -77,9 +78,9 @@ func CustomView(tag string, r ...Renderable) RenderView {
 // view defines a base level implementation for a set of Renderables.
 type view struct {
 	Reactive
-	mounted Subscriptions
-	unmounted Subscriptions
-	rendered Subscriptions
+	mounted        Subscriptions
+	unmounted      Subscriptions
+	rendered       Subscriptions
 	hide           bool
 	tag            string
 	uuid           string
@@ -98,8 +99,18 @@ func (v *view) Resolve(path dispatch.Path) {
 	}
 }
 
+// UseFetch exposes a UseFetch which passes the shell.Fetch and shell.Cache
+// instance into a view.
+func (v *view) UseFetch(f shell.Fetch, c shell.Cache) {
+	for _, vmr := range v.renders {
+		if rs, ok := vmr.(Fetchable); ok {
+			rs.UseFetch(f, c)
+		}
+	}
+}
+
 // ViewHooks defines an interface which exposes a view internal hooks.
-type ViewHooks interface{
+type ViewHooks interface {
 	Hooks() (mounted Subscriptions, rendered Subscriptions, unmount Subscriptions)
 }
 

@@ -9,12 +9,12 @@ import (
 
 // New returns a new design.Resources activating the DOMRenderer if its gets called
 // on the browser or else on the server.
-func New() *gu.Resources {
+func New(appName string) *gu.Resources {
 	if detect.IsBrowser() {
-		return gu.New(&redom.DOMRenderer{
+		return gu.New(appName, &redom.DOMRenderer{
 			Document: dom.GetWindow().Document(),
 		})
 	}
 
-	return gu.New()
+	return gu.New(appName)
 }

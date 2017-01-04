@@ -5,4 +5,5 @@ import (
 	_ "github.com/gu-io/gu/examples/subscribe/pages"
 )
 
-var App = app.New()
+// App defines the global resource to handle all app pages.
+var App = app.New("subscribe.v1")

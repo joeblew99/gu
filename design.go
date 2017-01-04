@@ -8,9 +8,16 @@ import (
 	"github.com/gu-io/gu/css"
 	"github.com/gu-io/gu/dispatch"
 	"github.com/gu-io/gu/trees"
+	"github.com/gu-io/shell"
+	"github.com/gu-io/shell/cache"
+	"github.com/gu-io/shell/fetch"
 )
 
 //==============================================================================
+
+// DSL defines a function type which is used to generate the contents
+// of a Def(Definition).
+type DSL func(shell.Fetch, shell.Cache)
 
 var collection = struct {
 	root       *Resources
@@ -50,15 +57,34 @@ type Resources struct {
 	lastPath  dispatch.Path
 	Resources []*ResourceDefinition
 	renderer  ResourceRenderer
+	cache     shell.Cache
+	fetch     shell.Fetch
 }
 
 // Resource creates a new resource addding into the resource lists for the root.
-func Resource(dsl DSL) int {
+func Resource(dsl interface{}) int {
 	var index int
+
+	var udsl DSL
+
+	switch dslo := dsl.(type) {
+	case func(shell.Fetch, shell.Cache):
+		udsl = dslo
+	case func(shell.Fetch):
+		udsl = func(f shell.Fetch, _ shell.Cache) {
+			dslo(f)
+		}
+	case func():
+		udsl = func(f shell.Fetch, _ shell.Cache) {
+			dslo()
+		}
+	default:
+		panic("type not supported for Resource argument")
+	}
 
 	collection.cl.Lock()
 	{
-		collection.collection = append(collection.collection, dsl)
+		collection.collection = append(collection.collection, udsl)
 		index = len(collection.collection)
 	}
 	collection.cl.Unlock()
@@ -66,9 +92,9 @@ func Resource(dsl DSL) int {
 	return index
 }
 
-// New creates a new instance of a Resources struct and registers it as the currently used resources
-// root.
-func New(renderer ...ResourceRenderer) *Resources {
+// New creates a new instance of a Resources struct which expects a unqiue name
+// and and a slice of renderers if desired.
+func New(appName string, renderer ...ResourceRenderer) *Resources {
 	var rn ResourceRenderer
 	if len(renderer) > 0 {
 		rn = renderer[0]
@@ -76,6 +102,8 @@ func New(renderer ...ResourceRenderer) *Resources {
 
 	var res Resources
 	res.renderer = rn
+	res.cache = cache.New(appName)
+	res.fetch = fetch.New(res.cache)
 
 	return &res
 }
@@ -306,9 +334,6 @@ func (rs *Resources) render(attachElems []*trees.Markup, rsx ...*ResourceDefinit
 	return htmlMarkup
 }
 
-// DSL defines a function type which is used to generate the contents of a Def(Definition).
-type DSL func()
-
 // ResourceDefinition defines a high-level definition for managing resources for
 // which other definitions build from.
 type ResourceDefinition struct {
@@ -389,7 +414,7 @@ func (rd *ResourceDefinition) UUID() string {
 // Init initialize runs the underline DSL for the operation, loads all resolvers
 // and connects all internal views for immediate usage.
 func (rd *ResourceDefinition) Init() {
-	rd.Dsl()
+	rd.Dsl(rd.Root.fetch, rd.Root.cache)
 	rd.Resolver.Flush()
 
 	for _, level := range rd.Manager.Levels {
@@ -636,11 +661,16 @@ func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom b
 		panic("View must either recieve a function that returns Renderables or Renderables themselves")
 	}
 
-	current := getResources().MustCurrentResource()
+	master := getResources()
+	current := master.MustCurrentResource()
 	view := CustomView("section", rs...)
 
 	if vh, ok := view.(ViewHooks); ok {
 		current.ViewHooks = append(current.ViewHooks, vh)
+	}
+
+	if fv, ok := view.(Fetchable); ok {
+		fv.UseFetch(master.fetch, master.cache)
 	}
 
 	if rvw, ok := view.(Reactive); ok {

@@ -9,6 +9,7 @@ import (
 
 	"github.com/gu-io/gu/dispatch"
 	"github.com/gu-io/gu/trees"
+	"github.com/gu-io/shell"
 )
 
 // countKeeper handles management of the keys being generating. Guards the incrementation
@@ -47,6 +48,18 @@ type MarkupRenderer interface {
 	RenderHTML() template.HTML
 }
 
+// Fetchable exposes a interface which recieves a shell.Fetch and shell.Cache instances
+// through a method.
+type Fetchable interface {
+	UseFetch(shell.Fetch, shell.Cache)
+}
+
+// FetchableRenderer defines a Renderer which expects to recieve instances of
+// the shell.Fetch and shell.Cache interface through the UseFetch method.
+type FetchableRenderer interface {
+	Fetchable
+	Renderable
+}
 
 // Reactor defines an interface for functions subscribing for
 // notifications to react.
@@ -60,7 +73,6 @@ type Reactive interface {
 	Reactor
 	Publish()
 }
-
 
 // NewReactive returns an instance of a Reactive struct.
 func NewReactive() Reactive {
@@ -80,7 +92,7 @@ type Subscriptions interface {
 // Subscription defines a baseline structure that can be composed into
 // any struct to provide a reactive view.
 type Subscription struct {
-	subs []func()
+	subs           []func()
 	totalPublished int64
 }
 
@@ -101,7 +113,7 @@ func (r *Subscription) Clear() {
 
 // Reset resets the subscription has unused.
 func (r *Subscription) Reset() {
-	atomic.StoreInt64(&r.totalPublished,0)
+	atomic.StoreInt64(&r.totalPublished, 0)
 }
 
 // Used returns true/false if the subscription has been called to publish.
@@ -111,7 +123,7 @@ func (r *Subscription) Used() bool {
 
 // Publish runs a through the subscription list and calls the registerd functions.
 func (r *Subscription) Publish() {
-	atomic.AddInt64(&r.totalPublished,1)
+	atomic.AddInt64(&r.totalPublished, 1)
 
 	for _, sub := range r.subs {
 		sub()
@@ -129,7 +141,6 @@ type RenderView interface {
 	UUID() string
 	RenderedBefore() bool
 }
-
 
 // Renderer defines an interface which takes responsiblity in translating
 // the provided markup into the appropriate media.

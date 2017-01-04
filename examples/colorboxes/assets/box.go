@@ -7,7 +7,7 @@ import (
 
 func main() {
 
-	boxes := app.New()
+	boxes := app.New("boxes.v1")
 	boxes.Init(true)
 
 }

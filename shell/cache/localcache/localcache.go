@@ -16,7 +16,13 @@ type API struct {
 
 // New returns a new instance of the API struct.
 func New(name string) *API {
-	return &API{name: name}
+	return (&API{name: name}).init()
+}
+
+// init intializes the cache and its dependencies.
+func (a *API) init() *API {
+	a.unsync()
+	return a
 }
 
 // String returns a json version of the internal array of pairs.
@@ -73,6 +79,16 @@ func (a *API) sync() {
 	}
 
 	localStorage.Call("setItem", a.name, a.String())
+}
+
+// unsync deletes the api's requests from the localstorage cache.
+func (a *API) unsync() {
+	localStorage := js.Global.Get("localstorage")
+	if localStorage == nil || localStorage == js.Undefined {
+		return
+	}
+
+	localStorage.Call("removeItem", a.name)
 }
 
 // GetRequest calls CacheAPI.Match and passing in a default MatchAttr value.
