@@ -10,6 +10,10 @@ var (
 	// DefaultStrategy defines the default strategy allowed by the request system.
 	DefaultStrategy CacheStrategy = "default"
 
+	// UncachedStrategy defines the strateg where resources are never cached and
+	// always are retrieved from the network.
+	UncachedStrategy CacheStrategy = "uncached"
+
 	// NoCacheStrategy defines the no caching strategy allowed by the request system.
 	NoCacheStrategy CacheStrategy = "no-cache"
 

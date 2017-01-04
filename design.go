@@ -1,6 +1,7 @@
 package gu
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/go-humble/detect"
@@ -158,6 +159,16 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 		collection.collection = nil
 	}
 	collection.cl.Unlock()
+
+	// Attempt to retrieve a manifest.json from the backend.
+	if _, manifestResponse, err := rs.fetch.Get("manifests.json", shell.DefaultStrategy); err == nil {
+
+		// We sucessfully retrieved response.
+		fmt.Printf("Manifest: %#v\n", manifestResponse)
+	}
+
+	if detect.IsBrowser() && rs.renderer != nil {
+	}
 
 	for _, dsl := range dslList {
 		res := newResource(rs, dsl)

@@ -227,22 +227,31 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 
 			return res, nil
 
-		// case shell.DefaultStrategy:
-		// 	rs, err := http.DefaultClient.Do(hreq)
-		// 	if err != nil {
-		// 		return res, err
-		// 	}
-		//
-		// 	res = f.pullResponse(rs)
-		// 	if !f.successResponse(rs) {
-		// 		return res, nil
-		// 	}
-		//
-		// 	if err := f.cache.Put(req, res); err != nil {
-		// 		return res, err
-		// 	}
-		//
-		// 	return res, nil
+			// case shell.DefaultStrategy:
+			// 	rs, err := http.DefaultClient.Do(hreq)
+			// 	if err != nil {
+			// 		return res, err
+			// 	}
+			//
+			// 	res = f.pullResponse(rs)
+			// 	if !f.successResponse(rs) {
+			// 		return res, nil
+			// 	}
+			//
+			// 	if err := f.cache.Put(req, res); err != nil {
+			// 		return res, err
+			// 	}
+			//
+			// 	return res, nil
+		case shell.UncachedStrategy:
+			rs, err := http.DefaultClient.Do(hreq)
+			if err != nil {
+				return res, err
+			}
+
+			res = f.pullResponse(rs)
+
+			return res, nil
 
 		case shell.LatestSourceCacheStrategy:
 			rs, err := http.DefaultClient.Do(hreq)
