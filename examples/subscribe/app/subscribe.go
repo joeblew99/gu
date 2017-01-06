@@ -11,6 +11,15 @@ import (
 
 // SubscriptionSubmitEvent defines a event sent out to define the status of a subscription
 // event.
+//
+// shell:component
+//
+// Resource {
+//  Name: roboto.font
+//	Path: https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto
+//	Hook: link-embed
+// }
+//
 type SubscriptionSubmitEvent struct {
 	Email  string `json:"email"`
 	Status bool   `json:"status"`

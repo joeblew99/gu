@@ -7,7 +7,6 @@ import (
 
 	gjs "github.com/gopherjs/gopherjs/js"
 	"github.com/gu-io/gu"
-	"github.com/gu-io/gu/design"
 	"github.com/gu-io/gu/dispatch"
 	"github.com/gu-io/gu/js"
 	"github.com/gu-io/gu/trees"
@@ -23,7 +22,7 @@ func AddStylesheet(url string) {
 	gjs.Global.Get("document").Get("head").Call("appendChild", link)
 }
 
-// DOMRenderer defines an implementation for gu.design.ResourceRenderere
+// DOMRenderer defines an implementation for gu.gu.ResourceRenderere
 // and handles rendering of a giving group of resources into the live DOM body root.
 type DOMRenderer struct {
 	Document dom.Document
@@ -31,7 +30,7 @@ type DOMRenderer struct {
 
 // Render renders the giving set of resources into the provided body and header
 // of the DOM.
-func (dm *DOMRenderer) Render(rs ...*design.ResourceDefinition) {
+func (dm *DOMRenderer) Render(rs ...*gu.ResourceDefinition) {
 	head := dm.Document.QuerySelector("head")
 	body := dm.Document.QuerySelector("body")
 
@@ -107,7 +106,7 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 			js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), !kvr.RenderedBefore())
 
 			if cvs, ok := rv.(gu.ViewHooks); ok {
-				mounted, _,_ := cvs.Hooks()
+				mounted, _, _ := cvs.Hooks()
 				if !mounted.Used() {
 					mounted.Publish()
 				}
@@ -119,7 +118,7 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 		js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), false)
 
 		if cvs, ok := rv.(gu.ViewHooks); ok {
-			mounted, _,_ := cvs.Hooks()
+			mounted, _, _ := cvs.Hooks()
 			if !mounted.Used() {
 				mounted.Publish()
 			}
@@ -148,7 +147,7 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 	}
 
 	if cvs, ok := rv.(gu.ViewHooks); ok {
-		mounted, _,_ := cvs.Hooks()
+		mounted, _, _ := cvs.Hooks()
 
 		if !mounted.Used() {
 			mounted.Publish()

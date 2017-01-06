@@ -79,6 +79,10 @@ func initCommands() {
 		Description: "Generate-VFS generates a new package which loads the resources loaded from the package, creating a new package which can be loaded and used to virtually serve the resources through a virtual filesystem",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
+				Name:    "output-dir",
+				Aliases: []string{"dir"},
+			},
+			&cli.StringFlag{
 				Name:    "packageName",
 				Aliases: []string{"pkg"},
 			},
@@ -118,11 +122,20 @@ func initCommands() {
 
 			contents := fmt.Sprintf(aferoTemplate, packageName, packageName, bu.String())
 
-			if merr := os.MkdirAll(filepath.Join(cdir, dirName), 0755); merr != nil {
+			outdir := ctx.String("output-dir")
+			if outdir == "" {
+				outdir = cdir
+			}
+
+			if outdir != "" && !filepath.IsAbs(outdir) {
+				outdir = filepath.Join(cdir, outdir)
+			}
+
+			if merr := os.MkdirAll(filepath.Join(outdir, dirName), 0755); merr != nil {
 				return merr
 			}
 
-			manifestFile, err := os.Create(filepath.Join(cdir, dirName, "manifest.go"))
+			manifestFile, err := os.Create(filepath.Join(outdir, dirName, "manifest.go"))
 			if err != nil {
 				return err
 			}
@@ -146,6 +159,12 @@ func initCommands() {
 		Name:        "generate",
 		Usage:       "gushell generate",
 		Description: "Generate parses the current directory which it assumes is a Go pkg directory and creates a manifest.json file to contain all generated resources from the meta comments within the package and it's imports",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:    "output-dir",
+				Aliases: []string{"dir"},
+			},
+		},
 		Action: func(ctx *cli.Context) error {
 			cdir, err := os.Getwd()
 			if err != nil {
@@ -173,7 +192,16 @@ func initCommands() {
 				return err
 			}
 
-			manifestFile, err := os.Create(filepath.Join(cdir, "manifest.json"))
+			outdir := ctx.String("output-dir")
+			if outdir == "" {
+				outdir = cdir
+			}
+
+			if outdir != "" && !filepath.IsAbs(outdir) {
+				outdir = filepath.Join(cdir, outdir)
+			}
+
+			manifestFile, err := os.Create(filepath.Join(outdir, "manifest.json"))
 			if err != nil {
 				return err
 			}
