@@ -19,6 +19,11 @@ var ErrInvalidState = errors.New("Cache Not Found")
 
 // New returns a new instance of the webcache.
 func New() (*API, error) {
+
+	if js.Global == nil || js.Global == js.Undefined {
+		return nil, ErrInvalidState
+	}
+
 	caches := js.Global.Get("caches")
 
 	if caches == nil || caches == js.Undefined {

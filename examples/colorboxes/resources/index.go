@@ -3,20 +3,20 @@ package resources
 import (
 	"time"
 
-	. "github.com/gu-io/gu/design"
+	"github.com/gu-io/gu"
 	"github.com/gu-io/gu/examples/colorboxes/app"
 	"github.com/gu-io/gu/examples/colorboxes/css"
 )
 
-var _ = Resource(func() {
+var _ = gu.Resource(func() {
 
-	DoTitle("Resful Boxes")
+	gu.DoTitle("Resful Boxes")
 
-	DoStyle(css.Index, nil, false)
+	gu.DoStyle(css.Index, nil, false)
 
-	DoView(app.New("http://localhost:6040/colors", 5*time.Second), "", false, false)
-	DoView(app.New("http://localhost:6040/colors", 7*time.Second), "", false, false)
-	DoView(app.New("http://localhost:6040/colors", 2*time.Second), "", false, false)
-	DoView(app.New("http://localhost:6040/colors", 6*time.Second), "", false, false)
+	gu.DoView(app.New("http://localhost:6040/colors", 5*time.Second), "", false, false)
+	gu.DoView(app.New("http://localhost:6040/colors", 7*time.Second), "", false, false)
+	gu.DoView(app.New("http://localhost:6040/colors", 2*time.Second), "", false, false)
+	gu.DoView(app.New("http://localhost:6040/colors", 6*time.Second), "", false, false)
 
 })

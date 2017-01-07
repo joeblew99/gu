@@ -1,0 +1,25 @@
+[
+	{
+		"global_scope": false,
+		"id": "FWZ0A8Fitzc21Ks",
+		"name": "app.SubscriptionSubmitEvent",
+		"depends": null,
+		"manifests": [
+			{
+				"size": 0,
+				"remote": true,
+				"appmanifest_id": "FWZ0A8Fitzc21Ks",
+				"name": "roboto.font",
+				"path": "https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto",
+				"content": "",
+				"cache": "",
+				"meta": {},
+				"hook_name": "link-embed"
+			}
+		],
+		"relation": {
+			"name": "SubscriptionSubmitEvent",
+			"package": "github.com/gu-io/gu/examples/subscribe/app"
+		}
+	}
+]

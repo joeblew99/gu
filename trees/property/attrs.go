@@ -7,7 +7,7 @@ func NameAttr(val string) trees.Property {
 	return &trees.Attribute{Name: "name", Value: val}
 }
 
-// Checked defines attributes of type "Checked" for html element types.
+// CheckedAttr defines attributes of type "Checked" for html element types.
 func CheckedAttr(val string) trees.Property {
 	return &trees.Attribute{Name: "checked", Value: val}
 }
@@ -32,7 +32,7 @@ func AutofocusAttr(val string) trees.Property {
 // to set the markups internal Id field to its value. This is intentional
 // has it helps the css system provide a more accurate selector for the element.
 func IDAttr(val string) trees.Property {
-	return &trees.Attribute{Name: "id", Value: val, After: func(owner *trees.Markup) { owner.Id = val }}
+	return &trees.Attribute{Name: "id", Value: val, After: func(owner *trees.Markup) { owner.ID = val }}
 }
 
 // HTMLForAttr defines attributes of type "HtmlFor" for html element types.

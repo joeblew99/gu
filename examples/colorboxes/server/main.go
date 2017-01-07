@@ -23,20 +23,20 @@ func main() {
 	base, _ := os.Getwd()
 	assets := filepath.Join(base, "../assets")
 
-	app_http := fhttp.NewHTTP([]fhttp.DriveMiddleware{
+	apphttp := fhttp.NewHTTP([]fhttp.DriveMiddleware{
 		fhttp.WrapMiddleware(fhttp.Logger()),
 	}, nil)
 
-	app_router := fhttp.Route(app_http)
+	approuter := fhttp.Route(apphttp)
 
-	app_router(fhttp.Endpoint{
+	approuter(fhttp.Endpoint{
 		Path:    "/assets/*",
 		Method:  "GET",
 		Action:  func(ctx context.Context, rw *fhttp.Request) error { return nil },
-		LocalMW: fhttp.FileServer(assets, "/assets/"),
+		LocalMW: fhttp.DirFileServer(assets, "/assets/"),
 	})
 
-	app_router(fhttp.Endpoint{
+	approuter(fhttp.Endpoint{
 		Path:   "/colors",
 		Method: "GET",
 		Action: func(ctx context.Context, rw *fhttp.Request) error {
@@ -47,7 +47,7 @@ func main() {
 		},
 	})
 
-	app_router(fhttp.Endpoint{
+	approuter(fhttp.Endpoint{
 		Path:   "/",
 		Method: "GET",
 		Action: func(ctx context.Context, rw *fhttp.Request) error {
@@ -57,5 +57,5 @@ func main() {
 		},
 	})
 
-	http.ListenAndServe(":6040", app_http)
+	http.ListenAndServe(":6040", apphttp)
 }

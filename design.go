@@ -1,6 +1,7 @@
 package gu
 
 import (
+	"encoding/json"
 	"fmt"
 	"sync"
 
@@ -161,10 +162,19 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 	collection.cl.Unlock()
 
 	// Attempt to retrieve a manifest.json from the backend.
-	if _, manifestResponse, err := rs.fetch.Get("manifests.json", shell.DefaultStrategy); err == nil {
+	if detect.IsBrowser() {
+		if _, manifestResponse, err := rs.fetch.Get("manifests.json", shell.DefaultStrategy); err == nil {
+			// We sucessfully retrieved response.
+			fmt.Printf("Manifest: %#v\n", manifestResponse)
+			var appManifest shell.AppManifest
 
-		// We sucessfully retrieved response.
-		fmt.Printf("Manifest: %#v\n", manifestResponse)
+			if err := json.Unmarshal(manifestResponse.Body, &appManifest); err != nil {
+				errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable")
+				panic(errorMsg)
+			}
+
+			fmt.Printf("AppManifest: %#v\n", appManifest)
+		}
 	}
 
 	if detect.IsBrowser() && rs.renderer != nil {

@@ -1,15 +1,15 @@
 package pages
 
 import (
-	. "github.com/gu-io/gu/design"
-	. "github.com/gu-io/gu/examples/subscribe/app"
+	"github.com/gu-io/gu"
+	"github.com/gu-io/gu/examples/subscribe/app"
 )
 
-var _ = Resource(func() {
+var _ = gu.Resource(func() {
 
-	DoTitle("App Subscription Submission")
-	DoLink("https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto", "stylesheet", false)
+	gu.DoTitle("App Subscription Submission")
+	gu.DoLink("https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto", "stylesheet", false)
 
-	DoStyle(IndexCSS, nil, false)
+	gu.DoStyle(app.IndexCSS, nil, false)
 
 })

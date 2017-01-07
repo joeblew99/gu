@@ -40,8 +40,8 @@ func ParseAsRoot(root string, markup string) *Markup {
 
 	rootElem := NewMarkup(sel.Tag, false)
 
-	if sel.Id != "" {
-		NewAttr("id", sel.Id).Apply(rootElem)
+	if sel.ID != "" {
+		NewAttr("id", sel.ID).Apply(rootElem)
 	}
 
 	if sel.Classes != nil {

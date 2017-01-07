@@ -108,6 +108,13 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 	return mattr, nil
 }
 
+var (
+	exceptions = []string{
+		"github.com/gu-io/gu",
+		"github.com/gu-io/gu/shell",
+	}
+)
+
 // ShellResources parses a directoring creating a slice of Resources from
 // all meta comments seen.
 func ShellResources(dir string) ([]Resource, error) {
@@ -126,6 +133,41 @@ func ShellResources(dir string) ([]Resource, error) {
 		importLoop:
 			for _, imported := range files.Imports {
 				val, _ := strconv.Unquote(imported.Path.Value)
+
+				var skipImport bool
+
+			skipLog:
+				for _, except := range exceptions {
+					if except == val {
+						skipImport = true
+						break skipLog
+					}
+
+					urel, err := filepath.Rel(except, val)
+					if err != nil {
+						skipImport = true
+						break skipLog
+					}
+
+					if strings.HasPrefix(urel, "..") {
+						skipImport = true
+						break skipLog
+					}
+
+					firstPath := strings.Replace(val, urel, "", 1)
+					firstPath = strings.TrimSuffix(firstPath, "/")
+					except = strings.TrimSuffix(except, "/")
+
+					if firstPath == except {
+						skipImport = true
+						break skipLog
+					}
+				}
+
+				if skipImport {
+					continue
+				}
+
 				pkgPath := filepath.Join(goSrcPath, val)
 
 				if _, err := os.Stat(pkgPath); os.IsNotExist(err) {

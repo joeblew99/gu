@@ -309,8 +309,8 @@ func (e Endpoint) handlerFunc(globalBeforeWM, globalAfterWM DriveMiddleware) fun
 			}
 		}
 
-		if err := action(ctx, rw); err != nil && !rw.Res.DataWritten() {
-			RenderResponseError(err, rw)
+		if werr := action(ctx, rw); werr != nil && !rw.Res.DataWritten() {
+			RenderResponseError(werr, rw)
 			return
 		}
 

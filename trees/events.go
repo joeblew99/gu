@@ -30,7 +30,7 @@ type WrapperEvent struct {
 	isDum bool
 }
 
-// NewEvent creates a new Event object useful to hold in place of a wrapper
+// NewWrapperEvent creates a new Event object useful to hold in place of a wrapper
 // object.
 func NewWrapperEvent(dm *js.Object) *WrapperEvent {
 	return &WrapperEvent{
@@ -38,7 +38,7 @@ func NewWrapperEvent(dm *js.Object) *WrapperEvent {
 	}
 }
 
-// NewDummyEvent returns a WrapperEvent instance wrapping a dummy object.
+// NewDummy returns a WrapperEvent instance wrapping a dummy object.
 func NewDummy() *WrapperEvent {
 	return &WrapperEvent{
 		dummy: js.Global.Get("Object").New(),
@@ -93,6 +93,7 @@ func NewEvent(evtype string, evtarget string) *Event {
 	}
 }
 
+// Target returns the target of the giving event.
 func (e *Event) Target() string {
 	if e.Tree != nil {
 		return e.Tree.EventID()

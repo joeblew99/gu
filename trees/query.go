@@ -12,7 +12,7 @@ type queryCtrl struct{}
 // matching to be processed.
 type Selector struct {
 	Tag       string
-	Id        string
+	ID        string
 	Psuedo    string
 	AttrOp    string
 	AttrName  string
@@ -140,7 +140,7 @@ func (q queryCtrl) queryOne(target *Markup, sel *Selector) bool {
 		return false
 	}
 
-	if sel.Id != "" && !q.idFor(target, sel.Id) {
+	if sel.ID != "" && !q.idFor(target, sel.ID) {
 		return false
 	}
 
@@ -303,9 +303,9 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 
 						if index >= itemsLen {
 							if doChildren {
-								child.Id = string(blk)
+								child.ID = string(blk)
 							} else {
-								csel.Id = string(blk)
+								csel.ID = string(blk)
 							}
 
 							blk = nil
@@ -316,9 +316,9 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 						if item == dot || item == space || item == coma {
 
 							if doChildren {
-								child.Id = string(blk)
+								child.ID = string(blk)
 							} else {
-								csel.Id = string(blk)
+								csel.ID = string(blk)
 							}
 
 							blk = nil
@@ -345,7 +345,7 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 							break
 						}
 
-						item := items[index]
+						item = items[index]
 						if item == endbracket {
 							blk = append(blk, item)
 
