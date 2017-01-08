@@ -73,6 +73,10 @@ func (a *API) Put(req shell.WebRequest, res shell.WebResponse) error {
 // sync stores the giving request and response pairs into a locastorage item
 // using the provided api name.
 func (a *API) sync() {
+	if js.Global == nil || js.Global == js.Undefined {
+		return
+	}
+
 	localStorage := js.Global.Get("localstorage")
 	if localStorage == nil || localStorage == js.Undefined {
 		return
@@ -83,6 +87,10 @@ func (a *API) sync() {
 
 // unsync deletes the api's requests from the localstorage cache.
 func (a *API) unsync() {
+	if js.Global == nil || js.Global == js.Undefined {
+		return
+	}
+
 	localStorage := js.Global.Get("localstorage")
 	if localStorage == nil || localStorage == js.Undefined {
 		return
