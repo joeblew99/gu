@@ -9,10 +9,10 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/gu-io/gu/css"
 	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/shell"
+	"github.com/gu-io/gu/shell/cache"
+	"github.com/gu-io/gu/shell/fetch"
 	"github.com/gu-io/gu/trees"
-	"github.com/gu-io/shell"
-	"github.com/gu-io/shell/cache"
-	"github.com/gu-io/shell/fetch"
 )
 
 //==============================================================================

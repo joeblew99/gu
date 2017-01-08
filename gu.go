@@ -8,8 +8,8 @@ import (
 	"sync/atomic"
 
 	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/trees"
-	"github.com/gu-io/shell"
 )
 
 // countKeeper handles management of the keys being generating. Guards the incrementation

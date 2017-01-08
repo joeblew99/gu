@@ -4,8 +4,8 @@ import (
 	"html/template"
 
 	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/trees"
-	"github.com/gu-io/shell"
 )
 
 //==============================================================================
