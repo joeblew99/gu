@@ -70,6 +70,22 @@ func (a *API) Put(req shell.WebRequest, res shell.WebResponse) error {
 	return nil
 }
 
+// PutPath calls the internal caches.Cache.Put function matching against the
+func (a *API) PutPath(path string, res shell.WebResponse) error {
+	var req shell.WebRequest
+	req.URL = path
+	req.Cache = shell.DefaultStrategy
+
+	a.pairs = append(a.pairs, shell.WebPair{
+		Request:  req,
+		Response: res,
+	})
+
+	a.sync()
+
+	return nil
+}
+
 // sync stores the giving request and response pairs into a locastorage item
 // using the provided api name.
 func (a *API) sync() {

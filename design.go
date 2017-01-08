@@ -1,7 +1,6 @@
 package gu
 
 import (
-	"encoding/json"
 	"fmt"
 	"sync"
 
@@ -65,6 +64,7 @@ type Resources struct {
 
 // Resource creates a new resource addding into the resource lists for the root.
 func Resource(dsl interface{}) int {
+	fmt.Printf("Registering Resource\n")
 	var index int
 
 	var udsl DSL
@@ -163,18 +163,19 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 
 	// Attempt to retrieve a manifest.json from the backend.
 	if detect.IsBrowser() {
-		if _, manifestResponse, err := rs.fetch.Get("manifests.json", shell.DefaultStrategy); err == nil {
-			// We sucessfully retrieved response.
-			fmt.Printf("Manifest: %#v\n", manifestResponse)
-			var appManifest shell.AppManifest
-
-			if err := json.Unmarshal(manifestResponse.Body, &appManifest); err != nil {
-				errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable")
-				panic(errorMsg)
-			}
-
-			fmt.Printf("AppManifest: %#v\n", appManifest)
-		}
+		// fmt.Printf("Running Manifest processes\n")
+		// if _, manifestResponse, err := rs.fetch.Get("manifests.json", shell.DefaultStrategy); err == nil {
+		// 	// We sucessfully retrieved response.
+		// 	fmt.Printf("Manifest: %#v\n", manifestResponse)
+		// 	var appManifest shell.AppManifest
+		//
+		// 	if err := json.Unmarshal(manifestResponse.Body, &appManifest); err != nil {
+		// 		errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable")
+		// 		panic(errorMsg)
+		// 	}
+		//
+		// 	fmt.Printf("AppManifest: %#v\n", appManifest)
+		// }
 	}
 
 	if detect.IsBrowser() && rs.renderer != nil {

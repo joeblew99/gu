@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
-	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -57,5 +56,5 @@ func main() {
 		},
 	})
 
-	http.ListenAndServe(":6040", apphttp)
+	apphttp.Serve(":6040")
 }

@@ -1,9 +1,9 @@
 package main
 
-import (
-	"github.com/gu-io/gu/examples/subscribe"
-)
+import "github.com/gu-io/gu/app"
+import _ "github.com/gu-io/gu/examples/subscribe/pages"
 
 func main() {
-	subscribe.App.Init(true)
+	app := app.New("subscribe.v1")
+	app.Init(true)
 }

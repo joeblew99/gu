@@ -2087,7 +2087,7 @@ var $internalize = function(v, t, recv) {
 };
 
 $packages["github.com/gopherjs/gopherjs/js"] = (function() {
-	var $pkg = {}, $init, Object, Error, sliceType, sliceType$1, ptrType, ptrType$1, MakeFunc, Keys, NewArrayBuffer, init;
+	var $pkg = {}, $init, Object, Error, sliceType, ptrType, ptrType$1, MakeFunc, init;
 	Object = $pkg.Object = $newType(0, $kindStruct, "js.Object", true, "github.com/gopherjs/gopherjs/js", true, function(object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
@@ -2105,7 +2105,6 @@ $packages["github.com/gopherjs/gopherjs/js"] = (function() {
 		this.Object = Object_;
 	});
 	sliceType = $sliceType($emptyInterface);
-	sliceType$1 = $sliceType($String);
 	ptrType = $ptrType(Object);
 	ptrType$1 = $ptrType(Error);
 	Object.ptr.prototype.Get = function(key) {
@@ -2227,30 +2226,6 @@ $packages["github.com/gopherjs/gopherjs/js"] = (function() {
 		return $makeFunc(fn);
 	};
 	$pkg.MakeFunc = MakeFunc;
-	Keys = function(o) {
-		var $ptr, a, i, o, s;
-		if (o === null || o === undefined) {
-			return sliceType$1.nil;
-		}
-		a = $global.Object.keys(o);
-		s = $makeSlice(sliceType$1, $parseInt(a.length));
-		i = 0;
-		while (true) {
-			if (!(i < $parseInt(a.length))) { break; }
-			((i < 0 || i >= s.$length) ? $throwRuntimeError("index out of range") : s.$array[s.$offset + i] = $internalize(a[i], $String));
-			i = i + (1) >> 0;
-		}
-		return s;
-	};
-	$pkg.Keys = Keys;
-	NewArrayBuffer = function(b) {
-		var $ptr, b, length, offset, slice;
-		slice = b;
-		offset = $parseInt(slice.$offset) >> 0;
-		length = $parseInt(slice.$length) >> 0;
-		return slice.$array.buffer.slice(offset, offset + length >> 0);
-	};
-	$pkg.NewArrayBuffer = NewArrayBuffer;
 	init = function() {
 		var $ptr, e;
 		e = new Error.ptr(null);
@@ -6767,29 +6742,29 @@ $packages["reflect"] = (function() {
 				if (i[0] < 0 || i[0] > (tt.len >> 0)) {
 					$panic(new $String("reflect: array index out of range"));
 				}
-				typ$1[0] = tt.elem;
+				typ[0] = tt.elem;
 				fl = (v.flag & 480) >>> 0;
-				fl = (fl | ((typ$1[0].Kind() >>> 0))) >>> 0;
+				fl = (fl | ((typ[0].Kind() >>> 0))) >>> 0;
 				a$1[0] = v.ptr;
-				/* */ if (!((((fl & 128) >>> 0) === 0)) && !((typ$1[0].Kind() === 17)) && !((typ$1[0].Kind() === 25))) { $s = 7; continue; }
+				/* */ if (!((((fl & 128) >>> 0) === 0)) && !((typ[0].Kind() === 17)) && !((typ[0].Kind() === 25))) { $s = 7; continue; }
 				/* */ $s = 8; continue;
-				/* if (!((((fl & 128) >>> 0) === 0)) && !((typ$1[0].Kind() === 17)) && !((typ$1[0].Kind() === 25))) { */ case 7:
-					$s = -1; return new Value.ptr(typ$1[0], new (jsType(PtrTo(typ$1[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
+				/* if (!((((fl & 128) >>> 0) === 0)) && !((typ[0].Kind() === 17)) && !((typ[0].Kind() === 25))) { */ case 7:
+					$s = -1; return new Value.ptr(typ[0], new (jsType(PtrTo(typ[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
 						var $ptr;
-						return wrapJsObject(typ$1[0], a$1[0][i[0]]);
+						return wrapJsObject(typ[0], a$1[0][i[0]]);
 					}; })(a, a$1, c, i, typ, typ$1), (function(a, a$1, c, i, typ, typ$1) { return function(x) {
 						var $ptr, x;
-						a$1[0][i[0]] = unwrapJsObject(typ$1[0], x);
+						a$1[0][i[0]] = unwrapJsObject(typ[0], x);
 					}; })(a, a$1, c, i, typ, typ$1)), fl);
-					return new Value.ptr(typ$1[0], new (jsType(PtrTo(typ$1[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
+					return new Value.ptr(typ[0], new (jsType(PtrTo(typ[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
 						var $ptr;
-						return wrapJsObject(typ$1[0], a$1[0][i[0]]);
+						return wrapJsObject(typ[0], a$1[0][i[0]]);
 					}; })(a, a$1, c, i, typ, typ$1), (function(a, a$1, c, i, typ, typ$1) { return function(x) {
 						var $ptr, x;
-						a$1[0][i[0]] = unwrapJsObject(typ$1[0], x);
+						a$1[0][i[0]] = unwrapJsObject(typ[0], x);
 					}; })(a, a$1, c, i, typ, typ$1)), fl);
 				/* } */ case 8:
-				_r = makeValue(typ$1[0], wrapJsObject(typ$1[0], a$1[0][i[0]]), fl); /* */ $s = 9; case 9: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+				_r = makeValue(typ[0], wrapJsObject(typ[0], a$1[0][i[0]]), fl); /* */ $s = 9; case 9: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 				$s = -1; return _r;
 				return _r;
 			/* } else if (_1 === (23)) { */ case 3:
@@ -6798,30 +6773,30 @@ $packages["reflect"] = (function() {
 					$panic(new $String("reflect: slice index out of range"));
 				}
 				tt$1 = v.typ.kindType;
-				typ[0] = tt$1.elem;
+				typ$1[0] = tt$1.elem;
 				fl$1 = (384 | ((v.flag & 96) >>> 0)) >>> 0;
-				fl$1 = (fl$1 | ((typ[0].Kind() >>> 0))) >>> 0;
+				fl$1 = (fl$1 | ((typ$1[0].Kind() >>> 0))) >>> 0;
 				i[0] = i[0] + (($parseInt(s.$offset) >> 0)) >> 0;
 				a[0] = s.$array;
-				/* */ if (!((((fl$1 & 128) >>> 0) === 0)) && !((typ[0].Kind() === 17)) && !((typ[0].Kind() === 25))) { $s = 10; continue; }
+				/* */ if (!((((fl$1 & 128) >>> 0) === 0)) && !((typ$1[0].Kind() === 17)) && !((typ$1[0].Kind() === 25))) { $s = 10; continue; }
 				/* */ $s = 11; continue;
-				/* if (!((((fl$1 & 128) >>> 0) === 0)) && !((typ[0].Kind() === 17)) && !((typ[0].Kind() === 25))) { */ case 10:
-					$s = -1; return new Value.ptr(typ[0], new (jsType(PtrTo(typ[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
+				/* if (!((((fl$1 & 128) >>> 0) === 0)) && !((typ$1[0].Kind() === 17)) && !((typ$1[0].Kind() === 25))) { */ case 10:
+					$s = -1; return new Value.ptr(typ$1[0], new (jsType(PtrTo(typ$1[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
 						var $ptr;
-						return wrapJsObject(typ[0], a[0][i[0]]);
+						return wrapJsObject(typ$1[0], a[0][i[0]]);
 					}; })(a, a$1, c, i, typ, typ$1), (function(a, a$1, c, i, typ, typ$1) { return function(x) {
 						var $ptr, x;
-						a[0][i[0]] = unwrapJsObject(typ[0], x);
+						a[0][i[0]] = unwrapJsObject(typ$1[0], x);
 					}; })(a, a$1, c, i, typ, typ$1)), fl$1);
-					return new Value.ptr(typ[0], new (jsType(PtrTo(typ[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
+					return new Value.ptr(typ$1[0], new (jsType(PtrTo(typ$1[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
 						var $ptr;
-						return wrapJsObject(typ[0], a[0][i[0]]);
+						return wrapJsObject(typ$1[0], a[0][i[0]]);
 					}; })(a, a$1, c, i, typ, typ$1), (function(a, a$1, c, i, typ, typ$1) { return function(x) {
 						var $ptr, x;
-						a[0][i[0]] = unwrapJsObject(typ[0], x);
+						a[0][i[0]] = unwrapJsObject(typ$1[0], x);
 					}; })(a, a$1, c, i, typ, typ$1)), fl$1);
 				/* } */ case 11:
-				_r$1 = makeValue(typ[0], wrapJsObject(typ[0], a[0][i[0]]), fl$1); /* */ $s = 12; case 12: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+				_r$1 = makeValue(typ$1[0], wrapJsObject(typ$1[0], a[0][i[0]]), fl$1); /* */ $s = 12; case 12: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 				$s = -1; return _r$1;
 				return _r$1;
 			/* } else if (_1 === (24)) { */ case 4:
@@ -20991,75 +20966,331 @@ $packages["crypto/rand"] = (function() {
 	$pkg.$init = $init;
 	return $pkg;
 })();
-$packages["github.com/gu-io/gu/shell"] = (function() {
-	var $pkg = {}, $init, rand, js, WebResponse, WebRequest, sliceType$2, funcType, sliceType$3, mapType, ptrType, sliceType$5, mapType$1, AllObjectToWebResponse, ObjectToWebResponse, MapToHeaders, WebResponseToJSRequest, WebRequestToJSRequest, ObjectToMap, ObjectToList;
-	rand = $packages["crypto/rand"];
-	js = $packages["github.com/gopherjs/gopherjs/js"];
-	WebResponse = $pkg.WebResponse = $newType(0, $kindStruct, "shell.WebResponse", true, "github.com/gu-io/gu/shell", true, function(ManifestAddr_, Redirected_, Ok_, Status_, Type_, FinalURL_, StatusText_, Body_, Headers_, Underline_) {
+$packages["github.com/gu-io/gu/vendor/github.com/gopherjs/gopherjs/js"] = (function() {
+	var $pkg = {}, $init, Object, Error, sliceType, sliceType$1, ptrType, ptrType$1, Keys, NewArrayBuffer, init;
+	Object = $pkg.Object = $newType(0, $kindStruct, "js.Object", true, "github.com/gu-io/gu/vendor/github.com/gopherjs/gopherjs/js", true, function(object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
-			this.ManifestAddr = "";
-			this.Redirected = false;
-			this.Ok = false;
-			this.Status = 0;
-			this.Type = "";
-			this.FinalURL = "";
-			this.StatusText = "";
-			this.Body = sliceType$2.nil;
-			this.Headers = false;
-			this.Underline = null;
+			this.object = null;
 			return;
 		}
-		this.ManifestAddr = ManifestAddr_;
-		this.Redirected = Redirected_;
-		this.Ok = Ok_;
-		this.Status = Status_;
-		this.Type = Type_;
-		this.FinalURL = FinalURL_;
-		this.StatusText = StatusText_;
-		this.Body = Body_;
-		this.Headers = Headers_;
-		this.Underline = Underline_;
+		this.object = object_;
 	});
-	WebRequest = $pkg.WebRequest = $newType(0, $kindStruct, "shell.WebRequest", true, "github.com/gu-io/gu/shell", true, function(Body_, BodyUsed_, Method_, URL_, Referrer_, ReferrerPolicy_, Mode_, Credentials_, Cache_, Headers_, Underline_) {
+	Error = $pkg.Error = $newType(0, $kindStruct, "js.Error", true, "github.com/gu-io/gu/vendor/github.com/gopherjs/gopherjs/js", true, function(Object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
-			this.Body = sliceType$2.nil;
+			this.Object = null;
+			return;
+		}
+		this.Object = Object_;
+	});
+	sliceType = $sliceType($emptyInterface);
+	sliceType$1 = $sliceType($String);
+	ptrType = $ptrType(Object);
+	ptrType$1 = $ptrType(Error);
+	Object.ptr.prototype.Get = function(key) {
+		var $ptr, key, o;
+		o = this;
+		return o.object[$externalize(key, $String)];
+	};
+	Object.prototype.Get = function(key) { return this.$val.Get(key); };
+	Object.ptr.prototype.Set = function(key, value) {
+		var $ptr, key, o, value;
+		o = this;
+		o.object[$externalize(key, $String)] = $externalize(value, $emptyInterface);
+	};
+	Object.prototype.Set = function(key, value) { return this.$val.Set(key, value); };
+	Object.ptr.prototype.Delete = function(key) {
+		var $ptr, key, o;
+		o = this;
+		delete o.object[$externalize(key, $String)];
+	};
+	Object.prototype.Delete = function(key) { return this.$val.Delete(key); };
+	Object.ptr.prototype.Length = function() {
+		var $ptr, o;
+		o = this;
+		return $parseInt(o.object.length);
+	};
+	Object.prototype.Length = function() { return this.$val.Length(); };
+	Object.ptr.prototype.Index = function(i) {
+		var $ptr, i, o;
+		o = this;
+		return o.object[i];
+	};
+	Object.prototype.Index = function(i) { return this.$val.Index(i); };
+	Object.ptr.prototype.SetIndex = function(i, value) {
+		var $ptr, i, o, value;
+		o = this;
+		o.object[i] = $externalize(value, $emptyInterface);
+	};
+	Object.prototype.SetIndex = function(i, value) { return this.$val.SetIndex(i, value); };
+	Object.ptr.prototype.Call = function(name, args) {
+		var $ptr, args, name, o, obj;
+		o = this;
+		return (obj = o.object, obj[$externalize(name, $String)].apply(obj, $externalize(args, sliceType)));
+	};
+	Object.prototype.Call = function(name, args) { return this.$val.Call(name, args); };
+	Object.ptr.prototype.Invoke = function(args) {
+		var $ptr, args, o;
+		o = this;
+		return o.object.apply(undefined, $externalize(args, sliceType));
+	};
+	Object.prototype.Invoke = function(args) { return this.$val.Invoke(args); };
+	Object.ptr.prototype.New = function(args) {
+		var $ptr, args, o;
+		o = this;
+		return new ($global.Function.prototype.bind.apply(o.object, [undefined].concat($externalize(args, sliceType))));
+	};
+	Object.prototype.New = function(args) { return this.$val.New(args); };
+	Object.ptr.prototype.Bool = function() {
+		var $ptr, o;
+		o = this;
+		return !!(o.object);
+	};
+	Object.prototype.Bool = function() { return this.$val.Bool(); };
+	Object.ptr.prototype.String = function() {
+		var $ptr, o;
+		o = this;
+		return $internalize(o.object, $String);
+	};
+	Object.prototype.String = function() { return this.$val.String(); };
+	Object.ptr.prototype.Int = function() {
+		var $ptr, o;
+		o = this;
+		return $parseInt(o.object) >> 0;
+	};
+	Object.prototype.Int = function() { return this.$val.Int(); };
+	Object.ptr.prototype.Int64 = function() {
+		var $ptr, o;
+		o = this;
+		return $internalize(o.object, $Int64);
+	};
+	Object.prototype.Int64 = function() { return this.$val.Int64(); };
+	Object.ptr.prototype.Uint64 = function() {
+		var $ptr, o;
+		o = this;
+		return $internalize(o.object, $Uint64);
+	};
+	Object.prototype.Uint64 = function() { return this.$val.Uint64(); };
+	Object.ptr.prototype.Float = function() {
+		var $ptr, o;
+		o = this;
+		return $parseFloat(o.object);
+	};
+	Object.prototype.Float = function() { return this.$val.Float(); };
+	Object.ptr.prototype.Interface = function() {
+		var $ptr, o;
+		o = this;
+		return $internalize(o.object, $emptyInterface);
+	};
+	Object.prototype.Interface = function() { return this.$val.Interface(); };
+	Object.ptr.prototype.Unsafe = function() {
+		var $ptr, o;
+		o = this;
+		return o.object;
+	};
+	Object.prototype.Unsafe = function() { return this.$val.Unsafe(); };
+	Error.ptr.prototype.Error = function() {
+		var $ptr, err;
+		err = this;
+		return "JavaScript error: " + $internalize(err.Object.message, $String);
+	};
+	Error.prototype.Error = function() { return this.$val.Error(); };
+	Error.ptr.prototype.Stack = function() {
+		var $ptr, err;
+		err = this;
+		return $internalize(err.Object.stack, $String);
+	};
+	Error.prototype.Stack = function() { return this.$val.Stack(); };
+	Keys = function(o) {
+		var $ptr, a, i, o, s;
+		if (o === null || o === undefined) {
+			return sliceType$1.nil;
+		}
+		a = $global.Object.keys(o);
+		s = $makeSlice(sliceType$1, $parseInt(a.length));
+		i = 0;
+		while (true) {
+			if (!(i < $parseInt(a.length))) { break; }
+			((i < 0 || i >= s.$length) ? $throwRuntimeError("index out of range") : s.$array[s.$offset + i] = $internalize(a[i], $String));
+			i = i + (1) >> 0;
+		}
+		return s;
+	};
+	$pkg.Keys = Keys;
+	NewArrayBuffer = function(b) {
+		var $ptr, b, length, offset, slice;
+		slice = b;
+		offset = $parseInt(slice.$offset) >> 0;
+		length = $parseInt(slice.$length) >> 0;
+		return slice.$array.buffer.slice(offset, offset + length >> 0);
+	};
+	$pkg.NewArrayBuffer = NewArrayBuffer;
+	init = function() {
+		var $ptr, e;
+		e = new Error.ptr(null);
+	};
+	ptrType.methods = [{prop: "Get", name: "Get", pkg: "", typ: $funcType([$String], [ptrType], false)}, {prop: "Set", name: "Set", pkg: "", typ: $funcType([$String, $emptyInterface], [], false)}, {prop: "Delete", name: "Delete", pkg: "", typ: $funcType([$String], [], false)}, {prop: "Length", name: "Length", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Index", name: "Index", pkg: "", typ: $funcType([$Int], [ptrType], false)}, {prop: "SetIndex", name: "SetIndex", pkg: "", typ: $funcType([$Int, $emptyInterface], [], false)}, {prop: "Call", name: "Call", pkg: "", typ: $funcType([$String, sliceType], [ptrType], true)}, {prop: "Invoke", name: "Invoke", pkg: "", typ: $funcType([sliceType], [ptrType], true)}, {prop: "New", name: "New", pkg: "", typ: $funcType([sliceType], [ptrType], true)}, {prop: "Bool", name: "Bool", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "String", name: "String", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Int", name: "Int", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Int64", name: "Int64", pkg: "", typ: $funcType([], [$Int64], false)}, {prop: "Uint64", name: "Uint64", pkg: "", typ: $funcType([], [$Uint64], false)}, {prop: "Float", name: "Float", pkg: "", typ: $funcType([], [$Float64], false)}, {prop: "Interface", name: "Interface", pkg: "", typ: $funcType([], [$emptyInterface], false)}, {prop: "Unsafe", name: "Unsafe", pkg: "", typ: $funcType([], [$Uintptr], false)}];
+	ptrType$1.methods = [{prop: "Error", name: "Error", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Stack", name: "Stack", pkg: "", typ: $funcType([], [$String], false)}];
+	Object.init("github.com/gu-io/gu/vendor/github.com/gopherjs/gopherjs/js", [{prop: "object", name: "object", exported: false, typ: ptrType, tag: ""}]);
+	Error.init("", [{prop: "Object", name: "", exported: true, typ: ptrType, tag: ""}]);
+	$init = function() {
+		$pkg.$init = function() {};
+		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		init();
+		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
+	};
+	$pkg.$init = $init;
+	return $pkg;
+})();
+$packages["github.com/gu-io/gu/shell"] = (function() {
+	var $pkg = {}, $init, rand, js, Hook, registry, CacheStrategy, WebRequest, WebResponse, ManifestAttr, WebPair, sliceType, sliceType$1, funcType, sliceType$4, mapType, ptrType, sliceType$6, ptrType$1, mapType$1, mapType$2, hooks, newRegistry, AllObjectToWebResponse, ObjectToWebResponse, MapToHeaders, WebResponseToJSResponse, WebRequestToJSRequest, ObjectToMap, ObjectToStringList, ObjectToList;
+	rand = $packages["crypto/rand"];
+	js = $packages["github.com/gu-io/gu/vendor/github.com/gopherjs/gopherjs/js"];
+	Hook = $pkg.Hook = $newType(8, $kindInterface, "shell.Hook", true, "github.com/gu-io/gu/shell", true, null);
+	registry = $pkg.registry = $newType(0, $kindStruct, "shell.registry", true, "github.com/gu-io/gu/shell", false, function(hooks_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.hooks = false;
+			return;
+		}
+		this.hooks = hooks_;
+	});
+	CacheStrategy = $pkg.CacheStrategy = $newType(8, $kindString, "shell.CacheStrategy", true, "github.com/gu-io/gu/shell", true, null);
+	WebRequest = $pkg.WebRequest = $newType(0, $kindStruct, "shell.WebRequest", true, "github.com/gu-io/gu/shell", true, function(BodyUsed_, CacheRequest_, Body_, Method_, URL_, Mode_, ManifestName_, ManifestAddr_, Credentials_, Referrer_, ReferrerPolicy_, Underline_, Cache_, Headers_) {
+		this.$val = this;
+		if (arguments.length === 0) {
 			this.BodyUsed = false;
+			this.CacheRequest = false;
+			this.Body = sliceType.nil;
 			this.Method = "";
 			this.URL = "";
+			this.Mode = "";
+			this.ManifestName = "";
+			this.ManifestAddr = "";
+			this.Credentials = "";
 			this.Referrer = "";
 			this.ReferrerPolicy = "";
-			this.Mode = "";
-			this.Credentials = "";
+			this.Underline = null;
 			this.Cache = "";
 			this.Headers = false;
-			this.Underline = null;
 			return;
 		}
-		this.Body = Body_;
 		this.BodyUsed = BodyUsed_;
+		this.CacheRequest = CacheRequest_;
+		this.Body = Body_;
 		this.Method = Method_;
 		this.URL = URL_;
+		this.Mode = Mode_;
+		this.ManifestName = ManifestName_;
+		this.ManifestAddr = ManifestAddr_;
+		this.Credentials = Credentials_;
 		this.Referrer = Referrer_;
 		this.ReferrerPolicy = ReferrerPolicy_;
-		this.Mode = Mode_;
-		this.Credentials = Credentials_;
+		this.Underline = Underline_;
 		this.Cache = Cache_;
 		this.Headers = Headers_;
-		this.Underline = Underline_;
 	});
-	sliceType$2 = $sliceType($Uint8);
+	WebResponse = $pkg.WebResponse = $newType(0, $kindStruct, "shell.WebResponse", true, "github.com/gu-io/gu/shell", true, function(Status_, Redirected_, Ok_, Body_, Type_, StatusText_, FinalURL_, ManifestName_, ManifestAddr_, Underline_, Headers_, Cookies_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Status = 0;
+			this.Redirected = false;
+			this.Ok = false;
+			this.Body = sliceType.nil;
+			this.Type = "";
+			this.StatusText = "";
+			this.FinalURL = "";
+			this.ManifestName = "";
+			this.ManifestAddr = "";
+			this.Underline = null;
+			this.Headers = false;
+			this.Cookies = sliceType$1.nil;
+			return;
+		}
+		this.Status = Status_;
+		this.Redirected = Redirected_;
+		this.Ok = Ok_;
+		this.Body = Body_;
+		this.Type = Type_;
+		this.StatusText = StatusText_;
+		this.FinalURL = FinalURL_;
+		this.ManifestName = ManifestName_;
+		this.ManifestAddr = ManifestAddr_;
+		this.Underline = Underline_;
+		this.Headers = Headers_;
+		this.Cookies = Cookies_;
+	});
+	ManifestAttr = $pkg.ManifestAttr = $newType(0, $kindStruct, "shell.ManifestAttr", true, "github.com/gu-io/gu/shell", true, function(Size_, Remote_, ID_, Name_, Path_, Content_, Cache_, Meta_, HookName_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Size = 0;
+			this.Remote = false;
+			this.ID = "";
+			this.Name = "";
+			this.Path = "";
+			this.Content = "";
+			this.Cache = "";
+			this.Meta = false;
+			this.HookName = "";
+			return;
+		}
+		this.Size = Size_;
+		this.Remote = Remote_;
+		this.ID = ID_;
+		this.Name = Name_;
+		this.Path = Path_;
+		this.Content = Content_;
+		this.Cache = Cache_;
+		this.Meta = Meta_;
+		this.HookName = HookName_;
+	});
+	WebPair = $pkg.WebPair = $newType(0, $kindStruct, "shell.WebPair", true, "github.com/gu-io/gu/shell", true, function(Request_, Response_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Request = new WebRequest.ptr(false, false, sliceType.nil, "", "", "", "", "", "", "", "", null, "", false);
+			this.Response = new WebResponse.ptr(0, false, false, sliceType.nil, "", "", "", "", "", null, false, sliceType$1.nil);
+			return;
+		}
+		this.Request = Request_;
+		this.Response = Response_;
+	});
+	sliceType = $sliceType($Uint8);
+	sliceType$1 = $sliceType($String);
 	funcType = $funcType([$String], [], false);
-	sliceType$3 = $sliceType(WebResponse);
+	sliceType$4 = $sliceType(WebResponse);
 	mapType = $mapType($String, $emptyInterface);
 	ptrType = $ptrType(js.Object);
-	sliceType$5 = $sliceType(ptrType);
-	mapType$1 = $mapType($String, $String);
+	sliceType$6 = $sliceType(ptrType);
+	ptrType$1 = $ptrType(registry);
+	mapType$1 = $mapType($String, Hook);
+	mapType$2 = $mapType($String, $String);
+	newRegistry = function() {
+		var $ptr;
+		return new registry.ptr({});
+	};
+	registry.ptr.prototype.Create = function(name, hook) {
+		var $ptr, _key, hook, name, r;
+		r = this;
+		_key = name; (r.hooks || $throwRuntimeError("assignment to entry in nil map"))[$String.keyFor(_key)] = { k: _key, v: hook };
+	};
+	registry.prototype.Create = function(name, hook) { return this.$val.Create(name, hook); };
+	registry.ptr.prototype.Get = function(name) {
+		var $ptr, _entry, name, r;
+		r = this;
+		return (_entry = r.hooks[$String.keyFor(name)], _entry !== undefined ? _entry.v : $ifaceNil);
+	};
+	registry.prototype.Get = function(name) { return this.$val.Get(name); };
+	ManifestAttr.ptr.prototype.WebRequest = function() {
+		var $ptr, m;
+		m = $clone(this, ManifestAttr);
+		return new WebRequest.ptr(false, false, sliceType.nil, "GET", m.Path, "", m.Name, "", "same-origin", "", "", null, m.Cache, false);
+	};
+	ManifestAttr.prototype.WebRequest = function() { return this.$val.WebRequest(); };
 	AllObjectToWebResponse = function(o) {
 		var $ptr, _i, _r, _ref, o, res, ro, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _ref = $f._ref; o = $f.o; res = $f.res; ro = $f.ro; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-		res = $makeSlice(sliceType$3, 0);
+		res = $makeSlice(sliceType$4, 0);
 		_ref = o;
 		_i = 0;
 		/* while (true) { */ case 1:
@@ -21079,21 +21310,21 @@ $packages["github.com/gu-io/gu/shell"] = (function() {
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; body = $f.body; o = $f.o; resClone = $f.resClone; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		body = [body];
 		resClone = o.clone();
-		body[0] = new $Chan(sliceType$2, 0);
+		body[0] = new $Chan(sliceType, 0);
 		o.text().then($externalize((function(body) { return function(bd) {
 			var $ptr, bd;
 			$go((function(body) { return function $b() {
 				var $ptr, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(body[0], new sliceType$2($stringToBytes(bd))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(body[0], new sliceType($stringToBytes(bd))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(body), []);
 		}; })(body), funcType));
 		_r = $recv(body[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-		$s = -1; return new WebResponse.ptr("", !!(o.redirected), !!(o.ok), $parseInt(o.status) >> 0, $internalize(o.type, $String), $internalize(o.useFinalURL, $String), $internalize(o.statusText, $String), _r[0], ObjectToMap(o.headers), resClone);
-		return new WebResponse.ptr("", !!(o.redirected), !!(o.ok), $parseInt(o.status) >> 0, $internalize(o.type, $String), $internalize(o.useFinalURL, $String), $internalize(o.statusText, $String), _r[0], ObjectToMap(o.headers), resClone);
+		$s = -1; return new WebResponse.ptr($parseInt(o.status) >> 0, !!(o.redirected), !!(o.ok), _r[0], $internalize(o.type, $String), $internalize(o.statusText, $String), $internalize(o.useFinalURL, $String), "", "", resClone, ObjectToMap(o.headers), sliceType$1.nil);
+		return new WebResponse.ptr($parseInt(o.status) >> 0, !!(o.redirected), !!(o.ok), _r[0], $internalize(o.type, $String), $internalize(o.statusText, $String), $internalize(o.useFinalURL, $String), "", "", resClone, ObjectToMap(o.headers), sliceType$1.nil);
 		/* */ } return; } if ($f === undefined) { $f = { $blk: ObjectToWebResponse }; } $f.$ptr = $ptr; $f._r = _r; $f.body = body; $f.o = o; $f.resClone = resClone; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.ObjectToWebResponse = ObjectToWebResponse;
@@ -21118,7 +21349,7 @@ $packages["github.com/gu-io/gu/shell"] = (function() {
 		return header;
 	};
 	$pkg.MapToHeaders = MapToHeaders;
-	WebResponseToJSRequest = function(res) {
+	WebResponseToJSResponse = function(res) {
 		var $ptr, body, bodyBlob, res;
 		if (!(res.Underline === null)) {
 			return res.Underline;
@@ -21128,7 +21359,7 @@ $packages["github.com/gu-io/gu/shell"] = (function() {
 		res.Underline = new ($global.Response)(bodyBlob, $externalize($makeMap($String.keyFor, [{ k: "status", v: new $Int(res.Status) }, { k: "statusText", v: new $String(res.StatusText) }, { k: "headers", v: new $jsObjectPtr(MapToHeaders(res.Headers)) }]), mapType));
 		return res.Underline;
 	};
-	$pkg.WebResponseToJSRequest = WebResponseToJSRequest;
+	$pkg.WebResponseToJSResponse = WebResponseToJSResponse;
 	WebRequestToJSRequest = function(res) {
 		var $ptr, res;
 		if (!(res.Underline === null)) {
@@ -21152,9 +21383,22 @@ $packages["github.com/gu-io/gu/shell"] = (function() {
 		return res;
 	};
 	$pkg.ObjectToMap = ObjectToMap;
+	ObjectToStringList = function(o) {
+		var $ptr, i, item, o, res;
+		res = $makeSlice(sliceType$1, 0);
+		i = 0;
+		while (true) {
+			if (!(i < $parseInt(o.length))) { break; }
+			item = o[i];
+			res = $append(res, $internalize(item, $String));
+			i = i + (1) >> 0;
+		}
+		return res;
+	};
+	$pkg.ObjectToStringList = ObjectToStringList;
 	ObjectToList = function(o) {
 		var $ptr, i, item, o, res;
-		res = $makeSlice(sliceType$5, 0);
+		res = $makeSlice(sliceType$6, 0);
 		i = 0;
 		while (true) {
 			if (!(i < $parseInt(o.length))) { break; }
@@ -21165,24 +21409,32 @@ $packages["github.com/gu-io/gu/shell"] = (function() {
 		return res;
 	};
 	$pkg.ObjectToList = ObjectToList;
-	WebResponse.init("", [{prop: "ManifestAddr", name: "ManifestAddr", exported: true, typ: $String, tag: "json:\"manifest_addr\""}, {prop: "Redirected", name: "Redirected", exported: true, typ: $Bool, tag: "json:\"redirected\""}, {prop: "Ok", name: "Ok", exported: true, typ: $Bool, tag: "json:\"ok\""}, {prop: "Status", name: "Status", exported: true, typ: $Int, tag: "json:\"status\""}, {prop: "Type", name: "Type", exported: true, typ: $String, tag: "json:\"type\""}, {prop: "FinalURL", name: "FinalURL", exported: true, typ: $String, tag: "json:\"use_final_url\""}, {prop: "StatusText", name: "StatusText", exported: true, typ: $String, tag: "json:\"status_text\""}, {prop: "Body", name: "Body", exported: true, typ: sliceType$2, tag: "json:\"body\""}, {prop: "Headers", name: "Headers", exported: true, typ: mapType$1, tag: "json:\"headers\""}, {prop: "Underline", name: "Underline", exported: true, typ: ptrType, tag: "json:\"underline,omitempty\""}]);
-	WebRequest.init("", [{prop: "Body", name: "Body", exported: true, typ: sliceType$2, tag: "json:\"body\""}, {prop: "BodyUsed", name: "BodyUsed", exported: true, typ: $Bool, tag: "json:\"body_used\""}, {prop: "Method", name: "Method", exported: true, typ: $String, tag: "json:\"method\""}, {prop: "URL", name: "URL", exported: true, typ: $String, tag: "json:\"url\""}, {prop: "Referrer", name: "Referrer", exported: true, typ: $String, tag: "json:\"referrer\""}, {prop: "ReferrerPolicy", name: "ReferrerPolicy", exported: true, typ: $String, tag: "json:\"referrer-policy\""}, {prop: "Mode", name: "Mode", exported: true, typ: $String, tag: "json:\"mode\""}, {prop: "Credentials", name: "Credentials", exported: true, typ: $String, tag: "json:\"credentials\""}, {prop: "Cache", name: "Cache", exported: true, typ: $String, tag: "json:\"cache\""}, {prop: "Headers", name: "Headers", exported: true, typ: mapType$1, tag: "json:\"headers\""}, {prop: "Underline", name: "Underline", exported: true, typ: ptrType, tag: "json:\"underline,omitempty\""}]);
+	ptrType$1.methods = [{prop: "Create", name: "Create", pkg: "", typ: $funcType([$String, Hook], [], false)}, {prop: "Get", name: "Get", pkg: "", typ: $funcType([$String], [Hook], false)}];
+	ManifestAttr.methods = [{prop: "WebRequest", name: "WebRequest", pkg: "", typ: $funcType([], [WebRequest], false)}];
+	Hook.init([{prop: "FetchAndInstall", name: "FetchAndInstall", pkg: "", typ: $funcType([ManifestAttr], [$error], false)}]);
+	registry.init("github.com/gu-io/gu/shell", [{prop: "hooks", name: "hooks", exported: false, typ: mapType$1, tag: ""}]);
+	WebRequest.init("", [{prop: "BodyUsed", name: "BodyUsed", exported: true, typ: $Bool, tag: "json:\"bodyUsed\""}, {prop: "CacheRequest", name: "CacheRequest", exported: true, typ: $Bool, tag: "json:\"cacheRequest\""}, {prop: "Body", name: "Body", exported: true, typ: sliceType, tag: "json:\"body\""}, {prop: "Method", name: "Method", exported: true, typ: $String, tag: "json:\"method\""}, {prop: "URL", name: "URL", exported: true, typ: $String, tag: "json:\"url\""}, {prop: "Mode", name: "Mode", exported: true, typ: $String, tag: "json:\"mode\""}, {prop: "ManifestName", name: "ManifestName", exported: true, typ: $String, tag: "json:\"manifest_name\""}, {prop: "ManifestAddr", name: "ManifestAddr", exported: true, typ: $String, tag: "json:\"manifest_addr\""}, {prop: "Credentials", name: "Credentials", exported: true, typ: $String, tag: "json:\"credentials,omitempty\""}, {prop: "Referrer", name: "Referrer", exported: true, typ: $String, tag: "json:\"referrer,oimitempty\""}, {prop: "ReferrerPolicy", name: "ReferrerPolicy", exported: true, typ: $String, tag: "json:\"referrerPolicy,omitempty\""}, {prop: "Underline", name: "Underline", exported: true, typ: ptrType, tag: "json:\"underline,omitempty\""}, {prop: "Cache", name: "Cache", exported: true, typ: CacheStrategy, tag: "json:\"cache\""}, {prop: "Headers", name: "Headers", exported: true, typ: mapType$2, tag: "json:\"headers\""}]);
+	WebResponse.init("", [{prop: "Status", name: "Status", exported: true, typ: $Int, tag: "json:\"status\""}, {prop: "Redirected", name: "Redirected", exported: true, typ: $Bool, tag: "json:\"redirected\""}, {prop: "Ok", name: "Ok", exported: true, typ: $Bool, tag: "json:\"ok\""}, {prop: "Body", name: "Body", exported: true, typ: sliceType, tag: "json:\"body\""}, {prop: "Type", name: "Type", exported: true, typ: $String, tag: "json:\"type\""}, {prop: "StatusText", name: "StatusText", exported: true, typ: $String, tag: "json:\"status_text\""}, {prop: "FinalURL", name: "FinalURL", exported: true, typ: $String, tag: "json:\"use_final_url,omitempty\""}, {prop: "ManifestName", name: "ManifestName", exported: true, typ: $String, tag: "json:\"manifest_name,omitempty\""}, {prop: "ManifestAddr", name: "ManifestAddr", exported: true, typ: $String, tag: "json:\"manifest_addr,omitempty\""}, {prop: "Underline", name: "Underline", exported: true, typ: ptrType, tag: "json:\"underline,omitempty\""}, {prop: "Headers", name: "Headers", exported: true, typ: mapType$2, tag: "json:\"headers\""}, {prop: "Cookies", name: "Cookies", exported: true, typ: sliceType$1, tag: "json:\"headers\""}]);
+	ManifestAttr.init("", [{prop: "Size", name: "Size", exported: true, typ: $Int, tag: "json:\"size\""}, {prop: "Remote", name: "Remote", exported: true, typ: $Bool, tag: "json:\"remote\""}, {prop: "ID", name: "ID", exported: true, typ: $String, tag: "json:\"appmanifest_id,omitempty\""}, {prop: "Name", name: "Name", exported: true, typ: $String, tag: "json:\"name\""}, {prop: "Path", name: "Path", exported: true, typ: $String, tag: "json:\"path\""}, {prop: "Content", name: "Content", exported: true, typ: $String, tag: "json:\"content\""}, {prop: "Cache", name: "Cache", exported: true, typ: CacheStrategy, tag: "json:\"cache\""}, {prop: "Meta", name: "Meta", exported: true, typ: mapType$2, tag: "json:\"meta\""}, {prop: "HookName", name: "HookName", exported: true, typ: $String, tag: "json:\"hook_name,omitempty\""}]);
+	WebPair.init("", [{prop: "Request", name: "Request", exported: true, typ: WebRequest, tag: ""}, {prop: "Response", name: "Response", exported: true, typ: WebResponse, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		$r = rand.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = js.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		hooks = newRegistry();
+		$pkg.DefaultStrategy = "default";
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
 	return $pkg;
 })();
 $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
-	var $pkg = {}, $init, errors, js, shell, WebCacheAPI, NewCacheResponse, CacheAPI, CacheResponse, CacheResponseChannel, MatchAttr, CacheAllResponse, CacheAllResponseChannel, ptrType, ptrType$1, funcType, ptrType$2, funcType$1, sliceType, sliceType$1, sliceType$2, chanType, ptrType$3, chanType$1, New, NewCacheAPI;
+	var $pkg = {}, $init, errors, shell, js, API, newCacheResponse, CacheAPI, MatchAttr, cacheResponse, cacheAllResponse, cacheKeys, ptrType, ptrType$1, ptrType$2, funcType, funcType$1, funcType$2, sliceType, sliceType$1, sliceType$2, ptrType$3, sliceType$3, New, NewCacheAPI;
 	errors = $packages["errors"];
-	js = $packages["github.com/gopherjs/gopherjs/js"];
 	shell = $packages["github.com/gu-io/gu/shell"];
-	WebCacheAPI = $pkg.WebCacheAPI = $newType(0, $kindStruct, "webcache.WebCacheAPI", true, "github.com/gu-io/gu/shell/cache/webcache", true, function(Object_) {
+	js = $packages["github.com/gu-io/gu/vendor/github.com/gopherjs/gopherjs/js"];
+	API = $pkg.API = $newType(0, $kindStruct, "webcache.API", true, "github.com/gu-io/gu/shell/cache/webcache", true, function(Object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21190,11 +21442,11 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 		}
 		this.Object = Object_;
 	});
-	NewCacheResponse = $pkg.NewCacheResponse = $newType(0, $kindStruct, "webcache.NewCacheResponse", true, "github.com/gu-io/gu/shell/cache/webcache", true, function(Error_, Cache_) {
+	newCacheResponse = $pkg.newCacheResponse = $newType(0, $kindStruct, "webcache.newCacheResponse", true, "github.com/gu-io/gu/shell/cache/webcache", false, function(Error_, Cache_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Error = $ifaceNil;
-			this.Cache = ptrType.nil;
+			this.Cache = ptrType$1.nil;
 			return;
 		}
 		this.Error = Error_;
@@ -21208,17 +21460,6 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 		}
 		this.Object = Object_;
 	});
-	CacheResponse = $pkg.CacheResponse = $newType(0, $kindStruct, "webcache.CacheResponse", true, "github.com/gu-io/gu/shell/cache/webcache", true, function(Error_, Response_) {
-		this.$val = this;
-		if (arguments.length === 0) {
-			this.Error = $ifaceNil;
-			this.Response = new shell.WebResponse.ptr("", false, false, 0, "", "", "", sliceType$1.nil, false, null);
-			return;
-		}
-		this.Error = Error_;
-		this.Response = Response_;
-	});
-	CacheResponseChannel = $pkg.CacheResponseChannel = $newType(4, $kindChan, "webcache.CacheResponseChannel", true, "github.com/gu-io/gu/shell/cache/webcache", true, null);
 	MatchAttr = $pkg.MatchAttr = $newType(0, $kindStruct, "webcache.MatchAttr", true, "github.com/gu-io/gu/shell/cache/webcache", true, function(IgnoreSearch_, IgnoreMethod_, IgnoreVary_, CatchName_) {
 		this.$val = this;
 		if (arguments.length === 0) {
@@ -21233,7 +21474,17 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 		this.IgnoreVary = IgnoreVary_;
 		this.CatchName = CatchName_;
 	});
-	CacheAllResponse = $pkg.CacheAllResponse = $newType(0, $kindStruct, "webcache.CacheAllResponse", true, "github.com/gu-io/gu/shell/cache/webcache", true, function(Error_, Response_) {
+	cacheResponse = $pkg.cacheResponse = $newType(0, $kindStruct, "webcache.cacheResponse", true, "github.com/gu-io/gu/shell/cache/webcache", false, function(Error_, Response_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Error = $ifaceNil;
+			this.Response = new shell.WebResponse.ptr(0, false, false, sliceType$1.nil, "", "", "", "", "", null, false, sliceType.nil);
+			return;
+		}
+		this.Error = Error_;
+		this.Response = Response_;
+	});
+	cacheAllResponse = $pkg.cacheAllResponse = $newType(0, $kindStruct, "webcache.cacheAllResponse", true, "github.com/gu-io/gu/shell/cache/webcache", false, function(Error_, Response_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Error = $ifaceNil;
@@ -21243,65 +21494,87 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 		this.Error = Error_;
 		this.Response = Response_;
 	});
-	CacheAllResponseChannel = $pkg.CacheAllResponseChannel = $newType(4, $kindChan, "webcache.CacheAllResponseChannel", true, "github.com/gu-io/gu/shell/cache/webcache", true, null);
-	ptrType = $ptrType(CacheAPI);
-	ptrType$1 = $ptrType(js.Object);
-	funcType = $funcType([ptrType$1], [], false);
-	ptrType$2 = $ptrType(shell.WebRequest);
+	cacheKeys = $pkg.cacheKeys = $newType(0, $kindStruct, "webcache.cacheKeys", true, "github.com/gu-io/gu/shell/cache/webcache", false, function(Error_, Response_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Error = $ifaceNil;
+			this.Response = sliceType.nil;
+			return;
+		}
+		this.Error = Error_;
+		this.Response = Response_;
+	});
+	ptrType = $ptrType(API);
+	ptrType$1 = $ptrType(CacheAPI);
+	ptrType$2 = $ptrType(js.Object);
+	funcType = $funcType([ptrType$2], [ptrType$2], false);
 	funcType$1 = $funcType([], [], false);
+	funcType$2 = $funcType([ptrType$2], [], false);
 	sliceType = $sliceType($String);
 	sliceType$1 = $sliceType($Uint8);
 	sliceType$2 = $sliceType(shell.WebResponse);
-	chanType = $chanType(NewCacheResponse, false, true);
-	ptrType$3 = $ptrType(WebCacheAPI);
-	chanType$1 = $chanType($error, false, true);
+	ptrType$3 = $ptrType(shell.WebRequest);
+	sliceType$3 = $sliceType(shell.WebPair);
 	New = function() {
-		var $ptr, wc;
-		wc = new WebCacheAPI.ptr(null);
-		wc.Object = $global.caches;
-		return wc;
+		var $ptr, caches, wc;
+		if ($global === null || $global === undefined) {
+			return [ptrType.nil, $pkg.ErrInvalidState];
+		}
+		caches = $global.caches;
+		if (caches === null || caches === undefined) {
+			return [ptrType.nil, $pkg.ErrInvalidState];
+		}
+		wc = new API.ptr(null);
+		wc.Object = caches;
+		return [wc, $ifaceNil];
 	};
 	$pkg.New = New;
-	WebCacheAPI.ptr.prototype.Open = function(cacheName) {
-		var $ptr, cacheName, openReq, res, wc;
+	API.ptr.prototype.Open = function(cacheName) {
+		var $ptr, _r, cacheName, opVal, openReq, res, wc, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; cacheName = $f.cacheName; opVal = $f.opVal; openReq = $f.openReq; res = $f.res; wc = $f.wc; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		res = [res];
 		wc = this;
-		res = new $Chan(NewCacheResponse, 0);
+		if (wc.Object === null || wc.Object === undefined) {
+			$s = -1; return [ptrType$1.nil, $pkg.ErrInvalidState];
+			return [ptrType$1.nil, $pkg.ErrInvalidState];
+		}
 		openReq = wc.Object.open($externalize(cacheName, $String));
 		if (openReq === undefined && openReq === null) {
-			$go((function $b() {
-				var $ptr, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(res, new NewCacheResponse.ptr($pkg.ErrCacheNotFound, ptrType.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				$s = -1; return;
-				return;
-				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-			return res;
+			$s = -1; return [ptrType$1.nil, $pkg.ErrCacheNotFound];
+			return [ptrType$1.nil, $pkg.ErrCacheNotFound];
 		}
-		openReq.then($externalize((function(cache) {
+		opVal = new newCacheResponse.ptr($ifaceNil, ptrType$1.nil);
+		res[0] = new $Chan(newCacheResponse, 0);
+		openReq.then($externalize((function(res) { return function(cache) {
 			var $ptr, cache;
-			$go((function $b() {
+			$go((function(res) { return function $b() {
 				var $ptr, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(res, new NewCacheResponse.ptr($ifaceNil, NewCacheAPI(cache))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(res[0], new newCacheResponse.ptr($ifaceNil, NewCacheAPI(cache))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType)).catch($externalize((function(err) {
+			}; })(res), []);
+			return cache;
+		}; })(res), funcType)).catch($externalize((function(res) { return function(err) {
 			var $ptr, err;
-			$go((function $b() {
+			$go((function(res) { return function $b() {
 				var $ptr, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(res, new NewCacheResponse.ptr(errors.New($internalize(err, $String)), ptrType.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(res[0], new newCacheResponse.ptr(errors.New($internalize(err, $String)), ptrType$1.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType));
-		return res;
+			}; })(res), []);
+			return err;
+		}; })(res), funcType));
+		_r = $recv(res[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		newCacheResponse.copy(opVal, _r[0]);
+		$s = -1; return [opVal.Cache, opVal.Error];
+		return [opVal.Cache, opVal.Error];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: API.ptr.prototype.Open }; } $f.$ptr = $ptr; $f._r = _r; $f.cacheName = cacheName; $f.opVal = opVal; $f.openReq = openReq; $f.res = res; $f.wc = wc; $f.$s = $s; $f.$r = $r; return $f;
 	};
-	WebCacheAPI.prototype.Open = function(cacheName) { return this.$val.Open(cacheName); };
+	API.prototype.Open = function(cacheName) { return this.$val.Open(cacheName); };
 	NewCacheAPI = function(o) {
 		var $ptr, c, o;
 		c = new CacheAPI.ptr(null);
@@ -21309,266 +21582,624 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 		return c;
 	};
 	$pkg.NewCacheAPI = NewCacheAPI;
-	CacheAPI.ptr.prototype.Put = function(request, res) {
-		var $ptr, _ref, c, reqObj, reqObj$1, request, res, resChan, resObj, ro, ro$1, ro$2, ro$3;
-		res = $clone(res, shell.WebResponse);
-		c = this;
-		resChan = new $Chan($error, 0);
-		resObj = shell.WebResponseToJSRequest(res);
-		_ref = request;
-		if ($assertType(_ref, $String, true)[1]) {
-			ro = _ref.$val;
-			c.Object.put($externalize(ro, $String), resObj).catch($externalize((function(err) {
-				var $ptr, err;
-				$go((function $b() {
-					var $ptr, $s, $r;
-					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-					$r = $send(resChan, errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-					$s = -1; return;
-					return;
-					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-				}), []);
-			}), funcType));
-		} else if ($assertType(_ref, shell.WebRequest, true)[1]) {
-			ro$1 = $clone(_ref.$val, shell.WebRequest);
-			reqObj = shell.WebRequestToJSRequest(ro$1);
-			c.Object.put(reqObj, resObj).catch($externalize((function(err) {
-				var $ptr, err;
-				$go((function $b() {
-					var $ptr, $s, $r;
-					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-					$r = $send(resChan, errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-					$s = -1; return;
-					return;
-					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-				}), []);
-			}), funcType));
-		} else if ($assertType(_ref, ptrType$2, true)[1]) {
-			ro$2 = _ref.$val;
-			reqObj$1 = shell.WebRequestToJSRequest(ro$2);
-			c.Object.put(reqObj$1, resObj).catch($externalize((function(err) {
-				var $ptr, err;
-				$go((function $b() {
-					var $ptr, $s, $r;
-					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-					$r = $send(resChan, errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-					$s = -1; return;
-					return;
-					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-				}), []);
-			}), funcType));
-		} else {
-			ro$3 = _ref;
-			$go((function $b() {
-				var $ptr, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(resChan, errors.New("Request type not supported in cache")); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				$s = -1; return;
-				return;
-				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}
-		return resChan;
-	};
-	CacheAPI.prototype.Put = function(request, res) { return this.$val.Put(request, res); };
 	CacheAPI.ptr.prototype.Add = function(request) {
-		var $ptr, c, isList, request, resChan;
+		var $ptr, _r, _r$1, c, isList, request, resChan, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; c = $f.c; isList = $f.isList; request = $f.request; resChan = $f.resChan; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		resChan = [resChan];
 		c = this;
-		resChan = new $Chan($error, 0);
+		resChan[0] = new $Chan($error, 0);
 		isList = false;
 		if (request.$length > 1) {
 			isList = true;
 		}
-		if (!isList) {
-			c.Object.add($externalize((0 >= request.$length ? $throwRuntimeError("index out of range") : request.$array[request.$offset + 0]), $String)).then($externalize((function() {
+		/* */ if (!isList) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if (!isList) { */ case 1:
+			c.Object.add($externalize((0 >= request.$length ? $throwRuntimeError("index out of range") : request.$array[request.$offset + 0]), $String)).then($externalize((function(resChan) { return function() {
 				var $ptr;
-				$go((function() {
+				$go((function(resChan) { return function() {
 					var $ptr;
-					$close(resChan);
-				}), []);
-			}), funcType$1)).catch($externalize((function(err) {
+					$close(resChan[0]);
+				}; })(resChan), []);
+			}; })(resChan), funcType$1)).catch($externalize((function(resChan) { return function(err) {
 				var $ptr, err;
-				$go((function $b() {
+				$go((function(resChan) { return function $b() {
 					var $ptr, $s, $r;
 					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-					$r = $send(resChan, errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$r = $send(resChan[0], errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 					$s = -1; return;
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-				}), []);
-			}), funcType));
-			return resChan;
-		}
-		c.Object.addAll($externalize(request, sliceType)).then($externalize((function() {
+				}; })(resChan), []);
+			}; })(resChan), funcType$2));
+			_r = $recv(resChan[0]); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			$s = -1; return _r[0];
+			return _r[0];
+		/* } */ case 2:
+		c.Object.addAll($externalize(request, sliceType)).then($externalize((function(resChan) { return function() {
 			var $ptr;
-			$go((function() {
+			$go((function(resChan) { return function() {
 				var $ptr;
-				$close(resChan);
-			}), []);
-		}), funcType$1)).catch($externalize((function(err) {
+				$close(resChan[0]);
+			}; })(resChan), []);
+		}; })(resChan), funcType$1)).catch($externalize((function(resChan) { return function(err) {
 			var $ptr, err;
-			$go((function $b() {
+			$go((function(resChan) { return function $b() {
 				var $ptr, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(resChan, errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(resChan[0], errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType));
-		return resChan;
+			}; })(resChan), []);
+		}; })(resChan), funcType$2));
+		_r$1 = $recv(resChan[0]); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		$s = -1; return _r$1[0];
+		return _r$1[0];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.Add }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f.c = c; $f.isList = isList; $f.request = request; $f.resChan = resChan; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	CacheAPI.prototype.Add = function(request) { return this.$val.Add(request); };
+	CacheAPI.ptr.prototype.PutPath = function(request, res) {
+		var $ptr, _r, c, request, res, resChan, resObj, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; c = $f.c; request = $f.request; res = $f.res; resChan = $f.resChan; resObj = $f.resObj; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		res = [res];
+		resChan = [resChan];
+		res[0] = $clone(res[0], shell.WebResponse);
+		c = this;
+		resChan[0] = new $Chan($error, 0);
+		resObj = shell.WebResponseToJSResponse(res[0]);
+		c.Object.put($externalize(request, $String), resObj).catch($externalize((function(res, resChan) { return function(err) {
+			var $ptr, err;
+			$go((function(res, resChan) { return function $b() {
+				var $ptr, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				$r = $send(resChan[0], errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$s = -1; return;
+				return;
+				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(res, resChan), []);
+		}; })(res, resChan), funcType$2));
+		_r = $recv(resChan[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		$s = -1; return _r[0];
+		return _r[0];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.PutPath }; } $f.$ptr = $ptr; $f._r = _r; $f.c = c; $f.request = request; $f.res = res; $f.resChan = resChan; $f.resObj = resObj; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.PutPath = function(request, res) { return this.$val.PutPath(request, res); };
+	CacheAPI.ptr.prototype.Put = function(request, res) {
+		var $ptr, _r, c, reqObj, request, res, resChan, resObj, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; c = $f.c; reqObj = $f.reqObj; request = $f.request; res = $f.res; resChan = $f.resChan; resObj = $f.resObj; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		request = [request];
+		res = [res];
+		resChan = [resChan];
+		res[0] = $clone(res[0], shell.WebResponse);
+		request[0] = $clone(request[0], shell.WebRequest);
+		c = this;
+		resChan[0] = new $Chan($error, 0);
+		resObj = shell.WebResponseToJSResponse(res[0]);
+		reqObj = shell.WebRequestToJSRequest(request[0]);
+		c.Object.put(reqObj, resObj).catch($externalize((function(request, res, resChan) { return function(err) {
+			var $ptr, err;
+			$go((function(request, res, resChan) { return function $b() {
+				var $ptr, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				$r = $send(resChan[0], errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$s = -1; return;
+				return;
+				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(request, res, resChan), []);
+		}; })(request, res, resChan), funcType$2));
+		_r = $recv(resChan[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		$s = -1; return _r[0];
+		return _r[0];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.Put }; } $f.$ptr = $ptr; $f._r = _r; $f.c = c; $f.reqObj = reqObj; $f.request = request; $f.res = res; $f.resChan = resChan; $f.resObj = resObj; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.Put = function(request, res) { return this.$val.Put(request, res); };
+	CacheAPI.ptr.prototype.GetManifest = function(man) {
+		var $ptr, _r, _tuple, c, err, man, req, res, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; c = $f.c; err = $f.err; man = $f.man; req = $f.req; res = $f.res; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		man = $clone(man, shell.ManifestAttr);
+		c = this;
+		req = $clone(man.WebRequest(), shell.WebRequest);
+		_r = c.GetRequest(req); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r;
+		res = $clone(_tuple[0], shell.WebResponse);
+		err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			$s = -1; return [req, res, err];
+			return [req, res, err];
+		}
+		$s = -1; return [req, res, $ifaceNil];
+		return [req, res, $ifaceNil];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.GetManifest }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.c = c; $f.err = err; $f.man = man; $f.req = req; $f.res = res; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.GetManifest = function(man) { return this.$val.GetManifest(man); };
+	CacheAPI.ptr.prototype.GetRequest = function(request) {
+		var $ptr, _r, c, request, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; c = $f.c; request = $f.request; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		request = $clone(request, shell.WebRequest);
+		c = this;
+		_r = c.Match(request, new MatchAttr.ptr(false, false, false, "")); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		$s = -1; return _r;
+		return _r;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.GetRequest }; } $f.$ptr = $ptr; $f._r = _r; $f.c = c; $f.request = request; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.GetRequest = function(request) { return this.$val.GetRequest(request); };
+	CacheAPI.ptr.prototype.GetPath = function(request) {
+		var $ptr, _r, _tuple, c, err, request, res, wr, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _tuple = $f._tuple; c = $f.c; err = $f.err; request = $f.request; res = $f.res; wr = $f.wr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		c = this;
+		wr = new shell.WebRequest.ptr(false, false, sliceType$1.nil, "GET", request, "", "", "", "same-origin", "", "", null, shell.DefaultStrategy, false);
+		_r = c.MatchPath(request, new MatchAttr.ptr(false, false, false, "")); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r;
+		res = $clone(_tuple[0], shell.WebResponse);
+		err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			$s = -1; return [wr, res, err];
+			return [wr, res, err];
+		}
+		$s = -1; return [wr, res, $ifaceNil];
+		return [wr, res, $ifaceNil];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.GetPath }; } $f.$ptr = $ptr; $f._r = _r; $f._tuple = _tuple; $f.c = c; $f.err = err; $f.request = request; $f.res = res; $f.wr = wr; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.GetPath = function(request) { return this.$val.GetPath(request); };
 	CacheAPI.ptr.prototype.MatchPath = function(request, attr) {
-		var $ptr, attr, c, request, resChn;
+		var $ptr, _r, attr, c, opVal, request, resChn, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; attr = $f.attr; c = $f.c; opVal = $f.opVal; request = $f.request; resChn = $f.resChn; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		resChn = [resChn];
 		attr = $clone(attr, MatchAttr);
 		c = this;
-		resChn = new $Chan(CacheResponse, 0);
-		c.Object.match($externalize(request, $String), $externalize(attr, MatchAttr)).then($externalize((function(response) {
+		resChn[0] = new $Chan(cacheResponse, 0);
+		c.Object.match($externalize(request, $String), $externalize(attr, MatchAttr)).then($externalize((function(resChn) { return function(response) {
 			var $ptr, response;
-			$go((function $b() {
+			$go((function(resChn) { return function $b() {
 				var $ptr, _r, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 				_r = shell.ObjectToWebResponse(response); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-				$r = $send(resChn, new CacheResponse.ptr($ifaceNil, $clone(_r, shell.WebResponse))); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(resChn[0], new cacheResponse.ptr($ifaceNil, $clone(_r, shell.WebResponse))); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType)).catch($externalize((function(err) {
+			}; })(resChn), []);
+		}; })(resChn), funcType$2)).catch($externalize((function(resChn) { return function(err) {
 			var $ptr, err;
-			$go((function $b() {
+			$go((function(resChn) { return function $b() {
 				var $ptr, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(resChn, new CacheResponse.ptr(errors.New($internalize(err, $String)), new shell.WebResponse.ptr("", false, false, 0, "", "", "", sliceType$1.nil, false, null))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(resChn[0], new cacheResponse.ptr(errors.New($internalize(err, $String)), new shell.WebResponse.ptr(0, false, false, sliceType$1.nil, "", "", "", "", "", null, false, sliceType.nil))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType));
-		return resChn;
+			}; })(resChn), []);
+		}; })(resChn), funcType$2));
+		_r = $recv(resChn[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		opVal = $clone(_r[0], cacheResponse);
+		$s = -1; return [opVal.Response, opVal.Error];
+		return [opVal.Response, opVal.Error];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.MatchPath }; } $f.$ptr = $ptr; $f._r = _r; $f.attr = attr; $f.c = c; $f.opVal = opVal; $f.request = request; $f.resChn = resChn; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	CacheAPI.prototype.MatchPath = function(request, attr) { return this.$val.MatchPath(request, attr); };
 	CacheAPI.ptr.prototype.Match = function(request, attr) {
-		var $ptr, attr, c, request, resChan;
+		var $ptr, _r, attr, c, opVal, request, resChan, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; attr = $f.attr; c = $f.c; opVal = $f.opVal; request = $f.request; resChan = $f.resChan; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		request = [request];
+		resChan = [resChan];
 		attr = $clone(attr, MatchAttr);
-		request = $clone(request, shell.WebRequest);
+		request[0] = $clone(request[0], shell.WebRequest);
 		c = this;
-		resChan = new $Chan(CacheResponse, 0);
-		c.Object.match(shell.WebRequestToJSRequest(request), $externalize(attr, MatchAttr)).then($externalize((function(response) {
+		resChan[0] = new $Chan(cacheResponse, 0);
+		c.Object.match(shell.WebRequestToJSRequest(request[0]), $externalize(attr, MatchAttr)).then($externalize((function(request, resChan) { return function(response) {
 			var $ptr, response;
-			$go((function $b() {
+			$go((function(request, resChan) { return function $b() {
 				var $ptr, _r, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 				_r = shell.ObjectToWebResponse(response); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-				$r = $send(resChan, new CacheResponse.ptr($ifaceNil, $clone(_r, shell.WebResponse))); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(resChan[0], new cacheResponse.ptr($ifaceNil, $clone(_r, shell.WebResponse))); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType)).catch($externalize((function(err) {
+			}; })(request, resChan), []);
+		}; })(request, resChan), funcType$2)).catch($externalize((function(request, resChan) { return function(err) {
 			var $ptr, err;
-			$go((function $b() {
+			$go((function(request, resChan) { return function $b() {
 				var $ptr, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(resChan, new CacheResponse.ptr(errors.New($internalize(err, $String)), new shell.WebResponse.ptr("", false, false, 0, "", "", "", sliceType$1.nil, false, null))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(resChan[0], new cacheResponse.ptr(errors.New($internalize(err, $String)), new shell.WebResponse.ptr(0, false, false, sliceType$1.nil, "", "", "", "", "", null, false, sliceType.nil))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType));
-		return resChan;
+			}; })(request, resChan), []);
+		}; })(request, resChan), funcType$2));
+		_r = $recv(resChan[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		opVal = $clone(_r[0], cacheResponse);
+		$s = -1; return [opVal.Response, opVal.Error];
+		return [opVal.Response, opVal.Error];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.Match }; } $f.$ptr = $ptr; $f._r = _r; $f.attr = attr; $f.c = c; $f.opVal = opVal; $f.request = request; $f.resChan = resChan; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	CacheAPI.prototype.Match = function(request, attr) { return this.$val.Match(request, attr); };
 	CacheAPI.ptr.prototype.MatchAllPath = function(request, attr) {
-		var $ptr, attr, c, request, resChan;
+		var $ptr, _r, attr, c, opVal, request, resChan, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; attr = $f.attr; c = $f.c; opVal = $f.opVal; request = $f.request; resChan = $f.resChan; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		resChan = [resChan];
 		attr = $clone(attr, MatchAttr);
 		c = this;
-		resChan = new $Chan(CacheAllResponse, 0);
-		c.Object.match($externalize(request, $String), $externalize(attr, MatchAttr)).then($externalize((function(responses) {
+		resChan[0] = new $Chan(cacheAllResponse, 0);
+		c.Object.match($externalize(request, $String), $externalize(attr, MatchAttr)).then($externalize((function(resChan) { return function(responses) {
 			var $ptr, responses;
-			$go((function $b() {
+			$go((function(resChan) { return function $b() {
 				var $ptr, _r, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 				_r = shell.AllObjectToWebResponse(shell.ObjectToList(responses)); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-				$r = $send(resChan, new CacheAllResponse.ptr($ifaceNil, _r)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(resChan[0], new cacheAllResponse.ptr($ifaceNil, _r)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType)).catch($externalize((function(err) {
+			}; })(resChan), []);
+		}; })(resChan), funcType$2)).catch($externalize((function(resChan) { return function(err) {
 			var $ptr, err;
-			$go((function $b() {
+			$go((function(resChan) { return function $b() {
 				var $ptr, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(resChan, new CacheAllResponse.ptr(errors.New($internalize(err, $String)), sliceType$2.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(resChan[0], new cacheAllResponse.ptr(errors.New($internalize(err, $String)), sliceType$2.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType));
-		return resChan;
+			}; })(resChan), []);
+		}; })(resChan), funcType$2));
+		_r = $recv(resChan[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		opVal = $clone(_r[0], cacheAllResponse);
+		$s = -1; return [opVal.Response, opVal.Error];
+		return [opVal.Response, opVal.Error];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.MatchAllPath }; } $f.$ptr = $ptr; $f._r = _r; $f.attr = attr; $f.c = c; $f.opVal = opVal; $f.request = request; $f.resChan = resChan; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	CacheAPI.prototype.MatchAllPath = function(request, attr) { return this.$val.MatchAllPath(request, attr); };
 	CacheAPI.ptr.prototype.MatchAll = function(request, attr) {
-		var $ptr, attr, c, request, resChan;
+		var $ptr, _r, attr, c, opVal, request, resChan, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; attr = $f.attr; c = $f.c; opVal = $f.opVal; request = $f.request; resChan = $f.resChan; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		request = [request];
+		resChan = [resChan];
 		attr = $clone(attr, MatchAttr);
-		request = $clone(request, shell.WebRequest);
+		request[0] = $clone(request[0], shell.WebRequest);
 		c = this;
-		resChan = new $Chan(CacheAllResponse, 0);
-		c.Object.match(shell.WebRequestToJSRequest(request), $externalize(attr, MatchAttr)).then($externalize((function(responses) {
+		resChan[0] = new $Chan(cacheAllResponse, 0);
+		c.Object.match(shell.WebRequestToJSRequest(request[0]), $externalize(attr, MatchAttr)).then($externalize((function(request, resChan) { return function(responses) {
 			var $ptr, responses;
-			$go((function $b() {
+			$go((function(request, resChan) { return function $b() {
 				var $ptr, _r, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 				_r = shell.AllObjectToWebResponse(shell.ObjectToList(responses)); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-				$r = $send(resChan, new CacheAllResponse.ptr($ifaceNil, _r)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(resChan[0], new cacheAllResponse.ptr($ifaceNil, _r)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType)).catch($externalize((function(err) {
+			}; })(request, resChan), []);
+		}; })(request, resChan), funcType$2)).catch($externalize((function(request, resChan) { return function(err) {
 			var $ptr, err;
-			$go((function $b() {
+			$go((function(request, resChan) { return function $b() {
 				var $ptr, $s, $r;
 				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(resChan, new CacheAllResponse.ptr(errors.New($internalize(err, $String)), sliceType$2.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$r = $send(resChan[0], new cacheAllResponse.ptr(errors.New($internalize(err, $String)), sliceType$2.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 				$s = -1; return;
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}), []);
-		}), funcType));
-		return resChan;
+			}; })(request, resChan), []);
+		}; })(request, resChan), funcType$2));
+		_r = $recv(resChan[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		opVal = $clone(_r[0], cacheAllResponse);
+		$s = -1; return [opVal.Response, opVal.Error];
+		return [opVal.Response, opVal.Error];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.MatchAll }; } $f.$ptr = $ptr; $f._r = _r; $f.attr = attr; $f.c = c; $f.opVal = opVal; $f.request = request; $f.resChan = resChan; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	CacheAPI.prototype.MatchAll = function(request, attr) { return this.$val.MatchAll(request, attr); };
-	ptrType$3.methods = [{prop: "Open", name: "Open", pkg: "", typ: $funcType([$String], [chanType], false)}];
-	ptrType.methods = [{prop: "Put", name: "Put", pkg: "", typ: $funcType([$emptyInterface, shell.WebResponse], [chanType$1], false)}, {prop: "Add", name: "Add", pkg: "", typ: $funcType([sliceType], [chanType$1], true)}, {prop: "MatchPath", name: "MatchPath", pkg: "", typ: $funcType([$String, MatchAttr], [CacheResponseChannel], false)}, {prop: "Match", name: "Match", pkg: "", typ: $funcType([shell.WebRequest, MatchAttr], [CacheResponseChannel], false)}, {prop: "MatchAllPath", name: "MatchAllPath", pkg: "", typ: $funcType([$String, MatchAttr], [CacheAllResponseChannel], false)}, {prop: "MatchAll", name: "MatchAll", pkg: "", typ: $funcType([shell.WebRequest, MatchAttr], [CacheAllResponseChannel], false)}];
-	WebCacheAPI.init("", [{prop: "Object", name: "", exported: true, typ: ptrType$1, tag: ""}]);
-	NewCacheResponse.init("", [{prop: "Error", name: "Error", exported: true, typ: $error, tag: "json:\"error\""}, {prop: "Cache", name: "Cache", exported: true, typ: ptrType, tag: "json:\"cache\""}]);
-	CacheAPI.init("", [{prop: "Object", name: "", exported: true, typ: ptrType$1, tag: ""}]);
-	CacheResponse.init("", [{prop: "Error", name: "Error", exported: true, typ: $error, tag: "json:\"error\""}, {prop: "Response", name: "Response", exported: true, typ: shell.WebResponse, tag: "json:\"response\""}]);
-	CacheResponseChannel.init(CacheResponse, false, false);
+	CacheAPI.ptr.prototype.Delete = function(request) {
+		var $ptr, _r, c, request, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; c = $f.c; request = $f.request; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		request = $clone(request, shell.WebRequest);
+		c = this;
+		_r = c.DeleteRequest(request, new MatchAttr.ptr(false, false, false, "")); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		$s = -1; return _r;
+		return _r;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.Delete }; } $f.$ptr = $ptr; $f._r = _r; $f.c = c; $f.request = request; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.Delete = function(request) { return this.$val.Delete(request); };
+	CacheAPI.ptr.prototype.DeletePath = function(request, attr) {
+		var $ptr, _r, attr, c, request, resChn, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; attr = $f.attr; c = $f.c; request = $f.request; resChn = $f.resChn; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		resChn = [resChn];
+		attr = $clone(attr, MatchAttr);
+		c = this;
+		resChn[0] = new $Chan($error, 0);
+		c.Object.delete($externalize(request, $String), $externalize(attr, MatchAttr)).then($externalize((function(resChn) { return function $b(response) {
+			var $ptr, response, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; response = $f.response; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			if (!!(response)) {
+				$close(resChn[0]);
+				$s = -1; return;
+				return;
+			}
+			$r = $send(resChn[0], $pkg.ErrRequestDoesNotExists); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$s = -1; return;
+			return;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.response = response; $f.$s = $s; $f.$r = $r; return $f;
+		}; })(resChn), funcType$2)).catch($externalize((function(resChn) { return function(err) {
+			var $ptr, err;
+			$go((function(resChn) { return function $b() {
+				var $ptr, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				$r = $send(resChn[0], errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$s = -1; return;
+				return;
+				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(resChn), []);
+		}; })(resChn), funcType$2));
+		_r = $recv(resChn[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		$s = -1; return _r[0];
+		return _r[0];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.DeletePath }; } $f.$ptr = $ptr; $f._r = _r; $f.attr = attr; $f.c = c; $f.request = request; $f.resChn = resChn; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.DeletePath = function(request, attr) { return this.$val.DeletePath(request, attr); };
+	CacheAPI.ptr.prototype.DeleteRequest = function(request, attr) {
+		var $ptr, _r, attr, c, request, resChn, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; attr = $f.attr; c = $f.c; request = $f.request; resChn = $f.resChn; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		resChn = [resChn];
+		attr = $clone(attr, MatchAttr);
+		request = $clone(request, shell.WebRequest);
+		c = this;
+		resChn[0] = new $Chan($error, 0);
+		c.Object.delete($externalize(request, shell.WebRequest), $externalize(attr, MatchAttr)).then($externalize((function(resChn) { return function $b(response) {
+			var $ptr, response, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; response = $f.response; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			if (!!(response)) {
+				$close(resChn[0]);
+				$s = -1; return;
+				return;
+			}
+			$r = $send(resChn[0], $pkg.ErrRequestDoesNotExists); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$s = -1; return;
+			return;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.response = response; $f.$s = $s; $f.$r = $r; return $f;
+		}; })(resChn), funcType$2)).catch($externalize((function(resChn) { return function(err) {
+			var $ptr, err;
+			$go((function(resChn) { return function $b() {
+				var $ptr, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				$r = $send(resChn[0], errors.New($internalize(err, $String))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$s = -1; return;
+				return;
+				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(resChn), []);
+		}; })(resChn), funcType$2));
+		_r = $recv(resChn[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		$s = -1; return _r[0];
+		return _r[0];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.DeleteRequest }; } $f.$ptr = $ptr; $f._r = _r; $f.attr = attr; $f.c = c; $f.request = request; $f.resChn = resChn; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.DeleteRequest = function(request, attr) { return this.$val.DeleteRequest(request, attr); };
+	CacheAPI.ptr.prototype.Key = function(request, attr) {
+		var $ptr, _r, _r$1, _ref, attr, c, opVal, opVal$1, request, resChn, ro, ro$1, ro$2, ro$3, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; attr = $f.attr; c = $f.c; opVal = $f.opVal; opVal$1 = $f.opVal$1; request = $f.request; resChn = $f.resChn; ro = $f.ro; ro$1 = $f.ro$1; ro$2 = $f.ro$2; ro$3 = $f.ro$3; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		resChn = [resChn];
+		ro = [ro];
+		attr = $clone(attr, MatchAttr);
+		c = this;
+		resChn[0] = new $Chan(cacheKeys, 0);
+		/* */ if ($interfaceIsEqual(request, $ifaceNil)) { $s = 1; continue; }
+		/* */ $s = 2; continue;
+		/* if ($interfaceIsEqual(request, $ifaceNil)) { */ case 1:
+			c.Object.keys(null, $externalize(attr, MatchAttr)).then($externalize((function(resChn, ro) { return function(response) {
+				var $ptr, response;
+				$go((function(resChn, ro) { return function $b() {
+					var $ptr, $s, $r;
+					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+					$r = $send(resChn[0], new cacheKeys.ptr($ifaceNil, shell.ObjectToStringList(response))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$s = -1; return;
+					return;
+					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+				}; })(resChn, ro), []);
+			}; })(resChn, ro), funcType$2)).catch($externalize((function(resChn, ro) { return function(err) {
+				var $ptr, err;
+				$go((function(resChn, ro) { return function $b() {
+					var $ptr, $s, $r;
+					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+					$r = $send(resChn[0], new cacheKeys.ptr(errors.New($internalize(err, $String)), sliceType.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$s = -1; return;
+					return;
+					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+				}; })(resChn, ro), []);
+			}; })(resChn, ro), funcType$2));
+			_r = $recv(resChn[0]); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			opVal = $clone(_r[0], cacheKeys);
+			$s = -1; return [opVal.Response, opVal.Error];
+			return [opVal.Response, opVal.Error];
+		/* } */ case 2:
+		_ref = request;
+		/* */ if ($assertType(_ref, $String, true)[1]) { $s = 4; continue; }
+		/* */ if ($assertType(_ref, shell.WebRequest, true)[1]) { $s = 5; continue; }
+		/* */ if ($assertType(_ref, ptrType$3, true)[1]) { $s = 6; continue; }
+		/* */ $s = 7; continue;
+		/* if ($assertType(_ref, $String, true)[1]) { */ case 4:
+			ro$1 = _ref.$val;
+			c.Object.keys($externalize(ro$1, $String), $externalize(attr, MatchAttr)).then($externalize((function(resChn, ro) { return function(response) {
+				var $ptr, response;
+				$go((function(resChn, ro) { return function $b() {
+					var $ptr, $s, $r;
+					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+					$r = $send(resChn[0], new cacheKeys.ptr($ifaceNil, shell.ObjectToStringList(response))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$s = -1; return;
+					return;
+					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+				}; })(resChn, ro), []);
+			}; })(resChn, ro), funcType$2)).catch($externalize((function(resChn, ro) { return function(err) {
+				var $ptr, err;
+				$go((function(resChn, ro) { return function $b() {
+					var $ptr, $s, $r;
+					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+					$r = $send(resChn[0], new cacheKeys.ptr(errors.New($internalize(err, $String)), sliceType.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$s = -1; return;
+					return;
+					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+				}; })(resChn, ro), []);
+			}; })(resChn, ro), funcType$2));
+			$s = 8; continue;
+		/* } else if ($assertType(_ref, shell.WebRequest, true)[1]) { */ case 5:
+			ro[0] = $clone(_ref.$val, shell.WebRequest);
+			c.Object.keys(shell.WebRequestToJSRequest(ro[0]), $externalize(attr, MatchAttr)).then($externalize((function(resChn, ro) { return function(response) {
+				var $ptr, response;
+				$go((function(resChn, ro) { return function $b() {
+					var $ptr, $s, $r;
+					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+					$r = $send(resChn[0], new cacheKeys.ptr($ifaceNil, shell.ObjectToStringList(response))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$s = -1; return;
+					return;
+					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+				}; })(resChn, ro), []);
+			}; })(resChn, ro), funcType$2)).catch($externalize((function(resChn, ro) { return function(err) {
+				var $ptr, err;
+				$go((function(resChn, ro) { return function $b() {
+					var $ptr, $s, $r;
+					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+					$r = $send(resChn[0], new cacheKeys.ptr(errors.New($internalize(err, $String)), sliceType.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$s = -1; return;
+					return;
+					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+				}; })(resChn, ro), []);
+			}; })(resChn, ro), funcType$2));
+			$s = 8; continue;
+		/* } else if ($assertType(_ref, ptrType$3, true)[1]) { */ case 6:
+			ro$2 = _ref.$val;
+			c.Object.keys(shell.WebRequestToJSRequest(ro$2), $externalize(attr, MatchAttr)).then($externalize((function(resChn, ro) { return function(response) {
+				var $ptr, response;
+				$go((function(resChn, ro) { return function $b() {
+					var $ptr, $s, $r;
+					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+					$r = $send(resChn[0], new cacheKeys.ptr($ifaceNil, shell.ObjectToStringList(response))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$s = -1; return;
+					return;
+					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+				}; })(resChn, ro), []);
+			}; })(resChn, ro), funcType$2)).catch($externalize((function(resChn, ro) { return function(err) {
+				var $ptr, err;
+				$go((function(resChn, ro) { return function $b() {
+					var $ptr, $s, $r;
+					/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+					$r = $send(resChn[0], new cacheKeys.ptr(errors.New($internalize(err, $String)), sliceType.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+					$s = -1; return;
+					return;
+					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+				}; })(resChn, ro), []);
+			}; })(resChn, ro), funcType$2));
+			$s = 8; continue;
+		/* } else { */ case 7:
+			ro$3 = _ref;
+			$go((function(resChn, ro) { return function $b() {
+				var $ptr, $s, $r;
+				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+				$r = $send(resChn[0], new cacheKeys.ptr(errors.New("Request type not supported in cache"), sliceType.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				$s = -1; return;
+				return;
+				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
+			}; })(resChn, ro), []);
+		/* } */ case 8:
+		_r$1 = $recv(resChn[0]); /* */ $s = 9; case 9: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+		opVal$1 = $clone(_r$1[0], cacheKeys);
+		$s = -1; return [opVal$1.Response, opVal$1.Error];
+		return [opVal$1.Response, opVal$1.Error];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.Key }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f.attr = attr; $f.c = c; $f.opVal = opVal; $f.opVal$1 = opVal$1; $f.request = request; $f.resChn = resChn; $f.ro = ro; $f.ro$1 = ro$1; $f.ro$2 = ro$2; $f.ro$3 = ro$3; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.Key = function(request, attr) { return this.$val.Key(request, attr); };
+	CacheAPI.ptr.prototype.All = function() {
+		var $ptr, _i, _r, _r$1, _ref, _tuple, _tuple$1, c, err, err$1, key, keys, pairs, req, res, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; c = $f.c; err = $f.err; err$1 = $f.err$1; key = $f.key; keys = $f.keys; pairs = $f.pairs; req = $f.req; res = $f.res; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		c = this;
+		_r = c.Key($ifaceNil, new MatchAttr.ptr(false, false, false, "")); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r;
+		keys = _tuple[0];
+		err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			$s = -1; return [sliceType$3.nil, err];
+			return [sliceType$3.nil, err];
+		}
+		pairs = sliceType$3.nil;
+		_ref = keys;
+		_i = 0;
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+			key = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			req = new shell.WebRequest.ptr(false, false, sliceType$1.nil, "", "", "", "", "", "", "", "", null, "", false);
+			req.URL = key;
+			req.Method = "GET";
+			req.Credentials = "same-origin";
+			req.Cache = shell.DefaultStrategy;
+			_r$1 = c.MatchPath(req.URL, new MatchAttr.ptr(false, false, false, "")); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			_tuple$1 = _r$1;
+			res = $clone(_tuple$1[0], shell.WebResponse);
+			err$1 = _tuple$1[1];
+			if (!($interfaceIsEqual(err$1, $ifaceNil))) {
+				$s = -1; return [pairs, err$1];
+				return [pairs, err$1];
+			}
+			pairs = $append(pairs, new shell.WebPair.ptr($clone(req, shell.WebRequest), $clone(res, shell.WebResponse)));
+			_i++;
+		/* } */ $s = 2; continue; case 3:
+		$s = -1; return [pairs, $ifaceNil];
+		return [pairs, $ifaceNil];
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.All }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f.c = c; $f.err = err; $f.err$1 = err$1; $f.key = key; $f.keys = keys; $f.pairs = pairs; $f.req = req; $f.res = res; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.All = function() { return this.$val.All(); };
+	CacheAPI.ptr.prototype.Empty = function() {
+		var $ptr, _i, _r, _r$1, _ref, _tuple, c, err, key, keys, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _i = $f._i; _r = $f._r; _r$1 = $f._r$1; _ref = $f._ref; _tuple = $f._tuple; c = $f.c; err = $f.err; key = $f.key; keys = $f.keys; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		c = this;
+		_r = c.Key($ifaceNil, new MatchAttr.ptr(false, false, false, "")); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_tuple = _r;
+		keys = _tuple[0];
+		err = _tuple[1];
+		if (!($interfaceIsEqual(err, $ifaceNil))) {
+			$s = -1; return err;
+			return err;
+		}
+		_ref = keys;
+		_i = 0;
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+			key = ((_i < 0 || _i >= _ref.$length) ? $throwRuntimeError("index out of range") : _ref.$array[_ref.$offset + _i]);
+			_r$1 = c.DeletePath(key, new MatchAttr.ptr(false, false, false, "")); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			_r$1;
+			_i++;
+		/* } */ $s = 2; continue; case 3:
+		$s = -1; return $ifaceNil;
+		return $ifaceNil;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: CacheAPI.ptr.prototype.Empty }; } $f.$ptr = $ptr; $f._i = _i; $f._r = _r; $f._r$1 = _r$1; $f._ref = _ref; $f._tuple = _tuple; $f.c = c; $f.err = err; $f.key = key; $f.keys = keys; $f.$s = $s; $f.$r = $r; return $f;
+	};
+	CacheAPI.prototype.Empty = function() { return this.$val.Empty(); };
+	ptrType.methods = [{prop: "Open", name: "Open", pkg: "", typ: $funcType([$String], [ptrType$1, $error], false)}];
+	ptrType$1.methods = [{prop: "Add", name: "Add", pkg: "", typ: $funcType([sliceType], [$error], true)}, {prop: "PutPath", name: "PutPath", pkg: "", typ: $funcType([$String, shell.WebResponse], [$error], false)}, {prop: "Put", name: "Put", pkg: "", typ: $funcType([shell.WebRequest, shell.WebResponse], [$error], false)}, {prop: "GetManifest", name: "GetManifest", pkg: "", typ: $funcType([shell.ManifestAttr], [shell.WebRequest, shell.WebResponse, $error], false)}, {prop: "GetRequest", name: "GetRequest", pkg: "", typ: $funcType([shell.WebRequest], [shell.WebResponse, $error], false)}, {prop: "GetPath", name: "GetPath", pkg: "", typ: $funcType([$String], [shell.WebRequest, shell.WebResponse, $error], false)}, {prop: "MatchPath", name: "MatchPath", pkg: "", typ: $funcType([$String, MatchAttr], [shell.WebResponse, $error], false)}, {prop: "Match", name: "Match", pkg: "", typ: $funcType([shell.WebRequest, MatchAttr], [shell.WebResponse, $error], false)}, {prop: "MatchAllPath", name: "MatchAllPath", pkg: "", typ: $funcType([$String, MatchAttr], [sliceType$2, $error], false)}, {prop: "MatchAll", name: "MatchAll", pkg: "", typ: $funcType([shell.WebRequest, MatchAttr], [sliceType$2, $error], false)}, {prop: "Delete", name: "Delete", pkg: "", typ: $funcType([shell.WebRequest], [$error], false)}, {prop: "DeletePath", name: "DeletePath", pkg: "", typ: $funcType([$String, MatchAttr], [$error], false)}, {prop: "DeleteRequest", name: "DeleteRequest", pkg: "", typ: $funcType([shell.WebRequest, MatchAttr], [$error], false)}, {prop: "Key", name: "Key", pkg: "", typ: $funcType([$emptyInterface, MatchAttr], [sliceType, $error], false)}, {prop: "All", name: "All", pkg: "", typ: $funcType([], [sliceType$3, $error], false)}, {prop: "Empty", name: "Empty", pkg: "", typ: $funcType([], [$error], false)}];
+	API.init("", [{prop: "Object", name: "", exported: true, typ: ptrType$2, tag: ""}]);
+	newCacheResponse.init("", [{prop: "Error", name: "Error", exported: true, typ: $error, tag: "json:\"error\""}, {prop: "Cache", name: "Cache", exported: true, typ: ptrType$1, tag: "json:\"cache\""}]);
+	CacheAPI.init("", [{prop: "Object", name: "", exported: true, typ: ptrType$2, tag: ""}]);
 	MatchAttr.init("", [{prop: "IgnoreSearch", name: "IgnoreSearch", exported: true, typ: $Bool, tag: ""}, {prop: "IgnoreMethod", name: "IgnoreMethod", exported: true, typ: $Bool, tag: ""}, {prop: "IgnoreVary", name: "IgnoreVary", exported: true, typ: $Bool, tag: ""}, {prop: "CatchName", name: "CatchName", exported: true, typ: $String, tag: ""}]);
-	CacheAllResponse.init("", [{prop: "Error", name: "Error", exported: true, typ: $error, tag: "json:\"error\""}, {prop: "Response", name: "Response", exported: true, typ: sliceType$2, tag: "json:\"response\""}]);
-	CacheAllResponseChannel.init(CacheAllResponse, false, false);
+	cacheResponse.init("", [{prop: "Error", name: "Error", exported: true, typ: $error, tag: "json:\"error\""}, {prop: "Response", name: "Response", exported: true, typ: shell.WebResponse, tag: "json:\"response\""}]);
+	cacheAllResponse.init("", [{prop: "Error", name: "Error", exported: true, typ: $error, tag: "json:\"error\""}, {prop: "Response", name: "Response", exported: true, typ: sliceType$2, tag: "json:\"response\""}]);
+	cacheKeys.init("", [{prop: "Error", name: "Error", exported: true, typ: $error, tag: "json:\"error\""}, {prop: "Response", name: "Response", exported: true, typ: sliceType, tag: "json:\"response\""}]);
 	$init = function() {
 		$pkg.$init = function() {};
 		/* */ var $f, $c = false, $s = 0, $r; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		$r = errors.$init(); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = js.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = shell.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = shell.$init(); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = js.$init(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$pkg.ErrInvalidState = errors.New("Cache Not Found");
 		$pkg.ErrCacheNotFound = errors.New("Cache Not Found");
+		$pkg.ErrRequestDoesNotExists = errors.New("Request not existing");
 		/* */ } return; } if ($f === undefined) { $f = { $blk: $init }; } $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.$init = $init;
 	return $pkg;
 })();
-$packages["honnef.co/go/js/dom"] = (function() {
+$packages["github.com/gu-io/gu/vendor/honnef.co/go/js/dom"] = (function() {
 	var $pkg = {}, $init, js, strings, time, TokenList, Document, DocumentFragment, HTMLDocument, documentFragment, document, htmlDocument, URLUtils, Location, HTMLElement, Window, window, Selection, Screen, Navigator, Geolocation, PositionError, PositionOptions, Position, Coordinates, History, Console, DocumentType, DOMImplementation, StyleSheet, Node, BasicNode, Element, ClientRect, BasicHTMLElement, BasicElement, HTMLAnchorElement, HTMLAppletElement, HTMLAreaElement, HTMLAudioElement, HTMLBRElement, HTMLBaseElement, HTMLBodyElement, ValidityState, HTMLButtonElement, HTMLCanvasElement, CanvasRenderingContext2D, HTMLDListElement, HTMLDataElement, HTMLDataListElement, HTMLDirectoryElement, HTMLDivElement, HTMLEmbedElement, HTMLFieldSetElement, HTMLFontElement, HTMLFormElement, HTMLFrameElement, HTMLFrameSetElement, HTMLHRElement, HTMLHeadElement, HTMLHeadingElement, HTMLHtmlElement, HTMLIFrameElement, HTMLImageElement, HTMLInputElement, File, HTMLKeygenElement, HTMLLIElement, HTMLLabelElement, HTMLLegendElement, HTMLLinkElement, HTMLMapElement, HTMLMediaElement, HTMLMenuElement, HTMLMetaElement, HTMLMeterElement, HTMLModElement, HTMLOListElement, HTMLObjectElement, HTMLOptGroupElement, HTMLOptionElement, HTMLOutputElement, HTMLParagraphElement, HTMLParamElement, HTMLPreElement, HTMLProgressElement, HTMLQuoteElement, HTMLScriptElement, HTMLSelectElement, HTMLSourceElement, HTMLSpanElement, HTMLStyleElement, HTMLTableCaptionElement, HTMLTableCellElement, HTMLTableColElement, HTMLTableDataCellElement, HTMLTableElement, HTMLTableHeaderCellElement, HTMLTableRowElement, HTMLTableSectionElement, HTMLTextAreaElement, HTMLTimeElement, HTMLTitleElement, TextTrack, HTMLTrackElement, HTMLUListElement, HTMLUnknownElement, HTMLVideoElement, CSSStyleDeclaration, Text, Event, BasicEvent, AnimationEvent, AudioProcessingEvent, BeforeInputEvent, BeforeUnloadEvent, BlobEvent, ClipboardEvent, CloseEvent, CompositionEvent, CSSFontFaceLoadEvent, CustomEvent, DeviceLightEvent, DeviceMotionEvent, DeviceOrientationEvent, DeviceProximityEvent, DOMTransactionEvent, DragEvent, EditingBeforeInputEvent, ErrorEvent, FocusEvent, GamepadEvent, HashChangeEvent, IDBVersionChangeEvent, KeyboardEvent, MediaStreamEvent, MessageEvent, MouseEvent, MutationEvent, OfflineAudioCompletionEvent, PageTransitionEvent, PointerEvent, PopStateEvent, ProgressEvent, RelatedEvent, RTCPeerConnectionIceEvent, SensorEvent, StorageEvent, SVGEvent, SVGZoomEvent, TimeEvent, TouchEvent, TrackEvent, TransitionEvent, UIEvent, UserProximityEvent, WheelEvent, sliceType, ptrType, sliceType$1, sliceType$2, sliceType$3, sliceType$4, ptrType$1, ptrType$2, ptrType$3, ptrType$4, ptrType$5, ptrType$6, sliceType$5, ptrType$7, sliceType$6, sliceType$7, sliceType$8, ptrType$8, ptrType$9, sliceType$9, ptrType$10, sliceType$10, ptrType$11, sliceType$11, ptrType$12, funcType, funcType$1, ptrType$13, sliceType$12, ptrType$14, ptrType$15, sliceType$13, ptrType$16, sliceType$14, ptrType$17, sliceType$15, ptrType$18, ptrType$19, ptrType$20, funcType$2, sliceType$16, ptrType$21, ptrType$22, ptrType$23, ptrType$24, mapType, ptrType$25, ptrType$26, funcType$3, ptrType$27, ptrType$28, funcType$4, funcType$5, ptrType$29, ptrType$30, ptrType$31, ptrType$32, ptrType$33, ptrType$34, ptrType$35, ptrType$36, ptrType$37, ptrType$38, ptrType$39, ptrType$40, ptrType$41, ptrType$42, ptrType$43, ptrType$44, ptrType$45, ptrType$46, ptrType$47, ptrType$48, ptrType$49, ptrType$50, ptrType$51, ptrType$52, ptrType$53, ptrType$54, toString, callRecover, elementConstructor, arrayToObjects, nodeListToObjects, nodeListToNodes, nodeListToElements, nodeListToHTMLElements, wrapDocument, wrapDocumentFragment, wrapNode, wrapElement, wrapHTMLElement, getForm, getLabels, getOptions, GetWindow, wrapDOMHighResTimeStamp, wrapEvent;
-	js = $packages["github.com/gopherjs/gopherjs/js"];
+	js = $packages["github.com/gu-io/gu/vendor/github.com/gopherjs/gopherjs/js"];
 	strings = $packages["strings"];
 	time = $packages["time"];
-	TokenList = $pkg.TokenList = $newType(0, $kindStruct, "dom.TokenList", true, "honnef.co/go/js/dom", true, function(dtl_, o_, sa_, Length_) {
+	TokenList = $pkg.TokenList = $newType(0, $kindStruct, "dom.TokenList", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(dtl_, o_, sa_, Length_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.dtl = null;
@@ -21582,10 +22213,10 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.sa = sa_;
 		this.Length = Length_;
 	});
-	Document = $pkg.Document = $newType(8, $kindInterface, "dom.Document", true, "honnef.co/go/js/dom", true, null);
-	DocumentFragment = $pkg.DocumentFragment = $newType(8, $kindInterface, "dom.DocumentFragment", true, "honnef.co/go/js/dom", true, null);
-	HTMLDocument = $pkg.HTMLDocument = $newType(8, $kindInterface, "dom.HTMLDocument", true, "honnef.co/go/js/dom", true, null);
-	documentFragment = $pkg.documentFragment = $newType(0, $kindStruct, "dom.documentFragment", true, "honnef.co/go/js/dom", false, function(BasicNode_) {
+	Document = $pkg.Document = $newType(8, $kindInterface, "dom.Document", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	DocumentFragment = $pkg.DocumentFragment = $newType(8, $kindInterface, "dom.DocumentFragment", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	HTMLDocument = $pkg.HTMLDocument = $newType(8, $kindInterface, "dom.HTMLDocument", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	documentFragment = $pkg.documentFragment = $newType(0, $kindStruct, "dom.documentFragment", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", false, function(BasicNode_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicNode = ptrType$22.nil;
@@ -21593,7 +22224,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicNode = BasicNode_;
 	});
-	document = $pkg.document = $newType(0, $kindStruct, "dom.document", true, "honnef.co/go/js/dom", false, function(BasicNode_) {
+	document = $pkg.document = $newType(0, $kindStruct, "dom.document", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", false, function(BasicNode_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicNode = ptrType$22.nil;
@@ -21601,7 +22232,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicNode = BasicNode_;
 	});
-	htmlDocument = $pkg.htmlDocument = $newType(0, $kindStruct, "dom.htmlDocument", true, "honnef.co/go/js/dom", false, function(document_) {
+	htmlDocument = $pkg.htmlDocument = $newType(0, $kindStruct, "dom.htmlDocument", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", false, function(document_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.document = ptrType$23.nil;
@@ -21609,7 +22240,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.document = document_;
 	});
-	URLUtils = $pkg.URLUtils = $newType(0, $kindStruct, "dom.URLUtils", true, "honnef.co/go/js/dom", true, function(Object_, Href_, Protocol_, Host_, Hostname_, Port_, Pathname_, Search_, Hash_, Username_, Password_, Origin_) {
+	URLUtils = $pkg.URLUtils = $newType(0, $kindStruct, "dom.URLUtils", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_, Href_, Protocol_, Host_, Hostname_, Port_, Pathname_, Search_, Hash_, Username_, Password_, Origin_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21639,7 +22270,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Password = Password_;
 		this.Origin = Origin_;
 	});
-	Location = $pkg.Location = $newType(0, $kindStruct, "dom.Location", true, "honnef.co/go/js/dom", true, function(Object_, URLUtils_) {
+	Location = $pkg.Location = $newType(0, $kindStruct, "dom.Location", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_, URLUtils_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21649,9 +22280,9 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Object = Object_;
 		this.URLUtils = URLUtils_;
 	});
-	HTMLElement = $pkg.HTMLElement = $newType(8, $kindInterface, "dom.HTMLElement", true, "honnef.co/go/js/dom", true, null);
-	Window = $pkg.Window = $newType(8, $kindInterface, "dom.Window", true, "honnef.co/go/js/dom", true, null);
-	window = $pkg.window = $newType(0, $kindStruct, "dom.window", true, "honnef.co/go/js/dom", false, function(Object_) {
+	HTMLElement = $pkg.HTMLElement = $newType(8, $kindInterface, "dom.HTMLElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	Window = $pkg.Window = $newType(8, $kindInterface, "dom.Window", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	window = $pkg.window = $newType(0, $kindStruct, "dom.window", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", false, function(Object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21659,8 +22290,8 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.Object = Object_;
 	});
-	Selection = $pkg.Selection = $newType(8, $kindInterface, "dom.Selection", true, "honnef.co/go/js/dom", true, null);
-	Screen = $pkg.Screen = $newType(0, $kindStruct, "dom.Screen", true, "honnef.co/go/js/dom", true, function(Object_, AvailTop_, AvailLeft_, AvailHeight_, AvailWidth_, ColorDepth_, Height_, Left_, PixelDepth_, Top_, Width_) {
+	Selection = $pkg.Selection = $newType(8, $kindInterface, "dom.Selection", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	Screen = $pkg.Screen = $newType(0, $kindStruct, "dom.Screen", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_, AvailTop_, AvailLeft_, AvailHeight_, AvailWidth_, ColorDepth_, Height_, Left_, PixelDepth_, Top_, Width_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21688,9 +22319,9 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Top = Top_;
 		this.Width = Width_;
 	});
-	Navigator = $pkg.Navigator = $newType(8, $kindInterface, "dom.Navigator", true, "honnef.co/go/js/dom", true, null);
-	Geolocation = $pkg.Geolocation = $newType(8, $kindInterface, "dom.Geolocation", true, "honnef.co/go/js/dom", true, null);
-	PositionError = $pkg.PositionError = $newType(0, $kindStruct, "dom.PositionError", true, "honnef.co/go/js/dom", true, function(Object_, Code_) {
+	Navigator = $pkg.Navigator = $newType(8, $kindInterface, "dom.Navigator", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	Geolocation = $pkg.Geolocation = $newType(8, $kindInterface, "dom.Geolocation", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	PositionError = $pkg.PositionError = $newType(0, $kindStruct, "dom.PositionError", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_, Code_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21700,7 +22331,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Object = Object_;
 		this.Code = Code_;
 	});
-	PositionOptions = $pkg.PositionOptions = $newType(0, $kindStruct, "dom.PositionOptions", true, "honnef.co/go/js/dom", true, function(EnableHighAccuracy_, Timeout_, MaximumAge_) {
+	PositionOptions = $pkg.PositionOptions = $newType(0, $kindStruct, "dom.PositionOptions", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(EnableHighAccuracy_, Timeout_, MaximumAge_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.EnableHighAccuracy = false;
@@ -21712,7 +22343,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Timeout = Timeout_;
 		this.MaximumAge = MaximumAge_;
 	});
-	Position = $pkg.Position = $newType(0, $kindStruct, "dom.Position", true, "honnef.co/go/js/dom", true, function(Coords_, Timestamp_) {
+	Position = $pkg.Position = $newType(0, $kindStruct, "dom.Position", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Coords_, Timestamp_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Coords = ptrType$30.nil;
@@ -21722,7 +22353,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Coords = Coords_;
 		this.Timestamp = Timestamp_;
 	});
-	Coordinates = $pkg.Coordinates = $newType(0, $kindStruct, "dom.Coordinates", true, "honnef.co/go/js/dom", true, function(Object_, Latitude_, Longitude_, Altitude_, Accuracy_, AltitudeAccuracy_, Heading_, Speed_) {
+	Coordinates = $pkg.Coordinates = $newType(0, $kindStruct, "dom.Coordinates", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_, Latitude_, Longitude_, Altitude_, Accuracy_, AltitudeAccuracy_, Heading_, Speed_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21744,8 +22375,8 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Heading = Heading_;
 		this.Speed = Speed_;
 	});
-	History = $pkg.History = $newType(8, $kindInterface, "dom.History", true, "honnef.co/go/js/dom", true, null);
-	Console = $pkg.Console = $newType(0, $kindStruct, "dom.Console", true, "honnef.co/go/js/dom", true, function(Object_) {
+	History = $pkg.History = $newType(8, $kindInterface, "dom.History", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	Console = $pkg.Console = $newType(0, $kindStruct, "dom.Console", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21753,11 +22384,11 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.Object = Object_;
 	});
-	DocumentType = $pkg.DocumentType = $newType(8, $kindInterface, "dom.DocumentType", true, "honnef.co/go/js/dom", true, null);
-	DOMImplementation = $pkg.DOMImplementation = $newType(8, $kindInterface, "dom.DOMImplementation", true, "honnef.co/go/js/dom", true, null);
-	StyleSheet = $pkg.StyleSheet = $newType(8, $kindInterface, "dom.StyleSheet", true, "honnef.co/go/js/dom", true, null);
-	Node = $pkg.Node = $newType(8, $kindInterface, "dom.Node", true, "honnef.co/go/js/dom", true, null);
-	BasicNode = $pkg.BasicNode = $newType(0, $kindStruct, "dom.BasicNode", true, "honnef.co/go/js/dom", true, function(Object_) {
+	DocumentType = $pkg.DocumentType = $newType(8, $kindInterface, "dom.DocumentType", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	DOMImplementation = $pkg.DOMImplementation = $newType(8, $kindInterface, "dom.DOMImplementation", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	StyleSheet = $pkg.StyleSheet = $newType(8, $kindInterface, "dom.StyleSheet", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	Node = $pkg.Node = $newType(8, $kindInterface, "dom.Node", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	BasicNode = $pkg.BasicNode = $newType(0, $kindStruct, "dom.BasicNode", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21765,8 +22396,8 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.Object = Object_;
 	});
-	Element = $pkg.Element = $newType(8, $kindInterface, "dom.Element", true, "honnef.co/go/js/dom", true, null);
-	ClientRect = $pkg.ClientRect = $newType(0, $kindStruct, "dom.ClientRect", true, "honnef.co/go/js/dom", true, function(Object_, Height_, Width_, Left_, Right_, Top_, Bottom_) {
+	Element = $pkg.Element = $newType(8, $kindInterface, "dom.Element", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	ClientRect = $pkg.ClientRect = $newType(0, $kindStruct, "dom.ClientRect", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_, Height_, Width_, Left_, Right_, Top_, Bottom_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21786,7 +22417,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Top = Top_;
 		this.Bottom = Bottom_;
 	});
-	BasicHTMLElement = $pkg.BasicHTMLElement = $newType(0, $kindStruct, "dom.BasicHTMLElement", true, "honnef.co/go/js/dom", true, function(BasicElement_) {
+	BasicHTMLElement = $pkg.BasicHTMLElement = $newType(0, $kindStruct, "dom.BasicHTMLElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicElement = ptrType$31.nil;
@@ -21794,7 +22425,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicElement = BasicElement_;
 	});
-	BasicElement = $pkg.BasicElement = $newType(0, $kindStruct, "dom.BasicElement", true, "honnef.co/go/js/dom", true, function(BasicNode_) {
+	BasicElement = $pkg.BasicElement = $newType(0, $kindStruct, "dom.BasicElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicNode_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicNode = ptrType$22.nil;
@@ -21802,7 +22433,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicNode = BasicNode_;
 	});
-	HTMLAnchorElement = $pkg.HTMLAnchorElement = $newType(0, $kindStruct, "dom.HTMLAnchorElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, URLUtils_, HrefLang_, Media_, TabIndex_, Target_, Text_, Type_) {
+	HTMLAnchorElement = $pkg.HTMLAnchorElement = $newType(0, $kindStruct, "dom.HTMLAnchorElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, URLUtils_, HrefLang_, Media_, TabIndex_, Target_, Text_, Type_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -21824,7 +22455,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Text = Text_;
 		this.Type = Type_;
 	});
-	HTMLAppletElement = $pkg.HTMLAppletElement = $newType(0, $kindStruct, "dom.HTMLAppletElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Alt_, Coords_, HrefLang_, Media_, Search_, Shape_, TabIndex_, Target_, Type_) {
+	HTMLAppletElement = $pkg.HTMLAppletElement = $newType(0, $kindStruct, "dom.HTMLAppletElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Alt_, Coords_, HrefLang_, Media_, Search_, Shape_, TabIndex_, Target_, Type_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -21850,7 +22481,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Target = Target_;
 		this.Type = Type_;
 	});
-	HTMLAreaElement = $pkg.HTMLAreaElement = $newType(0, $kindStruct, "dom.HTMLAreaElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, URLUtils_, Alt_, Coords_, HrefLang_, Media_, Search_, Shape_, TabIndex_, Target_, Type_) {
+	HTMLAreaElement = $pkg.HTMLAreaElement = $newType(0, $kindStruct, "dom.HTMLAreaElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, URLUtils_, Alt_, Coords_, HrefLang_, Media_, Search_, Shape_, TabIndex_, Target_, Type_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -21878,7 +22509,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Target = Target_;
 		this.Type = Type_;
 	});
-	HTMLAudioElement = $pkg.HTMLAudioElement = $newType(0, $kindStruct, "dom.HTMLAudioElement", true, "honnef.co/go/js/dom", true, function(HTMLMediaElement_) {
+	HTMLAudioElement = $pkg.HTMLAudioElement = $newType(0, $kindStruct, "dom.HTMLAudioElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(HTMLMediaElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.HTMLMediaElement = ptrType$3.nil;
@@ -21886,7 +22517,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.HTMLMediaElement = HTMLMediaElement_;
 	});
-	HTMLBRElement = $pkg.HTMLBRElement = $newType(0, $kindStruct, "dom.HTMLBRElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLBRElement = $pkg.HTMLBRElement = $newType(0, $kindStruct, "dom.HTMLBRElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -21894,7 +22525,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLBaseElement = $pkg.HTMLBaseElement = $newType(0, $kindStruct, "dom.HTMLBaseElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLBaseElement = $pkg.HTMLBaseElement = $newType(0, $kindStruct, "dom.HTMLBaseElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -21902,7 +22533,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLBodyElement = $pkg.HTMLBodyElement = $newType(0, $kindStruct, "dom.HTMLBodyElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLBodyElement = $pkg.HTMLBodyElement = $newType(0, $kindStruct, "dom.HTMLBodyElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -21910,7 +22541,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	ValidityState = $pkg.ValidityState = $newType(0, $kindStruct, "dom.ValidityState", true, "honnef.co/go/js/dom", true, function(Object_, CustomError_, PatternMismatch_, RangeOverflow_, RangeUnderflow_, StepMismatch_, TooLong_, TypeMismatch_, Valid_, ValueMissing_) {
+	ValidityState = $pkg.ValidityState = $newType(0, $kindStruct, "dom.ValidityState", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_, CustomError_, PatternMismatch_, RangeOverflow_, RangeUnderflow_, StepMismatch_, TooLong_, TypeMismatch_, Valid_, ValueMissing_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -21936,7 +22567,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Valid = Valid_;
 		this.ValueMissing = ValueMissing_;
 	});
-	HTMLButtonElement = $pkg.HTMLButtonElement = $newType(0, $kindStruct, "dom.HTMLButtonElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, AutoFocus_, Disabled_, FormAction_, FormEncType_, FormMethod_, FormNoValidate_, FormTarget_, Name_, TabIndex_, Type_, ValidationMessage_, Value_, WillValidate_) {
+	HTMLButtonElement = $pkg.HTMLButtonElement = $newType(0, $kindStruct, "dom.HTMLButtonElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, AutoFocus_, Disabled_, FormAction_, FormEncType_, FormMethod_, FormNoValidate_, FormTarget_, Name_, TabIndex_, Type_, ValidationMessage_, Value_, WillValidate_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -21970,7 +22601,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Value = Value_;
 		this.WillValidate = WillValidate_;
 	});
-	HTMLCanvasElement = $pkg.HTMLCanvasElement = $newType(0, $kindStruct, "dom.HTMLCanvasElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Height_, Width_) {
+	HTMLCanvasElement = $pkg.HTMLCanvasElement = $newType(0, $kindStruct, "dom.HTMLCanvasElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Height_, Width_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -21982,7 +22613,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Height = Height_;
 		this.Width = Width_;
 	});
-	CanvasRenderingContext2D = $pkg.CanvasRenderingContext2D = $newType(0, $kindStruct, "dom.CanvasRenderingContext2D", true, "honnef.co/go/js/dom", true, function(Object_, FillStyle_, StrokeStyle_, ShadowColor_, ShadowBlur_, ShadowOffsetX_, ShadowOffsetY_, LineCap_, LineJoin_, LineWidth_, MiterLimit_, Font_, TextAlign_, TextBaseline_, GlobalAlpha_, GlobalCompositeOperation_) {
+	CanvasRenderingContext2D = $pkg.CanvasRenderingContext2D = $newType(0, $kindStruct, "dom.CanvasRenderingContext2D", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_, FillStyle_, StrokeStyle_, ShadowColor_, ShadowBlur_, ShadowOffsetX_, ShadowOffsetY_, LineCap_, LineJoin_, LineWidth_, MiterLimit_, Font_, TextAlign_, TextBaseline_, GlobalAlpha_, GlobalCompositeOperation_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -22020,7 +22651,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.GlobalAlpha = GlobalAlpha_;
 		this.GlobalCompositeOperation = GlobalCompositeOperation_;
 	});
-	HTMLDListElement = $pkg.HTMLDListElement = $newType(0, $kindStruct, "dom.HTMLDListElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLDListElement = $pkg.HTMLDListElement = $newType(0, $kindStruct, "dom.HTMLDListElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22028,7 +22659,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLDataElement = $pkg.HTMLDataElement = $newType(0, $kindStruct, "dom.HTMLDataElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Value_) {
+	HTMLDataElement = $pkg.HTMLDataElement = $newType(0, $kindStruct, "dom.HTMLDataElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Value_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22038,7 +22669,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.BasicHTMLElement = BasicHTMLElement_;
 		this.Value = Value_;
 	});
-	HTMLDataListElement = $pkg.HTMLDataListElement = $newType(0, $kindStruct, "dom.HTMLDataListElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLDataListElement = $pkg.HTMLDataListElement = $newType(0, $kindStruct, "dom.HTMLDataListElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22046,7 +22677,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLDirectoryElement = $pkg.HTMLDirectoryElement = $newType(0, $kindStruct, "dom.HTMLDirectoryElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLDirectoryElement = $pkg.HTMLDirectoryElement = $newType(0, $kindStruct, "dom.HTMLDirectoryElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22054,7 +22685,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLDivElement = $pkg.HTMLDivElement = $newType(0, $kindStruct, "dom.HTMLDivElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLDivElement = $pkg.HTMLDivElement = $newType(0, $kindStruct, "dom.HTMLDivElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22062,7 +22693,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLEmbedElement = $pkg.HTMLEmbedElement = $newType(0, $kindStruct, "dom.HTMLEmbedElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Src_, Type_, Width_) {
+	HTMLEmbedElement = $pkg.HTMLEmbedElement = $newType(0, $kindStruct, "dom.HTMLEmbedElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Src_, Type_, Width_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22076,7 +22707,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Type = Type_;
 		this.Width = Width_;
 	});
-	HTMLFieldSetElement = $pkg.HTMLFieldSetElement = $newType(0, $kindStruct, "dom.HTMLFieldSetElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Disabled_, Name_, Type_, ValidationMessage_, WillValidate_) {
+	HTMLFieldSetElement = $pkg.HTMLFieldSetElement = $newType(0, $kindStruct, "dom.HTMLFieldSetElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Disabled_, Name_, Type_, ValidationMessage_, WillValidate_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22094,7 +22725,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.ValidationMessage = ValidationMessage_;
 		this.WillValidate = WillValidate_;
 	});
-	HTMLFontElement = $pkg.HTMLFontElement = $newType(0, $kindStruct, "dom.HTMLFontElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLFontElement = $pkg.HTMLFontElement = $newType(0, $kindStruct, "dom.HTMLFontElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22102,7 +22733,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLFormElement = $pkg.HTMLFormElement = $newType(0, $kindStruct, "dom.HTMLFormElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, AcceptCharset_, Action_, Autocomplete_, Encoding_, Enctype_, Length_, Method_, Name_, NoValidate_, Target_) {
+	HTMLFormElement = $pkg.HTMLFormElement = $newType(0, $kindStruct, "dom.HTMLFormElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, AcceptCharset_, Action_, Autocomplete_, Encoding_, Enctype_, Length_, Method_, Name_, NoValidate_, Target_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22130,7 +22761,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.NoValidate = NoValidate_;
 		this.Target = Target_;
 	});
-	HTMLFrameElement = $pkg.HTMLFrameElement = $newType(0, $kindStruct, "dom.HTMLFrameElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLFrameElement = $pkg.HTMLFrameElement = $newType(0, $kindStruct, "dom.HTMLFrameElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22138,7 +22769,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLFrameSetElement = $pkg.HTMLFrameSetElement = $newType(0, $kindStruct, "dom.HTMLFrameSetElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLFrameSetElement = $pkg.HTMLFrameSetElement = $newType(0, $kindStruct, "dom.HTMLFrameSetElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22146,7 +22777,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLHRElement = $pkg.HTMLHRElement = $newType(0, $kindStruct, "dom.HTMLHRElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLHRElement = $pkg.HTMLHRElement = $newType(0, $kindStruct, "dom.HTMLHRElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22154,7 +22785,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLHeadElement = $pkg.HTMLHeadElement = $newType(0, $kindStruct, "dom.HTMLHeadElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLHeadElement = $pkg.HTMLHeadElement = $newType(0, $kindStruct, "dom.HTMLHeadElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22162,7 +22793,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLHeadingElement = $pkg.HTMLHeadingElement = $newType(0, $kindStruct, "dom.HTMLHeadingElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLHeadingElement = $pkg.HTMLHeadingElement = $newType(0, $kindStruct, "dom.HTMLHeadingElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22170,7 +22801,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLHtmlElement = $pkg.HTMLHtmlElement = $newType(0, $kindStruct, "dom.HTMLHtmlElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLHtmlElement = $pkg.HTMLHtmlElement = $newType(0, $kindStruct, "dom.HTMLHtmlElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22178,7 +22809,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLIFrameElement = $pkg.HTMLIFrameElement = $newType(0, $kindStruct, "dom.HTMLIFrameElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Width_, Height_, Name_, Src_, SrcDoc_, Seamless_) {
+	HTMLIFrameElement = $pkg.HTMLIFrameElement = $newType(0, $kindStruct, "dom.HTMLIFrameElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Width_, Height_, Name_, Src_, SrcDoc_, Seamless_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22198,7 +22829,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.SrcDoc = SrcDoc_;
 		this.Seamless = Seamless_;
 	});
-	HTMLImageElement = $pkg.HTMLImageElement = $newType(0, $kindStruct, "dom.HTMLImageElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Complete_, CrossOrigin_, Height_, IsMap_, NaturalHeight_, NaturalWidth_, Src_, UseMap_, Width_) {
+	HTMLImageElement = $pkg.HTMLImageElement = $newType(0, $kindStruct, "dom.HTMLImageElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Complete_, CrossOrigin_, Height_, IsMap_, NaturalHeight_, NaturalWidth_, Src_, UseMap_, Width_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22224,7 +22855,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.UseMap = UseMap_;
 		this.Width = Width_;
 	});
-	HTMLInputElement = $pkg.HTMLInputElement = $newType(0, $kindStruct, "dom.HTMLInputElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Accept_, Alt_, Autocomplete_, Autofocus_, Checked_, DefaultChecked_, DefaultValue_, DirName_, Disabled_, FormAction_, FormEncType_, FormMethod_, FormNoValidate_, FormTarget_, Height_, Indeterminate_, Max_, MaxLength_, Min_, Multiple_, Name_, Pattern_, Placeholder_, ReadOnly_, Required_, SelectionDirection_, SelectionEnd_, SelectionStart_, Size_, Src_, Step_, TabIndex_, Type_, ValidationMessage_, Value_, ValueAsDate_, ValueAsNumber_, Width_, WillValidate_) {
+	HTMLInputElement = $pkg.HTMLInputElement = $newType(0, $kindStruct, "dom.HTMLInputElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Accept_, Alt_, Autocomplete_, Autofocus_, Checked_, DefaultChecked_, DefaultValue_, DirName_, Disabled_, FormAction_, FormEncType_, FormMethod_, FormNoValidate_, FormTarget_, Height_, Indeterminate_, Max_, MaxLength_, Min_, Multiple_, Name_, Pattern_, Placeholder_, ReadOnly_, Required_, SelectionDirection_, SelectionEnd_, SelectionStart_, Size_, Src_, Step_, TabIndex_, Type_, ValidationMessage_, Value_, ValueAsDate_, ValueAsNumber_, Width_, WillValidate_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22310,7 +22941,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Width = Width_;
 		this.WillValidate = WillValidate_;
 	});
-	File = $pkg.File = $newType(0, $kindStruct, "dom.File", true, "honnef.co/go/js/dom", true, function(Object_) {
+	File = $pkg.File = $newType(0, $kindStruct, "dom.File", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -22318,7 +22949,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.Object = Object_;
 	});
-	HTMLKeygenElement = $pkg.HTMLKeygenElement = $newType(0, $kindStruct, "dom.HTMLKeygenElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Autofocus_, Challenge_, Disabled_, Keytype_, Name_, Type_, ValidationMessage_, WillValidate_) {
+	HTMLKeygenElement = $pkg.HTMLKeygenElement = $newType(0, $kindStruct, "dom.HTMLKeygenElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Autofocus_, Challenge_, Disabled_, Keytype_, Name_, Type_, ValidationMessage_, WillValidate_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22342,7 +22973,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.ValidationMessage = ValidationMessage_;
 		this.WillValidate = WillValidate_;
 	});
-	HTMLLIElement = $pkg.HTMLLIElement = $newType(0, $kindStruct, "dom.HTMLLIElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Value_) {
+	HTMLLIElement = $pkg.HTMLLIElement = $newType(0, $kindStruct, "dom.HTMLLIElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Value_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22352,7 +22983,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.BasicHTMLElement = BasicHTMLElement_;
 		this.Value = Value_;
 	});
-	HTMLLabelElement = $pkg.HTMLLabelElement = $newType(0, $kindStruct, "dom.HTMLLabelElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, For_) {
+	HTMLLabelElement = $pkg.HTMLLabelElement = $newType(0, $kindStruct, "dom.HTMLLabelElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, For_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22362,7 +22993,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.BasicHTMLElement = BasicHTMLElement_;
 		this.For = For_;
 	});
-	HTMLLegendElement = $pkg.HTMLLegendElement = $newType(0, $kindStruct, "dom.HTMLLegendElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLLegendElement = $pkg.HTMLLegendElement = $newType(0, $kindStruct, "dom.HTMLLegendElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22370,7 +23001,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLLinkElement = $pkg.HTMLLinkElement = $newType(0, $kindStruct, "dom.HTMLLinkElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Disabled_, Href_, HrefLang_, Media_, Type_) {
+	HTMLLinkElement = $pkg.HTMLLinkElement = $newType(0, $kindStruct, "dom.HTMLLinkElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Disabled_, Href_, HrefLang_, Media_, Type_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22388,7 +23019,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Media = Media_;
 		this.Type = Type_;
 	});
-	HTMLMapElement = $pkg.HTMLMapElement = $newType(0, $kindStruct, "dom.HTMLMapElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Name_) {
+	HTMLMapElement = $pkg.HTMLMapElement = $newType(0, $kindStruct, "dom.HTMLMapElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Name_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22398,7 +23029,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.BasicHTMLElement = BasicHTMLElement_;
 		this.Name = Name_;
 	});
-	HTMLMediaElement = $pkg.HTMLMediaElement = $newType(0, $kindStruct, "dom.HTMLMediaElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Paused_) {
+	HTMLMediaElement = $pkg.HTMLMediaElement = $newType(0, $kindStruct, "dom.HTMLMediaElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Paused_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22408,7 +23039,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.BasicHTMLElement = BasicHTMLElement_;
 		this.Paused = Paused_;
 	});
-	HTMLMenuElement = $pkg.HTMLMenuElement = $newType(0, $kindStruct, "dom.HTMLMenuElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLMenuElement = $pkg.HTMLMenuElement = $newType(0, $kindStruct, "dom.HTMLMenuElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22416,7 +23047,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLMetaElement = $pkg.HTMLMetaElement = $newType(0, $kindStruct, "dom.HTMLMetaElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Content_, HTTPEquiv_, Name_) {
+	HTMLMetaElement = $pkg.HTMLMetaElement = $newType(0, $kindStruct, "dom.HTMLMetaElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Content_, HTTPEquiv_, Name_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22430,7 +23061,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.HTTPEquiv = HTTPEquiv_;
 		this.Name = Name_;
 	});
-	HTMLMeterElement = $pkg.HTMLMeterElement = $newType(0, $kindStruct, "dom.HTMLMeterElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, High_, Low_, Max_, Min_, Optimum_) {
+	HTMLMeterElement = $pkg.HTMLMeterElement = $newType(0, $kindStruct, "dom.HTMLMeterElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, High_, Low_, Max_, Min_, Optimum_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22448,7 +23079,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Min = Min_;
 		this.Optimum = Optimum_;
 	});
-	HTMLModElement = $pkg.HTMLModElement = $newType(0, $kindStruct, "dom.HTMLModElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Cite_, DateTime_) {
+	HTMLModElement = $pkg.HTMLModElement = $newType(0, $kindStruct, "dom.HTMLModElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Cite_, DateTime_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22460,7 +23091,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Cite = Cite_;
 		this.DateTime = DateTime_;
 	});
-	HTMLOListElement = $pkg.HTMLOListElement = $newType(0, $kindStruct, "dom.HTMLOListElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Reversed_, Start_, Type_) {
+	HTMLOListElement = $pkg.HTMLOListElement = $newType(0, $kindStruct, "dom.HTMLOListElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Reversed_, Start_, Type_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22474,7 +23105,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Start = Start_;
 		this.Type = Type_;
 	});
-	HTMLObjectElement = $pkg.HTMLObjectElement = $newType(0, $kindStruct, "dom.HTMLObjectElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Data_, Height_, Name_, TabIndex_, Type_, TypeMustMatch_, UseMap_, ValidationMessage_, With_, WillValidate_) {
+	HTMLObjectElement = $pkg.HTMLObjectElement = $newType(0, $kindStruct, "dom.HTMLObjectElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Data_, Height_, Name_, TabIndex_, Type_, TypeMustMatch_, UseMap_, ValidationMessage_, With_, WillValidate_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22502,7 +23133,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.With = With_;
 		this.WillValidate = WillValidate_;
 	});
-	HTMLOptGroupElement = $pkg.HTMLOptGroupElement = $newType(0, $kindStruct, "dom.HTMLOptGroupElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Disabled_, Label_) {
+	HTMLOptGroupElement = $pkg.HTMLOptGroupElement = $newType(0, $kindStruct, "dom.HTMLOptGroupElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Disabled_, Label_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22514,7 +23145,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Disabled = Disabled_;
 		this.Label = Label_;
 	});
-	HTMLOptionElement = $pkg.HTMLOptionElement = $newType(0, $kindStruct, "dom.HTMLOptionElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, DefaultSelected_, Disabled_, Index_, Label_, Selected_, Text_, Value_) {
+	HTMLOptionElement = $pkg.HTMLOptionElement = $newType(0, $kindStruct, "dom.HTMLOptionElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, DefaultSelected_, Disabled_, Index_, Label_, Selected_, Text_, Value_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22536,7 +23167,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Text = Text_;
 		this.Value = Value_;
 	});
-	HTMLOutputElement = $pkg.HTMLOutputElement = $newType(0, $kindStruct, "dom.HTMLOutputElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, DefaultValue_, Name_, Type_, ValidationMessage_, Value_, WillValidate_) {
+	HTMLOutputElement = $pkg.HTMLOutputElement = $newType(0, $kindStruct, "dom.HTMLOutputElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, DefaultValue_, Name_, Type_, ValidationMessage_, Value_, WillValidate_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22556,7 +23187,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Value = Value_;
 		this.WillValidate = WillValidate_;
 	});
-	HTMLParagraphElement = $pkg.HTMLParagraphElement = $newType(0, $kindStruct, "dom.HTMLParagraphElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLParagraphElement = $pkg.HTMLParagraphElement = $newType(0, $kindStruct, "dom.HTMLParagraphElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22564,7 +23195,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLParamElement = $pkg.HTMLParamElement = $newType(0, $kindStruct, "dom.HTMLParamElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Name_, Value_) {
+	HTMLParamElement = $pkg.HTMLParamElement = $newType(0, $kindStruct, "dom.HTMLParamElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Name_, Value_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22576,7 +23207,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Name = Name_;
 		this.Value = Value_;
 	});
-	HTMLPreElement = $pkg.HTMLPreElement = $newType(0, $kindStruct, "dom.HTMLPreElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLPreElement = $pkg.HTMLPreElement = $newType(0, $kindStruct, "dom.HTMLPreElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22584,7 +23215,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLProgressElement = $pkg.HTMLProgressElement = $newType(0, $kindStruct, "dom.HTMLProgressElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Max_, Position_, Value_) {
+	HTMLProgressElement = $pkg.HTMLProgressElement = $newType(0, $kindStruct, "dom.HTMLProgressElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Max_, Position_, Value_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22598,7 +23229,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Position = Position_;
 		this.Value = Value_;
 	});
-	HTMLQuoteElement = $pkg.HTMLQuoteElement = $newType(0, $kindStruct, "dom.HTMLQuoteElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Cite_) {
+	HTMLQuoteElement = $pkg.HTMLQuoteElement = $newType(0, $kindStruct, "dom.HTMLQuoteElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Cite_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22608,7 +23239,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.BasicHTMLElement = BasicHTMLElement_;
 		this.Cite = Cite_;
 	});
-	HTMLScriptElement = $pkg.HTMLScriptElement = $newType(0, $kindStruct, "dom.HTMLScriptElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Type_, Src_, Charset_, Async_, Defer_, Text_) {
+	HTMLScriptElement = $pkg.HTMLScriptElement = $newType(0, $kindStruct, "dom.HTMLScriptElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Type_, Src_, Charset_, Async_, Defer_, Text_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22628,7 +23259,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Defer = Defer_;
 		this.Text = Text_;
 	});
-	HTMLSelectElement = $pkg.HTMLSelectElement = $newType(0, $kindStruct, "dom.HTMLSelectElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Autofocus_, Disabled_, Length_, Multiple_, Name_, Required_, SelectedIndex_, Size_, Type_, ValidationMessage_, Value_, WillValidate_) {
+	HTMLSelectElement = $pkg.HTMLSelectElement = $newType(0, $kindStruct, "dom.HTMLSelectElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Autofocus_, Disabled_, Length_, Multiple_, Name_, Required_, SelectedIndex_, Size_, Type_, ValidationMessage_, Value_, WillValidate_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22660,7 +23291,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Value = Value_;
 		this.WillValidate = WillValidate_;
 	});
-	HTMLSourceElement = $pkg.HTMLSourceElement = $newType(0, $kindStruct, "dom.HTMLSourceElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Media_, Src_, Type_) {
+	HTMLSourceElement = $pkg.HTMLSourceElement = $newType(0, $kindStruct, "dom.HTMLSourceElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Media_, Src_, Type_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22674,7 +23305,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Src = Src_;
 		this.Type = Type_;
 	});
-	HTMLSpanElement = $pkg.HTMLSpanElement = $newType(0, $kindStruct, "dom.HTMLSpanElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLSpanElement = $pkg.HTMLSpanElement = $newType(0, $kindStruct, "dom.HTMLSpanElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22682,7 +23313,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLStyleElement = $pkg.HTMLStyleElement = $newType(0, $kindStruct, "dom.HTMLStyleElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLStyleElement = $pkg.HTMLStyleElement = $newType(0, $kindStruct, "dom.HTMLStyleElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22690,7 +23321,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLTableCaptionElement = $pkg.HTMLTableCaptionElement = $newType(0, $kindStruct, "dom.HTMLTableCaptionElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLTableCaptionElement = $pkg.HTMLTableCaptionElement = $newType(0, $kindStruct, "dom.HTMLTableCaptionElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22698,7 +23329,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLTableCellElement = $pkg.HTMLTableCellElement = $newType(0, $kindStruct, "dom.HTMLTableCellElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, ColSpan_, RowSpan_, CellIndex_) {
+	HTMLTableCellElement = $pkg.HTMLTableCellElement = $newType(0, $kindStruct, "dom.HTMLTableCellElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, ColSpan_, RowSpan_, CellIndex_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22712,7 +23343,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.RowSpan = RowSpan_;
 		this.CellIndex = CellIndex_;
 	});
-	HTMLTableColElement = $pkg.HTMLTableColElement = $newType(0, $kindStruct, "dom.HTMLTableColElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Span_) {
+	HTMLTableColElement = $pkg.HTMLTableColElement = $newType(0, $kindStruct, "dom.HTMLTableColElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Span_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22722,7 +23353,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.BasicHTMLElement = BasicHTMLElement_;
 		this.Span = Span_;
 	});
-	HTMLTableDataCellElement = $pkg.HTMLTableDataCellElement = $newType(0, $kindStruct, "dom.HTMLTableDataCellElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLTableDataCellElement = $pkg.HTMLTableDataCellElement = $newType(0, $kindStruct, "dom.HTMLTableDataCellElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22730,7 +23361,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLTableElement = $pkg.HTMLTableElement = $newType(0, $kindStruct, "dom.HTMLTableElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLTableElement = $pkg.HTMLTableElement = $newType(0, $kindStruct, "dom.HTMLTableElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22738,7 +23369,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLTableHeaderCellElement = $pkg.HTMLTableHeaderCellElement = $newType(0, $kindStruct, "dom.HTMLTableHeaderCellElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Abbr_, Scope_) {
+	HTMLTableHeaderCellElement = $pkg.HTMLTableHeaderCellElement = $newType(0, $kindStruct, "dom.HTMLTableHeaderCellElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Abbr_, Scope_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22750,7 +23381,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Abbr = Abbr_;
 		this.Scope = Scope_;
 	});
-	HTMLTableRowElement = $pkg.HTMLTableRowElement = $newType(0, $kindStruct, "dom.HTMLTableRowElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, RowIndex_, SectionRowIndex_) {
+	HTMLTableRowElement = $pkg.HTMLTableRowElement = $newType(0, $kindStruct, "dom.HTMLTableRowElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, RowIndex_, SectionRowIndex_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22762,7 +23393,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.RowIndex = RowIndex_;
 		this.SectionRowIndex = SectionRowIndex_;
 	});
-	HTMLTableSectionElement = $pkg.HTMLTableSectionElement = $newType(0, $kindStruct, "dom.HTMLTableSectionElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLTableSectionElement = $pkg.HTMLTableSectionElement = $newType(0, $kindStruct, "dom.HTMLTableSectionElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22770,7 +23401,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLTextAreaElement = $pkg.HTMLTextAreaElement = $newType(0, $kindStruct, "dom.HTMLTextAreaElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Autocomplete_, Autofocus_, Cols_, DefaultValue_, DirName_, Disabled_, MaxLength_, Name_, Placeholder_, ReadOnly_, Required_, Rows_, SelectionDirection_, SelectionStart_, SelectionEnd_, TabIndex_, TextLength_, Type_, ValidationMessage_, Value_, WillValidate_, Wrap_) {
+	HTMLTextAreaElement = $pkg.HTMLTextAreaElement = $newType(0, $kindStruct, "dom.HTMLTextAreaElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Autocomplete_, Autofocus_, Cols_, DefaultValue_, DirName_, Disabled_, MaxLength_, Name_, Placeholder_, ReadOnly_, Required_, Rows_, SelectionDirection_, SelectionStart_, SelectionEnd_, TabIndex_, TextLength_, Type_, ValidationMessage_, Value_, WillValidate_, Wrap_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22822,7 +23453,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.WillValidate = WillValidate_;
 		this.Wrap = Wrap_;
 	});
-	HTMLTimeElement = $pkg.HTMLTimeElement = $newType(0, $kindStruct, "dom.HTMLTimeElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, DateTime_) {
+	HTMLTimeElement = $pkg.HTMLTimeElement = $newType(0, $kindStruct, "dom.HTMLTimeElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, DateTime_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22832,7 +23463,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.BasicHTMLElement = BasicHTMLElement_;
 		this.DateTime = DateTime_;
 	});
-	HTMLTitleElement = $pkg.HTMLTitleElement = $newType(0, $kindStruct, "dom.HTMLTitleElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Text_) {
+	HTMLTitleElement = $pkg.HTMLTitleElement = $newType(0, $kindStruct, "dom.HTMLTitleElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Text_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22842,7 +23473,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.BasicHTMLElement = BasicHTMLElement_;
 		this.Text = Text_;
 	});
-	TextTrack = $pkg.TextTrack = $newType(0, $kindStruct, "dom.TextTrack", true, "honnef.co/go/js/dom", true, function(Object_) {
+	TextTrack = $pkg.TextTrack = $newType(0, $kindStruct, "dom.TextTrack", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -22850,7 +23481,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.Object = Object_;
 	});
-	HTMLTrackElement = $pkg.HTMLTrackElement = $newType(0, $kindStruct, "dom.HTMLTrackElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_, Kind_, Src_, Srclang_, Label_, Default_, ReadyState_) {
+	HTMLTrackElement = $pkg.HTMLTrackElement = $newType(0, $kindStruct, "dom.HTMLTrackElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_, Kind_, Src_, Srclang_, Label_, Default_, ReadyState_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22870,7 +23501,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Default = Default_;
 		this.ReadyState = ReadyState_;
 	});
-	HTMLUListElement = $pkg.HTMLUListElement = $newType(0, $kindStruct, "dom.HTMLUListElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLUListElement = $pkg.HTMLUListElement = $newType(0, $kindStruct, "dom.HTMLUListElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22878,7 +23509,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLUnknownElement = $pkg.HTMLUnknownElement = $newType(0, $kindStruct, "dom.HTMLUnknownElement", true, "honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
+	HTMLUnknownElement = $pkg.HTMLUnknownElement = $newType(0, $kindStruct, "dom.HTMLUnknownElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicHTMLElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicHTMLElement = ptrType$1.nil;
@@ -22886,7 +23517,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicHTMLElement = BasicHTMLElement_;
 	});
-	HTMLVideoElement = $pkg.HTMLVideoElement = $newType(0, $kindStruct, "dom.HTMLVideoElement", true, "honnef.co/go/js/dom", true, function(HTMLMediaElement_) {
+	HTMLVideoElement = $pkg.HTMLVideoElement = $newType(0, $kindStruct, "dom.HTMLVideoElement", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(HTMLMediaElement_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.HTMLMediaElement = ptrType$3.nil;
@@ -22894,7 +23525,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.HTMLMediaElement = HTMLMediaElement_;
 	});
-	CSSStyleDeclaration = $pkg.CSSStyleDeclaration = $newType(0, $kindStruct, "dom.CSSStyleDeclaration", true, "honnef.co/go/js/dom", true, function(Object_) {
+	CSSStyleDeclaration = $pkg.CSSStyleDeclaration = $newType(0, $kindStruct, "dom.CSSStyleDeclaration", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -22902,7 +23533,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.Object = Object_;
 	});
-	Text = $pkg.Text = $newType(0, $kindStruct, "dom.Text", true, "honnef.co/go/js/dom", true, function(BasicNode_) {
+	Text = $pkg.Text = $newType(0, $kindStruct, "dom.Text", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicNode_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicNode = ptrType$22.nil;
@@ -22910,8 +23541,8 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicNode = BasicNode_;
 	});
-	Event = $pkg.Event = $newType(8, $kindInterface, "dom.Event", true, "honnef.co/go/js/dom", true, null);
-	BasicEvent = $pkg.BasicEvent = $newType(0, $kindStruct, "dom.BasicEvent", true, "honnef.co/go/js/dom", true, function(Object_) {
+	Event = $pkg.Event = $newType(8, $kindInterface, "dom.Event", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, null);
+	BasicEvent = $pkg.BasicEvent = $newType(0, $kindStruct, "dom.BasicEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(Object_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Object = null;
@@ -22919,7 +23550,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.Object = Object_;
 	});
-	AnimationEvent = $pkg.AnimationEvent = $newType(0, $kindStruct, "dom.AnimationEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	AnimationEvent = $pkg.AnimationEvent = $newType(0, $kindStruct, "dom.AnimationEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -22927,7 +23558,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	AudioProcessingEvent = $pkg.AudioProcessingEvent = $newType(0, $kindStruct, "dom.AudioProcessingEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	AudioProcessingEvent = $pkg.AudioProcessingEvent = $newType(0, $kindStruct, "dom.AudioProcessingEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -22935,7 +23566,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	BeforeInputEvent = $pkg.BeforeInputEvent = $newType(0, $kindStruct, "dom.BeforeInputEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	BeforeInputEvent = $pkg.BeforeInputEvent = $newType(0, $kindStruct, "dom.BeforeInputEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -22943,7 +23574,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	BeforeUnloadEvent = $pkg.BeforeUnloadEvent = $newType(0, $kindStruct, "dom.BeforeUnloadEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	BeforeUnloadEvent = $pkg.BeforeUnloadEvent = $newType(0, $kindStruct, "dom.BeforeUnloadEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -22951,7 +23582,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	BlobEvent = $pkg.BlobEvent = $newType(0, $kindStruct, "dom.BlobEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	BlobEvent = $pkg.BlobEvent = $newType(0, $kindStruct, "dom.BlobEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -22959,7 +23590,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	ClipboardEvent = $pkg.ClipboardEvent = $newType(0, $kindStruct, "dom.ClipboardEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	ClipboardEvent = $pkg.ClipboardEvent = $newType(0, $kindStruct, "dom.ClipboardEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -22967,7 +23598,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	CloseEvent = $pkg.CloseEvent = $newType(0, $kindStruct, "dom.CloseEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_, Code_, Reason_, WasClean_) {
+	CloseEvent = $pkg.CloseEvent = $newType(0, $kindStruct, "dom.CloseEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_, Code_, Reason_, WasClean_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -22981,7 +23612,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Reason = Reason_;
 		this.WasClean = WasClean_;
 	});
-	CompositionEvent = $pkg.CompositionEvent = $newType(0, $kindStruct, "dom.CompositionEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	CompositionEvent = $pkg.CompositionEvent = $newType(0, $kindStruct, "dom.CompositionEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -22989,7 +23620,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	CSSFontFaceLoadEvent = $pkg.CSSFontFaceLoadEvent = $newType(0, $kindStruct, "dom.CSSFontFaceLoadEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	CSSFontFaceLoadEvent = $pkg.CSSFontFaceLoadEvent = $newType(0, $kindStruct, "dom.CSSFontFaceLoadEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -22997,7 +23628,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	CustomEvent = $pkg.CustomEvent = $newType(0, $kindStruct, "dom.CustomEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	CustomEvent = $pkg.CustomEvent = $newType(0, $kindStruct, "dom.CustomEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23005,7 +23636,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	DeviceLightEvent = $pkg.DeviceLightEvent = $newType(0, $kindStruct, "dom.DeviceLightEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	DeviceLightEvent = $pkg.DeviceLightEvent = $newType(0, $kindStruct, "dom.DeviceLightEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23013,7 +23644,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	DeviceMotionEvent = $pkg.DeviceMotionEvent = $newType(0, $kindStruct, "dom.DeviceMotionEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	DeviceMotionEvent = $pkg.DeviceMotionEvent = $newType(0, $kindStruct, "dom.DeviceMotionEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23021,7 +23652,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	DeviceOrientationEvent = $pkg.DeviceOrientationEvent = $newType(0, $kindStruct, "dom.DeviceOrientationEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	DeviceOrientationEvent = $pkg.DeviceOrientationEvent = $newType(0, $kindStruct, "dom.DeviceOrientationEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23029,7 +23660,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	DeviceProximityEvent = $pkg.DeviceProximityEvent = $newType(0, $kindStruct, "dom.DeviceProximityEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	DeviceProximityEvent = $pkg.DeviceProximityEvent = $newType(0, $kindStruct, "dom.DeviceProximityEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23037,7 +23668,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	DOMTransactionEvent = $pkg.DOMTransactionEvent = $newType(0, $kindStruct, "dom.DOMTransactionEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	DOMTransactionEvent = $pkg.DOMTransactionEvent = $newType(0, $kindStruct, "dom.DOMTransactionEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23045,7 +23676,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	DragEvent = $pkg.DragEvent = $newType(0, $kindStruct, "dom.DragEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	DragEvent = $pkg.DragEvent = $newType(0, $kindStruct, "dom.DragEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23053,7 +23684,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	EditingBeforeInputEvent = $pkg.EditingBeforeInputEvent = $newType(0, $kindStruct, "dom.EditingBeforeInputEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	EditingBeforeInputEvent = $pkg.EditingBeforeInputEvent = $newType(0, $kindStruct, "dom.EditingBeforeInputEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23061,7 +23692,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	ErrorEvent = $pkg.ErrorEvent = $newType(0, $kindStruct, "dom.ErrorEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	ErrorEvent = $pkg.ErrorEvent = $newType(0, $kindStruct, "dom.ErrorEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23069,7 +23700,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	FocusEvent = $pkg.FocusEvent = $newType(0, $kindStruct, "dom.FocusEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	FocusEvent = $pkg.FocusEvent = $newType(0, $kindStruct, "dom.FocusEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23077,7 +23708,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	GamepadEvent = $pkg.GamepadEvent = $newType(0, $kindStruct, "dom.GamepadEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	GamepadEvent = $pkg.GamepadEvent = $newType(0, $kindStruct, "dom.GamepadEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23085,7 +23716,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	HashChangeEvent = $pkg.HashChangeEvent = $newType(0, $kindStruct, "dom.HashChangeEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	HashChangeEvent = $pkg.HashChangeEvent = $newType(0, $kindStruct, "dom.HashChangeEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23093,7 +23724,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	IDBVersionChangeEvent = $pkg.IDBVersionChangeEvent = $newType(0, $kindStruct, "dom.IDBVersionChangeEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	IDBVersionChangeEvent = $pkg.IDBVersionChangeEvent = $newType(0, $kindStruct, "dom.IDBVersionChangeEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23101,7 +23732,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	KeyboardEvent = $pkg.KeyboardEvent = $newType(0, $kindStruct, "dom.KeyboardEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_, AltKey_, CharCode_, CtrlKey_, Key_, KeyIdentifier_, KeyCode_, Locale_, Location_, KeyLocation_, MetaKey_, Repeat_, ShiftKey_) {
+	KeyboardEvent = $pkg.KeyboardEvent = $newType(0, $kindStruct, "dom.KeyboardEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_, AltKey_, CharCode_, CtrlKey_, Key_, KeyIdentifier_, KeyCode_, Locale_, Location_, KeyLocation_, MetaKey_, Repeat_, ShiftKey_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23133,7 +23764,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.Repeat = Repeat_;
 		this.ShiftKey = ShiftKey_;
 	});
-	MediaStreamEvent = $pkg.MediaStreamEvent = $newType(0, $kindStruct, "dom.MediaStreamEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	MediaStreamEvent = $pkg.MediaStreamEvent = $newType(0, $kindStruct, "dom.MediaStreamEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23141,7 +23772,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	MessageEvent = $pkg.MessageEvent = $newType(0, $kindStruct, "dom.MessageEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_, Data_) {
+	MessageEvent = $pkg.MessageEvent = $newType(0, $kindStruct, "dom.MessageEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_, Data_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23151,7 +23782,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.BasicEvent = BasicEvent_;
 		this.Data = Data_;
 	});
-	MouseEvent = $pkg.MouseEvent = $newType(0, $kindStruct, "dom.MouseEvent", true, "honnef.co/go/js/dom", true, function(UIEvent_, AltKey_, Button_, ClientX_, ClientY_, CtrlKey_, MetaKey_, MovementX_, MovementY_, ScreenX_, ScreenY_, ShiftKey_) {
+	MouseEvent = $pkg.MouseEvent = $newType(0, $kindStruct, "dom.MouseEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(UIEvent_, AltKey_, Button_, ClientX_, ClientY_, CtrlKey_, MetaKey_, MovementX_, MovementY_, ScreenX_, ScreenY_, ShiftKey_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.UIEvent = ptrType$19.nil;
@@ -23181,7 +23812,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		this.ScreenY = ScreenY_;
 		this.ShiftKey = ShiftKey_;
 	});
-	MutationEvent = $pkg.MutationEvent = $newType(0, $kindStruct, "dom.MutationEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	MutationEvent = $pkg.MutationEvent = $newType(0, $kindStruct, "dom.MutationEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23189,7 +23820,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	OfflineAudioCompletionEvent = $pkg.OfflineAudioCompletionEvent = $newType(0, $kindStruct, "dom.OfflineAudioCompletionEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	OfflineAudioCompletionEvent = $pkg.OfflineAudioCompletionEvent = $newType(0, $kindStruct, "dom.OfflineAudioCompletionEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23197,7 +23828,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	PageTransitionEvent = $pkg.PageTransitionEvent = $newType(0, $kindStruct, "dom.PageTransitionEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	PageTransitionEvent = $pkg.PageTransitionEvent = $newType(0, $kindStruct, "dom.PageTransitionEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23205,7 +23836,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	PointerEvent = $pkg.PointerEvent = $newType(0, $kindStruct, "dom.PointerEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	PointerEvent = $pkg.PointerEvent = $newType(0, $kindStruct, "dom.PointerEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23213,7 +23844,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	PopStateEvent = $pkg.PopStateEvent = $newType(0, $kindStruct, "dom.PopStateEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	PopStateEvent = $pkg.PopStateEvent = $newType(0, $kindStruct, "dom.PopStateEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23221,7 +23852,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	ProgressEvent = $pkg.ProgressEvent = $newType(0, $kindStruct, "dom.ProgressEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	ProgressEvent = $pkg.ProgressEvent = $newType(0, $kindStruct, "dom.ProgressEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23229,7 +23860,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	RelatedEvent = $pkg.RelatedEvent = $newType(0, $kindStruct, "dom.RelatedEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	RelatedEvent = $pkg.RelatedEvent = $newType(0, $kindStruct, "dom.RelatedEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23237,7 +23868,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	RTCPeerConnectionIceEvent = $pkg.RTCPeerConnectionIceEvent = $newType(0, $kindStruct, "dom.RTCPeerConnectionIceEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	RTCPeerConnectionIceEvent = $pkg.RTCPeerConnectionIceEvent = $newType(0, $kindStruct, "dom.RTCPeerConnectionIceEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23245,7 +23876,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	SensorEvent = $pkg.SensorEvent = $newType(0, $kindStruct, "dom.SensorEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	SensorEvent = $pkg.SensorEvent = $newType(0, $kindStruct, "dom.SensorEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23253,7 +23884,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	StorageEvent = $pkg.StorageEvent = $newType(0, $kindStruct, "dom.StorageEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	StorageEvent = $pkg.StorageEvent = $newType(0, $kindStruct, "dom.StorageEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23261,7 +23892,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	SVGEvent = $pkg.SVGEvent = $newType(0, $kindStruct, "dom.SVGEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	SVGEvent = $pkg.SVGEvent = $newType(0, $kindStruct, "dom.SVGEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23269,7 +23900,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	SVGZoomEvent = $pkg.SVGZoomEvent = $newType(0, $kindStruct, "dom.SVGZoomEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	SVGZoomEvent = $pkg.SVGZoomEvent = $newType(0, $kindStruct, "dom.SVGZoomEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23277,7 +23908,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	TimeEvent = $pkg.TimeEvent = $newType(0, $kindStruct, "dom.TimeEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	TimeEvent = $pkg.TimeEvent = $newType(0, $kindStruct, "dom.TimeEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23285,7 +23916,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	TouchEvent = $pkg.TouchEvent = $newType(0, $kindStruct, "dom.TouchEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	TouchEvent = $pkg.TouchEvent = $newType(0, $kindStruct, "dom.TouchEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23293,7 +23924,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	TrackEvent = $pkg.TrackEvent = $newType(0, $kindStruct, "dom.TrackEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	TrackEvent = $pkg.TrackEvent = $newType(0, $kindStruct, "dom.TrackEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23301,7 +23932,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	TransitionEvent = $pkg.TransitionEvent = $newType(0, $kindStruct, "dom.TransitionEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	TransitionEvent = $pkg.TransitionEvent = $newType(0, $kindStruct, "dom.TransitionEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23309,7 +23940,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	UIEvent = $pkg.UIEvent = $newType(0, $kindStruct, "dom.UIEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	UIEvent = $pkg.UIEvent = $newType(0, $kindStruct, "dom.UIEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23317,7 +23948,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	UserProximityEvent = $pkg.UserProximityEvent = $newType(0, $kindStruct, "dom.UserProximityEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_) {
+	UserProximityEvent = $pkg.UserProximityEvent = $newType(0, $kindStruct, "dom.UserProximityEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -23325,7 +23956,7 @@ $packages["honnef.co/go/js/dom"] = (function() {
 		}
 		this.BasicEvent = BasicEvent_;
 	});
-	WheelEvent = $pkg.WheelEvent = $newType(0, $kindStruct, "dom.WheelEvent", true, "honnef.co/go/js/dom", true, function(BasicEvent_, DeltaX_, DeltaY_, DeltaZ_, DeltaMode_) {
+	WheelEvent = $pkg.WheelEvent = $newType(0, $kindStruct, "dom.WheelEvent", true, "github.com/gu-io/gu/vendor/honnef.co/go/js/dom", true, function(BasicEvent_, DeltaX_, DeltaY_, DeltaZ_, DeltaMode_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.BasicEvent = ptrType$18.nil;
@@ -26188,13 +26819,13 @@ $packages["honnef.co/go/js/dom"] = (function() {
 	ptrType$18.methods = [{prop: "Bubbles", name: "Bubbles", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "Cancelable", name: "Cancelable", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "CurrentTarget", name: "CurrentTarget", pkg: "", typ: $funcType([], [Element], false)}, {prop: "DefaultPrevented", name: "DefaultPrevented", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "EventPhase", name: "EventPhase", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "Target", name: "Target", pkg: "", typ: $funcType([], [Element], false)}, {prop: "Timestamp", name: "Timestamp", pkg: "", typ: $funcType([], [time.Time], false)}, {prop: "Type", name: "Type", pkg: "", typ: $funcType([], [$String], false)}, {prop: "PreventDefault", name: "PreventDefault", pkg: "", typ: $funcType([], [], false)}, {prop: "StopImmediatePropagation", name: "StopImmediatePropagation", pkg: "", typ: $funcType([], [], false)}, {prop: "StopPropagation", name: "StopPropagation", pkg: "", typ: $funcType([], [], false)}, {prop: "Underlying", name: "Underlying", pkg: "", typ: $funcType([], [ptrType], false)}];
 	ptrType$53.methods = [{prop: "ModifierState", name: "ModifierState", pkg: "", typ: $funcType([$String], [$Bool], false)}];
 	ptrType$54.methods = [{prop: "RelatedTarget", name: "RelatedTarget", pkg: "", typ: $funcType([], [Element], false)}, {prop: "ModifierState", name: "ModifierState", pkg: "", typ: $funcType([$String], [$Bool], false)}];
-	TokenList.init("honnef.co/go/js/dom", [{prop: "dtl", name: "dtl", exported: false, typ: ptrType, tag: ""}, {prop: "o", name: "o", exported: false, typ: ptrType, tag: ""}, {prop: "sa", name: "sa", exported: false, typ: $String, tag: ""}, {prop: "Length", name: "Length", exported: true, typ: $Int, tag: "js:\"length\""}]);
+	TokenList.init("github.com/gu-io/gu/vendor/honnef.co/go/js/dom", [{prop: "dtl", name: "dtl", exported: false, typ: ptrType, tag: ""}, {prop: "o", name: "o", exported: false, typ: ptrType, tag: ""}, {prop: "sa", name: "sa", exported: false, typ: $String, tag: ""}, {prop: "Length", name: "Length", exported: true, typ: $Int, tag: "js:\"length\""}]);
 	Document.init([{prop: "AddEventListener", name: "AddEventListener", pkg: "", typ: $funcType([$String, $Bool, funcType$2], [funcType$1], false)}, {prop: "AdoptNode", name: "AdoptNode", pkg: "", typ: $funcType([Node], [Node], false)}, {prop: "AppendChild", name: "AppendChild", pkg: "", typ: $funcType([Node], [], false)}, {prop: "Async", name: "Async", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "BaseURI", name: "BaseURI", pkg: "", typ: $funcType([], [$String], false)}, {prop: "ChildNodes", name: "ChildNodes", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "CloneNode", name: "CloneNode", pkg: "", typ: $funcType([$Bool], [Node], false)}, {prop: "CompareDocumentPosition", name: "CompareDocumentPosition", pkg: "", typ: $funcType([Node], [$Int], false)}, {prop: "Contains", name: "Contains", pkg: "", typ: $funcType([Node], [$Bool], false)}, {prop: "CreateDocumentFragment", name: "CreateDocumentFragment", pkg: "", typ: $funcType([], [DocumentFragment], false)}, {prop: "CreateElement", name: "CreateElement", pkg: "", typ: $funcType([$String], [Element], false)}, {prop: "CreateElementNS", name: "CreateElementNS", pkg: "", typ: $funcType([$String, $String], [Element], false)}, {prop: "CreateTextNode", name: "CreateTextNode", pkg: "", typ: $funcType([$String], [ptrType$12], false)}, {prop: "DispatchEvent", name: "DispatchEvent", pkg: "", typ: $funcType([Event], [$Bool], false)}, {prop: "Doctype", name: "Doctype", pkg: "", typ: $funcType([], [DocumentType], false)}, {prop: "DocumentElement", name: "DocumentElement", pkg: "", typ: $funcType([], [Element], false)}, {prop: "DocumentURI", name: "DocumentURI", pkg: "", typ: $funcType([], [$String], false)}, {prop: "ElementFromPoint", name: "ElementFromPoint", pkg: "", typ: $funcType([$Int, $Int], [Element], false)}, {prop: "EnableStyleSheetsForSet", name: "EnableStyleSheetsForSet", pkg: "", typ: $funcType([$String], [], false)}, {prop: "FirstChild", name: "FirstChild", pkg: "", typ: $funcType([], [Node], false)}, {prop: "GetElementByID", name: "GetElementByID", pkg: "", typ: $funcType([$String], [Element], false)}, {prop: "GetElementsByClassName", name: "GetElementsByClassName", pkg: "", typ: $funcType([$String], [sliceType$3], false)}, {prop: "GetElementsByTagName", name: "GetElementsByTagName", pkg: "", typ: $funcType([$String], [sliceType$3], false)}, {prop: "GetElementsByTagNameNS", name: "GetElementsByTagNameNS", pkg: "", typ: $funcType([$String, $String], [sliceType$3], false)}, {prop: "HasChildNodes", name: "HasChildNodes", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "Implementation", name: "Implementation", pkg: "", typ: $funcType([], [DOMImplementation], false)}, {prop: "ImportNode", name: "ImportNode", pkg: "", typ: $funcType([Node, $Bool], [Node], false)}, {prop: "InsertBefore", name: "InsertBefore", pkg: "", typ: $funcType([Node, Node], [], false)}, {prop: "IsDefaultNamespace", name: "IsDefaultNamespace", pkg: "", typ: $funcType([$String], [$Bool], false)}, {prop: "IsEqualNode", name: "IsEqualNode", pkg: "", typ: $funcType([Node], [$Bool], false)}, {prop: "LastChild", name: "LastChild", pkg: "", typ: $funcType([], [Node], false)}, {prop: "LastStyleSheetSet", name: "LastStyleSheetSet", pkg: "", typ: $funcType([], [$String], false)}, {prop: "LookupNamespaceURI", name: "LookupNamespaceURI", pkg: "", typ: $funcType([$String], [$String], false)}, {prop: "LookupPrefix", name: "LookupPrefix", pkg: "", typ: $funcType([], [$String], false)}, {prop: "NextSibling", name: "NextSibling", pkg: "", typ: $funcType([], [Node], false)}, {prop: "NodeName", name: "NodeName", pkg: "", typ: $funcType([], [$String], false)}, {prop: "NodeType", name: "NodeType", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "NodeValue", name: "NodeValue", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Normalize", name: "Normalize", pkg: "", typ: $funcType([], [], false)}, {prop: "OwnerDocument", name: "OwnerDocument", pkg: "", typ: $funcType([], [Document], false)}, {prop: "ParentElement", name: "ParentElement", pkg: "", typ: $funcType([], [Element], false)}, {prop: "ParentNode", name: "ParentNode", pkg: "", typ: $funcType([], [Node], false)}, {prop: "PreferredStyleSheetSet", name: "PreferredStyleSheetSet", pkg: "", typ: $funcType([], [$String], false)}, {prop: "PreviousSibling", name: "PreviousSibling", pkg: "", typ: $funcType([], [Node], false)}, {prop: "QuerySelector", name: "QuerySelector", pkg: "", typ: $funcType([$String], [Element], false)}, {prop: "QuerySelectorAll", name: "QuerySelectorAll", pkg: "", typ: $funcType([$String], [sliceType$3], false)}, {prop: "RemoveChild", name: "RemoveChild", pkg: "", typ: $funcType([Node], [], false)}, {prop: "RemoveEventListener", name: "RemoveEventListener", pkg: "", typ: $funcType([$String, $Bool, funcType$1], [], false)}, {prop: "ReplaceChild", name: "ReplaceChild", pkg: "", typ: $funcType([Node, Node], [], false)}, {prop: "SelectedStyleSheetSet", name: "SelectedStyleSheetSet", pkg: "", typ: $funcType([], [$String], false)}, {prop: "SetAsync", name: "SetAsync", pkg: "", typ: $funcType([$Bool], [], false)}, {prop: "SetNodeValue", name: "SetNodeValue", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetTextContent", name: "SetTextContent", pkg: "", typ: $funcType([$String], [], false)}, {prop: "StyleSheetSets", name: "StyleSheetSets", pkg: "", typ: $funcType([], [sliceType$16], false)}, {prop: "StyleSheets", name: "StyleSheets", pkg: "", typ: $funcType([], [sliceType$16], false)}, {prop: "TextContent", name: "TextContent", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Underlying", name: "Underlying", pkg: "", typ: $funcType([], [ptrType], false)}]);
 	DocumentFragment.init([{prop: "AddEventListener", name: "AddEventListener", pkg: "", typ: $funcType([$String, $Bool, funcType$2], [funcType$1], false)}, {prop: "AppendChild", name: "AppendChild", pkg: "", typ: $funcType([Node], [], false)}, {prop: "BaseURI", name: "BaseURI", pkg: "", typ: $funcType([], [$String], false)}, {prop: "ChildNodes", name: "ChildNodes", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "CloneNode", name: "CloneNode", pkg: "", typ: $funcType([$Bool], [Node], false)}, {prop: "CompareDocumentPosition", name: "CompareDocumentPosition", pkg: "", typ: $funcType([Node], [$Int], false)}, {prop: "Contains", name: "Contains", pkg: "", typ: $funcType([Node], [$Bool], false)}, {prop: "DispatchEvent", name: "DispatchEvent", pkg: "", typ: $funcType([Event], [$Bool], false)}, {prop: "FirstChild", name: "FirstChild", pkg: "", typ: $funcType([], [Node], false)}, {prop: "GetElementByID", name: "GetElementByID", pkg: "", typ: $funcType([$String], [Element], false)}, {prop: "HasChildNodes", name: "HasChildNodes", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "InsertBefore", name: "InsertBefore", pkg: "", typ: $funcType([Node, Node], [], false)}, {prop: "IsDefaultNamespace", name: "IsDefaultNamespace", pkg: "", typ: $funcType([$String], [$Bool], false)}, {prop: "IsEqualNode", name: "IsEqualNode", pkg: "", typ: $funcType([Node], [$Bool], false)}, {prop: "LastChild", name: "LastChild", pkg: "", typ: $funcType([], [Node], false)}, {prop: "LookupNamespaceURI", name: "LookupNamespaceURI", pkg: "", typ: $funcType([$String], [$String], false)}, {prop: "LookupPrefix", name: "LookupPrefix", pkg: "", typ: $funcType([], [$String], false)}, {prop: "NextSibling", name: "NextSibling", pkg: "", typ: $funcType([], [Node], false)}, {prop: "NodeName", name: "NodeName", pkg: "", typ: $funcType([], [$String], false)}, {prop: "NodeType", name: "NodeType", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "NodeValue", name: "NodeValue", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Normalize", name: "Normalize", pkg: "", typ: $funcType([], [], false)}, {prop: "OwnerDocument", name: "OwnerDocument", pkg: "", typ: $funcType([], [Document], false)}, {prop: "ParentElement", name: "ParentElement", pkg: "", typ: $funcType([], [Element], false)}, {prop: "ParentNode", name: "ParentNode", pkg: "", typ: $funcType([], [Node], false)}, {prop: "PreviousSibling", name: "PreviousSibling", pkg: "", typ: $funcType([], [Node], false)}, {prop: "QuerySelector", name: "QuerySelector", pkg: "", typ: $funcType([$String], [Element], false)}, {prop: "QuerySelectorAll", name: "QuerySelectorAll", pkg: "", typ: $funcType([$String], [sliceType$3], false)}, {prop: "RemoveChild", name: "RemoveChild", pkg: "", typ: $funcType([Node], [], false)}, {prop: "RemoveEventListener", name: "RemoveEventListener", pkg: "", typ: $funcType([$String, $Bool, funcType$1], [], false)}, {prop: "ReplaceChild", name: "ReplaceChild", pkg: "", typ: $funcType([Node, Node], [], false)}, {prop: "SetNodeValue", name: "SetNodeValue", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetTextContent", name: "SetTextContent", pkg: "", typ: $funcType([$String], [], false)}, {prop: "TextContent", name: "TextContent", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Underlying", name: "Underlying", pkg: "", typ: $funcType([], [ptrType], false)}]);
 	HTMLDocument.init([{prop: "ActiveElement", name: "ActiveElement", pkg: "", typ: $funcType([], [HTMLElement], false)}, {prop: "AddEventListener", name: "AddEventListener", pkg: "", typ: $funcType([$String, $Bool, funcType$2], [funcType$1], false)}, {prop: "AdoptNode", name: "AdoptNode", pkg: "", typ: $funcType([Node], [Node], false)}, {prop: "AppendChild", name: "AppendChild", pkg: "", typ: $funcType([Node], [], false)}, {prop: "Async", name: "Async", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "BaseURI", name: "BaseURI", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Body", name: "Body", pkg: "", typ: $funcType([], [HTMLElement], false)}, {prop: "ChildNodes", name: "ChildNodes", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "CloneNode", name: "CloneNode", pkg: "", typ: $funcType([$Bool], [Node], false)}, {prop: "CompareDocumentPosition", name: "CompareDocumentPosition", pkg: "", typ: $funcType([Node], [$Int], false)}, {prop: "Contains", name: "Contains", pkg: "", typ: $funcType([Node], [$Bool], false)}, {prop: "Cookie", name: "Cookie", pkg: "", typ: $funcType([], [$String], false)}, {prop: "CreateDocumentFragment", name: "CreateDocumentFragment", pkg: "", typ: $funcType([], [DocumentFragment], false)}, {prop: "CreateElement", name: "CreateElement", pkg: "", typ: $funcType([$String], [Element], false)}, {prop: "CreateElementNS", name: "CreateElementNS", pkg: "", typ: $funcType([$String, $String], [Element], false)}, {prop: "CreateTextNode", name: "CreateTextNode", pkg: "", typ: $funcType([$String], [ptrType$12], false)}, {prop: "DefaultView", name: "DefaultView", pkg: "", typ: $funcType([], [Window], false)}, {prop: "DesignMode", name: "DesignMode", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "DispatchEvent", name: "DispatchEvent", pkg: "", typ: $funcType([Event], [$Bool], false)}, {prop: "Doctype", name: "Doctype", pkg: "", typ: $funcType([], [DocumentType], false)}, {prop: "DocumentElement", name: "DocumentElement", pkg: "", typ: $funcType([], [Element], false)}, {prop: "DocumentURI", name: "DocumentURI", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Domain", name: "Domain", pkg: "", typ: $funcType([], [$String], false)}, {prop: "ElementFromPoint", name: "ElementFromPoint", pkg: "", typ: $funcType([$Int, $Int], [Element], false)}, {prop: "EnableStyleSheetsForSet", name: "EnableStyleSheetsForSet", pkg: "", typ: $funcType([$String], [], false)}, {prop: "FirstChild", name: "FirstChild", pkg: "", typ: $funcType([], [Node], false)}, {prop: "Forms", name: "Forms", pkg: "", typ: $funcType([], [sliceType$8], false)}, {prop: "GetElementByID", name: "GetElementByID", pkg: "", typ: $funcType([$String], [Element], false)}, {prop: "GetElementsByClassName", name: "GetElementsByClassName", pkg: "", typ: $funcType([$String], [sliceType$3], false)}, {prop: "GetElementsByTagName", name: "GetElementsByTagName", pkg: "", typ: $funcType([$String], [sliceType$3], false)}, {prop: "GetElementsByTagNameNS", name: "GetElementsByTagNameNS", pkg: "", typ: $funcType([$String, $String], [sliceType$3], false)}, {prop: "HasChildNodes", name: "HasChildNodes", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "Head", name: "Head", pkg: "", typ: $funcType([], [ptrType$8], false)}, {prop: "Images", name: "Images", pkg: "", typ: $funcType([], [sliceType$9], false)}, {prop: "Implementation", name: "Implementation", pkg: "", typ: $funcType([], [DOMImplementation], false)}, {prop: "ImportNode", name: "ImportNode", pkg: "", typ: $funcType([Node, $Bool], [Node], false)}, {prop: "InsertBefore", name: "InsertBefore", pkg: "", typ: $funcType([Node, Node], [], false)}, {prop: "IsDefaultNamespace", name: "IsDefaultNamespace", pkg: "", typ: $funcType([$String], [$Bool], false)}, {prop: "IsEqualNode", name: "IsEqualNode", pkg: "", typ: $funcType([Node], [$Bool], false)}, {prop: "LastChild", name: "LastChild", pkg: "", typ: $funcType([], [Node], false)}, {prop: "LastModified", name: "LastModified", pkg: "", typ: $funcType([], [time.Time], false)}, {prop: "LastStyleSheetSet", name: "LastStyleSheetSet", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Links", name: "Links", pkg: "", typ: $funcType([], [sliceType$4], false)}, {prop: "Location", name: "Location", pkg: "", typ: $funcType([], [ptrType$21], false)}, {prop: "LookupNamespaceURI", name: "LookupNamespaceURI", pkg: "", typ: $funcType([$String], [$String], false)}, {prop: "LookupPrefix", name: "LookupPrefix", pkg: "", typ: $funcType([], [$String], false)}, {prop: "NextSibling", name: "NextSibling", pkg: "", typ: $funcType([], [Node], false)}, {prop: "NodeName", name: "NodeName", pkg: "", typ: $funcType([], [$String], false)}, {prop: "NodeType", name: "NodeType", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "NodeValue", name: "NodeValue", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Normalize", name: "Normalize", pkg: "", typ: $funcType([], [], false)}, {prop: "OwnerDocument", name: "OwnerDocument", pkg: "", typ: $funcType([], [Document], false)}, {prop: "ParentElement", name: "ParentElement", pkg: "", typ: $funcType([], [Element], false)}, {prop: "ParentNode", name: "ParentNode", pkg: "", typ: $funcType([], [Node], false)}, {prop: "Plugins", name: "Plugins", pkg: "", typ: $funcType([], [sliceType$10], false)}, {prop: "PreferredStyleSheetSet", name: "PreferredStyleSheetSet", pkg: "", typ: $funcType([], [$String], false)}, {prop: "PreviousSibling", name: "PreviousSibling", pkg: "", typ: $funcType([], [Node], false)}, {prop: "QuerySelector", name: "QuerySelector", pkg: "", typ: $funcType([$String], [Element], false)}, {prop: "QuerySelectorAll", name: "QuerySelectorAll", pkg: "", typ: $funcType([$String], [sliceType$3], false)}, {prop: "ReadyState", name: "ReadyState", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Referrer", name: "Referrer", pkg: "", typ: $funcType([], [$String], false)}, {prop: "RemoveChild", name: "RemoveChild", pkg: "", typ: $funcType([Node], [], false)}, {prop: "RemoveEventListener", name: "RemoveEventListener", pkg: "", typ: $funcType([$String, $Bool, funcType$1], [], false)}, {prop: "ReplaceChild", name: "ReplaceChild", pkg: "", typ: $funcType([Node, Node], [], false)}, {prop: "Scripts", name: "Scripts", pkg: "", typ: $funcType([], [sliceType$11], false)}, {prop: "SelectedStyleSheetSet", name: "SelectedStyleSheetSet", pkg: "", typ: $funcType([], [$String], false)}, {prop: "SetAsync", name: "SetAsync", pkg: "", typ: $funcType([$Bool], [], false)}, {prop: "SetCookie", name: "SetCookie", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetDesignMode", name: "SetDesignMode", pkg: "", typ: $funcType([$Bool], [], false)}, {prop: "SetDomain", name: "SetDomain", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetNodeValue", name: "SetNodeValue", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetTextContent", name: "SetTextContent", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetTitle", name: "SetTitle", pkg: "", typ: $funcType([$String], [], false)}, {prop: "StyleSheetSets", name: "StyleSheetSets", pkg: "", typ: $funcType([], [sliceType$16], false)}, {prop: "StyleSheets", name: "StyleSheets", pkg: "", typ: $funcType([], [sliceType$16], false)}, {prop: "TextContent", name: "TextContent", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Title", name: "Title", pkg: "", typ: $funcType([], [$String], false)}, {prop: "URL", name: "URL", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Underlying", name: "Underlying", pkg: "", typ: $funcType([], [ptrType], false)}]);
 	documentFragment.init("", [{prop: "BasicNode", name: "", exported: true, typ: ptrType$22, tag: ""}]);
 	document.init("", [{prop: "BasicNode", name: "", exported: true, typ: ptrType$22, tag: ""}]);
-	htmlDocument.init("honnef.co/go/js/dom", [{prop: "document", name: "", exported: false, typ: ptrType$23, tag: ""}]);
+	htmlDocument.init("github.com/gu-io/gu/vendor/honnef.co/go/js/dom", [{prop: "document", name: "", exported: false, typ: ptrType$23, tag: ""}]);
 	URLUtils.init("", [{prop: "Object", name: "", exported: true, typ: ptrType, tag: ""}, {prop: "Href", name: "Href", exported: true, typ: $String, tag: "js:\"href\""}, {prop: "Protocol", name: "Protocol", exported: true, typ: $String, tag: "js:\"protocol\""}, {prop: "Host", name: "Host", exported: true, typ: $String, tag: "js:\"host\""}, {prop: "Hostname", name: "Hostname", exported: true, typ: $String, tag: "js:\"hostname\""}, {prop: "Port", name: "Port", exported: true, typ: $String, tag: "js:\"port\""}, {prop: "Pathname", name: "Pathname", exported: true, typ: $String, tag: "js:\"pathname\""}, {prop: "Search", name: "Search", exported: true, typ: $String, tag: "js:\"search\""}, {prop: "Hash", name: "Hash", exported: true, typ: $String, tag: "js:\"hash\""}, {prop: "Username", name: "Username", exported: true, typ: $String, tag: "js:\"username\""}, {prop: "Password", name: "Password", exported: true, typ: $String, tag: "js:\"password\""}, {prop: "Origin", name: "Origin", exported: true, typ: $String, tag: "js:\"origin\""}]);
 	Location.init("", [{prop: "Object", name: "", exported: true, typ: ptrType, tag: ""}, {prop: "URLUtils", name: "", exported: true, typ: ptrType$2, tag: ""}]);
 	HTMLElement.init([{prop: "AccessKey", name: "AccessKey", pkg: "", typ: $funcType([], [$String], false)}, {prop: "AccessKeyLabel", name: "AccessKeyLabel", pkg: "", typ: $funcType([], [$String], false)}, {prop: "AddEventListener", name: "AddEventListener", pkg: "", typ: $funcType([$String, $Bool, funcType$2], [funcType$1], false)}, {prop: "AppendChild", name: "AppendChild", pkg: "", typ: $funcType([Node], [], false)}, {prop: "Attributes", name: "Attributes", pkg: "", typ: $funcType([], [mapType], false)}, {prop: "BaseURI", name: "BaseURI", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Blur", name: "Blur", pkg: "", typ: $funcType([], [], false)}, {prop: "ChildNodes", name: "ChildNodes", pkg: "", typ: $funcType([], [sliceType$2], false)}, {prop: "Class", name: "Class", pkg: "", typ: $funcType([], [ptrType$20], false)}, {prop: "Click", name: "Click", pkg: "", typ: $funcType([], [], false)}, {prop: "CloneNode", name: "CloneNode", pkg: "", typ: $funcType([$Bool], [Node], false)}, {prop: "CompareDocumentPosition", name: "CompareDocumentPosition", pkg: "", typ: $funcType([Node], [$Int], false)}, {prop: "Contains", name: "Contains", pkg: "", typ: $funcType([Node], [$Bool], false)}, {prop: "ContentEditable", name: "ContentEditable", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Dataset", name: "Dataset", pkg: "", typ: $funcType([], [mapType], false)}, {prop: "Dir", name: "Dir", pkg: "", typ: $funcType([], [$String], false)}, {prop: "DispatchEvent", name: "DispatchEvent", pkg: "", typ: $funcType([Event], [$Bool], false)}, {prop: "Draggable", name: "Draggable", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "FirstChild", name: "FirstChild", pkg: "", typ: $funcType([], [Node], false)}, {prop: "Focus", name: "Focus", pkg: "", typ: $funcType([], [], false)}, {prop: "GetAttribute", name: "GetAttribute", pkg: "", typ: $funcType([$String], [$String], false)}, {prop: "GetAttributeNS", name: "GetAttributeNS", pkg: "", typ: $funcType([$String, $String], [$String], false)}, {prop: "GetBoundingClientRect", name: "GetBoundingClientRect", pkg: "", typ: $funcType([], [ClientRect], false)}, {prop: "GetElementsByClassName", name: "GetElementsByClassName", pkg: "", typ: $funcType([$String], [sliceType$3], false)}, {prop: "GetElementsByTagName", name: "GetElementsByTagName", pkg: "", typ: $funcType([$String], [sliceType$3], false)}, {prop: "GetElementsByTagNameNS", name: "GetElementsByTagNameNS", pkg: "", typ: $funcType([$String, $String], [sliceType$3], false)}, {prop: "HasAttribute", name: "HasAttribute", pkg: "", typ: $funcType([$String], [$Bool], false)}, {prop: "HasAttributeNS", name: "HasAttributeNS", pkg: "", typ: $funcType([$String, $String], [$Bool], false)}, {prop: "HasChildNodes", name: "HasChildNodes", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "ID", name: "ID", pkg: "", typ: $funcType([], [$String], false)}, {prop: "InnerHTML", name: "InnerHTML", pkg: "", typ: $funcType([], [$String], false)}, {prop: "InsertBefore", name: "InsertBefore", pkg: "", typ: $funcType([Node, Node], [], false)}, {prop: "IsContentEditable", name: "IsContentEditable", pkg: "", typ: $funcType([], [$Bool], false)}, {prop: "IsDefaultNamespace", name: "IsDefaultNamespace", pkg: "", typ: $funcType([$String], [$Bool], false)}, {prop: "IsEqualNode", name: "IsEqualNode", pkg: "", typ: $funcType([Node], [$Bool], false)}, {prop: "Lang", name: "Lang", pkg: "", typ: $funcType([], [$String], false)}, {prop: "LastChild", name: "LastChild", pkg: "", typ: $funcType([], [Node], false)}, {prop: "LookupNamespaceURI", name: "LookupNamespaceURI", pkg: "", typ: $funcType([$String], [$String], false)}, {prop: "LookupPrefix", name: "LookupPrefix", pkg: "", typ: $funcType([], [$String], false)}, {prop: "NextElementSibling", name: "NextElementSibling", pkg: "", typ: $funcType([], [Element], false)}, {prop: "NextSibling", name: "NextSibling", pkg: "", typ: $funcType([], [Node], false)}, {prop: "NodeName", name: "NodeName", pkg: "", typ: $funcType([], [$String], false)}, {prop: "NodeType", name: "NodeType", pkg: "", typ: $funcType([], [$Int], false)}, {prop: "NodeValue", name: "NodeValue", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Normalize", name: "Normalize", pkg: "", typ: $funcType([], [], false)}, {prop: "OffsetHeight", name: "OffsetHeight", pkg: "", typ: $funcType([], [$Float64], false)}, {prop: "OffsetLeft", name: "OffsetLeft", pkg: "", typ: $funcType([], [$Float64], false)}, {prop: "OffsetParent", name: "OffsetParent", pkg: "", typ: $funcType([], [HTMLElement], false)}, {prop: "OffsetTop", name: "OffsetTop", pkg: "", typ: $funcType([], [$Float64], false)}, {prop: "OffsetWidth", name: "OffsetWidth", pkg: "", typ: $funcType([], [$Float64], false)}, {prop: "OuterHTML", name: "OuterHTML", pkg: "", typ: $funcType([], [$String], false)}, {prop: "OwnerDocument", name: "OwnerDocument", pkg: "", typ: $funcType([], [Document], false)}, {prop: "ParentElement", name: "ParentElement", pkg: "", typ: $funcType([], [Element], false)}, {prop: "ParentNode", name: "ParentNode", pkg: "", typ: $funcType([], [Node], false)}, {prop: "PreviousElementSibling", name: "PreviousElementSibling", pkg: "", typ: $funcType([], [Element], false)}, {prop: "PreviousSibling", name: "PreviousSibling", pkg: "", typ: $funcType([], [Node], false)}, {prop: "QuerySelector", name: "QuerySelector", pkg: "", typ: $funcType([$String], [Element], false)}, {prop: "QuerySelectorAll", name: "QuerySelectorAll", pkg: "", typ: $funcType([$String], [sliceType$3], false)}, {prop: "RemoveAttribute", name: "RemoveAttribute", pkg: "", typ: $funcType([$String], [], false)}, {prop: "RemoveAttributeNS", name: "RemoveAttributeNS", pkg: "", typ: $funcType([$String, $String], [], false)}, {prop: "RemoveChild", name: "RemoveChild", pkg: "", typ: $funcType([Node], [], false)}, {prop: "RemoveEventListener", name: "RemoveEventListener", pkg: "", typ: $funcType([$String, $Bool, funcType$1], [], false)}, {prop: "ReplaceChild", name: "ReplaceChild", pkg: "", typ: $funcType([Node, Node], [], false)}, {prop: "SetAccessKey", name: "SetAccessKey", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetAccessKeyLabel", name: "SetAccessKeyLabel", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetAttribute", name: "SetAttribute", pkg: "", typ: $funcType([$String, $String], [], false)}, {prop: "SetAttributeNS", name: "SetAttributeNS", pkg: "", typ: $funcType([$String, $String, $String], [], false)}, {prop: "SetContentEditable", name: "SetContentEditable", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetDir", name: "SetDir", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetDraggable", name: "SetDraggable", pkg: "", typ: $funcType([$Bool], [], false)}, {prop: "SetID", name: "SetID", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetInnerHTML", name: "SetInnerHTML", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetLang", name: "SetLang", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetNodeValue", name: "SetNodeValue", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetOuterHTML", name: "SetOuterHTML", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetTextContent", name: "SetTextContent", pkg: "", typ: $funcType([$String], [], false)}, {prop: "SetTitle", name: "SetTitle", pkg: "", typ: $funcType([$String], [], false)}, {prop: "Style", name: "Style", pkg: "", typ: $funcType([], [ptrType$25], false)}, {prop: "TagName", name: "TagName", pkg: "", typ: $funcType([], [$String], false)}, {prop: "TextContent", name: "TextContent", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Title", name: "Title", pkg: "", typ: $funcType([], [$String], false)}, {prop: "Underlying", name: "Underlying", pkg: "", typ: $funcType([], [ptrType], false)}]);
@@ -26354,64 +26985,78 @@ $packages["honnef.co/go/js/dom"] = (function() {
 $packages["main"] = (function() {
 	var $pkg = {}, $init, webcache, dom, ptrType, sliceType, main;
 	webcache = $packages["github.com/gu-io/gu/shell/cache/webcache"];
-	dom = $packages["honnef.co/go/js/dom"];
+	dom = $packages["github.com/gu-io/gu/vendor/honnef.co/go/js/dom"];
 	ptrType = $ptrType(dom.HTMLBodyElement);
 	sliceType = $sliceType($String);
 	main = function() {
-		var $ptr, _r, _r$1, _r$10, _r$11, _r$12, _r$13, _r$14, _r$15, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, body, cacheRes, doc, err, item, res, resChan, webCache, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$10 = $f._r$10; _r$11 = $f._r$11; _r$12 = $f._r$12; _r$13 = $f._r$13; _r$14 = $f._r$14; _r$15 = $f._r$15; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; body = $f.body; cacheRes = $f.cacheRes; doc = $f.doc; err = $f.err; item = $f.item; res = $f.res; resChan = $f.resChan; webCache = $f.webCache; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _r, _r$1, _r$10, _r$11, _r$12, _r$13, _r$14, _r$15, _r$16, _r$17, _r$18, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _tuple, _tuple$1, _tuple$2, body, cache, doc, err, item, res, webCache, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _r = $f._r; _r$1 = $f._r$1; _r$10 = $f._r$10; _r$11 = $f._r$11; _r$12 = $f._r$12; _r$13 = $f._r$13; _r$14 = $f._r$14; _r$15 = $f._r$15; _r$16 = $f._r$16; _r$17 = $f._r$17; _r$18 = $f._r$18; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _r$5 = $f._r$5; _r$6 = $f._r$6; _r$7 = $f._r$7; _r$8 = $f._r$8; _r$9 = $f._r$9; _tuple = $f._tuple; _tuple$1 = $f._tuple$1; _tuple$2 = $f._tuple$2; body = $f.body; cache = $f.cache; doc = $f.doc; err = $f.err; item = $f.item; res = $f.res; webCache = $f.webCache; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		_r = dom.GetWindow().Document(); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		doc = $assertType(_r, dom.HTMLDocument);
 		_r$1 = doc.QuerySelector("body"); /* */ $s = 2; case 2: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		body = $assertType(_r$1, ptrType);
-		webCache = webcache.New();
-		_r$2 = $recv(webCache.Open("debi.v1")); /* */ $s = 3; case 3: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-		cacheRes = $clone(_r$2[0], webcache.NewCacheResponse);
-		/* */ if (!($interfaceIsEqual(cacheRes.Error, $ifaceNil))) { $s = 4; continue; }
-		/* */ $s = 5; continue;
-		/* if (!($interfaceIsEqual(cacheRes.Error, $ifaceNil))) { */ case 4:
-			_r$3 = cacheRes.Error.Error(); /* */ $s = 6; case 6: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-			_r$4 = doc.CreateTextNode(_r$3 + "\n"); /* */ $s = 7; case 7: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$4); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			_r$5 = doc.CreateElement("br"); /* */ $s = 9; case 9: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$5); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		_tuple = webcache.New();
+		webCache = _tuple[0];
+		err = _tuple[1];
+		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 3; continue; }
+		/* */ $s = 4; continue;
+		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 3:
+			_r$2 = err.Error(); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			_r$3 = doc.CreateTextNode(_r$2); /* */ $s = 6; case 6: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$3); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_r$4 = doc.CreateElement("br"); /* */ $s = 8; case 8: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$4); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* } */ case 4:
+		_r$5 = webCache.Open("debi.v1"); /* */ $s = 10; case 10: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+		_tuple$1 = _r$5;
+		cache = _tuple$1[0];
+		err = _tuple$1[1];
+		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 11; continue; }
+		/* */ $s = 12; continue;
+		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 11:
+			_r$6 = err.Error(); /* */ $s = 13; case 13: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+			_r$7 = doc.CreateTextNode(_r$6 + "\n"); /* */ $s = 14; case 14: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
+			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$7); /* */ $s = 15; case 15: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_r$8 = doc.CreateElement("br"); /* */ $s = 16; case 16: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
+			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$8); /* */ $s = 17; case 17: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;
 			return;
-		/* } */ case 5:
-		_r$6 = $recv(cacheRes.Cache.Add(new sliceType(["http://localhost:8080/github.com/gu-io/gu/shell/"]))); /* */ $s = 11; case 11: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
-		err = _r$6[0];
-		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 12; continue; }
-		/* */ $s = 13; continue;
-		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 12:
-			_r$7 = err.Error(); /* */ $s = 14; case 14: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
-			_r$8 = doc.CreateTextNode(_r$7); /* */ $s = 15; case 15: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
-			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$8); /* */ $s = 16; case 16: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			_r$9 = doc.CreateElement("br"); /* */ $s = 17; case 17: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
-			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$9); /* */ $s = 18; case 18: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		/* } */ case 13:
-		resChan = cacheRes.Cache.MatchPath("http://localhost:8080/github.com/gu-io/gu/shell/", new webcache.MatchAttr.ptr(false, false, false, ""));
-		_r$10 = $recv(resChan); /* */ $s = 19; case 19: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
-		res = $clone(_r$10[0], webcache.CacheResponse);
-		/* */ if (!($interfaceIsEqual(res.Error, $ifaceNil))) { $s = 20; continue; }
-		/* */ $s = 21; continue;
-		/* if (!($interfaceIsEqual(res.Error, $ifaceNil))) { */ case 20:
-			_r$11 = res.Error.Error(); /* */ $s = 22; case 22: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
-			_r$12 = doc.CreateTextNode(_r$11); /* */ $s = 23; case 23: if($c) { $c = false; _r$12 = _r$12.$blk(); } if (_r$12 && _r$12.$blk !== undefined) { break s; }
-			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$12); /* */ $s = 24; case 24: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-			_r$13 = doc.CreateElement("br"); /* */ $s = 25; case 25: if($c) { $c = false; _r$13 = _r$13.$blk(); } if (_r$13 && _r$13.$blk !== undefined) { break s; }
-			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$13); /* */ $s = 26; case 26: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* } */ case 12:
+		_r$9 = cache.Add(new sliceType(["http://localhost:8080/github.com/gu-io/gu/shell/"])); /* */ $s = 18; case 18: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
+		err = _r$9;
+		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 19; continue; }
+		/* */ $s = 20; continue;
+		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 19:
+			_r$10 = err.Error(); /* */ $s = 21; case 21: if($c) { $c = false; _r$10 = _r$10.$blk(); } if (_r$10 && _r$10.$blk !== undefined) { break s; }
+			_r$11 = doc.CreateTextNode(_r$10); /* */ $s = 22; case 22: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
+			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$11); /* */ $s = 23; case 23: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_r$12 = doc.CreateElement("br"); /* */ $s = 24; case 24: if($c) { $c = false; _r$12 = _r$12.$blk(); } if (_r$12 && _r$12.$blk !== undefined) { break s; }
+			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$12); /* */ $s = 25; case 25: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* } */ case 20:
+		_r$13 = cache.MatchPath("http://localhost:8080/github.com/gu-io/gu/shell/", new webcache.MatchAttr.ptr(false, false, false, "")); /* */ $s = 26; case 26: if($c) { $c = false; _r$13 = _r$13.$blk(); } if (_r$13 && _r$13.$blk !== undefined) { break s; }
+		_tuple$2 = _r$13;
+		res = $clone(_tuple$2[0], $packages["github.com/gu-io/gu/shell"].WebResponse);
+		err = _tuple$2[1];
+		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 27; continue; }
+		/* */ $s = 28; continue;
+		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 27:
+			_r$14 = err.Error(); /* */ $s = 29; case 29: if($c) { $c = false; _r$14 = _r$14.$blk(); } if (_r$14 && _r$14.$blk !== undefined) { break s; }
+			_r$15 = doc.CreateTextNode(_r$14); /* */ $s = 30; case 30: if($c) { $c = false; _r$15 = _r$15.$blk(); } if (_r$15 && _r$15.$blk !== undefined) { break s; }
+			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$15); /* */ $s = 31; case 31: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			_r$16 = doc.CreateElement("br"); /* */ $s = 32; case 32: if($c) { $c = false; _r$16 = _r$16.$blk(); } if (_r$16 && _r$16.$blk !== undefined) { break s; }
+			$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$16); /* */ $s = 33; case 33: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;
 			return;
-		/* } */ case 21:
-		_r$14 = doc.CreateElement("div"); /* */ $s = 27; case 27: if($c) { $c = false; _r$14 = _r$14.$blk(); } if (_r$14 && _r$14.$blk !== undefined) { break s; }
-		item = _r$14;
-		$r = item.SetInnerHTML($bytesToString(res.Response.Body)); /* */ $s = 28; case 28: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(item); /* */ $s = 29; case 29: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		_r$15 = doc.CreateElement("br"); /* */ $s = 30; case 30: if($c) { $c = false; _r$15 = _r$15.$blk(); } if (_r$15 && _r$15.$blk !== undefined) { break s; }
-		$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$15); /* */ $s = 31; case 31: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		/* } */ case 28:
+		_r$17 = doc.CreateElement("div"); /* */ $s = 34; case 34: if($c) { $c = false; _r$17 = _r$17.$blk(); } if (_r$17 && _r$17.$blk !== undefined) { break s; }
+		item = _r$17;
+		$r = item.SetInnerHTML($bytesToString(res.Body)); /* */ $s = 35; case 35: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(item); /* */ $s = 36; case 36: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		_r$18 = doc.CreateElement("br"); /* */ $s = 37; case 37: if($c) { $c = false; _r$18 = _r$18.$blk(); } if (_r$18 && _r$18.$blk !== undefined) { break s; }
+		$r = body.BasicHTMLElement.BasicElement.BasicNode.AppendChild(_r$18); /* */ $s = 38; case 38: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$s = -1; return;
 		return;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: main }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$12 = _r$12; $f._r$13 = _r$13; $f._r$14 = _r$14; $f._r$15 = _r$15; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f.body = body; $f.cacheRes = cacheRes; $f.doc = doc; $f.err = err; $f.item = item; $f.res = res; $f.resChan = resChan; $f.webCache = webCache; $f.$s = $s; $f.$r = $r; return $f;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: main }; } $f.$ptr = $ptr; $f._r = _r; $f._r$1 = _r$1; $f._r$10 = _r$10; $f._r$11 = _r$11; $f._r$12 = _r$12; $f._r$13 = _r$13; $f._r$14 = _r$14; $f._r$15 = _r$15; $f._r$16 = _r$16; $f._r$17 = _r$17; $f._r$18 = _r$18; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._r$5 = _r$5; $f._r$6 = _r$6; $f._r$7 = _r$7; $f._r$8 = _r$8; $f._r$9 = _r$9; $f._tuple = _tuple; $f._tuple$1 = _tuple$1; $f._tuple$2 = _tuple$2; $f.body = body; $f.cache = cache; $f.doc = doc; $f.err = err; $f.item = item; $f.res = res; $f.webCache = webCache; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$init = function() {
 		$pkg.$init = function() {};

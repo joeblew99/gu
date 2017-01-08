@@ -16,31 +16,28 @@ func main() {
 		body.AppendChild(doc.CreateElement("br"))
 	}
 
-	cacheRes := <-webCache.Open("debi.v1")
-
-	if cacheRes.Error != nil {
-		body.AppendChild(doc.CreateTextNode(cacheRes.Error.Error() + "\n"))
+	cache, err := webCache.Open("debi.v1")
+	if err != nil {
+		body.AppendChild(doc.CreateTextNode(err.Error() + "\n"))
 		body.AppendChild(doc.CreateElement("br"))
 		return
 	}
 
-	err = <-cacheRes.Cache.Add("http://localhost:8080/github.com/gu-io/gu/shell/")
+	err = cache.Add("http://localhost:8080/github.com/gu-io/gu/shell/")
 	if err != nil {
 		body.AppendChild(doc.CreateTextNode(err.Error()))
 		body.AppendChild(doc.CreateElement("br"))
 	}
 
-	resChan := cacheRes.Cache.MatchPath("http://localhost:8080/github.com/gu-io/gu/shell/", webcache.MatchAttr{})
-
-	res := <-resChan
-	if res.Error != nil {
-		body.AppendChild(doc.CreateTextNode(res.Error.Error()))
+	res, err := cache.MatchPath("http://localhost:8080/github.com/gu-io/gu/shell/", webcache.MatchAttr{})
+	if err != nil {
+		body.AppendChild(doc.CreateTextNode(err.Error()))
 		body.AppendChild(doc.CreateElement("br"))
 		return
 	}
 
 	item := doc.CreateElement("div")
-	item.SetInnerHTML(string(res.Response.Body))
+	item.SetInnerHTML(string(res.Body))
 
 	body.AppendChild(item)
 	body.AppendChild(doc.CreateElement("br"))

@@ -58,15 +58,16 @@ func (wc *API) Open(cacheName string) (*CacheAPI, error) {
 		return nil, ErrCacheNotFound
 	}
 
+	var opVal newCacheResponse
 	res := make(chan newCacheResponse, 0)
 
 	openReq.Call("then", func(cache *js.Object) {
-		go func() { res <- newCacheResponse{Cache: NewCacheAPI(cache)} }()
-	}).Call("catch", func(err *js.Object) {
-		go func() { res <- newCacheResponse{Error: errors.New(err.String())} }()
+		res <- newCacheResponse{Cache: NewCacheAPI(cache)}
+	}, func(err *js.Object) {
+		res <- newCacheResponse{Error: errors.New(err.String())}
 	})
 
-	opVal := <-res
+	opVal = <-res
 	return opVal.Cache, opVal.Error
 }
 
