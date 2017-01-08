@@ -1,5 +1,5 @@
-Getting Started
-===============
+Indepth Walk with Gu
+====================
 
 Gu is fundamentally a library built to handle rendering of html on either front or backend.
 

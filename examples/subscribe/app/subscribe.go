@@ -2,10 +2,10 @@ package app
 
 import (
 	"github.com/gu-io/gu/dispatch"
-	. "github.com/gu-io/gu/trees"
-	. "github.com/gu-io/gu/trees/elems"
-	. "github.com/gu-io/gu/trees/events"
-	. "github.com/gu-io/gu/trees/property"
+	"github.com/gu-io/gu/trees"
+	"github.com/gu-io/gu/trees/elems"
+	"github.com/gu-io/gu/trees/events"
+	"github.com/gu-io/gu/trees/property"
 	"honnef.co/go/js/dom"
 )
 
@@ -15,7 +15,7 @@ import (
 // shell:component
 //
 // Resource {
-//  Name: roboto.font
+//  Name: roboto.font.css
 //	Path: https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto
 //	Hook: link-embed
 // }
@@ -32,25 +32,25 @@ type Subscriber struct {
 }
 
 // Render returns the markup for the subscription component.
-func (s *Subscriber) Render() *Markup {
-	return Section(
-		CSS(SubscribeCSS, s),
-		ClassAttr("subscription"),
-		Form(
-			ClassAttr("form", "form-control"),
-			Section(
-				ClassAttr("email"),
-				Input(
-					PlaceholderAttr("example@mail.com"),
-					TypeAttr("email"),
+func (s *Subscriber) Render() *trees.Markup {
+	return elems.Section(
+		elems.CSS(SubscribeCSS, s),
+		property.ClassAttr("subscription"),
+		elems.Form(
+			property.ClassAttr("form", "form-control"),
+			elems.Section(
+				property.ClassAttr("email"),
+				elems.Input(
+					property.PlaceholderAttr("example@mail.com"),
+					property.TypeAttr("email"),
 				),
 			),
-			Section(
-				ClassAttr("buttons"),
-				Button(
-					Text("Subscribe"),
-					ClassAttr("button", "named"),
-					ClickEvent(func(event EventObject, tree *Markup) {
+			elems.Section(
+				property.ClassAttr("buttons"),
+				elems.Button(
+					elems.Text("Subscribe"),
+					property.ClassAttr("button", "named"),
+					events.ClickEvent(func(event trees.EventObject, tree *trees.Markup) {
 						event.PreventDefault()
 						event.StopPropagation()
 
