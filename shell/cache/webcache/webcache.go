@@ -47,13 +47,11 @@ var ErrCacheNotFound = errors.New("Cache Not Found")
 
 // Open retrieves a giving cache from the web cache API backend.
 func (wc *API) Open(cacheName string) (*CacheAPI, error) {
-
 	if wc.Object == nil || wc.Object == js.Undefined {
 		return nil, ErrInvalidState
 	}
 
 	openReq := wc.Call("open", cacheName)
-
 	if openReq == js.Undefined && openReq == nil {
 		return nil, ErrCacheNotFound
 	}

@@ -6742,29 +6742,29 @@ $packages["reflect"] = (function() {
 				if (i[0] < 0 || i[0] > (tt.len >> 0)) {
 					$panic(new $String("reflect: array index out of range"));
 				}
-				typ[0] = tt.elem;
+				typ$1[0] = tt.elem;
 				fl = (v.flag & 480) >>> 0;
-				fl = (fl | ((typ[0].Kind() >>> 0))) >>> 0;
-				a$1[0] = v.ptr;
-				/* */ if (!((((fl & 128) >>> 0) === 0)) && !((typ[0].Kind() === 17)) && !((typ[0].Kind() === 25))) { $s = 7; continue; }
+				fl = (fl | ((typ$1[0].Kind() >>> 0))) >>> 0;
+				a[0] = v.ptr;
+				/* */ if (!((((fl & 128) >>> 0) === 0)) && !((typ$1[0].Kind() === 17)) && !((typ$1[0].Kind() === 25))) { $s = 7; continue; }
 				/* */ $s = 8; continue;
-				/* if (!((((fl & 128) >>> 0) === 0)) && !((typ[0].Kind() === 17)) && !((typ[0].Kind() === 25))) { */ case 7:
-					$s = -1; return new Value.ptr(typ[0], new (jsType(PtrTo(typ[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
+				/* if (!((((fl & 128) >>> 0) === 0)) && !((typ$1[0].Kind() === 17)) && !((typ$1[0].Kind() === 25))) { */ case 7:
+					$s = -1; return new Value.ptr(typ$1[0], new (jsType(PtrTo(typ$1[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
 						var $ptr;
-						return wrapJsObject(typ[0], a$1[0][i[0]]);
+						return wrapJsObject(typ$1[0], a[0][i[0]]);
 					}; })(a, a$1, c, i, typ, typ$1), (function(a, a$1, c, i, typ, typ$1) { return function(x) {
 						var $ptr, x;
-						a$1[0][i[0]] = unwrapJsObject(typ[0], x);
+						a[0][i[0]] = unwrapJsObject(typ$1[0], x);
 					}; })(a, a$1, c, i, typ, typ$1)), fl);
-					return new Value.ptr(typ[0], new (jsType(PtrTo(typ[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
+					return new Value.ptr(typ$1[0], new (jsType(PtrTo(typ$1[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
 						var $ptr;
-						return wrapJsObject(typ[0], a$1[0][i[0]]);
+						return wrapJsObject(typ$1[0], a[0][i[0]]);
 					}; })(a, a$1, c, i, typ, typ$1), (function(a, a$1, c, i, typ, typ$1) { return function(x) {
 						var $ptr, x;
-						a$1[0][i[0]] = unwrapJsObject(typ[0], x);
+						a[0][i[0]] = unwrapJsObject(typ$1[0], x);
 					}; })(a, a$1, c, i, typ, typ$1)), fl);
 				/* } */ case 8:
-				_r = makeValue(typ[0], wrapJsObject(typ[0], a$1[0][i[0]]), fl); /* */ $s = 9; case 9: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+				_r = makeValue(typ$1[0], wrapJsObject(typ$1[0], a[0][i[0]]), fl); /* */ $s = 9; case 9: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 				$s = -1; return _r;
 				return _r;
 			/* } else if (_1 === (23)) { */ case 3:
@@ -6773,30 +6773,30 @@ $packages["reflect"] = (function() {
 					$panic(new $String("reflect: slice index out of range"));
 				}
 				tt$1 = v.typ.kindType;
-				typ$1[0] = tt$1.elem;
+				typ[0] = tt$1.elem;
 				fl$1 = (384 | ((v.flag & 96) >>> 0)) >>> 0;
-				fl$1 = (fl$1 | ((typ$1[0].Kind() >>> 0))) >>> 0;
+				fl$1 = (fl$1 | ((typ[0].Kind() >>> 0))) >>> 0;
 				i[0] = i[0] + (($parseInt(s.$offset) >> 0)) >> 0;
-				a[0] = s.$array;
-				/* */ if (!((((fl$1 & 128) >>> 0) === 0)) && !((typ$1[0].Kind() === 17)) && !((typ$1[0].Kind() === 25))) { $s = 10; continue; }
+				a$1[0] = s.$array;
+				/* */ if (!((((fl$1 & 128) >>> 0) === 0)) && !((typ[0].Kind() === 17)) && !((typ[0].Kind() === 25))) { $s = 10; continue; }
 				/* */ $s = 11; continue;
-				/* if (!((((fl$1 & 128) >>> 0) === 0)) && !((typ$1[0].Kind() === 17)) && !((typ$1[0].Kind() === 25))) { */ case 10:
-					$s = -1; return new Value.ptr(typ$1[0], new (jsType(PtrTo(typ$1[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
+				/* if (!((((fl$1 & 128) >>> 0) === 0)) && !((typ[0].Kind() === 17)) && !((typ[0].Kind() === 25))) { */ case 10:
+					$s = -1; return new Value.ptr(typ[0], new (jsType(PtrTo(typ[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
 						var $ptr;
-						return wrapJsObject(typ$1[0], a[0][i[0]]);
+						return wrapJsObject(typ[0], a$1[0][i[0]]);
 					}; })(a, a$1, c, i, typ, typ$1), (function(a, a$1, c, i, typ, typ$1) { return function(x) {
 						var $ptr, x;
-						a[0][i[0]] = unwrapJsObject(typ$1[0], x);
+						a$1[0][i[0]] = unwrapJsObject(typ[0], x);
 					}; })(a, a$1, c, i, typ, typ$1)), fl$1);
-					return new Value.ptr(typ$1[0], new (jsType(PtrTo(typ$1[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
+					return new Value.ptr(typ[0], new (jsType(PtrTo(typ[0])))((function(a, a$1, c, i, typ, typ$1) { return function() {
 						var $ptr;
-						return wrapJsObject(typ$1[0], a[0][i[0]]);
+						return wrapJsObject(typ[0], a$1[0][i[0]]);
 					}; })(a, a$1, c, i, typ, typ$1), (function(a, a$1, c, i, typ, typ$1) { return function(x) {
 						var $ptr, x;
-						a[0][i[0]] = unwrapJsObject(typ$1[0], x);
+						a$1[0][i[0]] = unwrapJsObject(typ[0], x);
 					}; })(a, a$1, c, i, typ, typ$1)), fl$1);
 				/* } */ case 11:
-				_r$1 = makeValue(typ$1[0], wrapJsObject(typ$1[0], a[0][i[0]]), fl$1); /* */ $s = 12; case 12: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+				_r$1 = makeValue(typ[0], wrapJsObject(typ[0], a$1[0][i[0]]), fl$1); /* */ $s = 12; case 12: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 				$s = -1; return _r$1;
 				return _r$1;
 			/* } else if (_1 === (24)) { */ case 4:
@@ -21430,7 +21430,7 @@ $packages["github.com/gu-io/gu/shell"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
-	var $pkg = {}, $init, errors, shell, js, API, newCacheResponse, CacheAPI, MatchAttr, cacheResponse, cacheAllResponse, cacheKeys, ptrType, ptrType$1, ptrType$2, funcType, funcType$1, funcType$2, sliceType, sliceType$1, sliceType$2, ptrType$3, sliceType$3, New, NewCacheAPI;
+	var $pkg = {}, $init, errors, shell, js, API, newCacheResponse, CacheAPI, MatchAttr, cacheResponse, cacheAllResponse, cacheKeys, ptrType, ptrType$1, ptrType$2, funcType, funcType$1, sliceType, sliceType$1, sliceType$2, ptrType$3, sliceType$3, New, NewCacheAPI;
 	errors = $packages["errors"];
 	shell = $packages["github.com/gu-io/gu/shell"];
 	js = $packages["github.com/gu-io/gu/vendor/github.com/gopherjs/gopherjs/js"];
@@ -21507,9 +21507,8 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 	ptrType = $ptrType(API);
 	ptrType$1 = $ptrType(CacheAPI);
 	ptrType$2 = $ptrType(js.Object);
-	funcType = $funcType([ptrType$2], [ptrType$2], false);
+	funcType = $funcType([ptrType$2], [], false);
 	funcType$1 = $funcType([], [], false);
-	funcType$2 = $funcType([ptrType$2], [], false);
 	sliceType = $sliceType($String);
 	sliceType$1 = $sliceType($Uint8);
 	sliceType$2 = $sliceType(shell.WebResponse);
@@ -21545,28 +21544,20 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 		}
 		opVal = new newCacheResponse.ptr($ifaceNil, ptrType$1.nil);
 		res[0] = new $Chan(newCacheResponse, 0);
-		openReq.then($externalize((function(res) { return function(cache) {
-			var $ptr, cache;
-			$go((function(res) { return function $b() {
-				var $ptr, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(res[0], new newCacheResponse.ptr($ifaceNil, NewCacheAPI(cache))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				$s = -1; return;
-				return;
-				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}; })(res), []);
-			return cache;
-		}; })(res), funcType)).catch($externalize((function(res) { return function(err) {
-			var $ptr, err;
-			$go((function(res) { return function $b() {
-				var $ptr, $s, $r;
-				/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
-				$r = $send(res[0], new newCacheResponse.ptr(errors.New($internalize(err, $String)), ptrType$1.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-				$s = -1; return;
-				return;
-				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
-			}; })(res), []);
-			return err;
+		openReq.then($externalize((function(res) { return function $b(cache) {
+			var $ptr, cache, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; cache = $f.cache; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			$r = $send(res[0], new newCacheResponse.ptr($ifaceNil, NewCacheAPI(cache))); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$s = -1; return;
+			return;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.cache = cache; $f.$s = $s; $f.$r = $r; return $f;
+		}; })(res), funcType), $externalize((function(res) { return function $b(err) {
+			var $ptr, err, $s, $r;
+			/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; err = $f.err; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+			$r = $send(res[0], new newCacheResponse.ptr(errors.New($internalize(err, $String)), ptrType$1.nil)); /* */ $s = 1; case 1: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$s = -1; return;
+			return;
+			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.err = err; $f.$s = $s; $f.$r = $r; return $f;
 		}; })(res), funcType));
 		_r = $recv(res[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		newCacheResponse.copy(opVal, _r[0]);
@@ -21611,7 +21602,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(resChan), []);
-			}; })(resChan), funcType$2));
+			}; })(resChan), funcType));
 			_r = $recv(resChan[0]); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 			$s = -1; return _r[0];
 			return _r[0];
@@ -21632,7 +21623,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(resChan), []);
-		}; })(resChan), funcType$2));
+		}; })(resChan), funcType));
 		_r$1 = $recv(resChan[0]); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 		$s = -1; return _r$1[0];
 		return _r$1[0];
@@ -21658,7 +21649,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(res, resChan), []);
-		}; })(res, resChan), funcType$2));
+		}; })(res, resChan), funcType));
 		_r = $recv(resChan[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		$s = -1; return _r[0];
 		return _r[0];
@@ -21687,7 +21678,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(request, res, resChan), []);
-		}; })(request, res, resChan), funcType$2));
+		}; })(request, res, resChan), funcType));
 		_r = $recv(resChan[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		$s = -1; return _r[0];
 		return _r[0];
@@ -21760,7 +21751,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(resChn), []);
-		}; })(resChn), funcType$2)).catch($externalize((function(resChn) { return function(err) {
+		}; })(resChn), funcType)).catch($externalize((function(resChn) { return function(err) {
 			var $ptr, err;
 			$go((function(resChn) { return function $b() {
 				var $ptr, $s, $r;
@@ -21770,7 +21761,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(resChn), []);
-		}; })(resChn), funcType$2));
+		}; })(resChn), funcType));
 		_r = $recv(resChn[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		opVal = $clone(_r[0], cacheResponse);
 		$s = -1; return [opVal.Response, opVal.Error];
@@ -21798,7 +21789,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(request, resChan), []);
-		}; })(request, resChan), funcType$2)).catch($externalize((function(request, resChan) { return function(err) {
+		}; })(request, resChan), funcType)).catch($externalize((function(request, resChan) { return function(err) {
 			var $ptr, err;
 			$go((function(request, resChan) { return function $b() {
 				var $ptr, $s, $r;
@@ -21808,7 +21799,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(request, resChan), []);
-		}; })(request, resChan), funcType$2));
+		}; })(request, resChan), funcType));
 		_r = $recv(resChan[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		opVal = $clone(_r[0], cacheResponse);
 		$s = -1; return [opVal.Response, opVal.Error];
@@ -21834,7 +21825,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(resChan), []);
-		}; })(resChan), funcType$2)).catch($externalize((function(resChan) { return function(err) {
+		}; })(resChan), funcType)).catch($externalize((function(resChan) { return function(err) {
 			var $ptr, err;
 			$go((function(resChan) { return function $b() {
 				var $ptr, $s, $r;
@@ -21844,7 +21835,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(resChan), []);
-		}; })(resChan), funcType$2));
+		}; })(resChan), funcType));
 		_r = $recv(resChan[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		opVal = $clone(_r[0], cacheAllResponse);
 		$s = -1; return [opVal.Response, opVal.Error];
@@ -21872,7 +21863,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f._r = _r; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(request, resChan), []);
-		}; })(request, resChan), funcType$2)).catch($externalize((function(request, resChan) { return function(err) {
+		}; })(request, resChan), funcType)).catch($externalize((function(request, resChan) { return function(err) {
 			var $ptr, err;
 			$go((function(request, resChan) { return function $b() {
 				var $ptr, $s, $r;
@@ -21882,7 +21873,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(request, resChan), []);
-		}; })(request, resChan), funcType$2));
+		}; })(request, resChan), funcType));
 		_r = $recv(resChan[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		opVal = $clone(_r[0], cacheAllResponse);
 		$s = -1; return [opVal.Response, opVal.Error];
@@ -21920,7 +21911,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 			$s = -1; return;
 			return;
 			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.response = response; $f.$s = $s; $f.$r = $r; return $f;
-		}; })(resChn), funcType$2)).catch($externalize((function(resChn) { return function(err) {
+		}; })(resChn), funcType)).catch($externalize((function(resChn) { return function(err) {
 			var $ptr, err;
 			$go((function(resChn) { return function $b() {
 				var $ptr, $s, $r;
@@ -21930,7 +21921,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(resChn), []);
-		}; })(resChn), funcType$2));
+		}; })(resChn), funcType));
 		_r = $recv(resChn[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		$s = -1; return _r[0];
 		return _r[0];
@@ -21957,7 +21948,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 			$s = -1; return;
 			return;
 			/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.response = response; $f.$s = $s; $f.$r = $r; return $f;
-		}; })(resChn), funcType$2)).catch($externalize((function(resChn) { return function(err) {
+		}; })(resChn), funcType)).catch($externalize((function(resChn) { return function(err) {
 			var $ptr, err;
 			$go((function(resChn) { return function $b() {
 				var $ptr, $s, $r;
@@ -21967,7 +21958,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 				return;
 				/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 			}; })(resChn), []);
-		}; })(resChn), funcType$2));
+		}; })(resChn), funcType));
 		_r = $recv(resChn[0]); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		$s = -1; return _r[0];
 		return _r[0];
@@ -21995,7 +21986,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(resChn, ro), []);
-			}; })(resChn, ro), funcType$2)).catch($externalize((function(resChn, ro) { return function(err) {
+			}; })(resChn, ro), funcType)).catch($externalize((function(resChn, ro) { return function(err) {
 				var $ptr, err;
 				$go((function(resChn, ro) { return function $b() {
 					var $ptr, $s, $r;
@@ -22005,7 +21996,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(resChn, ro), []);
-			}; })(resChn, ro), funcType$2));
+			}; })(resChn, ro), funcType));
 			_r = $recv(resChn[0]); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 			opVal = $clone(_r[0], cacheKeys);
 			$s = -1; return [opVal.Response, opVal.Error];
@@ -22028,7 +22019,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(resChn, ro), []);
-			}; })(resChn, ro), funcType$2)).catch($externalize((function(resChn, ro) { return function(err) {
+			}; })(resChn, ro), funcType)).catch($externalize((function(resChn, ro) { return function(err) {
 				var $ptr, err;
 				$go((function(resChn, ro) { return function $b() {
 					var $ptr, $s, $r;
@@ -22038,7 +22029,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(resChn, ro), []);
-			}; })(resChn, ro), funcType$2));
+			}; })(resChn, ro), funcType));
 			$s = 8; continue;
 		/* } else if ($assertType(_ref, shell.WebRequest, true)[1]) { */ case 5:
 			ro[0] = $clone(_ref.$val, shell.WebRequest);
@@ -22052,7 +22043,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(resChn, ro), []);
-			}; })(resChn, ro), funcType$2)).catch($externalize((function(resChn, ro) { return function(err) {
+			}; })(resChn, ro), funcType)).catch($externalize((function(resChn, ro) { return function(err) {
 				var $ptr, err;
 				$go((function(resChn, ro) { return function $b() {
 					var $ptr, $s, $r;
@@ -22062,7 +22053,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(resChn, ro), []);
-			}; })(resChn, ro), funcType$2));
+			}; })(resChn, ro), funcType));
 			$s = 8; continue;
 		/* } else if ($assertType(_ref, ptrType$3, true)[1]) { */ case 6:
 			ro$2 = _ref.$val;
@@ -22076,7 +22067,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(resChn, ro), []);
-			}; })(resChn, ro), funcType$2)).catch($externalize((function(resChn, ro) { return function(err) {
+			}; })(resChn, ro), funcType)).catch($externalize((function(resChn, ro) { return function(err) {
 				var $ptr, err;
 				$go((function(resChn, ro) { return function $b() {
 					var $ptr, $s, $r;
@@ -22086,7 +22077,7 @@ $packages["github.com/gu-io/gu/shell/cache/webcache"] = (function() {
 					return;
 					/* */ } return; } if ($f === undefined) { $f = { $blk: $b }; } $f.$ptr = $ptr; $f.$s = $s; $f.$r = $r; return $f;
 				}; })(resChn, ro), []);
-			}; })(resChn, ro), funcType$2));
+			}; })(resChn, ro), funcType));
 			$s = 8; continue;
 		/* } else { */ case 7:
 			ro$3 = _ref;
