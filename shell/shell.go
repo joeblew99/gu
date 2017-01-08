@@ -46,7 +46,7 @@ type Cache interface {
 	Empty() error
 	All() ([]WebPair, error)
 	Delete(WebRequest) error
-	Put(WebRequest, res WebResponse) error
+	Put(WebRequest, WebResponse) error
 	PutPath(path string, res WebResponse) error
 	GetRequest(WebRequest) (WebResponse, error)
 	GetPath(path string) (WebRequest, WebResponse, error)
