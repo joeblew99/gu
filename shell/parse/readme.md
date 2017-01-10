@@ -66,7 +66,7 @@ These field keys are as follows:
 
 - Size: This is an optional field to indicate the size to specify for the resource content.
 
-- Localize: This is an optional field which is used to indicate that a remote resource(i.e a resource with an external URL) should have it's content fetched and added as a static, text content for retrieval under the name giving to the resource.
+- Localize: This is an optional field which is used to indicate that a remote resource(i.e a resource with an external URL) should have it's content fetched and added as a static, text content for retrieval under the name giving to the resource. It defaults to false. 
 
 - Hook: This is an optional field to indicate the specific hook for processing this resource during fetching and installation.
 

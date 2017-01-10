@@ -3,15 +3,16 @@
 //shell:component:global
 //
 // Resource {
-//     Name: globa-dui.js
-//     Path: http://cdl.gog.com/res/statics/global-dui.js
-//     Hook: javascript
+//     Name: detos.font.js
+//     Path: https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto
+//     Hook: embedded-css
+//		 Localize: true
 // }
 //
 package detos
 
 import (
-	"github.com/gu-io/gu/shell/parse/example/detro"
+	"github.com/gu-io/gu/shell/example/parse/detro"
 )
 
 // HoldComponent defines a component to provide a hold type.

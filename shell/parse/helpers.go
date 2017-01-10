@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -303,8 +304,6 @@ func toResources(res []map[string]string) ([]ResourceCollection, error) {
 		if localize, err := strconv.ParseBool(rsc["Localize"]); err == nil {
 			r.Localize = localize
 			delete(rsc, "Localize")
-		} else {
-			r.Localize = true
 		}
 
 		r.Name = rsc["Name"]
@@ -357,7 +356,11 @@ func getURLContent(path string) ([]byte, error) {
 	var buff bytes.Buffer
 	io.Copy(&buff, res.Body)
 
-	return buff.Bytes(), nil
+	if res.StatusCode >= 200 && res.StatusCode <= 299 {
+		return buff.Bytes(), nil
+	}
+
+	return nil, fmt.Errorf("Error Response: Status[%q] Content[%q]", res.StatusCode, buff.String())
 }
 
 // getFileContent pulls the content of a file path from the provided path
