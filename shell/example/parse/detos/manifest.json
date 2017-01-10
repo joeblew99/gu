@@ -1,43 +1,21 @@
 [
 	{
 		"global_scope": true,
-		"id": "X6QMorVaxc8GIED",
+		"id": "YZMQ4qYgNqdhiME",
 		"name": "detos.detos",
 		"depends": null,
 		"manifests": [
 			{
-				"size": 1486,
-				"appmanifest_id": "X6QMorVaxc8GIED",
-				"name": "sandles.js",
-				"path": "./detos.go",
-				"hook_name": "embed-js",
-				"content": "// Package detos defines a series of component for the detos project\n//\n//shell:component:global\n//\n// Resource {\n//     Name: globa-dui.js\n//     Path: http://cdl.gog.com/res/statics/global-dui.js\n//     Hook: javascript\n// }\n//\npackage detos\n\nimport (\n\t\"github.com/gu-io/gu/shell/parse/example/detro\"\n)\n\n// HoldComponent defines a component to provide a hold type.\n//\n//shell:component\n/*\nResource {\n    Name: fantom.js\n    Path: http://cdl.gog.com/res/statics/fantom.js\n    Hook: javascript\n}\n\nResource {\n\t\tVersion: 1.4.1\n\t\tPkg: DentusVuz\n    Name: hul_hub.js\n    Content: ```\n        \u003cscript src=\"\"\u003e\n\t\t\t\t\tvar mo = func() Resource {\n\t\t\t\t\t\treturn ```block Resource {\n\t\t\t\t\t\t\tname: 'bock',\n\t\t\t\t\t\t}```\n\t\t\t\t\t}\n\t\t\t\t\u003c/script\u003e\n    ```\n    Hook: embed.js\n    HookRepo: github.com/resk/compo-web/hooks\n    Size: 440030\n}\n*/\ntype HoldComponent struct {\n\tdetro.DetroComponent\n\tGulName string         `json:\"gul_name\"`\n\tBul     SolidComponent `json:\"bul\"`\n}\n\n// SolidComponent defines a component to provide a solid box type.\n//\n// shell:component\n// Resource {\n//     Name: shell-su.js\n//     Path: http://cdl.gog.com/res/statics/shell-su.js\n//     Hook: javascript\n// }\n//\n// Resource {\n//     Name: crock.js\n//     Content: ```\n//         \u003cscript src=\"\"\u003e\n//\t\t\t\t\t{\n//\t\t\t\t\t\tname: \"bob\",\n//\t\t\t\t\t\tage: 12,\n//\t\t\t\t\t}\n//\t\t\t\t\t\u003c/script\u003e\n//     ```\n//     Hook: embed.js\n//     HookRepo: github.com/resk/compo-web/hooks\n//     Size: 440030\n// }\n//\ntype SolidComponent struct {\n\tName string `json:\"name\"`\n}\n",
-				"remote": false,
-				"cache": "",
-				"meta": {}
-			}
-		],
-		"relation": {
-			"name": "detos",
-			"package": "github.com/gu-io/gu/shell/example/parse/detos"
-		}
-	},
-	{
-		"global_scope": true,
-		"id": "hNxqLPpKRN31Db6",
-		"name": "detos.detos",
-		"depends": null,
-		"manifests": [
-			{
-				"size": 0,
-				"appmanifest_id": "hNxqLPpKRN31Db6",
-				"name": "globa-dui.js",
-				"path": "http://cdl.gog.com/res/statics/global-dui.js",
-				"hook_name": "javascript",
-				"content": "",
+				"size": 689,
 				"remote": true,
+				"localize": true,
+				"appmanifest_id": "YZMQ4qYgNqdhiME",
+				"name": "detos.font.js",
+				"path": "https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto",
+				"content": "@font-face {\n  font-family: 'Lato';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/v0SdcGFAl2aezM9Vq_aFTQ.ttf) format('truetype');\n}\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');\n}\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v15/zN7GBFwfMP4uA6AR0HCoLQ.ttf) format('truetype');\n}\n",
 				"cache": "",
-				"meta": {}
+				"meta": {},
+				"hook_name": "embedded-css"
 			}
 		],
 		"relation": {
@@ -47,35 +25,37 @@
 	},
 	{
 		"global_scope": false,
-		"id": "bKbU0F8xaoUaJpE",
+		"id": "81bUWTFjOrAcDOV",
 		"name": "detos.HoldComponent",
 		"depends": null,
 		"manifests": [
 			{
 				"size": 0,
-				"appmanifest_id": "bKbU0F8xaoUaJpE",
+				"remote": true,
+				"localize": false,
+				"appmanifest_id": "81bUWTFjOrAcDOV",
 				"name": "fantom.js",
 				"path": "http://cdl.gog.com/res/statics/fantom.js",
-				"hook_name": "javascript",
 				"content": "",
-				"remote": true,
 				"cache": "",
-				"meta": {}
+				"meta": {},
+				"hook_name": "javascript"
 			},
 			{
 				"size": 440030,
-				"appmanifest_id": "bKbU0F8xaoUaJpE",
+				"remote": false,
+				"localize": false,
+				"appmanifest_id": "81bUWTFjOrAcDOV",
 				"name": "hul_hub.js",
 				"path": "",
-				"hook_pkg": "github.com/resk/compo-web/hooks",
-				"hook_name": "embed.js",
 				"content": "        \u003cscript src=\"\"\u003e\n\t\t\t\t\tvar mo = func() Resource {\n\t\t\t\t\t\treturn ```block Resource {\n\t\t\t\t\t\t\tname: 'bock',\n\t\t\t\t\t\t}```\n\t\t\t\t\t}\n\t\t\t\t\u003c/script\u003e\n",
-				"remote": false,
 				"cache": "",
 				"meta": {
+					"HookRepo": "github.com/resk/compo-web/hooks",
 					"Pkg": "DentusVuz",
 					"Version": "1.4.1"
-				}
+				},
+				"hook_name": "embed.js"
 			}
 		],
 		"relation": {
@@ -91,36 +71,63 @@
 	},
 	{
 		"global_scope": false,
-		"id": "u1oRbVPgVI0HJDw",
+		"id": "UL022xuuMtke1MI",
 		"name": "detos.SolidComponent",
 		"depends": null,
 		"manifests": [
 			{
 				"size": 0,
-				"appmanifest_id": "u1oRbVPgVI0HJDw",
+				"remote": true,
+				"localize": false,
+				"appmanifest_id": "UL022xuuMtke1MI",
 				"name": "shell-su.js",
 				"path": "http://cdl.gog.com/res/statics/shell-su.js",
-				"hook_name": "javascript",
 				"content": "",
-				"remote": true,
 				"cache": "",
-				"meta": {}
+				"meta": {},
+				"hook_name": "javascript"
 			},
 			{
 				"size": 440030,
-				"appmanifest_id": "u1oRbVPgVI0HJDw",
+				"remote": false,
+				"localize": false,
+				"appmanifest_id": "UL022xuuMtke1MI",
 				"name": "crock.js",
 				"path": "",
-				"hook_pkg": "github.com/resk/compo-web/hooks",
-				"hook_name": "embed.js",
 				"content": "        \u003cscript src=\"\"\u003e\n\t\t\t\t\t{\n\t\t\t\t\t\tname: \"bob\",\n\t\t\t\t\t\tage: 12,\n\t\t\t\t\t}\n\t\t\t\t\t\u003c/script\u003e\n",
-				"remote": false,
 				"cache": "",
-				"meta": {}
+				"meta": {
+					"HookRepo": "github.com/resk/compo-web/hooks"
+				},
+				"hook_name": "embed.js"
 			}
 		],
 		"relation": {
 			"name": "SolidComponent",
+			"package": "github.com/gu-io/gu/shell/example/parse/detos"
+		}
+	},
+	{
+		"global_scope": true,
+		"id": "lm0qtCIWzi400qV",
+		"name": "detos.detos",
+		"depends": null,
+		"manifests": [
+			{
+				"size": 1529,
+				"remote": false,
+				"localize": false,
+				"appmanifest_id": "lm0qtCIWzi400qV",
+				"name": "sandles.js",
+				"path": "./detos.go",
+				"content": "// Package detos defines a series of component for the detos project\n//\n//shell:component:global\n//\n// Resource {\n//     Name: detos.font.js\n//     Path: https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto\n//     Hook: embedded-css\n//\t\t Localize: true\n// }\n//\npackage detos\n\nimport (\n\t\"github.com/gu-io/gu/shell/example/parse/detro\"\n)\n\n// HoldComponent defines a component to provide a hold type.\n//\n//shell:component\n/*\nResource {\n    Name: fantom.js\n    Path: http://cdl.gog.com/res/statics/fantom.js\n    Hook: javascript\n}\n\nResource {\n\t\tVersion: 1.4.1\n\t\tPkg: DentusVuz\n    Name: hul_hub.js\n    Content: ```\n        \u003cscript src=\"\"\u003e\n\t\t\t\t\tvar mo = func() Resource {\n\t\t\t\t\t\treturn ```block Resource {\n\t\t\t\t\t\t\tname: 'bock',\n\t\t\t\t\t\t}```\n\t\t\t\t\t}\n\t\t\t\t\u003c/script\u003e\n    ```\n    Hook: embed.js\n    HookRepo: github.com/resk/compo-web/hooks\n    Size: 440030\n}\n*/\ntype HoldComponent struct {\n\tdetro.DetroComponent\n\tGulName string         `json:\"gul_name\"`\n\tBul     SolidComponent `json:\"bul\"`\n}\n\n// SolidComponent defines a component to provide a solid box type.\n//\n// shell:component\n// Resource {\n//     Name: shell-su.js\n//     Path: http://cdl.gog.com/res/statics/shell-su.js\n//     Hook: javascript\n// }\n//\n// Resource {\n//     Name: crock.js\n//     Content: ```\n//         \u003cscript src=\"\"\u003e\n//\t\t\t\t\t{\n//\t\t\t\t\t\tname: \"bob\",\n//\t\t\t\t\t\tage: 12,\n//\t\t\t\t\t}\n//\t\t\t\t\t\u003c/script\u003e\n//     ```\n//     Hook: embed.js\n//     HookRepo: github.com/resk/compo-web/hooks\n//     Size: 440030\n// }\n//\ntype SolidComponent struct {\n\tName string `json:\"name\"`\n}\n",
+				"cache": "",
+				"meta": {},
+				"hook_name": "embed-js"
+			}
+		],
+		"relation": {
+			"name": "detos",
 			"package": "github.com/gu-io/gu/shell/example/parse/detos"
 		}
 	}
