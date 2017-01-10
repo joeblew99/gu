@@ -59,10 +59,10 @@ func (wc *API) Open(cacheName string) (*CacheAPI, error) {
 	var opVal newCacheResponse
 	res := make(chan newCacheResponse, 0)
 
-	openReq.Call("then", func(cache *js.Object) {
-		res <- newCacheResponse{Cache: NewCacheAPI(cache)}
-	}, func(err *js.Object) {
-		res <- newCacheResponse{Error: errors.New(err.String())}
+	openReq.Call("then", func(o *js.Object) {
+		res <- newCacheResponse{Cache: NewCacheAPI(o)}
+	}, func(o *js.Object) {
+		res <- newCacheResponse{Error: errors.New(o.String())}
 	})
 
 	opVal = <-res
