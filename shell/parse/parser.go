@@ -69,6 +69,7 @@ func (r *Resource) GenManifests() (*shell.AppManifest, error) {
 // gathered from a package list.
 type ResourceCollection struct {
 	Name        string
+	Localize    bool
 	Remote      bool
 	Path        string
 	Cache       string
@@ -97,6 +98,16 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 
 	if strings.TrimSpace(mattr.Path) != "" && !r.Remote {
 		content, err := getFileContent(pkg, mattr.Path)
+		if err != nil {
+			return mattr, err
+		}
+
+		mattr.Size = len(content)
+		mattr.Content = string(content)
+	}
+
+	if strings.TrimSpace(mattr.Path) != "" && r.Remote && r.Localize {
+		content, err := getURLContent(mattr.Path)
 		if err != nil {
 			return mattr, err
 		}

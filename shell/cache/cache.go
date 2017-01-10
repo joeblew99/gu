@@ -3,7 +3,6 @@ package cache
 import (
 	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/shell/cache/localcache"
-	"github.com/gu-io/gu/shell/cache/webcache"
 )
 
 // New returns a new cache based on the name provided.
@@ -14,18 +13,18 @@ import (
 func New(cacheName string) shell.Cache {
 	var cache shell.Cache
 
-	webCache, err := webcache.New()
-	if err != nil {
-		cache = localcache.New(cacheName)
-		return cache
-	}
-
-	nameCache, err := webCache.Open(cacheName)
-	if err != nil {
-		cache = localcache.New(cacheName)
-		return cache
-	}
-
-	cache = nameCache
+	// webCache, err := webcache.New()
+	// if err != nil {
+	// 	cache = localcache.New(cacheName)
+	// 	return cache
+	// }
+	//
+	// nameCache, err := webCache.Open(cacheName)
+	// if err != nil {
+	cache = localcache.New(cacheName)
 	return cache
+	// }
+	//
+	// cache = nameCache
+	// return cache
 }

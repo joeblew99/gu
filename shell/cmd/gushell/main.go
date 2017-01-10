@@ -114,7 +114,7 @@ func initCommands() {
 				}
 
 				for _, attr := range manifest.Manifests {
-					if !attr.Remote && attr.Content != "" {
+					if attr.Content != "" {
 						bu.WriteString(generateAddFile(attr.Name, []byte(attr.Content)))
 					}
 				}

@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -299,6 +300,13 @@ func toResources(res []map[string]string) ([]ResourceCollection, error) {
 			delete(rsc, "Remote")
 		}
 
+		if localize, err := strconv.ParseBool(rsc["Localize"]); err == nil {
+			r.Localize = localize
+			delete(rsc, "Localize")
+		} else {
+			r.Localize = true
+		}
+
 		r.Name = rsc["Name"]
 		delete(rsc, "Name")
 
@@ -333,6 +341,24 @@ func toResources(res []map[string]string) ([]ResourceCollection, error) {
 var ErrNotLocalPath = errors.New("Path is not a local resource but external URL")
 
 var windowsAddr = regexp.MustCompile("^\\w$")
+
+// getURLContent retrieves the giving url content for the provided path.
+func getURLContent(path string) ([]byte, error) {
+	req, err := http.NewRequest("GET", path, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	var buff bytes.Buffer
+	io.Copy(&buff, res.Body)
+
+	return buff.Bytes(), nil
+}
 
 // getFileContent pulls the content of a file path from the provided path
 // used against the pkg path if it is a relative path.

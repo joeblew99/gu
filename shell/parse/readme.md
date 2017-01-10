@@ -60,17 +60,18 @@ These field keys are as follows:
 
 - Name: This field defines the name of the resource which should be used in identifying the resource. This is a non-optional field and must exists.
 
-- Path: This is an optional field which indicates the external url for the resource.
+- Path: This is an optional field which indicates the external URL for the resource.
 
 - Content: This is an optional field which contains the content which must be used for requests for this resource.
 
 - Size: This is an optional field to indicate the size to specify for the resource content.
 
-- Remote: This is an optional field to indicate the resource is remote and should be skipped when attempting
-to locate resource data from the local file system. Has usefulness when using relative paths but wish to have the resource served from the server which serves up the manifests.
+- Localize: This is an optional field which is used to indicate that a remote resource(i.e a resource with an external URL) should have it's content fetched and added as a static, text content for retrieval under the name giving to the resource.
 
-- Hook: This is an optional field to indicate the specific hook for processing this resource.
+- Hook: This is an optional field to indicate the specific hook for processing this resource during fetching and installation.
 
+- Remote: This is automatically set by the parsing engine has it determines which
+paths are relative and absolute in the local file system or are external URLs.
 
 ## Format in Go Sources
 Within the Go source file, Parse requires there exist a marker to set a certain comments set after it as resource declarations.
