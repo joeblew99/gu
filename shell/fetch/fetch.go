@@ -377,6 +377,8 @@ func (f *API) pullResponse(rs *http.Response) shell.WebResponse {
 		res.Headers[name] = strings.Join(val, ";")
 	}
 
+	defer rs.Body.Close()
+
 	var buff bytes.Buffer
 	io.Copy(&buff, rs.Body)
 
