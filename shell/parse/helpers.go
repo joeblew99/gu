@@ -360,7 +360,7 @@ func getURLContent(path string) ([]byte, error) {
 		return buff.Bytes(), nil
 	}
 
-	return nil, fmt.Errorf("Error Response: Status[%q] Content[%q]", res.StatusCode, buff.String())
+	return nil, fmt.Errorf("Error Response: Status[%d] Content[%q]", res.StatusCode, buff.String())
 }
 
 // getFileContent pulls the content of a file path from the provided path
