@@ -353,6 +353,8 @@ func getURLContent(path string) ([]byte, error) {
 		return nil, err
 	}
 
+	defer res.Body.Close()
+
 	var buff bytes.Buffer
 	io.Copy(&buff, res.Body)
 
