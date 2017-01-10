@@ -88,15 +88,16 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 	mattr.Meta = r.Meta
 	mattr.Content = r.Data
 	mattr.Remote = r.Remote
+	mattr.Localize = r.Localize
 	mattr.HookName = r.HookName
 
 	if size, err := strconv.Atoi(r.ContentSize); err == nil {
 		mattr.Size = size
 	}
 
-	mattr.Path = r.Path
+	mattr.Path = strings.TrimSpace(r.Path)
 
-	if strings.TrimSpace(mattr.Path) != "" && !r.Remote {
+	if mattr.Path != "" && !r.Remote {
 		content, err := getFileContent(pkg, mattr.Path)
 		if err != nil {
 			return mattr, err
@@ -106,7 +107,7 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 		mattr.Content = string(content)
 	}
 
-	if strings.TrimSpace(mattr.Path) != "" && r.Remote && r.Localize {
+	if mattr.Path != "" && r.Remote && r.Localize {
 		content, err := getURLContent(mattr.Path)
 		if err != nil {
 			return mattr, err
@@ -147,31 +148,33 @@ func ShellResources(dir string) ([]Resource, error) {
 
 				var skipImport bool
 
-			skipLog:
-				for _, except := range exceptions {
-					if except == val {
-						skipImport = true
-						break skipLog
-					}
+				{
+				skipLog:
+					for _, except := range exceptions {
+						if except == val {
+							skipImport = true
+							break skipLog
+						}
 
-					urel, err := filepath.Rel(except, val)
-					if err != nil {
-						skipImport = true
-						break skipLog
-					}
+						urel, err := filepath.Rel(except, val)
+						if err != nil {
+							skipImport = true
+							break skipLog
+						}
 
-					if strings.HasPrefix(urel, "..") {
-						skipImport = true
-						break skipLog
-					}
+						if strings.HasPrefix(urel, "..") {
+							skipImport = true
+							break skipLog
+						}
 
-					firstPath := strings.Replace(val, urel, "", 1)
-					firstPath = strings.TrimSuffix(firstPath, "/")
-					except = strings.TrimSuffix(except, "/")
+						firstPath := strings.Replace(val, urel, "", 1)
+						firstPath = strings.TrimSuffix(firstPath, "/")
+						except = strings.TrimSuffix(except, "/")
 
-					if firstPath == except {
-						skipImport = true
-						break skipLog
+						if firstPath == except {
+							skipImport = true
+							break skipLog
+						}
 					}
 				}
 
@@ -260,16 +263,18 @@ func ShellResources(dir string) ([]Resource, error) {
 					res.ComponentName = ts.Name.Name
 					// res.Line = int(gdecl.Doc.Pos())
 
-				fieldLoop:
-					for _, fld := range tso.Fields.List {
-						if selectExpr, ok := fld.Type.(*ast.SelectorExpr); ok {
-							res.CompositeTypeNames = append(res.CompositeTypeNames, selectExpr.Sel.Name)
-							continue fieldLoop
-						}
+					{
+					fieldLoop:
+						for _, fld := range tso.Fields.List {
+							if selectExpr, ok := fld.Type.(*ast.SelectorExpr); ok {
+								res.CompositeTypeNames = append(res.CompositeTypeNames, selectExpr.Sel.Name)
+								continue fieldLoop
+							}
 
-						if indentExpr, ok := fld.Type.(*ast.Ident); ok && indentExpr.Obj != nil {
-							res.FieldTypeNames = append(res.FieldTypeNames, indentExpr.Name)
-							continue fieldLoop
+							if indentExpr, ok := fld.Type.(*ast.Ident); ok && indentExpr.Obj != nil {
+								res.FieldTypeNames = append(res.FieldTypeNames, indentExpr.Name)
+								continue fieldLoop
+							}
 						}
 					}
 

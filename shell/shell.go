@@ -93,6 +93,7 @@ type WebResponse struct {
 type ManifestAttr struct {
 	Size     int               `json:"size"`
 	Remote   bool              `json:"remote"`
+	Localize bool              `json:"localize"`
 	ID       string            `json:"appmanifest_id,omitempty"`
 	Name     string            `json:"name"`
 	Path     string            `json:"path"`

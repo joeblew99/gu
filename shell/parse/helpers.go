@@ -105,13 +105,13 @@ func GrabShellDoc(text string) ([]map[string]string, error) {
 		reader := strings.NewReader(block)
 		bufReader := bufio.NewReader(reader)
 
-		res := make(map[string]string)
-
 		var textCollect bool
 		var fieldName string
 		var texts []string
 
 		{
+			res := make(map[string]string)
+
 		readerLoop:
 			for {
 				scan, err := bufReader.ReadString('\n')
@@ -147,15 +147,16 @@ func GrabShellDoc(text string) ([]map[string]string, error) {
 
 				res[capitalize(fname)] = fieldVal
 			}
+
+			resources = append(resources, res)
 		}
 
-		resources = append(resources, res)
 	}
 
 	return resources, nil
 }
 
-// GrabShellDoc retrieves all resource documentation which are detailed within
+// parseResourceMetas retrieves all resource documentation which are detailed within
 // the comments of components. It grabs all these into single collective slice
 // of individual resource texts to be parsed.
 func parseResourceMetas(text string) ([]string, error) {
@@ -284,6 +285,8 @@ func parseResourceMetas(text string) ([]string, error) {
 	return blocks, nil
 }
 
+var remoteSchemes = []string{"http", "https", "ssl", "git", "ftp"}
+
 // toResources returns a slice of ResourceCollection from the provided
 // map slices.
 func toResources(res []map[string]string) ([]ResourceCollection, error) {
@@ -312,11 +315,22 @@ func toResources(res []map[string]string) ([]ResourceCollection, error) {
 		r.Cache = rsc["Cache"]
 		delete(rsc, "Cache")
 
-		path := rsc["Path"]
+		path := strings.TrimSpace(rsc["Path"])
 		content := rsc["Content"]
 
 		r.Path = path
 		delete(rsc, "Path")
+
+		if path != "" && !r.Remote {
+			if purl, err := url.Parse(r.Path); err == nil {
+				for _, scheme := range remoteSchemes {
+					if purl.Scheme == scheme {
+						r.Remote = true
+						break
+					}
+				}
+			}
+		}
 
 		r.Data = content
 		delete(rsc, "Content")
