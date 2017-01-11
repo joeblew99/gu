@@ -1,6 +1,7 @@
 package gu
 
 import (
+	"encoding/json"
 	"fmt"
 	"sync"
 
@@ -50,23 +51,8 @@ type ResourceRenderer interface {
 	TriggerBindEvent(*js.Object, *js.Object, *trees.Event)
 }
 
-// Resources defines a structure which contains the fully embodiement of different resources.
-// It contains a stack which will be the current rendering resources for the current match paths.
-// It also contains a nStack which contains resource which must be rendered regardless of the
-// current resources available.
-type Resources struct {
-	lastPath  dispatch.Path
-	Resources []*ResourceDefinition
-	renderer  ResourceRenderer
-	cache     shell.Cache
-	fetch     shell.Fetch
-}
-
 // Resource creates a new resource addding into the resource lists for the root.
 func Resource(dsl interface{}) int {
-	fmt.Printf("Registering Resource\n")
-	var index int
-
 	var udsl DSL
 
 	switch dslo := dsl.(type) {
@@ -84,6 +70,8 @@ func Resource(dsl interface{}) int {
 		panic("type not supported for Resource argument")
 	}
 
+	var index int
+
 	collection.cl.Lock()
 	{
 		collection.collection = append(collection.collection, udsl)
@@ -92,6 +80,19 @@ func Resource(dsl interface{}) int {
 	collection.cl.Unlock()
 
 	return index
+}
+
+// Resources defines a structure which contains the fully embodiement of different resources.
+// It contains a stack which will be the current rendering resources for the current match paths.
+// It also contains a nStack which contains resource which must be rendered regardless of the
+// current resources available.
+type Resources struct {
+	lastPath  dispatch.Path
+	Resources []*ResourceDefinition
+	renderer  ResourceRenderer
+	cache     shell.Cache
+	fetch     shell.Fetch
+	manifests []shell.AppManifest
 }
 
 // New creates a new instance of a Resources struct which expects a unqiue name
@@ -162,23 +163,17 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 	collection.cl.Unlock()
 
 	// Attempt to retrieve a manifest.json from the backend.
-	if detect.IsBrowser() {
-		// fmt.Printf("Running Manifest processes\n")
-		// if _, manifestResponse, err := rs.fetch.Get("manifests.json", shell.DefaultStrategy); err == nil {
-		// 	// We sucessfully retrieved response.
-		// 	fmt.Printf("Manifest: %#v\n", manifestResponse)
-		// 	var appManifest shell.AppManifest
-		//
-		// 	if err := json.Unmarshal(manifestResponse.Body, &appManifest); err != nil {
-		// 		errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable")
-		// 		panic(errorMsg)
-		// 	}
-		//
-		// 	fmt.Printf("AppManifest: %#v\n", appManifest)
-		// }
-	}
+	if _, manifestResponse, err := rs.fetch.Get("manifest.json", shell.DefaultStrategy); err == nil {
 
-	if detect.IsBrowser() && rs.renderer != nil {
+		// We sucessfully retrieved response.
+		var appManifest []shell.AppManifest
+
+		if err := json.Unmarshal(manifestResponse.Body, &appManifest); err != nil {
+			errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable")
+			panic(errorMsg)
+		}
+
+		rs.manifests = appManifest
 	}
 
 	for _, dsl := range dslList {
@@ -297,6 +292,12 @@ func (rs *Resources) RenderPathWithScript(path dispatch.Path, script string) *tr
 	}
 
 	return rs.render(nil, result...)
+}
+
+// loadGlobalResources loads the provided Resources specified through the
+// manifests
+func (rs *Resources) loadGlobalResources() {
+
 }
 
 // render performs the needed work of collecting the giving markups and

@@ -357,9 +357,10 @@ func (f *API) successResponse(rs *http.Response) bool {
 func (f *API) pullResponse(rs *http.Response) shell.WebResponse {
 	var res shell.WebResponse
 
-	res.Type = rs.Request.Method
-	res.Status = rs.StatusCode
 	res.StatusText = rs.Status
+	res.Status = rs.StatusCode
+	res.Type = rs.Request.Method
+	res.Headers = make(map[string]string)
 
 	if rs.StatusCode >= 200 && rs.StatusCode <= 299 {
 		res.Ok = true

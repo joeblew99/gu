@@ -18,6 +18,7 @@ import (
 //  Name: roboto.font.css
 //	Path: https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto
 //	Hook: link-embed
+//	Localize: true
 // }
 //
 type SubscriptionSubmitEvent struct {
