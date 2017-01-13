@@ -1,9 +1,14 @@
 package shell
 
+import (
+	"github.com/gu-io/gu/trees"
+)
+
 // Hook defines an interface which handles the retrieval and installation of
 // a ManifestAttr.
 type Hook interface {
-	FetchAndInstall(ManifestAttr) error
+	FetchAndInstallInDOM(ManifestAttr)
+	FetchAndInstallWithoutDOM(ManifestAttr, *trees.Markup)
 }
 
 // hooks provides a global registry for registering hooks.

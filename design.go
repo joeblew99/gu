@@ -169,7 +169,7 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 		var appManifest []shell.AppManifest
 
 		if err := json.Unmarshal(manifestResponse.Body, &appManifest); err != nil {
-			errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable")
+			errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable: %q", err.Error())
 			panic(errorMsg)
 		}
 

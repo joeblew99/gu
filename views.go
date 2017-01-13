@@ -1,11 +1,13 @@
 package gu
 
 import (
+	"fmt"
 	"html/template"
 
 	"github.com/gu-io/gu/dispatch"
 	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/trees"
+	"github.com/influx6/faux/reflection"
 )
 
 //==============================================================================
@@ -25,6 +27,13 @@ func Static(tree *trees.Markup) *StaticView {
 	return &StaticView{
 		Content: tree,
 	}
+}
+
+// Dependencies returns the list of all internal dependencies of the given view.
+// It returns the names of the structs and their internals composed values/fields
+// to help conditional resource loading.
+func (s *StaticView) Dependencies() []string {
+	return nil
 }
 
 // Render returns the markup for the static view.
@@ -61,6 +70,10 @@ func CustomView(tag string, r ...Renderable) RenderView {
 	vw.rendered = NewSubscriptions()
 
 	for _, vr := range r {
+		if rName, rEmbeds, err := reflection.StructAndEmbeddedTypeNames(r); err == nil {
+			fmt.Printf("Name[%q] - Embeds [%q]\n", rName, rEmbeds)
+		}
+
 		if vs, ok := vr.(ViewSubscriptions); ok {
 			vs.OnSubscriptions(vw.mounted, vw.rendered, vw.unmounted)
 		}
@@ -87,6 +100,14 @@ type view struct {
 	renderedBefore bool
 	live           *trees.Markup
 	renders        []Renderable
+	dependencies   []string
+}
+
+// Dependencies returns the list of all internal dependencies of the given view.
+// It returns the names of the structs and their internals composed values/fields
+// to help conditional resource loading.
+func (v *view) Dependencies() []string {
+	return v.dependencies
 }
 
 // Resolves exposes the internal renderables and passes the supplied path

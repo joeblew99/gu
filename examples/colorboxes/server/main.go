@@ -17,14 +17,12 @@ import (
 
 func main() {
 
-	boxes := app.New().Init(true)
+	boxes := app.New("colorboxes.v1").Init(true)
 
 	base, _ := os.Getwd()
 	assets := filepath.Join(base, "../assets")
 
-	apphttp := fhttp.NewHTTP([]fhttp.DriveMiddleware{
-		fhttp.WrapMiddleware(fhttp.Logger()),
-	}, nil)
+	apphttp := fhttp.Drive(fhttp.MW(fhttp.RequestLogger(os.Stdout)))(fhttp.MW(fhttp.ResponseLogger(os.Stdout)))
 
 	approuter := fhttp.Route(apphttp)
 
@@ -33,6 +31,13 @@ func main() {
 		Method:  "GET",
 		Action:  func(ctx context.Context, rw *fhttp.Request) error { return nil },
 		LocalMW: fhttp.DirFileServer(assets, "/assets/"),
+	})
+
+	approuter(fhttp.Endpoint{
+		Path:    "/manifest.json",
+		Method:  "GET",
+		Action:  func(ctx context.Context, rw *fhttp.Request) error { return nil },
+		LocalMW: fhttp.FileServer(filepath.Join(assets, "manifest.json")),
 	})
 
 	approuter(fhttp.Endpoint{

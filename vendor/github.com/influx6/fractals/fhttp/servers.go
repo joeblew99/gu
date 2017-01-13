@@ -245,19 +245,27 @@ func (hd *HTTPDrive) ServeTLS(addr string, certFile string, keyFile string) {
 	LaunchHTTPS(addr, certFile, keyFile, hd)
 }
 
-// MW returns the giving lists of passed in middleware, it is provided as
+// DriveMW returns the giving lists of passed in middleware, it is provided as
 // as a convenience function.
-func MW(md ...DriveMiddleware) []DriveMiddleware {
+func DriveMW(md ...DriveMiddleware) []DriveMiddleware {
 	return md
 }
 
-// NewHTTP returns a new instance of the HTTPDrive struct.
-func NewHTTP(before []DriveMiddleware, after []DriveMiddleware) *HTTPDrive {
-	var drive HTTPDrive
-	drive.TreeMux = httptreemux.New()
-	drive.globalMW = LiftWM(before...)
-	drive.globalMWAfter = LiftWM(after...)
-	return &drive
+// MW returns the giving lists of passed in middleware, it is provided as
+// as a convenience function.
+func MW(md ...fractals.Handler) DriveMiddleware {
+	return WrapMiddleware(md...)
+}
+
+// Drive returns a new partial function which returns a instance of the HTTPDrive struct.
+func Drive(before ...DriveMiddleware) func(...DriveMiddleware) *HTTPDrive {
+	return func(after ...DriveMiddleware) *HTTPDrive {
+		var drive HTTPDrive
+		drive.TreeMux = httptreemux.New()
+		drive.globalMW = LiftWM(before...)
+		drive.globalMWAfter = LiftWM(after...)
+		return &drive
+	}
 }
 
 // Endpoint defines a struct for registering router paths with the HTTPDrive router.
@@ -305,20 +313,20 @@ func (e Endpoint) handlerFunc(globalBeforeWM, globalAfterWM DriveMiddleware) fun
 			_, err := localWM(ctx, rw)
 			if err != nil && !rw.Res.DataWritten() {
 				RenderResponseError(err, rw)
-				return
+				// return
 			}
 		}
 
 		if werr := action(ctx, rw); werr != nil && !rw.Res.DataWritten() {
 			RenderResponseError(werr, rw)
-			return
+			// return
 		}
 
 		if afterWM != nil {
 			_, err := afterWM(ctx, rw)
 			if err != nil && !rw.Res.DataWritten() {
 				RenderResponseError(err, rw)
-				return
+				// return
 			}
 		}
 
@@ -326,7 +334,7 @@ func (e Endpoint) handlerFunc(globalBeforeWM, globalAfterWM DriveMiddleware) fun
 			_, err := globalAfterWM(ctx, rw)
 			if err != nil && !rw.Res.DataWritten() {
 				RenderResponseError(err, rw)
-				return
+				// return
 			}
 		}
 

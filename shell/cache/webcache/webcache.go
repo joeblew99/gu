@@ -52,7 +52,7 @@ func (wc *API) Open(cacheName string) (*CacheAPI, error) {
 	}
 
 	openReq := wc.Call("open", cacheName)
-	if openReq == js.Undefined && openReq == nil {
+	if openReq == js.Undefined || openReq == nil {
 		return nil, ErrCacheNotFound
 	}
 
@@ -212,8 +212,14 @@ func (c *CacheAPI) MatchPath(request string, attr MatchAttr) (shell.WebResponse,
 
 	c.Call("match", request, attr).Call("then", func(response *js.Object) {
 		go func() {
+			res, err := shell.ObjectToWebResponse(response)
+			if err != nil {
+				resChn <- cacheResponse{Error: err}
+				return
+			}
+
 			resChn <- cacheResponse{
-				Response: shell.ObjectToWebResponse(response),
+				Response: res,
 			}
 		}()
 	}).Call("catch", func(err *js.Object) {
@@ -233,8 +239,14 @@ func (c *CacheAPI) Match(request shell.WebRequest, attr MatchAttr) (shell.WebRes
 
 	c.Call("match", shell.WebRequestToJSRequest(&request), attr).Call("then", func(response *js.Object) {
 		go func() {
+			res, err := shell.ObjectToWebResponse(response)
+			if err != nil {
+				resChan <- cacheResponse{Error: err}
+				return
+			}
+
 			resChan <- cacheResponse{
-				Response: shell.ObjectToWebResponse(response),
+				Response: res,
 			}
 		}()
 	}).Call("catch", func(err *js.Object) {

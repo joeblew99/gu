@@ -18,9 +18,7 @@ func main() {
 	// Initialize the app and set it to use hash.
 	app := app.New("subscribe.v1")
 
-	apphttp := fhttp.NewHTTP([]fhttp.DriveMiddleware{
-		fhttp.WrapMiddleware(fhttp.Logger()),
-	}, nil)
+	apphttp := fhttp.Drive(fhttp.MW(fhttp.RequestLogger(os.Stdout)))(fhttp.MW(fhttp.ResponseLogger(os.Stdout)))
 
 	approuter := fhttp.Route(apphttp)
 

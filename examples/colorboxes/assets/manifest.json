@@ -1,0 +1,26 @@
+[
+	{
+		"global_scope": false,
+		"id": "3WhC4QWLpTrW5gV",
+		"name": "app.SubscriptionSubmitEvent",
+		"depends": null,
+		"manifests": [
+			{
+				"size": 689,
+				"remote": true,
+				"localize": true,
+				"appmanifest_id": "3WhC4QWLpTrW5gV",
+				"name": "roboto.font.css",
+				"path": "https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto",
+				"content": "@font-face {\n  font-family: 'Lato';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/v0SdcGFAl2aezM9Vq_aFTQ.ttf) format('truetype');\n}\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');\n}\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v15/zN7GBFwfMP4uA6AR0HCoLQ.ttf) format('truetype');\n}\n",
+				"cache": "",
+				"meta": {},
+				"hook_name": "link-embed"
+			}
+		],
+		"relation": {
+			"name": "SubscriptionSubmitEvent",
+			"package": "github.com/gu-io/gu/examples/subscribe/app"
+		}
+	}
+]

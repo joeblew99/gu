@@ -2,6 +2,7 @@ package shell
 
 import (
 	"crypto/rand"
+	"errors"
 
 	"github.com/gopherjs/gopherjs/js"
 )
@@ -18,7 +19,11 @@ func RandString(n int) string {
 }
 
 // ObjectToWebRequest converts a object to a WebRequest.
-func ObjectToWebRequest(o *js.Object) WebRequest {
+func ObjectToWebRequest(o *js.Object) (WebRequest, error) {
+	if o == nil || o == js.Undefined {
+		return WebRequest{}, errors.New("Invalid/Undefined Object")
+	}
+
 	reqClone := o.Call("clone")
 
 	body := make(chan []byte, 0)
@@ -41,7 +46,7 @@ func ObjectToWebRequest(o *js.Object) WebRequest {
 		Headers:        ObjectToMap(o.Get("headers")),
 		Credentials:    o.Call("credentials").String(),
 		ReferrerPolicy: o.Call("referrerPolicy").String(),
-	}
+	}, nil
 }
 
 // AllObjectToWebResponse returns a slice of WebResponses from a slice
@@ -50,7 +55,9 @@ func AllObjectToWebResponse(o []*js.Object) []WebResponse {
 	res := make([]WebResponse, 0)
 
 	for _, ro := range o {
-		res = append(res, ObjectToWebResponse(ro))
+		if rq, err := ObjectToWebResponse(ro); err == nil {
+			res = append(res, rq)
+		}
 	}
 
 	return res
@@ -62,14 +69,20 @@ func AllObjectToWebRequest(o []*js.Object) []WebRequest {
 	res := make([]WebRequest, 0)
 
 	for _, ro := range o {
-		res = append(res, ObjectToWebRequest(ro))
+		if rq, err := ObjectToWebRequest(ro); err == nil {
+			res = append(res, rq)
+		}
 	}
 
 	return res
 }
 
 // ObjectToWebResponse converts a object to a WebResponse.
-func ObjectToWebResponse(o *js.Object) WebResponse {
+func ObjectToWebResponse(o *js.Object) (WebResponse, error) {
+	if o == nil || o == js.Undefined {
+		return WebResponse{}, errors.New("Invalid/Undefined Object")
+	}
+
 	resClone := o.Call("clone")
 
 	body := make(chan []byte, 0)
@@ -90,7 +103,7 @@ func ObjectToWebResponse(o *js.Object) WebResponse {
 		FinalURL:   o.Get("useFinalURL").String(),
 		StatusText: o.Get("statusText").String(),
 		Headers:    ObjectToMap(o.Get("headers")),
-	}
+	}, nil
 }
 
 // MapToHeaders converts a map into a js.Headers structure.
@@ -111,9 +124,9 @@ func WebResponseToJSResponse(res *WebResponse) *js.Object {
 	}
 
 	body := js.NewArrayBuffer(res.Body)
-	bodyBlob := js.Global.Get("Blob").New(body)
+	// bodyBlob := js.Global.Get("Blob").New(body)
 
-	res.Underline = js.Global.Get("Response").New(bodyBlob, map[string]interface{}{
+	res.Underline = js.Global.Get("Response").New(body, map[string]interface{}{
 		"status":     res.Status,
 		"statusText": res.StatusText,
 		"headers":    MapToHeaders(res.Headers),
