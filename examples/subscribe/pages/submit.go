@@ -6,10 +6,6 @@ import (
 )
 
 var _ = gu.Resource(func() {
-
-	gu.UseRoute("#subscriptions/submit")
-
-	notifier := app.NewNotifier()
-	gu.DoView(notifier, "", false, false)
-
+	gu.GlobalRoute("#subscriptions/submit")
+	gu.View(app.NewNotifier(), "", false, false)
 })

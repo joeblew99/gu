@@ -117,12 +117,12 @@ func (m ManifestAttr) WebRequest() WebRequest {
 // AppManifest defines a structure which holds a series of
 // manifests data related to specific resources.
 type AppManifest struct {
-	GlobalScope bool              `json:"global_scope"`
-	ID          string            `json:"id"`
-	Name        string            `json:"name"`
-	Depends     []string          `json:"depends"`
-	Manifests   []ManifestAttr    `json:"manifests"`
-	Relation    ComponentRelation `json:"relation"`
+	GlobalScope bool               `json:"global_scope"`
+	ID          string             `json:"id"`
+	Name        string             `json:"name"`
+	Depends     []string           `json:"depends"`
+	Manifests   []ManifestAttr     `json:"manifests"`
+	Relation    *ComponentRelation `json:"relation"`
 }
 
 // WebPair defines a struct which contains the request object and response object
@@ -175,4 +175,18 @@ type ComponentRelation struct {
 	Package    string   `json:"package"`
 	Composites []string `json:"composites,omitempty"`
 	FieldTypes []string `json:"fieldtypes,omitempty"`
+}
+
+// FindByRelation provides a convenient method to search a giving manifests for a specific
+// ComponentRelation.
+func FindByRelation(apps []*AppManifest, relationName string) *AppManifest {
+	for _, app := range apps {
+		if app.Relation.Name != relationName {
+			continue
+		}
+
+		return app
+	}
+
+	return nil
 }

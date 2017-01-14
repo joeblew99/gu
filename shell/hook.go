@@ -5,10 +5,10 @@ import (
 )
 
 // Hook defines an interface which handles the retrieval and installation of
-// a ManifestAttr.
+// a ManifestAttr. It expects to return two values, the markup to be installed
+// into the page and a boolean indicating if it should be added into the head.
 type Hook interface {
-	FetchAndInstallInDOM(ManifestAttr)
-	FetchAndInstallWithoutDOM(ManifestAttr, *trees.Markup)
+	Fetch(ManifestAttr) (res *trees.Markup, addToHeader bool)
 }
 
 // hooks provides a global registry for registering hooks.

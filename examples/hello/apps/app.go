@@ -2,20 +2,20 @@ package apps
 
 import (
 	"github.com/gopherjs/gopherjs/js"
-	. "github.com/gu-io/gu/design"
-	. "github.com/gu-io/gu/trees"
-	. "github.com/gu-io/gu/trees/elems"
-	. "github.com/gu-io/gu/trees/events"
-	. "github.com/gu-io/gu/trees/property"
+	"github.com/gu-io/gu"
+	"github.com/gu-io/gu/trees"
+	"github.com/gu-io/gu/trees/elems"
+	"github.com/gu-io/gu/trees/events"
+	"github.com/gu-io/gu/trees/property"
 )
 
-var _ = Resource(func() {
+var _ = gu.Resource(func() {
 
-	DoTitle("Hello App")
+	gu.Title("Hello App")
 
-	DoMarkup(func() *Markup {
-		return Div(
-			CSS(`
+	gu.View(func() *trees.Markup {
+		return elems.Div(
+			elems.CSS(`
 				${
 					width:100%;
 					height: 100%;
@@ -46,14 +46,14 @@ var _ = Resource(func() {
 				}
 
 			`, struct{ Size string }{Size: "130px"}),
-			IDAttr("hello"),
-			Header1(
-				Text("Hello"),
-				ClickEvent(func(ev EventObject, tree *Markup) {
+			property.IDAttr("hello"),
+			elems.Header1(
+				elems.Text("Hello"),
+				events.ClickEvent(func(ev trees.EventObject, tree *trees.Markup) {
 					js.Global.Call("alert", "I just got clicked, Yaay!!!")
 				}, ""),
 			),
-			Span(Text("Click me")),
+			elems.Span(elems.Text("Click me")),
 		)
 	}, "", false, false)
 

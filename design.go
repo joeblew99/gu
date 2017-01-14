@@ -15,6 +15,20 @@ import (
 	"github.com/gu-io/gu/trees"
 )
 
+// RenderingOrder defines a type used to define the order which rendering is to be done for a resource.
+type RenderingOrder int
+
+const (
+	// First defines that a resouce should be among the first rendered.
+	First RenderingOrder = iota + 1
+
+	// Last defines that a resouce should be among the last rendered.
+	Last
+
+	// Any defines that a resouce should be rendered in what ever position it appears.
+	Any
+)
+
 //==============================================================================
 
 // DSL defines a function type which is used to generate the contents
@@ -87,12 +101,12 @@ func Resource(dsl interface{}) int {
 // It also contains a nStack which contains resource which must be rendered regardless of the
 // current resources available.
 type Resources struct {
-	lastPath  dispatch.Path
-	Resources []*ResourceDefinition
-	renderer  ResourceRenderer
 	cache     shell.Cache
 	fetch     shell.Fetch
-	manifests []shell.AppManifest
+	lastPath  dispatch.Path
+	renderer  ResourceRenderer
+	manifests []*shell.AppManifest
+	Resources []*ResourceDefinition
 }
 
 // New creates a new instance of a Resources struct which expects a unqiue name
@@ -166,7 +180,7 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 	if _, manifestResponse, err := rs.fetch.Get("manifest.json", shell.DefaultStrategy); err == nil {
 
 		// We sucessfully retrieved response.
-		var appManifest []shell.AppManifest
+		var appManifest []*shell.AppManifest
 
 		if err := json.Unmarshal(manifestResponse.Body, &appManifest); err != nil {
 			errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable: %q", err.Error())
@@ -357,6 +371,13 @@ func (rs *Resources) render(attachElems []*trees.Markup, rsx ...*ResourceDefinit
 	return htmlMarkup
 }
 
+//==============================================================================
+
+type targetRenderable struct {
+	View    Renderable
+	Targets string
+}
+
 // ResourceDefinition defines a high-level definition for managing resources for
 // which other definitions build from.
 type ResourceDefinition struct {
@@ -364,12 +385,14 @@ type ResourceDefinition struct {
 	active bool
 	uuid   string
 
-	ViewHooks    []ViewHooks
-	Views        []RenderView
-	Links        []StaticView
-	DeferLinks   []StaticView
-	Renderables  []targetRenderable
-	DRenderables []targetRenderable
+	ViewHooks      []ViewHooks
+	Views          []RenderView
+	Links          []StaticView
+	DeferLinks     []StaticView
+	Renderables    []targetRenderable
+	DRenderables   []targetRenderable
+	RenderableData []RenderableData
+	Relations      []*shell.AppManifest
 
 	Order    RenderingOrder
 	Manager  *RouteManager
@@ -440,6 +463,20 @@ func (rd *ResourceDefinition) Init() {
 	rd.Dsl(rd.Root.fetch, rd.Root.cache)
 	rd.Resolver.Flush()
 
+	{
+		// Search root manifests lists component relation.
+		for _, relation := range rd.RenderableData {
+			if app := shell.FindByRelation(rd.Root.manifests, relation.Name); app != nil {
+				if rd.hasRelation(app) {
+					continue
+				}
+
+				rd.Relations = append(rd.Relations, app)
+				rd.initRelation(app)
+			}
+		}
+	}
+
 	for _, level := range rd.Manager.Levels {
 		rd.Resolver.Register(level)
 	}
@@ -447,156 +484,46 @@ func (rd *ResourceDefinition) Init() {
 	for _, view := range rd.Views {
 		rd.Resolver.ResolvedPassed(view.Resolve)
 	}
+
+	fmt.Printf("Relations: %#v\n", rd.Relations)
 }
 
-//==============================================================================
-
-// RenderingOrder defines a type used to define the order which rendering is to be done for a resource.
-type RenderingOrder int
-
-const (
-	// First defines that a resouce should be among the first rendered.
-	First RenderingOrder = iota + 1
-
-	// Last defines that a resouce should be among the last rendered.
-	Last
-
-	// Any defines that a resouce should be rendered in what ever position it appears.
-	Any
-)
-
-// DoOrder defines a high level function which sets/resets the RenderingOrder of the current ResourceDefinition.
-func DoOrder(mode RenderingOrder) {
-	getResources().MustCurrentResource().Order = mode
-}
-
-//==============================================================================
-
-// UseRoute sets the giving route for the currently used resource of the giving resource root.
-func UseRoute(path string) {
-	getResources().MustCurrentResource().Resolver = dispatch.NewResolver(path)
-}
-
-// DoLocalRouter returns a RouteApplier which can be used to localize the
-// internal routes for the base resource router and allow usage with markup
-// and views.
-func DoLocalRouter(basePath string, mx ...trees.SwitchMorpher) RouteApplier {
-	var mo trees.SwitchMorpher
-
-	if len(mx) != 0 {
-		mo = mx[0]
-	} else {
-		mo = &trees.RemoveMorpher{}
-	}
-
-	return getResources().MustCurrentResource().Manager.Level(basePath, mo)
-}
-
-// DoRouteLevel takes a giving route applier returning the last route created
-// from the route levels of the applier.
-func DoRouteLevel(level RouteApplier, routes ...string) RouteApplier {
-	if len(routes) == 0 {
-		return level
-	}
-
-	var last RouteApplier
-
-	for _, route := range routes {
-		if last == nil {
-			last = level.N(route)
-			continue
+// initRelation walks down the provided app relation adding the giving AppManifest
+// which connect with this if not already in the list.
+func (rd *ResourceDefinition) initRelation(app *shell.AppManifest) {
+	for _, relation := range app.Relation.Composites {
+		if related := shell.FindByRelation(rd.Root.manifests, relation); related != nil {
+			if !rd.hasRelation(related) {
+				rd.Relations = append(rd.Relations, related)
+				rd.initRelation(related)
+			}
 		}
-
-		last = last.N(route)
 	}
 
-	return last
-}
-
-// DoRoute allows definition of a route level to applying all the giving
-// routes path returning the last applier.
-func DoRoute(base string, routes ...string) RouteApplier {
-	return DoRouteLevel(DoLocalRouter(base), routes...)
-}
-
-//==============================================================================
-
-// Viewable defines a generic interface for a generic return type. It exists to
-// give symantic representation in the areas it is used to express the expected
-// returned to be one of a Viewable souce in the context of the gu library.
-type Viewable interface{}
-
-type targetRenderable struct {
-	View    Renderable
-	Targets string
-}
-
-// DoMarkup returns a new instance of a provided value which either is a function
-// which returns a needed trees.Markup or a trees.Markup or slice of trees.Markup
-// itself.
-func DoMarkup(markup Viewable, targets string, deferRender bool, targetAlreadyInDom bool) {
-	var markupFn []*trees.Markup
-
-	switch mo := markup.(type) {
-	case func() []*trees.Markup:
-		markupFn = mo()
-	case []*trees.Markup:
-		markupFn = mo
-	case func() *trees.Markup:
-		markupFn = []*trees.Markup{mo()}
-	case *trees.Markup:
-		markupFn = []*trees.Markup{mo}
-	case string:
-		markupFn = trees.ParseTree(mo)
-	default:
-		panic("Unknown markup processable type")
-	}
-
-	current := getResources().MustCurrentResource()
-
-	for _, markup := range markupFn {
-		static := Static(markup)
-		static.Morph = true
-
-		trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
-
-		if deferRender {
-			current.DRenderables = append(current.DRenderables, targetRenderable{
-				Targets: targets,
-				View:    static,
-			})
-
-			continue
+	for _, field := range app.Relation.FieldTypes {
+		if related := shell.FindByRelation(rd.Root.manifests, field); related != nil {
+			if !rd.hasRelation(related) {
+				rd.Relations = append(rd.Relations, related)
+				rd.initRelation(related)
+			}
 		}
-
-		if !deferRender && targetAlreadyInDom {
-			current.Renderables = append(current.Renderables, targetRenderable{
-				Targets: targets,
-				View:    static,
-			})
-
-			continue
-		}
-
-		if !deferRender && !targetAlreadyInDom && targets != "" {
-			current.DRenderables = append(current.DRenderables, targetRenderable{
-				View:    static,
-				Targets: targets,
-			})
-
-			continue
-		}
-
-		current.Renderables = append(current.Renderables, targetRenderable{
-			View:    static,
-			Targets: targets,
-		})
-
 	}
 }
 
-// DoHead adds the provided markup as part of the children to the head tag.
-func DoHead(markup Viewable, deferRender bool) {
+// hasRelation returns true/false if the giving relation exists in the
+// ResourceDefinition.
+func (rd *ResourceDefinition) hasRelation(app *shell.AppManifest) bool {
+	for _, rel := range rd.Relations {
+		if rel == app {
+			return true
+		}
+	}
+
+	return false
+}
+
+// Head adds the provided markup as part of the children to the head tag.
+func Head(markup interface{}, deferRender bool) {
 	var markupFn []*trees.Markup
 
 	switch mo := markup.(type) {
@@ -632,8 +559,8 @@ func DoHead(markup Viewable, deferRender bool) {
 	}
 }
 
-// DoStyle adds a element which generates a <style> tag.
-func DoStyle(styles interface{}, bind interface{}, deferRender bool) {
+// Style adds a element which generates a <style> tag.
+func Style(styles interface{}, bind interface{}, deferRender bool) {
 	var rs *css.Rule
 
 	switch so := styles.(type) {
@@ -661,31 +588,112 @@ func DoStyle(styles interface{}, bind interface{}, deferRender bool) {
 	current.Links = append(current.Links, static)
 }
 
-//==============================================================================
+// View generates th necessary view for the specific type of data passed in
+// to the function.
+func View(markup interface{}, targets string, ops ...bool) Identity {
+	var deferRender bool
+	var targetAlreadyInDom bool
 
-// DoView creates a RenderView and applies it to the provided resource.
-func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom bool) RenderView {
-	var rs Renderables
-
-	switch vwo := vrs.(type) {
-	case Renderables:
-		rs = vwo
-		break
-	case Renderable:
-		rs = Renderables{vwo}
-		break
-	case func() Renderable:
-		rs = Renderables{vwo()}
-		break
-	case func() Renderables:
-		rs = vwo()
-		break
-	default:
-		panic("View must either recieve a function that returns Renderables or Renderables themselves")
+	if len(ops) == 1 {
+		deferRender = ops[0]
 	}
 
+	if len(ops) > 1 {
+		deferRender = ops[0]
+		targetAlreadyInDom = ops[0]
+	}
+
+	switch mo := markup.(type) {
+	case func() *trees.Markup:
+		return doMarkup(mo(), targets, deferRender, targetAlreadyInDom)
+	case *trees.Markup:
+		return doMarkup(mo, targets, deferRender, targetAlreadyInDom)
+	case string:
+		parseTree := trees.ParseTree(mo)
+		if len(parseTree) == 1 {
+			return doMarkup(parseTree[0], targets, deferRender, targetAlreadyInDom)
+		}
+
+		div := trees.NewMarkup("section", false)
+		div.AddChild(parseTree...)
+
+		return doMarkup(div, targets, deferRender, targetAlreadyInDom)
+	case Renderables:
+		return doRenderView(mo, targets, deferRender, targetAlreadyInDom)
+	case Renderable:
+		return doRenderView([]Renderable{mo}, targets, deferRender, targetAlreadyInDom)
+	case func() Renderable:
+		return doRenderView(Renderables{mo()}, targets, deferRender, targetAlreadyInDom)
+	case func() Renderables:
+		return doRenderView(mo(), targets, deferRender, targetAlreadyInDom)
+	default:
+		panic(`
+	Unknown markup or view processable type
+
+		Accepted Markup Arguments:
+			-	*trees.Markup
+			- func() *trees.Markup
+
+		Accepted View Arguments:
+			-	[]Renderable
+			-	Renderable
+			-	func() []Renderable
+			-	func() Renderable
+
+			`)
+	}
+}
+
+// doMarkup returns a new instance of a provided value which either is a function
+// which returns a needed trees.Markup or a trees.Markup or slice of trees.Markup
+// itself.
+func doMarkup(markup *trees.Markup, targets string, deferRender bool, targetAlreadyInDom bool) Identity {
+	current := getResources().MustCurrentResource()
+
+	static := Static(markup)
+	static.Morph = true
+	trees.NewAttr("resource-id", current.UUID()).Apply(static.Content)
+
+	if deferRender {
+		current.DRenderables = append(current.DRenderables, targetRenderable{
+			Targets: targets,
+			View:    static,
+		})
+
+		return static
+	}
+
+	if !deferRender && targetAlreadyInDom {
+		current.Renderables = append(current.Renderables, targetRenderable{
+			Targets: targets,
+			View:    static,
+		})
+
+		return static
+	}
+
+	if !deferRender && !targetAlreadyInDom && targets != "" {
+		current.DRenderables = append(current.DRenderables, targetRenderable{
+			View:    static,
+			Targets: targets,
+		})
+
+		return static
+	}
+
+	current.Renderables = append(current.Renderables, targetRenderable{
+		View:    static,
+		Targets: targets,
+	})
+
+	return static
+}
+
+// doRenderView creates a RenderView and applies it to the provided resource.
+func doRenderView(rs Renderables, targets string, deferRender bool, targetAlreadyInDom bool) Identity {
 	master := getResources()
 	current := master.MustCurrentResource()
+
 	view := CustomView("section", rs...)
 
 	if vh, ok := view.(ViewHooks); ok {
@@ -707,6 +715,7 @@ func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom b
 	}
 
 	current.Views = append(current.Views, view)
+	current.RenderableData = append(current.RenderableData, view.Dependencies()...)
 
 	if deferRender {
 		current.DRenderables = append(current.DRenderables, targetRenderable{
@@ -743,38 +752,36 @@ func DoView(vrs Viewable, targets string, deferRender bool, targetAlreadyInDom b
 	return view
 }
 
-//==============================================================================
-
-// DoTitle adds a element which generates a <title> tag.
-func DoTitle(title string) {
+// Title adds a element which generates a <title> tag.
+func Title(title string) {
 	ml := mLink("title", false)
 	trees.NewText(title).Apply(ml.Content)
 }
 
-// DoLink adds a element which generates a <link> tag.
-func DoLink(url string, mtype string, defered bool) {
+// Link adds a element which generates a <link> tag.
+func Link(url string, mtype string, defered bool) {
 	ml := mLink("link", defered)
 	trees.NewAttr("href", url).Apply(ml.Content)
 	trees.NewAttr("rel", mtype).Apply(ml.Content)
 }
 
-// DoCSS adds a element which generates a <style> tag.
-func DoCSS(src string, defered bool) {
+// CSS adds a element which generates a <style> tag.
+func CSS(src string, defered bool) {
 	ml := mLink("link", defered)
 	trees.NewAttr("href", src).Apply(ml.Content)
 	trees.NewAttr("rel", "stylesheet").Apply(ml.Content)
 	trees.NewAttr("type", "text/css").Apply(ml.Content)
 }
 
-// DoScript adds a element which generates a <style> tag.
-func DoScript(src string, mtype string, defered bool) {
+// Script adds a element which generates a <style> tag.
+func Script(src string, mtype string, defered bool) {
 	ml := mLink("script", defered)
 	trees.NewAttr("src", src).Apply(ml.Content)
 	trees.NewAttr("type", mtype).Apply(ml.Content)
 }
 
-// DoMeta adds a element which generates a <style> tag.
-func DoMeta(props map[string]string) {
+// Meta adds a element which generates a <style> tag.
+func Meta(props map[string]string) {
 	ml := mLink("meta", false)
 	for name, val := range props {
 		trees.NewAttr(name, val).Apply(ml.Content)
@@ -783,20 +790,69 @@ func DoMeta(props map[string]string) {
 
 // mLink adds tagName with the provided value into the header bar for the
 // page content.
-func mLink(tag string, deffer bool) StaticView {
-	var static StaticView
-	static.Morph = true
-	static.Content = trees.NewMarkup(tag, false)
-
+func mLink(tag string, deffer bool) *StaticView {
+	static := Static(trees.NewMarkup(tag, false))
 	current := getResources().MustCurrentResource()
 
 	if deffer {
-		current.DeferLinks = append(current.DeferLinks, static)
+		current.DeferLinks = append(current.DeferLinks, *static)
 	} else {
-		current.Links = append(current.Links, static)
+		current.Links = append(current.Links, *static)
 	}
 
 	return static
 }
 
-//==============================================================================
+// Order defines a high level function which sets/resets the RenderingOrder of
+// the current ResourceDefinition.
+func Order(mode RenderingOrder) {
+	getResources().MustCurrentResource().Order = mode
+}
+
+// GlobalRoute sets the giving root route for the currently used resource of the
+// giving resource root.
+func GlobalRoute(path string) {
+	getResources().MustCurrentResource().Resolver = dispatch.NewResolver(path)
+}
+
+// Route allows definition of a route level to applying all the giving
+// routes path returning the last applier.
+func Route(base string, routes ...string) RouteApplier {
+	return RouteLevel(LocalRouter(base), routes...)
+}
+
+// LocalRouter returns a RouteApplier which can be used to localize the
+// internal routes for the base resource router and allow usage with markup
+// and views.
+func LocalRouter(basePath string, mx ...trees.SwitchMorpher) RouteApplier {
+	var mo trees.SwitchMorpher
+
+	if len(mx) != 0 {
+		mo = mx[0]
+	} else {
+		mo = &trees.RemoveMorpher{}
+	}
+
+	return getResources().MustCurrentResource().Manager.Level(basePath, mo)
+}
+
+// RouteLevel takes a giving route applier returning the last route created
+// from the route levels of the applier.
+func RouteLevel(level RouteApplier, routes ...string) RouteApplier {
+	if len(routes) == 0 {
+		return level
+	}
+
+	var last RouteApplier
+
+	for _, route := range routes {
+		if last == nil {
+			last = level.N(route)
+			continue
+		}
+
+		last = last.N(route)
+	}
+
+	return last
+}

@@ -7,9 +7,9 @@ import (
 
 var _ = gu.Resource(func() {
 
-	gu.DoTitle("App Subscription Submission")
-	gu.DoLink("https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto", "stylesheet", false)
+	gu.Title("App Subscription Submission")
+	gu.Link("https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto", "stylesheet", false)
 
-	gu.DoStyle(app.IndexCSS, nil, false)
+	gu.Style(app.IndexCSS, nil, false)
 
 })

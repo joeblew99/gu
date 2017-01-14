@@ -9,9 +9,9 @@ import (
 
 var _ = gu.Resource(func() {
 
-	gu.UseRoute("#")
+	gu.GlobalRoute("#")
 
-	gu.DoMarkup(elems.Div(
+	gu.View(elems.Div(
 		elems.CSS(app.RootCSS, nil),
 		property.ClassAttr("root"),
 		elems.Header1(
@@ -19,7 +19,7 @@ var _ = gu.Resource(func() {
 		),
 	), "", false, false)
 
-	gu.DoView(&app.Subscriber{
+	gu.View(&app.Subscriber{
 		SubmitBtnColor: "",
 	}, "", false, false)
 

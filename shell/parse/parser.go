@@ -46,7 +46,7 @@ func (r *Resource) GenManifests() (*shell.AppManifest, error) {
 	relation.FieldTypes = append(relation.FieldTypes, r.FieldTypeNames...)
 	relation.Composites = append(relation.Composites, r.CompositeTypeNames...)
 
-	appm.Relation = relation
+	appm.Relation = &relation
 
 	for _, res := range r.Resources {
 		manifest, err := res.GenManifestAttr(r.Package)

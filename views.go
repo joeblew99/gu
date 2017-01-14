@@ -1,7 +1,6 @@
 package gu
 
 import (
-	"fmt"
 	"html/template"
 
 	"github.com/gu-io/gu/dispatch"
@@ -15,6 +14,7 @@ import (
 // StaticView defines a MarkupRenderer implementing structure which returns its Content has
 // its markup.
 type StaticView struct {
+	uid      string
 	Content  *trees.Markup
 	Mounted  Subscriptions
 	Rendered Subscriptions
@@ -26,13 +26,24 @@ type StaticView struct {
 func Static(tree *trees.Markup) *StaticView {
 	return &StaticView{
 		Content: tree,
+		uid:     NewKey(),
 	}
+}
+
+// Identity defines an interface which expoese the identity of a giving object.
+type Identity interface {
+	UUID() string
+}
+
+// UUID returns the RenderGroup UUID for identification.
+func (s *StaticView) UUID() string {
+	return s.uid
 }
 
 // Dependencies returns the list of all internal dependencies of the given view.
 // It returns the names of the structs and their internals composed values/fields
 // to help conditional resource loading.
-func (s *StaticView) Dependencies() []string {
+func (s *StaticView) Dependencies() []RenderableData {
 	return nil
 }
 
@@ -58,6 +69,23 @@ type ViewSubscriptions interface {
 	OnSubscriptions(mounts, renders, unmount Subscriptions)
 }
 
+// RenderView defines an interface through which you gain access into a rendering
+// branch of the current rendered markup view.
+type RenderView interface {
+	MarkupRenderer
+	dispatch.Resolvable
+
+	UUID() string
+	RenderedBefore() bool
+	Dependencies() []RenderableData
+}
+
+// Renderer defines an interface which takes responsiblity in translating
+// the provided markup into the appropriate media.
+type Renderer interface {
+	RenderView(RenderView)
+}
+
 // CustomView generates a RenderView for the provided Renderable.
 func CustomView(tag string, r ...Renderable) RenderView {
 	var vw view
@@ -70,8 +98,11 @@ func CustomView(tag string, r ...Renderable) RenderView {
 	vw.rendered = NewSubscriptions()
 
 	for _, vr := range r {
-		if rName, rEmbeds, err := reflection.StructAndEmbeddedTypeNames(r); err == nil {
-			fmt.Printf("Name[%q] - Embeds [%q]\n", rName, rEmbeds)
+		if renderField, _, err := reflection.StructAndEmbeddedTypeNames(vr); err == nil {
+			vw.dependencies = append(vw.dependencies, RenderableData{
+				Name: renderField.TypeName,
+				Pkg:  renderField.Pkg,
+			})
 		}
 
 		if vs, ok := vr.(ViewSubscriptions); ok {
@@ -100,13 +131,20 @@ type view struct {
 	renderedBefore bool
 	live           *trees.Markup
 	renders        []Renderable
-	dependencies   []string
+	dependencies   []RenderableData
+}
+
+// RenderableData defines a struct which contains the name of a giving renderable
+// and it's package.
+type RenderableData struct {
+	Name string
+	Pkg  string
 }
 
 // Dependencies returns the list of all internal dependencies of the given view.
 // It returns the names of the structs and their internals composed values/fields
 // to help conditional resource loading.
-func (v *view) Dependencies() []string {
+func (v *view) Dependencies() []RenderableData {
 	return v.dependencies
 }
 

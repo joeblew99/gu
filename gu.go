@@ -132,24 +132,6 @@ func (r *Subscription) Publish() {
 
 //==============================================================================
 
-// RenderView defines an interface through which you gain access into a rendering
-// branch of the current rendered markup view.
-type RenderView interface {
-	MarkupRenderer
-	dispatch.Resolvable
-
-	UUID() string
-	RenderedBefore() bool
-}
-
-// Renderer defines an interface which takes responsiblity in translating
-// the provided markup into the appropriate media.
-type Renderer interface {
-	RenderView(RenderView)
-}
-
-//==============================================================================
-
 // AttachURL attaches the view to the provided Route pattern,
 // Using the internal route pattern, it matches all route changes
 // and checks against the full URL(Path+Hash).
