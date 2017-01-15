@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
-	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -12,31 +11,35 @@ import (
 	"github.com/influx6/faux/context"
 	"github.com/influx6/fractals/fhttp"
 
+	"github.com/gu-io/gu"
 	"github.com/gu-io/gu/app"
 	_ "github.com/gu-io/gu/examples/colorboxes/resources"
 )
 
 func main() {
 
-	boxes := app.New().Init(true)
-
 	base, _ := os.Getwd()
 	assets := filepath.Join(base, "../assets")
 
-	app_http := fhttp.NewHTTP([]fhttp.DriveMiddleware{
-		fhttp.WrapMiddleware(fhttp.Logger()),
-	}, nil)
+	apphttp := fhttp.Drive(fhttp.MW(fhttp.RequestLogger(os.Stdout)))(fhttp.MW(fhttp.ResponseLogger(os.Stdout)))
 
-	app_router := fhttp.Route(app_http)
+	approuter := fhttp.Route(apphttp)
 
-	app_router(fhttp.Endpoint{
+	approuter(fhttp.Endpoint{
 		Path:    "/assets/*",
 		Method:  "GET",
 		Action:  func(ctx context.Context, rw *fhttp.Request) error { return nil },
-		LocalMW: fhttp.FileServer(assets, "/assets/"),
+		LocalMW: fhttp.DirFileServer(assets, "/assets/"),
 	})
 
-	app_router(fhttp.Endpoint{
+	approuter(fhttp.Endpoint{
+		Path:    "/manifest.json",
+		Method:  "GET",
+		Action:  func(ctx context.Context, rw *fhttp.Request) error { return nil },
+		LocalMW: fhttp.FileServer(filepath.Join(base, "../manifest.json")),
+	})
+
+	approuter(fhttp.Endpoint{
 		Path:   "/colors",
 		Method: "GET",
 		Action: func(ctx context.Context, rw *fhttp.Request) error {
@@ -47,15 +50,27 @@ func main() {
 		},
 	})
 
-	app_router(fhttp.Endpoint{
+	// approuter(fhttp.Endpoint{
+	// 	Path:    "/",
+	// 	Method:  "GET",
+	// 	Action:  func(ctx context.Context, rw *fhttp.Request) error { return nil },
+	// 	LocalMW: fhttp.FileServer(filepath.Join(base, "../index.html")),
+	// })
+
+	boxes := app.New("colorboxes.v1", &gu.Options{
+		Mode:        gu.ProductionMode,
+		ManifestURI: "http://localhost:6040/manifest.json",
+	})
+
+	approuter(fhttp.Endpoint{
 		Path:   "/",
 		Method: "GET",
 		Action: func(ctx context.Context, rw *fhttp.Request) error {
-			content := boxes.RenderWithScript("/#", "assets/box.js")
+			content := boxes.Init(true).RenderWithScript("/#", "assets/box.js")
 			rw.RespondAny(200, "text/html", []byte(content.HTML()))
 			return nil
 		},
 	})
 
-	http.ListenAndServe(":6040", app_http)
+	apphttp.Serve(":6040")
 }

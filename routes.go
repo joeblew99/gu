@@ -23,7 +23,7 @@ type RouteManager struct {
 	Levels map[string]RouteApplier
 }
 
-// NewRoutingManager returns a new instance of  RouteManager.
+// NewRouteManager returns a new instance of  RouteManager.
 func NewRouteManager() *RouteManager {
 	return &RouteManager{
 		Levels: make(map[string]RouteApplier),

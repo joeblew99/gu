@@ -1,16 +1,14 @@
 package main
 
 import (
-	. "github.com/gu-io/gu/design"
+	"github.com/gu-io/gu"
+	"github.com/gu-io/gu/app"
 	_ "github.com/gu-io/gu/examples/hello/apps"
-	. "github.com/gu-io/gu/redom"
-	"honnef.co/go/js/dom"
 )
 
 func main() {
-
-	New(&DOMRenderer{
-		Document: dom.GetWindow().Document(),
+	app.New("hello.v1", &gu.Options{
+		Mode:        gu.DevelopmentMode,
+		ManifestURI: "manifest.json",
 	}).Init(true)
-
 }

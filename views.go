@@ -4,7 +4,9 @@ import (
 	"html/template"
 
 	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/trees"
+	"github.com/influx6/faux/reflection"
 )
 
 //==============================================================================
@@ -12,10 +14,11 @@ import (
 // StaticView defines a MarkupRenderer implementing structure which returns its Content has
 // its markup.
 type StaticView struct {
-	Content *trees.Markup
-	Mounted Subscriptions
+	uid      string
+	Content  *trees.Markup
+	Mounted  Subscriptions
 	Rendered Subscriptions
-	Morph   bool
+	Morph    bool
 }
 
 // Static defines a toplevel function which returns a new instance of a StaticView using the
@@ -23,7 +26,25 @@ type StaticView struct {
 func Static(tree *trees.Markup) *StaticView {
 	return &StaticView{
 		Content: tree,
+		uid:     NewKey(),
 	}
+}
+
+// Identity defines an interface which expoese the identity of a giving object.
+type Identity interface {
+	UUID() string
+}
+
+// UUID returns the RenderGroup UUID for identification.
+func (s *StaticView) UUID() string {
+	return s.uid
+}
+
+// Dependencies returns the list of all internal dependencies of the given view.
+// It returns the names of the structs and their internals composed values/fields
+// to help conditional resource loading.
+func (s *StaticView) Dependencies() []RenderableData {
+	return nil
 }
 
 // Render returns the markup for the static view.
@@ -48,6 +69,23 @@ type ViewSubscriptions interface {
 	OnSubscriptions(mounts, renders, unmount Subscriptions)
 }
 
+// RenderView defines an interface through which you gain access into a rendering
+// branch of the current rendered markup view.
+type RenderView interface {
+	MarkupRenderer
+	dispatch.Resolvable
+
+	UUID() string
+	RenderedBefore() bool
+	Dependencies() []RenderableData
+}
+
+// Renderer defines an interface which takes responsiblity in translating
+// the provided markup into the appropriate media.
+type Renderer interface {
+	RenderView(RenderView)
+}
+
 // CustomView generates a RenderView for the provided Renderable.
 func CustomView(tag string, r ...Renderable) RenderView {
 	var vw view
@@ -60,6 +98,15 @@ func CustomView(tag string, r ...Renderable) RenderView {
 	vw.rendered = NewSubscriptions()
 
 	for _, vr := range r {
+		if renderField, _, err := reflection.StructAndEmbeddedTypeNames(vr); err == nil {
+			if !vw.hasRenderable(renderField.TypeName) {
+				vw.dependencies = append(vw.dependencies, RenderableData{
+					Name: renderField.TypeName,
+					Pkg:  renderField.Pkg,
+				})
+			}
+		}
+
 		if vs, ok := vr.(ViewSubscriptions); ok {
 			vs.OnSubscriptions(vw.mounted, vw.rendered, vw.unmounted)
 		}
@@ -77,15 +124,42 @@ func CustomView(tag string, r ...Renderable) RenderView {
 // view defines a base level implementation for a set of Renderables.
 type view struct {
 	Reactive
-	mounted Subscriptions
-	unmounted Subscriptions
-	rendered Subscriptions
+	mounted        Subscriptions
+	unmounted      Subscriptions
+	rendered       Subscriptions
 	hide           bool
 	tag            string
 	uuid           string
 	renderedBefore bool
 	live           *trees.Markup
 	renders        []Renderable
+	dependencies   []RenderableData
+}
+
+// RenderableData defines a struct which contains the name of a giving renderable
+// and it's package.
+type RenderableData struct {
+	Name string
+	Pkg  string
+}
+
+// hasRenderable returns true/false if a giving dependencies has been identified
+// and is in the views dependencies list.
+func (v *view) hasRenderable(name string) bool {
+	for _, rd := range v.dependencies {
+		if rd.Name == name {
+			return true
+		}
+	}
+
+	return false
+}
+
+// Dependencies returns the list of all internal dependencies of the given view.
+// It returns the names of the structs and their internals composed values/fields
+// to help conditional resource loading.
+func (v *view) Dependencies() []RenderableData {
+	return v.dependencies
 }
 
 // Resolves exposes the internal renderables and passes the supplied path
@@ -98,8 +172,18 @@ func (v *view) Resolve(path dispatch.Path) {
 	}
 }
 
+// UseFetch exposes a UseFetch which passes the shell.Fetch and shell.Cache
+// instance into a view.
+func (v *view) UseFetch(f shell.Fetch, c shell.Cache) {
+	for _, vmr := range v.renders {
+		if rs, ok := vmr.(Fetchable); ok {
+			rs.UseFetch(f, c)
+		}
+	}
+}
+
 // ViewHooks defines an interface which exposes a view internal hooks.
-type ViewHooks interface{
+type ViewHooks interface {
 	Hooks() (mounted Subscriptions, rendered Subscriptions, unmount Subscriptions)
 }
 

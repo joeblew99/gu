@@ -13,7 +13,7 @@ type FinalizeHandle func(root, item *Markup)
 
 // Markup represent a concrete implementation of a element node.
 type Markup struct {
-	Id              string
+	ID              string
 	removed         bool
 	autoclose       bool
 	allowEvents     bool
@@ -59,10 +59,10 @@ func CSSStylesheet(rule *css.Rule, bind interface{}) *Markup {
 		var parentName string
 
 		if owner.parent != nil {
-			if owner.parent.Id == "" {
+			if owner.parent.ID == "" {
 				parentName = owner.parent.tagname + "[uid='" + owner.parent.uid + "']"
 			} else {
-				parentName = "#" + owner.parent.Id
+				parentName = "#" + owner.parent.ID
 			}
 		}
 
@@ -484,7 +484,7 @@ func (e *Markup) Clone() *Markup {
 	//copy over the textContent
 	co.textContent = e.textContent
 	co.textContentFn = e.textContentFn
-	co.Id = e.Id
+	co.ID = e.ID
 
 	//copy over the attribute lockers
 	co.allowChildren = e.allowChildren

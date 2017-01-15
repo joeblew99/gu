@@ -14,21 +14,32 @@ import (
 
 // RestfulBox defines a box which renders a rectangular box which changes color
 // intervally.
+//
+// shell:component
+//
+// Resource {
+//  Name: roboto.font.css
+//	Path: https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto
+//	Hook: css-embed
+//	Localize: true
+// }
+//
 type RestfulBox struct {
 	gu.Reactive
 
 	Color    string
 	endpoint string
 	ticker   *time.Ticker
-	closer chan struct{}
+	closer   chan struct{}
 }
 
+// New returns a new instance of the *RestfulBox pointer.
 func New(endpoint string, interval time.Duration) *RestfulBox {
 	rb := RestfulBox{
 		endpoint: endpoint,
 		Reactive: gu.NewReactive(),
-		ticker: time.NewTicker(interval),
-		closer: make(chan struct{}),
+		ticker:   time.NewTicker(interval),
+		closer:   make(chan struct{}),
 	}
 
 	return &rb
@@ -47,9 +58,9 @@ func (r *RestfulBox) OnSubscriptions(mounted, render, unmounted gu.Subscriptions
 		go func() {
 			r.update()
 
-			mloop:
+		mloop:
 			for {
-				select{
+				select {
 				case <-r.ticker.C:
 					r.update()
 				case <-r.closer:

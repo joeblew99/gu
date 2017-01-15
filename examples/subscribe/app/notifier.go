@@ -4,8 +4,8 @@ import (
 	"github.com/gu-io/gu"
 	"github.com/gu-io/gu/dispatch"
 	"github.com/gu-io/gu/trees"
-	. "github.com/gu-io/gu/trees/elems"
-	. "github.com/gu-io/gu/trees/property"
+	"github.com/gu-io/gu/trees/elems"
+	"github.com/gu-io/gu/trees/property"
 )
 
 // SubmissionNotifier defines the handler which displays the notification on the success or
@@ -36,25 +36,25 @@ func (s *SubmissionNotifier) start() {
 // Render returns the markup for the page which displays the end result of a
 // subscription submission.
 func (s *SubmissionNotifier) Render() *trees.Markup {
-	return Div(
-		CSS(NotificationCSS, s),
-		Header1(ClassAttr("submission", "title"), Text("App Subscription")),
-		Section(
-			ClassAttr("submission", "content"),
+	return elems.Div(
+		elems.CSS(NotificationCSS, s),
+		elems.Header1(property.ClassAttr("submission", "title"), elems.Text("App Subscription")),
+		elems.Section(
+			property.ClassAttr("submission", "content"),
 			trees.MarkupWhen((s.c.Status && s.c.Email != ""),
-				Header2(ClassAttr("header", "roboto", "passed"), Text("Done!")),
-				Header2(ClassAttr("header", "roboto", "failed"), Text("Failed!")),
+				elems.Header2(property.ClassAttr("header", "roboto", "passed"), elems.Text("Done!")),
+				elems.Header2(property.ClassAttr("header", "roboto", "failed"), elems.Text("Failed!")),
 			),
 			trees.MarkupWhen(s.c.Email != "",
-				Paragraph(
-					ClassAttr("desc"),
-					Text("Welcome "),
-					Span(ClassAttr("email"), Text("%q", s.c.Email)),
-					Text(" to the App."),
+				elems.Paragraph(
+					property.ClassAttr("desc"),
+					elems.Text("Welcome "),
+					elems.Span(property.ClassAttr("email"), elems.Text("%q", s.c.Email)),
+					elems.Text(" to the App."),
 				),
-				Paragraph(
-					ClassAttr("desc"),
-					Text("We are sorry but subscription failed."),
+				elems.Paragraph(
+					property.ClassAttr("desc"),
+					elems.Text("We are sorry but subscription failed."),
 				),
 			),
 		),

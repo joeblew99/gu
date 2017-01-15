@@ -7,7 +7,6 @@ import (
 
 	gjs "github.com/gopherjs/gopherjs/js"
 	"github.com/gu-io/gu"
-	"github.com/gu-io/gu/design"
 	"github.com/gu-io/gu/dispatch"
 	"github.com/gu-io/gu/js"
 	"github.com/gu-io/gu/trees"
@@ -23,7 +22,7 @@ func AddStylesheet(url string) {
 	gjs.Global.Get("document").Get("head").Call("appendChild", link)
 }
 
-// DOMRenderer defines an implementation for gu.design.ResourceRenderere
+// DOMRenderer defines an implementation for gu.gu.ResourceRenderere
 // and handles rendering of a giving group of resources into the live DOM body root.
 type DOMRenderer struct {
 	Document dom.Document
@@ -31,25 +30,38 @@ type DOMRenderer struct {
 
 // Render renders the giving set of resources into the provided body and header
 // of the DOM.
-func (dm *DOMRenderer) Render(rs ...*design.ResourceDefinition) {
+func (dm *DOMRenderer) Render(rs ...*gu.ResourceDefinition) {
 	head := dm.Document.QuerySelector("head")
 	body := dm.Document.QuerySelector("body")
 
 	// clear all children of head and body if the belong to us.
 	for _, item := range head.QuerySelectorAll("[data-gen*='gu']") {
-		if !item.HasAttribute("gu-script-root") {
+		if !item.HasAttribute("gu-resource-root") {
 			item.ParentNode().RemoveChild(item)
 		}
 	}
 
 	for _, item := range body.QuerySelectorAll("[data-gen*='gu']") {
-		if !item.HasAttribute("gu-script-root") {
+		if !item.HasAttribute("gu-resource-root") {
 			item.ParentNode().RemoveChild(item)
 		}
 	}
 
-	// Render the normal links first.
+	// Render the important resources and normal links first.
 	for _, res := range rs {
+
+		// Retrieve base resources which must be rendered for each component and
+		// add them according to the head and body.
+		toHead, toBody := res.Resources()
+
+		for _, item := range toHead {
+			js.Patch(js.CreateFragment(item.HTML()), head.Underlying(), false)
+		}
+
+		for _, item := range toBody {
+			js.Patch(js.CreateFragment(item.HTML()), body.Underlying(), false)
+		}
+
 		for _, item := range res.Links {
 			markup := item.Render()
 
@@ -107,7 +119,7 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 			js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), !kvr.RenderedBefore())
 
 			if cvs, ok := rv.(gu.ViewHooks); ok {
-				mounted, _,_ := cvs.Hooks()
+				mounted, _, _ := cvs.Hooks()
 				if !mounted.Used() {
 					mounted.Publish()
 				}
@@ -119,7 +131,7 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 		js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), false)
 
 		if cvs, ok := rv.(gu.ViewHooks); ok {
-			mounted, _,_ := cvs.Hooks()
+			mounted, _, _ := cvs.Hooks()
 			if !mounted.Used() {
 				mounted.Publish()
 			}
@@ -148,7 +160,7 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 	}
 
 	if cvs, ok := rv.(gu.ViewHooks); ok {
-		mounted, _,_ := cvs.Hooks()
+		mounted, _, _ := cvs.Hooks()
 
 		if !mounted.Used() {
 			mounted.Publish()
