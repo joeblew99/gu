@@ -36,19 +36,32 @@ func (dm *DOMRenderer) Render(rs ...*gu.ResourceDefinition) {
 
 	// clear all children of head and body if the belong to us.
 	for _, item := range head.QuerySelectorAll("[data-gen*='gu']") {
-		if !item.HasAttribute("gu-script-root") {
+		if !item.HasAttribute("gu-resource-root") {
 			item.ParentNode().RemoveChild(item)
 		}
 	}
 
 	for _, item := range body.QuerySelectorAll("[data-gen*='gu']") {
-		if !item.HasAttribute("gu-script-root") {
+		if !item.HasAttribute("gu-resource-root") {
 			item.ParentNode().RemoveChild(item)
 		}
 	}
 
-	// Render the normal links first.
+	// Render the important resources and normal links first.
 	for _, res := range rs {
+
+		// Retrieve base resources which must be rendered for each component and
+		// add them according to the head and body.
+		toHead, toBody := res.Resources()
+
+		for _, item := range toHead {
+			js.Patch(js.CreateFragment(item.HTML()), head.Underlying(), false)
+		}
+
+		for _, item := range toBody {
+			js.Patch(js.CreateFragment(item.HTML()), body.Underlying(), false)
+		}
+
 		for _, item := range res.Links {
 			markup := item.Render()
 

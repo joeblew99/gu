@@ -18,7 +18,21 @@ import (
 // RenderingOrder defines a type used to define the order which rendering is to be done for a resource.
 type RenderingOrder int
 
+// Mode defines a type to represent the mode which the library works under.
+type Mode int
+
 const (
+	// ProductionMode defines production mode for which defines how the context
+	// which it behaves as regards certain features.
+	ProductionMode Mode = iota + 30
+
+	// DevelopmentMode defines production mode for which defines how the context
+	// which it behaves as regards certain features.
+	DevelopmentMode
+)
+
+const (
+
 	// First defines that a resouce should be among the first rendered.
 	First RenderingOrder = iota + 1
 
@@ -54,17 +68,6 @@ func getResources() *Resources {
 	panic("No Root Resource Manager created.")
 }
 
-//==============================================================================
-
-// ResourceRenderer  defines an interface for a resource rendering structure which handles rendering
-// of a giving resource.
-type ResourceRenderer interface {
-	Render(...*ResourceDefinition)
-	BindEvent(*trees.Event, *js.Object)
-	RenderUpdate(Renderable, string, bool)
-	TriggerBindEvent(*js.Object, *js.Object, *trees.Event)
-}
-
 // Resource creates a new resource addding into the resource lists for the root.
 func Resource(dsl interface{}) int {
 	var udsl DSL
@@ -96,28 +99,66 @@ func Resource(dsl interface{}) int {
 	return index
 }
 
+//==============================================================================
+
+// Options defines a set of configurations which the resource manager uses
+// in the way it operates and works.
+//
+// ManifestURI:
+//		 Sets the path to use when request the manifestURI which will be the definite
+//		 url used to retrieve the manifest.
+//
+// Mode:
+//		 Sets the mode by which gu works most specifically to the wiping of the
+//		 browser cache which loads all resources into the cache default to have
+//		 true offline working of app
+//
+// IgnoreManifest:
+//		 Turns of the manifest capabilities in gu, hence leaving the
+// 		 loading of resources to the user.
+type Options struct {
+	Mode           Mode   `json:"mode"`
+	ManifestURI    string `json:"manifest_path"`
+	IgnoreManifest bool   `json:"ignore_manifest"`
+}
+
 // Resources defines a structure which contains the fully embodiement of different resources.
 // It contains a stack which will be the current rendering resources for the current match paths.
 // It also contains a nStack which contains resource which must be rendered regardless of the
 // current resources available.
 type Resources struct {
-	cache     shell.Cache
-	fetch     shell.Fetch
-	lastPath  dispatch.Path
-	renderer  ResourceRenderer
-	manifests []*shell.AppManifest
-	Resources []*ResourceDefinition
+	cacheName  string
+	options    *Options
+	cache      shell.Cache
+	fetch      shell.Fetch
+	lastPath   dispatch.Path
+	renderer   ResourceRenderer
+	manifests  []*shell.AppManifest
+	gmanifests []*shell.AppManifest
+	Resources  []*ResourceDefinition
+	initOnce   sync.Once
+}
+
+// ResourceRenderer  defines an interface for a resource rendering structure which handles rendering
+// of a giving resource.
+type ResourceRenderer interface {
+	Render(...*ResourceDefinition)
+	BindEvent(*trees.Event, *js.Object)
+	RenderUpdate(Renderable, string, bool)
+	TriggerBindEvent(*js.Object, *js.Object, *trees.Event)
 }
 
 // New creates a new instance of a Resources struct which expects a unqiue name
 // and and a slice of renderers if desired.
-func New(appName string, renderer ...ResourceRenderer) *Resources {
+func New(appName string, op *Options, renderer ...ResourceRenderer) *Resources {
 	var rn ResourceRenderer
 	if len(renderer) > 0 {
 		rn = renderer[0]
 	}
 
 	var res Resources
+	res.cacheName = appName
+	res.options = op
 	res.renderer = rn
 	res.cache = cache.New(appName)
 	res.fetch = fetch.New(res.cache)
@@ -131,13 +172,16 @@ func (rs *Resources) GetIndex(index int) *ResourceDefinition {
 }
 
 // Init intializes all attached resources under its giving resource list.
-func (rs *Resources) Init(useHashOnly ...bool) *Resources {
-	var watchHash bool
+func (rs *Resources) Init(useHashOnly bool) *Resources {
+	rs.initOnce.Do(func() {
+		rs.initResource(useHashOnly)
+	})
 
-	if len(useHashOnly) != 0 {
-		watchHash = useHashOnly[0]
-	}
+	return rs
+}
 
+// initResource holds the initialization calls for the resource manager.
+func (rs *Resources) initResource(watchHash bool) {
 	dispatch.Subscribe(func(pd dispatch.PathDirective) {
 		if !watchHash {
 			psx := dispatch.UseDirective(pd)
@@ -176,18 +220,42 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 	}
 	collection.cl.Unlock()
 
-	// Attempt to retrieve a manifest.json from the backend.
-	if _, manifestResponse, err := rs.fetch.Get("manifest.json", shell.DefaultStrategy); err == nil {
-
-		// We sucessfully retrieved response.
-		var appManifest []*shell.AppManifest
-
-		if err := json.Unmarshal(manifestResponse.Body, &appManifest); err != nil {
-			errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable: %q", err.Error())
-			panic(errorMsg)
+	// If we are in development mode empty the cache and reset for new use.
+	if rs.options.Mode == DevelopmentMode {
+		if err := rs.cache.Empty(); err != nil {
+			fmt.Printf("Failed to clear internal cache for %q in development mode: %q\n", rs.cacheName, err.Error())
 		}
+	}
 
-		rs.manifests = appManifest
+	// Attempt to retrieve a manifest.json from the backend.
+	if !rs.options.IgnoreManifest {
+		_, manifestResponse, err := rs.fetch.Get(rs.options.ManifestURI, shell.DefaultStrategy)
+		if err != nil {
+			fmt.Printf("Failed to load shell.AppManifest, resource loading is unavailable: %q\n", err.Error())
+		} else {
+			var appm []*shell.AppManifest
+
+			if err := json.Unmarshal(manifestResponse.Body, &appm); err != nil {
+				errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable: %q", err.Error())
+				panic(errorMsg)
+			}
+
+			var gmanifests []*shell.AppManifest
+			var manifests []*shell.AppManifest
+
+			for _, mani := range appm {
+				if mani.GlobalScope {
+					gmanifests = append(gmanifests, mani)
+					continue
+				}
+
+				manifests = append(manifests, mani)
+			}
+
+			rs.manifests = manifests
+			rs.gmanifests = gmanifests
+			appm = nil
+		}
 	}
 
 	for _, dsl := range dslList {
@@ -205,8 +273,6 @@ func (rs *Resources) Init(useHashOnly ...bool) *Resources {
 		du := rs.Resolve(dispatch.GetLocationHashAsPath())
 		rs.renderer.Render(du...)
 	}
-
-	return rs
 }
 
 // Resolve returns the giving definitions that matches the provided path.
@@ -295,12 +361,10 @@ func (rs *Resources) RenderPathWithScript(path dispatch.Path, script string) *tr
 	result := rs.Resolve(path)
 
 	if script != "" {
-		src := trees.NewAttr("src", script)
-		srctype := trees.NewAttr("gu-script-root", "true")
 		scriptElem := trees.NewMarkup("script", false)
-
-		src.Apply(scriptElem)
-		srctype.Apply(scriptElem)
+		trees.NewAttr("src", script).Apply(scriptElem)
+		trees.NewAttr("gu-resource", "true").Apply(scriptElem)
+		trees.NewAttr("gu-resource-root", "true").Apply(scriptElem)
 
 		return rs.render([]*trees.Markup{scriptElem}, result...)
 	}
@@ -321,6 +385,10 @@ func (rs *Resources) render(attachElems []*trees.Markup, rsx ...*ResourceDefinit
 	var body = trees.NewMarkup("body", false)
 
 	for _, rx := range rsx {
+		toHead, toBody := rx.Resources()
+
+		head.AddChild(toHead...)
+		body.AddChild(toBody...)
 
 		for _, item := range rx.Links {
 			item.Render().Apply(head)
@@ -385,6 +453,9 @@ type ResourceDefinition struct {
 	active bool
 	uuid   string
 
+	headResource []*trees.Markup
+	bodyResource []*trees.Markup
+
 	ViewHooks      []ViewHooks
 	Views          []RenderView
 	Links          []StaticView
@@ -439,6 +510,50 @@ func newResource(root *Resources, dsl DSL) *ResourceDefinition {
 	return rsp
 }
 
+// Resources returns the markups based on specific resources which should be loaded
+// along with the resource definition.
+func (rd *ResourceDefinition) Resources() ([]*trees.Markup, []*trees.Markup) {
+	if rd.headResource != nil && rd.bodyResource != nil {
+		return rd.headResource, rd.bodyResource
+	}
+
+	var head, body []*trees.Markup
+
+	for _, def := range rd.Relations {
+		for _, manifest := range def.Manifests {
+			hook, err := shell.Get(manifest.HookName)
+			if err != nil {
+				fmt.Printf("Hook[%q] does not exists: Resource[%q] unable to install\n", manifest.HookName, manifest.Name)
+				continue
+			}
+
+			markup, toHead, err := hook.Fetch(rd.Root.fetch, manifest)
+			if err != nil {
+				fmt.Printf("Hook[%q] failed to retrieve Resource {Name: %q, Path: %q}\n", manifest.HookName, manifest.Name, manifest.Path)
+				continue
+			}
+
+			trees.NewAttr("gu-resource", "true").Apply(markup)
+			trees.NewAttr("gu-resource-from", manifest.Path).Apply(markup)
+			trees.NewAttr("gu-resource-name", manifest.Name).Apply(markup)
+			trees.NewAttr("gu-resource-id", manifest.ID).Apply(markup)
+
+			if toHead {
+				head = append(head, markup)
+				continue
+			}
+
+			body = append(body, markup)
+		}
+	}
+
+	// Cache the results so we dont re-render.
+	rd.headResource = head
+	rd.bodyResource = body
+
+	return head, body
+}
+
 // Unmount propagates to all views which define the ViewHooks
 func (rd *ResourceDefinition) Unmount() {
 	for _, view := range rd.ViewHooks {
@@ -457,6 +572,18 @@ func (rd *ResourceDefinition) UUID() string {
 	return rd.uuid
 }
 
+// hasRenderable returns true/false if a giving dependencies has been identified
+// and is in the views dependencies list.
+func (rd *ResourceDefinition) hasRenderable(name string) bool {
+	for _, rd := range rd.RenderableData {
+		if rd.Name == name {
+			return true
+		}
+	}
+
+	return false
+}
+
 // Init initialize runs the underline DSL for the operation, loads all resolvers
 // and connects all internal views for immediate usage.
 func (rd *ResourceDefinition) Init() {
@@ -464,8 +591,11 @@ func (rd *ResourceDefinition) Init() {
 	rd.Resolver.Flush()
 
 	{
+		rd.Relations = append(rd.Relations, rd.Root.gmanifests...)
+
 		// Search root manifests lists component relation.
 		for _, relation := range rd.RenderableData {
+
 			if app := shell.FindByRelation(rd.Root.manifests, relation.Name); app != nil {
 				if rd.hasRelation(app) {
 					continue
@@ -484,16 +614,19 @@ func (rd *ResourceDefinition) Init() {
 	for _, view := range rd.Views {
 		rd.Resolver.ResolvedPassed(view.Resolve)
 	}
-
-	fmt.Printf("Relations: %#v\n", rd.Relations)
 }
 
 // initRelation walks down the provided app relation adding the giving AppManifest
 // which connect with this if not already in the list.
 func (rd *ResourceDefinition) initRelation(app *shell.AppManifest) {
 	for _, relation := range app.Relation.Composites {
+		// fmt.Printf("Walking composite Relation to Manifest: %#v {to}-> %#v\n", relation, app)
+
 		if related := shell.FindByRelation(rd.Root.manifests, relation); related != nil {
+			// fmt.Printf("Found Composite Relation to Manifest: %#v -> %#v\n", relation, related)
+
 			if !rd.hasRelation(related) {
+				// fmt.Printf("Adding Composite Relation to Manifest: %#v -> %#v\n", relation, related)
 				rd.Relations = append(rd.Relations, related)
 				rd.initRelation(related)
 			}
@@ -501,8 +634,13 @@ func (rd *ResourceDefinition) initRelation(app *shell.AppManifest) {
 	}
 
 	for _, field := range app.Relation.FieldTypes {
+		// fmt.Printf("Walking composite Relation to Manifest: %#v {to}-> %#v\n", field, app)
+
 		if related := shell.FindByRelation(rd.Root.manifests, field); related != nil {
+			// fmt.Printf("Found Field Relation to Manifest: %#v -> %#v\n", field, related)
+
 			if !rd.hasRelation(related) {
+				// fmt.Printf("Adding Composite Relation to Manifest: %#v -> %#v\n", field, related)
 				rd.Relations = append(rd.Relations, related)
 				rd.initRelation(related)
 			}
@@ -715,7 +853,14 @@ func doRenderView(rs Renderables, targets string, deferRender bool, targetAlread
 	}
 
 	current.Views = append(current.Views, view)
-	current.RenderableData = append(current.RenderableData, view.Dependencies()...)
+
+	for _, rd := range view.Dependencies() {
+		if current.hasRenderable(rd.Name) {
+			continue
+		}
+
+		current.RenderableData = append(current.RenderableData, rd)
+	}
 
 	if deferRender {
 		current.DRenderables = append(current.DRenderables, targetRenderable{

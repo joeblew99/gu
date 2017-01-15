@@ -11,16 +11,6 @@ import (
 
 // SubscriptionSubmitEvent defines a event sent out to define the status of a subscription
 // event.
-//
-// shell:component
-//
-// Resource {
-//  Name: roboto.font.css
-//	Path: https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto
-//	Hook: link-embed
-//	Localize: true
-// }
-//
 type SubscriptionSubmitEvent struct {
 	Email  string `json:"email"`
 	Status bool   `json:"status"`
@@ -28,6 +18,16 @@ type SubscriptionSubmitEvent struct {
 
 // Subscriber defines the Subscriber component which renders a subscriber
 // submission form which collects the data received and submits it to the API.
+//
+// shell:component
+//
+// Resource {
+//  Name: roboto.font.css
+//	Path: https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto
+//	Hook: css-embed
+//	Localize: true
+// }
+//
 type Subscriber struct {
 	SubmitBtnColor string
 }

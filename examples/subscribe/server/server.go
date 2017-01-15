@@ -7,6 +7,7 @@ import (
 	"github.com/influx6/faux/context"
 	"github.com/influx6/fractals/fhttp"
 
+	"github.com/gu-io/gu"
 	"github.com/gu-io/gu/app"
 	_ "github.com/gu-io/gu/examples/subscribe/pages"
 )
@@ -14,9 +15,6 @@ import (
 func main() {
 	base, _ := os.Getwd()
 	assets := filepath.Join(base, "../assets")
-
-	// Initialize the app and set it to use hash.
-	app := app.New("subscribe.v1")
 
 	apphttp := fhttp.Drive(fhttp.MW(fhttp.RequestLogger(os.Stdout)))(fhttp.MW(fhttp.ResponseLogger(os.Stdout)))
 
@@ -33,14 +31,20 @@ func main() {
 		Path:    "/manifest.json",
 		Method:  "GET",
 		Action:  func(ctx context.Context, rw *fhttp.Request) error { return nil },
-		LocalMW: fhttp.FileServer(filepath.Join(base, "assets/manifest.json")),
+		LocalMW: fhttp.FileServer(filepath.Join(base, "../manifest.json")),
+	})
+
+	// Initialize the app and set it to use hash.
+	app := app.New("subscribe.v1", &gu.Options{
+		Mode:        gu.ProductionMode,
+		ManifestURI: "http://localhost:6060/manifest.json",
 	})
 
 	approuter(fhttp.Endpoint{
 		Path:   "/",
 		Method: "GET",
 		Action: func(ctx context.Context, rw *fhttp.Request) error {
-			content := app.RenderWithScript("/#", "assets/app.js")
+			content := app.Init(true).RenderWithScript("/#", "assets/app.js")
 			rw.RespondAny(200, "text/html", []byte(content.HTML()))
 			return nil
 		},

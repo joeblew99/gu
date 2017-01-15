@@ -99,10 +99,12 @@ func CustomView(tag string, r ...Renderable) RenderView {
 
 	for _, vr := range r {
 		if renderField, _, err := reflection.StructAndEmbeddedTypeNames(vr); err == nil {
-			vw.dependencies = append(vw.dependencies, RenderableData{
-				Name: renderField.TypeName,
-				Pkg:  renderField.Pkg,
-			})
+			if !vw.hasRenderable(renderField.TypeName) {
+				vw.dependencies = append(vw.dependencies, RenderableData{
+					Name: renderField.TypeName,
+					Pkg:  renderField.Pkg,
+				})
+			}
 		}
 
 		if vs, ok := vr.(ViewSubscriptions); ok {
@@ -139,6 +141,18 @@ type view struct {
 type RenderableData struct {
 	Name string
 	Pkg  string
+}
+
+// hasRenderable returns true/false if a giving dependencies has been identified
+// and is in the views dependencies list.
+func (v *view) hasRenderable(name string) bool {
+	for _, rd := range v.dependencies {
+		if rd.Name == name {
+			return true
+		}
+	}
+
+	return false
 }
 
 // Dependencies returns the list of all internal dependencies of the given view.

@@ -1,6 +1,8 @@
 package shell
 
 import (
+	"errors"
+
 	"github.com/gu-io/gu/trees"
 )
 
@@ -8,7 +10,7 @@ import (
 // a ManifestAttr. It expects to return two values, the markup to be installed
 // into the page and a boolean indicating if it should be added into the head.
 type Hook interface {
-	Fetch(ManifestAttr) (res *trees.Markup, addToHeader bool)
+	Fetch(Fetch, ManifestAttr) (res *trees.Markup, addToHeader bool, err error)
 }
 
 // hooks provides a global registry for registering hooks.
@@ -21,7 +23,7 @@ func Register(name string, hook Hook) {
 }
 
 // Get retrieves the giving provider by the name.
-func Get(name string) Hook {
+func Get(name string) (Hook, error) {
 	return hooks.Get(name)
 }
 
@@ -44,7 +46,15 @@ func (r *registry) Create(name string, hook Hook) {
 	r.hooks[name] = hook
 }
 
+// ErrHookNotFound is returned when the desired hook is not on the registry.
+var ErrHookNotFound = errors.New("Hook not found")
+
 // Get returns a giving provider with the provided key.
-func (r *registry) Get(name string) Hook {
-	return r.hooks[name]
+func (r *registry) Get(name string) (Hook, error) {
+	hl, ok := r.hooks[name]
+	if !ok {
+		return nil, ErrHookNotFound
+	}
+
+	return hl, nil
 }

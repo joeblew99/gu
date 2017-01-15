@@ -11,13 +11,12 @@ import (
 	"github.com/influx6/faux/context"
 	"github.com/influx6/fractals/fhttp"
 
+	"github.com/gu-io/gu"
 	"github.com/gu-io/gu/app"
 	_ "github.com/gu-io/gu/examples/colorboxes/resources"
 )
 
 func main() {
-
-	boxes := app.New("colorboxes.v1").Init(true)
 
 	base, _ := os.Getwd()
 	assets := filepath.Join(base, "../assets")
@@ -37,7 +36,7 @@ func main() {
 		Path:    "/manifest.json",
 		Method:  "GET",
 		Action:  func(ctx context.Context, rw *fhttp.Request) error { return nil },
-		LocalMW: fhttp.FileServer(filepath.Join(assets, "manifest.json")),
+		LocalMW: fhttp.FileServer(filepath.Join(base, "../manifest.json")),
 	})
 
 	approuter(fhttp.Endpoint{
@@ -51,11 +50,23 @@ func main() {
 		},
 	})
 
+	// approuter(fhttp.Endpoint{
+	// 	Path:    "/",
+	// 	Method:  "GET",
+	// 	Action:  func(ctx context.Context, rw *fhttp.Request) error { return nil },
+	// 	LocalMW: fhttp.FileServer(filepath.Join(base, "../index.html")),
+	// })
+
+	boxes := app.New("colorboxes.v1", &gu.Options{
+		Mode:        gu.ProductionMode,
+		ManifestURI: "http://localhost:6040/manifest.json",
+	})
+
 	approuter(fhttp.Endpoint{
 		Path:   "/",
 		Method: "GET",
 		Action: func(ctx context.Context, rw *fhttp.Request) error {
-			content := boxes.RenderWithScript("/#", "assets/box.js")
+			content := boxes.Init(true).RenderWithScript("/#", "assets/box.js")
 			rw.RespondAny(200, "text/html", []byte(content.HTML()))
 			return nil
 		},

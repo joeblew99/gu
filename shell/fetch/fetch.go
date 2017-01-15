@@ -148,10 +148,26 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 				}
 			}
 
-			if len(maxage) > 1 {
-				if mage, merr := strconv.Atoi(maxage[1]); merr == nil {
-					maxAge = mage
+			if mage, merr := strconv.Atoi(maxage[1]); merr == nil {
+				maxAge = mage
+			}
+
+			if maxAge == 0 {
+				rs, herr := http.DefaultClient.Do(hreq)
+				if herr != nil {
+					return res, herr
 				}
+
+				res = f.pullResponse(rs)
+				if !f.successResponse(rs) {
+					return res, nil
+				}
+
+				if cerr := f.cache.Put(req, res); err != nil {
+					return res, cerr
+				}
+
+				return res, nil
 			}
 
 			maxAgeTime := time.Unix(int64(maxAge), 0)
@@ -227,22 +243,6 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 
 			return res, nil
 
-			// case shell.DefaultStrategy:
-			// 	rs, err := http.DefaultClient.Do(hreq)
-			// 	if err != nil {
-			// 		return res, err
-			// 	}
-			//
-			// 	res = f.pullResponse(rs)
-			// 	if !f.successResponse(rs) {
-			// 		return res, nil
-			// 	}
-			//
-			// 	if err := f.cache.Put(req, res); err != nil {
-			// 		return res, err
-			// 	}
-			//
-			// 	return res, nil
 		case shell.UncachedStrategy:
 			rs, err := http.DefaultClient.Do(hreq)
 			if err != nil {

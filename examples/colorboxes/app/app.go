@@ -20,7 +20,7 @@ import (
 // Resource {
 //  Name: roboto.font.css
 //	Path: https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto
-//	Hook: link-embed
+//	Hook: css-embed
 //	Localize: true
 // }
 //

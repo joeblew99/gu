@@ -85,7 +85,7 @@ type WebResponse struct {
 	ManifestAddr string            `json:"manifest_addr,omitempty"`
 	Underline    *js.Object        `json:"underline,omitempty"`
 	Headers      map[string]string `json:"headers"`
-	Cookies      []string          `json:"headers"`
+	Cookies      []string          `json:"cookies"`
 }
 
 // ManifestAttr defines a structure which stores a series of
@@ -181,6 +181,8 @@ type ComponentRelation struct {
 // ComponentRelation.
 func FindByRelation(apps []*AppManifest, relationName string) *AppManifest {
 	for _, app := range apps {
+		// fmt.Printf("FindRelation: Wanted{%q} -> Tested{%q, %#v}\n", relationName, app.Relation.Name, app.Relation)
+
 		if app.Relation.Name != relationName {
 			continue
 		}
