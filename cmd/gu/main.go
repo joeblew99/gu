@@ -58,7 +58,7 @@ func main() {
 	initCommands()
 
 	app := &cli.App{}
-	app.Name = "Gushell"
+	app.Name = "Gu"
 	app.Version = version
 	app.Commands = commands
 	app.Usage = usage
@@ -75,12 +75,16 @@ func generateAddFile(name string, content []byte) string {
 func initCommands() {
 	commands = append(commands, &cli.Command{
 		Name:        "generate-vfs",
-		Usage:       "gushell generate-vfs <PackageName>",
+		Usage:       "gu generate-vfs <PackageName>",
 		Description: "Generate-VFS generates a new package which loads the resources loaded from the package, creating a new package which can be loaded and used to virtually serve the resources through a virtual filesystem",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
+				Name:    "in-dir",
+				Aliases: []string{"indir"},
+			},
+			&cli.StringFlag{
 				Name:    "output-dir",
-				Aliases: []string{"dir"},
+				Aliases: []string{"outdir"},
 			},
 			&cli.StringFlag{
 				Name:    "packageName",
@@ -91,6 +95,10 @@ func initCommands() {
 			cdir, err := os.Getwd()
 			if err != nil {
 				return err
+			}
+
+			if indir := ctx.String("input-dir"); indir != "" {
+				cdir = indir
 			}
 
 			dirName := ctx.String("packageName")
@@ -107,11 +115,15 @@ func initCommands() {
 			}
 
 			var bu bytes.Buffer
+			var manifests []*shell.AppManifest
+
 			for _, rs := range res {
 				manifest, merr := rs.GenManifests()
 				if merr != nil {
 					return merr
 				}
+
+				manifests = append(manifests, manifest)
 
 				for _, attr := range manifest.Manifests {
 					if attr.Content != "" {
@@ -119,6 +131,13 @@ func initCommands() {
 					}
 				}
 			}
+
+			manifestJSON, err := json.MarshalIndent(manifests, "", "\t")
+			if err != nil {
+				return err
+			}
+
+			bu.WriteString(generateAddFile("manifest.json", manifestJSON))
 
 			contents := fmt.Sprintf(aferoTemplate, packageName, packageName, bu.String())
 
@@ -157,18 +176,26 @@ func initCommands() {
 
 	commands = append(commands, &cli.Command{
 		Name:        "generate",
-		Usage:       "gushell generate",
+		Usage:       "gu generate",
 		Description: "Generate parses the current directory which it assumes is a Go pkg directory and creates a manifest.json file to contain all generated resources from the meta comments within the package and it's imports",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
+				Name:    "in-dir",
+				Aliases: []string{"indir"},
+			},
+			&cli.StringFlag{
 				Name:    "output-dir",
-				Aliases: []string{"dir"},
+				Aliases: []string{"outdir"},
 			},
 		},
 		Action: func(ctx *cli.Context) error {
 			cdir, err := os.Getwd()
 			if err != nil {
 				return err
+			}
+
+			if indir := ctx.String("input-dir"); indir != "" {
+				cdir = indir
 			}
 
 			res, err := parse.ShellResources(cdir)
