@@ -81,10 +81,12 @@ func initCommands() {
 			&cli.StringFlag{
 				Name:    "in-dir",
 				Aliases: []string{"indir"},
+				Usage:   "in-dir=path-to-dir-to-scan",
 			},
 			&cli.StringFlag{
 				Name:    "output-dir",
 				Aliases: []string{"outdir"},
+				Usage:   "out-dir=path-to-store-manifest-file",
 			},
 			&cli.StringFlag{
 				Name:    "packageName",
@@ -182,10 +184,12 @@ func initCommands() {
 			&cli.StringFlag{
 				Name:    "in-dir",
 				Aliases: []string{"indir"},
+				Usage:   "in-dir=path-to-dir-to-scan",
 			},
 			&cli.StringFlag{
 				Name:    "output-dir",
 				Aliases: []string{"outdir"},
+				Usage:   "out-dir=path-to-store-manifest-file",
 			},
 		},
 		Action: func(ctx *cli.Context) error {
