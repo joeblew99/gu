@@ -12,7 +12,7 @@
 package detos
 
 import (
-	"github.com/gu-io/gu/shell/example/parse/detro"
+	"github.com/gu-io/gu/tests/parse/detro"
 )
 
 // HoldComponent defines a component to provide a hold type.
