@@ -76,13 +76,13 @@
      inkscape:window-height="671"
      id="namedview6"
      showgrid="false"
-     inkscape:zoom="0.46842531"
-     inkscape:cx="2406.6592"
+     inkscape:zoom="0.23421266"
+     inkscape:cx="1467.3239"
      inkscape:cy="615.04942"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g3349" />
+     inkscape:current-layer="g3233" />
   <metadata
      id="metadata4">
     <rdf:RDF>
@@ -145,7 +145,9 @@
      id="g3233">
     <g
        id="g3253"
-       transform="translate(-70.448798,-17.078497)">
+       transform="translate(-70.448798,-17.078497)"
+       inkscape:export-xdpi="84.080002"
+       inkscape:export-ydpi="84.080002">
       <path
          sodipodi:nodetypes="ccccccscscccscscscccssccccccscccscscscccscscc"
          inkscape:connector-curvature="0"
@@ -230,7 +232,9 @@
            id="flowPara3342">G</flowPara></flowRoot>    </g>
     <g
        transform="translate(640.44362,4.2696233)"
-       id="g3273">
+       id="g3273"
+       inkscape:export-xdpi="168.16"
+       inkscape:export-ydpi="168.16">
       <path
          style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#250000;stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:30;stroke-opacity:1"
          d="M 289.94446,325.21979 C 191.5753,374.21443 129.62249,473.12245 129.6208,581.17743 c 0.11787,123.41155 80.75645,232.9502 200.30158,272.08767 l 74.55114,14.18759 c 6.14574,0.4916 12.3058,0.79334 18.47098,0.90477 81.83836,-0.13479 159.89805,-33.737 215.32241,-92.68947 -0.97013,-2.64267 -2.59738,-5.14682 -5.13605,-7.34658 -20.62316,-17.87026 -37.13899,0.80497 -37.13899,0.80497 1.57323,-5.11208 0.46508,-18.74562 -6.2667,-23.13743 -7.94626,-5.18417 -26.94575,1.08087 -31.91562,3.75419 -0.71237,0.61241 -1.23588,1.00014 -1.23588,1.00014 -0.11701,-0.16826 0.37369,-0.53635 1.23588,-1.00014 2.5663,-2.20612 8.18766,-7.97705 6.04505,-14.8595 -2.22914,-7.16028 -15.62981,-5.54375 -15.62982,-5.54375 0,0 1.66351,-17.61412 -1.99934,-20.84229 -7.01475,-6.18239 -20.23972,-4.75433 -20.23972,-4.75433 0,0 10.12761,-5.10209 8.78771,-22.88027 -1.3399,-17.77829 -16.29476,-16.33184 -16.29476,-16.33184 0,0 14.91686,-8.62489 14.88649,-25.51907 -0.34827,-8.06686 5.61772,-27.46134 -27.01465,-31.75903 0,0 0.36779,-2.50336 0.20374,-14.27854 -0.23521,-16.88408 -14.06873,-14.46054 -11.66471,-24.48567 2.78962,-11.63326 26.49046,-55.40842 26.49046,-55.40842 l -5.88292,-8.72684 -1.09565,12.7994 -0.37611,-14.48417 -27.97166,3.05197 c 0,0 -23.61496,5.71442 -35.68249,5.38119 -10.39943,-0.28702 -4.46452,-12.89759 -20.87333,-17.48048 -11.44367,-3.19616 -13.98198,-3.49045 -13.98198,-3.49045 4.23021,-32.33465 -16.2266,-31.6322 -24.00555,-34.04746 -16.47143,-4.38942 -28.73191,7.657 -28.73191,7.657 0,0 5.26841,-13.936 -11.72738,-19.80673 -16.99585,-5.87073 -24.58768,2.50131 -24.58768,2.50131 0,0 4.8066,-12.28609 0.58659,-20.59398 -2.20357,-4.33822 -19.81433,-7.29107 -19.81433,-7.29107 0,0 5.0367,-12.40621 -1.37245,-16.38736 -6.15846,-3.82539 -13.23672,0.0624 -16.05296,1.94919 -0.67587,0.70653 -1.16224,1.08018 -1.29633,0.92464 0,0 0.51345,-0.4001 1.29633,-0.92464 3.89202,-4.06878 14.90075,-20.63012 11.89531,-29.57045 -2.54652,-7.57505 -15.55465,-12.15383 -20.94722,-11.96786 0,0 22.47702,-10.98301 10.36839,-35.32927 -0.36056,-0.72496 -0.76312,-1.38859 -1.18216,-2.02458 z"
@@ -315,7 +319,9 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:225px;font-family:Junction;-inkscape-font-specification:'Junction Bold';fill:#000000;fill-opacity:1">G</flowPara></flowRoot>    </g>
     <g
        id="g3311"
-       transform="translate(1353.4708,3.2633191e-6)">
+       transform="translate(1353.4708,3.2633191e-6)"
+       inkscape:export-xdpi="134.52521"
+       inkscape:export-ydpi="134.52521">
       <path
          sodipodi:nodetypes="ccccccscscccscscscccssccccccscccscscscccscscc"
          inkscape:connector-curvature="0"
@@ -400,7 +406,9 @@
            id="flowPara3347">G</flowPara></flowRoot>    </g>
     <g
        id="g3349"
-       transform="translate(2053.6892,4.2696233)">
+       transform="translate(2053.6892,4.2696233)"
+       inkscape:export-xdpi="168.16"
+       inkscape:export-ydpi="168.16">
       <path
          sodipodi:nodetypes="ccccccscscccscscscccssccccccscccscscscccscscc"
          inkscape:connector-curvature="0"
