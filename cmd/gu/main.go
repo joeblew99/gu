@@ -120,11 +120,8 @@ func initCommands() {
 				outdir = cdir
 			}
 
-			dirName := ctx.String("packageName")
 			packageName := ctx.String("packageName")
-
 			if packageName == "" {
-				dirName = defaultName
 				packageName = defaultName
 			}
 
@@ -164,11 +161,11 @@ func initCommands() {
 
 			contents := fmt.Sprintf(aferoTemplate, packageName, packageName, bu.String())
 
-			if merr := os.MkdirAll(filepath.Join(outdir, dirName), 0755); merr != nil {
+			if merr := os.MkdirAll(filepath.Join(outdir, packageName), 0755); merr != nil {
 				return merr
 			}
 
-			manifestFile, err := os.Create(filepath.Join(outdir, dirName, "manifest.go"))
+			manifestFile, err := os.Create(filepath.Join(outdir, packageName, "manifest.go"))
 			if err != nil {
 				return err
 			}
