@@ -127,16 +127,18 @@ type Options struct {
 // It also contains a nStack which contains resource which must be rendered regardless of the
 // current resources available.
 type Resources struct {
-	cacheName  string
-	options    *Options
-	cache      shell.Cache
-	fetch      shell.Fetch
-	lastPath   dispatch.Path
-	renderer   ResourceRenderer
-	manifests  []*shell.AppManifest
-	gmanifests []*shell.AppManifest
-	Resources  []*ResourceDefinition
-	initOnce   sync.Once
+	cacheName    string
+	options      *Options
+	cache        shell.Cache
+	fetch        shell.Fetch
+	lastPath     dispatch.Path
+	renderer     ResourceRenderer
+	manifests    []*shell.AppManifest
+	gmanifests   []*shell.AppManifest
+	Resources    []*ResourceDefinition
+	headResource []*trees.Markup
+	bodyResource []*trees.Markup
+	initOnce     sync.Once
 }
 
 // ResourceRenderer  defines an interface for a resource rendering structure which handles rendering
@@ -375,10 +377,47 @@ func (rs *Resources) RenderPathWithScript(path dispatch.Path, script string) *tr
 	return rs.render(nil, result...)
 }
 
-// loadGlobalResources loads the provided Resources specified through the
-// manifests
-func (rs *Resources) loadGlobalResources() {
+// GenerateResources returns the markups based on specific resources which should be loaded
+// along with the resource definition.
+func (rs *Resources) GenerateResources() ([]*trees.Markup, []*trees.Markup) {
+	if rs.headResource != nil && rs.bodyResource != nil {
+		return rs.headResource, rs.bodyResource
+	}
 
+	var head, body []*trees.Markup
+
+	for _, def := range rs.gmanifests {
+		for _, manifest := range def.Manifests {
+			hook, err := shell.Get(manifest.HookName)
+			if err != nil {
+				fmt.Printf("Hook[%q] does not exists: Resource[%q] unable to install\n", manifest.HookName, manifest.Name)
+				continue
+			}
+
+			markup, toHead, err := hook.Fetch(rs.fetch, manifest)
+			if err != nil {
+				fmt.Printf("Hook[%q] failed to retrieve Resource {Name: %q, Path: %q}\n", manifest.HookName, manifest.Name, manifest.Path)
+				continue
+			}
+
+			trees.NewAttr("gu-resource", "true").Apply(markup)
+			trees.NewAttr("gu-resource-from", manifest.Path).Apply(markup)
+			trees.NewAttr("gu-resource-name", manifest.Name).Apply(markup)
+			trees.NewAttr("gu-resource-id", manifest.ID).Apply(markup)
+
+			if toHead {
+				head = append(head, markup)
+				continue
+			}
+
+			body = append(body, markup)
+		}
+	}
+
+	rs.headResource = head
+	rs.bodyResource = body
+
+	return head, body
 }
 
 // render performs the needed work of collecting the giving markups and
@@ -594,7 +633,7 @@ func (rd *ResourceDefinition) Init() {
 	rd.Resolver.Flush()
 
 	{
-		rd.Relations = append(rd.Relations, rd.Root.gmanifests...)
+		// rd.Relations = append(rd.Relations, rd.Root.gmanifests...)
 
 		// Search root manifests lists component relation.
 		for _, relation := range rd.RenderableData {

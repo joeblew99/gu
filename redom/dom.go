@@ -47,6 +47,19 @@ func (dm *DOMRenderer) Render(rs ...*gu.ResourceDefinition) {
 		}
 	}
 
+	// Load global Resources first.
+	if len(rs) != 0 {
+		globalHead, globalBody := rs[0].Root.GenerateResources()
+
+		for _, item := range globalHead {
+			js.Patch(js.CreateFragment(item.HTML()), head.Underlying(), false)
+		}
+
+		for _, item := range globalBody {
+			js.Patch(js.CreateFragment(item.HTML()), body.Underlying(), false)
+		}
+	}
+
 	// Render the important resources and normal links first.
 	for _, res := range rs {
 
