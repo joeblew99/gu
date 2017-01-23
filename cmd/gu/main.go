@@ -16,8 +16,9 @@ import (
 )
 
 var (
-	version  = "0.0.1"
-	commands = []*cli.Command{}
+	version     = "0.0.1"
+	defaultName = "manifests"
+	commands    = []*cli.Command{}
 
 	usage = `Provides a CLi tool which provides different commands to build and prepare
 Gu based projects for testing, deployment and push.`
@@ -80,7 +81,7 @@ func initCommands() {
 		Description: "Generate-VFS generates a new package which loads the resources loaded from the package, creating a new package which can be loaded and used to virtually serve the resources through a virtual filesystem",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:    "in-dir",
+				Name:    "input-dir",
 				Aliases: []string{"indir"},
 				Usage:   "in-dir=path-to-dir-to-scan",
 			},
@@ -100,23 +101,34 @@ func initCommands() {
 				return err
 			}
 
-			if indir := ctx.String("in-dir"); indir != "" {
+			indir := ctx.String("input-dir")
+			outdir := ctx.String("output-dir")
+
+			if indir != "" {
 				if strings.HasPrefix(indir, ".") || !strings.HasPrefix(indir, "/") {
-					cdir = filepath.Join(cdir, indir)
-				} else {
-					cdir = indir
+					indir = filepath.Join(cdir, indir)
 				}
+			} else {
+				indir = cdir
+			}
+
+			if outdir != "" {
+				if strings.HasPrefix(outdir, ".") || !strings.HasPrefix(outdir, "/") {
+					outdir = filepath.Join(cdir, outdir)
+				}
+			} else {
+				outdir = cdir
 			}
 
 			dirName := ctx.String("packageName")
 			packageName := ctx.String("packageName")
 
 			if packageName == "" {
-				dirName = "manifests"
-				packageName = "manifests"
+				dirName = defaultName
+				packageName = defaultName
 			}
 
-			res, err := parse.ShellResources(cdir)
+			res, err := parse.ShellResources(indir)
 			if err != nil {
 				return err
 			}
@@ -152,15 +164,6 @@ func initCommands() {
 
 			contents := fmt.Sprintf(aferoTemplate, packageName, packageName, bu.String())
 
-			outdir := ctx.String("output-dir")
-			if outdir == "" {
-				outdir = cdir
-			}
-
-			if outdir != "" && !filepath.IsAbs(outdir) {
-				outdir = filepath.Join(cdir, outdir)
-			}
-
 			if merr := os.MkdirAll(filepath.Join(outdir, dirName), 0755); merr != nil {
 				return merr
 			}
@@ -191,7 +194,7 @@ func initCommands() {
 		Description: "Generate parses the current directory which it assumes is a Go pkg directory and creates a manifest.json file to contain all generated resources from the meta comments within the package and it's imports",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:    "in-dir",
+				Name:    "input-dir",
 				Aliases: []string{"indir"},
 				Usage:   "in-dir=path-to-dir-to-scan",
 			},
@@ -207,15 +210,26 @@ func initCommands() {
 				return err
 			}
 
-			if indir := ctx.String("in-dir"); indir != "" {
+			indir := ctx.String("input-dir")
+			outdir := ctx.String("output-dir")
+
+			if indir != "" {
 				if strings.HasPrefix(indir, ".") || !strings.HasPrefix(indir, "/") {
-					cdir = filepath.Join(cdir, indir)
-				} else {
-					cdir = indir
+					indir = filepath.Join(cdir, indir)
 				}
+			} else {
+				indir = cdir
 			}
 
-			res, err := parse.ShellResources(cdir)
+			if outdir != "" {
+				if strings.HasPrefix(outdir, ".") || !strings.HasPrefix(outdir, "/") {
+					outdir = filepath.Join(cdir, outdir)
+				}
+			} else {
+				outdir = cdir
+			}
+
+			res, err := parse.ShellResources(indir)
 			if err != nil {
 				return err
 			}
@@ -238,15 +252,6 @@ func initCommands() {
 
 			if bytes.Equal(manifestJSON, []byte("nil")) {
 				manifestJSON = []byte("{}")
-			}
-
-			outdir := ctx.String("output-dir")
-			if outdir == "" {
-				outdir = cdir
-			}
-
-			if outdir != "" && !filepath.IsAbs(outdir) {
-				outdir = filepath.Join(cdir, outdir)
 			}
 
 			manifestFile, err := os.Create(filepath.Join(outdir, "manifest.json"))
