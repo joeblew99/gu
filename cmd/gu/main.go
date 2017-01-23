@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/shell/parse"
@@ -99,8 +100,12 @@ func initCommands() {
 				return err
 			}
 
-			if indir := ctx.String("input-dir"); indir != "" {
-				cdir = indir
+			if indir := ctx.String("in-dir"); indir != "" {
+				if strings.HasPrefix(indir, ".") || !strings.HasPrefix(indir, "/") {
+					cdir = filepath.Join(cdir, indir)
+				} else {
+					cdir = indir
+				}
 			}
 
 			dirName := ctx.String("packageName")
@@ -137,6 +142,10 @@ func initCommands() {
 			manifestJSON, err := json.MarshalIndent(manifests, "", "\t")
 			if err != nil {
 				return err
+			}
+
+			if bytes.Equal(manifestJSON, []byte("nil")) {
+				manifestJSON = []byte("{}")
 			}
 
 			bu.WriteString(generateAddFile("manifest.json", manifestJSON))
@@ -198,8 +207,12 @@ func initCommands() {
 				return err
 			}
 
-			if indir := ctx.String("input-dir"); indir != "" {
-				cdir = indir
+			if indir := ctx.String("in-dir"); indir != "" {
+				if strings.HasPrefix(indir, ".") || !strings.HasPrefix(indir, "/") {
+					cdir = filepath.Join(cdir, indir)
+				} else {
+					cdir = indir
+				}
 			}
 
 			res, err := parse.ShellResources(cdir)
@@ -221,6 +234,10 @@ func initCommands() {
 			manifestJSON, err := json.MarshalIndent(manifests, "", "\t")
 			if err != nil {
 				return err
+			}
+
+			if bytes.Equal(manifestJSON, []byte("nil")) {
+				manifestJSON = []byte("{}")
 			}
 
 			outdir := ctx.String("output-dir")

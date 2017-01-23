@@ -237,24 +237,27 @@ func (rs *Resources) initResource(watchHash bool) {
 
 			if err := json.Unmarshal(manifestResponse.Body, &appm); err != nil {
 				errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable: %q", err.Error())
-				panic(errorMsg)
-			}
+				// panic(errorMsg)
+				fmt.Println(errorMsg)
+			} else {
 
-			var gmanifests []*shell.AppManifest
-			var manifests []*shell.AppManifest
+				var gmanifests []*shell.AppManifest
+				var manifests []*shell.AppManifest
 
-			for _, mani := range appm {
-				if mani.GlobalScope {
-					gmanifests = append(gmanifests, mani)
-					continue
+				for _, mani := range appm {
+					if mani.GlobalScope {
+						gmanifests = append(gmanifests, mani)
+						continue
+					}
+
+					manifests = append(manifests, mani)
 				}
 
-				manifests = append(manifests, mani)
-			}
+				rs.manifests = manifests
+				rs.gmanifests = gmanifests
+				appm = nil
 
-			rs.manifests = manifests
-			rs.gmanifests = gmanifests
-			appm = nil
+			}
 		}
 	}
 

@@ -48,6 +48,12 @@ type MarkupRenderer interface {
 	RenderHTML() template.HTML
 }
 
+// Properties defines a type which exposes a single method to retrieve values
+// from.
+type Properties interface {
+	Get(string) interface{}
+}
+
 // Fetchable exposes a interface which recieves a shell.Fetch and shell.Cache instances
 // through a method.
 type Fetchable interface {
