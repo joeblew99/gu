@@ -71,6 +71,8 @@ type ResourceCollection struct {
 	Name        string
 	Localize    bool
 	Remote      bool
+	Encode      bool
+	Encoded     bool
 	Path        string
 	Cache       string
 	HookName    string
@@ -88,6 +90,8 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 	mattr.Meta = r.Meta
 	mattr.Content = r.Data
 	mattr.Remote = r.Remote
+	mattr.B64Encode = r.Encode
+	mattr.ContentB64 = r.Encoded
 	mattr.Localize = r.Localize
 	mattr.HookName = r.HookName
 
@@ -97,8 +101,8 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 
 	mattr.Path = strings.TrimSpace(r.Path)
 
-	if mattr.Path != "" && !r.Remote {
-		content, err := getFileContent(pkg, mattr.Path)
+	if mattr.Path != "" && !r.Remote && mattr.Content == "" {
+		content, err := getFileContent(pkg, mattr.Path, mattr.B64Encode)
 		if err != nil {
 			return mattr, err
 		}
@@ -107,8 +111,8 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 		mattr.Content = string(content)
 	}
 
-	if mattr.Path != "" && r.Remote && r.Localize {
-		content, err := getURLContent(mattr.Path)
+	if mattr.Path != "" && r.Remote && mattr.Content == "" && r.Localize {
+		content, err := getURLContent(mattr.Path, mattr.B64Encode)
 		if err != nil {
 			return mattr, err
 		}

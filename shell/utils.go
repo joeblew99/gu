@@ -39,6 +39,7 @@ func ObjectToWebRequest(o *js.Object) (WebRequest, error) {
 		Underline:      reqClone,
 		URL:            o.Get("url").String(),
 		Mode:           o.Call("mode").String(),
+		B64Encode:      o.Get("b64_encode").Bool(),
 		Cache:          CacheStrategy(o.Call("cache").String()),
 		BodyUsed:       o.Get("bodyUsed").Bool(),
 		Method:         o.Get("method").String(),
@@ -97,6 +98,7 @@ func ObjectToWebResponse(o *js.Object) (WebResponse, error) {
 		Body:       <-body,
 		Underline:  resClone,
 		Ok:         o.Get("ok").Bool(),
+		B64Encoded: o.Get("b64_encoded").Bool(),
 		Status:     o.Get("status").Int(),
 		Type:       o.Get("type").String(),
 		Redirected: o.Get("redirected").Bool(),
@@ -127,9 +129,10 @@ func WebResponseToJSResponse(res *WebResponse) *js.Object {
 	// bodyBlob := js.Global.Get("Blob").New(body)
 
 	res.Underline = js.Global.Get("Response").New(body, map[string]interface{}{
-		"status":     res.Status,
-		"statusText": res.StatusText,
-		"headers":    MapToHeaders(res.Headers),
+		"status":      res.Status,
+		"statusText":  res.StatusText,
+		"b64_encoded": res.B64Encoded,
+		"headers":     MapToHeaders(res.Headers),
 	})
 
 	return res.Underline
@@ -144,6 +147,7 @@ func WebRequestToJSRequest(res *WebRequest) *js.Object {
 	res.Underline = js.Global.Get("Request").New(res.URL, map[string]interface{}{
 		"body":           res.Body,
 		"mode":           res.Mode,
+		"b64_encode":     res.B64Encode,
 		"cache":          string(res.Cache),
 		"method":         res.Method,
 		"referrer":       res.Referrer,

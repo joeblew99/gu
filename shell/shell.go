@@ -62,6 +62,7 @@ type Cache interface {
 type WebRequest struct {
 	BodyUsed       bool              `json:"bodyUsed"`
 	CacheRequest   bool              `json:"cacheRequest"`
+	B64Encode      bool              `json:"b64_encode"`
 	Body           []byte            `json:"body"`
 	Method         string            `json:"method"`
 	URL            string            `json:"url"`
@@ -80,6 +81,7 @@ type WebRequest struct {
 type WebResponse struct {
 	Status       int               `json:"status"`
 	Redirected   bool              `json:"redirected"`
+	B64Encoded   bool              `json:"b64_encoded"`
 	Ok           bool              `json:"ok"`
 	Body         []byte            `json:"body"`
 	Type         string            `json:"type"`
@@ -92,19 +94,48 @@ type WebResponse struct {
 	Cookies      []string          `json:"cookies"`
 }
 
+// EncodeBase64 encodes the value and sets the content which was encoded to base64.
+func (w *WebResponse) EncodeBase64(content string) error {
+	w.Body = []byte(base64.StdEncoding.EncodeToString([]byte(content)))
+	return nil
+}
+
+// EncodeContentBase64 returns the content converted from the base64 value.
+func (w WebResponse) EncodeContentBase64() (string, error) {
+	return base64.StdEncoding.EncodeToString(w.Body), nil
+}
+
+// DecodeContentBase64 returns the content converted from the base64 value.
+func (w WebResponse) DecodeContentBase64() (string, error) {
+	mo, err := base64.StdEncoding.DecodeString(string(w.Body))
+	if err != nil {
+		return "", err
+	}
+
+	return string(mo), err
+}
+
 // ManifestAttr defines a structure which stores a series of
 // data pertaining to a specific resource.
 type ManifestAttr struct {
-	Size     int               `json:"size"`
-	Remote   bool              `json:"remote"`
-	Localize bool              `json:"localize"`
-	ID       string            `json:"appmanifest_id,omitempty"`
-	Name     string            `json:"name"`
-	Path     string            `json:"path"`
-	Content  string            `json:"content"`
-	Cache    CacheStrategy     `json:"cache"`
-	Meta     map[string]string `json:"meta"`
-	HookName string            `json:"hook_name,omitempty"`
+	Size       int               `json:"size"`
+	Remote     bool              `json:"remote"`
+	Localize   bool              `json:"localize"`
+	B64Encode  bool              `json:"b64_encode"`
+	ContentB64 bool              `json:"conent_b64"`
+	ID         string            `json:"appmanifest_id,omitempty"`
+	Name       string            `json:"name"`
+	Path       string            `json:"path"`
+	Content    string            `json:"content"`
+	Cache      CacheStrategy     `json:"cache"`
+	Meta       map[string]string `json:"meta"`
+	HookName   string            `json:"hook_name,omitempty"`
+}
+
+// EncodeBase64 encodes the value and sets the content which was encoded to base64.
+func (m *ManifestAttr) EncodeBase64(content string) error {
+	m.Content = base64.StdEncoding.EncodeToString([]byte(content))
+	return nil
 }
 
 // EncodeContentBase64 returns the content converted from the base64 value.
@@ -126,6 +157,7 @@ func (m ManifestAttr) DecodeContentBase64() (string, error) {
 func (m ManifestAttr) WebRequest() WebRequest {
 	return WebRequest{
 		Method:       "GET",
+		B64Encode:    m.B64Encode,
 		URL:          m.Path,
 		ManifestName: m.Name,
 		Cache:        m.Cache,

@@ -2,6 +2,7 @@ package fetch
 
 import (
 	"bytes"
+	"encoding/base64"
 	"io"
 	"net/http"
 	"strconv"
@@ -105,7 +106,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 					return res, herr
 				}
 
-				res = f.pullResponse(rs)
+				res = f.pullResponse(rs, req)
 				if !f.successResponse(rs) {
 					return res, nil
 				}
@@ -158,7 +159,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 					return res, herr
 				}
 
-				res = f.pullResponse(rs)
+				res = f.pullResponse(rs, req)
 				if !f.successResponse(rs) {
 					return res, nil
 				}
@@ -181,7 +182,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 						return res, merr
 					}
 
-					res = f.pullResponse(rs)
+					res = f.pullResponse(rs, req)
 					if !f.successResponse(rs) {
 						return res, nil
 					}
@@ -205,7 +206,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 						return res, merr
 					}
 
-					res = f.pullResponse(rs)
+					res = f.pullResponse(rs, req)
 					if !f.successResponse(rs) {
 						return res, nil
 					}
@@ -232,7 +233,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 				return cres, nil
 			}
 
-			res = f.pullResponse(rs)
+			res = f.pullResponse(rs, req)
 			if !f.successResponse(rs) {
 				return res, nil
 			}
@@ -249,7 +250,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 				return res, err
 			}
 
-			res = f.pullResponse(rs)
+			res = f.pullResponse(rs, req)
 
 			return res, nil
 
@@ -259,7 +260,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 				return res, err
 			}
 
-			res = f.pullResponse(rs)
+			res = f.pullResponse(rs, req)
 
 			if !f.successResponse(rs) {
 				return res, nil
@@ -279,7 +280,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 					return res, err
 				}
 
-				res = f.pullResponse(rs)
+				res = f.pullResponse(rs, req)
 
 				if !f.successResponse(rs) {
 					return res, nil
@@ -303,7 +304,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 			return res, err
 		}
 
-		res = f.pullResponse(rs)
+		res = f.pullResponse(rs, req)
 		return res, nil
 
 	case "POST":
@@ -312,7 +313,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 			return res, err
 		}
 
-		res = f.pullResponse(rs)
+		res = f.pullResponse(rs, req)
 		return res, nil
 
 	case "PATCH":
@@ -321,7 +322,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 			return res, err
 		}
 
-		res = f.pullResponse(rs)
+		res = f.pullResponse(rs, req)
 		return res, nil
 
 	case "DELETE":
@@ -330,7 +331,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 			return res, err
 		}
 
-		res = f.pullResponse(rs)
+		res = f.pullResponse(rs, req)
 		return res, nil
 
 	default:
@@ -339,7 +340,7 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 			return res, err
 		}
 
-		res = f.pullResponse(rs)
+		res = f.pullResponse(rs, req)
 		return res, nil
 	}
 }
@@ -354,7 +355,7 @@ func (f *API) successResponse(rs *http.Response) bool {
 }
 
 // pullResponse retrieves all response details from the giving http.Response struct.
-func (f *API) pullResponse(rs *http.Response) shell.WebResponse {
+func (f *API) pullResponse(rs *http.Response, rq shell.WebRequest) shell.WebResponse {
 	var res shell.WebResponse
 
 	res.StatusText = rs.Status
@@ -383,6 +384,14 @@ func (f *API) pullResponse(rs *http.Response) shell.WebResponse {
 	var buff bytes.Buffer
 	io.Copy(&buff, rs.Body)
 
+	// Attempt to encode into base64 then set encoded as true.
+	if rq.B64Encode {
+		res.B64Encoded = true
+		res.Body = []byte(base64.StdEncoding.EncodeToString(buff.Bytes()))
+		return res
+	}
+
+	res.B64Encoded = false
 	res.Body = buff.Bytes()
 
 	return res

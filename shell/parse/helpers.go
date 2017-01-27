@@ -3,6 +3,7 @@ package parse
 import (
 	"bufio"
 	"bytes"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"io"
@@ -309,6 +310,18 @@ func toResources(res []map[string]string) ([]ResourceCollection, error) {
 			delete(rsc, "Localize")
 		}
 
+		if enc, err := strconv.ParseBool(rsc["Encode"]); err == nil {
+			r.Encode = enc
+			delete(rsc, "Encode")
+		} else {
+			r.Encode = true
+		}
+
+		if encoded, err := strconv.ParseBool(rsc["Encoded64"]); err == nil {
+			r.Encoded = encoded
+			delete(rsc, "Encoded64")
+		}
+
 		r.Name = rsc["Name"]
 		delete(rsc, "Name")
 
@@ -316,7 +329,6 @@ func toResources(res []map[string]string) ([]ResourceCollection, error) {
 		delete(rsc, "Cache")
 
 		path := strings.TrimSpace(rsc["Path"])
-		content := rsc["Content"]
 
 		r.Path = path
 		delete(rsc, "Path")
@@ -332,7 +344,8 @@ func toResources(res []map[string]string) ([]ResourceCollection, error) {
 			}
 		}
 
-		r.Data = content
+		content := rsc["Content"]
+		r.Data = strings.TrimSpace(content)
 		delete(rsc, "Content")
 
 		r.HookName = rsc["Hook"]
@@ -356,7 +369,7 @@ var ErrNotLocalPath = errors.New("Path is not a local resource but external URL"
 var windowsAddr = regexp.MustCompile("^\\w$")
 
 // getURLContent retrieves the giving url content for the provided path.
-func getURLContent(path string) ([]byte, error) {
+func getURLContent(path string, encodeb64 bool) ([]byte, error) {
 	req, err := http.NewRequest("GET", path, nil)
 	if err != nil {
 		return nil, err
@@ -373,6 +386,10 @@ func getURLContent(path string) ([]byte, error) {
 	io.Copy(&buff, res.Body)
 
 	if res.StatusCode >= 200 && res.StatusCode <= 299 {
+		if encodeb64 {
+			return []byte(base64.StdEncoding.EncodeToString(buff.Bytes())), nil
+		}
+
 		return buff.Bytes(), nil
 	}
 
@@ -381,7 +398,7 @@ func getURLContent(path string) ([]byte, error) {
 
 // getFileContent pulls the content of a file path from the provided path
 // used against the pkg path if it is a relative path.
-func getFileContent(pkg string, path string) ([]byte, error) {
+func getFileContent(pkg string, path string, encodeb64 bool) ([]byte, error) {
 	uri, err := url.Parse(path)
 	if err != nil {
 		return nil, err
@@ -393,29 +410,29 @@ func getFileContent(pkg string, path string) ([]byte, error) {
 
 	if uri.Scheme == "file" {
 		if strings.HasPrefix(uri.Path, "/") {
-			return getFileData(uri.Path[1:])
+			return getFileData(uri.Path[1:], encodeb64)
 		}
 
-		return getFileData(uri.Path)
+		return getFileData(uri.Path, encodeb64)
 	}
 
 	if windowsAddr.MatchString(uri.Scheme) {
-		return getFileData(uri.String())
+		return getFileData(uri.String(), encodeb64)
 	}
 
 	if uri.Scheme == "" && !strings.HasPrefix(path, "/") {
-		return getFileData(filepath.Join(goSrcPath, pkg, path))
+		return getFileData(filepath.Join(goSrcPath, pkg, path), encodeb64)
 	}
 
 	if uri.Scheme == "" && strings.HasPrefix(path, ".") {
-		return getFileData(filepath.Join(goSrcPath, pkg, path))
+		return getFileData(filepath.Join(goSrcPath, pkg, path), encodeb64)
 	}
 
-	return getFileData(path)
+	return getFileData(path, encodeb64)
 }
 
 // getFileData retrieves the content of the provided file path.
-func getFileData(path string) ([]byte, error) {
+func getFileData(path string, encodeb64 bool) ([]byte, error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -423,6 +440,10 @@ func getFileData(path string) ([]byte, error) {
 
 	var b bytes.Buffer
 	io.Copy(&b, file)
+
+	if encodeb64 {
+		return []byte(base64.StdEncoding.EncodeToString(b.Bytes())), nil
+	}
 
 	return b.Bytes(), nil
 }
