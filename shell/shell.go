@@ -122,7 +122,7 @@ type ManifestAttr struct {
 	Remote     bool              `json:"remote"`
 	Localize   bool              `json:"localize"`
 	B64Encode  bool              `json:"b64_encode"`
-	ContentB64 bool              `json:"conent_b64"`
+	ContentB64 bool              `json:"content_b64"`
 	ID         string            `json:"appmanifest_id,omitempty"`
 	Name       string            `json:"name"`
 	Path       string            `json:"path"`

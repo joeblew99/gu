@@ -107,6 +107,10 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 			return mattr, err
 		}
 
+		if mattr.B64Encode {
+			mattr.ContentB64 = true
+		}
+
 		mattr.Size = len(content)
 		mattr.Content = string(content)
 	}
@@ -117,12 +121,18 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 			return mattr, err
 		}
 
+		if mattr.B64Encode {
+			mattr.ContentB64 = true
+		}
+
 		mattr.Size = len(content)
 		mattr.Content = string(content)
 	}
 
 	return mattr, nil
 }
+
+//==============================================================================
 
 var (
 	exceptions = []string{
