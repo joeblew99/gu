@@ -1,6 +1,10 @@
 package shell
 
-import "github.com/gopherjs/gopherjs/js"
+import (
+	"encoding/base64"
+
+	"github.com/gopherjs/gopherjs/js"
+)
 
 // CacheStrategy defines a type which holds different cache-strategy used for
 // requests.
@@ -101,6 +105,21 @@ type ManifestAttr struct {
 	Cache    CacheStrategy     `json:"cache"`
 	Meta     map[string]string `json:"meta"`
 	HookName string            `json:"hook_name,omitempty"`
+}
+
+// EncodeContentBase64 returns the content converted from the base64 value.
+func (m ManifestAttr) EncodeContentBase64() (string, error) {
+	return string(base64.StdEncoding.EncodeToString([]byte(m.Content))), nil
+}
+
+// DecodeContentBase64 returns the content converted from the base64 value.
+func (m ManifestAttr) DecodeContentBase64() (string, error) {
+	mo, err := base64.StdEncoding.DecodeString(m.Content)
+	if err != nil {
+		return "", err
+	}
+
+	return string(mo), err
 }
 
 // WebRequest returns a WebRequest from the manifest.
