@@ -50,34 +50,6 @@ func ObjectToWebRequest(o *js.Object) (WebRequest, error) {
 	}, nil
 }
 
-// AllObjectToWebResponse returns a slice of WebResponses from a slice
-// of js.Object.
-func AllObjectToWebResponse(o []*js.Object) []WebResponse {
-	res := make([]WebResponse, 0)
-
-	for _, ro := range o {
-		if rq, err := ObjectToWebResponse(ro); err == nil {
-			res = append(res, rq)
-		}
-	}
-
-	return res
-}
-
-// AllObjectToWebRequest returns a slice of WebResponses from a slice
-// of js.Object.
-func AllObjectToWebRequest(o []*js.Object) []WebRequest {
-	res := make([]WebRequest, 0)
-
-	for _, ro := range o {
-		if rq, err := ObjectToWebRequest(ro); err == nil {
-			res = append(res, rq)
-		}
-	}
-
-	return res
-}
-
 // ObjectToWebResponse converts a object to a WebResponse.
 func ObjectToWebResponse(o *js.Object) (WebResponse, error) {
 	if o == nil || o == js.Undefined {
@@ -108,6 +80,34 @@ func ObjectToWebResponse(o *js.Object) (WebResponse, error) {
 	}, nil
 }
 
+// AllObjectToWebResponse returns a slice of WebResponses from a slice
+// of js.Object.
+func AllObjectToWebResponse(o []*js.Object) []WebResponse {
+	res := make([]WebResponse, 0)
+
+	for _, ro := range o {
+		if rq, err := ObjectToWebResponse(ro); err == nil {
+			res = append(res, rq)
+		}
+	}
+
+	return res
+}
+
+// AllObjectToWebRequest returns a slice of WebResponses from a slice
+// of js.Object.
+func AllObjectToWebRequest(o []*js.Object) []WebRequest {
+	res := make([]WebRequest, 0)
+
+	for _, ro := range o {
+		if rq, err := ObjectToWebRequest(ro); err == nil {
+			res = append(res, rq)
+		}
+	}
+
+	return res
+}
+
 // MapToHeaders converts a map into a js.Headers structure.
 func MapToHeaders(res map[string]string) *js.Object {
 	header := js.Global.Get("Headers").New()
@@ -135,6 +135,8 @@ func WebResponseToJSResponse(res *WebResponse) *js.Object {
 		"headers":     MapToHeaders(res.Headers),
 	})
 
+	res.Underline.Set("b64_encoded", res.B64Encoded)
+
 	return res.Underline
 }
 
@@ -155,6 +157,8 @@ func WebRequestToJSRequest(res *WebRequest) *js.Object {
 		"referrerPolicy": res.ReferrerPolicy,
 		"headers":        MapToHeaders(res.Headers),
 	})
+
+	res.Underline.Set("b64_encode", res.B64Encode)
 
 	return res.Underline
 }
