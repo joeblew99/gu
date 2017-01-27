@@ -20,8 +20,8 @@ var (
 	defaultName = "manifests"
 	commands    = []*cli.Command{}
 
-	usage = `Provides a CLi tool which provides different commands to build and prepare
-Gu based projects for testing, deployment and push.`
+	usage = `Provides a CLi tool which provides different commands to build and prepare 
+	Gu based projects for testing, deployment and push.`
 
 	aferoTemplate = `// Package %s is auto-generated and should not be modified by hand.
 // This package contains a virtual file system for generate resources which are not accessed
