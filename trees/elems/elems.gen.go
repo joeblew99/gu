@@ -9,15 +9,13 @@
 package elems
 
 import (
-	"fmt"
-
 	"github.com/gu-io/gu/css"
 	"github.com/gu-io/gu/trees"
 )
 
 // Text provides custom type for defining text nodes with the trees markup.
 func Text(content string, dl ...interface{}) *trees.Markup {
-	return trees.NewText(fmt.Sprintf(content, dl...))
+	return trees.NewText(content, dl...)
 }
 
 // Parse returns the giving markup structure generated from the string.

@@ -38,13 +38,13 @@ type Markup struct {
 }
 
 // NewText returns a new Text instance element
-func NewText(txt string) *Markup {
+func NewText(txt string, dl ...interface{}) *Markup {
 	em := NewMarkup("text", false)
 	em.allowChildren = false
 	em.allowAttributes = false
 	em.allowStyles = false
 	em.allowEvents = false
-	em.textContent = txt
+	em.textContent = fmt.Sprintf(txt, dl...)
 	return em
 }
 
