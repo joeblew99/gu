@@ -94,8 +94,8 @@ type WebResponse struct {
 	Cookies      []string          `json:"cookies"`
 }
 
-// EncodeBase64 encodes the value and sets the content which was encoded to base64.
-func (w *WebResponse) EncodeBase64(content string) error {
+// EncodeBase64Content encodes the value and sets the content which was encoded to base64.
+func (w *WebResponse) EncodeBase64Content(content string) error {
 	w.Body = []byte(base64.StdEncoding.EncodeToString([]byte(content)))
 	return nil
 }
@@ -132,8 +132,8 @@ type ManifestAttr struct {
 	HookName   string            `json:"hook_name,omitempty"`
 }
 
-// EncodeBase64 encodes the value and sets the content which was encoded to base64.
-func (m *ManifestAttr) EncodeBase64(content string) error {
+// EncodeBase64Content encodes the value and sets the content which was encoded to base64.
+func (m *ManifestAttr) EncodeBase64Content(content string) error {
 	m.Content = base64.StdEncoding.EncodeToString([]byte(content))
 	return nil
 }
