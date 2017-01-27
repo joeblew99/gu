@@ -153,15 +153,31 @@ func (m ManifestAttr) DecodeContentBase64() (string, error) {
 	return string(mo), err
 }
 
+// IsBase64Encode returns true/false if the content is base64 or should be
+// base64 encoded.
+func (m ManifestAttr) IsBase64Encode() bool {
+	var b64 bool
+
+	if m.Content != "" {
+		if m.ContentB64 {
+			b64 = true
+		}
+	} else {
+		b64 = m.B64Encode
+	}
+
+	return b64
+}
+
 // WebRequest returns a WebRequest from the manifest.
 func (m ManifestAttr) WebRequest() WebRequest {
 	return WebRequest{
 		Method:       "GET",
-		B64Encode:    m.B64Encode,
 		URL:          m.Path,
 		ManifestName: m.Name,
 		Cache:        m.Cache,
 		Credentials:  "same-origin",
+		B64Encode:    m.IsBase64Encode(),
 	}
 }
 
