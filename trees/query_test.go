@@ -11,8 +11,6 @@ import (
 func TestParseSelector(t *testing.T) {
 	sels := trees.Query.ParseSelector("div.shower(before: all).ball")
 
-	fmt.Printf("Parsed: %s\n", sels)
-
 	if sels == nil {
 		tests.Failed(t, "Should have returned lists of selectors")
 	}
@@ -48,12 +46,13 @@ func TestParseSelector(t *testing.T) {
 }
 
 func TestParseAttr(t *testing.T) {
-	sels := trees.Query.ParseSelector("div[rel|='bull']")
+	sels := trees.Query.ParseSelector("div[rel|='bull'](before: all)")
 	if sels == nil {
 		tests.Failed(t, "Should have returned lists of selectors")
 	}
 	tests.Passed(t, "Should have returned lists of selectors")
 
+	fmt.Printf("Parsed: %s\n", sels)
 	sel := sels[0]
 
 	if sel.AttrName != "rel" {
