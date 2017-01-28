@@ -395,7 +395,10 @@ func getURLContent(path string, encodeb64 bool) ([]byte, error) {
 	defer res.Body.Close()
 
 	var buff bytes.Buffer
-	io.Copy(&buff, res.Body)
+	_, err = io.Copy(&buff, res.Body)
+	if err != nil && err != io.EOF {
+		return nil, err
+	}
 
 	if res.StatusCode >= 200 && res.StatusCode <= 299 {
 		if encodeb64 {
@@ -451,7 +454,10 @@ func getFileData(path string, encodeb64 bool) ([]byte, error) {
 	}
 
 	var b bytes.Buffer
-	io.Copy(&b, file)
+	_, err = io.Copy(&b, file)
+	if err != nil && err != io.EOF {
+		return nil, err
+	}
 
 	if encodeb64 {
 		return []byte(base64.StdEncoding.EncodeToString(b.Bytes())), nil

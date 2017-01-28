@@ -97,7 +97,7 @@ type ImageCSSEmbed struct{}
 
 var cssImageStyle = `
 	.%s-img{
-		background: url(data:image/%s;base64,%s);
+		background: url('data:image/%s;base64,%s');
 	}
 `
 
