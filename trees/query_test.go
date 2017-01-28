@@ -1,6 +1,7 @@
 package trees_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/gu-io/gu/tests"
@@ -8,7 +9,9 @@ import (
 )
 
 func TestParseSelector(t *testing.T) {
-	sels := trees.Query.ParseSelector("div.shower.ball")
+	sels := trees.Query.ParseSelector("div.shower(before: all).ball")
+
+	fmt.Printf("Parsed: %s\n", sels)
 
 	if sels == nil {
 		tests.Failed(t, "Should have returned lists of selectors")

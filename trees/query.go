@@ -1,6 +1,9 @@
 package trees
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 // Query defines a package level variable for access the query interface
 // which handles running css queries on markup structures.
@@ -19,6 +22,7 @@ type Selector struct {
 	AttrValue string
 	Classes   []string
 	Children  []*Selector
+	Order     map[string]string
 }
 
 // Query returns the first element matching the giving selector.
@@ -162,12 +166,14 @@ func (q queryCtrl) queryOne(target *Markup, sel *Selector) bool {
 }
 
 var (
-	dot        = byte('.')
-	coma       = byte(',')
-	hash       = byte('#')
-	space      = byte(' ')
-	bracket    = byte('[')
-	endbracket = byte(']')
+	dot         = byte('.')
+	coma        = byte(',')
+	hash        = byte('#')
+	space       = byte(' ')
+	bracket     = byte('[')
+	endbracket  = byte(']')
+	orderOpen   = byte('(')
+	orderClosed = byte(')')
 )
 
 // ParseSelector returns the giving selector parsed out into its individual
@@ -243,6 +249,7 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 				{
 					var blk []byte
 
+				dotLoop:
 					for {
 						index++
 
@@ -257,12 +264,13 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 								blk = nil
 							}
 
-							break
+							break dotLoop
 						}
 
 						item = items[index]
 
-						if item == dot {
+						switch item {
+						case dot:
 							if doChildren {
 								child.Classes = append(child.Classes, string(blk))
 							} else {
@@ -270,10 +278,8 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 							}
 
 							blk = nil
-							continue
-						}
-
-						if item == space || item == coma || item == hash {
+							continue dotLoop
+						case space, coma, hash:
 							if doChildren {
 								child.Classes = append(child.Classes, string(blk))
 							} else {
@@ -282,6 +288,88 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 
 							blk = nil
 							continue parseLoop
+						case orderOpen:
+							var order []byte
+							order = append(order, item)
+
+							{
+							orderLoop:
+								for {
+									index++
+
+									item = items[index]
+									fmt.Printf("order: %+q : %+q -> %d : %d\n", order, item, index, itemsLen)
+
+									if index >= itemsLen {
+										ordered := string(order)
+										ordered = strings.TrimPrefix(ordered, "(")
+										ordered = strings.TrimSuffix(ordered, ")")
+
+										if doChildren {
+											if child.Order == nil {
+												child.Order = make(map[string]string)
+											}
+										} else {
+											if csel.Order == nil {
+												csel.Order = make(map[string]string)
+											}
+										}
+
+										for _, or := range strings.Split(ordered, ",") {
+											ors := strings.Split(or, ":")
+											if len(ors) < 2 {
+												continue
+											}
+
+											if doChildren {
+												child.Order[strings.TrimSpace(ors[0])] = strings.TrimSpace(ors[1])
+											} else {
+												csel.Order[strings.TrimSpace(ors[0])] = strings.TrimSpace(ors[1])
+											}
+										}
+
+										continue dotLoop
+									}
+
+									switch item {
+									case orderClosed:
+										order = append(order, item)
+
+										ordered := string(order)
+										ordered = strings.TrimPrefix(ordered, "(")
+										ordered = strings.TrimSuffix(ordered, ")")
+
+										if doChildren {
+											if child.Order == nil {
+												child.Order = make(map[string]string)
+											}
+										} else {
+											if csel.Order == nil {
+												csel.Order = make(map[string]string)
+											}
+										}
+
+										for _, or := range strings.Split(ordered, ",") {
+											ors := strings.Split(or, ":")
+											if len(ors) < 2 {
+												continue
+											}
+
+											if doChildren {
+												child.Order[strings.TrimSpace(ors[0])] = strings.TrimSpace(ors[1])
+											} else {
+												csel.Order[strings.TrimSpace(ors[0])] = strings.TrimSpace(ors[1])
+											}
+										}
+
+										continue dotLoop
+									default:
+										order = append(order, item)
+										continue orderLoop
+									}
+
+								}
+							}
 						}
 
 						blk = append(blk, item)
@@ -298,6 +386,7 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 				{
 					var blk []byte
 
+				hashLoop:
 					for {
 						index++
 
@@ -309,12 +398,95 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 							}
 
 							blk = nil
-							break
+							break hashLoop
 						}
 
 						item = items[index]
-						if item == dot || item == space || item == coma {
 
+						switch item {
+						case orderOpen:
+
+							var order []byte
+							order = append(order, item)
+
+							{
+							hashOrderLoop:
+								for {
+									index++
+
+									item = items[index]
+									if index >= itemsLen {
+										ordered := string(order)
+										ordered = strings.TrimPrefix(ordered, "(")
+										ordered = strings.TrimSuffix(ordered, ")")
+
+										if doChildren {
+											if child.Order == nil {
+												child.Order = make(map[string]string)
+											}
+										} else {
+											if csel.Order == nil {
+												csel.Order = make(map[string]string)
+											}
+										}
+
+										for _, or := range strings.Split(ordered, ",") {
+											ors := strings.Split(or, ":")
+											if len(ors) < 2 {
+												continue
+											}
+
+											if doChildren {
+												child.Order[strings.TrimSpace(ors[0])] = strings.TrimSpace(ors[1])
+											} else {
+												csel.Order[strings.TrimSpace(ors[0])] = strings.TrimSpace(ors[1])
+											}
+										}
+
+										continue hashLoop
+									}
+
+									switch item {
+									case orderClosed:
+										order = append(order, item)
+
+										ordered := string(order)
+										ordered = strings.TrimPrefix(ordered, "(")
+										ordered = strings.TrimSuffix(ordered, ")")
+
+										if doChildren {
+											if child.Order == nil {
+												child.Order = make(map[string]string)
+											}
+										} else {
+											if csel.Order == nil {
+												csel.Order = make(map[string]string)
+											}
+										}
+
+										for _, or := range strings.Split(ordered, ",") {
+											ors := strings.Split(or, ":")
+											if len(ors) < 2 {
+												continue
+											}
+
+											if doChildren {
+												child.Order[strings.TrimSpace(ors[0])] = strings.TrimSpace(ors[1])
+											} else {
+												csel.Order[strings.TrimSpace(ors[0])] = strings.TrimSpace(ors[1])
+											}
+										}
+
+										continue hashLoop
+									default:
+										order = append(order, item)
+										continue hashOrderLoop
+									}
+
+								}
+							}
+
+						case dot, space, coma:
 							if doChildren {
 								child.ID = string(blk)
 							} else {
@@ -323,6 +495,7 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 
 							blk = nil
 							continue parseLoop
+
 						}
 
 						blk = append(blk, item)
