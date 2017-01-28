@@ -45,7 +45,7 @@ func NewText(txt string, dl ...interface{}) *Markup {
 	em.allowStyles = false
 	em.allowEvents = false
 
-	if len(dl) > 0 {
+	if dl != nil && len(dl) != 0 {
 		em.textContent = fmt.Sprintf(txt, dl...)
 	} else {
 		em.textContent = txt

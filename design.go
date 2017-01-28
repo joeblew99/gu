@@ -942,7 +942,7 @@ func doRenderView(rs Renderables, targets string, deferRender bool, targetAlread
 // Title adds a element which generates a <title> tag.
 func Title(title string) {
 	ml := mLink("title", false)
-	trees.NewText(title).Apply(ml.Content)
+	trees.NewText(title, nil).Apply(ml.Content)
 }
 
 // Link adds a element which generates a <link> tag.

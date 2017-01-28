@@ -40,7 +40,7 @@ func (CSSLink) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, error
 //==============================================================================
 
 var imageStyle = `
-	-%s-img{
+	.%s-img{
 		background-image: url("data:image/%s;base64,%s")
 	}
 `
@@ -57,7 +57,7 @@ func (m ImageCSSEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, boo
 
 		ext := strings.TrimPrefix(filepath.Ext(attr.Name), ".")
 
-		decoded, err := attr.UnwrapBody()
+		decoded, err := attr.EncodeContentBase64()
 		if err != nil {
 			return nil, false, err
 		}
@@ -75,7 +75,7 @@ func (m ImageCSSEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, boo
 	style := trees.NewMarkup("style", false)
 	ext := strings.TrimPrefix(filepath.Ext(attr.Name), ".")
 
-	decoded, err := res.UnwrapBody()
+	decoded, err := res.EncodeContentBase64()
 	if err != nil {
 		return nil, false, err
 	}
