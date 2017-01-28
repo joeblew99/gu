@@ -73,7 +73,7 @@ func (m ImageEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, 
 		}
 
 		trees.NewAttr("src", fmt.Sprintf(imageStyle, ext, decoded)).Apply(img)
-		return img, true, nil
+		return img, false, nil
 	}
 
 	res, err := fetch.Do(attr.WebRequest())
@@ -88,7 +88,7 @@ func (m ImageEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, 
 
 	trees.NewAttr("src", fmt.Sprintf(imageStyle, ext, decoded)).Apply(img)
 
-	return img, true, nil
+	return img, false, nil
 }
 
 // ImageCSSEmbed defines a struct to hold the Fetcher for "img-css-embed" hook types.
