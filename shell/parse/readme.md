@@ -66,6 +66,10 @@ These field keys are as follows:
 
 - Size: This is an optional field to indicate the size to specify for the resource content.
 
+- Init: This is an optional field to indicate whether the resource should be processed during the components concerned initialization. By default it's true
+
+- Global: This is an optional field to indicate whether the resource should be accessible by it's name globally beyond the resource loading process. By default it's false
+
 - Encode: This is an optional field to indicate that the response body should be base64 encoded. By default it's true
 
 - Encoded64: This is an optional field to indicate that the resource content added as a string is base64 encoded, by default it's false.

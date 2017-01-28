@@ -305,6 +305,18 @@ func toResources(res []map[string]string) ([]ResourceCollection, error) {
 			delete(rsc, "Remote")
 		}
 
+		if initd, err := strconv.ParseBool(rsc["Init"]); err == nil {
+			r.Init = initd
+			delete(rsc, "Init")
+		} else {
+			r.Init = true
+		}
+
+		if isglobal, err := strconv.ParseBool(rsc["Global"]); err == nil {
+			r.Global = isglobal
+			delete(rsc, "Global")
+		}
+
 		if localize, err := strconv.ParseBool(rsc["Localize"]); err == nil {
 			r.Localize = localize
 			delete(rsc, "Localize")

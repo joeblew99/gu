@@ -226,6 +226,6 @@ func init() {
 
 	// Register Images hooks.
 	Register("img", ImageCSSEmbed{})
-	Register("img-embed", ImageCSSEmbed{})
+	Register("img-embed", ImageEmbed{})
 	Register("img-css-embed", ImageCSSEmbed{})
 }

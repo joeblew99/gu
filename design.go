@@ -246,6 +246,12 @@ func (rs *Resources) initResource(watchHash bool) {
 				var manifests []*shell.AppManifest
 
 				for _, mani := range appm {
+					for _, attr := range mani.Manifests {
+						if attr.IsGlobal {
+							shell.RegisterManifest(attr)
+						}
+					}
+
 					if mani.GlobalScope {
 						gmanifests = append(gmanifests, mani)
 						continue
@@ -386,6 +392,10 @@ func (rs *Resources) GenerateResources() ([]*trees.Markup, []*trees.Markup) {
 
 	for _, def := range rs.gmanifests {
 		for _, manifest := range def.Manifests {
+			if !manifest.InitStartup {
+				continue
+			}
+
 			hook, err := shell.Get(manifest.HookName)
 			if err != nil {
 				fmt.Printf("Hook[%q] does not exists: Resource[%q] unable to install\n", manifest.HookName, manifest.Name)
@@ -561,6 +571,10 @@ func (rd *ResourceDefinition) Resources() ([]*trees.Markup, []*trees.Markup) {
 
 	for _, def := range rd.Relations {
 		for _, manifest := range def.Manifests {
+			if !manifest.InitStartup {
+				continue
+			}
+
 			hook, err := shell.Get(manifest.HookName)
 			if err != nil {
 				fmt.Printf("Hook[%q] does not exists: Resource[%q] unable to install\n", manifest.HookName, manifest.Name)
@@ -631,9 +645,8 @@ func (rd *ResourceDefinition) Init() {
 	rd.Resolver.Flush()
 
 	{
-		// rd.Relations = append(rd.Relations, rd.Root.gmanifests...)
-
-		// Search root manifests lists component relation.
+		// Search root manifests lists component relation using the resource
+		// RenderableData.
 		for _, relation := range rd.RenderableData {
 
 			if app := shell.FindByRelation(rd.Root.manifests, relation.Name); app != nil {

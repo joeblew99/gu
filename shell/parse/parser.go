@@ -70,6 +70,8 @@ func (r *Resource) GenManifests() (*shell.AppManifest, error) {
 type ResourceCollection struct {
 	Name        string
 	Localize    bool
+	Init        bool
+	Global      bool
 	Remote      bool
 	Encode      bool
 	Encoded     bool
@@ -90,10 +92,12 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 	mattr.Meta = r.Meta
 	mattr.Content = r.Data
 	mattr.Remote = r.Remote
+	mattr.IsGlobal = r.Global
 	mattr.B64Encode = r.Encode
-	mattr.ContentB64 = r.Encoded
-	mattr.Localize = r.Localize
+	mattr.InitStartup = r.Init
 	mattr.HookName = r.HookName
+	mattr.Localize = r.Localize
+	mattr.ContentB64 = r.Encoded
 
 	if size, err := strconv.Atoi(r.ContentSize); err == nil {
 		mattr.Size = size

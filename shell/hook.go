@@ -22,6 +22,16 @@ func Register(name string, hook Hook) {
 	hooks.Create(name, hook)
 }
 
+// RegisterManifest adds a manifest into the global register for access by the name.
+func RegisterManifest(attr ManifestAttr) {
+	hooks.AddManifest(attr)
+}
+
+// GetManifest retrieves the manifest with the given name.
+func GetManifest(name string) (ManifestAttr, error) {
+	return hooks.GetManifest(name)
+}
+
 // Get retrieves the giving provider by the name.
 func Get(name string) (Hook, error) {
 	return hooks.Get(name)
@@ -30,13 +40,15 @@ func Get(name string) (Hook, error) {
 // registry defines a structure for registery for Providers where all providers
 // handles the lifecycle process for a asset from installation to removal.
 type registry struct {
-	hooks map[string]Hook
+	hooks     map[string]Hook
+	manifests map[string]ManifestAttr
 }
 
 // newRegistry returns a new instance of Registry.
 func newRegistry() *registry {
 	return &registry{
-		hooks: make(map[string]Hook),
+		hooks:     make(map[string]Hook),
+		manifests: make(map[string]ManifestAttr),
 	}
 }
 
@@ -44,6 +56,12 @@ func newRegistry() *registry {
 // it is created and added into the hook lists.
 func (r *registry) Create(name string, hook Hook) {
 	r.hooks[name] = hook
+}
+
+// AddManifest adds the giving manifest into the global manifest file.
+// It avoids manifests of same name once added.
+func (r *registry) AddManifest(attr ManifestAttr) {
+	r.manifests[attr.Name] = attr
 }
 
 // ErrHookNotFound is returned when the desired hook is not on the registry.
@@ -54,6 +72,19 @@ func (r *registry) Get(name string) (Hook, error) {
 	hl, ok := r.hooks[name]
 	if !ok {
 		return nil, ErrHookNotFound
+	}
+
+	return hl, nil
+}
+
+// ErrManifestNotFound is returned when the desired manifest is not on the registry.
+var ErrManifestNotFound = errors.New("Manifest not found")
+
+// GetManifest returns a giving provider with the provided key.
+func (r *registry) GetManifest(name string) (ManifestAttr, error) {
+	hl, ok := r.manifests[name]
+	if !ok {
+		return ManifestAttr{}, ErrManifestNotFound
 	}
 
 	return hl, nil
