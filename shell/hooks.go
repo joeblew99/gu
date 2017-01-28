@@ -53,7 +53,7 @@ func (ImageLink) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, err
 
 //==============================================================================
 
-var imageStyle = `data:image/%s;base64,%s`
+var imageStyle = "data:image/%s;base64,%s"
 
 // ImageEmbed defines a struct to hold the Fetcher for "img-css-embed" hook types.
 // This hook retrieves the giving image data, transformed into
