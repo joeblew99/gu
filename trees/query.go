@@ -1,9 +1,6 @@
 package trees
 
-import (
-	"fmt"
-	"strings"
-)
+import "strings"
 
 // Query defines a package level variable for access the query interface
 // which handles running css queries on markup structures.
@@ -298,7 +295,7 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 									index++
 
 									item = items[index]
-									fmt.Printf("order: %+q : %+q -> %d : %d\n", order, item, index, itemsLen)
+									// fmt.Printf("order: %+q : %+q -> %d : %d\n", order, item, index, itemsLen)
 
 									if index >= itemsLen {
 										ordered := string(order)
