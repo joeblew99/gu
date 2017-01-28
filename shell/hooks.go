@@ -1,13 +1,43 @@
 package shell
 
 import (
-	"encoding/base64"
 	"path/filepath"
 	"strings"
 
 	"github.com/gu-io/gu/trees"
 	"github.com/gu-io/gu/trees/elems"
 )
+
+// JSLink defines a struct to hold the Fetcher for "js-link" hook types.
+// This hook embeds the css link as a link tag into the dom.
+type JSLink struct{}
+
+// Fetch returns the markup for the giving resource and where it should be inserted
+// into the dom.
+func (JSLink) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, error) {
+	script := trees.NewMarkup("script", false)
+	trees.NewAttr("src", attr.Path).Apply(script)
+	trees.NewAttr("type", "text/javascript").Apply(script)
+
+	return script, true, nil
+}
+
+// CSSLink defines a struct to hold the Fetcher for "css-link" hook types.
+// This hook embeds the css link as a link tag into the dom.
+type CSSLink struct{}
+
+// Fetch returns the markup for the giving resource and where it should be inserted
+// into the dom.
+func (CSSLink) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, error) {
+	style := trees.NewMarkup("link", false)
+	trees.NewAttr("href", attr.Path).Apply(style)
+	trees.NewAttr("ref", "stylesheet").Apply(style)
+	trees.NewAttr("type", "text/css").Apply(style)
+
+	return style, true, nil
+}
+
+//==============================================================================
 
 var imageStyle = `
 	-%s-img{
@@ -26,8 +56,13 @@ func (m ImageCSSEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, boo
 		style := trees.NewMarkup("style", false)
 
 		ext := strings.TrimPrefix(filepath.Ext(attr.Name), ".")
-		encoded := base64.StdEncoding.EncodeToString([]byte(attr.Content))
-		elems.Text(imageStyle, m.getNewName(attr.Name), ext, encoded).Apply(style)
+
+		decoded, err := attr.UnwrapBody()
+		if err != nil {
+			return nil, false, err
+		}
+
+		elems.Text(imageStyle, m.getNewName(attr.Name), ext, decoded).Apply(style)
 
 		return style, true, nil
 	}
@@ -39,8 +74,13 @@ func (m ImageCSSEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, boo
 
 	style := trees.NewMarkup("style", false)
 	ext := strings.TrimPrefix(filepath.Ext(attr.Name), ".")
-	encoded := base64.StdEncoding.EncodeToString(res.Body)
-	elems.Text(imageStyle, m.getNewName(attr.Name), ext, encoded).Apply(style)
+
+	decoded, err := res.UnwrapBody()
+	if err != nil {
+		return nil, false, err
+	}
+
+	elems.Text(imageStyle, m.getNewName(attr.Name), ext, decoded).Apply(style)
 
 	return style, true, nil
 }
@@ -51,21 +91,6 @@ func (ImageCSSEmbed) getNewName(val string) string {
 	return strings.Replace(newVal, ".", "-", -1)
 }
 
-// CSSLink defines a struct to hold the Fetcher for "css-link" hook types.
-// This hook embeds the css link as a link tag into the dom.
-type CSSLink struct{}
-
-// Fetch returns the markup for the giving resource and where it should be inserted
-// into the dom.
-func (CSSLink) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, error) {
-	style := trees.NewMarkup("link", false)
-	trees.NewAttr("href", attr.Path).Apply(style)
-	trees.NewAttr("ref", "stylesheet").Apply(style)
-	trees.NewAttr("type", "text/css").Apply(style)
-
-	return style, true, nil
-}
-
 // CSSEmbed defines a struct to hold the Fetcher for "css-embed" hook types.
 type CSSEmbed struct{}
 
@@ -74,7 +99,13 @@ type CSSEmbed struct{}
 func (CSSEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, error) {
 	if attr.Content != "" {
 		style := trees.NewMarkup("style", false)
-		trees.NewText(attr.Content).Apply(style)
+
+		decoded, err := attr.UnwrapBody()
+		if err != nil {
+			return nil, false, err
+		}
+
+		trees.NewText(string(decoded)).Apply(style)
 
 		return style, true, nil
 	}
@@ -85,7 +116,13 @@ func (CSSEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, erro
 	}
 
 	style := trees.NewMarkup("style", false)
-	trees.NewText(string(res.Body)).Apply(style)
+
+	decoded, err := res.UnwrapBody()
+	if err != nil {
+		return nil, false, err
+	}
+
+	trees.NewText(string(decoded)).Apply(style)
 
 	return style, true, nil
 }
@@ -97,10 +134,16 @@ type JavascriptEmbed struct{}
 // into the dom.
 func (JavascriptEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, error) {
 	if attr.Content != "" {
-		script := trees.NewMarkup("script", false)
-		trees.NewText(attr.Content).Apply(script)
+		style := trees.NewMarkup("script", false)
 
-		return script, true, nil
+		decoded, err := attr.UnwrapBody()
+		if err != nil {
+			return nil, false, err
+		}
+
+		trees.NewText(string(decoded)).Apply(style)
+
+		return style, true, nil
 	}
 
 	res, err := fetch.Do(attr.WebRequest())
@@ -108,24 +151,16 @@ func (JavascriptEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, boo
 		return nil, false, err
 	}
 
-	script := trees.NewMarkup("script", false)
-	trees.NewText(string(res.Body)).Apply(script)
+	style := trees.NewMarkup("script", false)
 
-	return script, true, nil
-}
+	decoded, err := res.UnwrapBody()
+	if err != nil {
+		return nil, false, err
+	}
 
-// JSLink defines a struct to hold the Fetcher for "js-link" hook types.
-// This hook embeds the css link as a link tag into the dom.
-type JSLink struct{}
+	trees.NewText(string(decoded)).Apply(style)
 
-// Fetch returns the markup for the giving resource and where it should be inserted
-// into the dom.
-func (JSLink) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, error) {
-	script := trees.NewMarkup("script", false)
-	trees.NewAttr("src", attr.Path).Apply(script)
-	trees.NewAttr("type", "text/javascript").Apply(script)
-
-	return script, true, nil
+	return style, true, nil
 }
 
 func init() {
