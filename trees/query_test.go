@@ -1,7 +1,6 @@
 package trees_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/gu-io/gu/tests"
@@ -52,7 +51,6 @@ func TestParseAttr(t *testing.T) {
 	}
 	tests.Passed(t, "Should have returned lists of selectors")
 
-	fmt.Printf("Parsed: %s\n", sels)
 	sel := sels[0]
 
 	if sel.AttrName != "rel" {
