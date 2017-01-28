@@ -114,12 +114,18 @@ func Resource(dsl interface{}) int {
 //		 true offline working of app
 //
 // IgnoreManifest:
-//		 Turns of the manifest capabilities in gu, hence leaving the
+//		 Turns off the manifest capabilities in gu, hence leaving the
 // 		 loading of resources to the user.
+//
+// DisconnectFetchObserver:
+//		 Turns off the capibility for the shell.Fetcher to observe requests and
+//		 pass it along else return what is in the cache.
+//
 type Options struct {
-	Mode           Mode   `json:"mode"`
-	ManifestURI    string `json:"manifest_path"`
-	IgnoreManifest bool   `json:"ignore_manifest"`
+	Mode                    Mode   `json:"mode"`
+	ManifestURI             string `json:"manifest_path"`
+	IgnoreManifest          bool   `json:"ignore_manifest"`
+	DisconnectFetchObserver bool   `json:"disconnect_fetch_observer"`
 }
 
 // Resources defines a structure which contains the fully embodiement of different resources.
