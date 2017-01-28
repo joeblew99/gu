@@ -61,13 +61,13 @@ func (wc *API) Open(cacheName string) (*CacheAPI, error) {
 	res := make(chan newCacheResponse, 0)
 
 	openReq.Call("then", func(o *js.Object) {
-		// go func() {
-		res <- newCacheResponse{Cache: NewCacheAPI(o), Error: nil}
-		// }()
+		go func() {
+			res <- newCacheResponse{Cache: NewCacheAPI(o), Error: nil}
+		}()
 	}, func(o *js.Object) {
-		// go func() {
-		res <- newCacheResponse{Error: errors.New(o.String())}
-		// }()
+		go func() {
+			res <- newCacheResponse{Error: errors.New(o.String())}
+		}()
 	})
 
 	opVal = <-res
@@ -99,26 +99,26 @@ func (c *CacheAPI) Add(request ...string) error {
 
 	if !isList {
 		c.Call("add", request[0]).Call("then", func() {
-			// go func() {
-			close(resChan)
-			// }()
+			go func() {
+				close(resChan)
+			}()
 		}).Call("catch", func(err *js.Object) {
-			// go func() {
-			resChan <- errors.New(err.String())
-			// }()
+			go func() {
+				resChan <- errors.New(err.String())
+			}()
 		})
 
 		return <-resChan
 	}
 
 	c.Call("addAll", request).Call("then", func() {
-		// go func() {
-		close(resChan)
-		// }()
+		go func() {
+			close(resChan)
+		}()
 	}).Call("catch", func(err *js.Object) {
-		// go func() {
-		resChan <- errors.New(err.String())
-		// }()
+		go func() {
+			resChan <- errors.New(err.String())
+		}()
 	})
 
 	return <-resChan
@@ -131,9 +131,9 @@ func (c *CacheAPI) PutPath(request string, res shell.WebResponse) error {
 	resObj := shell.WebResponseToJSResponse(&res)
 
 	c.Call("put", request, resObj).Call("catch", func(err *js.Object) {
-		// go func() {
-		resChan <- errors.New(err.String())
-		// }()
+		go func() {
+			resChan <- errors.New(err.String())
+		}()
 	})
 
 	return <-resChan
@@ -148,13 +148,13 @@ func (c *CacheAPI) Put(request shell.WebRequest, res shell.WebResponse) error {
 	reqObj := shell.WebRequestToJSRequest(&request)
 
 	c.Call("put", reqObj, resObj).Call("then", func(_ *js.Object) {
-		// go func(){
-		close(resChan)
-		// }()
+		go func() {
+			close(resChan)
+		}()
 	}).Call("catch", func(err *js.Object) {
-		// go func(){
-		resChan <- errors.New(err.String())
-		// }()
+		go func() {
+			resChan <- errors.New(err.String())
+		}()
 	})
 
 	return <-resChan
@@ -173,18 +173,9 @@ func (c *CacheAPI) GetManifest(man shell.ManifestAttr) (shell.WebRequest, shell.
 	return req, res, nil
 }
 
-// MatchAttr defines the attributes which are optional passed to the match
-// method to refine the cache search term.
-type MatchAttr struct {
-	IgnoreSearch bool
-	IgnoreMethod bool
-	IgnoreVary   bool
-	CatchName    string
-}
-
 // GetRequest calls CacheAPI.Match and passing in a default MatchAttr value.
 func (c *CacheAPI) GetRequest(request shell.WebRequest) (shell.WebResponse, error) {
-	return c.Match(request, MatchAttr{})
+	return c.Match(request, nil)
 }
 
 // GetPath calls CacheAPI.MatchPath and passing in a default MatchAttr value.
@@ -196,7 +187,7 @@ func (c *CacheAPI) GetPath(request string) (shell.WebRequest, shell.WebResponse,
 		Cache:       shell.DefaultStrategy,
 	}
 
-	res, err := c.MatchPath(request, MatchAttr{})
+	res, err := c.MatchPath(request, nil)
 	if err != nil {
 		return wr, res, err
 	}
@@ -216,27 +207,27 @@ type cacheResponseChannel chan cacheResponse
 
 // MatchPath calls the internal caches.Cache.Match function matching against the
 // request string.
-func (c *CacheAPI) MatchPath(request string, attr MatchAttr) (shell.WebResponse, error) {
+func (c *CacheAPI) MatchPath(request string, attr map[string]interface{}) (shell.WebResponse, error) {
 	resChn := make(cacheResponseChannel, 0)
 
 	c.Call("match", request, attr).Call("then", func(response *js.Object) {
 		res, err := shell.ObjectToWebResponse(response)
 		if err != nil {
-			// go func() {
-			resChn <- cacheResponse{Error: err}
-			// }()
+			go func() {
+				resChn <- cacheResponse{Error: err}
+			}()
 			return
 		}
 
-		// go func() {
-		resChn <- cacheResponse{
-			Response: res,
-		}
-		// }()
+		go func() {
+			resChn <- cacheResponse{
+				Response: res,
+			}
+		}()
 	}).Call("catch", func(err *js.Object) {
-		// go func() {
-		resChn <- cacheResponse{Error: errors.New(err.String())}
-		// }()
+		go func() {
+			resChn <- cacheResponse{Error: errors.New(err.String())}
+		}()
 	})
 
 	opVal := <-resChn
@@ -245,28 +236,28 @@ func (c *CacheAPI) MatchPath(request string, attr MatchAttr) (shell.WebResponse,
 
 // Match calls the internal caches.Cache.Match function matching against the
 // request string for a js.Cache.Match.
-func (c *CacheAPI) Match(request shell.WebRequest, attr MatchAttr) (shell.WebResponse, error) {
+func (c *CacheAPI) Match(request shell.WebRequest, attr map[string]interface{}) (shell.WebResponse, error) {
 	resChan := make(cacheResponseChannel, 0)
 
 	c.Call("match", shell.WebRequestToJSRequest(&request), attr).Call("then", func(response *js.Object) {
 		res, err := shell.ObjectToWebResponse(response)
 		if err != nil {
-			// go func() {
-			resChan <- cacheResponse{Error: err}
-			// }()
+			go func() {
+				resChan <- cacheResponse{Error: err}
+			}()
 			return
 		}
 
-		// go func() {
-		resChan <- cacheResponse{
-			Response: res,
-			Error:    nil,
-		}
-		// }()
+		go func() {
+			resChan <- cacheResponse{
+				Response: res,
+				Error:    nil,
+			}
+		}()
 	}).Call("catch", func(err *js.Object) {
-		// go func() {
-		resChan <- cacheResponse{Error: errors.New(err.String())}
-		// }()
+		go func() {
+			resChan <- cacheResponse{Error: errors.New(err.String())}
+		}()
 	})
 
 	opVal := <-resChan
@@ -286,19 +277,19 @@ type cacheAllResponseChannel chan cacheAllResponse
 
 // MatchAllPath calls the internal caches.Cache.MatchAll function matching against the
 // request string for a js.Cache.Match.
-func (c *CacheAPI) MatchAllPath(request string, attr MatchAttr) ([]shell.WebResponse, error) {
+func (c *CacheAPI) MatchAllPath(request string, attr map[string]interface{}) ([]shell.WebResponse, error) {
 	resChan := make(cacheAllResponseChannel, 0)
 
 	c.Call("match", request, attr).Call("then", func(responses *js.Object) {
-		// go func() {
-		resChan <- cacheAllResponse{
-			Response: shell.AllObjectToWebResponse(shell.ObjectToList(responses)),
-		}
-		// }()
+		go func() {
+			resChan <- cacheAllResponse{
+				Response: shell.AllObjectToWebResponse(shell.ObjectToList(responses)),
+			}
+		}()
 	}).Call("catch", func(err *js.Object) {
-		// go func() {
-		resChan <- cacheAllResponse{Error: errors.New(err.String())}
-		// }()
+		go func() {
+			resChan <- cacheAllResponse{Error: errors.New(err.String())}
+		}()
 	})
 
 	opVal := <-resChan
@@ -307,19 +298,19 @@ func (c *CacheAPI) MatchAllPath(request string, attr MatchAttr) ([]shell.WebResp
 
 // MatchAll calls the internal caches.Cache.MatchAll function matching against the
 // request string for a js.Cache.Match.
-func (c *CacheAPI) MatchAll(request shell.WebRequest, attr MatchAttr) ([]shell.WebResponse, error) {
+func (c *CacheAPI) MatchAll(request shell.WebRequest, attr map[string]interface{}) ([]shell.WebResponse, error) {
 	resChan := make(cacheAllResponseChannel, 0)
 
 	c.Call("match", shell.WebRequestToJSRequest(&request), attr).Call("then", func(responses *js.Object) {
-		// go func() {
-		resChan <- cacheAllResponse{
-			Response: shell.AllObjectToWebResponse(shell.ObjectToList(responses)),
-		}
-		// }()
+		go func() {
+			resChan <- cacheAllResponse{
+				Response: shell.AllObjectToWebResponse(shell.ObjectToList(responses)),
+			}
+		}()
 	}).Call("catch", func(err *js.Object) {
-		// go func() {
-		resChan <- cacheAllResponse{Error: errors.New(err.String())}
-		// }()
+		go func() {
+			resChan <- cacheAllResponse{Error: errors.New(err.String())}
+		}()
 	})
 
 	opVal := <-resChan
@@ -328,7 +319,7 @@ func (c *CacheAPI) MatchAll(request shell.WebRequest, attr MatchAttr) ([]shell.W
 
 // Delete calls the underline CacheAPI.DeleteRequest.
 func (c *CacheAPI) Delete(request shell.WebRequest) error {
-	return c.DeleteRequest(request, MatchAttr{})
+	return c.DeleteRequest(request, nil)
 }
 
 // ErrRequestDoesNotExists is returned when the giving request does not exists in
@@ -336,25 +327,25 @@ func (c *CacheAPI) Delete(request shell.WebRequest) error {
 var ErrRequestDoesNotExists = errors.New("Request not existing")
 
 // DeletePath deletes the given path from the cache if found.
-func (c *CacheAPI) DeletePath(request string, attr MatchAttr) error {
+func (c *CacheAPI) DeletePath(request string, attr map[string]interface{}) error {
 	resChn := make(chan error, 0)
 
 	c.Call("delete", request, attr).Call("then", func(response *js.Object) {
 		if response.Bool() {
-			// go func(){
-			close(resChn)
-			// }()
+			go func() {
+				close(resChn)
+			}()
 			return
 		}
 
-		// go func(){
-		resChn <- ErrRequestDoesNotExists
-		// }()
+		go func() {
+			resChn <- ErrRequestDoesNotExists
+		}()
 
 	}).Call("catch", func(err *js.Object) {
-		// go func() {
-		resChn <- errors.New(err.String())
-		// }()
+		go func() {
+			resChn <- errors.New(err.String())
+		}()
 	})
 
 	return <-resChn
@@ -362,25 +353,47 @@ func (c *CacheAPI) DeletePath(request string, attr MatchAttr) error {
 
 // DeleteRequest calls the internal caches.Cache.Delete function matching against the
 // request for a js.Cache.Delete.
-func (c *CacheAPI) DeleteRequest(request shell.WebRequest, attr MatchAttr) error {
+func (c *CacheAPI) DeleteRequest(request shell.WebRequest, attr map[string]interface{}) error {
 	resChn := make(chan error, 0)
+
+	if request.Underline != nil {
+		c.Call("delete", request.Underline, attr).Call("then", func(response *js.Object) {
+			if response.Bool() {
+				go func() {
+					close(resChn)
+				}()
+				return
+			}
+
+			go func() {
+				resChn <- ErrRequestDoesNotExists
+			}()
+
+		}).Call("catch", func(err *js.Object) {
+			go func() {
+				resChn <- errors.New(err.String())
+			}()
+		})
+
+		return <-resChn
+	}
 
 	c.Call("delete", request, attr).Call("then", func(response *js.Object) {
 		if response.Bool() {
-			// go func(){
-			close(resChn)
-			// }()
+			go func() {
+				close(resChn)
+			}()
 			return
 		}
 
-		// go func(){
-		resChn <- ErrRequestDoesNotExists
-		// }()
+		go func() {
+			resChn <- ErrRequestDoesNotExists
+		}()
 
 	}).Call("catch", func(err *js.Object) {
-		// go func() {
-		resChn <- errors.New(err.String())
-		// }()
+		go func() {
+			resChn <- errors.New(err.String())
+		}()
 	})
 
 	return <-resChn
@@ -393,24 +406,29 @@ type cacheKeys struct {
 	Response []string `json:"response"`
 }
 
+type cacheAllRequest struct {
+	Error    error              `json:"error"`
+	Response []shell.WebRequest `json:"response"`
+}
+
 // Keys returns a slice of all cache keys for all request added in the order they
 // were added.
-func (c *CacheAPI) Keys(request interface{}, attr MatchAttr) ([]string, error) {
-	resChn := make(chan cacheKeys, 0)
+func (c *CacheAPI) Keys(request interface{}, attr map[string]interface{}) ([]shell.WebRequest, error) {
+	resChn := make(chan cacheAllRequest, 0)
 
 	if request == nil {
-		c.Call("keys", nil, attr).Call("then", func(response *js.Object) {
-			// go func() {
-			resChn <- cacheKeys{
-				Response: shell.ObjectToStringList(response),
-			}
-			// }()
+		c.Call("keys").Call("then", func(response *js.Object) {
+			go func() {
+				resChn <- cacheAllRequest{
+					Response: shell.ObjectToWebRequests(response),
+				}
+			}()
 		}).Call("catch", func(err *js.Object) {
-			// go func() {
-			resChn <- cacheKeys{
-				Error: errors.New(err.String()),
-			}
-			// }()
+			go func() {
+				resChn <- cacheAllRequest{
+					Error: errors.New(err.String()),
+				}
+			}()
 		})
 
 		opVal := <-resChn
@@ -420,52 +438,52 @@ func (c *CacheAPI) Keys(request interface{}, attr MatchAttr) ([]string, error) {
 	switch ro := request.(type) {
 	case string:
 		c.Call("keys", ro, attr).Call("then", func(response *js.Object) {
-			// go func() {
-			resChn <- cacheKeys{
-				Response: shell.ObjectToStringList(response),
-			}
-			// }()
+			go func() {
+				resChn <- cacheAllRequest{
+					Response: shell.ObjectToWebRequests(response),
+				}
+			}()
 		}).Call("catch", func(err *js.Object) {
-			// go func() {
-			resChn <- cacheKeys{
-				Error: errors.New(err.String()),
-			}
-			// }()
+			go func() {
+				resChn <- cacheAllRequest{
+					Error: errors.New(err.String()),
+				}
+			}()
 		})
 	case shell.WebRequest:
 		c.Call("keys", shell.WebRequestToJSRequest(&ro), attr).Call("then", func(response *js.Object) {
-			// go func() {
-			resChn <- cacheKeys{
-				Response: shell.ObjectToStringList(response),
-			}
-			// }()
+			go func() {
+				resChn <- cacheAllRequest{
+					Response: shell.ObjectToWebRequests(response),
+				}
+			}()
 		}).Call("catch", func(err *js.Object) {
-			// go func() {
-			resChn <- cacheKeys{
-				Error: errors.New(err.String()),
-			}
-			// }()
+			go func() {
+				resChn <- cacheAllRequest{
+					Error: errors.New(err.String()),
+				}
+			}()
 		})
 	case *shell.WebRequest:
 		c.Call("keys", shell.WebRequestToJSRequest(ro), attr).Call("then", func(response *js.Object) {
-			// go func() {
-			resChn <- cacheKeys{
-				Response: shell.ObjectToStringList(response),
-			}
-			// }()
+			go func() {
+				resChn <- cacheAllRequest{
+					Response: shell.ObjectToWebRequests(response),
+				}
+			}()
 		}).Call("catch", func(err *js.Object) {
-			// go func() {
-			resChn <- cacheKeys{
-				Error: errors.New(err.String()),
-			}
-			// }()
+			go func() {
+				resChn <- cacheAllRequest{
+					Error: errors.New(err.String()),
+				}
+			}()
 		})
 	default:
-		// go func() {
-		resChn <- cacheKeys{
-			Error: errors.New("Request type not supported in cache"),
-		}
-		// }()
+		go func() {
+			resChn <- cacheAllRequest{
+				Error: errors.New("Request type not supported in cache"),
+			}
+		}()
 	}
 
 	opVal := <-resChn
@@ -475,21 +493,21 @@ func (c *CacheAPI) Keys(request interface{}, attr MatchAttr) ([]string, error) {
 // All returns all the pairs of requests which have been added into the cache in
 // the order they were added.
 func (c *CacheAPI) All() ([]shell.WebPair, error) {
-	keys, err := c.Keys(nil, MatchAttr{})
+	keys, err := c.Keys(nil, nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var pairs []shell.WebPair
 
-	for _, key := range keys {
-		var req shell.WebRequest
-		req.URL = key
-		req.Method = "GET"
-		req.Credentials = "same-origin"
-		req.Cache = shell.DefaultStrategy
-
-		res, err := c.MatchPath(req.URL, MatchAttr{})
+	for _, req := range keys {
+		// var req shell.WebRequest
+		// req.URL = key
+		// req.Method = "GET"
+		// req.Credentials = "same-origin"
+		// req.Cache = shell.DefaultStrategy
+		//
+		res, err := c.MatchPath(req.URL, nil)
 		if err != nil {
 			return pairs, err
 		}
@@ -505,14 +523,16 @@ func (c *CacheAPI) All() ([]shell.WebPair, error) {
 
 // Empty deletes all giving requests from the underline cache.
 func (c *CacheAPI) Empty() error {
-	keys, err := c.Keys(nil, MatchAttr{})
-	fmt.Printf("Retrieved keys: %+q : Error: %s", keys, err)
+	keys, err := c.Keys(nil, nil)
+
 	if err != nil {
 		return err
 	}
 
 	for _, key := range keys {
-		c.DeletePath(key, MatchAttr{})
+		if err := c.DeleteRequest(key, nil); err != nil && err != ErrRequestDoesNotExists {
+			fmt.Printf("Delete Error: %q\n", err.Error())
+		}
 	}
 
 	return nil

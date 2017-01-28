@@ -12,13 +12,12 @@ import (
 // resolves to using github.com/gu-io/gu/shell/cache/localcache
 // which stores all requests into localstorage.
 func New(cacheName string) shell.Cache {
-	var cache shell.Cache
-
 	webCache, err := webcache.New()
 	if err != nil {
-		cache = localcache.New(cacheName)
-		return cache
+		return localcache.New(cacheName)
 	}
+
+	var cache shell.Cache
 
 	nameCache, err := webCache.Open(cacheName)
 	if err != nil {

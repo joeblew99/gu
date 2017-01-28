@@ -38,15 +38,15 @@ func ObjectToWebRequest(o *js.Object) (WebRequest, error) {
 		Body:           <-body,
 		Underline:      reqClone,
 		URL:            o.Get("url").String(),
-		Mode:           o.Call("mode").String(),
+		Mode:           o.Get("mode").String(),
 		B64Encode:      o.Get("b64_encode").Bool(),
-		Cache:          CacheStrategy(o.Call("cache").String()),
 		BodyUsed:       o.Get("bodyUsed").Bool(),
 		Method:         o.Get("method").String(),
-		Referrer:       o.Call("referrer").String(),
+		Referrer:       o.Get("referrer").String(),
+		Credentials:    o.Get("credentials").String(),
+		ReferrerPolicy: o.Get("referrerPolicy").String(),
 		Headers:        ObjectToMap(o.Get("headers")),
-		Credentials:    o.Call("credentials").String(),
-		ReferrerPolicy: o.Call("referrerPolicy").String(),
+		Cache:          CacheStrategy(o.Get("cache").String()),
 	}, nil
 }
 
@@ -101,6 +101,21 @@ func AllObjectToWebRequest(o []*js.Object) []WebRequest {
 
 	for _, ro := range o {
 		if rq, err := ObjectToWebRequest(ro); err == nil {
+			res = append(res, rq)
+		}
+	}
+
+	return res
+}
+
+// ObjectToWebRequests returns a list of WebRequest objects from the provided object.
+func ObjectToWebRequests(o *js.Object) []WebRequest {
+	res := make([]WebRequest, 0)
+
+	for i := 0; i < o.Length(); i++ {
+		item := o.Index(i)
+
+		if rq, err := ObjectToWebRequest(item); err == nil {
 			res = append(res, rq)
 		}
 	}

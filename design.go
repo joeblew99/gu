@@ -162,6 +162,8 @@ func New(appName string, op *Options, renderer ...ResourceRenderer) *Resources {
 	res.cacheName = appName
 	res.options = op
 	res.renderer = rn
+
+	fmt.Printf("Cache: %q\n", appName)
 	res.cache = cache.New(appName)
 	res.fetch = fetch.New(res.cache)
 
@@ -184,6 +186,7 @@ func (rs *Resources) Init(useHashOnly bool) *Resources {
 
 // initResource holds the initialization calls for the resource manager.
 func (rs *Resources) initResource(watchHash bool) {
+
 	dispatch.Subscribe(func(pd dispatch.PathDirective) {
 		if !watchHash {
 			psx := dispatch.UseDirective(pd)
@@ -223,9 +226,7 @@ func (rs *Resources) initResource(watchHash bool) {
 	collection.cl.Unlock()
 
 	// If we are in development mode empty the cache and reset for new use.
-	fmt.Printf("Mode: %q -> %q", rs.options.Mode, DevelopmentMode)
 	if rs.options.Mode == DevelopmentMode {
-		fmt.Printf("Empty keys: %q", rs.cacheName)
 		if err := rs.cache.Empty(); err != nil {
 			fmt.Printf("Failed to clear internal cache for %q in development mode: %q\n", rs.cacheName, err.Error())
 		}
@@ -264,7 +265,6 @@ func (rs *Resources) initResource(watchHash bool) {
 
 				rs.manifests = manifests
 				rs.gmanifests = gmanifests
-				appm = nil
 			}
 		}
 	}
