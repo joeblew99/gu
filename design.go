@@ -393,7 +393,7 @@ func (rs *Resources) GenerateResources() ([]*trees.Markup, []*trees.Markup) {
 
 	for _, def := range rs.gmanifests {
 		for _, manifest := range def.Manifests {
-			if !manifest.InitStartup {
+			if !manifest.Init {
 				continue
 			}
 
@@ -572,7 +572,7 @@ func (rd *ResourceDefinition) Resources() ([]*trees.Markup, []*trees.Markup) {
 
 	for _, def := range rd.Relations {
 		for _, manifest := range def.Manifests {
-			if !manifest.InitStartup {
+			if !manifest.Init {
 				continue
 			}
 
@@ -954,7 +954,7 @@ func doRenderView(rs Renderables, targets string, deferRender bool, targetAlread
 // Title adds a element which generates a <title> tag.
 func Title(title string) {
 	ml := mLink("title", false)
-	trees.NewText(title, nil).Apply(ml.Content)
+	trees.NewText(title, "").Apply(ml.Content)
 }
 
 // Link adds a element which generates a <link> tag.
