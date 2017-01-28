@@ -223,7 +223,9 @@ func (rs *Resources) initResource(watchHash bool) {
 	collection.cl.Unlock()
 
 	// If we are in development mode empty the cache and reset for new use.
+	fmt.Printf("Mode: %q -> %q", rs.options.Mode, DevelopmentMode)
 	if rs.options.Mode == DevelopmentMode {
+		fmt.Printf("Empty keys: %q", rs.cacheName)
 		if err := rs.cache.Empty(); err != nil {
 			fmt.Printf("Failed to clear internal cache for %q in development mode: %q\n", rs.cacheName, err.Error())
 		}
