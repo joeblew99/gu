@@ -133,20 +133,20 @@ func (w WebResponse) DecodeContentBase64() (string, error) {
 // ManifestAttr defines a structure which stores a series of
 // data pertaining to a specific resource.
 type ManifestAttr struct {
-	Size        int               `json:"size"`
-	Remote      bool              `json:"remote"`
-	InitStartup bool              `json:"init_startup"`
-	IsGlobal    bool              `json:"is_global"`
-	Localize    bool              `json:"localize"`
-	B64Encode   bool              `json:"b64_encode"`
-	ContentB64  bool              `json:"content_b64"`
-	ID          string            `json:"appmanifest_id,omitempty"`
-	Name        string            `json:"name"`
-	Path        string            `json:"path"`
-	Content     string            `json:"content"`
-	Cache       CacheStrategy     `json:"cache"`
-	Meta        map[string]string `json:"meta"`
-	HookName    string            `json:"hook_name,omitempty"`
+	Size       int               `json:"size"`
+	Remote     bool              `json:"remote"`
+	Init       bool              `json:"init"`
+	IsGlobal   bool              `json:"is_global"`
+	Localize   bool              `json:"localize"`
+	B64Encode  bool              `json:"b64_encode"`
+	ContentB64 bool              `json:"content_b64"`
+	ID         string            `json:"appmanifest_id,omitempty"`
+	Name       string            `json:"name"`
+	Path       string            `json:"path"`
+	Content    string            `json:"content"`
+	Cache      CacheStrategy     `json:"cache"`
+	Meta       map[string]string `json:"meta"`
+	HookName   string            `json:"hook_name,omitempty"`
 }
 
 // UnwrapBody returns the response body as plain text if it has been base64

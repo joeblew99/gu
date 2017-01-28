@@ -88,13 +88,13 @@ type ResourceCollection struct {
 func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, error) {
 	var mattr shell.ManifestAttr
 
+	mattr.Init = r.Init
 	mattr.Name = r.Name
 	mattr.Meta = r.Meta
 	mattr.Content = r.Data
 	mattr.Remote = r.Remote
 	mattr.IsGlobal = r.Global
 	mattr.B64Encode = r.Encode
-	mattr.InitStartup = r.Init
 	mattr.HookName = r.HookName
 	mattr.Localize = r.Localize
 	mattr.ContentB64 = r.Encoded

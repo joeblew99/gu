@@ -163,7 +163,6 @@ func New(appName string, op *Options, renderer ...ResourceRenderer) *Resources {
 	res.options = op
 	res.renderer = rn
 
-	fmt.Printf("Cache: %q\n", appName)
 	res.cache = cache.New(appName)
 	res.fetch = fetch.New(res.cache)
 
