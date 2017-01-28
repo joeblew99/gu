@@ -37,11 +37,24 @@ func (CSSLink) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, error
 	return style, true, nil
 }
 
+// ImageLink defines a struct to hold the Fetcher for "css-link" hook types.
+// This hook embeds the css link as a link tag into the dom.
+type ImageLink struct{}
+
+// Fetch returns the markup for the giving resource and where it should be inserted
+// into the dom.
+func (ImageLink) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, error) {
+	img := trees.NewMarkup("image", false)
+	trees.NewAttr("src", attr.Path).Apply(img)
+
+	return img, true, nil
+}
+
 //==============================================================================
 
 var imageStyle = `
 	.%s-img{
-		background-image: url("data:image/%s;base64,%s")
+		background: url(data:image/%s;base64,%s);
 	}
 `
 
@@ -165,13 +178,14 @@ func (JavascriptEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, boo
 
 func init() {
 	// Register CSS hooks.
-	Register("css-link", CSSLink{})
+	Register("css", CSSLink{})
 	Register("css-embed", CSSEmbed{})
 
 	// Register Javascript hooks.
-	Register("js-link", JSLink{})
+	Register("js", JSLink{})
 	Register("js-embed", JavascriptEmbed{})
 
 	// Register Images hooks.
+	Register("img", ImageCSSEmbed{})
 	Register("img-css-embed", ImageCSSEmbed{})
 }
