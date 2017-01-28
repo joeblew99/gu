@@ -274,21 +274,28 @@ func (f *API) makeRequest(req shell.WebRequest) (shell.WebResponse, error) {
 
 		case shell.LastCacheStrategy, shell.DefaultStrategy:
 			cres, err := f.cache.GetRequest(req)
+			// fmt.Printf("DefaultStratetegy: Error: %s -> %s\n", req.URL, err)
 			if err != nil {
 				rs, err := http.DefaultClient.Do(hreq)
 				if err != nil {
 					return res, err
 				}
 
+				// fmt.Printf("FromServer:  %s -> Error: %s\n", req.URL, err)
+
 				res = f.pullResponse(rs, req)
 
 				if !f.successResponse(rs) {
+					// fmt.Printf("FailedResponse:  %s -> Error: %s\n", req.URL, err)
 					return res, nil
 				}
 
+				// fmt.Printf("GotResponse:  %s -> Error: %s\n", req.URL, err)
 				if err := f.cache.Put(req, res); err != nil {
 					return res, nil
 				}
+
+				// fmt.Printf("Added to cache:  %s -> Error: %s\n", req.URL, err)
 
 				return res, nil
 			}

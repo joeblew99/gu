@@ -1,6 +1,7 @@
 package shell
 
 import (
+	"fmt"
 	"path/filepath"
 	"strings"
 
@@ -52,15 +53,53 @@ func (ImageLink) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, err
 
 //==============================================================================
 
-var imageStyle = `
-	.%s-img{
-		background: url(data:image/%s;base64,%s);
+var imageStyle = `data:image/%s;base64,%s`
+
+// ImageEmbed defines a struct to hold the Fetcher for "img-css-embed" hook types.
+// This hook retrieves the giving image data, transformed into
+type ImageEmbed struct{}
+
+// Fetch returns the markup for the giving resource and where it should be inserted
+// into the dom.
+func (m ImageEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, bool, error) {
+	ext := strings.ToLower(strings.TrimPrefix(filepath.Ext(attr.Name), "."))
+
+	img := trees.NewMarkup("img", false)
+
+	if attr.Content != "" {
+		decoded, err := attr.EncodeContentBase64()
+		if err != nil {
+			return nil, false, err
+		}
+
+		trees.NewAttr("src", fmt.Sprintf(imageStyle, ext, decoded)).Apply(img)
+		return img, true, nil
 	}
-`
+
+	res, err := fetch.Do(attr.WebRequest())
+	if err != nil {
+		return nil, false, err
+	}
+
+	decoded, err := res.EncodeContentBase64()
+	if err != nil {
+		return nil, false, err
+	}
+
+	trees.NewAttr("src", fmt.Sprintf(imageStyle, ext, decoded)).Apply(img)
+
+	return img, true, nil
+}
 
 // ImageCSSEmbed defines a struct to hold the Fetcher for "img-css-embed" hook types.
 // This hook retrieves the giving image data, transformed into
 type ImageCSSEmbed struct{}
+
+var cssImageStyle = `
+	.%s-img{
+		background: url(data:image/%s;base64,%s);
+	}
+`
 
 // Fetch returns the markup for the giving resource and where it should be inserted
 // into the dom.
@@ -75,7 +114,7 @@ func (m ImageCSSEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, boo
 			return nil, false, err
 		}
 
-		elems.Text(imageStyle, m.getNewName(attr.Name), ext, decoded).Apply(style)
+		elems.Text(cssImageStyle, getNewName(attr.Name), ext, decoded).Apply(style)
 
 		return style, true, nil
 	}
@@ -93,13 +132,13 @@ func (m ImageCSSEmbed) Fetch(fetch Fetch, attr ManifestAttr) (*trees.Markup, boo
 		return nil, false, err
 	}
 
-	elems.Text(imageStyle, m.getNewName(attr.Name), ext, decoded).Apply(style)
+	elems.Text(cssImageStyle, getNewName(attr.Name), ext, decoded).Apply(style)
 
 	return style, true, nil
 }
 
 // getNewName returns an appropriate css name from the provided string.
-func (ImageCSSEmbed) getNewName(val string) string {
+func getNewName(val string) string {
 	newVal := strings.Replace(val, filepath.Ext(val), "", 1)
 	return strings.Replace(newVal, ".", "-", -1)
 }
@@ -187,5 +226,6 @@ func init() {
 
 	// Register Images hooks.
 	Register("img", ImageCSSEmbed{})
+	Register("img-embed", ImageCSSEmbed{})
 	Register("img-css-embed", ImageCSSEmbed{})
 }

@@ -231,6 +231,7 @@ func (rs *Resources) initResource(watchHash bool) {
 
 	// Attempt to retrieve a manifest.json from the backend.
 	if !rs.options.IgnoreManifest {
+
 		_, manifestResponse, err := rs.fetch.Get(rs.options.ManifestURI, shell.DefaultStrategy)
 		if err != nil {
 			fmt.Printf("Failed to load shell.AppManifest, resource loading is unavailable: %q\n", err.Error())
@@ -238,9 +239,7 @@ func (rs *Resources) initResource(watchHash bool) {
 			var appm []*shell.AppManifest
 
 			if err := json.Unmarshal(manifestResponse.Body, &appm); err != nil {
-				errorMsg := fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable: %q", err.Error())
-				// panic(errorMsg)
-				fmt.Println(errorMsg)
+				panic(fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable: %q", err.Error()))
 			} else {
 
 				var gmanifests []*shell.AppManifest
@@ -258,7 +257,6 @@ func (rs *Resources) initResource(watchHash bool) {
 				rs.manifests = manifests
 				rs.gmanifests = gmanifests
 				appm = nil
-
 			}
 		}
 	}
