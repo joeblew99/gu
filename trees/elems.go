@@ -44,7 +44,13 @@ func NewText(txt string, dl ...interface{}) *Markup {
 	em.allowAttributes = false
 	em.allowStyles = false
 	em.allowEvents = false
-	em.textContent = fmt.Sprintf(txt, dl...)
+
+	if len(dl) != 0 {
+		em.textContent = fmt.Sprintf(txt, dl...)
+	} else {
+		em.textContent = txt
+	}
+
 	return em
 }
 
