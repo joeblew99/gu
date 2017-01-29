@@ -15,7 +15,6 @@ func TestParseSelector(t *testing.T) {
 	tests.Passed(t, "Should have returned lists of selectors")
 
 	elem := sels[0]
-
 	if elem.Tag != "div" {
 		tests.Failed(t, "Should have div as selector tag")
 	}
