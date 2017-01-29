@@ -163,7 +163,7 @@ func Text(content string, dl ...interface{}) *trees.Markup {
 }
 
 // Parse returns the giving markup structure generated from the string.
-func Parse(markup string) *trees.Markup {
+func Parse(markup string, ms ...trees.Appliable) *trees.Markup {
 	tms := trees.ParseTree(markup)
 	if len(tms) > 1 {
 		sec := trees.NewMarkup("section",false)
@@ -171,15 +171,34 @@ func Parse(markup string) *trees.Markup {
 			el.Apply(sec)
 		}
 
+		for _, m := range ms {
+			if m == nil { continue }
+			m.Apply(sec)
+		}
+
 		return sec
 	}
 
-	return tms[0]
+	root := tms[0]
+
+	for _, m := range ms {
+		if m == nil { continue }
+		m.Apply(root)
+	}
+
+	return root
 }
 
 // ParseIn returns the giving markup structure generated from the string.
-func ParseIn(root string,markup string) *trees.Markup {
-	return trees.ParseAsRoot(root, markup)
+func ParseIn(root string,markup string, mo ...trees.Appliable) *trees.Markup {
+	mroot := trees.ParseAsRoot(root, markup)
+
+	for _, m := range mo {
+		if m == nil { continue }
+		m.Apply(mroot)
+	}
+
+	return mroot
 }
 
 // CSS provides a function that takes style rules which returns a stylesheet embeded into
@@ -202,6 +221,7 @@ func CSS(styles interface{}, bind interface{}) *trees.Markup {
 `)
 
 	code := regexp.MustCompile("</?code>")
+	unwanted := regexp.MustCompile("[^\\w\\d-]+")
 
 	doneSvg := make(map[string]bool)
 	err = pullDoc("https://developer.mozilla.org/en-US/docs/Web/SVG/Element", func(doc *goquery.Document) {
@@ -228,7 +248,7 @@ func CSS(styles interface{}, bind interface{}) *trees.Markup {
 			// 	}
 			// }
 
-			if doneSvg[name] {
+			if doneSvg[name] || unwanted.MatchString(name) {
 				return
 			}
 
@@ -268,7 +288,7 @@ func CSS(styles interface{}, bind interface{}) *trees.Markup {
 
 			name := text[1 : len(text)-1]
 
-			if name == "html" || name == "head" || name == "body" {
+			if name == "html" || name == "head" || name == "body" || unwanted.MatchString(name) {
 				return
 			}
 
@@ -293,8 +313,10 @@ func writeSVGElem(w io.Writer, name, desc, link string) {
 	var autocloser = autoclosers[name]
 	funName := elemNameMap[name]
 
+	funName = restruct(funName)
+
 	if funName == "" {
-		funName = name
+		funName = restruct(name)
 
 		for badsymbs.MatchString(funName) {
 			if simbs := badsymbs.FindStringSubmatch(funName); len(simbs) > 0 {
@@ -329,8 +351,10 @@ func writeElem(w io.Writer, name, desc, link string) {
 	var autocloser = autoclosers[name]
 	funName := elemNameMap[name]
 
+	funName = restruct(funName)
+
 	if funName == "" {
-		funName = name
+		funName = restruct(name)
 
 		for badsymbs.MatchString(funName) {
 			if simbs := badsymbs.FindStringSubmatch(funName); len(simbs) > 0 {
@@ -360,4 +384,21 @@ func %s(markup ...trees.Appliable) *trees.Markup {
 // capitalize capitalizes the first character in a string
 func capitalize(s string) string {
 	return strings.ToUpper(s[:1]) + s[1:]
+}
+
+func restruct(s string) string {
+	if strings.Contains(s, "-") {
+		mo := strings.Split(s, "-")
+		for index, mi := range mo {
+			if index == 0 {
+				continue
+			}
+
+			mo[index] = capitalize(mi)
+		}
+
+		return strings.Join(mo, "")
+	}
+
+	return s
 }
