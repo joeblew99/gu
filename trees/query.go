@@ -22,6 +22,53 @@ type Selector struct {
 	Order     map[string]string
 }
 
+// GetSelector returns the selector received for the given selector.
+func (s *Selector) GetSelector() string {
+	sel := s.Tag
+
+	if s.ID != "" {
+		sel += s.GetID()
+	}
+
+	if s.Classes != nil {
+		sel += s.GetClass()
+	}
+
+	if s.AttrName != "" {
+		sel += "[" + s.AttrName + s.AttrOp + s.AttrValue + "]"
+	}
+
+	if s.Psuedo != "" {
+		sel += s.Psuedo
+	}
+
+	return sel
+}
+
+// GetID returns the id string for this selector.
+func (s *Selector) GetID() string {
+	if s.ID != "" {
+		return "#" + s.ID
+	}
+
+	return ""
+}
+
+// GetClass returns the class string for this selector.
+func (s *Selector) GetClass() string {
+	if s.Classes == nil {
+		return ""
+	}
+
+	var sels []string
+
+	for _, class := range s.Classes {
+		sels = append(sels, "."+class)
+	}
+
+	return strings.Join(sels, "")
+}
+
 // Query returns the first element matching the giving selector.
 func (q queryCtrl) Query(root *Markup, sel string) *Markup {
 	sels := q.ParseSelector(sel)
@@ -699,6 +746,7 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 
 									item = items[index]
 									if index >= itemsLen {
+										reodered := string(order)
 										ordered := string(order)
 										ordered = strings.TrimPrefix(ordered, "(")
 										ordered = strings.TrimSuffix(ordered, ")")
@@ -713,7 +761,16 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 											}
 										}
 
-										for _, or := range strings.Split(ordered, ",") {
+										insertos := strings.Split(ordered, ",")
+										if len(insertos) == 1 && insertos[0] == ordered {
+											if strings.Contains(string(blk), ":") {
+												blk = append(blk, []byte(reodered)...)
+											}
+
+											continue defaultLoop
+										}
+
+										for _, or := range insertos {
 											ors := strings.Split(or, ":")
 											if len(ors) < 2 {
 												continue
@@ -733,6 +790,7 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 									case orderClosed:
 										order = append(order, item)
 
+										reordered := string(order)
 										ordered := string(order)
 										ordered = strings.TrimPrefix(ordered, "(")
 										ordered = strings.TrimSuffix(ordered, ")")
@@ -747,7 +805,16 @@ func (q queryCtrl) ParseSelector(sel string) []*Selector {
 											}
 										}
 
-										for _, or := range strings.Split(ordered, ",") {
+										insertos := strings.Split(ordered, ",")
+										if len(insertos) == 1 && insertos[0] == ordered {
+											if strings.Contains(string(blk), ":") {
+												blk = append(blk, []byte(reordered)...)
+											}
+
+											continue defaultLoop
+										}
+
+										for _, or := range insertos {
 											ors := strings.Split(or, ":")
 											if len(ors) < 2 {
 												continue

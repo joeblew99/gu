@@ -8,8 +8,7 @@ import (
 )
 
 func TestParseSelector(t *testing.T) {
-	sels := trees.Query.ParseSelector("div.shower(before: all).ball")
-
+	sels := trees.Query.ParseSelector("div:nth-child(n*2).shower(before: all).ball")
 	if sels == nil {
 		tests.Failed(t, "Should have returned lists of selectors")
 	}
@@ -21,6 +20,11 @@ func TestParseSelector(t *testing.T) {
 		tests.Failed(t, "Should have div as selector tag")
 	}
 	tests.Passed(t, "Should have div as selector tag")
+
+	if elem.Psuedo != ":nth-child(n*2)" {
+		tests.Failed(t, "Should have psuedo selecto as selector tag")
+	}
+	tests.Passed(t, "Should have psuedo selecto as selector tag")
 
 	if elem.AttrName != "" {
 		tests.Failed(t, "Should not have a attribute match required: %q", elem.AttrName)
