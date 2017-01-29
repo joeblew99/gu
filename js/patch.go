@@ -76,176 +76,177 @@ func Patch(fragment, live *js.Object, onlyReplace bool) {
 	liveNodes := ChildNodeList(live)
 
 	// FIXED: instead of going through the children which may be many,
+	{
+	patchloop:
+		for n, node := range shadowNodes {
+			if node == nil || node == js.Undefined {
+				continue
+			}
 
-patchloop:
-	for n, node := range shadowNodes {
-		if node == nil || node == js.Undefined {
-			continue
-		}
+			if node.Get("constructor") == js.Global.Get("Text") {
+				if _, empty := EmptyTextNode(node); empty {
+					ContextAppendChild(live, node)
+					continue patchloop
+				}
 
-		if node.Get("constructor") == js.Global.Get("Text") {
-			if _, empty := EmptyTextNode(node); empty {
+				var liveNodeAt *js.Object
+
+				if n < len(liveNodes) {
+					liveNodeAt = liveNodes[n]
+				}
+
+				if liveNodeAt == nil || liveNodeAt == js.Undefined {
+					ContextAppendChild(live, node)
+				} else {
+					InsertBefore(live, liveNodeAt, node)
+				}
+
+				continue patchloop
+			}
+
+			//get the tagname
+			tagname := GetTag(node)
+
+			// get the basic attrs
+			var id, hash, class, uid string
+
+			// do we have 'id' attribute? if so its a awesome chance to simplify
+			if HasAttribute(node, "id") {
+				id = GetAttribute(node, "id")
+			}
+
+			if HasAttribute(node, "class") {
+				id = GetAttribute(node, "class")
+			}
+
+			// lets check for the hash and uid, incase its a pure template based script
+			if HasAttribute(node, "hash") {
+				hash = GetAttribute(node, "hash")
+			}
+
+			if HasAttribute(node, "uid") {
+				uid = GetAttribute(node, "uid")
+			}
+
+			// if we have no id,class, uid or hash, we digress to bad approach of using Node.IsEqualNode
+			if allEmpty(id, hash, uid) {
+				AddNodeIfNone(live, node)
+				continue patchloop
+			}
+
+			// eliminate which ones are empty and try to use the non empty to get our target
+			if allEmpty(hash, uid) {
+				// is the id empty also then we know class is not or vise-versa
+				if allEmpty(id) {
+					// log.Printf("adding since class")
+					// class is it and we only want those that match narrowing our set
+					no := QuerySelectorAll(live, class)
+
+					// if none found we add else we replace
+					if len(no) <= 0 {
+						ContextAppendChild(live, node)
+					} else {
+						// check the available sets and replace else just add it
+						AddNodeIfNoneInList(live, no, node)
+					}
+
+				} else {
+					// id is it and we only want one
+					// log.Printf("adding since id")
+					no := QuerySelector(live, fmt.Sprintf("#%s", id))
+
+					// if none found we add else we replace
+					if no == nil || no != js.Undefined {
+						ContextAppendChild(live, node)
+					} else {
+						ReplaceNode(live, node, no)
+					}
+				}
+
+				continue patchloop
+			}
+
+			// lets use our unique id to check for the element if it exists
+			sel := fmt.Sprintf(`%s[uid='%s']`, strings.ToLower(tagname), uid)
+
+			// we know hash and uid are not empty so we kick ass the easy way
+			targets := QuerySelectorAll(live, sel)
+
+			// if we are nil then its a new node add it and return
+			if len(targets) == 0 {
 				ContextAppendChild(live, node)
 				continue patchloop
 			}
 
-			var liveNodeAt *js.Object
-
-			if n < len(liveNodes) {
-				liveNodeAt = liveNodes[n]
-			}
-
-			if liveNodeAt == nil || liveNodeAt == js.Undefined {
-				ContextAppendChild(live, node)
-			} else {
-				InsertBefore(live, liveNodeAt, node)
-			}
-
-			continue patchloop
-		}
-
-		//get the tagname
-		tagname := GetTag(node)
-
-		// get the basic attrs
-		var id, hash, class, uid string
-
-		// do we have 'id' attribute? if so its a awesome chance to simplify
-		if HasAttribute(node, "id") {
-			id = GetAttribute(node, "id")
-		}
-
-		if HasAttribute(node, "class") {
-			id = GetAttribute(node, "class")
-		}
-
-		// lets check for the hash and uid, incase its a pure template based script
-		if HasAttribute(node, "hash") {
-			hash = GetAttribute(node, "hash")
-		}
-
-		if HasAttribute(node, "uid") {
-			uid = GetAttribute(node, "uid")
-		}
-
-		// if we have no id,class, uid or hash, we digress to bad approach of using Node.IsEqualNode
-		if allEmpty(id, hash, uid) {
-			AddNodeIfNone(live, node)
-			continue patchloop
-		}
-
-		// eliminate which ones are empty and try to use the non empty to get our target
-		if allEmpty(hash, uid) {
-			// is the id empty also then we know class is not or vise-versa
-			if allEmpty(id) {
-				// log.Printf("adding since class")
-				// class is it and we only want those that match narrowing our set
-				no := QuerySelectorAll(live, class)
-
-				// if none found we add else we replace
-				if len(no) <= 0 {
-					ContextAppendChild(live, node)
-				} else {
-					// check the available sets and replace else just add it
-					AddNodeIfNoneInList(live, no, node)
+			for _, target := range targets {
+				if onlyReplace {
+					ReplaceNode(live, node, target)
+					continue
 				}
 
-			} else {
-				// id is it and we only want one
-				// log.Printf("adding since id")
-				no := QuerySelector(live, fmt.Sprintf("#%s", id))
+				//if we are to be removed then remove the target
+				if HasAttribute(node, "NodeRemoved") {
+					tgName := node.Get("tagName").String()
 
-				// if none found we add else we replace
-				if no == nil || no != js.Undefined {
-					ContextAppendChild(live, node)
-				} else {
-					ReplaceNode(live, node, no)
-				}
-			}
+					// If its a tag in our header kdis, attempt to remove from head.
+					if headerKids[tgName] {
+						dom := js.Global.Get("document").Call("querySelector", "head")
+						RemoveChild(dom, node)
+					}
 
-			continue patchloop
-		}
+					// If its a script attempt to remove from head and body.
+					if tgName == "script" {
+						body := js.Global.Get("document").Call("querySelector", "body")
+						head := js.Global.Get("document").Call("querySelector", "head")
 
-		// lets use our unique id to check for the element if it exists
-		sel := fmt.Sprintf(`%s[uid='%s']`, strings.ToLower(tagname), uid)
+						RemoveChild(head, node)
+						RemoveChild(body, node)
+					}
 
-		// we know hash and uid are not empty so we kick ass the easy way
-		targets := QuerySelectorAll(live, sel)
-
-		// if we are nil then its a new node add it and return
-		if len(targets) == 0 {
-			ContextAppendChild(live, node)
-			continue patchloop
-		}
-
-		for _, target := range targets {
-			if onlyReplace {
-				ReplaceNode(live, node, target)
-				continue
-			}
-
-			//if we are to be removed then remove the target
-			if HasAttribute(node, "NodeRemoved") {
-				tgName := node.Get("tagName").String()
-
-				// If its a tag in our header kdis, attempt to remove from head.
-				if headerKids[tgName] {
-					dom := js.Global.Get("document").Call("querySelector", "head")
-					RemoveChild(dom, node)
+					// Lastly attempt to remove from target itself.
+					RemoveChild(target, target)
+					continue
 				}
 
-				// If its a script attempt to remove from head and body.
-				if tgName == "script" {
-					body := js.Global.Get("document").Call("querySelector", "body")
-					head := js.Global.Get("document").Call("querySelector", "head")
-
-					RemoveChild(head, node)
-					RemoveChild(body, node)
+				// if the target hash is exactly the same with ours skip it
+				if GetAttribute(target, "hash") == hash {
+					continue
 				}
 
-				// Lastly attempt to remove from target itself.
-				RemoveChild(target, target)
-				continue
+				nchildren := ChildNodeList(node)
+
+				//if the new node has no children, then just replace it.
+				if len(nchildren) <= 0 {
+					ReplaceNode(live, node, target)
+					continue
+				}
+
+				//here we are not be removed and we do have kids
+
+				//cleanout all the targets text-nodes
+				CleanAllTextNode(target)
+
+				//so we got this dude, are we already one level deep ? if so swap else
+				// run through the children with Patch
+				// if level >= 1 {
+				// live.ReplaceChild(node, target)
+				attrs := Attributes(node)
+
+				for key, value := range attrs {
+					SetAttribute(target, key, value)
+				}
+
+				children := ChildNodeList(target)
+				if len(children) == 0 {
+					SetInnerHTML(target, "")
+					ContextAppendChild(target, nchildren...)
+
+					// continue patchloop
+					continue
+				}
+
+				Patch(node, target, onlyReplace)
 			}
-
-			// if the target hash is exactly the same with ours skip it
-			if GetAttribute(target, "hash") == hash {
-				continue
-			}
-
-			nchildren := ChildNodeList(node)
-
-			//if the new node has no children, then just replace it.
-			if len(nchildren) <= 0 {
-				ReplaceNode(live, node, target)
-				continue
-			}
-
-			//here we are not be removed and we do have kids
-
-			//cleanout all the targets text-nodes
-			CleanAllTextNode(target)
-
-			//so we got this dude, are we already one level deep ? if so swap else
-			// run through the children with Patch
-			// if level >= 1 {
-			// live.ReplaceChild(node, target)
-			attrs := Attributes(node)
-
-			for key, value := range attrs {
-				SetAttribute(target, key, value)
-			}
-
-			children := ChildNodeList(target)
-			if len(children) == 0 {
-				SetInnerHTML(target, "")
-				ContextAppendChild(target, nchildren...)
-
-				// continue patchloop
-				continue
-			}
-
-			Patch(node, target, onlyReplace)
 		}
 	}
 }

@@ -153,8 +153,6 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 		return
 	}
 
-	// sels := trees.Query.ParseSelector(targets)
-
 	kernels := body.QuerySelectorAll(targets)
 
 	for _, targetDOM := range kernels {

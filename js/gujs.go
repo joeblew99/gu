@@ -1,4 +1,4 @@
-// Package gujs defines helper methods that use the underline gopherjs js package
+// Package js defines helper methods that use the underline gopherjs js package
 // to inteface with the browser dom api.
 package js
 
@@ -121,9 +121,9 @@ func SpecialAppendChild(o *js.Object, osets ...*js.Object) {
 	}
 }
 
-// InsertBefore inserts the inserto before the guage object with the target
-func InsertBefore(target, guage, inserto *js.Object) {
-	target.Call("insertBefore", inserto, guage)
+// InsertBefore inserts the insert object before the chil object with the target
+func InsertBefore(target, child, insert *js.Object) {
+	target.Call("insertBefore", insert, child)
 }
 
 // AppendChild takes a list of objects and calls appendNode on the given object
