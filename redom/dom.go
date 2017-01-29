@@ -3,6 +3,8 @@
 package redom
 
 import (
+	"fmt"
+
 	"honnef.co/go/js/dom"
 
 	gjs "github.com/gopherjs/gopherjs/js"
@@ -117,6 +119,7 @@ func (dm *DOMRenderer) Render(rs ...*gu.ResourceDefinition) {
 // RenderUpdate handles rendering calls for individual renderers which may have
 // determined targets within the body.
 func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update bool) {
+
 	body := dm.Document.QuerySelector("body")
 
 	if targets == "" {
@@ -154,6 +157,11 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 	}
 
 	kernels := body.QuerySelectorAll(targets)
+	// fmt.Printf("Rendering to %s -> %#v\n", targets, kernels)
+	if kernels == nil {
+		fmt.Printf("Unable to mount to target %q\n", targets)
+		return
+	}
 
 	for _, targetDOM := range kernels {
 		markup := rv.Render()
@@ -165,7 +173,7 @@ func (dm *DOMRenderer) RenderUpdate(rv gu.Renderable, targets string, update boo
 		}
 
 		if kvr, ok := rv.(gu.RenderView); ok {
-			js.Patch(js.CreateFragment(markup.HTML()), body.Underlying(), !kvr.RenderedBefore())
+			js.Patch(js.CreateFragment(markup.HTML()), targetDOM.Underlying(), !kvr.RenderedBefore())
 			continue
 		}
 
