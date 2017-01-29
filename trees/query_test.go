@@ -8,7 +8,7 @@ import (
 )
 
 func TestParseSelector(t *testing.T) {
-	sels := trees.Query.ParseSelector("div:nth-child(n*2).shower(before: all).ball")
+	sels := trees.Query.ParseSelector("div:nth-child(n*2).shower.ball(before: all)")
 	if sels == nil {
 		tests.Failed(t, "Should have returned lists of selectors")
 	}
