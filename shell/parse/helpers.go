@@ -329,6 +329,15 @@ func toResources(res []map[string]string) ([]ResourceCollection, error) {
 			r.Encode = true
 		}
 
+		if relation, ok := rsc["Relations"]; ok {
+			relations := strings.Split(strings.TrimSpace(relation), ",")
+			for _, rela := range relations {
+				r.Relations = append(r.Relations, strings.TrimSpace(rela))
+			}
+
+			delete(rsc, "Relations")
+		}
+
 		if encoded, err := strconv.ParseBool(rsc["Encoded64"]); err == nil {
 			r.Encoded = encoded
 			delete(rsc, "Encoded64")

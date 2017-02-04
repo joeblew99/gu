@@ -28,9 +28,9 @@ type Resource struct {
 	ComponentName      string
 	PackageName        string
 	Package            string
-	CompositeTypeNames []string             `json:"composite_types,omitempty"`
-	FieldTypeNames     []string             `json:"field_types,omitempty"`
-	Resources          []ResourceCollection `json:"resources,omitempty"`
+	CompositeTypeNames []string
+	FieldTypeNames     []string
+	Resources          []ResourceCollection
 }
 
 // GenManifests generates a manifest structure which mirrors with specific changes
@@ -49,6 +49,8 @@ func (r *Resource) GenManifests() (*shell.AppManifest, error) {
 	appm.Relation = &relation
 
 	for _, res := range r.Resources {
+		relation.Composites = append(relation.Composites, res.Relations...)
+
 		manifest, err := res.GenManifestAttr(r.Package)
 		if err != nil && err != ErrNotLocalPath {
 			return nil, err
@@ -81,6 +83,7 @@ type ResourceCollection struct {
 	ContentSize string
 	Data        string
 	Meta        map[string]string
+	Relations   []string
 }
 
 // GenManifestAttr returns a new instance of a ManifestAttr generated from the giving
@@ -273,25 +276,23 @@ func ShellResources(dir string) ([]Resource, error) {
 						continue innLoop
 					}
 
-					tso, ok := ts.Type.(*ast.StructType)
-					if !ok {
-						continue innLoop
-					}
-
 					res.ComponentName = ts.Name.Name
-					// res.Line = int(gdecl.Doc.Pos())
 
-					{
-					fieldLoop:
-						for _, fld := range tso.Fields.List {
-							if selectExpr, ok := fld.Type.(*ast.SelectorExpr); ok {
-								res.CompositeTypeNames = append(res.CompositeTypeNames, selectExpr.Sel.Name)
-								continue fieldLoop
-							}
+					switch tso := ts.Type.(type) {
+					case *ast.StructType:
 
-							if indentExpr, ok := fld.Type.(*ast.Ident); ok && indentExpr.Obj != nil {
-								res.FieldTypeNames = append(res.FieldTypeNames, indentExpr.Name)
-								continue fieldLoop
+						{
+						fieldLoop:
+							for _, fld := range tso.Fields.List {
+								if selectExpr, ok := fld.Type.(*ast.SelectorExpr); ok {
+									res.CompositeTypeNames = append(res.CompositeTypeNames, selectExpr.Sel.Name)
+									continue fieldLoop
+								}
+
+								if indentExpr, ok := fld.Type.(*ast.Ident); ok && indentExpr.Obj != nil {
+									res.FieldTypeNames = append(res.FieldTypeNames, indentExpr.Name)
+									continue fieldLoop
+								}
 							}
 						}
 					}

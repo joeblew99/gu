@@ -15,6 +15,18 @@ import (
 	"github.com/gu-io/gu/tests/parse/detro"
 )
 
+//shell:component
+//
+// Resource {
+//     Name: detox.js
+//     Path: https://fonts.googleapis.com/detox.js
+//		 Localize: false
+//		 Relations: BobComponent, HUDComponent
+//     Hook: js
+// }
+//
+type mole int
+
 // HoldComponent defines a component to provide a hold type.
 //
 //shell:component
