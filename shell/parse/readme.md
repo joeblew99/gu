@@ -72,6 +72,8 @@ These field keys are as follows:
 
 - Encode: This is an optional field to indicate that the response body should be base64 encoded. By default it's true
 
+- Base64Padding: This is an optional field to indicate that the resource content added which will be base64 encoded, should use the padding encoder or the non-padding encoder. A true value will use padding encoding. By default it is set to true. Set to false when encoding images.
+
 - Encoded64: This is an optional field to indicate that the resource content added as a string is base64 encoded, by default it's false.
 
 - Localize: This is an optional field which is used to indicate that a remote resource(i.e a resource with an external URL) should have it's content fetched and added as a static, text content for retrieval under the name giving to the resource. It defaults to false.

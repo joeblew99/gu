@@ -70,20 +70,21 @@ func (r *Resource) GenManifests() (*shell.AppManifest, error) {
 // ResourceCollection holds the meta-information related to different resources
 // gathered from a package list.
 type ResourceCollection struct {
-	Name        string
-	Localize    bool
-	Init        bool
-	Global      bool
-	Remote      bool
-	Encode      bool
-	Encoded     bool
-	Path        string
-	Cache       string
-	HookName    string
-	ContentSize string
-	Data        string
-	Meta        map[string]string
-	Relations   []string
+	Name          string
+	Localize      bool
+	Init          bool
+	Global        bool
+	Remote        bool
+	Encode        bool
+	Encoded       bool
+	Base64Padding bool
+	Path          string
+	Cache         string
+	HookName      string
+	ContentSize   string
+	Data          string
+	Meta          map[string]string
+	Relations     []string
 }
 
 // GenManifestAttr returns a new instance of a ManifestAttr generated from the giving
@@ -101,6 +102,7 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 	mattr.HookName = r.HookName
 	mattr.Localize = r.Localize
 	mattr.ContentB64 = r.Encoded
+	mattr.Base64Padding = r.Base64Padding
 
 	if size, err := strconv.Atoi(r.ContentSize); err == nil {
 		mattr.Size = size
@@ -109,7 +111,7 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 	mattr.Path = strings.TrimSpace(r.Path)
 
 	if mattr.Path != "" && !r.Remote && mattr.Content == "" {
-		content, err := getFileContent(pkg, mattr.Path, mattr.B64Encode)
+		content, err := getFileContent(pkg, mattr.Path, mattr.B64Encode, mattr.Base64Padding)
 		if err != nil {
 			return mattr, err
 		}
@@ -123,7 +125,7 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 	}
 
 	if mattr.Path != "" && r.Remote && mattr.Content == "" && r.Localize {
-		content, err := getURLContent(mattr.Path, mattr.B64Encode)
+		content, err := getURLContent(mattr.Path, mattr.B64Encode, mattr.Base64Padding)
 		if err != nil {
 			return mattr, err
 		}
