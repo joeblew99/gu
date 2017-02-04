@@ -111,6 +111,7 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 	mattr.Path = strings.TrimSpace(r.Path)
 
 	if mattr.Path != "" && !r.Remote && mattr.Content == "" {
+		fmt.Printf("Retrieving File Content for %q: Base64: %t Base64Padding: %t\n", mattr.Path, mattr.B64Encode, mattr.Base64Padding)
 		content, err := getFileContent(pkg, mattr.Path, mattr.B64Encode, mattr.Base64Padding)
 		if err != nil {
 			return mattr, err
@@ -125,6 +126,7 @@ func (r *ResourceCollection) GenManifestAttr(pkg string) (shell.ManifestAttr, er
 	}
 
 	if mattr.Path != "" && r.Remote && mattr.Content == "" && r.Localize {
+		fmt.Printf("Retrieving URL Content for %q: Base64: %t Base64Padding: %t\n", mattr.Path, mattr.B64Encode, mattr.Base64Padding)
 		content, err := getURLContent(mattr.Path, mattr.B64Encode, mattr.Base64Padding)
 		if err != nil {
 			return mattr, err
