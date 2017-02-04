@@ -361,6 +361,7 @@ func (f *API) pullResponse(rs *http.Response, rq shell.WebRequest) shell.WebResp
 	res.StatusText = rs.Status
 	res.Status = rs.StatusCode
 	res.Type = rs.Request.Method
+	res.Base64Padding = rq.Base64Padding
 	res.Headers = make(map[string]string)
 
 	if rs.StatusCode >= 200 && rs.StatusCode <= 299 {
@@ -387,7 +388,13 @@ func (f *API) pullResponse(rs *http.Response, rq shell.WebRequest) shell.WebResp
 	// Attempt to encode into base64 then set encoded as true.
 	if rq.B64Encode {
 		res.B64Encoded = true
-		res.Body = []byte(base64.StdEncoding.EncodeToString(buff.Bytes()))
+
+		if rq.Base64Padding {
+			res.Body = []byte(base64.StdEncoding.EncodeToString(buff.Bytes()))
+		} else {
+			res.Body = []byte(base64.RawStdEncoding.EncodeToString(buff.Bytes()))
+		}
+
 		return res
 	}
 

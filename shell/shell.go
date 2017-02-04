@@ -80,27 +80,27 @@ type WebRequest struct {
 
 // WebResponse defines a struct to hold a response for a giving resource.
 type WebResponse struct {
-	Status       int               `json:"status"`
-	Redirected   bool              `json:"redirected"`
-	B64Encoded   bool              `json:"b64_encoded"`
-	B64Padding   bool              `json:"base64_padding"`
-	Ok           bool              `json:"ok"`
-	Body         []byte            `json:"body"`
-	Type         string            `json:"type"`
-	StatusText   string            `json:"status_text"`
-	FinalURL     string            `json:"use_final_url,omitempty"`
-	ManifestName string            `json:"manifest_name,omitempty"`
-	ManifestAddr string            `json:"manifest_addr,omitempty"`
-	Underline    *js.Object        `json:"underline,omitempty"`
-	Headers      map[string]string `json:"headers"`
-	Cookies      []string          `json:"cookies"`
+	Status        int               `json:"status"`
+	Redirected    bool              `json:"redirected"`
+	B64Encoded    bool              `json:"b64_encoded"`
+	Base64Padding bool              `json:"base64_padding"`
+	Ok            bool              `json:"ok"`
+	Body          []byte            `json:"body"`
+	Type          string            `json:"type"`
+	StatusText    string            `json:"status_text"`
+	FinalURL      string            `json:"use_final_url,omitempty"`
+	ManifestName  string            `json:"manifest_name,omitempty"`
+	ManifestAddr  string            `json:"manifest_addr,omitempty"`
+	Underline     *js.Object        `json:"underline,omitempty"`
+	Headers       map[string]string `json:"headers"`
+	Cookies       []string          `json:"cookies"`
 }
 
 // UnwrapBody returns the response body as plain text if it has been base64
 // encode else if not, returns the body as expected.
 func (w WebResponse) UnwrapBody() ([]byte, error) {
 	if w.B64Encoded {
-		if w.B64Padding {
+		if w.Base64Padding {
 			mo, err := base64.StdEncoding.DecodeString(string(w.Body))
 			if err != nil {
 				return nil, err
@@ -122,23 +122,21 @@ func (w WebResponse) UnwrapBody() ([]byte, error) {
 
 // EncodeBase64Content encodes the value and sets the content which was encoded to base64.
 func (w *WebResponse) EncodeBase64Content(content string) error {
-	w.Body = []byte(base64.StdEncoding.EncodeToString([]byte(content)))
+	if w.Base64Padding {
+		w.Body = []byte(base64.StdEncoding.EncodeToString([]byte(content)))
+	} else {
+		w.Body = []byte(base64.RawStdEncoding.EncodeToString([]byte(content)))
+	}
 	return nil
 }
 
 // EncodeContentBase64 returns the content converted from the base64 value.
 func (w WebResponse) EncodeContentBase64() (string, error) {
-	return base64.StdEncoding.EncodeToString(w.Body), nil
-}
-
-// DecodeContentBase64 returns the content converted from the base64 value.
-func (w WebResponse) DecodeContentBase64() (string, error) {
-	mo, err := base64.StdEncoding.DecodeString(string(w.Body))
-	if err != nil {
-		return "", err
+	if w.Base64Padding {
+		return base64.StdEncoding.EncodeToString(w.Body), nil
 	}
 
-	return string(mo), nil
+	return base64.RawStdEncoding.EncodeToString(w.Body), nil
 }
 
 // ManifestAttr defines a structure which stores a series of
@@ -187,23 +185,21 @@ func (m ManifestAttr) UnwrapBody() ([]byte, error) {
 
 // EncodeBase64Content encodes the value and sets the content which was encoded to base64.
 func (m *ManifestAttr) EncodeBase64Content(content string) error {
-	m.Content = base64.StdEncoding.EncodeToString([]byte(content))
+	if m.Base64Padding {
+		m.Content = base64.StdEncoding.EncodeToString([]byte(content))
+	} else {
+		m.Content = base64.RawStdEncoding.EncodeToString([]byte(content))
+	}
 	return nil
 }
 
 // EncodeContentBase64 returns the content converted from the base64 value.
 func (m ManifestAttr) EncodeContentBase64() (string, error) {
-	return string(base64.StdEncoding.EncodeToString([]byte(m.Content))), nil
-}
-
-// DecodeContentBase64 returns the content converted from the base64 value.
-func (m ManifestAttr) DecodeContentBase64() (string, error) {
-	mo, err := base64.StdEncoding.DecodeString(m.Content)
-	if err != nil {
-		return "", err
+	if m.Base64Padding {
+		return string(base64.StdEncoding.EncodeToString([]byte(m.Content))), nil
 	}
 
-	return string(mo), err
+	return string(base64.RawStdEncoding.EncodeToString([]byte(m.Content))), nil
 }
 
 // IsBase64Encode returns true/false if the content is base64 or should be
