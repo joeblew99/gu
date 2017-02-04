@@ -67,6 +67,7 @@ type WebRequest struct {
 	Method         string            `json:"method"`
 	URL            string            `json:"url"`
 	Mode           string            `json:"mode"`
+	Base64Padding  bool              `json:"base64_padding"`
 	ManifestName   string            `json:"manifest_name"`
 	ManifestAddr   string            `json:"manifest_addr"`
 	Credentials    string            `json:"credentials,omitempty"`
@@ -82,6 +83,7 @@ type WebResponse struct {
 	Status       int               `json:"status"`
 	Redirected   bool              `json:"redirected"`
 	B64Encoded   bool              `json:"b64_encoded"`
+	B64Padding   bool              `json:"base64_padding"`
 	Ok           bool              `json:"ok"`
 	Body         []byte            `json:"body"`
 	Type         string            `json:"type"`
@@ -98,7 +100,16 @@ type WebResponse struct {
 // encode else if not, returns the body as expected.
 func (w WebResponse) UnwrapBody() ([]byte, error) {
 	if w.B64Encoded {
-		mo, err := base64.StdEncoding.DecodeString(string(w.Body))
+		if w.B64Padding {
+			mo, err := base64.StdEncoding.DecodeString(string(w.Body))
+			if err != nil {
+				return nil, err
+			}
+
+			return mo, nil
+		}
+
+		mo, err := base64.RawStdEncoding.DecodeString(string(w.Body))
 		if err != nil {
 			return nil, err
 		}
@@ -154,7 +165,16 @@ type ManifestAttr struct {
 // encode else if not, returns the body as expected.
 func (m ManifestAttr) UnwrapBody() ([]byte, error) {
 	if m.ContentB64 {
-		mo, err := base64.StdEncoding.DecodeString(m.Content)
+		if m.Base64Padding {
+			mo, err := base64.StdEncoding.DecodeString(m.Content)
+			if err != nil {
+				return nil, err
+			}
+
+			return mo, nil
+		}
+
+		mo, err := base64.RawStdEncoding.DecodeString(m.Content)
 		if err != nil {
 			return nil, err
 		}
@@ -205,12 +225,13 @@ func (m ManifestAttr) IsBase64Encode() bool {
 // WebRequest returns a WebRequest from the manifest.
 func (m ManifestAttr) WebRequest() WebRequest {
 	return WebRequest{
-		Method:       "GET",
-		URL:          m.Path,
-		ManifestName: m.Name,
-		Cache:        m.Cache,
-		Credentials:  "same-origin",
-		B64Encode:    m.IsBase64Encode(),
+		Method:        "GET",
+		URL:           m.Path,
+		ManifestName:  m.Name,
+		Cache:         m.Cache,
+		Base64Padding: m.Base64Padding,
+		Credentials:   "same-origin",
+		B64Encode:     m.IsBase64Encode(),
 	}
 }
 
