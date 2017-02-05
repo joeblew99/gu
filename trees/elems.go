@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"strings"
 
-	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/trees/css"
 )
 
 // FinalizeHandle defines a function type which has the root and item concerned.

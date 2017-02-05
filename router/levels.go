@@ -1,16 +1,13 @@
-package gu
+package router
 
-import (
-	"github.com/gu-io/gu/dispatch"
-	"github.com/gu-io/gu/trees"
-)
+import "github.com/gu-io/gu/trees"
 
 // RouteApplier defines a interface which composes trees Applier, Morpher and
-// the dispatch.Resolver to handle routing over against a tree markup.
+// the Resolver to handle routing over against a tree markup.
 type RouteApplier interface {
+	Resolver
 	trees.Morpher
 	trees.Appliable
-	dispatch.Resolver
 
 	Root() RouteApplier
 	N(string) RouteApplier
@@ -74,7 +71,7 @@ func (r *rm) N(path string) RouteApplier {
 
 // Next creates a route which depends on the previous route created. It
 // allows multi-level routing where the next depends on the outcome of the
-// previous. It uses dispatch.Resolver which shifts the matching paths by passing
+// previous. It uses Resolver which shifts the matching paths by passing
 // down the remants of path unmatched to its next subscribers.
 func (r *rm) Next(path string, morpher trees.SwitchMorpher) RouteApplier {
 	if rx, ok := r.level[path]; ok {
@@ -96,10 +93,10 @@ func (r *rm) Next(path string, morpher trees.SwitchMorpher) RouteApplier {
 
 //==============================================================================
 
-// routing defines a dispatch.Resolve structure that allows morphing the output
+// routing defines a Resolve structure that allows morphing the output
 // of a markup based on a giving route.
 type routing struct {
-	dispatch.Resolver
+	Resolver
 	m trees.Morpher
 }
 
@@ -107,11 +104,11 @@ type routing struct {
 func newRouting(path string, morpher trees.SwitchMorpher) *routing {
 	var rs routing
 	rs.m = morpher
-	rs.Resolver = dispatch.NewResolver(path)
+	rs.Resolver = New(path)
 
-	rs.Resolver.ResolvedPassed(func(p dispatch.Path) {
+	rs.Resolver.Done(func(p PushEvent) {
 		morpher.Off(p)
-	}).ResolvedFailed(func(p dispatch.Path) {
+	}).Failed(func(p PushEvent) {
 		morpher.On(p)
 	})
 

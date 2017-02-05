@@ -1,36 +1,31 @@
-package dispatch
+package router
 
-import (
-	"errors"
-	"strings"
+import "github.com/influx6/faux/pattern"
 
-	"github.com/influx6/faux/pattern"
-)
-
-// ResolveSubscriber defines a function type for a Resolver subcriber.
-type ResolveSubscriber func(Path)
+// Handler defines a function type for a Resolver subcriber.
+type Handler func(PushEvent)
 
 // Resolvable defines an interface for a resolvable type object.
 type Resolvable interface {
-	Resolve(Path)
+	Resolve(PushEvent)
 }
 
 // Resolver defines an interface for a type that resolves a
-// provided instance of a dispatch.Path.
+// provided instance of a dispatch.PushEvent.
 type Resolver interface {
 	Resolvable
 
 	Flush()
-	Path() string
+	Pattern() string
 	Register(Resolver)
-	ResolvedPassed(ResolveSubscriber) Resolver
-	ResolvedFailed(ResolveSubscriber) Resolver
+	Done(Handler) Resolver
+	Failed(Handler) Resolver
 	Test(string) (map[string]string, string, bool)
 }
 
-// NewResolver returns a new instance of a structure that matches
+// New returns a new instance of a structure that matches
 // the Resolver interface.
-func NewResolver(path string) Resolver {
+func New(path string) Resolver {
 	var br basicResolver
 	if path != "" {
 		br.matcher = URIMatcher(path)
@@ -42,8 +37,8 @@ func NewResolver(path string) Resolver {
 // basicResolver defines a struct that implements
 type basicResolver struct {
 	children []Resolver
-	fails    []ResolveSubscriber
-	subs     []ResolveSubscriber
+	fails    []Handler
+	subs     []Handler
 	matcher  pattern.URIMatcher
 }
 
@@ -54,14 +49,14 @@ func (b *basicResolver) Flush() {
 	b.children = nil
 }
 
-// Path returns the giving path pattern used by this resolver.
-func (b *basicResolver) Path() string {
+// Pattern returns the giving path pattern used by this resolver.
+func (b *basicResolver) Pattern() string {
 	return b.matcher.Pattern()
 }
 
 // Register adds a resolver into the list which will get triggerd
-// when this resolver gets triggered, they will recieve a new Path
-// made out of the remaining path from the Path received by this.
+// when this resolver gets triggered, they will recieve a new PushEvent
+// made out of the remaining path from the PushEvent received by this.
 func (b *basicResolver) Register(r Resolver) {
 	b.children = append(b.children, r)
 }
@@ -73,12 +68,12 @@ func (b *basicResolver) Test(path string) (map[string]string, string, bool) {
 	return b.matcher.Validate(path)
 }
 
-// Resolve takes a `dispatch.Path` instance, matches the content
+// Resolve takes a `dispatch.PushEvent` instance, matches the content
 // against it's own matcher, if its a match, it calls its subscribers
 // then takes the remaining path left after removing its own matching
 // piece and sends that off to its children, if there exists any remaining
 // path that is.
-func (b *basicResolver) Resolve(path Path) {
+func (b *basicResolver) Resolve(path PushEvent) {
 	if b.matcher == nil {
 
 		// Notify the subscribers.
@@ -86,7 +81,7 @@ func (b *basicResolver) Resolve(path Path) {
 			sub(path)
 		}
 
-		// Notify the kids with what is left in the Path.
+		// Notify the kids with what is left in the PushEvent.
 		for _, child := range b.children {
 			child.Resolve(path)
 		}
@@ -110,10 +105,12 @@ func (b *basicResolver) Resolve(path Path) {
 		params[key] = val
 	}
 
-	newPath := Path{
-		Rem:           rem,
-		Params:        params,
-		PathDirective: path.PathDirective,
+	newPath := PushEvent{
+		Rem:    rem,
+		Params: params,
+		Hash:   path.Hash,
+		Host:   path.Host,
+		Path:   path.Path,
 	}
 
 	// Notify the subscribers.
@@ -121,53 +118,22 @@ func (b *basicResolver) Resolve(path Path) {
 		sub(newPath)
 	}
 
-	// Notify the kids with what is left in the Path.
+	// Notify the kids with what is left in the PushEvent.
 	for _, child := range b.children {
 		child.Resolve(newPath)
 	}
 }
 
-// ResolvedFailed adds a function to the failed subscription list for this
+// Failed adds a function to the failed subscription list for this
 // resolver.
-func (b *basicResolver) ResolvedFailed(sub ResolveSubscriber) Resolver {
+func (b *basicResolver) Failed(sub Handler) Resolver {
 	b.fails = append(b.fails, sub)
 	return b
 }
 
-// ResolvedPassed adds a function to the subscription list for this
+// Done adds a function to the subscription list for this
 // resolver.
-func (b *basicResolver) ResolvedPassed(sub ResolveSubscriber) Resolver {
+func (b *basicResolver) Done(sub Handler) Resolver {
 	b.subs = append(b.subs, sub)
 	return b
-}
-
-//==============================================================================
-
-// ResolvePath returns a new path created from match the giving matcher if
-// valid else an non-nil error. It returns the remaining path of the giving
-// path as the new path.
-func ResolvePath(matcher pattern.URIMatcher, path Path) (Path, error) {
-	params, rem, ok := matcher.Validate(path.Rem)
-	if !ok {
-		return Path{}, errors.New("Path does not match")
-	}
-
-	var hash, npath string
-
-	hashIndex := strings.IndexRune(path.Rem, '#')
-	if hashIndex != -1 {
-		hash = path.Rem[hashIndex:]
-		npath = path.Rem[:hashIndex]
-	}
-
-	return Path{
-		Rem:    rem,
-		Params: params,
-		PathDirective: PathDirective{
-			Host:     path.Host,
-			Hash:     hash,
-			Path:     npath,
-			Sequence: path.Sequence,
-		},
-	}, nil
 }

@@ -146,7 +146,6 @@ func main() {
 //go:generate go run generate.go
 
 // Documentation source: "HTML element reference" by Mozilla Contributors, https://developer.mozilla.org/en-US/docs/Web/HTML/Element, licensed under CC-BY-SA 2.5.
-
 // Documentation for custom types lies within the  "github.com/influx6/faux/domtrees" package
 
 package elems
@@ -154,7 +153,7 @@ package elems
 import (
 	"fmt"
 	"github.com/gu-io/gu/trees"
-	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/trees/css"
 )
 
 // Text provides custom type for defining text nodes with the trees markup.
@@ -199,6 +198,17 @@ func ParseIn(root string,markup string, mo ...trees.Appliable) *trees.Markup {
 	}
 
 	return mroot
+}
+
+// Guscript returns a script tag which ass specific attributes which is set with
+// specific attributes that identifies this script.
+func Guscript(path string) *trees.Markup {
+	script := trees.NewMarkup("script", false)
+	trees.NewAttr("src", path).Apply(script)
+	trees.NewAttr("gu-resource", "true").Apply(script)
+	trees.NewAttr("gu-resource-root", "true").Apply(script)
+
+	return script
 }
 
 // CSS provides a function that takes style rules which returns a stylesheet embeded into

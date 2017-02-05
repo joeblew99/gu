@@ -34,6 +34,17 @@ func NewKey() string {
 
 //==============================================================================
 
+// Identity defines an interface which expoese the identity of a giving object.
+type Identity interface {
+	UUID() string
+}
+
+// RegisterSubscription defines an interface for structures which expose a subscription
+// hooks to be used to register hooks for callers.
+type RegisterSubscription interface {
+	RegisterSubscription(mounts, renders, unmount Subscriptions)
+}
+
 // Renderable provides a interface for a renderable type.
 type Renderable interface {
 	Render() *trees.Markup

@@ -1,12 +1,105 @@
-// Package js defines helper methods that use the underline gopherjs js package
+// Package gopherjs defines helper methods that use the underline gopherjs js package
 // to inteface with the browser dom api.
-package js
+package gopherjs
 
 import (
+	"fmt"
+	"net/url"
 	"strings"
 
+	"github.com/go-humble/detect"
 	"github.com/gopherjs/gopherjs/js"
+	"github.com/gu-io/gu/router"
 )
+
+//==============================================================================
+
+// ListenForHistory sets up the necessary notifications for history.
+func ListenForHistory() {
+	if BrowserSupportsPushState() {
+		js.Global.Set("onpopstate", func() {
+			host, path, hash := GetLocation()
+			notifications.Publish(router.PushEvent{
+				Host: host,
+				Path: path,
+				Hash: hash,
+				Rem:  hash,
+			})
+		})
+		return
+	}
+
+	js.Global.Set("onhashchange", func() {
+		host, path, hash := GetLocation()
+		notifications.Publish(router.PushEvent{
+			Host: host,
+			Path: path,
+			Hash: hash,
+			Rem:  hash,
+		})
+	})
+}
+
+// BrowserSupportsPushState checks if browser supports pushState
+func BrowserSupportsPushState() bool {
+	if !detect.IsBrowser() {
+		return false
+	}
+
+	return (js.Global.Get("onpopstate") != js.Undefined) &&
+		(js.Global.Get("history") != js.Undefined) &&
+		(js.Global.Get("history").Get("pushState") != js.Undefined)
+}
+
+// PushDOMState adds a new state the dom push history.
+func PushDOMState(path string, hash string) {
+	panicBrowserDetect()
+
+	if path == "" {
+		_, path, _ = GetLocation()
+	}
+
+	if !strings.HasPrefix(hash, "#") {
+		hash = "#" + hash
+	}
+
+	// Use the advance pushState feature.
+	baseURI := fmt.Sprintf("%s%s", path, hash)
+	js.Global.Get("history").Call("pushState", nil, baseURI)
+
+	// Set the browsers hash accordinly.
+	js.Global.Get("location").Set("hash", hash)
+}
+
+// SetDOMHash sets the dom location hash.
+func SetDOMHash(path string, hash string) {
+	panicBrowserDetect()
+
+	if path != "" {
+		js.Global.Get("location").Set("path", path)
+	}
+
+	js.Global.Get("location").Set("hash", hash)
+}
+
+// GetLocation returns the path and hash of the browsers location api else
+// panics if not in a browser.
+func GetLocation() (host string, path string, hash string) {
+	if !detect.IsBrowser() {
+		return
+	}
+
+	loc := js.Global.Get("location").String()
+	ups, err := url.Parse(loc)
+	if err != nil {
+		return
+	}
+
+	host = ups.Host
+	path = ups.Path
+	hash = ups.Fragment
+	return
+}
 
 // DOMObjectToList takes a jsobjects and returns a list of internal objects by calling the item method
 func DOMObjectToList(o *js.Object) []*js.Object {
@@ -259,4 +352,12 @@ func SetAttribute(o *js.Object, key string, value string) {
 // SetInnerHTML calls the innerHTML setter with the given string
 func SetInnerHTML(o *js.Object, html string) {
 	o.Set("innerHTML", html)
+}
+
+// panicBrowserDetect panics if the current gc is not a browser based
+// one.
+func panicBrowserDetect() {
+	if !detect.IsBrowser() {
+		panic("expected to be used in a dom/browser env")
+	}
 }

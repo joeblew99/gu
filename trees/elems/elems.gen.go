@@ -3,15 +3,25 @@
 //go:generate go run generate.go
 
 // Documentation source: "HTML element reference" by Mozilla Contributors, https://developer.mozilla.org/en-US/docs/Web/HTML/Element, licensed under CC-BY-SA 2.5.
-
 // Documentation for custom types lies within the  "github.com/influx6/faux/domtrees" package
 
 package elems
 
 import (
-	"github.com/gu-io/gu/css"
 	"github.com/gu-io/gu/trees"
+	"github.com/gu-io/gu/trees/css"
 )
+
+// Guscript returns a script tag which ass specific attributes which is set with
+// specific attributes that identifies this script.
+func Guscript(path string) *trees.Markup {
+	script := trees.NewMarkup("script", false)
+	trees.NewAttr("src", path).Apply(script)
+	trees.NewAttr("gu-resource", "true").Apply(script)
+	trees.NewAttr("gu-resource-root", "true").Apply(script)
+
+	return script
+}
 
 // Text provides custom type for defining text nodes with the trees markup.
 func Text(content string, dl ...interface{}) *trees.Markup {

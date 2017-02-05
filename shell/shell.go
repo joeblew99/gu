@@ -2,6 +2,7 @@ package shell
 
 import (
 	"encoding/base64"
+	"errors"
 
 	"github.com/gopherjs/gopherjs/js"
 )
@@ -296,14 +297,14 @@ type ComponentRelation struct {
 
 // FindByRelation provides a convenient method to search a giving manifests for a specific
 // ComponentRelation.
-func FindByRelation(apps []*AppManifest, relationName string) *AppManifest {
+func FindByRelation(apps []AppManifest, relationName string) (AppManifest, error) {
 	for _, app := range apps {
 		if app.Relation.Name != relationName {
 			continue
 		}
 
-		return app
+		return app, nil
 	}
 
-	return nil
+	return AppManifest{}, errors.New("Not Found")
 }
