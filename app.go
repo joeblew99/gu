@@ -94,35 +94,39 @@ func App(attr AppAttr) *NApp {
 
 	// If we are in development mode empty the cache and reset for new use.
 	if attr.Mode == DevelopmentMode {
-		if err := rs.cache.Empty(); err != nil {
-			fmt.Printf("Failed to clear internal cache for %q in development mode: %q\n", rs.cacheName, err.Error())
+		if err := app.cache.Empty(); err != nil {
+			fmt.Printf("Failed to clear internal cache for %q in development mode: %q\n", app.attr.Name, err.Error())
 		}
 	}
 
 	// Attempt to retrieve a manifest.json from the backend.
 	if attr.EnableManifest && attr.Manifests != "" {
-		var appm []*shell.AppManifest
+		var appm []shell.AppManifest
 
-		if err := json.Unmarshal(manifestResponse.Body, &appm); err != nil {
-			panic(fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable: %q", err.Error()))
+		if _, response, err := app.fetch.Get(app.attr.Manifests, shell.DefaultStrategy); err == nil {
+			fmt.Println(fmt.Sprintf("Failed to retrieve `manifests.json` due to network error: %q", err.Error()))
 		} else {
+			if err := json.Unmarshal(response.Body, &appm); err != nil {
+				fmt.Println(fmt.Sprintf("Failed to load shell.AppManifest, resource loading is unavailable: %q", err.Error()))
+			} else {
 
-			for _, mani := range appm {
-				for _, attr := range mani.Manifests {
-					if attr.IsGlobal {
-						shell.RegisterManifest(attr)
+				for _, mani := range appm {
+					for _, attr := range mani.Manifests {
+						if attr.IsGlobal {
+							shell.RegisterManifest(attr)
+						}
 					}
+
+					if mani.GlobalScope {
+						app.globalResources = append(app.globalResources, Resource{
+							Manifest: mani,
+						})
+
+						continue
+					}
+
+					app.local = append(app.local, mani)
 				}
-
-				if mani.GlobalScope {
-					app.globalResources = append(app.globalResources, Resource{
-						Manifest: mani,
-					})
-
-					continue
-				}
-
-				app.local = append(app.local, mani)
 			}
 		}
 	}
@@ -133,26 +137,45 @@ func App(attr AppAttr) *NApp {
 // Render returns the giving rendered tree of the app respective of the path
 // found.
 func (app *NApp) Render(es interface{}) *trees.Markup {
-	var pe notifications.PushEvent
+	var pe router.PushEvent
 
-	switch es := es.(type) {
+	switch esm := es.(type) {
 	case string:
-		pe = router.NewPushEvent(es, true)
+		tmp, err := router.NewPushEvent(esm, true)
+		if err != nil {
+			panic(fmt.Sprintf("Unable to create PushEvent for (URL: %q) -> %q\n", esm, err.Error()))
+		}
+
+		pe = tmp
 	case router.PushEvent:
-		pe = es
+		pe = esm
 	}
 
+	var html = trees.NewMarkup("html", false)
 	var head = trees.NewMarkup("head", false)
 	var body = trees.NewMarkup("body", false)
+	var last = elems.Div()
 
-	for _, view := range app.PushViews(pe) {
-
-	}
-
-	html := trees.NewMarkup("html", false)
 	head.Apply(html)
 	body.Apply(html)
-	return htmlMarkup
+
+	for _, view := range app.PushViews(pe) {
+		switch view.attr.Target {
+		case HeadTarget:
+			view.Render().Apply(head)
+		case BodyTarget:
+			view.Render().Apply(body)
+		case AfterBodyTarget:
+			view.Render().Apply(last)
+		}
+	}
+
+	body.AddChild(last.Children()...)
+
+	// Ensure to have this gc'ed.
+	last = nil
+
+	return html
 }
 
 // PushViews returns a slice of  views that match and pass the provided path.
@@ -160,13 +183,13 @@ func (app *NApp) PushViews(event router.PushEvent) []NView {
 	var active []NView
 
 	for _, view := range app.views {
-		if !view.router.Test(event.String()) {
+		if _, _, ok := view.router.Test(event.String()); ok {
 			view.disableView()
 			continue
 		}
 
+		view.propagateRoute(event)
 		active = append(active, view)
-		view.enableView(event)
 	}
 
 	return active
@@ -177,7 +200,7 @@ func (app *NApp) PushViews(event router.PushEvent) []NView {
 func (app *NApp) Resources() ([]*trees.Markup, []*trees.Markup) {
 	var head, body []*trees.Markup
 
-	for _, def := range app.global {
+	for _, def := range app.globalResources {
 		if def.body != nil || def.head != nil {
 			head = append(head, def.head...)
 			body = append(body, def.body...)
@@ -188,7 +211,7 @@ func (app *NApp) Resources() ([]*trees.Markup, []*trees.Markup) {
 			continue
 		}
 
-		for _, manifest := range def.Manifests {
+		for _, manifest := range def.Manifest.Manifests {
 			if !manifest.Init {
 				continue
 			}
@@ -199,7 +222,7 @@ func (app *NApp) Resources() ([]*trees.Markup, []*trees.Markup) {
 				continue
 			}
 
-			markup, toHead, err := hook.Fetch(rd.Root.fetch, manifest)
+			markup, toHead, err := hook.Fetch(app.fetch, manifest)
 			if err != nil {
 				fmt.Printf("Hook[%q] failed to retrieve Resource {Name: %q, Path: %q}\n", manifest.HookName, manifest.Name, manifest.Path)
 				continue
@@ -229,13 +252,61 @@ func (app *NApp) UUID() string {
 	return app.uuid
 }
 
+// ViewTarget defines a concrete type to define where the view should be rendered.
+type ViewTarget int
+
+const (
+
+	// BodyTarget defines the view target where the view is rendered in the body.
+	BodyTarget ViewTarget = iota
+
+	// HeadTarget defines the view target where the view is rendered in the head.
+	HeadTarget
+
+	// AfterBodyTarget defines the view target where the view is rendered after
+	// body views content. Generally the browser moves anything outside of the body
+	// into the body as last elements. So this will be the last elements rendered
+	// in the border accordingly in the order they are added into the respective app.
+	AfterBodyTarget
+)
+
 // ViewAttr defines a structure to define a option values for setting up the appropriate
 // settings for the view.
 type ViewAttr struct {
-	Name   string `json:"name"`
-	Title  string `json:"title"`
-	Route  string `json:"route"`
-	Target string `json:"target"`
+	Name  string `json:"name"`
+	Route string `json:"route"`
+	// Title  string        `json:"title"`
+	Target ViewTarget    `json:"target"`
+	Base   *trees.Markup `json:"base"`
+}
+
+// View returns a new instance of the view object.
+func (app *NApp) View(attr ViewAttr) *NView {
+	if attr.Base == nil {
+		attr.Base = trees.NewMarkup("view", false)
+		trees.NewCSSStyle("display", "block").Apply(attr.Base)
+	}
+
+	var vw NView
+	vw.Reactive = NewReactive()
+	vw.attr = attr
+	vw.uuid = NewKey()
+
+	// vw.title = elems.Title(elems.Text(attr.Title))
+	vw.router = router.New(attr.Route)
+	vw.cache = app.cache
+	vw.fetch = app.fetch
+	vw.local = app.local
+
+	vw.router.Failed(func(push router.PushEvent) {
+		vw.disableView()
+	})
+
+	vw.attr.Base.SwapUID(vw.uuid)
+
+	app.views = append(app.views, vw)
+
+	return &vw
 }
 
 // RenderableData defines a struct which contains the name of a giving renderable
@@ -248,6 +319,7 @@ type RenderableData struct {
 // NView defines a structure to encapsulates all rendering component for a given
 // view.
 type NView struct {
+	Reactive
 	uuid   string
 	active bool
 	cache  shell.Cache
@@ -273,7 +345,58 @@ func (v *NView) UUID() string {
 
 // Render returns the markup for the giving views.
 func (v *NView) Render() *trees.Markup {
-	return nil
+	base := v.attr.Base.Clone()
+	// Update the base hash.
+	base.UpdateHash()
+
+	// Process the begin components and immediately add appropriately into base.
+	for _, component := range v.beginComponents {
+		if component.attr.Target != "" {
+			component.Render().ApplyMorphers().Apply(base)
+			continue
+		}
+
+		render := component.Render().ApplyMorphers()
+		targets := trees.Query.QueryAll(base, component.attr.Target)
+		for _, target := range targets {
+			target.AddChild(render)
+		}
+	}
+
+	// Process the middle components and immediately add appropriately into base.
+	for _, component := range v.anyComponents {
+		if component.attr.Target != "" {
+			component.Render().ApplyMorphers().Apply(base)
+			continue
+		}
+
+		render := component.Render().ApplyMorphers()
+		targets := trees.Query.QueryAll(base, component.attr.Target)
+		for _, target := range targets {
+			target.AddChild(render)
+		}
+	}
+
+	// Process the last components and immediately add appropriately into base.
+	for _, component := range v.lastComponents {
+		if component.attr.Target != "" {
+			component.Render().ApplyMorphers().Apply(base)
+			continue
+		}
+
+		render := component.Render().ApplyMorphers()
+		targets := trees.Query.QueryAll(base, component.attr.Target)
+		for _, target := range targets {
+			target.AddChild(render)
+		}
+	}
+
+	return base
+}
+
+// propagateRoute supplies the needed route into the provided
+func (v *NView) propagateRoute(pe router.PushEvent) {
+	v.router.Resolve(pe)
 }
 
 // Resources return the giving resource headers which relate with the
@@ -292,7 +415,7 @@ func (v *NView) Resources() ([]*trees.Markup, []*trees.Markup) {
 			continue
 		}
 
-		for _, manifest := range def.Manifests {
+		for _, manifest := range def.Manifest.Manifests {
 			if !manifest.Init {
 				continue
 			}
@@ -303,7 +426,7 @@ func (v *NView) Resources() ([]*trees.Markup, []*trees.Markup) {
 				continue
 			}
 
-			markup, toHead, err := hook.Fetch(rd.Root.fetch, manifest)
+			markup, toHead, err := hook.Fetch(v.fetch, manifest)
 			if err != nil {
 				fmt.Printf("Hook[%q] failed to retrieve Resource {Name: %q, Path: %q}\n", manifest.HookName, manifest.Name, manifest.Path)
 				continue
@@ -362,7 +485,7 @@ func (c *Component) Render() *trees.Markup {
 	newTree.SwapUID(c.uuid)
 
 	if c.live != nil {
-		live = c.live
+		live := c.live
 		live.EachEvent(func(e *trees.Event, _ *trees.Markup) {
 			if e.Handle != nil {
 				e.Handle.End()
@@ -375,7 +498,35 @@ func (c *Component) Render() *trees.Markup {
 
 	c.live = newTree
 
+	c.Rendered.Publish()
+
 	return c.live.ApplyMorphers()
+}
+
+// Unmounted publishes changes notifications that the component is unmounted.
+func (v *NView) Unmounted() {
+	for _, component := range v.beginComponents {
+		component.Unmounted.Publish()
+	}
+	for _, component := range v.anyComponents {
+		component.Unmounted.Publish()
+	}
+	for _, component := range v.lastComponents {
+		component.Unmounted.Publish()
+	}
+}
+
+// Mounted publishes changes notifications that the component is mounted.
+func (v *NView) Mounted() {
+	for _, component := range v.beginComponents {
+		component.Mounted.Publish()
+	}
+	for _, component := range v.anyComponents {
+		component.Mounted.Publish()
+	}
+	for _, component := range v.lastComponents {
+		component.Mounted.Publish()
+	}
 }
 
 // Component adds the provided component into the selected view.
@@ -384,9 +535,9 @@ func (v *NView) Component(attr ComponentAttr) {
 	c.attr = attr
 	c.uuid = NewKey()
 	c.Reactive = NewReactive()
-	c.mounted = NewSubscriptions()
-	c.unmounted = NewSubscriptions()
-	c.rendered = NewSubscriptions()
+	c.Mounted = NewSubscriptions()
+	c.Unmounted = NewSubscriptions()
+	c.Rendered = NewSubscriptions()
 
 	// Transform the base argument into the acceptable
 	// format for the object.
@@ -421,14 +572,14 @@ func (v *NView) Component(attr ComponentAttr) {
 			break
 
 		case Renderable:
-			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(vr); err == nil {
+			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(mo); err == nil {
 				v.renderingData = append(v.renderingData, RenderableData{
 					Name: renderField.TypeName,
 					Pkg:  renderField.Pkg,
 				})
 			}
 
-			c.Rendering = rc
+			c.Rendering = mo
 			break
 
 		case func() Renderable:
@@ -461,14 +612,17 @@ func (v *NView) Component(attr ComponentAttr) {
 		}
 	}
 
-	// Connect the views into the rendering reactor if it has one.
+	// Connect the component into the rendering reactor if it has one.
 	if rc, ok := c.Rendering.(Reactor); ok {
 		rc.React(c.Reactive.Publish)
 	}
 
+	// Connect the view to react to a change from the component.
+	c.React(v.Publish)
+
 	// Add the component into the right order.
 	{
-		switch resource.Order {
+		switch attr.Order {
 		case FirstOrder:
 			v.beginComponents = append(v.beginComponents, c)
 		case LastOrder:
@@ -482,7 +636,7 @@ func (v *NView) Component(attr ComponentAttr) {
 	{
 		for _, relation := range v.renderingData {
 			if app, err := shell.FindByRelation(v.local, relation.Name); err == nil {
-				if v.hasRelation(app) {
+				if v.hasRelation(app.Name) {
 					continue
 				}
 
@@ -490,7 +644,7 @@ func (v *NView) Component(attr ComponentAttr) {
 					Manifest: app,
 				})
 
-				initRelation(views, app, v.local)
+				initRelation(v, app, v.local)
 			}
 		}
 	}
@@ -501,7 +655,7 @@ func (v *NView) Disabled() bool {
 	// v.rl.RLock()
 	// defer v.rl.RUnlock()
 
-	return state
+	return v.active
 }
 
 // enableView enables the active state of the view.
@@ -542,27 +696,6 @@ func (v *NView) hasRelation(name string) bool {
 	}
 
 	return false
-}
-
-// View returns a new instance of the view object.
-func (app *NApp) View(attr ViewAttr) *View {
-	var vw NView
-	vw.attr = attr
-	vw.uuid = NewKey()
-
-	vw.title = elems.Title(attr.Title)
-	vw.router = router.New(attr.Route)
-	vw.cache = app.cache
-	vw.fetch = app.fetch
-	vw.local = app.local
-
-	vw.router.Failed(func(push router.PushEvent) {
-		vw.disableView()
-	})
-
-	app.views = append(app.views, vw)
-
-	return &vw
 }
 
 //==============================================================================
@@ -616,10 +749,10 @@ func (s *StaticView) RenderHTML() template.HTML {
 
 // initRelation walks down the provided app relation adding the giving AppManifest
 // which connect with this if not already in the list.
-func initRelation(views *NView, app shell.AppManifest, relations []shell.AppManifests) {
+func initRelation(views *NView, app shell.AppManifest, relations []shell.AppManifest) {
 	for _, relation := range app.Relation.Composites {
 		if related, err := shell.FindByRelation(relations, relation); err == nil {
-			if !views.hasRelation(related) {
+			if !views.hasRelation(related.Name) {
 
 				views.localResources = append(views.localResources, Resource{
 					Manifest: related,
@@ -631,8 +764,8 @@ func initRelation(views *NView, app shell.AppManifest, relations []shell.AppMani
 	}
 
 	for _, field := range app.Relation.FieldTypes {
-		if related, err := shell.FindByRelation(rd.Root.manifests, field); err == nil {
-			if !views.hasRelation(related) {
+		if related, err := shell.FindByRelation(relations, field); err == nil {
+			if !views.hasRelation(related.Name) {
 
 				views.localResources = append(views.localResources, Resource{
 					Manifest: related,

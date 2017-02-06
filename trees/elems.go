@@ -111,6 +111,42 @@ func (e *Markup) Empty() {
 	e.onceFinalizers = nil
 }
 
+// MarshalJSON returns the html representation of the giving markup.
+func (e *Markup) MarshalJSON() ([]byte, error) {
+	return []byte(e.HTML()), nil
+}
+
+// UnmarshalJSON the provided data and adds the giving children into the giving root.
+func (e *Markup) UnmarshalJSON(data []byte) error {
+	parsed := ParseTree(string(data))
+
+	if len(parsed) == 1 {
+		item := parsed[0]
+		e.attrs = item.attrs
+		e.textContent = item.textContent
+		e.textContentFn = item.textContentFn
+		e.tagname = item.tagname
+		e.styles = item.styles
+		e.events = item.events
+		e.allowStyles = item.allowStyles
+		e.allowAttributes = item.allowAttributes
+		e.allowEvents = item.allowEvents
+		e.allowChildren = item.allowChildren
+		e.ID = item.ID
+
+		item = nil
+		parsed = nil
+		return nil
+	}
+
+	if e.tagname == "" {
+		e.tagname = "div"
+	}
+
+	e.AddChild(parsed...)
+	return nil
+}
+
 // EHTML returns the html string wrapped by a template.HTML type to avoid getting
 // escaped by go templates. The returned html is rendered using the default
 // SimpleElementWriter and represents the DOM of the giving element.
@@ -491,6 +527,8 @@ func (e *Markup) Clone() *Markup {
 	co.textContent = e.textContent
 	co.textContentFn = e.textContentFn
 	co.ID = e.ID
+	co.hash = e.hash
+	co.uid = e.uid
 
 	//copy over the attribute lockers
 	co.allowChildren = e.allowChildren

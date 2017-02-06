@@ -7,7 +7,6 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/gu-io/gu/dispatch"
 	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/trees"
 )
@@ -145,24 +144,6 @@ func (r *Subscription) Publish() {
 	for _, sub := range r.subs {
 		sub()
 	}
-}
-
-//==============================================================================
-
-// AttachURL attaches the view to the provided Route pattern,
-// Using the internal route pattern, it matches all route changes
-// and checks against the full URL(Path+Hash).
-// failFn must either be a FailNormal, FailPath or nil.
-func AttachURL(pattern string, activeFn, inactiveFn func(dispatch.Path)) {
-	dispatch.ResolveAttachURL(pattern, activeFn, inactiveFn)
-}
-
-// AttachHash attaches the view to the provided Route pattern,
-// Using the internal route pattern, it matches all route changes
-// and checks against the URL hash.
-// failFn must either be a FailNormal, FailPath or nil.
-func AttachHash(pattern string, activeFn, inactiveFn func(dispatch.Path)) {
-	dispatch.ResolveAttachHash(pattern, activeFn, inactiveFn)
 }
 
 //==============================================================================
