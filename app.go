@@ -66,10 +66,10 @@ type Driver interface {
 	// Update app's view and it's target content.
 	Update(*NApp, ...*NView)
 
-	// Fetcher returns a new resource fetcher which can be used to retrieve Resources.
+	// Services returns a new resource fetcher which can be used to retrieve Resources.
 	// Fetcher requires the cacheName and a boolean indicating if it should intercept
 	// all requests for resources.
-	Fetcher(cacheName string, interceptRequests bool) (shell.Fetch, shell.Cache)
+	Services(cacheName string, interceptRequests bool) (shell.Fetch, shell.Cache)
 }
 
 // Resource defines any set of rendering links, scripts, styles needed by a view.
@@ -116,7 +116,7 @@ func App(attr AppAttr) *NApp {
 	app.uuid = NewKey()
 	app.driver = attr.Driver
 
-	fetch, cache := attr.Driver.Fetcher(attr.Name, attr.InterceptRequests)
+	fetch, cache := attr.Driver.Services(attr.Name, attr.InterceptRequests)
 	app.cache = cache
 	app.fetch = fetch
 
