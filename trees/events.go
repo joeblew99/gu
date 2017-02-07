@@ -16,27 +16,30 @@ type EventBroadcast struct {
 // expose.
 type EventObject interface {
 	RemoveEvent()
-	PreventDefault()
-	StopPropagation()
 	Underlying() interface{}
-	StopImmediatePropagation()
 }
 
 // Event provide a meta registry for helps in registering events for dom markups
 // which is translated to the nodes themselves
 type Event struct {
-	Type      string
-	EventID   string
-	secTarget string
-	Tree      *Markup
-	Handle    mque.End
+	Type                     string
+	EventID                  string
+	secTarget                string
+	PreventDefault           bool
+	StopPropagation          bool
+	StopImmediatePropagation bool
+	Tree                     *Markup
+	Handle                   mque.End
 }
 
-// NewEvent returns a event object that allows registering events to eventlisteners
-func NewEvent(evtype string, evtarget string) *Event {
+// NewEvent returns a event object that allows registering events to eventlisteners.
+func NewEvent(evtype string, evtarget string, preventdef bool, stopPropagation bool, stopImmediate bool) *Event {
 	return &Event{
-		Type:      evtype,
-		secTarget: evtarget,
+		Type:                     evtype,
+		PreventDefault:           preventdef,
+		StopPropagation:          stopPropagation,
+		StopImmediatePropagation: stopImmediate,
+		secTarget:                evtarget,
 	}
 }
 

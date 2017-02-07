@@ -21,88 +21,88 @@ type event struct {
 
 func main() {
 	nameMap := map[string]string{
-		"CssRuleViewCSSLinkClickedEvent": "CSSRuleViewCSSLinkClickedEvent",
-		"CssRuleViewRefreshedEvent":      "CSSRuleViewRefreshedEvent",
-		"CssRuleViewChangedEvent":        "CSSRuleViewChangeEvent",
-		"afterscriptexecute":             "AfterScriptExecute",
-		"afterprint":                     "AfterPrint",
-		"animationend":                   "AnimationEnd",
-		"animationiteration":             "AnimationIteration",
-		"animationstart":                 "AnimationStart",
-		"audioprocess":                   "AudioProcess",
-		"beforeprint":                    "BeforePrint",
-		"beforeunload":                   "BeforeUnload",
-		"canplay":                        "CanPlay",
-		"canplaythrough":                 "CanPlayThrough",
-		"chargingchange":                 "ChargingChange",
-		"chargingtimechange":             "ChargingTimeChange",
-		"compassneedscalibration":        "CompassNeedsCalibration",
-		"compositionend":                 "CompositionEnd",
-		"compositionstart":               "CompositionStart",
-		"compositionupdate":              "CompositionUpdate",
-		"contextmenu":                    "ContextMenu",
-		"dblclick":                       "DblClick",
-		"devicelight":                    "DeviceLight",
-		"devicemotion":                   "DeviceMotion",
-		"deviceorientation":              "DeviceOrientation",
-		"deviceproximity":                "DeviceProximity",
-		"dischargingtimechange":          "DischargingTimeChange",
-		"dragend":                        "DragEnd",
-		"dragenter":                      "DragEnter",
-		"dragleave":                      "DragLeave",
-		"dragover":                       "DragOver",
-		"dragstart":                      "DragStart",
-		"durationchange":                 "DurationChange",
-		"focusin":                        "FocusIn",
-		"focusout":                       "FocusOut",
-		"fullscreenchange":               "FullScreenChange",
-		"fullscreenerror":                "FullScreenError",
-		"gamepadconnected":               "GamepadConnected",
-		"gamepaddisconnected":            "GamepadDisconnected",
-		"hashchange":                     "HashChange",
-		"beforescriptexecute":            "BeforeScriptExecute",
-		"beforeinstallprompt":            "BeforeInstallPrompt",
-		"keydown":                        "KeyDown",
-		"keypress":                       "KeyPress",
-		"keyup":                          "KeyUp",
-		"languagechange":                 "LanguageChange",
-		"levelchange":                    "LevelChange",
-		"loadeddata":                     "LoadedData",
-		"loadedmetadata":                 "LoadedMetadata",
-		"loadend":                        "LoadEnd",
-		"loadstart":                      "LoadStart",
-		"mousedown":                      "MouseDown",
-		"mouseenter":                     "MouseEnter",
-		"mouseleave":                     "MouseLeave",
-		"mousemove":                      "MouseMove",
-		"mouseout":                       "MouseOut",
-		"mouseover":                      "MouseOver",
-		"mouseup":                        "MouseUp",
-		"noupdate":                       "NoUpdate",
-		"orientationchange":              "OrientationChange",
-		"pagehide":                       "PageHide",
-		"pageshow":                       "PageShow",
-		"smartcard-remove":               "SmartCardRemove",
-		"smartcard-insert":               "SmartCardInsert",
-		"pointerlockchange":              "PointerLockChange",
-		"pointerlockerror":               "PointerLockError",
-		"popstate":                       "PopState",
-		"ratechange":                     "RateChange",
-		"readystatechange":               "ReadystateChange",
-		"timeupdate":                     "TimeUpdate",
-		"touchcancel":                    "TouchCancel",
-		"touchend":                       "TouchEnd",
-		"touchenter":                     "TouchEnter",
-		"touchleave":                     "TouchLeave",
-		"touchmove":                      "TouchMove",
-		"touchstart":                     "TouchStart",
-		"transitionend":                  "TransitionEnd",
-		"updateready":                    "UpdateReady",
-		"upgradeneeded":                  "UpgradeNeeded",
-		"userproximity":                  "UserProximity",
-		"versionchange":                  "VersionChange",
-		"visibilitychange":               "VisibilityChange",
-		"volumechange":                   "VolumeChange",
+		"CssRuleViewCSSLinkClicked": "CSSRuleViewCSSLinkClicked",
+		"CssRuleViewRefreshed":      "CSSRuleViewRefreshed",
+		"CssRuleViewChanged":        "CSSRuleViewChange",
+		"afterscriptexecute":        "AfterScriptExecute",
+		"afterprint":                "AfterPrint",
+		"animationend":              "AnimationEnd",
+		"animationiteration":        "AnimationIteration",
+		"animationstart":            "AnimationStart",
+		"audioprocess":              "AudioProcess",
+		"beforeprint":               "BeforePrint",
+		"beforeunload":              "BeforeUnload",
+		"canplay":                   "CanPlay",
+		"canplaythrough":            "CanPlayThrough",
+		"chargingchange":            "ChargingChange",
+		"chargingtimechange":        "ChargingTimeChange",
+		"compassneedscalibration":   "CompassNeedsCalibration",
+		"compositionend":            "CompositionEnd",
+		"compositionstart":          "CompositionStart",
+		"compositionupdate":         "CompositionUpdate",
+		"contextmenu":               "ContextMenu",
+		"dblclick":                  "DblClick",
+		"devicelight":               "DeviceLight",
+		"devicemotion":              "DeviceMotion",
+		"deviceorientation":         "DeviceOrientation",
+		"deviceproximity":           "DeviceProximity",
+		"dischargingtimechange":     "DischargingTimeChange",
+		"dragend":                   "DragEnd",
+		"dragenter":                 "DragEnter",
+		"dragleave":                 "DragLeave",
+		"dragover":                  "DragOver",
+		"dragstart":                 "DragStart",
+		"durationchange":            "DurationChange",
+		"focusin":                   "FocusIn",
+		"focusout":                  "FocusOut",
+		"fullscreenchange":          "FullScreenChange",
+		"fullscreenerror":           "FullScreenError",
+		"gamepadconnected":          "GamepadConnected",
+		"gamepaddisconnected":       "GamepadDisconnected",
+		"hashchange":                "HashChange",
+		"beforescriptexecute":       "BeforeScriptExecute",
+		"beforeinstallprompt":       "BeforeInstallPrompt",
+		"keydown":                   "KeyDown",
+		"keypress":                  "KeyPress",
+		"keyup":                     "KeyUp",
+		"languagechange":            "LanguageChange",
+		"levelchange":               "LevelChange",
+		"loadeddata":                "LoadedData",
+		"loadedmetadata":            "LoadedMetadata",
+		"loadend":                   "LoadEnd",
+		"loadstart":                 "LoadStart",
+		"mousedown":                 "MouseDown",
+		"mouseenter":                "MouseEnter",
+		"mouseleave":                "MouseLeave",
+		"mousemove":                 "MouseMove",
+		"mouseout":                  "MouseOut",
+		"mouseover":                 "MouseOver",
+		"mouseup":                   "MouseUp",
+		"noupdate":                  "NoUpdate",
+		"orientationchange":         "OrientationChange",
+		"pagehide":                  "PageHide",
+		"pageshow":                  "PageShow",
+		"smartcard-remove":          "SmartCardRemove",
+		"smartcard-insert":          "SmartCardInsert",
+		"pointerlockchange":         "PointerLockChange",
+		"pointerlockerror":          "PointerLockError",
+		"popstate":                  "PopState",
+		"ratechange":                "RateChange",
+		"readystatechange":          "ReadystateChange",
+		"timeupdate":                "TimeUpdate",
+		"touchcancel":               "TouchCancel",
+		"touchend":                  "TouchEnd",
+		"touchenter":                "TouchEnter",
+		"touchleave":                "TouchLeave",
+		"touchmove":                 "TouchMove",
+		"touchstart":                "TouchStart",
+		"transitionend":             "TransitionEnd",
+		"updateready":               "UpdateReady",
+		"upgradeneeded":             "UpgradeNeeded",
+		"userproximity":             "UserProximity",
+		"versionchange":             "VersionChange",
+		"visibilitychange":          "VisibilityChange",
+		"volumechange":              "VolumeChange",
 	}
 
 	ignore := map[string]bool{
@@ -126,18 +126,22 @@ func main() {
 			}
 			link := cols.Eq(0).Find("a").Eq(0)
 			var e event
-			e.Name = link.Text()
+
+			// fmt.Printf("Name: %q -> %q\n", nameMap[link.Text()], link.Text())
+
+			if newName, ok := nameMap[link.Text()]; ok {
+				e.Name = newName
+			} else {
+				e.Name = link.Text()
+			}
+
 			e.Link, _ = link.Attr("href")
 			e.Desc = strings.TrimSpace(cols.Eq(3).Text())
 			if e.Desc == "" {
 				e.Desc = "(no documentation)"
 			}
 
-			funName, ok := nameMap[e.Name]
-			if !ok {
-				funName = e.Name
-			}
-
+			funName := e.Name
 			if strings.Contains(funName, "-") {
 				parts := strings.Split(funName, "-")
 				for ind, sm := range parts {
@@ -213,7 +217,26 @@ func WrapEventOnlyHandler(callback func(trees.EventObject)) EventHandler {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func %sEvent(callback interface{}, sel string) *trees.Event {
+func %sEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type){
@@ -227,7 +250,7 @@ func %sEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("%s",sel)
+	ev := trees.NewEvent("%s",sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast){
 		if ev.EventID != evm.EventID{
 			return

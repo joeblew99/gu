@@ -366,6 +366,7 @@ func (app *NApp) View(attr ViewAttr) *NView {
 	var vw NView
 	vw.Reactive = NewReactive()
 	vw.attr = attr
+	vw.driver = app.driver
 	vw.uuid = NewKey()
 
 	vw.router = router.New(attr.Route)
@@ -412,6 +413,7 @@ type NView struct {
 	fetch  shell.Fetch
 	title  *trees.Markup
 	router router.Resolver
+	driver Driver
 	attr   ViewAttr
 
 	renderingData []RenderableData
@@ -648,6 +650,10 @@ func (v *NView) Component(attr ComponentAttr) {
 			static := Static(mo(v.fetch, v.cache, c.Router))
 			static.Morph = true
 			c.Rendering = static
+		case func(shell.Fetch, shell.Cache, router.Resolver, Driver) *trees.Markup:
+			static := Static(mo(v.fetch, v.cache, c.Router, v.driver))
+			static.Morph = true
+			c.Rendering = static
 		case func() *trees.Markup:
 			static := Static(mo())
 			static.Morph = true
@@ -677,6 +683,10 @@ func (v *NView) Component(attr ComponentAttr) {
 			break
 
 		case Renderable:
+			if service, ok := mo.(RegisterDriver); ok {
+				service.RegisterDriver(v.driver)
+			}
+
 			if service, ok := mo.(RegisterService); ok {
 				service.RegisterService(v.fetch, v.cache, c.Router)
 			}
@@ -698,6 +708,10 @@ func (v *NView) Component(attr ComponentAttr) {
 		case func(shell.Fetch) Renderable:
 			rc := mo(v.fetch)
 
+			if service, ok := rc.(RegisterDriver); ok {
+				service.RegisterDriver(v.driver)
+			}
+
 			if service, ok := rc.(RegisterSubscription); ok {
 				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
 			}
@@ -714,6 +728,10 @@ func (v *NView) Component(attr ComponentAttr) {
 
 		case func(shell.Fetch, shell.Cache) Renderable:
 			rc := mo(v.fetch, v.cache)
+
+			if service, ok := rc.(RegisterDriver); ok {
+				service.RegisterDriver(v.driver)
+			}
 
 			if service, ok := rc.(RegisterSubscription); ok {
 				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
@@ -732,6 +750,10 @@ func (v *NView) Component(attr ComponentAttr) {
 		case func(shell.Fetch, shell.Cache, router.Resolver) Renderable:
 			rc := mo(v.fetch, v.cache, c.Router)
 
+			if service, ok := rc.(RegisterDriver); ok {
+				service.RegisterDriver(v.driver)
+			}
+
 			if service, ok := rc.(RegisterSubscription); ok {
 				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
 			}
@@ -748,6 +770,9 @@ func (v *NView) Component(attr ComponentAttr) {
 
 		case func() Renderable:
 			rc := mo()
+			if service, ok := rc.(RegisterDriver); ok {
+				service.RegisterDriver(v.driver)
+			}
 
 			if service, ok := rc.(RegisterService); ok {
 				service.RegisterService(v.fetch, v.cache, c.Router)

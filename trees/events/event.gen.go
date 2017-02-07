@@ -37,7 +37,26 @@ func WrapEventOnlyHandler(callback func(trees.EventObject)) EventHandler {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AbortEvent(callback interface{}, sel string) *trees.Event {
+func AbortEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -51,7 +70,7 @@ func AbortEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("abort", sel)
+	ev := trees.NewEvent("abort", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -69,7 +88,26 @@ func AbortEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AfterPrintEvent(callback interface{}, sel string) *trees.Event {
+func AfterPrintEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -83,7 +121,7 @@ func AfterPrintEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("afterprint", sel)
+	ev := trees.NewEvent("AfterPrint", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -101,7 +139,26 @@ func AfterPrintEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AfterScriptExecuteEvent(callback interface{}, sel string) *trees.Event {
+func AfterScriptExecuteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -115,7 +172,7 @@ func AfterScriptExecuteEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("afterscriptexecute", sel)
+	ev := trees.NewEvent("AfterScriptExecute", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -133,7 +190,26 @@ func AfterScriptExecuteEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AlertActiveEvent(callback interface{}, sel string) *trees.Event {
+func AlertActiveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -147,7 +223,7 @@ func AlertActiveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("AlertActive", sel)
+	ev := trees.NewEvent("AlertActive", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -165,7 +241,26 @@ func AlertActiveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AlertCloseEvent(callback interface{}, sel string) *trees.Event {
+func AlertCloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -179,7 +274,7 @@ func AlertCloseEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("AlertClose", sel)
+	ev := trees.NewEvent("AlertClose", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -197,7 +292,26 @@ func AlertCloseEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AlertingEvent(callback interface{}, sel string) *trees.Event {
+func AlertingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -211,7 +325,7 @@ func AlertingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("alerting", sel)
+	ev := trees.NewEvent("alerting", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -229,7 +343,26 @@ func AlertingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AnimationEndEvent(callback interface{}, sel string) *trees.Event {
+func AnimationEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -243,7 +376,7 @@ func AnimationEndEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("animationend", sel)
+	ev := trees.NewEvent("AnimationEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -261,7 +394,26 @@ func AnimationEndEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AnimationIterationEvent(callback interface{}, sel string) *trees.Event {
+func AnimationIterationEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -275,7 +427,7 @@ func AnimationIterationEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("animationiteration", sel)
+	ev := trees.NewEvent("AnimationIteration", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -293,7 +445,26 @@ func AnimationIterationEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AnimationStartEvent(callback interface{}, sel string) *trees.Event {
+func AnimationStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -307,7 +478,58 @@ func AnimationStartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("animationstart", sel)
+	ev := trees.NewEvent("AnimationStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// AppinstalledEvent Documentation is as below: "A web application\u00a0is successfully installed as a progressive web app."
+// https://developer.mozilla.org/docs/Web/Events/appinstalled
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func AppinstalledEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("appinstalled", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -325,7 +547,26 @@ func AnimationStartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AudioProcessEvent(callback interface{}, sel string) *trees.Event {
+func AudioProcessEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -339,7 +580,7 @@ func AudioProcessEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("audioprocess", sel)
+	ev := trees.NewEvent("AudioProcess", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -357,7 +598,26 @@ func AudioProcessEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AudioendEvent(callback interface{}, sel string) *trees.Event {
+func AudioendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -371,7 +631,7 @@ func AudioendEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("audioend", sel)
+	ev := trees.NewEvent("audioend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -389,7 +649,26 @@ func AudioendEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func AudiostartEvent(callback interface{}, sel string) *trees.Event {
+func AudiostartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -403,7 +682,7 @@ func AudiostartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("audiostart", sel)
+	ev := trees.NewEvent("audiostart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -421,7 +700,26 @@ func AudiostartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func BeforeInstallPromptEvent(callback interface{}, sel string) *trees.Event {
+func BeforeInstallPromptEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -435,7 +733,7 @@ func BeforeInstallPromptEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("beforeinstallprompt", sel)
+	ev := trees.NewEvent("BeforeInstallPrompt", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -453,7 +751,26 @@ func BeforeInstallPromptEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func BeforePrintEvent(callback interface{}, sel string) *trees.Event {
+func BeforePrintEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -467,7 +784,7 @@ func BeforePrintEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("beforeprint", sel)
+	ev := trees.NewEvent("BeforePrint", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -485,7 +802,26 @@ func BeforePrintEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func BeforeScriptExecuteEvent(callback interface{}, sel string) *trees.Event {
+func BeforeScriptExecuteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -499,7 +835,7 @@ func BeforeScriptExecuteEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("beforescriptexecute", sel)
+	ev := trees.NewEvent("BeforeScriptExecute", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -517,7 +853,26 @@ func BeforeScriptExecuteEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func BeforeUnloadEvent(callback interface{}, sel string) *trees.Event {
+func BeforeUnloadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -531,7 +886,7 @@ func BeforeUnloadEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("beforeunload", sel)
+	ev := trees.NewEvent("BeforeUnload", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -549,7 +904,26 @@ func BeforeUnloadEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func BeginEventEvent(callback interface{}, sel string) *trees.Event {
+func BeginEventEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -563,7 +937,7 @@ func BeginEventEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("beginEvent", sel)
+	ev := trees.NewEvent("beginEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -581,7 +955,26 @@ func BeginEventEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func BlockedEvent(callback interface{}, sel string) *trees.Event {
+func BlockedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -595,7 +988,7 @@ func BlockedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("blocked", sel)
+	ev := trees.NewEvent("blocked", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -613,7 +1006,26 @@ func BlockedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func BlurEvent(callback interface{}, sel string) *trees.Event {
+func BlurEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -627,7 +1039,7 @@ func BlurEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("blur", sel)
+	ev := trees.NewEvent("blur", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -645,7 +1057,26 @@ func BlurEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func BoundaryEvent(callback interface{}, sel string) *trees.Event {
+func BoundaryEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -659,7 +1090,7 @@ func BoundaryEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("boundary", sel)
+	ev := trees.NewEvent("boundary", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -677,7 +1108,26 @@ func BoundaryEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func BroadcastEvent(callback interface{}, sel string) *trees.Event {
+func BroadcastEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -691,7 +1141,7 @@ func BroadcastEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("broadcast", sel)
+	ev := trees.NewEvent("broadcast", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -709,7 +1159,26 @@ func BroadcastEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func BusyEvent(callback interface{}, sel string) *trees.Event {
+func BusyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -723,743 +1192,7 @@ func BusyEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("busy", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CachedEvent Documentation is as below: "The resources listed in the manifest have been downloaded, and the application is now cached."
-// https://developer.mozilla.org/docs/Web/Events/cached
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CachedEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("cached", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CallschangedEvent Documentation is as below: "A call has been added or removed from the list of current calls."
-// https://developer.mozilla.org/docs/Web/Events/callschanged
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CallschangedEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("callschanged", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CanPlayEvent Documentation is as below: "The user agent can play the media, but estimates that not enough data has been loaded to play the media up to its end without having to stop for further buffering of content."
-// https://developer.mozilla.org/docs/Web/Events/canplay
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CanPlayEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("canplay", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CanPlayThroughEvent Documentation is as below: "The user agent can play the media up to its end without having to stop for further buffering of content."
-// https://developer.mozilla.org/docs/Web/Events/canplaythrough
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CanPlayThroughEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("canplaythrough", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CardstatechangeEvent Documentation is as below: "The MozMobileConnection.cardState property changes value."
-// https://developer.mozilla.org/docs/Web/Events/cardstatechange
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CardstatechangeEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("cardstatechange", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CfstatechangeEvent Documentation is as below: "The call forwarding state changes."
-// https://developer.mozilla.org/docs/Web/Events/cfstatechange
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CfstatechangeEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("cfstatechange", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// ChangeEvent Documentation is as below: "This event is triggered each time a file is created, modified or deleted on a given storage area."
-// https://developer.mozilla.org/docs/Web/Events/change
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func ChangeEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("change", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// ChargingChangeEvent Documentation is as below: "The battery begins or stops charging."
-// https://developer.mozilla.org/docs/Web/Events/chargingchange
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func ChargingChangeEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("chargingchange", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// ChargingTimeChangeEvent Documentation is as below: "The chargingTime attribute has been updated."
-// https://developer.mozilla.org/docs/Web/Events/chargingtimechange
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func ChargingTimeChangeEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("chargingtimechange", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CheckboxStateChangeEvent Documentation is as below: "The state of a checkbox has been changed either by a user action or by a script (useful for accessibility)."
-// https://developer.mozilla.org/docs/Web/Events/CheckboxStateChange
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CheckboxStateChangeEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("CheckboxStateChange", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CheckingEvent Documentation is as below: "The user agent is checking for an update, or attempting to download the cache manifest for the first time."
-// https://developer.mozilla.org/docs/Web/Events/checking
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CheckingEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("checking", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// ClickEvent Documentation is as below: "A pointing device button has been pressed and released on an element."
-// https://developer.mozilla.org/docs/Web/Events/click
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func ClickEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("click", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CloseEvent Documentation is as below: "The close button of the window has been clicked."
-// https://developer.mozilla.org/docs/Web/Reference/Events/close_event
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CloseEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("close", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CommandEvent Documentation is as below: "An element has been activated."
-// https://developer.mozilla.org/docs/Web/Events/command
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CommandEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("command", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CommandupdateEvent Documentation is as below: "A command update occurred on a commandset element."
-// https://developer.mozilla.org/docs/Web/Events/commandupdate
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CommandupdateEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("commandupdate", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CompleteEvent Documentation is as below: "The rendering of an OfflineAudioContext is terminated."
-// https://developer.mozilla.org/docs/Web/Events/complete
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CompleteEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("complete", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CompositionEndEvent Documentation is as below: "The composition of a passage of text has been completed or canceled."
-// https://developer.mozilla.org/docs/Web/Events/compositionend
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CompositionEndEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("compositionend", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CompositionStartEvent Documentation is as below: "The composition of a passage of text is prepared (similar to keydown for a keyboard input, but works with other inputs such as speech recognition)."
-// https://developer.mozilla.org/docs/Web/Events/compositionstart
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CompositionStartEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("compositionstart", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CompositionUpdateEvent Documentation is as below: "A character is added to a passage of text being composed."
-// https://developer.mozilla.org/docs/Web/Events/compositionupdate
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CompositionUpdateEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("compositionupdate", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// ConnectingEvent Documentation is as below: "A call is about to connect."
-// https://developer.mozilla.org/docs/Web/Events/connecting
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func ConnectingEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("connecting", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// ConnectionInfoUpdateEvent Documentation is as below: "The informations about the signal strength and the link speed have been updated."
-// https://developer.mozilla.org/docs/Web/Events/connectionInfoUpdate
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func ConnectionInfoUpdateEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("connectionInfoUpdate", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// ContextMenuEvent Documentation is as below: "The right button of the mouse is clicked (before the context menu is displayed)."
-// https://developer.mozilla.org/docs/Web/Events/contextmenu
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func ContextMenuEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("contextmenu", sel)
-	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
-			return
-		}
-
-		handler(evm.Event, ev.Tree)
-	})
-
-	return ev
-}
-
-// CopyEvent Documentation is as below: "The text selection has been added to the clipboard."
-// https://developer.mozilla.org/docs/Web/Events/copy
-// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
-// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
-// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
-// the selector value is not empty then that becomes the default selector used match the event with.
-func CopyEvent(callback interface{}, sel string) *trees.Event {
-	var handler EventHandler
-
-	switch cb := callback.(type) {
-	case func():
-		handler = WrapHandler(cb)
-	case func(trees.EventObject):
-		handler = WrapEventOnlyHandler(cb)
-	case func(trees.EventObject, *trees.Markup):
-		handler = cb
-	default:
-		panic("Unacceptable type for event callback")
-	}
-
-	ev := trees.NewEvent("copy", sel)
+	ev := trees.NewEvent("busy", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1477,7 +1210,26 @@ func CopyEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func CSSRuleViewCSSLinkClickedEvent(callback interface{}, sel string) *trees.Event {
+func CSSRuleViewCSSLinkClickedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1491,7 +1243,7 @@ func CSSRuleViewCSSLinkClickedEvent(callback interface{}, sel string) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CssRuleViewCSSLinkClicked", sel)
+	ev := trees.NewEvent("CSSRuleViewCSSLinkClicked", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1503,13 +1255,32 @@ func CSSRuleViewCSSLinkClickedEvent(callback interface{}, sel string) *trees.Eve
 	return ev
 }
 
-// CSSRuleViewChangedEvent Documentation is as below: "The \"Rules\" view of the style inspector has been changed."
+// CSSRuleViewChangeEvent Documentation is as below: "The \"Rules\" view of the style inspector has been changed."
 // https://developer.mozilla.org/docs/Web/Reference/Events/CssRuleViewChanged
 // This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func CSSRuleViewChangedEvent(callback interface{}, sel string) *trees.Event {
+func CSSRuleViewChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1523,7 +1294,7 @@ func CSSRuleViewChangedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CssRuleViewChanged", sel)
+	ev := trees.NewEvent("CSSRuleViewChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1541,7 +1312,26 @@ func CSSRuleViewChangedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func CSSRuleViewRefreshedEvent(callback interface{}, sel string) *trees.Event {
+func CSSRuleViewRefreshedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1555,7 +1345,1180 @@ func CSSRuleViewRefreshedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CssRuleViewRefreshed", sel)
+	ev := trees.NewEvent("CSSRuleViewRefreshed", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CachedEvent Documentation is as below: "The resources listed in the manifest have been downloaded, and the application is now cached."
+// https://developer.mozilla.org/docs/Web/Events/cached
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CachedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("cached", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CallschangedEvent Documentation is as below: "A call has been added or removed from the list of current calls."
+// https://developer.mozilla.org/docs/Web/Events/callschanged
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CallschangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("callschanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CanPlayEvent Documentation is as below: "The user agent can play the media, but estimates that not enough data has been loaded to play the media up to its end without having to stop for further buffering of content."
+// https://developer.mozilla.org/docs/Web/Events/canplay
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CanPlayEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("CanPlay", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CanPlayThroughEvent Documentation is as below: "The user agent can play the media up to its end without having to stop for further buffering of content."
+// https://developer.mozilla.org/docs/Web/Events/canplaythrough
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CanPlayThroughEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("CanPlayThrough", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CardstatechangeEvent Documentation is as below: "The MozMobileConnection.cardState property changes value."
+// https://developer.mozilla.org/docs/Web/Events/cardstatechange
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CardstatechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("cardstatechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CfstatechangeEvent Documentation is as below: "The call forwarding state changes."
+// https://developer.mozilla.org/docs/Web/Events/cfstatechange
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CfstatechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("cfstatechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// ChangeEvent Documentation is as below: "This event is triggered each time a file is created, modified or deleted on a given storage area."
+// https://developer.mozilla.org/docs/Web/Events/change
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func ChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("change", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// ChargingChangeEvent Documentation is as below: "The battery begins or stops charging."
+// https://developer.mozilla.org/docs/Web/Events/chargingchange
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func ChargingChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("ChargingChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// ChargingTimeChangeEvent Documentation is as below: "The chargingTime attribute has been updated."
+// https://developer.mozilla.org/docs/Web/Events/chargingtimechange
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func ChargingTimeChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("ChargingTimeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CheckboxStateChangeEvent Documentation is as below: "The state of a checkbox has been changed either by a user action or by a script (useful for accessibility)."
+// https://developer.mozilla.org/docs/Web/Events/CheckboxStateChange
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CheckboxStateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("CheckboxStateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CheckingEvent Documentation is as below: "The user agent is checking for an update, or attempting to download the cache manifest for the first time."
+// https://developer.mozilla.org/docs/Web/Events/checking
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CheckingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("checking", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// ClickEvent Documentation is as below: "A pointing device button has been pressed and released on an element."
+// https://developer.mozilla.org/docs/Web/Events/click
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func ClickEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("click", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CloseEvent Documentation is as below: "The close button of the window has been clicked."
+// https://developer.mozilla.org/docs/Web/Reference/Events/close_event
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("close", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CommandEvent Documentation is as below: "An element has been activated."
+// https://developer.mozilla.org/docs/Web/Events/command
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CommandEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("command", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CommandupdateEvent Documentation is as below: "A command update occurred on a commandset element."
+// https://developer.mozilla.org/docs/Web/Events/commandupdate
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CommandupdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("commandupdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CompleteEvent Documentation is as below: "The rendering of an OfflineAudioContext is terminated."
+// https://developer.mozilla.org/docs/Web/Events/complete
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CompleteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("complete", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CompositionEndEvent Documentation is as below: "The composition of a passage of text has been completed or canceled."
+// https://developer.mozilla.org/docs/Web/Events/compositionend
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CompositionEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("CompositionEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CompositionStartEvent Documentation is as below: "The composition of a passage of text is prepared (similar to keydown for a keyboard input, but works with other inputs such as speech recognition)."
+// https://developer.mozilla.org/docs/Web/Events/compositionstart
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CompositionStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("CompositionStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CompositionUpdateEvent Documentation is as below: "A character is added to a passage of text being composed."
+// https://developer.mozilla.org/docs/Web/Events/compositionupdate
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CompositionUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("CompositionUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// ConnectingEvent Documentation is as below: "A call is about to connect."
+// https://developer.mozilla.org/docs/Web/Events/connecting
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func ConnectingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("connecting", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// ConnectionInfoUpdateEvent Documentation is as below: "The informations about the signal strength and the link speed have been updated."
+// https://developer.mozilla.org/docs/Web/Events/connectionInfoUpdate
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func ConnectionInfoUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("connectionInfoUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// ContextMenuEvent Documentation is as below: "The right button of the mouse is clicked (before the context menu is displayed)."
+// https://developer.mozilla.org/docs/Web/Events/contextmenu
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func ContextMenuEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("ContextMenu", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// CopyEvent Documentation is as below: "The text selection has been added to the clipboard."
+// https://developer.mozilla.org/docs/Web/Events/copy
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func CopyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("copy", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1573,7 +2536,26 @@ func CSSRuleViewRefreshedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func CutEvent(callback interface{}, sel string) *trees.Event {
+func CutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1587,7 +2569,7 @@ func CutEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("cut", sel)
+	ev := trees.NewEvent("cut", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1605,7 +2587,26 @@ func CutEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMAutoCompleteEvent(callback interface{}, sel string) *trees.Event {
+func DOMAutoCompleteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1619,7 +2620,7 @@ func DOMAutoCompleteEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMAutoComplete", sel)
+	ev := trees.NewEvent("DOMAutoComplete", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1637,7 +2638,26 @@ func DOMAutoCompleteEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMContentLoadedEvent(callback interface{}, sel string) *trees.Event {
+func DOMContentLoadedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1651,7 +2671,7 @@ func DOMContentLoadedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMContentLoaded", sel)
+	ev := trees.NewEvent("DOMContentLoaded", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1669,7 +2689,26 @@ func DOMContentLoadedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMFrameContentLoadedEvent(callback interface{}, sel string) *trees.Event {
+func DOMFrameContentLoadedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1683,7 +2722,7 @@ func DOMFrameContentLoadedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMFrameContentLoaded", sel)
+	ev := trees.NewEvent("DOMFrameContentLoaded", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1701,7 +2740,26 @@ func DOMFrameContentLoadedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMLinkAddedEvent(callback interface{}, sel string) *trees.Event {
+func DOMLinkAddedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1715,7 +2773,7 @@ func DOMLinkAddedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMLinkAdded", sel)
+	ev := trees.NewEvent("DOMLinkAdded", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1733,7 +2791,26 @@ func DOMLinkAddedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMLinkRemovedEvent(callback interface{}, sel string) *trees.Event {
+func DOMLinkRemovedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1747,7 +2824,7 @@ func DOMLinkRemovedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMLinkRemoved", sel)
+	ev := trees.NewEvent("DOMLinkRemoved", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1765,7 +2842,26 @@ func DOMLinkRemovedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMMenuItemActiveEvent(callback interface{}, sel string) *trees.Event {
+func DOMMenuItemActiveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1779,7 +2875,7 @@ func DOMMenuItemActiveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMMenuItemActive", sel)
+	ev := trees.NewEvent("DOMMenuItemActive", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1797,7 +2893,26 @@ func DOMMenuItemActiveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMMenuItemInactiveEvent(callback interface{}, sel string) *trees.Event {
+func DOMMenuItemInactiveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1811,7 +2926,7 @@ func DOMMenuItemInactiveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMMenuItemInactive", sel)
+	ev := trees.NewEvent("DOMMenuItemInactive", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1829,7 +2944,26 @@ func DOMMenuItemInactiveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMMetaAddedEvent(callback interface{}, sel string) *trees.Event {
+func DOMMetaAddedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1843,7 +2977,7 @@ func DOMMetaAddedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMMetaAdded", sel)
+	ev := trees.NewEvent("DOMMetaAdded", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1861,7 +2995,26 @@ func DOMMetaAddedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMMetaRemovedEvent(callback interface{}, sel string) *trees.Event {
+func DOMMetaRemovedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1875,7 +3028,7 @@ func DOMMetaRemovedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMMetaRemoved", sel)
+	ev := trees.NewEvent("DOMMetaRemoved", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1893,7 +3046,26 @@ func DOMMetaRemovedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMModalDialogClosedEvent(callback interface{}, sel string) *trees.Event {
+func DOMModalDialogClosedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1907,7 +3079,7 @@ func DOMModalDialogClosedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMModalDialogClosed", sel)
+	ev := trees.NewEvent("DOMModalDialogClosed", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1925,7 +3097,26 @@ func DOMModalDialogClosedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMPopupBlockedEvent(callback interface{}, sel string) *trees.Event {
+func DOMPopupBlockedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1939,7 +3130,7 @@ func DOMPopupBlockedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMPopupBlocked", sel)
+	ev := trees.NewEvent("DOMPopupBlocked", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1957,7 +3148,26 @@ func DOMPopupBlockedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMTitleChangedEvent(callback interface{}, sel string) *trees.Event {
+func DOMTitleChangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -1971,7 +3181,7 @@ func DOMTitleChangedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMTitleChanged", sel)
+	ev := trees.NewEvent("DOMTitleChanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1989,7 +3199,26 @@ func DOMTitleChangedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMWillOpenModalDialogEvent(callback interface{}, sel string) *trees.Event {
+func DOMWillOpenModalDialogEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2003,7 +3232,7 @@ func DOMWillOpenModalDialogEvent(callback interface{}, sel string) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMWillOpenModalDialog", sel)
+	ev := trees.NewEvent("DOMWillOpenModalDialog", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2021,7 +3250,26 @@ func DOMWillOpenModalDialogEvent(callback interface{}, sel string) *trees.Event 
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMWindowCloseEvent(callback interface{}, sel string) *trees.Event {
+func DOMWindowCloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2035,7 +3283,7 @@ func DOMWindowCloseEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMWindowClose", sel)
+	ev := trees.NewEvent("DOMWindowClose", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2053,7 +3301,26 @@ func DOMWindowCloseEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DOMWindowCreatedEvent(callback interface{}, sel string) *trees.Event {
+func DOMWindowCreatedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2067,7 +3334,7 @@ func DOMWindowCreatedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMWindowCreated", sel)
+	ev := trees.NewEvent("DOMWindowCreated", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2085,7 +3352,26 @@ func DOMWindowCreatedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DatachangeEvent(callback interface{}, sel string) *trees.Event {
+func DatachangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2099,7 +3385,7 @@ func DatachangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("datachange", sel)
+	ev := trees.NewEvent("datachange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2117,7 +3403,26 @@ func DatachangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DataerrorEvent(callback interface{}, sel string) *trees.Event {
+func DataerrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2131,7 +3436,7 @@ func DataerrorEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dataerror", sel)
+	ev := trees.NewEvent("dataerror", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2149,7 +3454,26 @@ func DataerrorEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DblClickEvent(callback interface{}, sel string) *trees.Event {
+func DblClickEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2163,7 +3487,7 @@ func DblClickEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dblclick", sel)
+	ev := trees.NewEvent("DblClick", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2181,7 +3505,26 @@ func DblClickEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DeliveredEvent(callback interface{}, sel string) *trees.Event {
+func DeliveredEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2195,7 +3538,7 @@ func DeliveredEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("delivered", sel)
+	ev := trees.NewEvent("delivered", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2213,7 +3556,26 @@ func DeliveredEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DeviceLightEvent(callback interface{}, sel string) *trees.Event {
+func DeviceLightEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2227,7 +3589,7 @@ func DeviceLightEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("devicelight", sel)
+	ev := trees.NewEvent("DeviceLight", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2245,7 +3607,26 @@ func DeviceLightEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DeviceMotionEvent(callback interface{}, sel string) *trees.Event {
+func DeviceMotionEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2259,7 +3640,7 @@ func DeviceMotionEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("devicemotion", sel)
+	ev := trees.NewEvent("DeviceMotion", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2277,7 +3658,26 @@ func DeviceMotionEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DeviceOrientationEvent(callback interface{}, sel string) *trees.Event {
+func DeviceOrientationEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2291,7 +3691,7 @@ func DeviceOrientationEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("deviceorientation", sel)
+	ev := trees.NewEvent("DeviceOrientation", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2309,7 +3709,26 @@ func DeviceOrientationEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DeviceProximityEvent(callback interface{}, sel string) *trees.Event {
+func DeviceProximityEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2323,7 +3742,7 @@ func DeviceProximityEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("deviceproximity", sel)
+	ev := trees.NewEvent("DeviceProximity", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2341,7 +3760,26 @@ func DeviceProximityEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DevicechangeEvent(callback interface{}, sel string) *trees.Event {
+func DevicechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2355,7 +3793,7 @@ func DevicechangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("devicechange", sel)
+	ev := trees.NewEvent("devicechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2373,7 +3811,26 @@ func DevicechangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DialingEvent(callback interface{}, sel string) *trees.Event {
+func DialingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2387,7 +3844,7 @@ func DialingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dialing", sel)
+	ev := trees.NewEvent("dialing", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2405,7 +3862,26 @@ func DialingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DisabledEvent(callback interface{}, sel string) *trees.Event {
+func DisabledEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2419,7 +3895,7 @@ func DisabledEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("disabled", sel)
+	ev := trees.NewEvent("disabled", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2437,7 +3913,26 @@ func DisabledEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DischargingTimeChangeEvent(callback interface{}, sel string) *trees.Event {
+func DischargingTimeChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2451,7 +3946,7 @@ func DischargingTimeChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dischargingtimechange", sel)
+	ev := trees.NewEvent("DischargingTimeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2469,7 +3964,26 @@ func DischargingTimeChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DisconnectedEvent(callback interface{}, sel string) *trees.Event {
+func DisconnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2483,7 +3997,7 @@ func DisconnectedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("disconnected", sel)
+	ev := trees.NewEvent("disconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2501,7 +4015,26 @@ func DisconnectedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DisconnectingEvent(callback interface{}, sel string) *trees.Event {
+func DisconnectingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2515,7 +4048,7 @@ func DisconnectingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("disconnecting", sel)
+	ev := trees.NewEvent("disconnecting", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2533,7 +4066,26 @@ func DisconnectingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DownloadingEvent(callback interface{}, sel string) *trees.Event {
+func DownloadingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2547,7 +4099,7 @@ func DownloadingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("downloading", sel)
+	ev := trees.NewEvent("downloading", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2565,7 +4117,26 @@ func DownloadingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DragEvent(callback interface{}, sel string) *trees.Event {
+func DragEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2579,7 +4150,7 @@ func DragEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("drag", sel)
+	ev := trees.NewEvent("drag", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2597,7 +4168,26 @@ func DragEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DragEndEvent(callback interface{}, sel string) *trees.Event {
+func DragEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2611,7 +4201,7 @@ func DragEndEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dragend", sel)
+	ev := trees.NewEvent("DragEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2629,7 +4219,26 @@ func DragEndEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DragEnterEvent(callback interface{}, sel string) *trees.Event {
+func DragEnterEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2643,7 +4252,7 @@ func DragEnterEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dragenter", sel)
+	ev := trees.NewEvent("DragEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2661,7 +4270,26 @@ func DragEnterEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DragLeaveEvent(callback interface{}, sel string) *trees.Event {
+func DragLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2675,7 +4303,7 @@ func DragLeaveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dragleave", sel)
+	ev := trees.NewEvent("DragLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2693,7 +4321,26 @@ func DragLeaveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DragOverEvent(callback interface{}, sel string) *trees.Event {
+func DragOverEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2707,7 +4354,7 @@ func DragOverEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dragover", sel)
+	ev := trees.NewEvent("DragOver", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2725,7 +4372,26 @@ func DragOverEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DragStartEvent(callback interface{}, sel string) *trees.Event {
+func DragStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2739,7 +4405,7 @@ func DragStartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dragstart", sel)
+	ev := trees.NewEvent("DragStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2757,7 +4423,26 @@ func DragStartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DropEvent(callback interface{}, sel string) *trees.Event {
+func DropEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2771,7 +4456,7 @@ func DropEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("drop", sel)
+	ev := trees.NewEvent("drop", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2789,7 +4474,26 @@ func DropEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func DurationChangeEvent(callback interface{}, sel string) *trees.Event {
+func DurationChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2803,7 +4507,7 @@ func DurationChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("durationchange", sel)
+	ev := trees.NewEvent("DurationChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2821,7 +4525,26 @@ func DurationChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func EmptiedEvent(callback interface{}, sel string) *trees.Event {
+func EmptiedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2835,7 +4558,7 @@ func EmptiedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("emptied", sel)
+	ev := trees.NewEvent("emptied", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2853,7 +4576,26 @@ func EmptiedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func EnabledEvent(callback interface{}, sel string) *trees.Event {
+func EnabledEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2867,7 +4609,7 @@ func EnabledEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("enabled", sel)
+	ev := trees.NewEvent("enabled", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2885,7 +4627,26 @@ func EnabledEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func EndEvent(callback interface{}, sel string) *trees.Event {
+func EndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2899,7 +4660,7 @@ func EndEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("end", sel)
+	ev := trees.NewEvent("end", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2917,7 +4678,26 @@ func EndEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func EndEventEvent(callback interface{}, sel string) *trees.Event {
+func EndEventEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2931,7 +4711,7 @@ func EndEventEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("endEvent", sel)
+	ev := trees.NewEvent("endEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2949,7 +4729,26 @@ func EndEventEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func EndedEvent(callback interface{}, sel string) *trees.Event {
+func EndedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2963,7 +4762,7 @@ func EndedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ended", sel)
+	ev := trees.NewEvent("ended", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2981,7 +4780,26 @@ func EndedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func FocusEvent(callback interface{}, sel string) *trees.Event {
+func FocusEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -2995,7 +4813,7 @@ func FocusEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("focus", sel)
+	ev := trees.NewEvent("focus", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3013,7 +4831,26 @@ func FocusEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func FocusInEvent(callback interface{}, sel string) *trees.Event {
+func FocusInEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3027,7 +4864,7 @@ func FocusInEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("focusin", sel)
+	ev := trees.NewEvent("FocusIn", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3045,7 +4882,26 @@ func FocusInEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func FocusOutEvent(callback interface{}, sel string) *trees.Event {
+func FocusOutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3059,7 +4915,7 @@ func FocusOutEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("focusout", sel)
+	ev := trees.NewEvent("FocusOut", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3077,7 +4933,26 @@ func FocusOutEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func FullScreenChangeEvent(callback interface{}, sel string) *trees.Event {
+func FullScreenChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3091,7 +4966,7 @@ func FullScreenChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("fullscreenchange", sel)
+	ev := trees.NewEvent("FullScreenChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3109,7 +4984,26 @@ func FullScreenChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func FullScreenErrorEvent(callback interface{}, sel string) *trees.Event {
+func FullScreenErrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3123,7 +5017,7 @@ func FullScreenErrorEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("fullscreenerror", sel)
+	ev := trees.NewEvent("FullScreenError", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3141,7 +5035,26 @@ func FullScreenErrorEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func FullscreenEvent(callback interface{}, sel string) *trees.Event {
+func FullscreenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3155,7 +5068,7 @@ func FullscreenEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("fullscreen", sel)
+	ev := trees.NewEvent("fullscreen", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3173,7 +5086,26 @@ func FullscreenEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func GamepadConnectedEvent(callback interface{}, sel string) *trees.Event {
+func GamepadConnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3187,7 +5119,7 @@ func GamepadConnectedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("gamepadconnected", sel)
+	ev := trees.NewEvent("GamepadConnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3205,7 +5137,26 @@ func GamepadConnectedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func GamepadDisconnectedEvent(callback interface{}, sel string) *trees.Event {
+func GamepadDisconnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3219,7 +5170,7 @@ func GamepadDisconnectedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("gamepaddisconnected", sel)
+	ev := trees.NewEvent("GamepadDisconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3237,7 +5188,26 @@ func GamepadDisconnectedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func GotpointercaptureEvent(callback interface{}, sel string) *trees.Event {
+func GotpointercaptureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3251,7 +5221,7 @@ func GotpointercaptureEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("gotpointercapture", sel)
+	ev := trees.NewEvent("gotpointercapture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3269,7 +5239,26 @@ func GotpointercaptureEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func HashChangeEvent(callback interface{}, sel string) *trees.Event {
+func HashChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3283,7 +5272,7 @@ func HashChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("hashchange", sel)
+	ev := trees.NewEvent("HashChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3301,7 +5290,26 @@ func HashChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func HeldEvent(callback interface{}, sel string) *trees.Event {
+func HeldEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3315,7 +5323,7 @@ func HeldEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("held", sel)
+	ev := trees.NewEvent("held", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3333,7 +5341,26 @@ func HeldEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func HoldingEvent(callback interface{}, sel string) *trees.Event {
+func HoldingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3347,7 +5374,7 @@ func HoldingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("holding", sel)
+	ev := trees.NewEvent("holding", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3365,7 +5392,26 @@ func HoldingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func IcccardlockerrorEvent(callback interface{}, sel string) *trees.Event {
+func IcccardlockerrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3379,7 +5425,7 @@ func IcccardlockerrorEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("icccardlockerror", sel)
+	ev := trees.NewEvent("icccardlockerror", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3397,7 +5443,26 @@ func IcccardlockerrorEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func IccinfochangeEvent(callback interface{}, sel string) *trees.Event {
+func IccinfochangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3411,7 +5476,7 @@ func IccinfochangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("iccinfochange", sel)
+	ev := trees.NewEvent("iccinfochange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3429,7 +5494,26 @@ func IccinfochangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func IncomingEvent(callback interface{}, sel string) *trees.Event {
+func IncomingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3443,7 +5527,7 @@ func IncomingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("incoming", sel)
+	ev := trees.NewEvent("incoming", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3461,7 +5545,26 @@ func IncomingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func InputEvent(callback interface{}, sel string) *trees.Event {
+func InputEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3475,7 +5578,7 @@ func InputEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("input", sel)
+	ev := trees.NewEvent("input", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3493,7 +5596,26 @@ func InputEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func InvalidEvent(callback interface{}, sel string) *trees.Event {
+func InvalidEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3507,7 +5629,7 @@ func InvalidEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("invalid", sel)
+	ev := trees.NewEvent("invalid", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3525,7 +5647,26 @@ func InvalidEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func KeyDownEvent(callback interface{}, sel string) *trees.Event {
+func KeyDownEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3539,7 +5680,7 @@ func KeyDownEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("keydown", sel)
+	ev := trees.NewEvent("KeyDown", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3557,7 +5698,26 @@ func KeyDownEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func KeyPressEvent(callback interface{}, sel string) *trees.Event {
+func KeyPressEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3571,7 +5731,7 @@ func KeyPressEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("keypress", sel)
+	ev := trees.NewEvent("KeyPress", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3589,7 +5749,26 @@ func KeyPressEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func KeyUpEvent(callback interface{}, sel string) *trees.Event {
+func KeyUpEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3603,7 +5782,7 @@ func KeyUpEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("keyup", sel)
+	ev := trees.NewEvent("KeyUp", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3621,7 +5800,26 @@ func KeyUpEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func LanguageChangeEvent(callback interface{}, sel string) *trees.Event {
+func LanguageChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3635,7 +5833,7 @@ func LanguageChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("languagechange", sel)
+	ev := trees.NewEvent("LanguageChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3653,7 +5851,26 @@ func LanguageChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func LevelChangeEvent(callback interface{}, sel string) *trees.Event {
+func LevelChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3667,7 +5884,7 @@ func LevelChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("levelchange", sel)
+	ev := trees.NewEvent("LevelChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3685,7 +5902,26 @@ func LevelChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func LoadEvent(callback interface{}, sel string) *trees.Event {
+func LoadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3699,7 +5935,7 @@ func LoadEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("load", sel)
+	ev := trees.NewEvent("load", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3717,7 +5953,26 @@ func LoadEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func LoadEndEvent(callback interface{}, sel string) *trees.Event {
+func LoadEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3731,7 +5986,7 @@ func LoadEndEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("loadend", sel)
+	ev := trees.NewEvent("LoadEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3749,7 +6004,26 @@ func LoadEndEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func LoadStartEvent(callback interface{}, sel string) *trees.Event {
+func LoadStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3763,7 +6037,7 @@ func LoadStartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("loadstart", sel)
+	ev := trees.NewEvent("LoadStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3781,7 +6055,26 @@ func LoadStartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func LoadedDataEvent(callback interface{}, sel string) *trees.Event {
+func LoadedDataEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3795,7 +6088,7 @@ func LoadedDataEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("loadeddata", sel)
+	ev := trees.NewEvent("LoadedData", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3813,7 +6106,26 @@ func LoadedDataEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func LoadedMetadataEvent(callback interface{}, sel string) *trees.Event {
+func LoadedMetadataEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3827,7 +6139,7 @@ func LoadedMetadataEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("loadedmetadata", sel)
+	ev := trees.NewEvent("LoadedMetadata", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3845,7 +6157,26 @@ func LoadedMetadataEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func LocalizedEvent(callback interface{}, sel string) *trees.Event {
+func LocalizedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3859,7 +6190,7 @@ func LocalizedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("localized", sel)
+	ev := trees.NewEvent("localized", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3877,7 +6208,26 @@ func LocalizedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func LostpointercaptureEvent(callback interface{}, sel string) *trees.Event {
+func LostpointercaptureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3891,7 +6241,7 @@ func LostpointercaptureEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("lostpointercapture", sel)
+	ev := trees.NewEvent("lostpointercapture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3909,7 +6259,26 @@ func LostpointercaptureEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MarkEvent(callback interface{}, sel string) *trees.Event {
+func MarkEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3923,7 +6292,7 @@ func MarkEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mark", sel)
+	ev := trees.NewEvent("mark", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3941,7 +6310,26 @@ func MarkEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MessageEvent(callback interface{}, sel string) *trees.Event {
+func MessageEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3955,7 +6343,7 @@ func MessageEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("message", sel)
+	ev := trees.NewEvent("message", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3973,7 +6361,26 @@ func MessageEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MouseDownEvent(callback interface{}, sel string) *trees.Event {
+func MouseDownEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -3987,7 +6394,7 @@ func MouseDownEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mousedown", sel)
+	ev := trees.NewEvent("MouseDown", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4005,7 +6412,26 @@ func MouseDownEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MouseEnterEvent(callback interface{}, sel string) *trees.Event {
+func MouseEnterEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4019,7 +6445,7 @@ func MouseEnterEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mouseenter", sel)
+	ev := trees.NewEvent("MouseEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4037,7 +6463,26 @@ func MouseEnterEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MouseLeaveEvent(callback interface{}, sel string) *trees.Event {
+func MouseLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4051,7 +6496,7 @@ func MouseLeaveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mouseleave", sel)
+	ev := trees.NewEvent("MouseLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4069,7 +6514,26 @@ func MouseLeaveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MouseMoveEvent(callback interface{}, sel string) *trees.Event {
+func MouseMoveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4083,7 +6547,7 @@ func MouseMoveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mousemove", sel)
+	ev := trees.NewEvent("MouseMove", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4101,7 +6565,26 @@ func MouseMoveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MouseOutEvent(callback interface{}, sel string) *trees.Event {
+func MouseOutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4115,7 +6598,7 @@ func MouseOutEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mouseout", sel)
+	ev := trees.NewEvent("MouseOut", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4133,7 +6616,26 @@ func MouseOutEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MouseOverEvent(callback interface{}, sel string) *trees.Event {
+func MouseOverEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4147,7 +6649,7 @@ func MouseOverEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mouseover", sel)
+	ev := trees.NewEvent("MouseOver", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4165,7 +6667,26 @@ func MouseOverEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MouseUpEvent(callback interface{}, sel string) *trees.Event {
+func MouseUpEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4179,7 +6700,7 @@ func MouseUpEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mouseup", sel)
+	ev := trees.NewEvent("MouseUp", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4197,7 +6718,26 @@ func MouseUpEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozAfterPaintEvent(callback interface{}, sel string) *trees.Event {
+func MozAfterPaintEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4211,7 +6751,7 @@ func MozAfterPaintEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozAfterPaint", sel)
+	ev := trees.NewEvent("MozAfterPaint", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4229,7 +6769,26 @@ func MozAfterPaintEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozAudioAvailableEvent(callback interface{}, sel string) *trees.Event {
+func MozAudioAvailableEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4243,7 +6802,7 @@ func MozAudioAvailableEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozAudioAvailable", sel)
+	ev := trees.NewEvent("MozAudioAvailable", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4261,7 +6820,26 @@ func MozAudioAvailableEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozBeforeResizeEvent(callback interface{}, sel string) *trees.Event {
+func MozBeforeResizeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4275,7 +6853,7 @@ func MozBeforeResizeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozBeforeResize", sel)
+	ev := trees.NewEvent("MozBeforeResize", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4293,7 +6871,26 @@ func MozBeforeResizeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozEdgeUIGestureEvent(callback interface{}, sel string) *trees.Event {
+func MozEdgeUIGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4307,7 +6904,7 @@ func MozEdgeUIGestureEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozEdgeUIGesture", sel)
+	ev := trees.NewEvent("MozEdgeUIGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4325,7 +6922,26 @@ func MozEdgeUIGestureEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozEnteredDomFullscreenEvent(callback interface{}, sel string) *trees.Event {
+func MozEnteredDomFullscreenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4339,7 +6955,7 @@ func MozEnteredDomFullscreenEvent(callback interface{}, sel string) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozEnteredDomFullscreen", sel)
+	ev := trees.NewEvent("MozEnteredDomFullscreen", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4357,7 +6973,26 @@ func MozEnteredDomFullscreenEvent(callback interface{}, sel string) *trees.Event
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozGamepadButtonDownEvent(callback interface{}, sel string) *trees.Event {
+func MozGamepadButtonDownEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4371,7 +7006,7 @@ func MozGamepadButtonDownEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozGamepadButtonDown", sel)
+	ev := trees.NewEvent("MozGamepadButtonDown", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4389,7 +7024,26 @@ func MozGamepadButtonDownEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozGamepadButtonUpEvent(callback interface{}, sel string) *trees.Event {
+func MozGamepadButtonUpEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4403,7 +7057,7 @@ func MozGamepadButtonUpEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozGamepadButtonUp", sel)
+	ev := trees.NewEvent("MozGamepadButtonUp", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4421,7 +7075,26 @@ func MozGamepadButtonUpEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozMagnifyGestureEvent(callback interface{}, sel string) *trees.Event {
+func MozMagnifyGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4435,7 +7108,7 @@ func MozMagnifyGestureEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozMagnifyGesture", sel)
+	ev := trees.NewEvent("MozMagnifyGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4453,7 +7126,26 @@ func MozMagnifyGestureEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozMagnifyGestureStartEvent(callback interface{}, sel string) *trees.Event {
+func MozMagnifyGestureStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4467,7 +7159,7 @@ func MozMagnifyGestureStartEvent(callback interface{}, sel string) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozMagnifyGestureStart", sel)
+	ev := trees.NewEvent("MozMagnifyGestureStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4485,7 +7177,26 @@ func MozMagnifyGestureStartEvent(callback interface{}, sel string) *trees.Event 
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozMagnifyGestureUpdateEvent(callback interface{}, sel string) *trees.Event {
+func MozMagnifyGestureUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4499,7 +7210,7 @@ func MozMagnifyGestureUpdateEvent(callback interface{}, sel string) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozMagnifyGestureUpdate", sel)
+	ev := trees.NewEvent("MozMagnifyGestureUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4517,7 +7228,26 @@ func MozMagnifyGestureUpdateEvent(callback interface{}, sel string) *trees.Event
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozPressTapGestureEvent(callback interface{}, sel string) *trees.Event {
+func MozPressTapGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4531,7 +7261,7 @@ func MozPressTapGestureEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozPressTapGesture", sel)
+	ev := trees.NewEvent("MozPressTapGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4549,7 +7279,26 @@ func MozPressTapGestureEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozRotateGestureEvent(callback interface{}, sel string) *trees.Event {
+func MozRotateGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4563,7 +7312,7 @@ func MozRotateGestureEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozRotateGesture", sel)
+	ev := trees.NewEvent("MozRotateGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4581,7 +7330,26 @@ func MozRotateGestureEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozRotateGestureStartEvent(callback interface{}, sel string) *trees.Event {
+func MozRotateGestureStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4595,7 +7363,7 @@ func MozRotateGestureStartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozRotateGestureStart", sel)
+	ev := trees.NewEvent("MozRotateGestureStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4613,7 +7381,26 @@ func MozRotateGestureStartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozRotateGestureUpdateEvent(callback interface{}, sel string) *trees.Event {
+func MozRotateGestureUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4627,7 +7414,7 @@ func MozRotateGestureUpdateEvent(callback interface{}, sel string) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozRotateGestureUpdate", sel)
+	ev := trees.NewEvent("MozRotateGestureUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4645,7 +7432,26 @@ func MozRotateGestureUpdateEvent(callback interface{}, sel string) *trees.Event 
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozScrolledAreaChangedEvent(callback interface{}, sel string) *trees.Event {
+func MozScrolledAreaChangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4659,7 +7465,7 @@ func MozScrolledAreaChangedEvent(callback interface{}, sel string) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozScrolledAreaChanged", sel)
+	ev := trees.NewEvent("MozScrolledAreaChanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4677,7 +7483,26 @@ func MozScrolledAreaChangedEvent(callback interface{}, sel string) *trees.Event 
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozSwipeGestureEvent(callback interface{}, sel string) *trees.Event {
+func MozSwipeGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4691,7 +7516,7 @@ func MozSwipeGestureEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozSwipeGesture", sel)
+	ev := trees.NewEvent("MozSwipeGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4709,7 +7534,26 @@ func MozSwipeGestureEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozTapGestureEvent(callback interface{}, sel string) *trees.Event {
+func MozTapGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4723,7 +7567,7 @@ func MozTapGestureEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozTapGesture", sel)
+	ev := trees.NewEvent("MozTapGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4741,7 +7585,26 @@ func MozTapGestureEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowseractivitydoneEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowseractivitydoneEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4755,7 +7618,7 @@ func MozbrowseractivitydoneEvent(callback interface{}, sel string) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowseractivitydone", sel)
+	ev := trees.NewEvent("mozbrowseractivitydone", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4773,7 +7636,26 @@ func MozbrowseractivitydoneEvent(callback interface{}, sel string) *trees.Event 
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserasyncscrollEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserasyncscrollEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4787,7 +7669,7 @@ func MozbrowserasyncscrollEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserasyncscroll", sel)
+	ev := trees.NewEvent("mozbrowserasyncscroll", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4805,7 +7687,26 @@ func MozbrowserasyncscrollEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowseraudioplaybackchangeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowseraudioplaybackchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4819,7 +7720,7 @@ func MozbrowseraudioplaybackchangeEvent(callback interface{}, sel string) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowseraudioplaybackchange", sel)
+	ev := trees.NewEvent("mozbrowseraudioplaybackchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4837,7 +7738,26 @@ func MozbrowseraudioplaybackchangeEvent(callback interface{}, sel string) *trees
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowsercaretstatechangedEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowsercaretstatechangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4851,7 +7771,7 @@ func MozbrowsercaretstatechangedEvent(callback interface{}, sel string) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsercaretstatechanged", sel)
+	ev := trees.NewEvent("mozbrowsercaretstatechanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4869,7 +7789,26 @@ func MozbrowsercaretstatechangedEvent(callback interface{}, sel string) *trees.E
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowsercloseEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowsercloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4883,7 +7822,7 @@ func MozbrowsercloseEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserclose", sel)
+	ev := trees.NewEvent("mozbrowserclose", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4901,7 +7840,26 @@ func MozbrowsercloseEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowsercontextmenuEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowsercontextmenuEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4915,7 +7873,7 @@ func MozbrowsercontextmenuEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsercontextmenu", sel)
+	ev := trees.NewEvent("mozbrowsercontextmenu", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4933,7 +7891,26 @@ func MozbrowsercontextmenuEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserdocumentfirstpaintEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserdocumentfirstpaintEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4947,7 +7924,7 @@ func MozbrowserdocumentfirstpaintEvent(callback interface{}, sel string) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserdocumentfirstpaint", sel)
+	ev := trees.NewEvent("mozbrowserdocumentfirstpaint", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4965,7 +7942,26 @@ func MozbrowserdocumentfirstpaintEvent(callback interface{}, sel string) *trees.
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowsererrorEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowsererrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -4979,7 +7975,7 @@ func MozbrowsererrorEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsererror", sel)
+	ev := trees.NewEvent("mozbrowsererror", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4997,7 +7993,26 @@ func MozbrowsererrorEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserfindchangeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserfindchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5011,7 +8026,7 @@ func MozbrowserfindchangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserfindchange", sel)
+	ev := trees.NewEvent("mozbrowserfindchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5029,7 +8044,26 @@ func MozbrowserfindchangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserfirstpaintEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserfirstpaintEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5043,7 +8077,7 @@ func MozbrowserfirstpaintEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserfirstpaint", sel)
+	ev := trees.NewEvent("mozbrowserfirstpaint", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5061,7 +8095,26 @@ func MozbrowserfirstpaintEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowsericonchangeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowsericonchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5075,7 +8128,7 @@ func MozbrowsericonchangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsericonchange", sel)
+	ev := trees.NewEvent("mozbrowsericonchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5093,7 +8146,26 @@ func MozbrowsericonchangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserloadendEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserloadendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5107,7 +8179,7 @@ func MozbrowserloadendEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserloadend", sel)
+	ev := trees.NewEvent("mozbrowserloadend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5125,7 +8197,26 @@ func MozbrowserloadendEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserloadstartEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserloadstartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5139,7 +8230,7 @@ func MozbrowserloadstartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserloadstart", sel)
+	ev := trees.NewEvent("mozbrowserloadstart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5157,7 +8248,26 @@ func MozbrowserloadstartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserlocationchangeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserlocationchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5171,7 +8281,7 @@ func MozbrowserlocationchangeEvent(callback interface{}, sel string) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserlocationchange", sel)
+	ev := trees.NewEvent("mozbrowserlocationchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5189,7 +8299,26 @@ func MozbrowserlocationchangeEvent(callback interface{}, sel string) *trees.Even
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowsermanifestchangeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowsermanifestchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5203,7 +8332,7 @@ func MozbrowsermanifestchangeEvent(callback interface{}, sel string) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsermanifestchange", sel)
+	ev := trees.NewEvent("mozbrowsermanifestchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5221,7 +8350,26 @@ func MozbrowsermanifestchangeEvent(callback interface{}, sel string) *trees.Even
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowsermetachangeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowsermetachangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5235,7 +8383,7 @@ func MozbrowsermetachangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsermetachange", sel)
+	ev := trees.NewEvent("mozbrowsermetachange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5253,7 +8401,26 @@ func MozbrowsermetachangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowseropensearchEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowseropensearchEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5267,7 +8434,7 @@ func MozbrowseropensearchEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowseropensearch", sel)
+	ev := trees.NewEvent("mozbrowseropensearch", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5285,7 +8452,26 @@ func MozbrowseropensearchEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowseropentabEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowseropentabEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5299,7 +8485,7 @@ func MozbrowseropentabEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowseropentab", sel)
+	ev := trees.NewEvent("mozbrowseropentab", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5317,7 +8503,26 @@ func MozbrowseropentabEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowseropenwindowEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowseropenwindowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5331,7 +8536,7 @@ func MozbrowseropenwindowEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowseropenwindow", sel)
+	ev := trees.NewEvent("mozbrowseropenwindow", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5349,7 +8554,26 @@ func MozbrowseropenwindowEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserresizeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserresizeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5363,7 +8587,7 @@ func MozbrowserresizeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserresize", sel)
+	ev := trees.NewEvent("mozbrowserresize", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5381,7 +8605,26 @@ func MozbrowserresizeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserscrollEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserscrollEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5395,7 +8638,7 @@ func MozbrowserscrollEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserscroll", sel)
+	ev := trees.NewEvent("mozbrowserscroll", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5413,7 +8656,26 @@ func MozbrowserscrollEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserscrollareachangedEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserscrollareachangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5427,7 +8689,7 @@ func MozbrowserscrollareachangedEvent(callback interface{}, sel string) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserscrollareachanged", sel)
+	ev := trees.NewEvent("mozbrowserscrollareachanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5445,7 +8707,26 @@ func MozbrowserscrollareachangedEvent(callback interface{}, sel string) *trees.E
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserscrollviewchangeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserscrollviewchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5459,7 +8740,7 @@ func MozbrowserscrollviewchangeEvent(callback interface{}, sel string) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserscrollviewchange", sel)
+	ev := trees.NewEvent("mozbrowserscrollviewchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5477,7 +8758,26 @@ func MozbrowserscrollviewchangeEvent(callback interface{}, sel string) *trees.Ev
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowsersecuritychangeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowsersecuritychangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5491,7 +8791,7 @@ func MozbrowsersecuritychangeEvent(callback interface{}, sel string) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsersecuritychange", sel)
+	ev := trees.NewEvent("mozbrowsersecuritychange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5509,7 +8809,26 @@ func MozbrowsersecuritychangeEvent(callback interface{}, sel string) *trees.Even
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserselectionstatechangedEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserselectionstatechangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5523,7 +8842,7 @@ func MozbrowserselectionstatechangedEvent(callback interface{}, sel string) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserselectionstatechanged", sel)
+	ev := trees.NewEvent("mozbrowserselectionstatechanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5541,7 +8860,26 @@ func MozbrowserselectionstatechangedEvent(callback interface{}, sel string) *tre
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowsershowmodalpromptEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowsershowmodalpromptEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5555,7 +8893,7 @@ func MozbrowsershowmodalpromptEvent(callback interface{}, sel string) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsershowmodalprompt", sel)
+	ev := trees.NewEvent("mozbrowsershowmodalprompt", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5573,7 +8911,26 @@ func MozbrowsershowmodalpromptEvent(callback interface{}, sel string) *trees.Eve
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowsertitlechangeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowsertitlechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5587,7 +8944,7 @@ func MozbrowsertitlechangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsertitlechange", sel)
+	ev := trees.NewEvent("mozbrowsertitlechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5605,7 +8962,26 @@ func MozbrowsertitlechangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowserusernameandpasswordrequiredEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowserusernameandpasswordrequiredEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5619,7 +8995,7 @@ func MozbrowserusernameandpasswordrequiredEvent(callback interface{}, sel string
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserusernameandpasswordrequired", sel)
+	ev := trees.NewEvent("mozbrowserusernameandpasswordrequired", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5637,7 +9013,26 @@ func MozbrowserusernameandpasswordrequiredEvent(callback interface{}, sel string
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MozbrowservisibilitychangeEvent(callback interface{}, sel string) *trees.Event {
+func MozbrowservisibilitychangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5651,7 +9046,7 @@ func MozbrowservisibilitychangeEvent(callback interface{}, sel string) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowservisibilitychange", sel)
+	ev := trees.NewEvent("mozbrowservisibilitychange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5669,7 +9064,26 @@ func MozbrowservisibilitychangeEvent(callback interface{}, sel string) *trees.Ev
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func MoztimechangeEvent(callback interface{}, sel string) *trees.Event {
+func MoztimechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5683,7 +9097,7 @@ func MoztimechangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("moztimechange", sel)
+	ev := trees.NewEvent("moztimechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5701,7 +9115,26 @@ func MoztimechangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func NoUpdateEvent(callback interface{}, sel string) *trees.Event {
+func NoUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5715,7 +9148,7 @@ func NoUpdateEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("noupdate", sel)
+	ev := trees.NewEvent("NoUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5733,7 +9166,26 @@ func NoUpdateEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func NomatchEvent(callback interface{}, sel string) *trees.Event {
+func NomatchEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5747,7 +9199,7 @@ func NomatchEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("nomatch", sel)
+	ev := trees.NewEvent("nomatch", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5765,7 +9217,26 @@ func NomatchEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func NotificationclickEvent(callback interface{}, sel string) *trees.Event {
+func NotificationclickEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5779,7 +9250,7 @@ func NotificationclickEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("notificationclick", sel)
+	ev := trees.NewEvent("notificationclick", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5797,7 +9268,26 @@ func NotificationclickEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ObsoleteEvent(callback interface{}, sel string) *trees.Event {
+func ObsoleteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5811,7 +9301,7 @@ func ObsoleteEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("obsolete", sel)
+	ev := trees.NewEvent("obsolete", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5829,7 +9319,26 @@ func ObsoleteEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func OfflineEvent(callback interface{}, sel string) *trees.Event {
+func OfflineEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5843,7 +9352,7 @@ func OfflineEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("offline", sel)
+	ev := trees.NewEvent("offline", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5861,7 +9370,26 @@ func OfflineEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func OnconnectedEvent(callback interface{}, sel string) *trees.Event {
+func OnconnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5875,7 +9403,7 @@ func OnconnectedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("onconnected", sel)
+	ev := trees.NewEvent("onconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5893,7 +9421,26 @@ func OnconnectedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func OnlineEvent(callback interface{}, sel string) *trees.Event {
+func OnlineEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5907,7 +9454,7 @@ func OnlineEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("online", sel)
+	ev := trees.NewEvent("online", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5925,7 +9472,26 @@ func OnlineEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func OpenEvent(callback interface{}, sel string) *trees.Event {
+func OpenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5939,7 +9505,7 @@ func OpenEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("open", sel)
+	ev := trees.NewEvent("open", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5957,7 +9523,26 @@ func OpenEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func OrientationChangeEvent(callback interface{}, sel string) *trees.Event {
+func OrientationChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -5971,7 +9556,7 @@ func OrientationChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("orientationchange", sel)
+	ev := trees.NewEvent("OrientationChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5989,7 +9574,26 @@ func OrientationChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func OverflowEvent(callback interface{}, sel string) *trees.Event {
+func OverflowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6003,7 +9607,7 @@ func OverflowEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("overflow", sel)
+	ev := trees.NewEvent("overflow", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6021,7 +9625,26 @@ func OverflowEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PageHideEvent(callback interface{}, sel string) *trees.Event {
+func PageHideEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6035,7 +9658,7 @@ func PageHideEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pagehide", sel)
+	ev := trees.NewEvent("PageHide", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6053,7 +9676,26 @@ func PageHideEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PageShowEvent(callback interface{}, sel string) *trees.Event {
+func PageShowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6067,7 +9709,7 @@ func PageShowEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pageshow", sel)
+	ev := trees.NewEvent("PageShow", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6085,7 +9727,26 @@ func PageShowEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PasteEvent(callback interface{}, sel string) *trees.Event {
+func PasteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6099,7 +9760,7 @@ func PasteEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("paste", sel)
+	ev := trees.NewEvent("paste", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6117,7 +9778,26 @@ func PasteEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PauseEvent(callback interface{}, sel string) *trees.Event {
+func PauseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6131,7 +9811,7 @@ func PauseEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pause", sel)
+	ev := trees.NewEvent("pause", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6149,7 +9829,26 @@ func PauseEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PlayEvent(callback interface{}, sel string) *trees.Event {
+func PlayEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6163,7 +9862,7 @@ func PlayEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("play", sel)
+	ev := trees.NewEvent("play", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6181,7 +9880,26 @@ func PlayEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PlayingEvent(callback interface{}, sel string) *trees.Event {
+func PlayingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6195,7 +9913,7 @@ func PlayingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("playing", sel)
+	ev := trees.NewEvent("playing", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6213,7 +9931,26 @@ func PlayingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PointerLockChangeEvent(callback interface{}, sel string) *trees.Event {
+func PointerLockChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6227,7 +9964,7 @@ func PointerLockChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerlockchange", sel)
+	ev := trees.NewEvent("PointerLockChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6245,7 +9982,26 @@ func PointerLockChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PointerLockErrorEvent(callback interface{}, sel string) *trees.Event {
+func PointerLockErrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6259,7 +10015,7 @@ func PointerLockErrorEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerlockerror", sel)
+	ev := trees.NewEvent("PointerLockError", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6277,7 +10033,26 @@ func PointerLockErrorEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PointercancelEvent(callback interface{}, sel string) *trees.Event {
+func PointercancelEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6291,7 +10066,7 @@ func PointercancelEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointercancel", sel)
+	ev := trees.NewEvent("pointercancel", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6309,7 +10084,26 @@ func PointercancelEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PointerdownEvent(callback interface{}, sel string) *trees.Event {
+func PointerdownEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6323,7 +10117,7 @@ func PointerdownEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerdown", sel)
+	ev := trees.NewEvent("pointerdown", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6341,7 +10135,26 @@ func PointerdownEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PointerenterEvent(callback interface{}, sel string) *trees.Event {
+func PointerenterEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6355,7 +10168,7 @@ func PointerenterEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerenter", sel)
+	ev := trees.NewEvent("pointerenter", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6373,7 +10186,26 @@ func PointerenterEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PointerleaveEvent(callback interface{}, sel string) *trees.Event {
+func PointerleaveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6387,7 +10219,7 @@ func PointerleaveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerleave", sel)
+	ev := trees.NewEvent("pointerleave", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6405,7 +10237,26 @@ func PointerleaveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PointermoveEvent(callback interface{}, sel string) *trees.Event {
+func PointermoveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6419,7 +10270,7 @@ func PointermoveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointermove", sel)
+	ev := trees.NewEvent("pointermove", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6437,7 +10288,26 @@ func PointermoveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PointeroutEvent(callback interface{}, sel string) *trees.Event {
+func PointeroutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6451,7 +10321,7 @@ func PointeroutEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerout", sel)
+	ev := trees.NewEvent("pointerout", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6469,7 +10339,26 @@ func PointeroutEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PointeroverEvent(callback interface{}, sel string) *trees.Event {
+func PointeroverEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6483,7 +10372,7 @@ func PointeroverEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerover", sel)
+	ev := trees.NewEvent("pointerover", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6501,7 +10390,26 @@ func PointeroverEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PointerupEvent(callback interface{}, sel string) *trees.Event {
+func PointerupEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6515,7 +10423,7 @@ func PointerupEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerup", sel)
+	ev := trees.NewEvent("pointerup", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6533,7 +10441,26 @@ func PointerupEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PopStateEvent(callback interface{}, sel string) *trees.Event {
+func PopStateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6547,7 +10474,7 @@ func PopStateEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("popstate", sel)
+	ev := trees.NewEvent("PopState", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6565,7 +10492,26 @@ func PopStateEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PopuphiddenEvent(callback interface{}, sel string) *trees.Event {
+func PopuphiddenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6579,7 +10525,7 @@ func PopuphiddenEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("popuphidden", sel)
+	ev := trees.NewEvent("popuphidden", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6597,7 +10543,26 @@ func PopuphiddenEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PopuphidingEvent(callback interface{}, sel string) *trees.Event {
+func PopuphidingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6611,7 +10576,7 @@ func PopuphidingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("popuphiding", sel)
+	ev := trees.NewEvent("popuphiding", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6629,7 +10594,26 @@ func PopuphidingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PopupshowingEvent(callback interface{}, sel string) *trees.Event {
+func PopupshowingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6643,7 +10627,7 @@ func PopupshowingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("popupshowing", sel)
+	ev := trees.NewEvent("popupshowing", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6661,7 +10645,26 @@ func PopupshowingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PopupshownEvent(callback interface{}, sel string) *trees.Event {
+func PopupshownEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6675,7 +10678,7 @@ func PopupshownEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("popupshown", sel)
+	ev := trees.NewEvent("popupshown", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6693,7 +10696,26 @@ func PopupshownEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ProgressEvent(callback interface{}, sel string) *trees.Event {
+func ProgressEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6707,7 +10729,7 @@ func ProgressEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("progress", sel)
+	ev := trees.NewEvent("progress", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6725,7 +10747,26 @@ func ProgressEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PushEvent(callback interface{}, sel string) *trees.Event {
+func PushEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6739,7 +10780,7 @@ func PushEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("push", sel)
+	ev := trees.NewEvent("push", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6757,7 +10798,26 @@ func PushEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func PushsubscriptionchangeEvent(callback interface{}, sel string) *trees.Event {
+func PushsubscriptionchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6771,7 +10831,7 @@ func PushsubscriptionchangeEvent(callback interface{}, sel string) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pushsubscriptionchange", sel)
+	ev := trees.NewEvent("pushsubscriptionchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6789,7 +10849,26 @@ func PushsubscriptionchangeEvent(callback interface{}, sel string) *trees.Event 
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func RadioStateChangeEvent(callback interface{}, sel string) *trees.Event {
+func RadioStateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6803,7 +10882,7 @@ func RadioStateChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("RadioStateChange", sel)
+	ev := trees.NewEvent("RadioStateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6821,7 +10900,26 @@ func RadioStateChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func RateChangeEvent(callback interface{}, sel string) *trees.Event {
+func RateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6835,7 +10933,7 @@ func RateChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ratechange", sel)
+	ev := trees.NewEvent("RateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6853,7 +10951,26 @@ func RateChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ReadystateChangeEvent(callback interface{}, sel string) *trees.Event {
+func ReadystateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6867,7 +10984,7 @@ func ReadystateChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("readystatechange", sel)
+	ev := trees.NewEvent("ReadystateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6885,7 +11002,26 @@ func ReadystateChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ReceivedEvent(callback interface{}, sel string) *trees.Event {
+func ReceivedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6899,7 +11035,7 @@ func ReceivedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("received", sel)
+	ev := trees.NewEvent("received", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6917,7 +11053,26 @@ func ReceivedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func RepeatEventEvent(callback interface{}, sel string) *trees.Event {
+func RepeatEventEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6931,7 +11086,7 @@ func RepeatEventEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("repeatEvent", sel)
+	ev := trees.NewEvent("repeatEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6949,7 +11104,26 @@ func RepeatEventEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ResetEvent(callback interface{}, sel string) *trees.Event {
+func ResetEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6963,7 +11137,7 @@ func ResetEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("reset", sel)
+	ev := trees.NewEvent("reset", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6981,7 +11155,26 @@ func ResetEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ResizeEvent(callback interface{}, sel string) *trees.Event {
+func ResizeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -6995,7 +11188,7 @@ func ResizeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("resize", sel)
+	ev := trees.NewEvent("resize", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7013,7 +11206,26 @@ func ResizeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ResourcetimingbufferfullEvent(callback interface{}, sel string) *trees.Event {
+func ResourcetimingbufferfullEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7027,7 +11239,7 @@ func ResourcetimingbufferfullEvent(callback interface{}, sel string) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("resourcetimingbufferfull", sel)
+	ev := trees.NewEvent("resourcetimingbufferfull", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7045,7 +11257,26 @@ func ResourcetimingbufferfullEvent(callback interface{}, sel string) *trees.Even
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ResultEvent(callback interface{}, sel string) *trees.Event {
+func ResultEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7059,7 +11290,7 @@ func ResultEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("result", sel)
+	ev := trees.NewEvent("result", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7077,7 +11308,26 @@ func ResultEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ResumeEvent(callback interface{}, sel string) *trees.Event {
+func ResumeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7091,7 +11341,7 @@ func ResumeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("resume", sel)
+	ev := trees.NewEvent("resume", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7109,7 +11359,26 @@ func ResumeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ResumingEvent(callback interface{}, sel string) *trees.Event {
+func ResumingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7123,7 +11392,7 @@ func ResumingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("resuming", sel)
+	ev := trees.NewEvent("resuming", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7141,7 +11410,26 @@ func ResumingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SSTabClosingEvent(callback interface{}, sel string) *trees.Event {
+func SSTabClosingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7155,7 +11443,7 @@ func SSTabClosingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSTabClosing", sel)
+	ev := trees.NewEvent("SSTabClosing", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7173,7 +11461,26 @@ func SSTabClosingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SSTabRestoredEvent(callback interface{}, sel string) *trees.Event {
+func SSTabRestoredEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7187,7 +11494,7 @@ func SSTabRestoredEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSTabRestored", sel)
+	ev := trees.NewEvent("SSTabRestored", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7205,7 +11512,26 @@ func SSTabRestoredEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SSTabRestoringEvent(callback interface{}, sel string) *trees.Event {
+func SSTabRestoringEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7219,7 +11545,7 @@ func SSTabRestoringEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSTabRestoring", sel)
+	ev := trees.NewEvent("SSTabRestoring", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7237,7 +11563,26 @@ func SSTabRestoringEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SSWindowClosingEvent(callback interface{}, sel string) *trees.Event {
+func SSWindowClosingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7251,7 +11596,7 @@ func SSWindowClosingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSWindowClosing", sel)
+	ev := trees.NewEvent("SSWindowClosing", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7269,7 +11614,26 @@ func SSWindowClosingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SSWindowStateBusyEvent(callback interface{}, sel string) *trees.Event {
+func SSWindowStateBusyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7283,7 +11647,7 @@ func SSWindowStateBusyEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSWindowStateBusy", sel)
+	ev := trees.NewEvent("SSWindowStateBusy", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7301,7 +11665,26 @@ func SSWindowStateBusyEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SSWindowStateReadyEvent(callback interface{}, sel string) *trees.Event {
+func SSWindowStateReadyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7315,7 +11698,7 @@ func SSWindowStateReadyEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSWindowStateReady", sel)
+	ev := trees.NewEvent("SSWindowStateReady", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7333,7 +11716,26 @@ func SSWindowStateReadyEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SVGAbortEvent(callback interface{}, sel string) *trees.Event {
+func SVGAbortEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7347,7 +11749,7 @@ func SVGAbortEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGAbort", sel)
+	ev := trees.NewEvent("SVGAbort", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7365,7 +11767,26 @@ func SVGAbortEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SVGErrorEvent(callback interface{}, sel string) *trees.Event {
+func SVGErrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7379,7 +11800,7 @@ func SVGErrorEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGError", sel)
+	ev := trees.NewEvent("SVGError", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7397,7 +11818,26 @@ func SVGErrorEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SVGLoadEvent(callback interface{}, sel string) *trees.Event {
+func SVGLoadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7411,7 +11851,7 @@ func SVGLoadEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGLoad", sel)
+	ev := trees.NewEvent("SVGLoad", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7429,7 +11869,26 @@ func SVGLoadEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SVGResizeEvent(callback interface{}, sel string) *trees.Event {
+func SVGResizeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7443,7 +11902,7 @@ func SVGResizeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGResize", sel)
+	ev := trees.NewEvent("SVGResize", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7461,7 +11920,26 @@ func SVGResizeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SVGScrollEvent(callback interface{}, sel string) *trees.Event {
+func SVGScrollEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7475,7 +11953,7 @@ func SVGScrollEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGScroll", sel)
+	ev := trees.NewEvent("SVGScroll", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7493,7 +11971,26 @@ func SVGScrollEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SVGUnloadEvent(callback interface{}, sel string) *trees.Event {
+func SVGUnloadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7507,7 +12004,7 @@ func SVGUnloadEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGUnload", sel)
+	ev := trees.NewEvent("SVGUnload", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7525,7 +12022,26 @@ func SVGUnloadEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SVGZoomEvent(callback interface{}, sel string) *trees.Event {
+func SVGZoomEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7539,7 +12055,7 @@ func SVGZoomEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGZoom", sel)
+	ev := trees.NewEvent("SVGZoom", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7557,7 +12073,26 @@ func SVGZoomEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ScrollEvent(callback interface{}, sel string) *trees.Event {
+func ScrollEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7571,7 +12106,7 @@ func ScrollEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("scroll", sel)
+	ev := trees.NewEvent("scroll", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7589,7 +12124,26 @@ func ScrollEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SeekedEvent(callback interface{}, sel string) *trees.Event {
+func SeekedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7603,7 +12157,7 @@ func SeekedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("seeked", sel)
+	ev := trees.NewEvent("seeked", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7621,7 +12175,26 @@ func SeekedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SeekingEvent(callback interface{}, sel string) *trees.Event {
+func SeekingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7635,7 +12208,7 @@ func SeekingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("seeking", sel)
+	ev := trees.NewEvent("seeking", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7653,7 +12226,26 @@ func SeekingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SelectEvent(callback interface{}, sel string) *trees.Event {
+func SelectEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7667,7 +12259,7 @@ func SelectEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("select", sel)
+	ev := trees.NewEvent("select", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7685,7 +12277,26 @@ func SelectEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SelectionchangeEvent(callback interface{}, sel string) *trees.Event {
+func SelectionchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7699,7 +12310,7 @@ func SelectionchangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("selectionchange", sel)
+	ev := trees.NewEvent("selectionchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7717,7 +12328,26 @@ func SelectionchangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SelectstartEvent(callback interface{}, sel string) *trees.Event {
+func SelectstartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7731,7 +12361,7 @@ func SelectstartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("selectstart", sel)
+	ev := trees.NewEvent("selectstart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7749,7 +12379,26 @@ func SelectstartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SentEvent(callback interface{}, sel string) *trees.Event {
+func SentEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7763,7 +12412,7 @@ func SentEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("sent", sel)
+	ev := trees.NewEvent("sent", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7781,7 +12430,26 @@ func SentEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ShowEvent(callback interface{}, sel string) *trees.Event {
+func ShowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7795,7 +12463,7 @@ func ShowEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("show", sel)
+	ev := trees.NewEvent("show", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7813,7 +12481,26 @@ func ShowEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SizemodechangeEvent(callback interface{}, sel string) *trees.Event {
+func SizemodechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7827,7 +12514,7 @@ func SizemodechangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("sizemodechange", sel)
+	ev := trees.NewEvent("sizemodechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7845,7 +12532,26 @@ func SizemodechangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SmartCardInsertEvent(callback interface{}, sel string) *trees.Event {
+func SmartCardInsertEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7859,7 +12565,7 @@ func SmartCardInsertEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("smartcard-insert", sel)
+	ev := trees.NewEvent("SmartCardInsert", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7877,7 +12583,26 @@ func SmartCardInsertEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SmartCardRemoveEvent(callback interface{}, sel string) *trees.Event {
+func SmartCardRemoveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7891,7 +12616,7 @@ func SmartCardRemoveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("smartcard-remove", sel)
+	ev := trees.NewEvent("SmartCardRemove", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7909,7 +12634,26 @@ func SmartCardRemoveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SoundendEvent(callback interface{}, sel string) *trees.Event {
+func SoundendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7923,7 +12667,7 @@ func SoundendEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("soundend", sel)
+	ev := trees.NewEvent("soundend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7941,7 +12685,26 @@ func SoundendEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SoundstartEvent(callback interface{}, sel string) *trees.Event {
+func SoundstartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7955,7 +12718,7 @@ func SoundstartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("soundstart", sel)
+	ev := trees.NewEvent("soundstart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7973,7 +12736,26 @@ func SoundstartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SpeechendEvent(callback interface{}, sel string) *trees.Event {
+func SpeechendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -7987,7 +12769,7 @@ func SpeechendEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("speechend", sel)
+	ev := trees.NewEvent("speechend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8005,7 +12787,26 @@ func SpeechendEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SpeechstartEvent(callback interface{}, sel string) *trees.Event {
+func SpeechstartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8019,7 +12820,7 @@ func SpeechstartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("speechstart", sel)
+	ev := trees.NewEvent("speechstart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8037,7 +12838,26 @@ func SpeechstartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func StalledEvent(callback interface{}, sel string) *trees.Event {
+func StalledEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8051,7 +12871,7 @@ func StalledEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("stalled", sel)
+	ev := trees.NewEvent("stalled", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8069,7 +12889,26 @@ func StalledEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func StartEvent(callback interface{}, sel string) *trees.Event {
+func StartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8083,7 +12922,7 @@ func StartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("start", sel)
+	ev := trees.NewEvent("start", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8101,7 +12940,26 @@ func StartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func StatechangeEvent(callback interface{}, sel string) *trees.Event {
+func StatechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8115,7 +12973,7 @@ func StatechangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("statechange", sel)
+	ev := trees.NewEvent("statechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8133,7 +12991,26 @@ func StatechangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func StatuschangeEvent(callback interface{}, sel string) *trees.Event {
+func StatuschangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8147,7 +13024,7 @@ func StatuschangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("statuschange", sel)
+	ev := trees.NewEvent("statuschange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8165,7 +13042,26 @@ func StatuschangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func StkcommandEvent(callback interface{}, sel string) *trees.Event {
+func StkcommandEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8179,7 +13075,7 @@ func StkcommandEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("stkcommand", sel)
+	ev := trees.NewEvent("stkcommand", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8197,7 +13093,26 @@ func StkcommandEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func StksessionendEvent(callback interface{}, sel string) *trees.Event {
+func StksessionendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8211,7 +13126,7 @@ func StksessionendEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("stksessionend", sel)
+	ev := trees.NewEvent("stksessionend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8229,7 +13144,26 @@ func StksessionendEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func StorageEvent(callback interface{}, sel string) *trees.Event {
+func StorageEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8243,7 +13177,7 @@ func StorageEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("storage", sel)
+	ev := trees.NewEvent("storage", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8261,7 +13195,26 @@ func StorageEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SubmitEvent(callback interface{}, sel string) *trees.Event {
+func SubmitEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8275,7 +13228,7 @@ func SubmitEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("submit", sel)
+	ev := trees.NewEvent("submit", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8293,7 +13246,26 @@ func SubmitEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SuccessEvent(callback interface{}, sel string) *trees.Event {
+func SuccessEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8307,7 +13279,7 @@ func SuccessEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("success", sel)
+	ev := trees.NewEvent("success", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8325,7 +13297,26 @@ func SuccessEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func SuspendEvent(callback interface{}, sel string) *trees.Event {
+func SuspendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8339,7 +13330,7 @@ func SuspendEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("suspend", sel)
+	ev := trees.NewEvent("suspend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8357,7 +13348,26 @@ func SuspendEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TabCloseEvent(callback interface{}, sel string) *trees.Event {
+func TabCloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8371,7 +13381,7 @@ func TabCloseEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabClose", sel)
+	ev := trees.NewEvent("TabClose", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8389,7 +13399,26 @@ func TabCloseEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TabHideEvent(callback interface{}, sel string) *trees.Event {
+func TabHideEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8403,7 +13432,7 @@ func TabHideEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabHide", sel)
+	ev := trees.NewEvent("TabHide", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8421,7 +13450,26 @@ func TabHideEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TabOpenEvent(callback interface{}, sel string) *trees.Event {
+func TabOpenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8435,7 +13483,7 @@ func TabOpenEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabOpen", sel)
+	ev := trees.NewEvent("TabOpen", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8453,7 +13501,26 @@ func TabOpenEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TabPinnedEvent(callback interface{}, sel string) *trees.Event {
+func TabPinnedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8467,7 +13534,7 @@ func TabPinnedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabPinned", sel)
+	ev := trees.NewEvent("TabPinned", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8485,7 +13552,26 @@ func TabPinnedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TabSelectEvent(callback interface{}, sel string) *trees.Event {
+func TabSelectEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8499,7 +13585,7 @@ func TabSelectEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabSelect", sel)
+	ev := trees.NewEvent("TabSelect", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8517,7 +13603,26 @@ func TabSelectEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TabShowEvent(callback interface{}, sel string) *trees.Event {
+func TabShowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8531,7 +13636,7 @@ func TabShowEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabShow", sel)
+	ev := trees.NewEvent("TabShow", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8549,7 +13654,26 @@ func TabShowEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TabUnpinnedEvent(callback interface{}, sel string) *trees.Event {
+func TabUnpinnedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8563,7 +13687,7 @@ func TabUnpinnedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabUnpinned", sel)
+	ev := trees.NewEvent("TabUnpinned", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8581,7 +13705,26 @@ func TabUnpinnedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TimeUpdateEvent(callback interface{}, sel string) *trees.Event {
+func TimeUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8595,7 +13738,7 @@ func TimeUpdateEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("timeupdate", sel)
+	ev := trees.NewEvent("TimeUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8613,7 +13756,26 @@ func TimeUpdateEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TimeoutEvent(callback interface{}, sel string) *trees.Event {
+func TimeoutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8627,7 +13789,7 @@ func TimeoutEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("timeout", sel)
+	ev := trees.NewEvent("timeout", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8645,7 +13807,26 @@ func TimeoutEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TouchCancelEvent(callback interface{}, sel string) *trees.Event {
+func TouchCancelEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8659,7 +13840,7 @@ func TouchCancelEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("touchcancel", sel)
+	ev := trees.NewEvent("TouchCancel", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8677,7 +13858,26 @@ func TouchCancelEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TouchEndEvent(callback interface{}, sel string) *trees.Event {
+func TouchEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8691,7 +13891,7 @@ func TouchEndEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("touchend", sel)
+	ev := trees.NewEvent("TouchEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8709,7 +13909,26 @@ func TouchEndEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TouchEnterEvent(callback interface{}, sel string) *trees.Event {
+func TouchEnterEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8723,7 +13942,7 @@ func TouchEnterEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("touchenter", sel)
+	ev := trees.NewEvent("TouchEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8741,7 +13960,26 @@ func TouchEnterEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TouchLeaveEvent(callback interface{}, sel string) *trees.Event {
+func TouchLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8755,7 +13993,7 @@ func TouchLeaveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("touchleave", sel)
+	ev := trees.NewEvent("TouchLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8773,7 +14011,26 @@ func TouchLeaveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TouchMoveEvent(callback interface{}, sel string) *trees.Event {
+func TouchMoveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8787,7 +14044,7 @@ func TouchMoveEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("touchmove", sel)
+	ev := trees.NewEvent("TouchMove", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8805,7 +14062,26 @@ func TouchMoveEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TouchStartEvent(callback interface{}, sel string) *trees.Event {
+func TouchStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8819,7 +14095,7 @@ func TouchStartEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("touchstart", sel)
+	ev := trees.NewEvent("TouchStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8837,7 +14113,26 @@ func TouchStartEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func TransitionEndEvent(callback interface{}, sel string) *trees.Event {
+func TransitionEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8851,7 +14146,109 @@ func TransitionEndEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("transitionend", sel)
+	ev := trees.NewEvent("TransitionEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// TransitionrunEvent Documentation is as below: "(no documentation)"
+// https://developer.mozilla.org/docs/Web/Events/transitionrun
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func TransitionrunEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("transitionrun", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
+		if ev.EventID != evm.EventID {
+			return
+		}
+
+		handler(evm.Event, ev.Tree)
+	})
+
+	return ev
+}
+
+// TransitionstartEvent Documentation is as below: "(no documentation)"
+// https://developer.mozilla.org/docs/Web/Events/transitionstart
+// This event provides options() to be called when the events is triggered and an optional selector which will override the internal selector
+// mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
+// appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
+// the selector value is not empty then that becomes the default selector used match the event with.
+func TransitionstartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
+	var handler EventHandler
+
+	switch cb := callback.(type) {
+	case func():
+		handler = WrapHandler(cb)
+	case func(trees.EventObject):
+		handler = WrapEventOnlyHandler(cb)
+	case func(trees.EventObject, *trees.Markup):
+		handler = cb
+	default:
+		panic("Unacceptable type for event callback")
+	}
+
+	ev := trees.NewEvent("transitionstart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8869,7 +14266,26 @@ func TransitionEndEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func UnderflowEvent(callback interface{}, sel string) *trees.Event {
+func UnderflowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8883,7 +14299,7 @@ func UnderflowEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("underflow", sel)
+	ev := trees.NewEvent("underflow", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8901,7 +14317,26 @@ func UnderflowEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func UnloadEvent(callback interface{}, sel string) *trees.Event {
+func UnloadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8915,7 +14350,7 @@ func UnloadEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("unload", sel)
+	ev := trees.NewEvent("unload", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8933,7 +14368,26 @@ func UnloadEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func UpdateReadyEvent(callback interface{}, sel string) *trees.Event {
+func UpdateReadyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8947,7 +14401,7 @@ func UpdateReadyEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("updateready", sel)
+	ev := trees.NewEvent("UpdateReady", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8965,7 +14419,26 @@ func UpdateReadyEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func UpgradeNeededEvent(callback interface{}, sel string) *trees.Event {
+func UpgradeNeededEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -8979,7 +14452,7 @@ func UpgradeNeededEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("upgradeneeded", sel)
+	ev := trees.NewEvent("UpgradeNeeded", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8997,7 +14470,26 @@ func UpgradeNeededEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func UserProximityEvent(callback interface{}, sel string) *trees.Event {
+func UserProximityEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9011,7 +14503,7 @@ func UserProximityEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("userproximity", sel)
+	ev := trees.NewEvent("UserProximity", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9029,7 +14521,26 @@ func UserProximityEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func UssdreceivedEvent(callback interface{}, sel string) *trees.Event {
+func UssdreceivedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9043,7 +14554,7 @@ func UssdreceivedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ussdreceived", sel)
+	ev := trees.NewEvent("ussdreceived", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9061,7 +14572,26 @@ func UssdreceivedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func ValueChangeEvent(callback interface{}, sel string) *trees.Event {
+func ValueChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9075,7 +14605,7 @@ func ValueChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ValueChange", sel)
+	ev := trees.NewEvent("ValueChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9093,7 +14623,26 @@ func ValueChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func VersionChangeEvent(callback interface{}, sel string) *trees.Event {
+func VersionChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9107,7 +14656,7 @@ func VersionChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("versionchange", sel)
+	ev := trees.NewEvent("VersionChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9125,7 +14674,26 @@ func VersionChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func VisibilityChangeEvent(callback interface{}, sel string) *trees.Event {
+func VisibilityChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9139,7 +14707,7 @@ func VisibilityChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("visibilitychange", sel)
+	ev := trees.NewEvent("VisibilityChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9157,7 +14725,26 @@ func VisibilityChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func VoicechangeEvent(callback interface{}, sel string) *trees.Event {
+func VoicechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9171,7 +14758,7 @@ func VoicechangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("voicechange", sel)
+	ev := trees.NewEvent("voicechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9189,7 +14776,26 @@ func VoicechangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func VoiceschangedEvent(callback interface{}, sel string) *trees.Event {
+func VoiceschangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9203,7 +14809,7 @@ func VoiceschangedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("voiceschanged", sel)
+	ev := trees.NewEvent("voiceschanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9221,7 +14827,26 @@ func VoiceschangedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func VolumeChangeEvent(callback interface{}, sel string) *trees.Event {
+func VolumeChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9235,7 +14860,7 @@ func VolumeChangeEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("volumechange", sel)
+	ev := trees.NewEvent("VolumeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9253,7 +14878,26 @@ func VolumeChangeEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func VrdisplayconnectedEvent(callback interface{}, sel string) *trees.Event {
+func VrdisplayconnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9267,7 +14911,7 @@ func VrdisplayconnectedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("vrdisplayconnected", sel)
+	ev := trees.NewEvent("vrdisplayconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9285,7 +14929,26 @@ func VrdisplayconnectedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func VrdisplaydisconnectedEvent(callback interface{}, sel string) *trees.Event {
+func VrdisplaydisconnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9299,7 +14962,7 @@ func VrdisplaydisconnectedEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("vrdisplaydisconnected", sel)
+	ev := trees.NewEvent("vrdisplaydisconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9317,7 +14980,26 @@ func VrdisplaydisconnectedEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func VrdisplaypresentchangeEvent(callback interface{}, sel string) *trees.Event {
+func VrdisplaypresentchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9331,7 +15013,7 @@ func VrdisplaypresentchangeEvent(callback interface{}, sel string) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("vrdisplaypresentchange", sel)
+	ev := trees.NewEvent("vrdisplaypresentchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9349,7 +15031,26 @@ func VrdisplaypresentchangeEvent(callback interface{}, sel string) *trees.Event 
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func WaitingEvent(callback interface{}, sel string) *trees.Event {
+func WaitingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9363,7 +15064,7 @@ func WaitingEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("waiting", sel)
+	ev := trees.NewEvent("waiting", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9381,7 +15082,26 @@ func WaitingEvent(callback interface{}, sel string) *trees.Event {
 // mechanism of the domtrees.Element i.e if the selectorOverride argument is an empty string then domtrees.Element will create an
 // appropriate selector matching its type and uid value in this format  (ElementType[uid='UID_VALUE']) but if
 // the selector value is not empty then that becomes the default selector used match the event with.
-func WheelEvent(callback interface{}, sel string) *trees.Event {
+func WheelEvent(callback interface{}, sel string, states ...bool) *trees.Event {
+	var preventDefault bool
+	var stopPropagation bool
+	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 3 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+	}
+
+	if states != nil && len(states) == 2 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+	}
+
+	if states != nil && len(states) == 1 {
+		preventDefault = states[0]
+	}
+
 	var handler EventHandler
 
 	switch cb := callback.(type) {
@@ -9395,7 +15115,7 @@ func WheelEvent(callback interface{}, sel string) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("wheel", sel)
+	ev := trees.NewEvent("wheel", sel, preventDefault, stopPropagation, stopImmediatePropagation)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return

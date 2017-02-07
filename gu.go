@@ -47,6 +47,12 @@ type RegisterService interface {
 	RegisterService(shell.Fetch, shell.Cache, router.Resolver)
 }
 
+// RegisterDriver provides a interface which allows components to access the
+// provided driver.
+type RegisterDriver interface {
+	RegisterDriver(Driver)
+}
+
 // RegisterSubscription defines an interface for structures which expose a subscription
 // hooks to be used to register hooks for callers.
 type RegisterSubscription interface {
