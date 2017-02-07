@@ -61,7 +61,7 @@ In grasping the examples and approach Gu takes, there exists certain concepts wh
 Limitations
 -----------
 
-Gu by its very design and architecture was constructed to be "Simple". It lacks the bells and whistles of similar frameworks and libraries. It's geared to solve your rendering needs and due to this, certain limitations exists with it.
+Gu by it's very design and architecture was constructed to be "Simple". It lacks the bells and whistles of similar frameworks and libraries. It's geared to solve your rendering needs and due to this, certain limitations exists with it.
 
 1.	Gu provides no react like flux structure.
 
