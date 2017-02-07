@@ -32,7 +32,7 @@ I hope they help in understanding and developing your own application.
 ## Documentation
 Gu is fundamentally a library built to provide a component rendering package which exposes the means to effectively and efficiently render HTML/HTML5 content as needed. It provides different concepts and packages which help fulfill this in the most idiomatic form possible. It was built with the philosophy that simplicity is far better than complexity, and carries this principle in the way it's structures are built.
 
-It offers a driver based system which allows the package to be used to render to different output system (e.g Browser , Headless Webkit system, ...etc). Though some of these features and drivers are still in works, but already provides a [GopherJS](https://github.com/gopherjs) driver that showcases the possibility of the provided system.
+It offers a driver based system which allows the package to be used to render to different output system (e.g Browser , Headless Webkit system, ...etc). Though some of these features and drivers are still in works, Gu currently  provides a [GopherJS](https://github.com/gopherjs) driver that showcases the possibility of the provided system.
 
 *Gu is in no way a Flux-like framework. It is just a library that simply provides a baseline to render the desire output and gives the freedom for the developer to determine how their application data flow should works.*
 
