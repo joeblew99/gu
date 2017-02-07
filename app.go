@@ -735,9 +735,6 @@ func (v *NView) Component(attr ComponentAttr) {
 		rc.React(c.Reactive.Publish)
 	}
 
-	// Connect the view to react to a change from the component.
-	c.React(v.Publish)
-
 	// Add the component into the right order.
 	{
 		switch attr.Order {
@@ -749,6 +746,12 @@ func (v *NView) Component(attr ComponentAttr) {
 			v.anyComponents = append(v.anyComponents, c)
 		}
 	}
+
+	// Connect the view to react to a change from the component.
+	c.React(v.Publish)
+
+	// Register the component router into the views router.
+	v.router.Register(c.Router)
 
 	// Collect necessary app manifest that connect with rendering.
 	{
