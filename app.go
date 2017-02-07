@@ -683,8 +683,8 @@ func (v *NView) Component(attr ComponentAttr) {
 			break
 
 		case Renderable:
-			if service, ok := mo.(RegisterDriver); ok {
-				service.RegisterDriver(v.driver)
+			if service, ok := mo.(AccessDriver); ok {
+				service.AccessDriver(v.driver)
 			}
 
 			if service, ok := mo.(RegisterService); ok {
@@ -708,8 +708,8 @@ func (v *NView) Component(attr ComponentAttr) {
 		case func(shell.Fetch) Renderable:
 			rc := mo(v.fetch)
 
-			if service, ok := rc.(RegisterDriver); ok {
-				service.RegisterDriver(v.driver)
+			if service, ok := rc.(AccessDriver); ok {
+				service.AccessDriver(v.driver)
 			}
 
 			if service, ok := rc.(RegisterSubscription); ok {
@@ -729,8 +729,8 @@ func (v *NView) Component(attr ComponentAttr) {
 		case func(shell.Fetch, shell.Cache) Renderable:
 			rc := mo(v.fetch, v.cache)
 
-			if service, ok := rc.(RegisterDriver); ok {
-				service.RegisterDriver(v.driver)
+			if service, ok := rc.(AccessDriver); ok {
+				service.AccessDriver(v.driver)
 			}
 
 			if service, ok := rc.(RegisterSubscription); ok {
@@ -750,8 +750,8 @@ func (v *NView) Component(attr ComponentAttr) {
 		case func(shell.Fetch, shell.Cache, router.Resolver) Renderable:
 			rc := mo(v.fetch, v.cache, c.Router)
 
-			if service, ok := rc.(RegisterDriver); ok {
-				service.RegisterDriver(v.driver)
+			if service, ok := rc.(AccessDriver); ok {
+				service.AccessDriver(v.driver)
 			}
 
 			if service, ok := rc.(RegisterSubscription); ok {
@@ -770,8 +770,8 @@ func (v *NView) Component(attr ComponentAttr) {
 
 		case func() Renderable:
 			rc := mo()
-			if service, ok := rc.(RegisterDriver); ok {
-				service.RegisterDriver(v.driver)
+			if service, ok := rc.(AccessDriver); ok {
+				service.AccessDriver(v.driver)
 			}
 
 			if service, ok := rc.(RegisterService); ok {
