@@ -7,6 +7,7 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"github.com/gu-io/gu/router"
 	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/trees"
 )
@@ -36,6 +37,14 @@ func NewKey() string {
 // Identity defines an interface which expoese the identity of a giving object.
 type Identity interface {
 	UUID() string
+}
+
+// RegisterService provides an interface which registers the provided fetcher,
+// caching and routing system for a component. This will be called before
+// any setup of the components structure to allow users set the system they needed
+// running.
+type RegisterService interface {
+	RegisterService(shell.Fetch, shell.Cache, router.Resolver)
 }
 
 // RegisterSubscription defines an interface for structures which expose a subscription

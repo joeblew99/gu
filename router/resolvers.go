@@ -1,6 +1,9 @@
 package router
 
-import "github.com/influx6/faux/pattern"
+import (
+	"github.com/gu-io/gu/trees"
+	"github.com/influx6/faux/pattern"
+)
 
 // Handler defines a function type for a Resolver subcriber.
 type Handler func(PushEvent)
@@ -17,10 +20,18 @@ type Resolver interface {
 
 	Flush()
 	Pattern() string
+	Only(string, ...trees.SwitchMorpher) ResolveMorpher
 	Register(Resolver)
 	Done(Handler) Resolver
 	Failed(Handler) Resolver
 	Test(string) (map[string]string, string, bool)
+}
+
+// ResolveMorpher defines an interface for a Resolver which can morph a trees.Markup
+// state.
+type ResolveMorpher interface {
+	Resolver
+	trees.Morpher
 }
 
 // New returns a new instance of a structure that matches
@@ -52,6 +63,22 @@ func (b *basicResolver) Flush() {
 // Pattern returns the giving path pattern used by this resolver.
 func (b *basicResolver) Pattern() string {
 	return b.matcher.Pattern()
+}
+
+// Only returns a new instance of a ResolveMorpher which can change the rendering
+// state of the tree markup.
+func (b *basicResolver) Only(pattern string, m ...trees.SwitchMorpher) ResolveMorpher {
+	var morpher trees.SwitchMorpher
+
+	if len(m) != 0 {
+		morpher = m[0]
+	} else {
+		morpher = &trees.RemoveMorpher{}
+	}
+
+	morph := NewRouting(pattern, morpher)
+	b.Register(morph)
+	return morph
 }
 
 // Register adds a resolver into the list which will get triggerd

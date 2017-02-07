@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"strings"
 
 	"github.com/gu-io/gu/router"
 	"github.com/gu-io/gu/shell"
@@ -482,6 +483,32 @@ func (v *NView) Resources() ([]*trees.Markup, []*trees.Markup) {
 	return head, body
 }
 
+// Unmounted publishes changes notifications that the component is unmounted.
+func (v *NView) Unmounted() {
+	for _, component := range v.beginComponents {
+		component.Unmounted.Publish()
+	}
+	for _, component := range v.anyComponents {
+		component.Unmounted.Publish()
+	}
+	for _, component := range v.lastComponents {
+		component.Unmounted.Publish()
+	}
+}
+
+// Mounted publishes changes notifications that the component is mounted.
+func (v *NView) Mounted() {
+	for _, component := range v.beginComponents {
+		component.Mounted.Publish()
+	}
+	for _, component := range v.anyComponents {
+		component.Mounted.Publish()
+	}
+	for _, component := range v.lastComponents {
+		component.Mounted.Publish()
+	}
+}
+
 // ComponentAttr defines a structure to define a component and its appropriate settings.
 type ComponentAttr struct {
 	Order     RenderingOrder `json:"order"`
@@ -498,6 +525,7 @@ type Component struct {
 	uuid      string
 	attr      ComponentAttr
 	Rendering Renderable
+	Router    router.Resolver
 
 	Mounted   Subscriptions
 	Unmounted Subscriptions
@@ -534,37 +562,16 @@ func (c *Component) Render() *trees.Markup {
 	return c.live.ApplyMorphers()
 }
 
-// Unmounted publishes changes notifications that the component is unmounted.
-func (v *NView) Unmounted() {
-	for _, component := range v.beginComponents {
-		component.Unmounted.Publish()
-	}
-	for _, component := range v.anyComponents {
-		component.Unmounted.Publish()
-	}
-	for _, component := range v.lastComponents {
-		component.Unmounted.Publish()
-	}
-}
-
-// Mounted publishes changes notifications that the component is mounted.
-func (v *NView) Mounted() {
-	for _, component := range v.beginComponents {
-		component.Mounted.Publish()
-	}
-	for _, component := range v.anyComponents {
-		component.Mounted.Publish()
-	}
-	for _, component := range v.lastComponents {
-		component.Mounted.Publish()
-	}
-}
-
 // Component adds the provided component into the selected view.
 func (v *NView) Component(attr ComponentAttr) {
+	if strings.TrimSpace(attr.Route) == "" {
+		attr.Route = "*"
+	}
+
 	var c Component
 	c.attr = attr
 	c.uuid = NewKey()
+	c.Router = router.New(attr.Route)
 	c.Reactive = NewReactive()
 	c.Mounted = NewSubscriptions()
 	c.Unmounted = NewSubscriptions()
@@ -574,6 +581,18 @@ func (v *NView) Component(attr ComponentAttr) {
 	// format for the object.
 	{
 		switch mo := attr.Base.(type) {
+		case func(shell.Fetch) *trees.Markup:
+			static := Static(mo(v.fetch))
+			static.Morph = true
+			c.Rendering = static
+		case func(shell.Fetch, shell.Cache) *trees.Markup:
+			static := Static(mo(v.fetch, v.cache))
+			static.Morph = true
+			c.Rendering = static
+		case func(shell.Fetch, shell.Cache, router.Resolver) *trees.Markup:
+			static := Static(mo(v.fetch, v.cache, c.Router))
+			static.Morph = true
+			c.Rendering = static
 		case func() *trees.Markup:
 			static := Static(mo())
 			static.Morph = true
@@ -603,6 +622,14 @@ func (v *NView) Component(attr ComponentAttr) {
 			break
 
 		case Renderable:
+			if service, ok := mo.(RegisterService); ok {
+				service.RegisterService(v.fetch, v.cache, c.Router)
+			}
+
+			if service, ok := mo.(RegisterSubscription); ok {
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
+			}
+
 			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(mo); err == nil {
 				v.renderingData = append(v.renderingData, RenderableData{
 					Name: renderField.TypeName,
@@ -613,8 +640,68 @@ func (v *NView) Component(attr ComponentAttr) {
 			c.Rendering = mo
 			break
 
+		case func(shell.Fetch) Renderable:
+			rc := mo(v.fetch)
+
+			if service, ok := rc.(RegisterSubscription); ok {
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
+			}
+
+			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
+				v.renderingData = append(v.renderingData, RenderableData{
+					Name: renderField.TypeName,
+					Pkg:  renderField.Pkg,
+				})
+			}
+
+			c.Rendering = rc
+			break
+
+		case func(shell.Fetch, shell.Cache) Renderable:
+			rc := mo(v.fetch, v.cache)
+
+			if service, ok := rc.(RegisterSubscription); ok {
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
+			}
+
+			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
+				v.renderingData = append(v.renderingData, RenderableData{
+					Name: renderField.TypeName,
+					Pkg:  renderField.Pkg,
+				})
+			}
+
+			c.Rendering = rc
+			break
+
+		case func(shell.Fetch, shell.Cache, router.Resolver) Renderable:
+			rc := mo(v.fetch, v.cache, c.Router)
+
+			if service, ok := rc.(RegisterSubscription); ok {
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
+			}
+
+			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
+				v.renderingData = append(v.renderingData, RenderableData{
+					Name: renderField.TypeName,
+					Pkg:  renderField.Pkg,
+				})
+			}
+
+			c.Rendering = rc
+			break
+
 		case func() Renderable:
 			rc := mo()
+
+			if service, ok := rc.(RegisterService); ok {
+				service.RegisterService(v.fetch, v.cache, c.Router)
+			}
+
+			if service, ok := rc.(RegisterSubscription); ok {
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
+			}
+
 			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
 				v.renderingData = append(v.renderingData, RenderableData{
 					Name: renderField.TypeName,
