@@ -1,34 +1,18 @@
 Embedded Resources
-===================
-In using GU, there exists at times a need for external resources which come with
-a giving package or other dependent packages. Understanding this needed, Gu provides
-the ability to list resources for components which will be loaded on startup and
-based on when this components will be called. It allows the inclusion of different
-resources (e.g CSS, Javascript, Images), which then are installed by custom hooks
-into the virtual DOM.
+==================
 
-Internally GU uses a two factor process where it at first parses the intended package
-for Resource meta-data declarations and produces a `manifest.json` file. This file will
-be automatically loaded on startup and hence requires the developer to expose the giving
-path of the file once generated to be accessible on the server. This then will be used
-to retrieve all resources and loaded those which are required by the components of a view
-or based if it's declared as a global resource.
+In using GU, there exists at times a need for external resources which come with a giving package or other dependent packages. Understanding this needed, Gu provides the ability to list resources for components which will be loaded on startup and based on when this components will be called. It allows the inclusion of different resources (e.g CSS, Javascript, Images), which then are installed by custom hooks into the virtual DOM.
 
-More so, the GU parser will search through all import paths to find additional additional
-resource declarations to be included for the giving package. Usually you only ever need to
-generate the `manifest.json` file for the package which will be executing or be the package
-which will deploy your application. All resources declared by the application and it's imports
-will be included within that `manifest.json` file and will be loaded accordingly. This allows
-alot of simplication and provides a single center of truth for embeddable rsources.
+Internally GU uses a two factor process where it at first parses the intended package for Resource meta-data declarations and produces a `manifest.json` file. This file will be automatically loaded on startup and hence requires the developer to expose the giving path of the file once generated to be accessible on the server. This then will be used to retrieve all resources and loaded those which are required by the components of a view or based if it's declared as a global resource.
 
-*GU provides a CLI tool included with the libary and installed along when `go get` for the
-GU package has been called which will help in generating the manifest.json file and also optionally
-create a virtual file system which can be loaded as package for single binary deployments.*
+More so, the GU parser will search through all import paths to find additional additional resource declarations to be included for the giving package. Usually you only ever need to generate the `manifest.json` file for the package which will be executing or be the package which will deploy your application. All resources declared by the application and it's imports will be included within that `manifest.json` file and will be loaded accordingly. This allows alot of simplication and provides a single center of truth for embeddable rsources.
 
-## Declaring Resources
-Declaring resources to be embedded along with a component or package is easy. Gu uses
-meta-data declarations which will be scanned and pulled accordingly. Gu provides
-a set of fields usable when declaring a resource.
+*GU provides a CLI tool included with the libary and installed along when `go get` for the GU package has been called which will help in generating the manifest.json file and also optionally create a virtual file system which can be loaded as package for single binary deployments.*
+
+Declaring Resources
+-------------------
+
+Declaring resources to be embedded along with a component or package is easy. Gu uses meta-data declarations which will be scanned and pulled accordingly. Gu provides a set of fields usable when declaring a resource.
 
 ```go
 Resource {
@@ -60,21 +44,13 @@ Resource {
 }
 ```
 
-This above fields define the behaviour and means by which a embedded resource should be
-processed and accessed by the Gu parser.
+This above fields define the behaviour and means by which a embedded resource should be processed and accessed by the Gu parser.
 
-When the GU parser find field names which does not match this giving set, then these are extracted
-into a map as meta-details, which can then be used by the hooks as implemented to achieve desired resources
-or as decorations for a more detailed resource.
+When the GU parser find field names which does not match this giving set, then these are extracted into a map as meta-details, which can then be used by the hooks as implemented to achieve desired resources or as decorations for a more detailed resource.
 
+-	Declaring Global Resource Generally when there exists resources which should be included on all views regardless of content, then the global resource declaration strategy should be used has it provides the capability to achieve this.
 
-- Declaring Global Resource
-Generally when there exists resources which should be included on all views regardless
-of content, then the global resource declaration strategy should be used has it provides
-the capability to achieve this.
-
-By simply declaring the resource meta-data at the package declaration, the parser will
-mark these resources as global and will be used on every rendering of the application.
+By simply declaring the resource meta-data at the package declaration, the parser will mark these resources as global and will be used on every rendering of the application.
 
 ```go
 // Package component contains useful components built with Gu.
@@ -90,32 +66,19 @@ mark these resources as global and will be used on every rendering of the applic
 //
 package components
 
-
 // Menu component.
 type Menu struct{}
-
-
 ```
 
-Global resources are marked by the `shell:component:global` marker and this is
-always required and must be declared first and separate from any package level comments.
-This marker will be used by the GU parser to identify resource declarations which are required
-globally.
+Global resources are marked by the `shell:component:global` marker and this is always required and must be declared first and separate from any package level comments. This marker will be used by the GU parser to identify resource declarations which are required globally.
 
-**This declaration can not be used any where else and must be declared immediately after
-a package comments not after.**
+**This declaration can not be used any where else and must be declared immediately after a package comments not after.**
 
+-	Declaring Component based Resources When declaring resources specific to the existence and initialization of specific components. The resource need to be declared after the said component's commentary.
 
-- Declaring Component based Resources
-When declaring resources specific to the existence and initialization of specific
-components. The resource need to be declared after the said component's commentary.
+Gu uses a `shell:component` marker to site if a giving type declares resources which are required to be embedded. Also the Gu parser is wise enough to included meta details corresponding to a components internal component and declared types.
 
-Gu uses a `shell:component` marker to site if a giving type declares resources which
-are required to be embedded. Also the Gu parser is wise enough to included meta details
-corresponding to a components internal component and declared types.
-
-These information then will be used to loaded addition resources which relate to those types
-when the giving component is being initialized.
+These information then will be used to loaded addition resources which relate to those types when the giving component is being initialized.
 
 ```go
 // Package component contains useful components built with Gu.
@@ -153,19 +116,17 @@ import "github.com/gupa/components"
 //     Size: 440030
 // }
 //
-type Menu struct{
-  List components.List
+type Menu struct {
+	List components.List
 }
-
 ```
 
-With the above approach. It becomes generally easy to quickly declare and have resources
-quickly embedded into packages for components.
+With the above approach. It becomes generally easy to quickly declare and have resources quickly embedded into packages for components.
 
+Generate `manifest.json` file
+-----------------------------
 
-## Generate `manifest.json` file
-*As adviced, the `manifest.json` file should be only generated for the package with
-the `main` function which will be the means by which the application is lunched.*
+*As adviced, the `manifest.json` file should be only generated for the package with the `main` function which will be the means by which the application is lunched.*
 
 Gu provides a CLI tool with the package once installed with `go get`:
 
@@ -173,28 +134,20 @@ Gu provides a CLI tool with the package once installed with `go get`:
 go get -u github.com/gu-io/gu/...
 ```
 
-The Gu CLI then is installed and then can be accessible through the terminal to
-generate the manifest file or a package which can be included on the server to
-provide a virtual file system for the generated resources.
+The Gu CLI then is installed and then can be accessible through the terminal to generate the manifest file or a package which can be included on the server to provide a virtual file system for the generated resources.
 
-- Generating the `manifest.json` file.
+-	Generating the `manifest.json` file.
 
 ```bash
 gu generate --indir ./apps --outdir ./
 ```
 
-Where the fields:
-  --indir: Defines the directories to search in for resource embedding meta declarations
-  --outdir: Defines the directory where the `manifest.json` file should be stored.
+Where the fields: --indir: Defines the directories to search in for resource embedding meta declarations --outdir: Defines the directory where the `manifest.json` file should be stored.
 
-
-- Generating the `manifest.json` file.
+-	Generating the `manifest.json` file.
 
 ```bash
 gu generate-vfs --indir ./apps --outdir ./ -pkg manifest-vfs
 ```
 
-Where the fields:
-  --indir: Defines the directories to search in for resource embedding meta declarations
-  --outdir: Defines the directory where the new virtual file system package should be stored.
-  --pkg: Defines the name of the package which is reflective on the name of the package directory (Default: "manifests").
+Where the fields: --indir: Defines the directories to search in for resource embedding meta declarations --outdir: Defines the directory where the new virtual file system package should be stored. --pkg: Defines the name of the package which is reflective on the name of the package directory (Default: "manifests").

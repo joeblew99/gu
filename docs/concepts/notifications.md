@@ -1,16 +1,11 @@
 Notifications
-==============
-In Gu there exists the central notification backbone package `notifications`, which
-exposes a system which allows registering specific functions for specific types of
-structures to be called when such structures are dispatched into the system to allow
-a decoupled form of communication.
+=============
 
-*These allows components and pieces of Gu to communicate easily and also reduce tight
-coupling of pieces.*
+In Gu there exists the central notification backbone package `notifications`, which exposes a system which allows registering specific functions for specific types of structures to be called when such structures are dispatched into the system to allow a decoupled form of communication.
 
-Using the `notifications` package is quite simple and need no elongated explanations,
-by simply registering a function expecting a type, this sets this function to be called
-once such a type is seen.
+*These allows components and pieces of Gu to communicate easily and also reduce tight coupling of pieces.*
+
+Using the `notifications` package is quite simple and need no elongated explanations, by simply registering a function expecting a type, this sets this function to be called once such a type is seen.
 
 ```go
 
