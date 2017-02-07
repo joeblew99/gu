@@ -206,14 +206,15 @@ them immediate access to them at initialization.
 Such Interfaces include:
 
 -  RegisterService Interface
-  This interface provides a means by which a component can get access to the Gu core
-  app's Fetcher(A http request and response object), Cache(Internal request and response cache)
-  and the component's view's internal Router. This will be called immediately on
-  the initalization of the component before any render calls are made to allow the
-  component to store this items into local variables to use in it's internal operations.
 
-  This removes the need for global context and unideal approaches and also permits
-  access to the components that actually need them.
+This interface provides a means by which a component can get access to the Gu core
+app's Fetcher(A http request and response object), Cache(Internal request and response cache)
+and the component's view's internal Router. This will be called immediately on
+the initalization of the component before any render calls are made to allow the
+component to store this items into local variables to use in it's internal operations.
+
+This removes the need for global context and unideal approaches and also permits
+access to the components that actually need them.
 
 ```go
 type RegisterService interface {
@@ -222,9 +223,10 @@ type RegisterService interface {
 ```
 
 - AccessDriver Interface
-  This interface provides a function which allows access to the Driver be used in
-  rendering the giving component. This allows the component to interoperate with the
-  methods which the driver exposes for it's operations.
+
+This interface provides a function which allows access to the Driver be used in
+rendering the giving component. This allows the component to interoperate with the
+methods which the driver exposes for it's operations.
 
 ```go
 type AccessDriver interface {
@@ -233,22 +235,23 @@ type AccessDriver interface {
 ```
 
 - RegisterSubscription Interface
-  This interface provides a function which grants the component access to the internal
-  subscriptions used to notify it of it's current state. This allows certain callbacks
-  to be registered until the events provided are initialized. This is useful when certain
-  operations must not occur until the component is within a particular state.
 
-  The `mounts` subscriptions is continuously published to as the cycle of mounting and
-  unmounting occurs. And allows the component to be aware that's capable of perform operations
-  because it has been rendered into the view.
+This interface provides a function which grants the component access to the internal
+subscriptions used to notify it of it's current state. This allows certain callbacks
+to be registered until the events provided are initialized. This is useful when certain
+operations must not occur until the component is within a particular state.
 
-  The `rendered` subscriptions is continuously published to when the component's `Render`
-  method it's called. It can be consistently frequent based on the total times the component gets
-  update either due to a external or internal change.
+The `mounts` subscriptions is continuously published to as the cycle of mounting and
+unmounting occurs. And allows the component to be aware that's capable of perform operations
+because it has been rendered into the view.
 
-  Like the `mounts`, `unmount` subscription is called when the component is being unmounted
-  from the view and is called on every unmounting either due to change in location/route or
-  due to the components route not matching the view which holds the component.
+The `rendered` subscriptions is continuously published to when the component's `Render`
+method it's called. It can be consistently frequent based on the total times the component gets
+update either due to a external or internal change.
+
+Like the `mounts`, `unmount` subscription is called when the component is being unmounted
+from the view and is called on every unmounting either due to change in location/route or
+due to the components route not matching the view which holds the component.
 
 ```go
 type RegisterSubscription interface {
