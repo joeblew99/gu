@@ -25,9 +25,9 @@ go install github.com/gu-io/gu/...
 
 ## Documentation
 
-  **[Getting Started](./docs/Getting Started.md)**
+  **[Getting Started](./docs/gettingstarted.md)**
 
-  **[Limitations](./docs/Limitations.md)**
+  **[Limitations](./docs/limitations.md)**
 
 ## Examples
 Basic examples are within the [Examples](./examples/) directory.
