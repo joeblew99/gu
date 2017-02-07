@@ -25,6 +25,8 @@ type PushEvent struct {
 	Hash   string
 	Path   string
 	Rem    string
+	To     string
+	From   string
 	Params map[string]string
 }
 
@@ -53,6 +55,7 @@ func NewPushEvent(path string, useHash bool) (PushEvent, error) {
 		Path:   ups.Path,
 		Host:   ups.Host,
 		Rem:    target,
+		From:   ups.String(),
 		Params: make(map[string]string),
 	}, nil
 }
@@ -125,6 +128,7 @@ func ListenFor(hash bool, pattern string, fx func(PushEvent), fail func(PushEven
 				Path:   p.Path,
 				Hash:   p.Hash,
 				Host:   p.Host,
+				From:   p.From,
 			})
 
 			return

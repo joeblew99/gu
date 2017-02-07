@@ -111,6 +111,8 @@ func (b *basicResolver) Resolve(path PushEvent) {
 		Hash:   path.Hash,
 		Host:   path.Host,
 		Path:   path.Path,
+		From:   path.Rem,
+		To:     rem,
 	}
 
 	// Notify the subscribers.

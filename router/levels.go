@@ -42,7 +42,7 @@ func (r *RouteManager) Level(path string, morpher trees.SwitchMorpher) RouteAppl
 
 	var root rm
 	root.level = make(map[string]RouteApplier)
-	root.routing = newRouting(path, morpher)
+	root.Routing = NewRouting(path, morpher)
 
 	r.Levels[path] = &root
 
@@ -52,7 +52,7 @@ func (r *RouteManager) Level(path string, morpher trees.SwitchMorpher) RouteAppl
 //==============================================================================
 
 type rm struct {
-	*routing
+	*Routing
 	prev  RouteApplier
 	next  RouteApplier
 	level map[string]RouteApplier
@@ -78,13 +78,13 @@ func (r *rm) Next(path string, morpher trees.SwitchMorpher) RouteApplier {
 		return rx
 	}
 
-	block := newRouting(path, morpher)
+	block := NewRouting(path, morpher)
 	r.Resolver.Register(block.Resolver)
 
 	var nextRoot rm
 	nextRoot.level = make(map[string]RouteApplier)
 	nextRoot.prev = r
-	nextRoot.routing = block
+	nextRoot.Routing = block
 
 	r.level[path] = &nextRoot
 
@@ -93,16 +93,16 @@ func (r *rm) Next(path string, morpher trees.SwitchMorpher) RouteApplier {
 
 //==============================================================================
 
-// routing defines a Resolve structure that allows morphing the output
+// Routing defines a Resolve structure that allows morphing the output
 // of a markup based on a giving route.
-type routing struct {
+type Routing struct {
 	Resolver
 	m trees.Morpher
 }
 
-// Routing returns a new instance of a Routing struct.
-func newRouting(path string, morpher trees.SwitchMorpher) *routing {
-	var rs routing
+// NewRouting returns a new instance of a Routing struct.
+func NewRouting(path string, morpher trees.SwitchMorpher) *Routing {
+	var rs Routing
 	rs.m = morpher
 	rs.Resolver = New(path)
 
@@ -119,11 +119,11 @@ func newRouting(path string, morpher trees.SwitchMorpher) *routing {
 
 // Morph implements the Morpher interface providing the routing with the ability.
 // It lets routing morph markup passed into it.
-func (r *routing) Morph(mr *trees.Markup) *trees.Markup {
+func (r *Routing) Morph(mr *trees.Markup) *trees.Markup {
 	return r.m.Morph(mr)
 }
 
 // Apply adds this routing as a morpher into the provided markup.
-func (r *routing) Apply(mr *trees.Markup) {
+func (r *Routing) Apply(mr *trees.Markup) {
 	mr.AddMorpher(r)
 }

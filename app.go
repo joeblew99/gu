@@ -7,8 +7,6 @@ import (
 
 	"github.com/gu-io/gu/router"
 	"github.com/gu-io/gu/shell"
-	"github.com/gu-io/gu/shell/cache"
-	"github.com/gu-io/gu/shell/fetch"
 	"github.com/gu-io/gu/trees"
 	"github.com/gu-io/gu/trees/elems"
 	"github.com/influx6/faux/reflection"
@@ -41,14 +39,28 @@ const (
 	LastOrder
 )
 
-// type ResourceRenderer interface {
-// 	Render(...*ResourceDefinition)
-// 	Update(Renderable, string, bool)
-// }
-
-// Driver defines an interface which provides an Interface to render Apps nd views
+// Driver defines an interface which provides an Interface to render Apps and views
 // to a display system. eg. GopherJS, wkWebview.
 type Driver interface {
+	// Method to subscribe to ready state for the driver.
+	OnReady(func())
+
+	// Name of the driver.
+	Name() string
+
+	// Current Location of the driver path.
+	Location() router.PushEvent
+
+	// Render app and it's content.
+	Render(*NApp)
+
+	// Update app's view and it's target content.
+	Update(*NApp, *NView)
+
+	// Fetcher returns a new resource fetcher which can be used to retrieve Resources.
+	// Fetcher requires the cacheName and a boolean indicating if it should intercept
+	// all requests for resources.
+	Fetcher(cacheName string, interceptRequests bool) (shell.Fetch, shell.Cache)
 }
 
 // Resource defines any set of rendering links, scripts, styles needed by a view.
@@ -60,11 +72,12 @@ type Resource struct {
 
 // AppAttr defines a struct for
 type AppAttr struct {
-	Mode           Mode   `json:"mode"`
-	Name           string `json:"name"`
-	Manifests      string `json:"manifests"`
-	EnableManifest bool   `json:"ignore_manifest"`
-	ListenForFetch bool   `json:"listen_for_fetch"`
+	Mode              Mode   `json:"mode"`
+	Name              string `json:"name"`
+	Manifests         string `json:"manifests"`
+	EnableManifest    bool   `json:"ignore_manifest"`
+	InterceptRequests bool   `json:"intercept_requests"`
+	Driver            Driver `json:"-"`
 }
 
 // NApp defines a struct which encapsulates all the core view management functions
@@ -89,8 +102,10 @@ func App(attr AppAttr) *NApp {
 	var app NApp
 	app.attr = attr
 	app.uuid = NewKey()
-	app.cache = cache.New(attr.Name)
-	app.fetch = fetch.New(app.cache)
+
+	fetch, cache := attr.Driver.Fetcher(attr.Name, attr.InterceptRequests)
+	app.cache = cache
+	app.fetch = fetch
 
 	// If we are in development mode empty the cache and reset for new use.
 	if attr.Mode == DevelopmentMode {
@@ -159,6 +174,10 @@ func (app *NApp) Render(es interface{}) *trees.Markup {
 	head.Apply(html)
 	body.Apply(html)
 
+	// Generate the resources according to the received data.
+	toHead, toBody := app.Resources()
+	head.AddChild(toHead...)
+
 	for _, view := range app.PushViews(pe) {
 		switch view.attr.Target {
 		case HeadTarget:
@@ -168,9 +187,19 @@ func (app *NApp) Render(es interface{}) *trees.Markup {
 		case AfterBodyTarget:
 			view.Render().Apply(last)
 		}
+
+		viewHead, viewBody := view.Resources()
+
+		// Add the headers into the header so they load accordingly.
+		head.AddChild(viewHead...)
+
+		// Append the resources into the body has we need them last.
+		toBody = append(toBody, viewBody...)
 	}
 
 	body.AddChild(last.Children()...)
+
+	body.AddChild(toBody...)
 
 	// Ensure to have this gc'ed.
 	last = nil
@@ -229,6 +258,7 @@ func (app *NApp) Resources() ([]*trees.Markup, []*trees.Markup) {
 			}
 
 			trees.NewAttr("gu-resource", "true").Apply(markup)
+			trees.NewAttr("gu-resource-view", app.uuid).Apply(markup)
 			trees.NewAttr("gu-resource-from", manifest.Path).Apply(markup)
 			trees.NewAttr("gu-resource-name", manifest.Name).Apply(markup)
 			trees.NewAttr("gu-resource-id", manifest.ID).Apply(markup)
@@ -433,6 +463,7 @@ func (v *NView) Resources() ([]*trees.Markup, []*trees.Markup) {
 			}
 
 			trees.NewAttr("gu-resource", "true").Apply(markup)
+			trees.NewAttr("gu-resource-view", v.uuid).Apply(markup)
 			trees.NewAttr("gu-resource-from", manifest.Path).Apply(markup)
 			trees.NewAttr("gu-resource-name", manifest.Name).Apply(markup)
 			trees.NewAttr("gu-resource-id", manifest.ID).Apply(markup)
