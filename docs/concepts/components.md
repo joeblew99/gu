@@ -207,6 +207,12 @@ Such Interfaces include:
 
 -  RegisterService Interface
 
+```go
+type RegisterService interface {
+	RegisterService(shell.Fetch, shell.Cache, router.Resolver)
+}
+```
+
 This interface provides a means by which a component can get access to the Gu core
 app's Fetcher(A http request and response object), Cache(Internal request and response cache)
 and the component's view's internal Router. This will be called immediately on
@@ -216,17 +222,7 @@ component to store this items into local variables to use in it's internal opera
 This removes the need for global context and unideal approaches and also permits
 access to the components that actually need them.
 
-```go
-type RegisterService interface {
-	RegisterService(shell.Fetch, shell.Cache, router.Resolver)
-}
-```
-
 - AccessDriver Interface
-
-This interface provides a function which allows access to the Driver be used in
-rendering the giving component. This allows the component to interoperate with the
-methods which the driver exposes for it's operations.
 
 ```go
 type AccessDriver interface {
@@ -234,7 +230,17 @@ type AccessDriver interface {
 }
 ```
 
+This interface provides a function which allows access to the Driver be used in
+rendering the giving component. This allows the component to interoperate with the
+methods which the driver exposes for it's operations.
+
 - RegisterSubscription Interface
+
+```go
+type RegisterSubscription interface {
+	RegisterSubscription(mounts, renders, unmount Subscriptions)
+}
+```
 
 This interface provides a function which grants the component access to the internal
 subscriptions used to notify it of it's current state. This allows certain callbacks
@@ -252,12 +258,6 @@ update either due to a external or internal change.
 Like the `mounts`, `unmount` subscription is called when the component is being unmounted
 from the view and is called on every unmounting either due to change in location/route or
 due to the components route not matching the view which holds the component.
-
-```go
-type RegisterSubscription interface {
-	RegisterSubscription(mounts, renders, unmount Subscriptions)
-}
-```
 
 ## Complex Components
 More complex components can be found in the [Examples](../../examples) directory and
