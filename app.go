@@ -52,11 +52,15 @@ type Driver interface {
 	// Current Location of the driver path.
 	Location() router.PushEvent
 
+	// OnRoute registers for route change notifications to react accordingly.
+	// This does a totally re-write of the whole display.
+	OnRoute(*NApp)
+
 	// Render app and it's content.
 	Render(*NApp)
 
 	// Update app's view and it's target content.
-	Update(*NApp, *NView)
+	Update(*NApp, ...*NView)
 
 	// Fetcher returns a new resource fetcher which can be used to retrieve Resources.
 	// Fetcher requires the cacheName and a boolean indicating if it should intercept
@@ -75,6 +79,7 @@ type Resource struct {
 type AppAttr struct {
 	Mode              Mode   `json:"mode"`
 	Name              string `json:"name"`
+	Title             string `json:"title"`
 	Manifests         string `json:"manifests"`
 	EnableManifest    bool   `json:"ignore_manifest"`
 	InterceptRequests bool   `json:"intercept_requests"`
@@ -89,9 +94,11 @@ type NApp struct {
 	driver Driver
 	cache  shell.Cache
 	fetch  shell.Fetch
+	active bool
 
-	local []shell.AppManifest
-	views []NView
+	local       []shell.AppManifest
+	views       []NView
+	activeViews []NView
 
 	globalResources []Resource
 
@@ -103,6 +110,7 @@ func App(attr AppAttr) *NApp {
 	var app NApp
 	app.attr = attr
 	app.uuid = NewKey()
+	app.driver = attr.Driver
 
 	fetch, cache := attr.Driver.Fetcher(attr.Name, attr.InterceptRequests)
 	app.cache = cache
@@ -147,7 +155,28 @@ func App(attr AppAttr) *NApp {
 		}
 	}
 
+	app.driver.OnReady(func() {
+		app.active = false
+		app.driver.Render(&app)
+		app.active = true
+	})
+
+	app.driver.OnRoute(&app)
+
 	return &app
+}
+
+// Active returns true/false if the giving app is active and has already
+// received rendering.
+func (app *NApp) Active() bool {
+	return app.active
+}
+
+// Mounted notifies all active views that they have been mounted.
+func (app *NApp) Mounted() {
+	for _, view := range app.activeViews {
+		view.Mounted()
+	}
 }
 
 // Render returns the giving rendered tree of the app respective of the path
@@ -179,7 +208,9 @@ func (app *NApp) Render(es interface{}) *trees.Markup {
 	toHead, toBody := app.Resources()
 	head.AddChild(toHead...)
 
-	for _, view := range app.PushViews(pe) {
+	app.activeViews = app.PushViews(pe)
+
+	for _, view := range app.activeViews {
 		switch view.attr.Target {
 		case HeadTarget:
 			view.Render().Apply(head)
@@ -214,7 +245,8 @@ func (app *NApp) PushViews(event router.PushEvent) []NView {
 
 	for _, view := range app.views {
 		if _, _, ok := view.router.Test(event.String()); ok {
-			view.disableView()
+			// Notify view to appropriate proper action when view does not match.
+			view.router.Resolve(event)
 			continue
 		}
 
@@ -229,6 +261,8 @@ func (app *NApp) PushViews(event router.PushEvent) []NView {
 // view.
 func (app *NApp) Resources() ([]*trees.Markup, []*trees.Markup) {
 	var head, body []*trees.Markup
+
+	head = append(head, elems.Title(elems.Text(app.attr.Title)))
 
 	for _, def := range app.globalResources {
 		if def.body != nil || def.head != nil {
@@ -304,9 +338,8 @@ const (
 // ViewAttr defines a structure to define a option values for setting up the appropriate
 // settings for the view.
 type ViewAttr struct {
-	Name  string `json:"name"`
-	Route string `json:"route"`
-	// Title  string        `json:"title"`
+	Name   string        `json:"name"`
+	Route  string        `json:"route"`
 	Target ViewTarget    `json:"target"`
 	Base   *trees.Markup `json:"base"`
 }
@@ -323,14 +356,24 @@ func (app *NApp) View(attr ViewAttr) *NView {
 	vw.attr = attr
 	vw.uuid = NewKey()
 
-	// vw.title = elems.Title(elems.Text(attr.Title))
 	vw.router = router.New(attr.Route)
 	vw.cache = app.cache
 	vw.fetch = app.fetch
 	vw.local = app.local
 
+	vw.React(func() {
+		if !app.active || app.driver == nil {
+			return
+		}
+
+		app.driver.Update(app, &vw)
+	})
+
+	// Register to listen for failure of route to match and
+	// notify unmount call.
 	vw.router.Failed(func(push router.PushEvent) {
 		vw.disableView()
+		vw.Unmounted()
 	})
 
 	vw.attr.Base.SwapUID(vw.uuid)

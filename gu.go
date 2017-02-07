@@ -99,6 +99,8 @@ type Reactive interface {
 	Publish()
 }
 
+//==============================================================================
+
 // NewReactive returns an instance of a Reactive struct.
 func NewReactive() Reactive {
 	var rc Subscription
