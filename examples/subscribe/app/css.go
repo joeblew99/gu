@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/trees/css"
 )
 
 // IndexCSS defines the css component which defines the rendering for

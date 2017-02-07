@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/gu-io/gu"
-	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/notifications"
 	"github.com/gu-io/gu/trees"
 	"github.com/gu-io/gu/trees/elems"
 	"github.com/gu-io/gu/trees/property"
@@ -27,7 +27,7 @@ func NewNotifier() *SubmissionNotifier {
 
 // starts begin listening for a SubmitNotification which gets displayed.
 func (s *SubmissionNotifier) start() {
-	dispatch.Subscribe(func(sme SubscriptionSubmitEvent) {
+	notifications.Subscribe(func(sme SubscriptionSubmitEvent) {
 		s.c = sme
 		s.Publish()
 	})

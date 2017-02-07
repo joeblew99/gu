@@ -19,6 +19,12 @@ func WrapHandler(fx func()) func(PushEvent) {
 	}
 }
 
+// PushDirectiveEvent defines a event which is used to declare the switching
+// of the route to another path provided.
+type PushDirectiveEvent struct {
+	To string
+}
+
 // PushEvent represent the current path and hash values.
 type PushEvent struct {
 	Host   string

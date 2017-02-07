@@ -24,6 +24,9 @@ type Driver interface {
 	// Name of the driver.
 	Name() string
 
+	// Navigate the Driver to the provided path.
+	Navigate(router.PushDirectiveEvent)
+
 	// Current Location of the driver path.
 	Location() router.PushEvent
 

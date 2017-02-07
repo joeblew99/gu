@@ -1,6 +1,6 @@
 DOM
 ====
-The DOM in Gu is package which provides a similar but functional approach to define
+The virtual DOM in Gu is package which provides a similar but functional approach to define
 the representation of the expected DOM which must be rendered by the selected [Driver](./drivers.md).
 
 Gu ensures to provide a comprehensive list of functions to generate and create

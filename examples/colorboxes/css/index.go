@@ -1,6 +1,6 @@
 package css
 
-import "github.com/gu-io/gu/css"
+import "github.com/gu-io/gu/trees/css"
 
 // Index defines the css component which defines the rendering for
 // a notification page.

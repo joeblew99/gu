@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"strings"
 
+	"github.com/gu-io/gu/notifications"
 	"github.com/gu-io/gu/router"
 	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/trees"
@@ -48,6 +49,9 @@ type Driver interface {
 
 	// Name of the driver.
 	Name() string
+
+	// Navigate the Driver to the provided path.
+	Navigate(router.PushDirectiveEvent)
 
 	// Current Location of the driver path.
 	Location() router.PushEvent
@@ -159,6 +163,14 @@ func App(attr AppAttr) *NApp {
 		app.active = false
 		app.driver.Render(&app)
 		app.active = true
+	})
+
+	notifications.Subscribe(func(directive router.PushDirectiveEvent) {
+		if !app.active {
+			return
+		}
+
+		app.driver.Navigate(directive)
 	})
 
 	app.driver.OnRoute(&app)

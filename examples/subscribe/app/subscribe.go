@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/notifications"
 	"github.com/gu-io/gu/trees"
 	"github.com/gu-io/gu/trees/elems"
 	"github.com/gu-io/gu/trees/events"
@@ -59,16 +59,16 @@ func (s *Subscriber) Render() *trees.Markup {
 						input, ok := doc.QuerySelector(".subscription .form .email input").(*dom.HTMLInputElement)
 
 						if !ok {
-							dispatch.Dispatch(SubscriptionSubmitEvent{
+							notifications.Dispatch(SubscriptionSubmitEvent{
 								Status: false,
 							})
 
 							return
 						}
 
-						dispatch.NavigateHash("/", "#subscriptions/submit", "#")
+						// notifications.NavigateHash("/", "#subscriptions/submit", "#")
 
-						dispatch.Dispatch(SubscriptionSubmitEvent{
+						notifications.Dispatch(SubscriptionSubmitEvent{
 							Email:  input.Value,
 							Status: true,
 						})
