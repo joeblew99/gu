@@ -56,7 +56,7 @@ type AccessDriver interface {
 // RegisterSubscription defines an interface for structures which expose a subscription
 // hooks to be used to register hooks for callers.
 type RegisterSubscription interface {
-	RegisterSubscription(mounts, renders, unmount Subscriptions)
+	RegisterSubscription(mounts, renders, updated, unmount Subscriptions)
 }
 
 // Renderable provides a interface for a renderable type.

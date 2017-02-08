@@ -27,18 +27,20 @@ type Event struct {
 	secTarget                string
 	PreventDefault           bool
 	StopPropagation          bool
+	UseCapture               bool
 	StopImmediatePropagation bool
 	Tree                     *Markup
 	Handle                   mque.End
 }
 
 // NewEvent returns a event object that allows registering events to eventlisteners.
-func NewEvent(evtype string, evtarget string, preventdef bool, stopPropagation bool, stopImmediate bool) *Event {
+func NewEvent(evtype string, evtarget string, preventdef bool, stopPropagation bool, stopImmediate bool, useCapture bool) *Event {
 	return &Event{
 		Type:                     evtype,
 		PreventDefault:           preventdef,
 		StopPropagation:          stopPropagation,
 		StopImmediatePropagation: stopImmediate,
+		UseCapture:               useCapture,
 		secTarget:                evtarget,
 	}
 }

@@ -191,9 +191,8 @@ func (app *NApp) Mounted() {
 	}
 }
 
-// Render returns the giving rendered tree of the app respective of the path
-// found.
-func (app *NApp) Render(es interface{}) *trees.Markup {
+// ActivateRoute actives the views which are to be rendered.
+func (app *NApp) ActivateRoute(es interface{}) {
 	var pe router.PushEvent
 
 	switch esm := es.(type) {
@@ -208,6 +207,16 @@ func (app *NApp) Render(es interface{}) *trees.Markup {
 		pe = esm
 	}
 
+	app.activeViews = app.PushViews(pe)
+}
+
+// Render returns the giving rendered tree of the app respective of the path
+// found.
+func (app *NApp) Render(es interface{}) *trees.Markup {
+	if es != nil {
+		app.ActivateRoute(es)
+	}
+
 	var html = trees.NewMarkup("html", false)
 	var head = trees.NewMarkup("head", false)
 	var body = trees.NewMarkup("body", false)
@@ -219,8 +228,6 @@ func (app *NApp) Render(es interface{}) *trees.Markup {
 	// Generate the resources according to the received data.
 	toHead, toBody := app.Resources()
 	head.AddChild(toHead...)
-
-	app.activeViews = app.PushViews(pe)
 
 	for _, view := range app.activeViews {
 		switch view.attr.Target {
@@ -482,6 +489,11 @@ func (v *NView) Render() *trees.Markup {
 	return base
 }
 
+// Attr returns the views ViewAttr.
+func (v *NView) Attr() ViewAttr {
+	return v.attr
+}
+
 // propagateRoute supplies the needed route into the provided
 func (v *NView) propagateRoute(pe router.PushEvent) {
 	v.router.Resolve(pe)
@@ -553,6 +565,19 @@ func (v *NView) Unmounted() {
 	}
 }
 
+// Updated publishes changes notifications that the component is updated.
+func (v *NView) Updated() {
+	for _, component := range v.beginComponents {
+		component.Updated.Publish()
+	}
+	for _, component := range v.anyComponents {
+		component.Updated.Publish()
+	}
+	for _, component := range v.lastComponents {
+		component.Updated.Publish()
+	}
+}
+
 // Mounted publishes changes notifications that the component is mounted.
 func (v *NView) Mounted() {
 	for _, component := range v.beginComponents {
@@ -587,6 +612,7 @@ type Component struct {
 	Mounted   Subscriptions
 	Unmounted Subscriptions
 	Rendered  Subscriptions
+	Updated   Subscriptions
 	live      *trees.Markup
 }
 
@@ -633,6 +659,7 @@ func (v *NView) Component(attr ComponentAttr) {
 	c.Mounted = NewSubscriptions()
 	c.Unmounted = NewSubscriptions()
 	c.Rendered = NewSubscriptions()
+	c.Updated = NewSubscriptions()
 
 	// Transform the base argument into the acceptable
 	// format for the object.
@@ -692,7 +719,7 @@ func (v *NView) Component(attr ComponentAttr) {
 			}
 
 			if service, ok := mo.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
 			}
 
 			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(mo); err == nil {
@@ -713,7 +740,7 @@ func (v *NView) Component(attr ComponentAttr) {
 			}
 
 			if service, ok := rc.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
 			}
 
 			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
@@ -734,7 +761,7 @@ func (v *NView) Component(attr ComponentAttr) {
 			}
 
 			if service, ok := rc.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
 			}
 
 			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
@@ -755,7 +782,7 @@ func (v *NView) Component(attr ComponentAttr) {
 			}
 
 			if service, ok := rc.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
 			}
 
 			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
@@ -779,7 +806,7 @@ func (v *NView) Component(attr ComponentAttr) {
 			}
 
 			if service, ok := rc.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Unmounted)
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
 			}
 
 			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {

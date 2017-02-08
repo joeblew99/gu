@@ -1,18 +1,23 @@
 package gopherjs
 
-import "github.com/gopherjs/gopherjs/js"
+import (
+	"github.com/gopherjs/gopherjs/js"
+	"github.com/influx6/faux/mque"
+)
 
 // WrapperEvent implements the EventObject interface.
 type WrapperEvent struct {
 	*js.Object
-	isDum bool
+	isDum  bool
+	handle mque.End
 }
 
 // NewWrapperEvent creates a new Event object useful to hold in place of a wrapper
 // object.
-func NewWrapperEvent(event *js.Object) *WrapperEvent {
+func NewWrapperEvent(event *js.Object, ender mque.End) *WrapperEvent {
 	return &WrapperEvent{
 		Object: event,
+		handle: ender,
 	}
 }
 
@@ -33,6 +38,13 @@ func (d *WrapperEvent) Underlying() interface{} {
 func (d *WrapperEvent) PreventDefault() {
 	if !d.isDum {
 		d.Object.Call("preventDefault")
+	}
+}
+
+// RemoveEvent removes the event from it's root parent.
+func (d *WrapperEvent) RemoveEvent() {
+	if d.handle != nil {
+		d.handle.End()
 	}
 }
 

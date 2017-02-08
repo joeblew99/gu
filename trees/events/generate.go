@@ -220,7 +220,15 @@ func WrapEventOnlyHandler(callback func(trees.EventObject)) EventHandler {
 func %sEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -250,7 +258,7 @@ func %sEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("%s",sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("%s",sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast){
 		if ev.EventID != evm.EventID{
 			return

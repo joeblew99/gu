@@ -15,11 +15,11 @@ import (
 //==============================================================================
 
 // ListenForHistory sets up the necessary notifications for history.
-func ListenForHistory() {
+func ListenForHistory(behaviour func(router.PushEvent)) {
 	if BrowserSupportsPushState() {
 		js.Global.Set("onpopstate", func() {
 			host, path, hash := GetLocation()
-			notifications.Publish(router.PushEvent{
+			behaviour(router.PushEvent{
 				Host: host,
 				Path: path,
 				Hash: hash,
@@ -31,7 +31,7 @@ func ListenForHistory() {
 
 	js.Global.Set("onhashchange", func() {
 		host, path, hash := GetLocation()
-		notifications.Publish(router.PushEvent{
+		behaviour(router.PushEvent{
 			Host: host,
 			Path: path,
 			Hash: hash,
@@ -49,6 +49,40 @@ func BrowserSupportsPushState() bool {
 	return (js.Global.Get("onpopstate") != js.Undefined) &&
 		(js.Global.Get("history") != js.Undefined) &&
 		(js.Global.Get("history").Get("pushState") != js.Undefined)
+}
+
+// SetLocationByPushEvent defines a function to set the current location using
+// the provided PushDirective.
+func SetLocationByPushEvent(ev router.PushDirectiveEvent) {
+	_, path, hash := GetLocation()
+
+	if strings.HasPrefix(ev.To, "#") {
+		hash = ev.To
+	}
+
+	if !strings.HasPrefix(ev.To, "#") && strings.Contains(ev.To, "#") {
+		splits := strings.Split(ev.To, "#")
+		path = splits[0]
+		hash = splits[1]
+	}
+
+	if BrowserSupportsPushState() {
+		PushDOMState(path, hash)
+		return
+	}
+
+	SetDOMHash(path, hash)
+}
+
+// SetLocation defines a function to set the current location using the provided
+// path and hash.
+func SetLocation(path string, hash string) {
+	if BrowserSupportsPushState() {
+		PushDOMState(path, hash)
+		return
+	}
+
+	SetDOMHash(path, hash)
 }
 
 // PushDOMState adds a new state the dom push history.

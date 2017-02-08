@@ -40,7 +40,15 @@ func WrapEventOnlyHandler(callback func(trees.EventObject)) EventHandler {
 func AbortEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -70,7 +78,7 @@ func AbortEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("abort", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("abort", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -91,7 +99,15 @@ func AbortEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func AfterPrintEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -121,7 +137,7 @@ func AfterPrintEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("AfterPrint", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("AfterPrint", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -142,7 +158,15 @@ func AfterPrintEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func AfterScriptExecuteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -172,7 +196,7 @@ func AfterScriptExecuteEvent(callback interface{}, sel string, states ...bool) *
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("AfterScriptExecute", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("AfterScriptExecute", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -193,7 +217,15 @@ func AfterScriptExecuteEvent(callback interface{}, sel string, states ...bool) *
 func AlertActiveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -223,7 +255,7 @@ func AlertActiveEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("AlertActive", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("AlertActive", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -244,7 +276,15 @@ func AlertActiveEvent(callback interface{}, sel string, states ...bool) *trees.E
 func AlertCloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -274,7 +314,7 @@ func AlertCloseEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("AlertClose", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("AlertClose", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -295,7 +335,15 @@ func AlertCloseEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func AlertingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -325,7 +373,7 @@ func AlertingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("alerting", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("alerting", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -346,7 +394,15 @@ func AlertingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func AnimationEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -376,7 +432,7 @@ func AnimationEndEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("AnimationEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("AnimationEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -397,7 +453,15 @@ func AnimationEndEvent(callback interface{}, sel string, states ...bool) *trees.
 func AnimationIterationEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -427,7 +491,7 @@ func AnimationIterationEvent(callback interface{}, sel string, states ...bool) *
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("AnimationIteration", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("AnimationIteration", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -448,7 +512,15 @@ func AnimationIterationEvent(callback interface{}, sel string, states ...bool) *
 func AnimationStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -478,7 +550,7 @@ func AnimationStartEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("AnimationStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("AnimationStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -499,7 +571,15 @@ func AnimationStartEvent(callback interface{}, sel string, states ...bool) *tree
 func AppinstalledEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -529,7 +609,7 @@ func AppinstalledEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("appinstalled", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("appinstalled", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -550,7 +630,15 @@ func AppinstalledEvent(callback interface{}, sel string, states ...bool) *trees.
 func AudioProcessEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -580,7 +668,7 @@ func AudioProcessEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("AudioProcess", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("AudioProcess", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -601,7 +689,15 @@ func AudioProcessEvent(callback interface{}, sel string, states ...bool) *trees.
 func AudioendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -631,7 +727,7 @@ func AudioendEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("audioend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("audioend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -652,7 +748,15 @@ func AudioendEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func AudiostartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -682,7 +786,7 @@ func AudiostartEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("audiostart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("audiostart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -703,7 +807,15 @@ func AudiostartEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func BeforeInstallPromptEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -733,7 +845,7 @@ func BeforeInstallPromptEvent(callback interface{}, sel string, states ...bool) 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("BeforeInstallPrompt", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("BeforeInstallPrompt", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -754,7 +866,15 @@ func BeforeInstallPromptEvent(callback interface{}, sel string, states ...bool) 
 func BeforePrintEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -784,7 +904,7 @@ func BeforePrintEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("BeforePrint", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("BeforePrint", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -805,7 +925,15 @@ func BeforePrintEvent(callback interface{}, sel string, states ...bool) *trees.E
 func BeforeScriptExecuteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -835,7 +963,7 @@ func BeforeScriptExecuteEvent(callback interface{}, sel string, states ...bool) 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("BeforeScriptExecute", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("BeforeScriptExecute", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -856,7 +984,15 @@ func BeforeScriptExecuteEvent(callback interface{}, sel string, states ...bool) 
 func BeforeUnloadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -886,7 +1022,7 @@ func BeforeUnloadEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("BeforeUnload", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("BeforeUnload", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -907,7 +1043,15 @@ func BeforeUnloadEvent(callback interface{}, sel string, states ...bool) *trees.
 func BeginEventEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -937,7 +1081,7 @@ func BeginEventEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("beginEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("beginEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -958,7 +1102,15 @@ func BeginEventEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func BlockedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -988,7 +1140,7 @@ func BlockedEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("blocked", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("blocked", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1009,7 +1161,15 @@ func BlockedEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func BlurEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1039,7 +1199,7 @@ func BlurEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("blur", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("blur", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1060,7 +1220,15 @@ func BlurEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func BoundaryEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1090,7 +1258,7 @@ func BoundaryEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("boundary", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("boundary", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1111,7 +1279,15 @@ func BoundaryEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func BroadcastEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1141,7 +1317,7 @@ func BroadcastEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("broadcast", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("broadcast", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1162,7 +1338,15 @@ func BroadcastEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func BusyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1192,7 +1376,7 @@ func BusyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("busy", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("busy", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1213,7 +1397,15 @@ func BusyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func CSSRuleViewCSSLinkClickedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1243,7 +1435,7 @@ func CSSRuleViewCSSLinkClickedEvent(callback interface{}, sel string, states ...
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CSSRuleViewCSSLinkClicked", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("CSSRuleViewCSSLinkClicked", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1264,7 +1456,15 @@ func CSSRuleViewCSSLinkClickedEvent(callback interface{}, sel string, states ...
 func CSSRuleViewChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1294,7 +1494,7 @@ func CSSRuleViewChangeEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CSSRuleViewChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("CSSRuleViewChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1315,7 +1515,15 @@ func CSSRuleViewChangeEvent(callback interface{}, sel string, states ...bool) *t
 func CSSRuleViewRefreshedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1345,7 +1553,7 @@ func CSSRuleViewRefreshedEvent(callback interface{}, sel string, states ...bool)
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CSSRuleViewRefreshed", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("CSSRuleViewRefreshed", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1366,7 +1574,15 @@ func CSSRuleViewRefreshedEvent(callback interface{}, sel string, states ...bool)
 func CachedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1396,7 +1612,7 @@ func CachedEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("cached", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("cached", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1417,7 +1633,15 @@ func CachedEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func CallschangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1447,7 +1671,7 @@ func CallschangedEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("callschanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("callschanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1468,7 +1692,15 @@ func CallschangedEvent(callback interface{}, sel string, states ...bool) *trees.
 func CanPlayEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1498,7 +1730,7 @@ func CanPlayEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CanPlay", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("CanPlay", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1519,7 +1751,15 @@ func CanPlayEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func CanPlayThroughEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1549,7 +1789,7 @@ func CanPlayThroughEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CanPlayThrough", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("CanPlayThrough", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1570,7 +1810,15 @@ func CanPlayThroughEvent(callback interface{}, sel string, states ...bool) *tree
 func CardstatechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1600,7 +1848,7 @@ func CardstatechangeEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("cardstatechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("cardstatechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1621,7 +1869,15 @@ func CardstatechangeEvent(callback interface{}, sel string, states ...bool) *tre
 func CfstatechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1651,7 +1907,7 @@ func CfstatechangeEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("cfstatechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("cfstatechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1672,7 +1928,15 @@ func CfstatechangeEvent(callback interface{}, sel string, states ...bool) *trees
 func ChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1702,7 +1966,7 @@ func ChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("change", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("change", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1723,7 +1987,15 @@ func ChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func ChargingChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1753,7 +2025,7 @@ func ChargingChangeEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ChargingChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("ChargingChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1774,7 +2046,15 @@ func ChargingChangeEvent(callback interface{}, sel string, states ...bool) *tree
 func ChargingTimeChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1804,7 +2084,7 @@ func ChargingTimeChangeEvent(callback interface{}, sel string, states ...bool) *
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ChargingTimeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("ChargingTimeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1825,7 +2105,15 @@ func ChargingTimeChangeEvent(callback interface{}, sel string, states ...bool) *
 func CheckboxStateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1855,7 +2143,7 @@ func CheckboxStateChangeEvent(callback interface{}, sel string, states ...bool) 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CheckboxStateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("CheckboxStateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1876,7 +2164,15 @@ func CheckboxStateChangeEvent(callback interface{}, sel string, states ...bool) 
 func CheckingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1906,7 +2202,7 @@ func CheckingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("checking", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("checking", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1927,7 +2223,15 @@ func CheckingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func ClickEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -1957,7 +2261,7 @@ func ClickEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("click", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("click", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -1978,7 +2282,15 @@ func ClickEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func CloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2008,7 +2320,7 @@ func CloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("close", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("close", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2029,7 +2341,15 @@ func CloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func CommandEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2059,7 +2379,7 @@ func CommandEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("command", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("command", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2080,7 +2400,15 @@ func CommandEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func CommandupdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2110,7 +2438,7 @@ func CommandupdateEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("commandupdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("commandupdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2131,7 +2459,15 @@ func CommandupdateEvent(callback interface{}, sel string, states ...bool) *trees
 func CompleteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2161,7 +2497,7 @@ func CompleteEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("complete", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("complete", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2182,7 +2518,15 @@ func CompleteEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func CompositionEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2212,7 +2556,7 @@ func CompositionEndEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CompositionEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("CompositionEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2233,7 +2577,15 @@ func CompositionEndEvent(callback interface{}, sel string, states ...bool) *tree
 func CompositionStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2263,7 +2615,7 @@ func CompositionStartEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CompositionStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("CompositionStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2284,7 +2636,15 @@ func CompositionStartEvent(callback interface{}, sel string, states ...bool) *tr
 func CompositionUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2314,7 +2674,7 @@ func CompositionUpdateEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("CompositionUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("CompositionUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2335,7 +2695,15 @@ func CompositionUpdateEvent(callback interface{}, sel string, states ...bool) *t
 func ConnectingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2365,7 +2733,7 @@ func ConnectingEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("connecting", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("connecting", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2386,7 +2754,15 @@ func ConnectingEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func ConnectionInfoUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2416,7 +2792,7 @@ func ConnectionInfoUpdateEvent(callback interface{}, sel string, states ...bool)
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("connectionInfoUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("connectionInfoUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2437,7 +2813,15 @@ func ConnectionInfoUpdateEvent(callback interface{}, sel string, states ...bool)
 func ContextMenuEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2467,7 +2851,7 @@ func ContextMenuEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ContextMenu", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("ContextMenu", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2488,7 +2872,15 @@ func ContextMenuEvent(callback interface{}, sel string, states ...bool) *trees.E
 func CopyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2518,7 +2910,7 @@ func CopyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("copy", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("copy", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2539,7 +2931,15 @@ func CopyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func CutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2569,7 +2969,7 @@ func CutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("cut", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("cut", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2590,7 +2990,15 @@ func CutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func DOMAutoCompleteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2620,7 +3028,7 @@ func DOMAutoCompleteEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMAutoComplete", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMAutoComplete", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2641,7 +3049,15 @@ func DOMAutoCompleteEvent(callback interface{}, sel string, states ...bool) *tre
 func DOMContentLoadedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2671,7 +3087,7 @@ func DOMContentLoadedEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMContentLoaded", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMContentLoaded", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2692,7 +3108,15 @@ func DOMContentLoadedEvent(callback interface{}, sel string, states ...bool) *tr
 func DOMFrameContentLoadedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2722,7 +3146,7 @@ func DOMFrameContentLoadedEvent(callback interface{}, sel string, states ...bool
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMFrameContentLoaded", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMFrameContentLoaded", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2743,7 +3167,15 @@ func DOMFrameContentLoadedEvent(callback interface{}, sel string, states ...bool
 func DOMLinkAddedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2773,7 +3205,7 @@ func DOMLinkAddedEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMLinkAdded", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMLinkAdded", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2794,7 +3226,15 @@ func DOMLinkAddedEvent(callback interface{}, sel string, states ...bool) *trees.
 func DOMLinkRemovedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2824,7 +3264,7 @@ func DOMLinkRemovedEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMLinkRemoved", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMLinkRemoved", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2845,7 +3285,15 @@ func DOMLinkRemovedEvent(callback interface{}, sel string, states ...bool) *tree
 func DOMMenuItemActiveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2875,7 +3323,7 @@ func DOMMenuItemActiveEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMMenuItemActive", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMMenuItemActive", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2896,7 +3344,15 @@ func DOMMenuItemActiveEvent(callback interface{}, sel string, states ...bool) *t
 func DOMMenuItemInactiveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2926,7 +3382,7 @@ func DOMMenuItemInactiveEvent(callback interface{}, sel string, states ...bool) 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMMenuItemInactive", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMMenuItemInactive", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2947,7 +3403,15 @@ func DOMMenuItemInactiveEvent(callback interface{}, sel string, states ...bool) 
 func DOMMetaAddedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -2977,7 +3441,7 @@ func DOMMetaAddedEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMMetaAdded", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMMetaAdded", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -2998,7 +3462,15 @@ func DOMMetaAddedEvent(callback interface{}, sel string, states ...bool) *trees.
 func DOMMetaRemovedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3028,7 +3500,7 @@ func DOMMetaRemovedEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMMetaRemoved", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMMetaRemoved", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3049,7 +3521,15 @@ func DOMMetaRemovedEvent(callback interface{}, sel string, states ...bool) *tree
 func DOMModalDialogClosedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3079,7 +3559,7 @@ func DOMModalDialogClosedEvent(callback interface{}, sel string, states ...bool)
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMModalDialogClosed", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMModalDialogClosed", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3100,7 +3580,15 @@ func DOMModalDialogClosedEvent(callback interface{}, sel string, states ...bool)
 func DOMPopupBlockedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3130,7 +3618,7 @@ func DOMPopupBlockedEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMPopupBlocked", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMPopupBlocked", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3151,7 +3639,15 @@ func DOMPopupBlockedEvent(callback interface{}, sel string, states ...bool) *tre
 func DOMTitleChangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3181,7 +3677,7 @@ func DOMTitleChangedEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMTitleChanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMTitleChanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3202,7 +3698,15 @@ func DOMTitleChangedEvent(callback interface{}, sel string, states ...bool) *tre
 func DOMWillOpenModalDialogEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3232,7 +3736,7 @@ func DOMWillOpenModalDialogEvent(callback interface{}, sel string, states ...boo
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMWillOpenModalDialog", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMWillOpenModalDialog", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3253,7 +3757,15 @@ func DOMWillOpenModalDialogEvent(callback interface{}, sel string, states ...boo
 func DOMWindowCloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3283,7 +3795,7 @@ func DOMWindowCloseEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMWindowClose", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMWindowClose", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3304,7 +3816,15 @@ func DOMWindowCloseEvent(callback interface{}, sel string, states ...bool) *tree
 func DOMWindowCreatedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3334,7 +3854,7 @@ func DOMWindowCreatedEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DOMWindowCreated", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DOMWindowCreated", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3355,7 +3875,15 @@ func DOMWindowCreatedEvent(callback interface{}, sel string, states ...bool) *tr
 func DatachangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3385,7 +3913,7 @@ func DatachangeEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("datachange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("datachange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3406,7 +3934,15 @@ func DatachangeEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func DataerrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3436,7 +3972,7 @@ func DataerrorEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dataerror", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("dataerror", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3457,7 +3993,15 @@ func DataerrorEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func DblClickEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3487,7 +4031,7 @@ func DblClickEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DblClick", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DblClick", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3508,7 +4052,15 @@ func DblClickEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func DeliveredEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3538,7 +4090,7 @@ func DeliveredEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("delivered", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("delivered", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3559,7 +4111,15 @@ func DeliveredEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func DeviceLightEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3589,7 +4149,7 @@ func DeviceLightEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DeviceLight", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DeviceLight", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3610,7 +4170,15 @@ func DeviceLightEvent(callback interface{}, sel string, states ...bool) *trees.E
 func DeviceMotionEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3640,7 +4208,7 @@ func DeviceMotionEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DeviceMotion", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DeviceMotion", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3661,7 +4229,15 @@ func DeviceMotionEvent(callback interface{}, sel string, states ...bool) *trees.
 func DeviceOrientationEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3691,7 +4267,7 @@ func DeviceOrientationEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DeviceOrientation", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DeviceOrientation", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3712,7 +4288,15 @@ func DeviceOrientationEvent(callback interface{}, sel string, states ...bool) *t
 func DeviceProximityEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3742,7 +4326,7 @@ func DeviceProximityEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DeviceProximity", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DeviceProximity", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3763,7 +4347,15 @@ func DeviceProximityEvent(callback interface{}, sel string, states ...bool) *tre
 func DevicechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3793,7 +4385,7 @@ func DevicechangeEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("devicechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("devicechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3814,7 +4406,15 @@ func DevicechangeEvent(callback interface{}, sel string, states ...bool) *trees.
 func DialingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3844,7 +4444,7 @@ func DialingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("dialing", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("dialing", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3865,7 +4465,15 @@ func DialingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func DisabledEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3895,7 +4503,7 @@ func DisabledEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("disabled", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("disabled", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3916,7 +4524,15 @@ func DisabledEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func DischargingTimeChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3946,7 +4562,7 @@ func DischargingTimeChangeEvent(callback interface{}, sel string, states ...bool
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DischargingTimeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DischargingTimeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -3967,7 +4583,15 @@ func DischargingTimeChangeEvent(callback interface{}, sel string, states ...bool
 func DisconnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -3997,7 +4621,7 @@ func DisconnectedEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("disconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("disconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4018,7 +4642,15 @@ func DisconnectedEvent(callback interface{}, sel string, states ...bool) *trees.
 func DisconnectingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4048,7 +4680,7 @@ func DisconnectingEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("disconnecting", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("disconnecting", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4069,7 +4701,15 @@ func DisconnectingEvent(callback interface{}, sel string, states ...bool) *trees
 func DownloadingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4099,7 +4739,7 @@ func DownloadingEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("downloading", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("downloading", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4120,7 +4760,15 @@ func DownloadingEvent(callback interface{}, sel string, states ...bool) *trees.E
 func DragEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4150,7 +4798,7 @@ func DragEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("drag", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("drag", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4171,7 +4819,15 @@ func DragEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func DragEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4201,7 +4857,7 @@ func DragEndEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DragEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DragEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4222,7 +4878,15 @@ func DragEndEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func DragEnterEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4252,7 +4916,7 @@ func DragEnterEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DragEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DragEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4273,7 +4937,15 @@ func DragEnterEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func DragLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4303,7 +4975,7 @@ func DragLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DragLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DragLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4324,7 +4996,15 @@ func DragLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func DragOverEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4354,7 +5034,7 @@ func DragOverEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DragOver", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DragOver", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4375,7 +5055,15 @@ func DragOverEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func DragStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4405,7 +5093,7 @@ func DragStartEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DragStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DragStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4426,7 +5114,15 @@ func DragStartEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func DropEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4456,7 +5152,7 @@ func DropEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("drop", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("drop", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4477,7 +5173,15 @@ func DropEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func DurationChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4507,7 +5211,7 @@ func DurationChangeEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("DurationChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("DurationChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4528,7 +5232,15 @@ func DurationChangeEvent(callback interface{}, sel string, states ...bool) *tree
 func EmptiedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4558,7 +5270,7 @@ func EmptiedEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("emptied", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("emptied", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4579,7 +5291,15 @@ func EmptiedEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func EnabledEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4609,7 +5329,7 @@ func EnabledEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("enabled", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("enabled", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4630,7 +5350,15 @@ func EnabledEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func EndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4660,7 +5388,7 @@ func EndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("end", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("end", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4681,7 +5409,15 @@ func EndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func EndEventEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4711,7 +5447,7 @@ func EndEventEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("endEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("endEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4732,7 +5468,15 @@ func EndEventEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func EndedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4762,7 +5506,7 @@ func EndedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ended", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("ended", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4783,7 +5527,15 @@ func EndedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func FocusEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4813,7 +5565,7 @@ func FocusEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("focus", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("focus", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4834,7 +5586,15 @@ func FocusEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func FocusInEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4864,7 +5624,7 @@ func FocusInEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("FocusIn", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("FocusIn", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4885,7 +5645,15 @@ func FocusInEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func FocusOutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4915,7 +5683,7 @@ func FocusOutEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("FocusOut", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("FocusOut", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4936,7 +5704,15 @@ func FocusOutEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func FullScreenChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -4966,7 +5742,7 @@ func FullScreenChangeEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("FullScreenChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("FullScreenChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -4987,7 +5763,15 @@ func FullScreenChangeEvent(callback interface{}, sel string, states ...bool) *tr
 func FullScreenErrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5017,7 +5801,7 @@ func FullScreenErrorEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("FullScreenError", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("FullScreenError", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5038,7 +5822,15 @@ func FullScreenErrorEvent(callback interface{}, sel string, states ...bool) *tre
 func FullscreenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5068,7 +5860,7 @@ func FullscreenEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("fullscreen", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("fullscreen", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5089,7 +5881,15 @@ func FullscreenEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func GamepadConnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5119,7 +5919,7 @@ func GamepadConnectedEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("GamepadConnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("GamepadConnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5140,7 +5940,15 @@ func GamepadConnectedEvent(callback interface{}, sel string, states ...bool) *tr
 func GamepadDisconnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5170,7 +5978,7 @@ func GamepadDisconnectedEvent(callback interface{}, sel string, states ...bool) 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("GamepadDisconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("GamepadDisconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5191,7 +5999,15 @@ func GamepadDisconnectedEvent(callback interface{}, sel string, states ...bool) 
 func GotpointercaptureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5221,7 +6037,7 @@ func GotpointercaptureEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("gotpointercapture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("gotpointercapture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5242,7 +6058,15 @@ func GotpointercaptureEvent(callback interface{}, sel string, states ...bool) *t
 func HashChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5272,7 +6096,7 @@ func HashChangeEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("HashChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("HashChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5293,7 +6117,15 @@ func HashChangeEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func HeldEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5323,7 +6155,7 @@ func HeldEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("held", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("held", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5344,7 +6176,15 @@ func HeldEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func HoldingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5374,7 +6214,7 @@ func HoldingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("holding", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("holding", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5395,7 +6235,15 @@ func HoldingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func IcccardlockerrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5425,7 +6273,7 @@ func IcccardlockerrorEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("icccardlockerror", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("icccardlockerror", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5446,7 +6294,15 @@ func IcccardlockerrorEvent(callback interface{}, sel string, states ...bool) *tr
 func IccinfochangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5476,7 +6332,7 @@ func IccinfochangeEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("iccinfochange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("iccinfochange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5497,7 +6353,15 @@ func IccinfochangeEvent(callback interface{}, sel string, states ...bool) *trees
 func IncomingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5527,7 +6391,7 @@ func IncomingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("incoming", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("incoming", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5548,7 +6412,15 @@ func IncomingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func InputEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5578,7 +6450,7 @@ func InputEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("input", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("input", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5599,7 +6471,15 @@ func InputEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func InvalidEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5629,7 +6509,7 @@ func InvalidEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("invalid", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("invalid", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5650,7 +6530,15 @@ func InvalidEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func KeyDownEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5680,7 +6568,7 @@ func KeyDownEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("KeyDown", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("KeyDown", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5701,7 +6589,15 @@ func KeyDownEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func KeyPressEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5731,7 +6627,7 @@ func KeyPressEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("KeyPress", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("KeyPress", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5752,7 +6648,15 @@ func KeyPressEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func KeyUpEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5782,7 +6686,7 @@ func KeyUpEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("KeyUp", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("KeyUp", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5803,7 +6707,15 @@ func KeyUpEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func LanguageChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5833,7 +6745,7 @@ func LanguageChangeEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("LanguageChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("LanguageChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5854,7 +6766,15 @@ func LanguageChangeEvent(callback interface{}, sel string, states ...bool) *tree
 func LevelChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5884,7 +6804,7 @@ func LevelChangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("LevelChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("LevelChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5905,7 +6825,15 @@ func LevelChangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 func LoadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5935,7 +6863,7 @@ func LoadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("load", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("load", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -5956,7 +6884,15 @@ func LoadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func LoadEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -5986,7 +6922,7 @@ func LoadEndEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("LoadEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("LoadEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6007,7 +6943,15 @@ func LoadEndEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func LoadStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6037,7 +6981,7 @@ func LoadStartEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("LoadStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("LoadStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6058,7 +7002,15 @@ func LoadStartEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func LoadedDataEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6088,7 +7040,7 @@ func LoadedDataEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("LoadedData", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("LoadedData", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6109,7 +7061,15 @@ func LoadedDataEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func LoadedMetadataEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6139,7 +7099,7 @@ func LoadedMetadataEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("LoadedMetadata", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("LoadedMetadata", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6160,7 +7120,15 @@ func LoadedMetadataEvent(callback interface{}, sel string, states ...bool) *tree
 func LocalizedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6190,7 +7158,7 @@ func LocalizedEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("localized", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("localized", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6211,7 +7179,15 @@ func LocalizedEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func LostpointercaptureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6241,7 +7217,7 @@ func LostpointercaptureEvent(callback interface{}, sel string, states ...bool) *
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("lostpointercapture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("lostpointercapture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6262,7 +7238,15 @@ func LostpointercaptureEvent(callback interface{}, sel string, states ...bool) *
 func MarkEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6292,7 +7276,7 @@ func MarkEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mark", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mark", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6313,7 +7297,15 @@ func MarkEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func MessageEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6343,7 +7335,7 @@ func MessageEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("message", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("message", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6364,7 +7356,15 @@ func MessageEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func MouseDownEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6394,7 +7394,7 @@ func MouseDownEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MouseDown", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MouseDown", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6415,7 +7415,15 @@ func MouseDownEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func MouseEnterEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6445,7 +7453,7 @@ func MouseEnterEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MouseEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MouseEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6466,7 +7474,15 @@ func MouseEnterEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func MouseLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6496,7 +7512,7 @@ func MouseLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MouseLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MouseLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6517,7 +7533,15 @@ func MouseLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func MouseMoveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6547,7 +7571,7 @@ func MouseMoveEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MouseMove", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MouseMove", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6568,7 +7592,15 @@ func MouseMoveEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func MouseOutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6598,7 +7630,7 @@ func MouseOutEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MouseOut", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MouseOut", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6619,7 +7651,15 @@ func MouseOutEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func MouseOverEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6649,7 +7689,7 @@ func MouseOverEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MouseOver", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MouseOver", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6670,7 +7710,15 @@ func MouseOverEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func MouseUpEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6700,7 +7748,7 @@ func MouseUpEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MouseUp", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MouseUp", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6721,7 +7769,15 @@ func MouseUpEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func MozAfterPaintEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6751,7 +7807,7 @@ func MozAfterPaintEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozAfterPaint", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozAfterPaint", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6772,7 +7828,15 @@ func MozAfterPaintEvent(callback interface{}, sel string, states ...bool) *trees
 func MozAudioAvailableEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6802,7 +7866,7 @@ func MozAudioAvailableEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozAudioAvailable", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozAudioAvailable", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6823,7 +7887,15 @@ func MozAudioAvailableEvent(callback interface{}, sel string, states ...bool) *t
 func MozBeforeResizeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6853,7 +7925,7 @@ func MozBeforeResizeEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozBeforeResize", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozBeforeResize", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6874,7 +7946,15 @@ func MozBeforeResizeEvent(callback interface{}, sel string, states ...bool) *tre
 func MozEdgeUIGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6904,7 +7984,7 @@ func MozEdgeUIGestureEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozEdgeUIGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozEdgeUIGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6925,7 +8005,15 @@ func MozEdgeUIGestureEvent(callback interface{}, sel string, states ...bool) *tr
 func MozEnteredDomFullscreenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -6955,7 +8043,7 @@ func MozEnteredDomFullscreenEvent(callback interface{}, sel string, states ...bo
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozEnteredDomFullscreen", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozEnteredDomFullscreen", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -6976,7 +8064,15 @@ func MozEnteredDomFullscreenEvent(callback interface{}, sel string, states ...bo
 func MozGamepadButtonDownEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7006,7 +8102,7 @@ func MozGamepadButtonDownEvent(callback interface{}, sel string, states ...bool)
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozGamepadButtonDown", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozGamepadButtonDown", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7027,7 +8123,15 @@ func MozGamepadButtonDownEvent(callback interface{}, sel string, states ...bool)
 func MozGamepadButtonUpEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7057,7 +8161,7 @@ func MozGamepadButtonUpEvent(callback interface{}, sel string, states ...bool) *
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozGamepadButtonUp", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozGamepadButtonUp", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7078,7 +8182,15 @@ func MozGamepadButtonUpEvent(callback interface{}, sel string, states ...bool) *
 func MozMagnifyGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7108,7 +8220,7 @@ func MozMagnifyGestureEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozMagnifyGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozMagnifyGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7129,7 +8241,15 @@ func MozMagnifyGestureEvent(callback interface{}, sel string, states ...bool) *t
 func MozMagnifyGestureStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7159,7 +8279,7 @@ func MozMagnifyGestureStartEvent(callback interface{}, sel string, states ...boo
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozMagnifyGestureStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozMagnifyGestureStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7180,7 +8300,15 @@ func MozMagnifyGestureStartEvent(callback interface{}, sel string, states ...boo
 func MozMagnifyGestureUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7210,7 +8338,7 @@ func MozMagnifyGestureUpdateEvent(callback interface{}, sel string, states ...bo
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozMagnifyGestureUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozMagnifyGestureUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7231,7 +8359,15 @@ func MozMagnifyGestureUpdateEvent(callback interface{}, sel string, states ...bo
 func MozPressTapGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7261,7 +8397,7 @@ func MozPressTapGestureEvent(callback interface{}, sel string, states ...bool) *
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozPressTapGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozPressTapGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7282,7 +8418,15 @@ func MozPressTapGestureEvent(callback interface{}, sel string, states ...bool) *
 func MozRotateGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7312,7 +8456,7 @@ func MozRotateGestureEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozRotateGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozRotateGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7333,7 +8477,15 @@ func MozRotateGestureEvent(callback interface{}, sel string, states ...bool) *tr
 func MozRotateGestureStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7363,7 +8515,7 @@ func MozRotateGestureStartEvent(callback interface{}, sel string, states ...bool
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozRotateGestureStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozRotateGestureStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7384,7 +8536,15 @@ func MozRotateGestureStartEvent(callback interface{}, sel string, states ...bool
 func MozRotateGestureUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7414,7 +8574,7 @@ func MozRotateGestureUpdateEvent(callback interface{}, sel string, states ...boo
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozRotateGestureUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozRotateGestureUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7435,7 +8595,15 @@ func MozRotateGestureUpdateEvent(callback interface{}, sel string, states ...boo
 func MozScrolledAreaChangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7465,7 +8633,7 @@ func MozScrolledAreaChangedEvent(callback interface{}, sel string, states ...boo
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozScrolledAreaChanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozScrolledAreaChanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7486,7 +8654,15 @@ func MozScrolledAreaChangedEvent(callback interface{}, sel string, states ...boo
 func MozSwipeGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7516,7 +8692,7 @@ func MozSwipeGestureEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozSwipeGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozSwipeGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7537,7 +8713,15 @@ func MozSwipeGestureEvent(callback interface{}, sel string, states ...bool) *tre
 func MozTapGestureEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7567,7 +8751,7 @@ func MozTapGestureEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("MozTapGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("MozTapGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7588,7 +8772,15 @@ func MozTapGestureEvent(callback interface{}, sel string, states ...bool) *trees
 func MozbrowseractivitydoneEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7618,7 +8810,7 @@ func MozbrowseractivitydoneEvent(callback interface{}, sel string, states ...boo
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowseractivitydone", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowseractivitydone", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7639,7 +8831,15 @@ func MozbrowseractivitydoneEvent(callback interface{}, sel string, states ...boo
 func MozbrowserasyncscrollEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7669,7 +8869,7 @@ func MozbrowserasyncscrollEvent(callback interface{}, sel string, states ...bool
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserasyncscroll", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserasyncscroll", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7690,7 +8890,15 @@ func MozbrowserasyncscrollEvent(callback interface{}, sel string, states ...bool
 func MozbrowseraudioplaybackchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7720,7 +8928,7 @@ func MozbrowseraudioplaybackchangeEvent(callback interface{}, sel string, states
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowseraudioplaybackchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowseraudioplaybackchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7741,7 +8949,15 @@ func MozbrowseraudioplaybackchangeEvent(callback interface{}, sel string, states
 func MozbrowsercaretstatechangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7771,7 +8987,7 @@ func MozbrowsercaretstatechangedEvent(callback interface{}, sel string, states .
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsercaretstatechanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowsercaretstatechanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7792,7 +9008,15 @@ func MozbrowsercaretstatechangedEvent(callback interface{}, sel string, states .
 func MozbrowsercloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7822,7 +9046,7 @@ func MozbrowsercloseEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserclose", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserclose", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7843,7 +9067,15 @@ func MozbrowsercloseEvent(callback interface{}, sel string, states ...bool) *tre
 func MozbrowsercontextmenuEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7873,7 +9105,7 @@ func MozbrowsercontextmenuEvent(callback interface{}, sel string, states ...bool
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsercontextmenu", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowsercontextmenu", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7894,7 +9126,15 @@ func MozbrowsercontextmenuEvent(callback interface{}, sel string, states ...bool
 func MozbrowserdocumentfirstpaintEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7924,7 +9164,7 @@ func MozbrowserdocumentfirstpaintEvent(callback interface{}, sel string, states 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserdocumentfirstpaint", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserdocumentfirstpaint", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7945,7 +9185,15 @@ func MozbrowserdocumentfirstpaintEvent(callback interface{}, sel string, states 
 func MozbrowsererrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -7975,7 +9223,7 @@ func MozbrowsererrorEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsererror", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowsererror", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -7996,7 +9244,15 @@ func MozbrowsererrorEvent(callback interface{}, sel string, states ...bool) *tre
 func MozbrowserfindchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8026,7 +9282,7 @@ func MozbrowserfindchangeEvent(callback interface{}, sel string, states ...bool)
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserfindchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserfindchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8047,7 +9303,15 @@ func MozbrowserfindchangeEvent(callback interface{}, sel string, states ...bool)
 func MozbrowserfirstpaintEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8077,7 +9341,7 @@ func MozbrowserfirstpaintEvent(callback interface{}, sel string, states ...bool)
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserfirstpaint", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserfirstpaint", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8098,7 +9362,15 @@ func MozbrowserfirstpaintEvent(callback interface{}, sel string, states ...bool)
 func MozbrowsericonchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8128,7 +9400,7 @@ func MozbrowsericonchangeEvent(callback interface{}, sel string, states ...bool)
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsericonchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowsericonchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8149,7 +9421,15 @@ func MozbrowsericonchangeEvent(callback interface{}, sel string, states ...bool)
 func MozbrowserloadendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8179,7 +9459,7 @@ func MozbrowserloadendEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserloadend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserloadend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8200,7 +9480,15 @@ func MozbrowserloadendEvent(callback interface{}, sel string, states ...bool) *t
 func MozbrowserloadstartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8230,7 +9518,7 @@ func MozbrowserloadstartEvent(callback interface{}, sel string, states ...bool) 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserloadstart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserloadstart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8251,7 +9539,15 @@ func MozbrowserloadstartEvent(callback interface{}, sel string, states ...bool) 
 func MozbrowserlocationchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8281,7 +9577,7 @@ func MozbrowserlocationchangeEvent(callback interface{}, sel string, states ...b
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserlocationchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserlocationchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8302,7 +9598,15 @@ func MozbrowserlocationchangeEvent(callback interface{}, sel string, states ...b
 func MozbrowsermanifestchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8332,7 +9636,7 @@ func MozbrowsermanifestchangeEvent(callback interface{}, sel string, states ...b
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsermanifestchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowsermanifestchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8353,7 +9657,15 @@ func MozbrowsermanifestchangeEvent(callback interface{}, sel string, states ...b
 func MozbrowsermetachangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8383,7 +9695,7 @@ func MozbrowsermetachangeEvent(callback interface{}, sel string, states ...bool)
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsermetachange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowsermetachange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8404,7 +9716,15 @@ func MozbrowsermetachangeEvent(callback interface{}, sel string, states ...bool)
 func MozbrowseropensearchEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8434,7 +9754,7 @@ func MozbrowseropensearchEvent(callback interface{}, sel string, states ...bool)
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowseropensearch", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowseropensearch", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8455,7 +9775,15 @@ func MozbrowseropensearchEvent(callback interface{}, sel string, states ...bool)
 func MozbrowseropentabEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8485,7 +9813,7 @@ func MozbrowseropentabEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowseropentab", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowseropentab", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8506,7 +9834,15 @@ func MozbrowseropentabEvent(callback interface{}, sel string, states ...bool) *t
 func MozbrowseropenwindowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8536,7 +9872,7 @@ func MozbrowseropenwindowEvent(callback interface{}, sel string, states ...bool)
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowseropenwindow", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowseropenwindow", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8557,7 +9893,15 @@ func MozbrowseropenwindowEvent(callback interface{}, sel string, states ...bool)
 func MozbrowserresizeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8587,7 +9931,7 @@ func MozbrowserresizeEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserresize", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserresize", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8608,7 +9952,15 @@ func MozbrowserresizeEvent(callback interface{}, sel string, states ...bool) *tr
 func MozbrowserscrollEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8638,7 +9990,7 @@ func MozbrowserscrollEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserscroll", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserscroll", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8659,7 +10011,15 @@ func MozbrowserscrollEvent(callback interface{}, sel string, states ...bool) *tr
 func MozbrowserscrollareachangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8689,7 +10049,7 @@ func MozbrowserscrollareachangedEvent(callback interface{}, sel string, states .
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserscrollareachanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserscrollareachanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8710,7 +10070,15 @@ func MozbrowserscrollareachangedEvent(callback interface{}, sel string, states .
 func MozbrowserscrollviewchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8740,7 +10108,7 @@ func MozbrowserscrollviewchangeEvent(callback interface{}, sel string, states ..
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserscrollviewchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserscrollviewchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8761,7 +10129,15 @@ func MozbrowserscrollviewchangeEvent(callback interface{}, sel string, states ..
 func MozbrowsersecuritychangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8791,7 +10167,7 @@ func MozbrowsersecuritychangeEvent(callback interface{}, sel string, states ...b
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsersecuritychange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowsersecuritychange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8812,7 +10188,15 @@ func MozbrowsersecuritychangeEvent(callback interface{}, sel string, states ...b
 func MozbrowserselectionstatechangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8842,7 +10226,7 @@ func MozbrowserselectionstatechangedEvent(callback interface{}, sel string, stat
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserselectionstatechanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserselectionstatechanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8863,7 +10247,15 @@ func MozbrowserselectionstatechangedEvent(callback interface{}, sel string, stat
 func MozbrowsershowmodalpromptEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8893,7 +10285,7 @@ func MozbrowsershowmodalpromptEvent(callback interface{}, sel string, states ...
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsershowmodalprompt", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowsershowmodalprompt", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8914,7 +10306,15 @@ func MozbrowsershowmodalpromptEvent(callback interface{}, sel string, states ...
 func MozbrowsertitlechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8944,7 +10344,7 @@ func MozbrowsertitlechangeEvent(callback interface{}, sel string, states ...bool
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowsertitlechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowsertitlechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -8965,7 +10365,15 @@ func MozbrowsertitlechangeEvent(callback interface{}, sel string, states ...bool
 func MozbrowserusernameandpasswordrequiredEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -8995,7 +10403,7 @@ func MozbrowserusernameandpasswordrequiredEvent(callback interface{}, sel string
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowserusernameandpasswordrequired", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowserusernameandpasswordrequired", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9016,7 +10424,15 @@ func MozbrowserusernameandpasswordrequiredEvent(callback interface{}, sel string
 func MozbrowservisibilitychangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9046,7 +10462,7 @@ func MozbrowservisibilitychangeEvent(callback interface{}, sel string, states ..
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("mozbrowservisibilitychange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("mozbrowservisibilitychange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9067,7 +10483,15 @@ func MozbrowservisibilitychangeEvent(callback interface{}, sel string, states ..
 func MoztimechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9097,7 +10521,7 @@ func MoztimechangeEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("moztimechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("moztimechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9118,7 +10542,15 @@ func MoztimechangeEvent(callback interface{}, sel string, states ...bool) *trees
 func NoUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9148,7 +10580,7 @@ func NoUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("NoUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("NoUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9169,7 +10601,15 @@ func NoUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func NomatchEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9199,7 +10639,7 @@ func NomatchEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("nomatch", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("nomatch", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9220,7 +10660,15 @@ func NomatchEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func NotificationclickEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9250,7 +10698,7 @@ func NotificationclickEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("notificationclick", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("notificationclick", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9271,7 +10719,15 @@ func NotificationclickEvent(callback interface{}, sel string, states ...bool) *t
 func ObsoleteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9301,7 +10757,7 @@ func ObsoleteEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("obsolete", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("obsolete", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9322,7 +10778,15 @@ func ObsoleteEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func OfflineEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9352,7 +10816,7 @@ func OfflineEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("offline", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("offline", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9373,7 +10837,15 @@ func OfflineEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func OnconnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9403,7 +10875,7 @@ func OnconnectedEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("onconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("onconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9424,7 +10896,15 @@ func OnconnectedEvent(callback interface{}, sel string, states ...bool) *trees.E
 func OnlineEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9454,7 +10934,7 @@ func OnlineEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("online", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("online", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9475,7 +10955,15 @@ func OnlineEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func OpenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9505,7 +10993,7 @@ func OpenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("open", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("open", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9526,7 +11014,15 @@ func OpenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func OrientationChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9556,7 +11052,7 @@ func OrientationChangeEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("OrientationChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("OrientationChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9577,7 +11073,15 @@ func OrientationChangeEvent(callback interface{}, sel string, states ...bool) *t
 func OverflowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9607,7 +11111,7 @@ func OverflowEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("overflow", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("overflow", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9628,7 +11132,15 @@ func OverflowEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func PageHideEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9658,7 +11170,7 @@ func PageHideEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("PageHide", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("PageHide", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9679,7 +11191,15 @@ func PageHideEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func PageShowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9709,7 +11229,7 @@ func PageShowEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("PageShow", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("PageShow", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9730,7 +11250,15 @@ func PageShowEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func PasteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9760,7 +11288,7 @@ func PasteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("paste", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("paste", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9781,7 +11309,15 @@ func PasteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func PauseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9811,7 +11347,7 @@ func PauseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pause", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("pause", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9832,7 +11368,15 @@ func PauseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func PlayEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9862,7 +11406,7 @@ func PlayEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("play", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("play", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9883,7 +11427,15 @@ func PlayEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func PlayingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9913,7 +11465,7 @@ func PlayingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("playing", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("playing", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9934,7 +11486,15 @@ func PlayingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func PointerLockChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -9964,7 +11524,7 @@ func PointerLockChangeEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("PointerLockChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("PointerLockChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -9985,7 +11545,15 @@ func PointerLockChangeEvent(callback interface{}, sel string, states ...bool) *t
 func PointerLockErrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10015,7 +11583,7 @@ func PointerLockErrorEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("PointerLockError", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("PointerLockError", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10036,7 +11604,15 @@ func PointerLockErrorEvent(callback interface{}, sel string, states ...bool) *tr
 func PointercancelEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10066,7 +11642,7 @@ func PointercancelEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointercancel", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("pointercancel", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10087,7 +11663,15 @@ func PointercancelEvent(callback interface{}, sel string, states ...bool) *trees
 func PointerdownEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10117,7 +11701,7 @@ func PointerdownEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerdown", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("pointerdown", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10138,7 +11722,15 @@ func PointerdownEvent(callback interface{}, sel string, states ...bool) *trees.E
 func PointerenterEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10168,7 +11760,7 @@ func PointerenterEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerenter", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("pointerenter", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10189,7 +11781,15 @@ func PointerenterEvent(callback interface{}, sel string, states ...bool) *trees.
 func PointerleaveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10219,7 +11819,7 @@ func PointerleaveEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerleave", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("pointerleave", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10240,7 +11840,15 @@ func PointerleaveEvent(callback interface{}, sel string, states ...bool) *trees.
 func PointermoveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10270,7 +11878,7 @@ func PointermoveEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointermove", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("pointermove", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10291,7 +11899,15 @@ func PointermoveEvent(callback interface{}, sel string, states ...bool) *trees.E
 func PointeroutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10321,7 +11937,7 @@ func PointeroutEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerout", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("pointerout", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10342,7 +11958,15 @@ func PointeroutEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func PointeroverEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10372,7 +11996,7 @@ func PointeroverEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerover", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("pointerover", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10393,7 +12017,15 @@ func PointeroverEvent(callback interface{}, sel string, states ...bool) *trees.E
 func PointerupEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10423,7 +12055,7 @@ func PointerupEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pointerup", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("pointerup", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10444,7 +12076,15 @@ func PointerupEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func PopStateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10474,7 +12114,7 @@ func PopStateEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("PopState", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("PopState", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10495,7 +12135,15 @@ func PopStateEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func PopuphiddenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10525,7 +12173,7 @@ func PopuphiddenEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("popuphidden", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("popuphidden", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10546,7 +12194,15 @@ func PopuphiddenEvent(callback interface{}, sel string, states ...bool) *trees.E
 func PopuphidingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10576,7 +12232,7 @@ func PopuphidingEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("popuphiding", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("popuphiding", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10597,7 +12253,15 @@ func PopuphidingEvent(callback interface{}, sel string, states ...bool) *trees.E
 func PopupshowingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10627,7 +12291,7 @@ func PopupshowingEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("popupshowing", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("popupshowing", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10648,7 +12312,15 @@ func PopupshowingEvent(callback interface{}, sel string, states ...bool) *trees.
 func PopupshownEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10678,7 +12350,7 @@ func PopupshownEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("popupshown", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("popupshown", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10699,7 +12371,15 @@ func PopupshownEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func ProgressEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10729,7 +12409,7 @@ func ProgressEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("progress", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("progress", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10750,7 +12430,15 @@ func ProgressEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func PushEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10780,7 +12468,7 @@ func PushEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("push", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("push", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10801,7 +12489,15 @@ func PushEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func PushsubscriptionchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10831,7 +12527,7 @@ func PushsubscriptionchangeEvent(callback interface{}, sel string, states ...boo
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("pushsubscriptionchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("pushsubscriptionchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10852,7 +12548,15 @@ func PushsubscriptionchangeEvent(callback interface{}, sel string, states ...boo
 func RadioStateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10882,7 +12586,7 @@ func RadioStateChangeEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("RadioStateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("RadioStateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10903,7 +12607,15 @@ func RadioStateChangeEvent(callback interface{}, sel string, states ...bool) *tr
 func RateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10933,7 +12645,7 @@ func RateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("RateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("RateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -10954,7 +12666,15 @@ func RateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func ReadystateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -10984,7 +12704,7 @@ func ReadystateChangeEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ReadystateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("ReadystateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11005,7 +12725,15 @@ func ReadystateChangeEvent(callback interface{}, sel string, states ...bool) *tr
 func ReceivedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11035,7 +12763,7 @@ func ReceivedEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("received", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("received", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11056,7 +12784,15 @@ func ReceivedEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func RepeatEventEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11086,7 +12822,7 @@ func RepeatEventEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("repeatEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("repeatEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11107,7 +12843,15 @@ func RepeatEventEvent(callback interface{}, sel string, states ...bool) *trees.E
 func ResetEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11137,7 +12881,7 @@ func ResetEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("reset", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("reset", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11158,7 +12902,15 @@ func ResetEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func ResizeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11188,7 +12940,7 @@ func ResizeEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("resize", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("resize", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11209,7 +12961,15 @@ func ResizeEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func ResourcetimingbufferfullEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11239,7 +12999,7 @@ func ResourcetimingbufferfullEvent(callback interface{}, sel string, states ...b
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("resourcetimingbufferfull", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("resourcetimingbufferfull", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11260,7 +13020,15 @@ func ResourcetimingbufferfullEvent(callback interface{}, sel string, states ...b
 func ResultEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11290,7 +13058,7 @@ func ResultEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("result", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("result", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11311,7 +13079,15 @@ func ResultEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func ResumeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11341,7 +13117,7 @@ func ResumeEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("resume", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("resume", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11362,7 +13138,15 @@ func ResumeEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func ResumingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11392,7 +13176,7 @@ func ResumingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("resuming", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("resuming", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11413,7 +13197,15 @@ func ResumingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func SSTabClosingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11443,7 +13235,7 @@ func SSTabClosingEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSTabClosing", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SSTabClosing", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11464,7 +13256,15 @@ func SSTabClosingEvent(callback interface{}, sel string, states ...bool) *trees.
 func SSTabRestoredEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11494,7 +13294,7 @@ func SSTabRestoredEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSTabRestored", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SSTabRestored", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11515,7 +13315,15 @@ func SSTabRestoredEvent(callback interface{}, sel string, states ...bool) *trees
 func SSTabRestoringEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11545,7 +13353,7 @@ func SSTabRestoringEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSTabRestoring", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SSTabRestoring", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11566,7 +13374,15 @@ func SSTabRestoringEvent(callback interface{}, sel string, states ...bool) *tree
 func SSWindowClosingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11596,7 +13412,7 @@ func SSWindowClosingEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSWindowClosing", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SSWindowClosing", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11617,7 +13433,15 @@ func SSWindowClosingEvent(callback interface{}, sel string, states ...bool) *tre
 func SSWindowStateBusyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11647,7 +13471,7 @@ func SSWindowStateBusyEvent(callback interface{}, sel string, states ...bool) *t
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSWindowStateBusy", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SSWindowStateBusy", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11668,7 +13492,15 @@ func SSWindowStateBusyEvent(callback interface{}, sel string, states ...bool) *t
 func SSWindowStateReadyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11698,7 +13530,7 @@ func SSWindowStateReadyEvent(callback interface{}, sel string, states ...bool) *
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SSWindowStateReady", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SSWindowStateReady", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11719,7 +13551,15 @@ func SSWindowStateReadyEvent(callback interface{}, sel string, states ...bool) *
 func SVGAbortEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11749,7 +13589,7 @@ func SVGAbortEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGAbort", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SVGAbort", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11770,7 +13610,15 @@ func SVGAbortEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func SVGErrorEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11800,7 +13648,7 @@ func SVGErrorEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGError", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SVGError", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11821,7 +13669,15 @@ func SVGErrorEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func SVGLoadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11851,7 +13707,7 @@ func SVGLoadEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGLoad", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SVGLoad", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11872,7 +13728,15 @@ func SVGLoadEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func SVGResizeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11902,7 +13766,7 @@ func SVGResizeEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGResize", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SVGResize", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11923,7 +13787,15 @@ func SVGResizeEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func SVGScrollEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -11953,7 +13825,7 @@ func SVGScrollEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGScroll", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SVGScroll", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -11974,7 +13846,15 @@ func SVGScrollEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func SVGUnloadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12004,7 +13884,7 @@ func SVGUnloadEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGUnload", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SVGUnload", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12025,7 +13905,15 @@ func SVGUnloadEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func SVGZoomEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12055,7 +13943,7 @@ func SVGZoomEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SVGZoom", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SVGZoom", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12076,7 +13964,15 @@ func SVGZoomEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func ScrollEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12106,7 +14002,7 @@ func ScrollEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("scroll", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("scroll", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12127,7 +14023,15 @@ func ScrollEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func SeekedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12157,7 +14061,7 @@ func SeekedEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("seeked", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("seeked", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12178,7 +14082,15 @@ func SeekedEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func SeekingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12208,7 +14120,7 @@ func SeekingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("seeking", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("seeking", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12229,7 +14141,15 @@ func SeekingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func SelectEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12259,7 +14179,7 @@ func SelectEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("select", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("select", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12280,7 +14200,15 @@ func SelectEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func SelectionchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12310,7 +14238,7 @@ func SelectionchangeEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("selectionchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("selectionchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12331,7 +14259,15 @@ func SelectionchangeEvent(callback interface{}, sel string, states ...bool) *tre
 func SelectstartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12361,7 +14297,7 @@ func SelectstartEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("selectstart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("selectstart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12382,7 +14318,15 @@ func SelectstartEvent(callback interface{}, sel string, states ...bool) *trees.E
 func SentEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12412,7 +14356,7 @@ func SentEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("sent", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("sent", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12433,7 +14377,15 @@ func SentEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func ShowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12463,7 +14415,7 @@ func ShowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("show", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("show", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12484,7 +14436,15 @@ func ShowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func SizemodechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12514,7 +14474,7 @@ func SizemodechangeEvent(callback interface{}, sel string, states ...bool) *tree
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("sizemodechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("sizemodechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12535,7 +14495,15 @@ func SizemodechangeEvent(callback interface{}, sel string, states ...bool) *tree
 func SmartCardInsertEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12565,7 +14533,7 @@ func SmartCardInsertEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SmartCardInsert", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SmartCardInsert", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12586,7 +14554,15 @@ func SmartCardInsertEvent(callback interface{}, sel string, states ...bool) *tre
 func SmartCardRemoveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12616,7 +14592,7 @@ func SmartCardRemoveEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("SmartCardRemove", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("SmartCardRemove", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12637,7 +14613,15 @@ func SmartCardRemoveEvent(callback interface{}, sel string, states ...bool) *tre
 func SoundendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12667,7 +14651,7 @@ func SoundendEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("soundend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("soundend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12688,7 +14672,15 @@ func SoundendEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func SoundstartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12718,7 +14710,7 @@ func SoundstartEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("soundstart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("soundstart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12739,7 +14731,15 @@ func SoundstartEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func SpeechendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12769,7 +14769,7 @@ func SpeechendEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("speechend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("speechend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12790,7 +14790,15 @@ func SpeechendEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func SpeechstartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12820,7 +14828,7 @@ func SpeechstartEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("speechstart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("speechstart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12841,7 +14849,15 @@ func SpeechstartEvent(callback interface{}, sel string, states ...bool) *trees.E
 func StalledEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12871,7 +14887,7 @@ func StalledEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("stalled", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("stalled", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12892,7 +14908,15 @@ func StalledEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func StartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12922,7 +14946,7 @@ func StartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("start", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("start", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12943,7 +14967,15 @@ func StartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 func StatechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -12973,7 +15005,7 @@ func StatechangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("statechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("statechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -12994,7 +15026,15 @@ func StatechangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 func StatuschangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13024,7 +15064,7 @@ func StatuschangeEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("statuschange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("statuschange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13045,7 +15085,15 @@ func StatuschangeEvent(callback interface{}, sel string, states ...bool) *trees.
 func StkcommandEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13075,7 +15123,7 @@ func StkcommandEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("stkcommand", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("stkcommand", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13096,7 +15144,15 @@ func StkcommandEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func StksessionendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13126,7 +15182,7 @@ func StksessionendEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("stksessionend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("stksessionend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13147,7 +15203,15 @@ func StksessionendEvent(callback interface{}, sel string, states ...bool) *trees
 func StorageEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13177,7 +15241,7 @@ func StorageEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("storage", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("storage", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13198,7 +15262,15 @@ func StorageEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func SubmitEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13228,7 +15300,7 @@ func SubmitEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("submit", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("submit", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13249,7 +15321,15 @@ func SubmitEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func SuccessEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13279,7 +15359,7 @@ func SuccessEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("success", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("success", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13300,7 +15380,15 @@ func SuccessEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func SuspendEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13330,7 +15418,7 @@ func SuspendEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("suspend", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("suspend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13351,7 +15439,15 @@ func SuspendEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func TabCloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13381,7 +15477,7 @@ func TabCloseEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabClose", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TabClose", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13402,7 +15498,15 @@ func TabCloseEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func TabHideEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13432,7 +15536,7 @@ func TabHideEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabHide", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TabHide", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13453,7 +15557,15 @@ func TabHideEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func TabOpenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13483,7 +15595,7 @@ func TabOpenEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabOpen", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TabOpen", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13504,7 +15616,15 @@ func TabOpenEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func TabPinnedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13534,7 +15654,7 @@ func TabPinnedEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabPinned", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TabPinned", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13555,7 +15675,15 @@ func TabPinnedEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func TabSelectEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13585,7 +15713,7 @@ func TabSelectEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabSelect", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TabSelect", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13606,7 +15734,15 @@ func TabSelectEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func TabShowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13636,7 +15772,7 @@ func TabShowEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabShow", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TabShow", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13657,7 +15793,15 @@ func TabShowEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func TabUnpinnedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13687,7 +15831,7 @@ func TabUnpinnedEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TabUnpinned", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TabUnpinned", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13708,7 +15852,15 @@ func TabUnpinnedEvent(callback interface{}, sel string, states ...bool) *trees.E
 func TimeUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13738,7 +15890,7 @@ func TimeUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TimeUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TimeUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13759,7 +15911,15 @@ func TimeUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func TimeoutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13789,7 +15949,7 @@ func TimeoutEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("timeout", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("timeout", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13810,7 +15970,15 @@ func TimeoutEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func TouchCancelEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13840,7 +16008,7 @@ func TouchCancelEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TouchCancel", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TouchCancel", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13861,7 +16029,15 @@ func TouchCancelEvent(callback interface{}, sel string, states ...bool) *trees.E
 func TouchEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13891,7 +16067,7 @@ func TouchEndEvent(callback interface{}, sel string, states ...bool) *trees.Even
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TouchEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TouchEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13912,7 +16088,15 @@ func TouchEndEvent(callback interface{}, sel string, states ...bool) *trees.Even
 func TouchEnterEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13942,7 +16126,7 @@ func TouchEnterEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TouchEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TouchEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -13963,7 +16147,15 @@ func TouchEnterEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func TouchLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -13993,7 +16185,7 @@ func TouchLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TouchLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TouchLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14014,7 +16206,15 @@ func TouchLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func TouchMoveEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14044,7 +16244,7 @@ func TouchMoveEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TouchMove", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TouchMove", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14065,7 +16265,15 @@ func TouchMoveEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func TouchStartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14095,7 +16303,7 @@ func TouchStartEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TouchStart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TouchStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14116,7 +16324,15 @@ func TouchStartEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 func TransitionEndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14146,7 +16362,7 @@ func TransitionEndEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("TransitionEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("TransitionEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14167,7 +16383,15 @@ func TransitionEndEvent(callback interface{}, sel string, states ...bool) *trees
 func TransitionrunEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14197,7 +16421,7 @@ func TransitionrunEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("transitionrun", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("transitionrun", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14218,7 +16442,15 @@ func TransitionrunEvent(callback interface{}, sel string, states ...bool) *trees
 func TransitionstartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14248,7 +16480,7 @@ func TransitionstartEvent(callback interface{}, sel string, states ...bool) *tre
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("transitionstart", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("transitionstart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14269,7 +16501,15 @@ func TransitionstartEvent(callback interface{}, sel string, states ...bool) *tre
 func UnderflowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14299,7 +16539,7 @@ func UnderflowEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("underflow", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("underflow", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14320,7 +16560,15 @@ func UnderflowEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 func UnloadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14350,7 +16598,7 @@ func UnloadEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("unload", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("unload", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14371,7 +16619,15 @@ func UnloadEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 func UpdateReadyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14401,7 +16657,7 @@ func UpdateReadyEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("UpdateReady", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("UpdateReady", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14422,7 +16678,15 @@ func UpdateReadyEvent(callback interface{}, sel string, states ...bool) *trees.E
 func UpgradeNeededEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14452,7 +16716,7 @@ func UpgradeNeededEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("UpgradeNeeded", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("UpgradeNeeded", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14473,7 +16737,15 @@ func UpgradeNeededEvent(callback interface{}, sel string, states ...bool) *trees
 func UserProximityEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14503,7 +16775,7 @@ func UserProximityEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("UserProximity", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("UserProximity", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14524,7 +16796,15 @@ func UserProximityEvent(callback interface{}, sel string, states ...bool) *trees
 func UssdreceivedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14554,7 +16834,7 @@ func UssdreceivedEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ussdreceived", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("ussdreceived", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14575,7 +16855,15 @@ func UssdreceivedEvent(callback interface{}, sel string, states ...bool) *trees.
 func ValueChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14605,7 +16893,7 @@ func ValueChangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("ValueChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("ValueChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14626,7 +16914,15 @@ func ValueChangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 func VersionChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14656,7 +16952,7 @@ func VersionChangeEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("VersionChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("VersionChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14677,7 +16973,15 @@ func VersionChangeEvent(callback interface{}, sel string, states ...bool) *trees
 func VisibilityChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14707,7 +17011,7 @@ func VisibilityChangeEvent(callback interface{}, sel string, states ...bool) *tr
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("VisibilityChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("VisibilityChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14728,7 +17032,15 @@ func VisibilityChangeEvent(callback interface{}, sel string, states ...bool) *tr
 func VoicechangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14758,7 +17070,7 @@ func VoicechangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("voicechange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("voicechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14779,7 +17091,15 @@ func VoicechangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 func VoiceschangedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14809,7 +17129,7 @@ func VoiceschangedEvent(callback interface{}, sel string, states ...bool) *trees
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("voiceschanged", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("voiceschanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14830,7 +17150,15 @@ func VoiceschangedEvent(callback interface{}, sel string, states ...bool) *trees
 func VolumeChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14860,7 +17188,7 @@ func VolumeChangeEvent(callback interface{}, sel string, states ...bool) *trees.
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("VolumeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("VolumeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14881,7 +17209,15 @@ func VolumeChangeEvent(callback interface{}, sel string, states ...bool) *trees.
 func VrdisplayconnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14911,7 +17247,7 @@ func VrdisplayconnectedEvent(callback interface{}, sel string, states ...bool) *
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("vrdisplayconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("vrdisplayconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14932,7 +17268,15 @@ func VrdisplayconnectedEvent(callback interface{}, sel string, states ...bool) *
 func VrdisplaydisconnectedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -14962,7 +17306,7 @@ func VrdisplaydisconnectedEvent(callback interface{}, sel string, states ...bool
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("vrdisplaydisconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("vrdisplaydisconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -14983,7 +17327,15 @@ func VrdisplaydisconnectedEvent(callback interface{}, sel string, states ...bool
 func VrdisplaypresentchangeEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -15013,7 +17365,7 @@ func VrdisplaypresentchangeEvent(callback interface{}, sel string, states ...boo
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("vrdisplaypresentchange", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("vrdisplaypresentchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -15034,7 +17386,15 @@ func VrdisplaypresentchangeEvent(callback interface{}, sel string, states ...boo
 func WaitingEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -15064,7 +17424,7 @@ func WaitingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("waiting", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("waiting", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return
@@ -15085,7 +17445,15 @@ func WaitingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 func WheelEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 	var preventDefault bool
 	var stopPropagation bool
+	var useCapture bool
 	var stopImmediatePropagation bool
+
+	if states != nil && len(states) == 4 {
+		preventDefault = states[0]
+		stopPropagation = states[1]
+		stopImmediatePropagation = states[2]
+		useCapture = states[3]
+	}
 
 	if states != nil && len(states) == 3 {
 		preventDefault = states[0]
@@ -15115,7 +17483,7 @@ func WheelEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 		panic("Unacceptable type for event callback")
 	}
 
-	ev := trees.NewEvent("wheel", sel, preventDefault, stopPropagation, stopImmediatePropagation)
+	ev := trees.NewEvent("wheel", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
 		if ev.EventID != evm.EventID {
 			return

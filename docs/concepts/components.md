@@ -207,7 +207,7 @@ This interface provides a function which allows access to the Driver be used in 
 
 ```go
 type RegisterSubscription interface {
-	RegisterSubscription(mounts, renders, unmount Subscriptions)
+	RegisterSubscription(mounts, renders, updated, unmount Subscriptions)
 }
 ```
 
