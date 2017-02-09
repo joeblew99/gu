@@ -35,6 +35,11 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 		return events.NewBaseEvent(&events.BlobEvent{
 			Core: ev,
 		}, handle)
+	case js.Global.Get("ChangeEvent"):
+		return events.NewBaseEvent(&events.ChangeEvent{
+			Core:  ev,
+			Value: ev.Get("target").Get("value").String(),
+		}, handle)
 	case js.Global.Get("ClipboardEvent"):
 		return events.NewBaseEvent(&events.ClipboardEvent{
 			Core: ev,
@@ -75,6 +80,30 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 		return events.NewBaseEvent(&events.DOMTransactionEvent{
 			Core: ev,
 		}, handle)
+	case js.Global.Get("DragStartEvent"):
+		return events.NewBaseEvent(&events.DragStartEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DragEndEvent"):
+		return events.NewBaseEvent(&events.DragEndEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DragEnterEvent"):
+		return events.NewBaseEvent(&events.DragEnterEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DragLeaveEvent"):
+		return events.NewBaseEvent(&events.DragLeaveEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DragOverEvent"):
+		return events.NewBaseEvent(&events.DragOverEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DropEvent"):
+		return events.NewBaseEvent(&events.DropEvent{
+			Core: ev,
+		}, handle)
 	case js.Global.Get("DragEvent"):
 		return events.NewBaseEvent(&events.DragEvent{
 			Core: ev,
@@ -105,7 +134,20 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 		}, handle)
 	case js.Global.Get("KeyboardEvent"):
 		return events.NewBaseEvent(&events.KeyboardEvent{
-			Core: ev,
+			Core:          ev,
+			CharCode:      ev.Get("charCode").Int(),
+			Key:           ev.Get("key").String(),
+			Locale:        ev.Get("locale").String(),
+			AltKey:        ev.Get("altKey").Bool(),
+			CtrlKey:       ev.Get("ctrlKey").Bool(),
+			MetaKey:       ev.Get("metaKey").Bool(),
+			ShiftKey:      ev.Get("shiftKey").Bool(),
+			Repeat:        ev.Get("repeat").Bool(),
+			Location:      ev.Get("location").Int(),
+			ModifiedState: ev.Get("getModifierState").Bool(),
+			KeyIdentifier: ev.Get("keyIdentifier").String(),
+			KeyLocation:   events.KeyLocation(ev.Get("KeyLocation").Uint64()),
+			KeyCode:       events.KeyCode(ev.Get("keyCode").Uint64()),
 		}, handle)
 	case js.Global.Get("MediaStreamEvent"):
 		return events.NewBaseEvent(&events.MediaStreamEvent{
@@ -120,6 +162,20 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			UIEvent: &events.UIEvent{
 				Core: ev,
 			},
+			ClientX:  ev.Get("clientX").Float(),
+			ClientY:  ev.Get("clientY").Float(),
+			PageX:    ev.Get("pageX").Float(),
+			PageY:    ev.Get("pageY").Float(),
+			ScreenX:  ev.Get("screenX").Float(),
+			ScreenY:  ev.Get("screenU").Float(),
+			MovemenX: ev.Get("pageX").Float(),
+			MovemenY: ev.Get("pageY").Float(),
+			Button:   ev.Get("button").Int(),
+			Detail:   ev.Get("clientX").Int(),
+			AltKey:   ev.Get("altKey").Bool(),
+			CtrlKey:  ev.Get("ctrlKey").Bool(),
+			MetaKey:  ev.Get("metaKey").Bool(),
+			ShiftKey: ev.Get("shiftKey").Bool(),
 		}, handle)
 	case js.Global.Get("MutationEvent"):
 		return events.NewBaseEvent(&events.MutationEvent{
@@ -195,7 +251,11 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 		}, handle)
 	case js.Global.Get("WheelEvent"):
 		return events.NewBaseEvent(&events.WheelEvent{
-			Core: ev,
+			Core:      ev,
+			DeltaX:    ev.Get("deltaX").Float(),
+			DeltaY:    ev.Get("deltaX").Float(),
+			DeltaZ:    ev.Get("deltaX").Float(),
+			DeltaMode: events.DeltaMode(ev.Get("deltaMode").Uint64()),
 		}, handle)
 	}
 

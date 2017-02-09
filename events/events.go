@@ -11,10 +11,6 @@ type DeltaMode uint64
 // code identifying the unmodified value of the pressed key.
 type KeyCode uint8
 
-// KeyLocation represents the location of the key on the keyboard or
-// other input device.
-type KeyLocation uint8
-
 // Keyboard keys.
 const (
 	KeyBackspace          KeyCode = 8
@@ -119,6 +115,10 @@ const (
 	KeySquareBracketRight KeyCode = 221
 	KeyQuote              KeyCode = 222
 )
+
+// KeyLocation represents the location of the key on the keyboard or
+// other input device.
+type KeyLocation uint8
 
 // Keyboard locations constants.
 const (
@@ -269,6 +269,55 @@ type CustomEvent struct {
 	Core interface{} `json:"-"`
 }
 
+// DropEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type DropEvent struct {
+	*MouseEvent
+	Core interface{} `json:"-"`
+}
+
+// DragLeaveEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type DragLeaveEvent struct {
+	*MouseEvent
+	Core interface{} `json:"-"`
+}
+
+// DragStartEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type DragStartEvent struct {
+	*MouseEvent
+	Core interface{} `json:"-"`
+}
+
+// DragEndEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type DragEndEvent struct {
+	*MouseEvent
+	Core interface{} `json:"-"`
+}
+
+// DragOverEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type DragOverEvent struct {
+	*MouseEvent
+	Core interface{} `json:"-"`
+}
+
+// DragEnterEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type DragEnterEvent struct {
+	*MouseEvent
+	Core interface{} `json:"-"`
+}
+
+// DragEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type DragEvent struct {
+	*MouseEvent
+	Core interface{} `json:"-"`
+}
+
 // DeviceLightEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type DeviceLightEvent struct {
@@ -296,12 +345,6 @@ type DeviceProximityEvent struct {
 // DOMTransactionEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type DOMTransactionEvent struct {
-	Core interface{} `json:"-"`
-}
-
-// DragEvent defines a struct to contain the values of a promiximity
-// event fired from a giving DOM.
-type DragEvent struct {
 	Core interface{} `json:"-"`
 }
 
@@ -404,7 +447,7 @@ type ChangeEvent struct {
 // MouseEvent represents data fired when interacting
 // with a pointing device (such as a mouse).
 type MouseEvent struct {
-	*UIEvent `json:"uievent"`
+	*UIEvent
 	Core     interface{} `json:"-"`
 	ClientX  float64
 	ClientY  float64
@@ -435,16 +478,17 @@ type WheelEvent struct {
 // KeyboardEvent represents data fired when the keyboard is used.
 type KeyboardEvent struct {
 	Core          interface{} `json:"-"`
-	CharCode      rune
+	CharCode      int
 	KeyCode       KeyCode
-	Location      KeyLocation
+	KeyLocation   KeyLocation
+	Location      int
+	Key           string
+	KeyIdentifier string
+	Locale        string
 	AltKey        bool
 	CtrlKey       bool
 	MetaKey       bool
 	ShiftKey      bool
-	Key           string
-	KeyIdentifier string
-	Locale        string
 	Repeat        bool
 	ModifiedState bool
 }

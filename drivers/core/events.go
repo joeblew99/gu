@@ -50,6 +50,14 @@ func GetEvent(eventName string, eventJSON []byte, handle mque.End) (*events.Base
 		}
 
 		return events.NewBaseEvent(&eventObject, handle), nil
+	case "ChangeEvent":
+		var eventObject events.ChangeEvent
+
+		if err := json.Unmarshal(eventJSON, &eventObject); err != nil {
+			return nil, err
+		}
+
+		return events.NewBaseEvent(&eventObject, handle), nil
 	case "ClipboardEvent":
 		var eventObject events.ClipboardEvent
 
@@ -124,6 +132,54 @@ func GetEvent(eventName string, eventJSON []byte, handle mque.End) (*events.Base
 		return events.NewBaseEvent(&eventObject, handle), nil
 	case "DOMTransactionEvent":
 		var eventObject events.DOMTransactionEvent
+
+		if err := json.Unmarshal(eventJSON, &eventObject); err != nil {
+			return nil, err
+		}
+
+		return events.NewBaseEvent(&eventObject, handle), nil
+	case "DragStartEvent":
+		var eventObject events.DragStartEvent
+
+		if err := json.Unmarshal(eventJSON, &eventObject); err != nil {
+			return nil, err
+		}
+
+		return events.NewBaseEvent(&eventObject, handle), nil
+	case "DragEndEvent":
+		var eventObject events.DragEndEvent
+
+		if err := json.Unmarshal(eventJSON, &eventObject); err != nil {
+			return nil, err
+		}
+
+		return events.NewBaseEvent(&eventObject, handle), nil
+	case "DragEnterEvent":
+		var eventObject events.DragEnterEvent
+
+		if err := json.Unmarshal(eventJSON, &eventObject); err != nil {
+			return nil, err
+		}
+
+		return events.NewBaseEvent(&eventObject, handle), nil
+	case "DragLeaveEvent":
+		var eventObject events.DragLeaveEvent
+
+		if err := json.Unmarshal(eventJSON, &eventObject); err != nil {
+			return nil, err
+		}
+
+		return events.NewBaseEvent(&eventObject, handle), nil
+	case "DragOverEvent":
+		var eventObject events.DragOverEvent
+
+		if err := json.Unmarshal(eventJSON, &eventObject); err != nil {
+			return nil, err
+		}
+
+		return events.NewBaseEvent(&eventObject, handle), nil
+	case "DropEvent":
+		var eventObject events.DropEvent
 
 		if err := json.Unmarshal(eventJSON, &eventObject); err != nil {
 			return nil, err
