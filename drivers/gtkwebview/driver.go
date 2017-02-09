@@ -24,7 +24,8 @@ func (WebviewDriver) OnReady(handle func()) {
 
 // Location returns the current location of the browser.
 func (WebviewDriver) Location() router.PushEvent {
-
+	var route router.PushEvent
+	return route
 }
 
 // Navigate takes the provided route and navigates the rendering system to the

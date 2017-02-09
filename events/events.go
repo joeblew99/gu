@@ -449,6 +449,10 @@ type KeyboardEvent struct {
 	ModifiedState bool
 }
 
+// BasicEventMap defines a event type which defines a event type which is not
+// supported by this package.
+type BasicEventMap map[string]string
+
 // BaseEvent defines the standard event returned to wrap a core event.
 type BaseEvent struct {
 	Core   interface{} `json:"-"`
