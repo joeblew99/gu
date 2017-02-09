@@ -1,6 +1,8 @@
 package gopherjs
 
 import (
+	"sync"
+
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/gu-io/gu/events"
 	"github.com/gu-io/gu/notifications/mque"
@@ -17,11 +19,14 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 	switch c {
 	case js.Global.Get("AnimationEvent"):
 		return events.NewBaseEvent(&events.AnimationEvent{
-			Core: ev,
+			Core:          ev,
+			AnimationName: ev.Get("animationName").String(),
+			ElapsedTime:   ev.Get("elapsedTime").Float(),
 		}, handle)
 	case js.Global.Get("AudioProcessingEvent"):
 		return events.NewBaseEvent(&events.AudioProcessingEvent{
-			Core: ev,
+			Core:         ev,
+			PlaybackTime: ev.Get("playbackTime").Float(),
 		}, handle)
 	case js.Global.Get("BeforeInputEvent"):
 		return events.NewBaseEvent(&events.BeforeInputEvent{
@@ -34,6 +39,7 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 	case js.Global.Get("BlobEvent"):
 		return events.NewBaseEvent(&events.BlobEvent{
 			Core: ev,
+			Data: fromBlob(ev.Get("data")),
 		}, handle)
 	case js.Global.Get("ChangeEvent"):
 		return events.NewBaseEvent(&events.ChangeEvent{
@@ -262,4 +268,21 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 	}
 
 	return events.NewBaseEvent(ev, handle)
+}
+
+func fromBlob(o *js.Object) []byte {
+	var buf []byte
+	var wg sync.WaitGroup
+
+	fileReader := js.Global.Get("FileReader").New()
+	fileReader.Set("onload", js.MakeFunc(func(this *js.Object, _ []*js.Object) interface{} {
+		defer wg.Done()
+		buf = js.Global.Get("Uint8Array").New(this.Get("result")).Interface().([]uint8)
+		return nil
+	}))
+
+	fileReader.Call("readAsArrayBuffer", o)
+
+	wg.Wait()
+	return buf
 }

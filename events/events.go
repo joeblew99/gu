@@ -341,10 +341,10 @@ type GamepadEvent struct {
 // AnimationEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type AnimationEvent struct {
-	Core           interface{} `json:"-"`
-	AnimationFrame string
-	PseudoElement  string
-	ElapsedTime    float64
+	Core          interface{} `json:"-"`
+	AnimationName string
+	PseudoElement string
+	ElapsedTime   float64
 }
 
 // AudioBuffer defines a struct to represent the buffer associated with
@@ -363,15 +363,13 @@ type AudioBuffer struct {
 	Duration           time.Duration
 	Channels           int
 	SampleFramesLength int
-	ChannelData        []byte
+	ChannelData        [][]byte
 }
 
 // AudioProcessingEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type AudioProcessingEvent struct {
 	Core         interface{} `json:"-"`
-	Input        []byte
-	Output       []byte
 	PlaybackTime float64
 	InputBuffer  AudioBuffer
 	OutputBuffer AudioBuffer
