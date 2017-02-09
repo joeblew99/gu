@@ -55,8 +55,9 @@ func TriggerBindEvent(event *js.Object, root *js.Object, source *trees.Event) {
 		}
 
 		notifications.Dispatch(trees.EventBroadcast{
-			EventID: source.EventID,
-			Event:   NewWrapperEvent(event, source.Handle),
+			EventName: source.EventName(),
+			EventID:   source.EventID,
+			Event:     GetEvent(event, source.Handle),
 		})
 	}
 }

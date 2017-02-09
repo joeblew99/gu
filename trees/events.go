@@ -2,14 +2,16 @@ package trees
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/gu-io/gu/notifications/mque"
 )
 
 // EventBroadcast defines a struct which gets published for the events.
 type EventBroadcast struct {
-	EventID string
-	Event   EventObject
+	EventName string      `json:"event"`
+	EventID   string      `json:"event_id"`
+	Event     EventObject `json:"event_object"`
 }
 
 // EventObject defines a interface for the basic methods which events needs
@@ -52,6 +54,16 @@ func (e *Event) Target() string {
 	}
 
 	return e.secTarget
+}
+
+// EventName returns the giving name of the event.
+func (e *Event) EventName() string {
+	eventName := strings.ToUpper(e.Type[:1]) + e.Type[1:]
+	if strings.HasSuffix(eventName, "Event") {
+		return eventName
+	}
+
+	return eventName + "Event"
 }
 
 // ID returns the uique event id string for the event.

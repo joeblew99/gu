@@ -2,62 +2,202 @@ package gopherjs
 
 import (
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/influx6/faux/mque"
+	"github.com/gu-io/gu/events"
+	"github.com/gu-io/gu/notifications/mque"
 )
 
-// WrapperEvent implements the EventObject interface.
-type WrapperEvent struct {
-	*js.Object
-	isDum  bool
-	handle mque.End
-}
-
-// NewWrapperEvent creates a new Event object useful to hold in place of a wrapper
-// object.
-func NewWrapperEvent(event *js.Object, ender mque.End) *WrapperEvent {
-	return &WrapperEvent{
-		Object: event,
-		handle: ender,
+// GetEvent returns the appropriate event from the provided structures.
+func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
+	if ev == nil || ev == js.Undefined {
+		return nil
 	}
-}
 
-// NewDummy returns a WrapperEvent instance wrapping a dummy object.
-func NewDummy(event string) *WrapperEvent {
-	return &WrapperEvent{
-		Object: js.Global.Get("Object").New(),
-		isDum:  true,
+	c := ev.Get("constructor")
+
+	switch c {
+	case js.Global.Get("AnimationEvent"):
+		return events.NewBaseEvent(&events.AnimationEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("AudioProcessingEvent"):
+		return events.NewBaseEvent(&events.AudioProcessingEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("BeforeInputEvent"):
+		return events.NewBaseEvent(&events.BeforeInputEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("BeforeUnloadEvent"):
+		return events.NewBaseEvent(&events.BeforeUnloadEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("BlobEvent"):
+		return events.NewBaseEvent(&events.BlobEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("ClipboardEvent"):
+		return events.NewBaseEvent(&events.ClipboardEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("CloseEvent"):
+		return events.NewBaseEvent(&events.CloseEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("CompositionEvent"):
+		return events.NewBaseEvent(&events.CompositionEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("CSSFontFaceLoadEvent"):
+		return events.NewBaseEvent(&events.CSSFontFaceLoadEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("CustomEvent"):
+		return events.NewBaseEvent(&events.CustomEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DeviceLightEvent"):
+		return events.NewBaseEvent(&events.DeviceLightEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DeviceMotionEvent"):
+		return events.NewBaseEvent(&events.DeviceMotionEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DeviceOrientationEvent"):
+		return events.NewBaseEvent(&events.DeviceOrientationEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DeviceProximityEvent"):
+		return events.NewBaseEvent(&events.DeviceProximityEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DOMTransactionEvent"):
+		return events.NewBaseEvent(&events.DOMTransactionEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("DragEvent"):
+		return events.NewBaseEvent(&events.DragEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("EditingBeforeInputEvent"):
+		return events.NewBaseEvent(&events.EditingBeforeInputEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("ErrorEvent"):
+		return events.NewBaseEvent(&events.ErrorEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("FocusEvent"):
+		return events.NewBaseEvent(&events.FocusEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("GamepadEvent"):
+		return events.NewBaseEvent(&events.GamepadEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("HashChangeEvent"):
+		return events.NewBaseEvent(&events.HashChangeEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("IDBVersionChangeEvent"):
+		return events.NewBaseEvent(&events.IDBVersionChangeEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("KeyboardEvent"):
+		return events.NewBaseEvent(&events.KeyboardEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("MediaStreamEvent"):
+		return events.NewBaseEvent(&events.MediaStreamEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("MessageEvent"):
+		return events.NewBaseEvent(&events.MessageEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("MouseEvent"):
+		return events.NewBaseEvent(&events.MouseEvent{
+			UIEvent: &events.UIEvent{
+				Core: ev,
+			},
+		}, handle)
+	case js.Global.Get("MutationEvent"):
+		return events.NewBaseEvent(&events.MutationEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("OfflineAudioCompletionEvent"):
+		return events.NewBaseEvent(&events.OfflineAudioCompletionEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("PageTransitionEvent"):
+		return events.NewBaseEvent(&events.PageTransitionEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("PointerEvent"):
+		return events.NewBaseEvent(&events.PointerEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("PopStateEvent"):
+		return events.NewBaseEvent(&events.PopStateEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("ProgressEvent"):
+		return events.NewBaseEvent(&events.ProgressEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("RelatedEvent"):
+		return events.NewBaseEvent(&events.RelatedEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("RTCPeerConnectionIceEvent"):
+		return events.NewBaseEvent(&events.RTCPeerConnectionIceEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("SensorEvent"):
+		return events.NewBaseEvent(&events.SensorEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("StorageEvent"):
+		return events.NewBaseEvent(&events.StorageEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("SVGEvent"):
+		return events.NewBaseEvent(&events.SVGEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("SVGZoomEvent"):
+		return events.NewBaseEvent(&events.SVGZoomEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("TimeEvent"):
+		return events.NewBaseEvent(&events.TimeEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("TouchEvent"):
+		return events.NewBaseEvent(&events.TouchEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("TrackEvent"):
+		return events.NewBaseEvent(&events.TrackEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("TransitionEvent"):
+		return events.NewBaseEvent(&events.TransitionEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("UIEvent"):
+		return events.NewBaseEvent(&events.UIEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("UserProximityEvent"):
+		return events.NewBaseEvent(&events.UserProximityEvent{
+			Core: ev,
+		}, handle)
+	case js.Global.Get("WheelEvent"):
+		return events.NewBaseEvent(&events.WheelEvent{
+			Core: ev,
+		}, handle)
 	}
-}
 
-// Underlying returns the internal wrapper object exposes by this event.
-func (d *WrapperEvent) Underlying() interface{} {
-	return d.Object
-}
-
-// PreventDefault implements the PreventDefault of the event object interface.
-func (d *WrapperEvent) PreventDefault() {
-	if !d.isDum {
-		d.Object.Call("preventDefault")
-	}
-}
-
-// RemoveEvent removes the event from it's root parent.
-func (d *WrapperEvent) RemoveEvent() {
-	if d.handle != nil {
-		d.handle.End()
-	}
-}
-
-// StopPropagation implements the StopPropagation of the event object interface.
-func (d *WrapperEvent) StopPropagation() {
-	if !d.isDum {
-		d.Object.Call("stopPropagation")
-	}
-}
-
-// StopImmediatePropagation implements the StopPropagation of the event object interface.
-func (d *WrapperEvent) StopImmediatePropagation() {
-	if !d.isDum {
-		d.Object.Call("stopImmediatePropagation")
-	}
+	return events.NewBaseEvent(ev, handle)
 }
