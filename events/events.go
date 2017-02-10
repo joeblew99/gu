@@ -368,6 +368,7 @@ type AudioBuffer struct {
 
 // AudioProcessingEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
+// Deprecated Event.
 type AudioProcessingEvent struct {
 	Core         interface{} `json:"-"`
 	PlaybackTime float64
@@ -396,9 +397,9 @@ type BlobEvent struct {
 
 // DataTransferItem defines a DataTransferItem file item.
 type DataTransferItem struct {
-	FilePath string
-	Data     []byte
-	Size     int
+	Name string
+	Data []byte
+	Size int
 }
 
 // DataTransferItemList defines a struct which contains a list of DataTransferItems.

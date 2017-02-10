@@ -6,6 +6,7 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 	"github.com/gu-io/gu/events"
 	"github.com/gu-io/gu/notifications/mque"
+	"github.com/gu-io/gu/shell"
 )
 
 // GetEvent returns the appropriate event from the provided structures.
@@ -49,6 +50,7 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 	case js.Global.Get("ClipboardEvent"):
 		return events.NewBaseEvent(&events.ClipboardEvent{
 			Core: ev,
+			Data: fromDataTransfer(ev.Get("clipboardData")),
 		}, handle)
 	case js.Global.Get("CloseEvent"):
 		return events.NewBaseEvent(&events.CloseEvent{
@@ -270,12 +272,13 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 	return events.NewBaseEvent(ev, handle)
 }
 
+// fromBlob transform the providded js.Object blob into a byte slice.
 func fromBlob(o *js.Object) []byte {
 	var buf []byte
 	var wg sync.WaitGroup
 
 	fileReader := js.Global.Get("FileReader").New()
-	fileReader.Set("onload", js.MakeFunc(func(this *js.Object, _ []*js.Object) interface{} {
+	fileReader.Set("onloadend", js.MakeFunc(func(this *js.Object, _ []*js.Object) interface{} {
 		defer wg.Done()
 		buf = js.Global.Get("Uint8Array").New(this.Get("result")).Interface().([]uint8)
 		return nil
@@ -285,4 +288,63 @@ func fromBlob(o *js.Object) []byte {
 
 	wg.Wait()
 	return buf
+}
+
+// fromFile transform the providded js.Object blob into a byte slice.
+func fromFile(o *js.Object) []byte {
+	var buf []byte
+	var wg sync.WaitGroup
+
+	fileReader := js.Global.Get("FileReader").New()
+	fileReader.Set("onloadend", js.MakeFunc(func(this *js.Object, _ []*js.Object) interface{} {
+		defer wg.Done()
+		buf = js.Global.Get("Uint8Array").New(this.Get("result")).Interface().([]uint8)
+		return nil
+	}))
+
+	fileReader.Call("readAsArrayBuffer", o)
+	// fileReader.Call("readAsBinaryString", o)
+
+	wg.Wait()
+	return buf
+}
+
+// fromDataTransfer returns a transfer object from the js.Object.
+func fromDataTransfer(o *js.Object) events.DataTransfer {
+	var dt events.DataTransfer
+	dt.DropEffect = o.Get("dropEffect").String()
+	dt.EffectAllowed = o.Get("effectAllowed").String()
+
+	types := o.Get("types")
+	if types != nil && types != js.Undefined {
+		dt.Types = shell.ObjectToStringList(types)
+	}
+
+	var dItems []events.DataTransferItem
+
+	items := o.Get("items")
+	for i := 0; i < items.Length(); i++ {
+		item := items.Index(i)
+		dItems = append(dItems, events.DataTransferItem{
+			Name: item.Get("name").String(),
+			Size: item.Get("size").Int(),
+			Data: fromFile(item),
+		})
+	}
+
+	var dFiles []events.DataTransferItem
+
+	files := o.Get("files")
+	for i := 0; i < files.Length(); i++ {
+		item := files.Index(i)
+		dFiles = append(dFiles, events.DataTransferItem{
+			Name: item.Get("name").String(),
+			Size: item.Get("size").Int(),
+			Data: fromFile(item),
+		})
+	}
+
+	dt.Items = events.DataTransferItemList{Items: dItems}
+	dt.Files = dFiles
+	return dt
 }
