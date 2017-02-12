@@ -12,8 +12,8 @@ function GetEvent(ev){
     case UIEvent:
 		return events.NewBaseEvent(&events.AnimationEvent{
 			Core:          ev,
-			AnimationName: ev.Get("animationName").String(),
-			ElapsedTime:   ev.Get("elapsedTime").Float(),
+			AnimationName: ev.animationName,
+			ElapsedTime:   ev.elapsedTime,
 		}, handle)
     case KeyboardEvent:
   }
@@ -27,7 +27,7 @@ function fromBlob(o) {
 
   var data = null
 
-	fileReader := new FileReader()
+	fileReader = new FileReader()
 	fileReader.onloadend = function(){
 		data = new Uint8Array(fileReader.result)
 	}))
@@ -45,7 +45,7 @@ function fromFile(o) []byte {
 
   var data = null
 
-	fileReader := new FileReader()
+	fileReader = new FileReader()
 	fileReader.onloadend = function(){
 		data = new Uint8Array(fileReader.result)
 	}))
@@ -86,9 +86,9 @@ function toRotationData(o) events.RotationData {
 	if o == null || o == undefined {
 		return md
 	}
-	md.Alpha = o.Get("alpha").Float()
-	md.Beta = o.Get("beta").Float()
-	md.Gamma = o.Get("gamma").Float()
+	md.Alpha = o.alpha
+	md.Beta = o.beta
+	md.Gamma = o.gamma
 	return md
 }
 
@@ -99,65 +99,65 @@ function toMediaStream(o) events.MediaStream {
 		return stream
 	}
 
-	stream.Active = o.Get("active").Bool()
-	stream.Ended = o.Get("ended").Bool()
-	stream.ID = o.Get("id").String()
+	stream.Active = o.active
+	stream.Ended = o.ended
+	stream.ID = o.id
 
-	audioTracks := o.Get("getAudioTracks")
+	audioTracks = o.getAudioTracks()
 	if audioTracks != null && audioTracks != undefined {
-		for i := 0; i < audioTracks.Length(); i++ {
-			track := audioTracks.Index(i)
-			settings := track.Call("getSettings", null)
+		for i = 0; i < audioTracks.length; i++ {
+			track = audioTracks.Index(i)
+			settings = track.getSettings()
 
 			stream.Audios = append(stream.Audios, events.MediaStreamTrack{
 				Core:       track,
-				Enabled:    track.Get("enabled").Bool(),
-				ID:         track.Get("id").String(),
-				Kind:       track.Get("kind").String(),
-				Label:      track.Get("label").String(),
-				Muted:      track.Get("muted").Bool(),
-				ReadyState: track.Get("readyState").Bool(),
-				Remote:     track.Get("remote").Bool(),
+				Enabled:    track.enabled,
+				ID:         track.id,
+				Kind:       track.kind,
+				Label:      track.label,
+				Muted:      track.muted,
+				ReadyState: track.readyState,
+				Remote:     track.remote,
 				AudioSettings: &events.MediaAudioTrackSettings{
-					ChannelCount:     settings.Get("channelCount").Int(),
-					EchoCancellation: settings.Get("echoCancellation").Bool(),
-					Latency:          settings.Get("latency").Float(),
-					SampleRate:       settings.Get("sampleRate").Int64(),
-					SampleSize:       settings.Get("sampleSize").Int64(),
-					Volume:           settings.Get("volume").Float(),
+					ChannelCount:     settings.channelCount.Int(),
+					EchoCancellation: settings.echoCancellation,
+					Latency:          settings.latency,
+					SampleRate:       settings.sampleRate.Int64(),
+					SampleSize:       settings.sampleSize.Int64(),
+					Volume:           settings.volume,
 					MediaTrackSettings: events.MediaTrackSettings{
-						DeviceID: settings.Get("deviceId").String(),
-						GroupID:  settings.Get("groupId").String(),
+						DeviceID: settings.deviceId,
+						GroupID:  settings.groupId,
 					},
 				},
 			})
 		}
 	}
 
-	videosTracks := o.Get("getVideoTracks")
+	videosTracks = o.getVideoTracks()
 	if videosTracks != null && videosTracks != undefined {
-		for i := 0; i < videosTracks.Length(); i++ {
-			track := videosTracks.Index(i)
-			settings := track.Call("getSettings", null)
+		for i = 0; i < videosTracks.length; i++ {
+			track = videosTracks.Index(i)
+			settings = track.getSettings()
 
 			stream.Videos = append(stream.Videos, events.MediaStreamTrack{
 				Core:       track,
-				Enabled:    track.Get("enabled").Bool(),
-				ID:         track.Get("id").String(),
-				Kind:       track.Get("kind").String(),
-				Label:      track.Get("label").String(),
-				Muted:      track.Get("muted").Bool(),
-				ReadyState: track.Get("readyState").Bool(),
-				Remote:     track.Get("remote").Bool(),
+				Enabled:    track.enabled,
+				ID:         track.id,
+				Kind:       track.kind,
+				Label:      track.label,
+				Muted:      track.muted,
+				ReadyState: track.readyState,
+				Remote:     track.remote,
 				VideoSettings: &events.MediaVideoTrackSettings{
-					AspectRatio: settings.Get("aspectRation").Float(),
-					FrameRate:   settings.Get("frameRate").Float(),
-					Height:      settings.Get("height").Int64(),
-					Width:       settings.Get("width").Int64(),
-					FacingMode:  settings.Get("facingMode").String(),
+					AspectRatio: settings.aspectRation,
+					FrameRate:   settings.frameRate,
+					Height:      settings.height.Int64(),
+					Width:       settings.width.Int64(),
+					FacingMode:  settings.facingMode,
 					MediaTrackSettings: events.MediaTrackSettings{
-						DeviceID: settings.Get("deviceId").String(),
-						GroupID:  settings.Get("groupId").String(),
+						DeviceID: settings.deviceId,
+						GroupID:  settings.groupId,
 					},
 				},
 			})
@@ -176,18 +176,18 @@ function toTouches(o) events.TouchList {
 
 	var touches []events.Touch
 
-	for i := 0; i < o.Length(); i++ {
-		ev := o.Index(i)
+	for i = 0; i < o.length; i++ {
+		ev = o.Index(i)
 		touches = append(touches, events.Touch{
-			ClientX:    ev.Get("clientX").Float(),
-			ClientY:    ev.Get("clientY").Float(),
-			OffsetX:    ev.Get("offsetX").Float(),
-			OffsetY:    ev.Get("offsetY").Float(),
-			PageX:      ev.Get("pageX").Float(),
-			PageY:      ev.Get("pageY").Float(),
-			ScreenX:    ev.Get("screenX").Float(),
-			ScreenY:    ev.Get("screenY").Float(),
-			Identifier: ev.Get("identifier").Float(),
+			ClientX:    ev.clientX,
+			ClientY:    ev.clientY,
+			OffsetX:    ev.offsetX,
+			OffsetY:    ev.offsetY,
+			PageX:      ev.pageX,
+			PageY:      ev.pageY,
+			ScreenX:    ev.screenX,
+			ScreenY:    ev.screenY,
+			Identifier: ev.identifier,
 		})
 
 	}
@@ -204,27 +204,27 @@ function toGamepad(o) events.Gamepad {
 		return pad
 	}
 
-	pad.DisplayID = o.Get("displayId").String()
-	pad.ID = o.Get("id").String()
-	pad.Index = o.Get("index").Int()
-	pad.Mapping = o.Get("mapping").String()
-	pad.Connected = o.Get("connected").Bool()
-	pad.Timestamp = o.Get("timestamp").Float()
+	pad.DisplayID = o.displayId
+	pad.ID = o.id
+	pad.Index = o.index.Int()
+	pad.Mapping = o.mapping
+	pad.Connected = o.connected
+	pad.Timestamp = o.timestamp
 
-	axes := o.Get("axes")
+	axes = o.axes
 	if axes != null && axes != undefined {
-		for i := 0; i < axes.Length(); i++ {
-			pad.Axes = append(pad.Axes, axes.Index(i).Float())
+		for i = 0; i < axes.length; i++ {
+			pad.Axes = append(pad.Axes, axes.Index(i))
 		}
 	}
 
-	buttons := o.Get("buttons")
+	buttons = o.buttons
 	if buttons != null && buttons != undefined {
-		for i := 0; i < buttons.Length(); i++ {
-			button := buttons.Index(i)
+		for i = 0; i < buttons.length; i++ {
+			button = buttons.Index(i)
 			pad.Buttons = append(pad.Buttons, events.Button{
-				Value:   button.Get("value").Float(),
-				Pressed: button.Get("pressed").Bool(),
+				Value:   button.value,
+				Pressed: button.pressed,
 			})
 		}
 	}
@@ -238,23 +238,23 @@ function toDataTransfer(o) events.DataTransfer {
 	if o == null || o == undefined {
 		return dt
 	}
-	dt.DropEffect = o.Get("dropEffect").String()
-	dt.EffectAllowed = o.Get("effectAllowed").String()
+	dt.DropEffect = o.dropEffect
+	dt.EffectAllowed = o.effectAllowed
 
-	types := o.Get("types")
+	types = o.types
 	if types != null && types != undefined {
 		dt.Types = shell.ObjectToStringList(types)
 	}
 
 	var dItems []events.DataTransferItem
 
-	items := o.Get("items")
+	items = o.items
 	if items != null && items != undefined {
-		for i := 0; i < items.Length(); i++ {
-			item := items.Index(i)
+		for i = 0; i < items.length; i++ {
+			item = items.Index(i)
 			dItems = append(dItems, events.DataTransferItem{
-				Name: item.Get("name").String(),
-				Size: item.Get("size").Int(),
+				Name: item.name,
+				Size: item.size.Int(),
 				Data: fromFile(item),
 			})
 		}
@@ -262,13 +262,13 @@ function toDataTransfer(o) events.DataTransfer {
 
 	var dFiles []events.DataTransferItem
 
-	files := o.Get("files")
+	files = o.files
 	if files != null && files != undefined {
-		for i := 0; i < files.Length(); i++ {
-			item := files.Index(i)
+		for i = 0; i < files.length; i++ {
+			item = files.Index(i)
 			dFiles = append(dFiles, events.DataTransferItem{
-				Name: item.Get("name").String(),
-				Size: item.Get("size").Int(),
+				Name: item.name,
+				Size: item.size.Int(),
 				Data: fromFile(item),
 			})
 		}
