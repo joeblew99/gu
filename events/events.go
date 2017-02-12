@@ -149,151 +149,16 @@ const (
 	DeltaPage = 2
 )
 
-// UserProximityEvent defines a struct to contain the values of a promiximity
-// event fired from a giving DOM.
-type UserProximityEvent struct {
-	Core interface{} `json:"-"`
-	Near bool        `js:"near"`
+// ChangeEvent represents the data passed in a onchange event.
+type ChangeEvent struct {
+	Core  interface{} `json:"-"`
+	Value string      `json:"-"`
 }
 
 // InputDeviceCapabilities defines a struct to contain input capbilities for a
 // inputtype.
 type InputDeviceCapabilities struct {
 	FiresTouchEvent bool
-}
-
-// UIEvent defines a struct to contain the values of a promiximity
-// event fired from a giving DOM.
-type UIEvent struct {
-	Core               interface{} `json:"-"`
-	IsChar             bool        `js:"isChar"`
-	LayerX             float64     `js:"layerX"`
-	LayerY             float64     `js:"layerY"`
-	PageX              float64
-	PageY              float64
-	Detail             int
-	SourceCapabilities *InputDeviceCapabilities
-}
-
-// TrackEvent defines a struct to contain the values of a promiximity
-// event fired from a giving DOM.
-type TrackEvent struct {
-	Core interface{} `json:"-"`
-}
-
-// Touch defines a struct which holds touch list data related to touch events.
-type Touch struct {
-	Identifier float64
-	ClientX    float64
-	ClientY    float64
-	PageX      float64
-	PageY      float64
-	OffsetX    float64
-	OffsetY    float64
-	ScreenX    float64
-	ScreenY    float64
-	Target     Element
-}
-
-// TouchList defines a list which holds touch data related to touch events.
-type TouchList struct {
-	Touches []Touch
-	Length  int
-}
-
-// TouchEvent defines a struct to contain the values of a promiximity
-// event fired from a giving DOM.
-type TouchEvent struct {
-	Core          interface{} `json:"-"`
-	AltKey        bool
-	CtrlKey       bool
-	MetaKey       bool
-	ShiftKey      bool
-	TargetTouches TouchList
-	Touches       TouchList
-}
-
-// SVGZoomEvent defines a struct to contain the values of a promiximity
-// event fired from a giving DOM.
-type SVGZoomEvent struct {
-	Core interface{} `json:"-"`
-}
-
-// SVGEvent defines a struct to contain the values of a promiximity
-// event fired from a giving DOM.
-type SVGEvent struct {
-	Core interface{} `json:"-"`
-}
-
-// MessageEvent defines a struct to contain the values of a promiximity
-// event fired from a giving DOM.
-type MessageEvent struct {
-	Core   interface{} `json:"-"`
-	Data   []byte
-	Origin string
-	Source string
-	Port   int
-}
-
-// MediaStream defines a struct for the media stream event.
-// API: MediaStream.onaddtrack, MediaStream.onremovetrack.
-// API: MediaStream.getTracks, MediaStream.getAudioTracks, MediaStream.getVideoTracks.
-type MediaStream struct {
-	Active bool   `js:"active"`
-	Ended  bool   `js:"ended"`
-	ID     string `js:"id"`
-	Tracks []MediaStreamTrack
-}
-
-// MediaTrackSettings defines the struct which contains settiings for the MediaTrack
-// API.
-type MediaTrackSettings struct {
-	DeviceID string
-	GroupID  string
-}
-
-// MediaAudioTrackSettings defines the struct which contains settiings for the MediaTrack
-// API.
-type MediaAudioTrackSettings struct {
-	MediaTrackSettings
-	ChannelCount     int
-	EchoCancellation bool
-	Latency          float64
-	SampleRate       int64
-	SampleSize       int64
-	Volume           float64
-}
-
-// MediaVideoTrackSettings defines the struct which contains settiings for the MediaTrack
-// API.
-type MediaVideoTrackSettings struct {
-	MediaTrackSettings
-	AspectRatio float64
-	FacingMode  string
-	FrameRate   float64
-	Height      int64
-	Width       int64
-}
-
-// MediaStreamTrack defines a track of a MediaStream.
-type MediaStreamTrack struct {
-	Enabled       bool
-	ID            string
-	Kind          string
-	Label         string
-	Muted         bool
-	ReadyState    bool
-	Remote        bool
-	AudioSettings *MediaAudioTrackSettings
-	VideoSettings *MediaVideoTrackSettings
-}
-
-// MediaStreamEvent defines a struct to contain the values of a promiximity
-// event fired from a giving DOM.
-// When using this combine them with the MediaStreamTrack.
-type MediaStreamEvent struct {
-	Core   interface{} `json:"-"`
-	Stream interface{} `js:"stream"`
 }
 
 // IDBVersionChangeEvent defines a struct to contain the values of a promiximity
@@ -459,42 +324,56 @@ type CustomEvent struct {
 // event fired from a giving DOM.
 type DropEvent struct {
 	*MouseEvent
-	Core interface{} `json:"-"`
+	Core         interface{} `json:"-"`
+	DataTransfer DataTransfer
 }
 
 // DragLeaveEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type DragLeaveEvent struct {
 	*MouseEvent
-	Core interface{} `json:"-"`
+	Core         interface{} `json:"-"`
+	DataTransfer DataTransfer
 }
 
 // DragStartEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type DragStartEvent struct {
 	*MouseEvent
-	Core interface{} `json:"-"`
+	Core         interface{} `json:"-"`
+	DataTransfer DataTransfer
 }
 
 // DragEndEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type DragEndEvent struct {
 	*MouseEvent
-	Core interface{} `json:"-"`
+	Core         interface{} `json:"-"`
+	DataTransfer DataTransfer
 }
 
 // DragOverEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type DragOverEvent struct {
 	*MouseEvent
-	Core interface{} `json:"-"`
+	Core         interface{} `json:"-"`
+	DataTransfer DataTransfer
+}
+
+// DragExitEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type DragExitEvent struct {
+	*MouseEvent
+	Core         interface{} `json:"-"`
+	DataTransfer DataTransfer
 }
 
 // DragEnterEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type DragEnterEvent struct {
 	*MouseEvent
-	Core interface{} `json:"-"`
+	Core         interface{} `json:"-"`
+	DataTransfer DataTransfer
 }
 
 // DragEvent defines a struct to contain the values of a promiximity
@@ -619,6 +498,64 @@ type MutationEvent struct {
 	Core interface{} `json:"-"`
 }
 
+// MouseEvent represents data fired when interacting
+// with a pointing device (such as a mouse).
+type MouseEvent struct {
+	*UIEvent
+	Core     interface{} `json:"-"`
+	ClientX  float64
+	ClientY  float64
+	PageX    float64
+	PageY    float64
+	OffsetX  float64
+	OffsetY  float64
+	ScreenX  float64
+	ScreenY  float64
+	MovemenX float64
+	MovemenY float64
+	Region   int
+	Button   int
+	Detail   int
+	AltKey   bool
+	CtrlKey  bool
+	MetaKey  bool
+	ShiftKey bool
+}
+
+// WebGLContextEvent represents data fired when a wheel button of a
+// pointing device (usually a mouse) is rotated.
+type WebGLContextEvent struct {
+	StatusMessage string `js:"statusMessage"`
+}
+
+// WheelEvent represents data fired when a wheel button of a
+// pointing device (usually a mouse) is rotated.
+type WheelEvent struct {
+	Core      interface{} `json:"-"`
+	DeltaX    float64
+	DeltaY    float64
+	DeltaZ    float64
+	DeltaMode DeltaMode
+}
+
+// KeyboardEvent represents data fired when the keyboard is used.
+type KeyboardEvent struct {
+	Core          interface{} `json:"-"`
+	CharCode      int
+	KeyCode       KeyCode
+	KeyLocation   KeyLocation
+	Location      int
+	Key           string
+	KeyIdentifier string
+	Locale        string
+	AltKey        bool
+	CtrlKey       bool
+	MetaKey       bool
+	ShiftKey      bool
+	Repeat        bool
+	ModifiedState bool
+}
+
 // OfflineAudioCompletionEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type OfflineAudioCompletionEvent struct {
@@ -717,68 +654,147 @@ type TransitionEvent struct {
 	PseudoElement string
 }
 
-// ChangeEvent represents the data passed in a onchange event.
-type ChangeEvent struct {
-	Core  interface{} `json:"-"`
-	Value string      `json:"-"`
+// UserProximityEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type UserProximityEvent struct {
+	Core interface{} `json:"-"`
+	Near bool        `js:"near"`
 }
 
-// MouseEvent represents data fired when interacting
-// with a pointing device (such as a mouse).
-type MouseEvent struct {
-	*UIEvent
-	Core     interface{} `json:"-"`
-	ClientX  float64
-	ClientY  float64
-	PageX    float64
-	PageY    float64
-	OffsetX  float64
-	OffsetY  float64
-	ScreenX  float64
-	ScreenY  float64
-	MovemenX float64
-	MovemenY float64
-	Region   int
-	Button   int
-	Detail   int
-	AltKey   bool
-	CtrlKey  bool
-	MetaKey  bool
-	ShiftKey bool
+// UIEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type UIEvent struct {
+	Core               interface{} `json:"-"`
+	IsChar             bool        `js:"isChar"`
+	LayerX             float64     `js:"layerX"`
+	LayerY             float64     `js:"layerY"`
+	PageX              float64
+	PageY              float64
+	Detail             int
+	SourceCapabilities *InputDeviceCapabilities
 }
 
-// WebGLContextEvent represents data fired when a wheel button of a
-// pointing device (usually a mouse) is rotated.
-type WebGLContextEvent struct {
-	StatusMessage string `js:"statusMessage"`
+// TrackEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type TrackEvent struct {
+	Core interface{} `json:"-"`
 }
 
-// WheelEvent represents data fired when a wheel button of a
-// pointing device (usually a mouse) is rotated.
-type WheelEvent struct {
-	Core      interface{} `json:"-"`
-	DeltaX    float64
-	DeltaY    float64
-	DeltaZ    float64
-	DeltaMode DeltaMode
+// Touch defines a struct which holds touch list data related to touch events.
+type Touch struct {
+	Identifier float64
+	ClientX    float64
+	ClientY    float64
+	PageX      float64
+	PageY      float64
+	OffsetX    float64
+	OffsetY    float64
+	ScreenX    float64
+	ScreenY    float64
+	Target     Element
 }
 
-// KeyboardEvent represents data fired when the keyboard is used.
-type KeyboardEvent struct {
+// TouchList defines a list which holds touch data related to touch events.
+type TouchList struct {
+	Touches []Touch
+	Length  int
+}
+
+// TouchEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type TouchEvent struct {
 	Core          interface{} `json:"-"`
-	CharCode      int
-	KeyCode       KeyCode
-	KeyLocation   KeyLocation
-	Location      int
-	Key           string
-	KeyIdentifier string
-	Locale        string
 	AltKey        bool
 	CtrlKey       bool
 	MetaKey       bool
 	ShiftKey      bool
-	Repeat        bool
-	ModifiedState bool
+	TargetTouches TouchList
+	Touches       TouchList
+}
+
+// SVGZoomEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type SVGZoomEvent struct {
+	Core interface{} `json:"-"`
+}
+
+// SVGEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type SVGEvent struct {
+	Core interface{} `json:"-"`
+}
+
+// MessageEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+type MessageEvent struct {
+	Core   interface{} `json:"-"`
+	Data   []byte
+	Origin string
+	Source string
+	Port   int
+}
+
+// MediaStream defines a struct for the media stream event.
+// API: MediaStream.onaddtrack, MediaStream.onremovetrack.
+// API: MediaStream.getTracks, MediaStream.getAudioTracks, MediaStream.getVideoTracks.
+type MediaStream struct {
+	Active bool   `js:"active"`
+	Ended  bool   `js:"ended"`
+	ID     string `js:"id"`
+	Audios []MediaStreamTrack
+	Videos []MediaStreamTrack
+}
+
+// MediaTrackSettings defines the struct which contains settiings for the MediaTrack
+// API.
+type MediaTrackSettings struct {
+	DeviceID string
+	GroupID  string
+}
+
+// MediaAudioTrackSettings defines the struct which contains settiings for the MediaTrack
+// API.
+type MediaAudioTrackSettings struct {
+	MediaTrackSettings
+	ChannelCount     int
+	EchoCancellation bool
+	Latency          float64
+	SampleRate       int64
+	SampleSize       int64
+	Volume           float64
+}
+
+// MediaVideoTrackSettings defines the struct which contains settiings for the MediaTrack
+// API.
+type MediaVideoTrackSettings struct {
+	MediaTrackSettings
+	AspectRatio float64
+	FacingMode  string
+	FrameRate   float64
+	Height      int64
+	Width       int64
+}
+
+// MediaStreamTrack defines a track of a MediaStream.
+type MediaStreamTrack struct {
+	Core          interface{} `json:"-"`
+	Enabled       bool
+	ID            string
+	Kind          string
+	Label         string
+	Muted         bool
+	ReadyState    bool
+	Remote        bool
+	AudioSettings *MediaAudioTrackSettings
+	VideoSettings *MediaVideoTrackSettings
+}
+
+// MediaStreamEvent defines a struct to contain the values of a promiximity
+// event fired from a giving DOM.
+// When using this combine them with the MediaStreamTrack.
+type MediaStreamEvent struct {
+	Core   interface{} `json:"-"`
+	Stream MediaStream `js:"stream"`
 }
 
 // BasicEventMap defines a event type which defines a event type which is not
