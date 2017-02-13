@@ -504,6 +504,19 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			PointerID:   ev.Get("pointerId").Int(),
 			PointerType: ev.Get("pointerType").String(),
 		}, handle)
+	case js.Global.Get("FetchEvent"):
+		var req shell.WebRequest
+
+		if ro := ev.Get("request"); ro != nil && ro != js.Undefined {
+			req, _ = shell.ObjectToWebRequest(ro)
+		}
+
+		return events.NewBaseEvent(&events.FetchEvent{
+			Core:     ev,
+			IsReload: ev.Get("isReload").Bool(),
+			ClientID: ev.Get("clientId").String(),
+			Request:  req,
+		}, handle)
 	case js.Global.Get("PopStateEvent"):
 		return events.NewBaseEvent(&events.PopStateEvent{
 			Core: ev,
