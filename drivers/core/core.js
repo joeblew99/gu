@@ -3,7 +3,8 @@
 
 var unwanted = {"constructor": true,"toString": true}
 
-function PatchDOM(){
+// PatchDOM patches the provided elements into the target from the current DOM.
+function PatchDOM(fragmentDOM, liveDOM, replace){
 
 }
 
