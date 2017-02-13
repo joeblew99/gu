@@ -204,7 +204,7 @@ function ConstructorDeepClone(item){
 var exceptObjects = {HTMLElement: true, NodeList: true, HTMLDocument: true, Node: true, Document: true}
 
 // defaultOptions defines a set of optional values allowed when cloning objects.
-var defaultOptions = {Functions: true }
+var defaultOptions = {Functions: true, LastTree: [] }
 
 // DeepClone clones all internal properties of the provided object, re-creating
 // internal key-value pairs accessible to the object even in prototype inheritance.
@@ -286,7 +286,7 @@ function DeepClone(item, options){
       var newArray = []
       for(var index in item){
         indexElem = item[index]
-        newArray[index] = DeepClone(indexElem)
+        newArray[index] = DeepClone(indexElem, options)
       }
 
       return newArray
@@ -303,6 +303,17 @@ function DeepClone(item, options){
           return item
         }
       }
+
+      // If we are passed the previous tree, then check if we have
+      // someone in that root as well.
+      // if(options.LastTree){
+      //   for(var root in options.LastTree){
+      //     var base = roots[root]
+      //     if(exceptObjects[Type(base)]){
+      //       return item
+      //     }
+      //   }
+      // }
 
       var rootProtos = reverse(filter(roots, function(val){
         return Type(val) != "Object"
@@ -333,7 +344,10 @@ function DeepClone(item, options){
 
       for(var index in keys){
         var key = keys[index]
-        newObj[capitalize(key)] = DeepClone(item[key])
+        newObj[capitalize(key)] = DeepClone(item[key], {
+          Functions: options.Functions,
+          // LastTree: roots,
+        })
       }
 
       return newObj
