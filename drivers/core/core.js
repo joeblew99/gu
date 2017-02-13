@@ -198,6 +198,11 @@ function ConstructorDeepClone(item){
   }
 }
 
+// exceptObjects are objects which we dont want uncloned but kept intact.
+// Also, these elements will lead to massive cyclic issues, keep them intact and deal
+// in another approach.
+var exceptObjects = {HTMLElement: true, NodeList: true, HTMLDocument: true, Node: true, Document: true}
+
 // defaultOptions defines a set of optional values allowed when cloning objects.
 var defaultOptions = {Functions: true }
 
@@ -224,6 +229,15 @@ function DeepClone(item, options){
       return {}
 
     case Number:
+      return item
+
+    case HTMLElement:
+      return item
+
+    case Node:
+      return item
+
+    case Element:
       return item
 
     case Boolean:
@@ -279,7 +293,18 @@ function DeepClone(item, options){
 
     default:
       var newObj = {}
-      var rootProtos = reverse(filter(GetRoots(item), function(val){
+      var roots = GetRoots(item)
+
+      // If the element is a child of this givng root in the exceptObjects
+      // then return it has is, because we need it intact and unchanged.
+      for(var root in roots){
+        var base = roots[root]
+        if(exceptObjects[Type(base)]){
+          return item
+        }
+      }
+
+      var rootProtos = reverse(filter(roots, function(val){
         return Type(val) != "Object"
       }))
 
@@ -308,8 +333,6 @@ function DeepClone(item, options){
 
       for(var index in keys){
         var key = keys[index]
-
-        console.log("item: ", key, Type(item[key]))
         newObj[capitalize(key)] = DeepClone(item[key])
       }
 
