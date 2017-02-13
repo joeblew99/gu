@@ -11,7 +11,9 @@ function PatchDOM(fragmentDOM, liveDOM, replace){
 // GetEvent returns the event as a object which can be jsonified and
 // sent over the pipeline.
 function GetEvent(ev){
-  var eventObj = DeepClone(ev)
+  var eventObj = DeepClone(ev,{
+    Functions: false,
+  })
 
   var c = ev.constructor
   switch (c) {
@@ -125,13 +127,13 @@ function isUpperCase(val){
 function Keys(item){
   // If we can use the getOwnPropertyNames function in ES5 then use this has
   // inherited properties are desired as well.
-  if(Object.getOwnPropertyNames){
+  if("getOwnPropertyNames" in Object){
     return Object.getOwnPropertyNames(item)
   }
 
   // If we can use the Object.keys function in ES5 then use this has
   // we can manage with the provided set.
-  if(Object.keys){
+  if("keys" in Object){
     return Object.keys(item)
   }
 
@@ -196,18 +198,45 @@ function ConstructorDeepClone(item){
   }
 }
 
+// defaultOptions defines a set of optional values allowed when cloning objects.
+var defaultOptions = {Functions: true }
+
 // DeepClone clones all internal properties of the provided object, re-creating
 // internal key-value pairs accessible to the object even in prototype inheritance.
 // Functions are not runned except for custom types which are checked accordingly.
-function DeepClone(item){
+function DeepClone(item, options){
+  if(item === undefined || item == null){
+    return item
+  }
+
   c = item.constructor
 
+  if(!options){
+    options = defaultOptions
+  }
+
   switch(c){
-    case String:
-      return item
+    case Function:
+      if(options.AllowFunctions){
+        return item
+      }
+
+      return {}
 
     case Number:
       return item
+
+    case Boolean:
+      return item
+
+    case String:
+      return item
+
+    case Blob:
+      return fromBlob(item)
+
+    case File:
+      return fromFile(item)
 
     case Uint8Array:
       var newArray = new Uint8Array
@@ -233,6 +262,12 @@ function DeepClone(item){
 
       return newArray
 
+    case MediaStream:
+      return toMediaStream(item)
+
+    case Gamepad:
+      return toGamepad(item)
+
     case Array:
       var newArray = []
       for(var index in item){
@@ -248,19 +283,34 @@ function DeepClone(item){
         return Type(val) != "Object"
       }))
 
+      // Are we dealing with a empty object without parent, then we are probably
+      // dealing with a declared map/hash that points directly to the Object constructor.
+      if(rootProtos.length === 0){
+        rootProtos.push(item)
+      }
+
       // Run through all parent constructs and pull keys, we want
       // to have all inherited properties as well.
       var keys = mapFlatten(rootProtos, function(root){
         return filter(Keys(root), function(val){
+
+          // If functions are not allowed and we have on here, then skip.
+          if(!options.AllowFunctions && Type(item[val]) === "Function"){
+            return false
+          }
+
           var allowed = !unwanted[val]
           var isNotConstant = !isUpperCase(val)
+
           return allowed && isNotConstant
         })
       })
 
       for(var index in keys){
         var key = keys[index]
-        newObj[capitalize(key)] = item[key]
+
+        console.log("item: ", key, Type(item[key]))
+        newObj[capitalize(key)] = DeepClone(item[key])
       }
 
       return newObj
