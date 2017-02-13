@@ -226,7 +226,7 @@ function DeepClone(item, options){
         return item
       }
 
-      return {}
+      return 
 
     case Number:
       return item
