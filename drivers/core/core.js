@@ -5,7 +5,150 @@ var unwanted = {"constructor": true,"toString": true}
 
 // PatchDOM patches the provided elements into the target from the current DOM.
 function PatchDOM(fragmentDOM, liveDOM, replace){
+  if !live.hasChildNodes{
+    live.appendChild(fragmentDOM)
+    return
+  }
 
+  var shadowNodes = fragmentDOM.childNodes
+  var liveNodes = liveDOM.childNodes
+
+  for(var index = 0; index < shadowNodes.length; index++){
+    var node = shadowNodes[index]
+
+    if node.constructor === Text {
+      if isEmptyTextNode(node){
+        live.appendChild(node)
+        continue
+      }
+
+
+      if index < liveNodes.length {
+        liveNode = liveNodes[index]
+        liveDOM.insertBefore(liveNode, node)
+        continue
+      }
+
+      live.appendChild(node)
+      continue
+    }
+
+    var nodeTagName = node.tagName
+    var nodeId = node.getAttribute("id")
+    // var nodeClass = node.getAttribute("class")
+    var nodeUID = node.getAttribute("uid")
+    var nodeAttr = node.attributes
+    var nodeKids = node.childNodes
+    var nodeSel = nodeTagName+"[uid="+nodeUID+"]"
+    var nodeRemoved = node.hasAttribute("NodeRemoved")
+    var nodeHash = node.getAttribute("hash")
+
+    if(!nodeId && nodeUID && nodeHash){
+      addIfNoEqual(live, node)
+      continue
+    }
+
+    if(!nodeUID && !nodeHash){
+      if(nodeId){
+        var found = live.querySelectorAll("#"+nodeId)
+        if(!found.length){
+          live.appendChild(node)
+          continue
+        }
+
+        live.replaceNode(found, node)
+        continue
+      }
+    }
+
+    var allTargets = live.querySelectorAll(nodeSel)
+    if(!allTargets.length){
+      live.appendChild(node)
+      continue
+    }
+
+    for(var jindex = 0; jindex < allTargets.length; jindex++){
+      var curTarget = allTargets[jindex]
+
+      if(nodeRemoved){
+        live.remove(curTarget)
+        continue
+      }
+
+      if(replace){
+        live.replaceNode(curTarget, node)
+        continue
+      }
+
+      var liveHash = curTarget.getAttribute("hash")
+
+      if(liveHash === nodeHash){
+        continue
+      }
+
+
+      if(!curTarget.childNodes.length){
+        live.replaceNode(curTarget, node)
+        continue
+      }
+
+      removeAllTextNodes(curTarget)
+
+      for(var key in nodeAttr){
+        var attr = nodeAttr[key]
+        curTarget.setAttribute(attr.nodeName, attr.nodeValue)
+      }
+
+      curTargetChilds = curTarget.childNodes
+      if(!curTargetChilds.length){
+        curTarget.innerHTML = ""
+        curTarget.appendChild.apply(curTarget, nodeKids)
+        continue
+      }
+
+      PatchDOM(node, curTarget, replace)
+    }
+  }
+}
+
+function addIfNoEqual(target, node){
+  for(var i = 0; i < list.length; i++){
+    var against = target[i]
+    if against.IsEqualNode(node){
+      target.replaceNode(against, node)
+      return
+    }
+  }
+
+  target.appendChild(node)
+}
+
+function isEmptyTextNode(node){
+  if node.nodeType !== 3{
+    return false
+  }
+
+  return node.textContent === ""
+}
+
+function removeAllTextNodes(parent, list){
+  for(var i = 0; i < list.length; i++){
+    var node = list[i]
+    if node.nodeType === 3 {
+      parent.removeChild(node)
+    }
+  }
+}
+
+// createDOMFragment creates a DocumentFragment from the provided HTML.
+function createDOMFragment(elemString){
+  var div  = document.createElement("div")
+  div.innerHTML = elemString
+
+  var fragment = document.createDocumentFragment()
+  fragment.appendChild.Apply(fragment, div.childNodes)
+
+  return div
 }
 
 // GetEvent returns the event as a object which can be jsonified and
@@ -226,7 +369,7 @@ function DeepClone(item, options){
         return item
       }
 
-      return 
+      return
 
     case Number:
       return item
