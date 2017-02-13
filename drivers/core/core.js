@@ -4,8 +4,10 @@
 var unwanted = {"constructor": true,"toString": true}
 
 // PatchDOM patches the provided elements into the target from the current DOM.
+// It crawls a live version of the DOM, removing, replacing and adding node
+// changes as needed, until the dom resembles it's shadow/fragmentDOM.
 function PatchDOM(fragmentDOM, liveDOM, replace){
-  if !live.hasChildNodes{
+  if(!live.hasChildNodes()){
     live.appendChild(fragmentDOM)
     return
   }
@@ -16,14 +18,14 @@ function PatchDOM(fragmentDOM, liveDOM, replace){
   for(var index = 0; index < shadowNodes.length; index++){
     var node = shadowNodes[index]
 
-    if node.constructor === Text {
-      if isEmptyTextNode(node){
+    if(node.constructor === Text){
+      if(isEmptyTextNode(node)){
         live.appendChild(node)
         continue
       }
 
 
-      if index < liveNodes.length {
+      if(index < liveNodes.length){
         liveNode = liveNodes[index]
         liveDOM.insertBefore(liveNode, node)
         continue
@@ -111,10 +113,13 @@ function PatchDOM(fragmentDOM, liveDOM, replace){
   }
 }
 
+// addIfNoEqual adds a giving node into the target if its not found to match any
+// child nodes of the target and if one is found then that is replaced with the
+// provided new node.
 function addIfNoEqual(target, node){
   for(var i = 0; i < list.length; i++){
     var against = target[i]
-    if against.IsEqualNode(node){
+    if(against.IsEqualNode(node)){
       target.replaceNode(against, node)
       return
     }
@@ -123,18 +128,22 @@ function addIfNoEqual(target, node){
   target.appendChild(node)
 }
 
+// isEmptyTextNode returns true/false if the node is an empty text node.
 function isEmptyTextNode(node){
-  if node.nodeType !== 3{
+  if(node.nodeType !== 3){
     return false
   }
 
   return node.textContent === ""
 }
 
-function removeAllTextNodes(parent, list){
+// removeAllTextNodes removes all residing textnodes in the provided node.
+function removeAllTextNodes(parent){
+  var list = parent.childNodes
+
   for(var i = 0; i < list.length; i++){
     var node = list[i]
-    if node.nodeType === 3 {
+    if(node.nodeType === 3){
       parent.removeChild(node)
     }
   }
