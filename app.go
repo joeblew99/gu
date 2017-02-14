@@ -214,9 +214,9 @@ func (app *NApp) ActivateRoute(es interface{}) {
 	app.activeViews = app.PushViews(pe)
 }
 
-// TreeJSON defines a struct which holds the giving sets of tree changes to be
+// AppJSON defines a struct which holds the giving sets of tree changes to be
 // rendered.
-type TreeJSON struct {
+type AppJSON struct {
 	AppID         string             `json:"AppId"`
 	Name          string             `json:"Name"`
 	Title         string             `json:"Title"`
@@ -228,12 +228,12 @@ type TreeJSON struct {
 
 // RenderJSON returns the giving rendered tree of the app respective of the path
 // found as jons structure with markup content.
-func (app *NApp) RenderJSON(es interface{}) TreeJSON {
+func (app *NApp) RenderJSON(es interface{}) AppJSON {
 	if es != nil {
 		app.ActivateRoute(es)
 	}
 
-	var tjson TreeJSON
+	var tjson AppJSON
 	tjson.Name = app.attr.Name
 	tjson.Title = app.attr.Title
 

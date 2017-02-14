@@ -111,6 +111,32 @@ type Reactive interface {
 
 //==============================================================================
 
+// RenderCommand defines a struct to hold a giving command for the rendering
+// of a App or View using the JSON format.
+type RenderCommand struct {
+	Command string   `json:"Command"`
+	App     AppJSON  `json:"App,omitempty"`
+	View    ViewJSON `json:"View,omitempty"`
+}
+
+// AppRenderCommand returns a new RenderCommand for rendering a app.
+func AppRenderCommand(app *NApp, route interface{}) RenderCommand {
+	return RenderCommand{
+		Command: "RenderApp",
+		App:     app.RenderJSON(route),
+	}
+}
+
+// ViewRenderCommand returns a new RenderCommand for rendering a view.
+func ViewRenderCommand(view *NView) RenderCommand {
+	return RenderCommand{
+		Command: "RenderView",
+		View:    view.RenderJSON(),
+	}
+}
+
+//==============================================================================
+
 // NewReactive returns an instance of a Reactive struct.
 func NewReactive() Reactive {
 	var rc Subscription

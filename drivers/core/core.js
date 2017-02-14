@@ -23,11 +23,13 @@ function JSONExecuteCommand(co){
 			command = co
 	}
 
-	switch(command.Name){
+	switch(command.Command){
 		case "RenderApp":
 			// Rendering the app response is to clear what is currently in the view.
 			// We want specific replicate the way the gopherjs driver updates apps
 			// in swapping out the current content with the new content received.
+
+
 
 		case "RenderView":
 			// Rendering the app response is to clear what is currently in the view.
