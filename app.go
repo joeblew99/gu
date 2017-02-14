@@ -214,6 +214,66 @@ func (app *NApp) ActivateRoute(es interface{}) {
 	app.activeViews = app.PushViews(pe)
 }
 
+// TreeJSON defines a struct which holds the giving sets of tree changes to be
+// rendered.
+type TreeJSON struct {
+	AppID         string             `json:"AppId"`
+	Name          string             `json:"Name"`
+	Title         string             `json:"Title"`
+	Head          []ViewJSON         `json:"Head"`
+	Body          []ViewJSON         `json:"Body"`
+	HeadResources []trees.MarkupJSON `json:"HeadResources"`
+	BodyResources []trees.MarkupJSON `json:"BodyResources"`
+}
+
+// RenderJSON returns the giving rendered tree of the app respective of the path
+// found as jons structure with markup content.
+func (app *NApp) RenderJSON(es interface{}) TreeJSON {
+	if es != nil {
+		app.ActivateRoute(es)
+	}
+
+	var tjson TreeJSON
+	tjson.Name = app.attr.Name
+	tjson.Title = app.attr.Title
+
+	toHead, toBody := app.Resources()
+
+	for _, item := range toHead {
+		tjson.HeadResources = append(tjson.HeadResources, item.TreeJSON())
+	}
+
+	for _, item := range toBody {
+		tjson.BodyResources = append(tjson.BodyResources, item.TreeJSON())
+	}
+
+	var afterBody []ViewJSON
+
+	for _, view := range app.activeViews {
+		switch view.attr.Target {
+		case HeadTarget:
+			tjson.Head = append(tjson.Head, view.RenderJSON())
+		case BodyTarget:
+			tjson.Body = append(tjson.Body, view.RenderJSON())
+		case AfterBodyTarget:
+			afterBody = append(afterBody, view.RenderJSON())
+		}
+
+		viewHead, viewBody := view.Resources()
+		for _, item := range viewHead {
+			tjson.HeadResources = append(tjson.HeadResources, item.TreeJSON())
+		}
+
+		for _, item := range viewBody {
+			tjson.BodyResources = append(tjson.BodyResources, item.TreeJSON())
+		}
+	}
+
+	tjson.Body = append(tjson.Body, afterBody...)
+
+	return tjson
+}
+
 // Render returns the giving rendered tree of the app respective of the path
 // found.
 func (app *NApp) Render(es interface{}) *trees.Markup {
@@ -223,8 +283,12 @@ func (app *NApp) Render(es interface{}) *trees.Markup {
 
 	var html = trees.NewMarkup("html", false)
 	var head = trees.NewMarkup("head", false)
+
 	var body = trees.NewMarkup("body", false)
-	var last = elems.Div()
+	trees.NewAttr("gu-app-id", app.uuid).Apply(body)
+
+	// var app = trees.NewMarkup("app", false)
+	// trees.NewAttr("gu-app-id", app.uuid).Apply(app)
 
 	head.Apply(html)
 	body.Apply(html)
@@ -232,6 +296,8 @@ func (app *NApp) Render(es interface{}) *trees.Markup {
 	// Generate the resources according to the received data.
 	toHead, toBody := app.Resources()
 	head.AddChild(toHead...)
+
+	var last = elems.Div()
 
 	for _, view := range app.activeViews {
 		switch view.attr.Target {
@@ -320,6 +386,7 @@ func (app *NApp) Resources() ([]*trees.Markup, []*trees.Markup) {
 			trees.NewAttr("gu-resource-from", manifest.Path).Apply(markup)
 			trees.NewAttr("gu-resource-name", manifest.Name).Apply(markup)
 			trees.NewAttr("gu-resource-id", manifest.ID).Apply(markup)
+			trees.NewAttr("gu-resource-app-id", app.uuid).Apply(markup)
 
 			if toHead {
 				def.head = append(def.head, markup)
@@ -380,6 +447,7 @@ func (app *NApp) View(attr ViewAttr) *NView {
 	vw.driver = app.driver
 	vw.notifications = app.notifications
 	vw.uuid = NewKey()
+	vw.appUUID = app.uuid
 
 	vw.router = router.New(attr.Route)
 	vw.cache = app.cache
@@ -420,10 +488,10 @@ type RenderableData struct {
 type NView struct {
 	Reactive
 	uuid          string
+	appUUID       string
 	active        bool
 	cache         shell.Cache
 	fetch         shell.Fetch
-	title         *trees.Markup
 	router        router.Resolver
 	driver        Driver
 	attr          ViewAttr
@@ -442,6 +510,26 @@ type NView struct {
 // UUID returns the uuid specific to the giving view.
 func (v *NView) UUID() string {
 	return v.uuid
+}
+
+// ViewJSON defines a struct which holds the giving sets of view changes to be
+// rendered.
+type ViewJSON struct {
+	AppID      string           `json:"AppID"`
+	ViewID     string           `json:"ViewID"`
+	ViewTarget int              `json:"ViewTarget"`
+	Tree       trees.MarkupJSON `json:"Tree"`
+}
+
+// RenderJSON returns the ViewJSON for the provided View and its current events and
+// changes.
+func (v *NView) RenderJSON() ViewJSON {
+	return ViewJSON{
+		AppID:      v.appUUID,
+		ViewID:     v.uuid,
+		ViewTarget: int(v.attr.Target),
+		Tree:       v.Render().TreeJSON(),
+	}
 }
 
 // Render returns the markup for the giving views.
@@ -673,6 +761,7 @@ func (v *NView) Component(attr ComponentAttr) {
 		switch mo := attr.Base.(type) {
 		case func(Services) *trees.Markup:
 			static := Static(mo(Services{
+				AppUUID:       v.appUUID,
 				Driver:        v.driver,
 				Fetch:         v.fetch,
 				Cache:         v.cache,
@@ -718,6 +807,7 @@ func (v *NView) Component(attr ComponentAttr) {
 		case Renderable:
 			if service, ok := mo.(RegisterService); ok {
 				service.RegisterService(Services{
+					AppUUID:       v.appUUID,
 					Driver:        v.driver,
 					Fetch:         v.fetch,
 					Cache:         v.cache,
@@ -742,6 +832,7 @@ func (v *NView) Component(attr ComponentAttr) {
 
 		case func(Services) Renderable:
 			rc := mo(Services{
+				AppUUID:       v.appUUID,
 				Driver:        v.driver,
 				Fetch:         v.fetch,
 				Cache:         v.cache,
@@ -768,6 +859,7 @@ func (v *NView) Component(attr ComponentAttr) {
 
 			if service, ok := rc.(RegisterService); ok {
 				service.RegisterService(Services{
+					AppUUID:       v.appUUID,
 					Driver:        v.driver,
 					Fetch:         v.fetch,
 					Cache:         v.cache,

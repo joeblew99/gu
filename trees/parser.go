@@ -3,8 +3,37 @@ package trees
 import (
 	"strings"
 
+	"bytes"
+	"text/template"
+
 	"golang.org/x/net/html"
 )
+
+// ParseTemplateInto parses the provided string has a template which
+// is processed with the provided binding and passed into the root.
+func ParseTemplateInto(root *Markup, markup string, binding interface{}) {
+	var bu bytes.Buffer
+
+	tmpl := template.Must(template.New("Parsed").Parse(markup))
+	if err := tmpl.Execute(&bu, binding); err != nil {
+		return
+	}
+
+	ParseToRoot(root, bu.String())
+}
+
+// ParseTemplate parses the provided string has a template which
+// is processed with the provided binding.
+func ParseTemplate(markup string, binding interface{}) []*Markup {
+	var bu bytes.Buffer
+
+	tmpl := template.Must(template.New("Parsed").Parse(markup))
+	if err := tmpl.Execute(&bu, binding); err != nil {
+		return nil
+	}
+
+	return ParseTree(bu.String())
+}
 
 // ParseToRoot passes the markup generated from the markup added to the provided
 // root.

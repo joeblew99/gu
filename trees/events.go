@@ -25,14 +25,14 @@ type EventObject interface {
 // which is translated to the nodes themselves
 type Event struct {
 	Type                     string
-	EventID                  string
-	secTarget                string
 	PreventDefault           bool
 	StopPropagation          bool
 	UseCapture               bool
 	StopImmediatePropagation bool
 	Tree                     *Markup
 	Handle                   mque.End
+	eventSelector            string
+	secTarget                string
 }
 
 // NewEvent returns a event object that allows registering events to eventlisteners.
@@ -56,6 +56,31 @@ func (e *Event) Target() string {
 	return e.secTarget
 }
 
+// EventJSON defines a struct which contains the giving events and
+// and tree of the giving tree.
+type EventJSON struct {
+	EventSelector            string `json:"EventSelector"`
+	EventName                string `json:"EventName"`
+	Event                    string `json:"Event"`
+	PreventDefault           bool   `json:"PreventDefault"`
+	StopPropagation          bool   `json:"StopPropagation"`
+	UseCapture               bool   `json:"UseCapture"`
+	StopImmediatePropagation bool   `json:"StopImmediatePropagation"`
+}
+
+// EventJSON returns the event json structure which represent the giving event.
+func (e *Event) EventJSON() EventJSON {
+	return EventJSON{
+		Event:                    e.Type,
+		UseCapture:               e.UseCapture,
+		EventName:                e.EventName(),
+		EventSelector:            e.eventSelector,
+		PreventDefault:           e.PreventDefault,
+		StopPropagation:          e.StopPropagation,
+		StopImmediatePropagation: e.StopImmediatePropagation,
+	}
+}
+
 // EventName returns the giving name of the event.
 func (e *Event) EventName() string {
 	eventName := strings.ToUpper(e.Type[:1]) + e.Type[1:]
@@ -74,8 +99,12 @@ func (e *Event) ID() string {
 // Clone  returns a new Event object from this.
 func (e *Event) Clone() *Event {
 	return &Event{
-		Type:      e.Type,
-		secTarget: e.secTarget,
+		Type:                     e.Type,
+		secTarget:                e.secTarget,
+		PreventDefault:           e.PreventDefault,
+		UseCapture:               e.UseCapture,
+		StopPropagation:          e.StopPropagation,
+		StopImmediatePropagation: e.StopImmediatePropagation,
 	}
 }
 
@@ -86,8 +115,8 @@ func (e *Event) Apply(ex *Markup) {
 	}
 
 	e.Tree = ex
+	e.eventSelector = ex.IDSelector(false)
 
-	e.EventID = fmt.Sprintf("%s-%s", e.Type, ex.UID())
 	ex.AddEvent(*e)
 }
 

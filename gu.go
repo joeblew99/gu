@@ -43,6 +43,7 @@ type Identity interface {
 // Services defines a struct which exposes certain fields to be accessible to
 // others.
 type Services struct {
+	AppUUID       string
 	Driver        Driver
 	Router        router.Resolver
 	Fetch         shell.Fetch

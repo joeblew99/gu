@@ -25,6 +25,7 @@ type Markup struct {
 	hash          string
 	tagname       string
 	textContent   string
+	idSelector    string
 	textContentFn func(*Markup) string
 
 	events         []Event
@@ -62,17 +63,7 @@ func CSSStylesheet(rule *css.Rule, bind interface{}) *Markup {
 	content.allowStyles = false
 	content.allowEvents = false
 	content.textContentFn = func(owner *Markup) string {
-		var parentName string
-
-		if owner.parent != nil {
-			if owner.parent.ID == "" {
-				parentName = owner.parent.tagname + "[uid='" + owner.parent.uid + "']"
-			} else {
-				parentName = "#" + owner.parent.ID
-			}
-		}
-
-		sheet, err := rule.Stylesheet(bind, parentName)
+		sheet, err := rule.Stylesheet(bind, owner.IDSelector(true))
 		if err != nil {
 			return err.Error()
 		}
@@ -109,6 +100,53 @@ func (e *Markup) Empty() {
 	e.morphers = nil
 	e.finalizers = nil
 	e.onceFinalizers = nil
+}
+
+// MarkupJSON defines a struct which contains the giving events and
+// and tree of the giving tree.
+type MarkupJSON struct {
+	Events []EventJSON `json:"Events"`
+	Markup string      `json:"Markup"`
+}
+
+// TreeJSON returns the giving MarkupJSON for this giving markup and
+// the events related to this markup.
+func (e *Markup) TreeJSON() MarkupJSON {
+	var mjson MarkupJSON
+
+	// SetMode sets the mode into which we wish to print, we want the
+	// details of removed
+	data, _ := e.MarshalJSON()
+	mjson.Markup = string(data)
+
+	e.EachEvent(func(event *Event, _ *Markup) {
+		mjson.Events = append(mjson.Events, event.EventJSON())
+	})
+
+	return mjson
+}
+
+// IDSelector returns the unique selector for the giving markup.
+func (e *Markup) IDSelector(useParent bool) string {
+	var parentName string
+
+	if e.parent != nil && useParent {
+		if e.parent.ID == "" {
+			parentName = e.parent.tagname + "[uid='" + e.parent.uid + "']"
+		} else {
+			parentName = "#" + e.parent.ID
+		}
+
+		return parentName
+	}
+
+	if e.ID == "" {
+		parentName = e.tagname + "[uid='" + e.uid + "']"
+	} else {
+		parentName = "#" + e.ID
+	}
+
+	return parentName
 }
 
 // MarshalJSON returns the html representation of the giving markup.

@@ -5,6 +5,38 @@
 // collection of object property names.
 var unwanted = {"constructor": true,"toString": true}
 
+
+
+// JSONExecuteCommand executes the provided command received.
+function JSONExecuteCommand(co){
+	if(co == null || co  === undefined){
+		return
+	}
+
+	var command
+
+	// if we are dealing with a string then parse with json.
+	switch (co.constructor) {
+		case String:
+		 command = JSON.parse(co)
+		case Object:
+			command = co
+	}
+
+	switch(command.Name){
+		case "RenderApp":
+			// Rendering the app response is to clear what is currently in the view.
+			// We want specific replicate the way the gopherjs driver updates apps
+			// in swapping out the current content with the new content received.
+
+		case "RenderView":
+			// Rendering the app response is to clear what is currently in the view.
+			// We want specific replicate the way the gopherjs driver updates apps views
+			// in swapping out the current content of the given view with the new content.
+	}
+}
+
+
 // PatchDOM patches the provided elements into the target from the current DOM.
 // It crawls a live version of the DOM, removing, replacing and adding node
 // changes as needed, until the dom resembles it's shadow/fragmentDOM.
@@ -157,9 +189,9 @@ function createDOMFragment(elemString){
 	div.innerHTML = elemString
 
 	var fragment = document.createDocumentFragment()
-	fragment.appendChild.Apply(fragment, div.childNodes)
+	fragment.appendChild.apply(fragment, div.childNodes)
 
-	return div
+	return fragment
 }
 
 // GetEvent returns the event as a object which can be jsonified and

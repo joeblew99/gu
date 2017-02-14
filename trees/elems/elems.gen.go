@@ -28,6 +28,39 @@ func Text(content string, dl ...interface{}) *trees.Markup {
 	return trees.NewText(content, dl...)
 }
 
+// ParseTemplate returns the giving markup structure generated from the string
+// through the template used with the binding provided.
+func ParseTemplate(markup string, bind interface{}, ms ...trees.Appliable) *trees.Markup {
+	tms := trees.ParseTemplate(markup, bind)
+	if len(tms) > 1 {
+		sec := trees.NewMarkup("section", false)
+		for _, el := range tms {
+			el.Apply(sec)
+		}
+
+		for _, m := range ms {
+			if m == nil {
+				continue
+			}
+
+			m.Apply(sec)
+		}
+
+		return sec
+	}
+
+	root := tms[0]
+
+	for _, m := range ms {
+		if m == nil {
+			continue
+		}
+		m.Apply(root)
+	}
+
+	return root
+}
+
 // Parse returns the giving markup structure generated from the string.
 func Parse(markup string, ms ...trees.Appliable) *trees.Markup {
 	tms := trees.ParseTree(markup)
