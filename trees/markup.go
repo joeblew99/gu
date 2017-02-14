@@ -105,6 +105,7 @@ func (e *Markup) Empty() {
 // MarkupJSON defines a struct which contains the giving events and
 // and tree of the giving tree.
 type MarkupJSON struct {
+	TreeID string      `json:"TreeID"`
 	Events []EventJSON `json:"Events"`
 	Markup string      `json:"Markup"`
 }
@@ -113,9 +114,10 @@ type MarkupJSON struct {
 // the events related to this markup.
 func (e *Markup) TreeJSON() MarkupJSON {
 	var mjson MarkupJSON
+	mjson.TreeID = e.uid
 
 	// SetMode sets the mode into which we wish to print, we want the
-	// details of removed
+	// details of removed.
 	data, _ := e.MarshalJSON()
 	mjson.Markup = string(data)
 

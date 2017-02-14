@@ -352,6 +352,9 @@ func (app *NApp) Resources() ([]*trees.Markup, []*trees.Markup) {
 	var head, body []*trees.Markup
 
 	head = append(head, elems.Title(elems.Text(app.attr.Title)))
+	head = append(head, elems.Meta(trees.NewAttr("gu-app-id", app.uuid)))
+	head = append(head, elems.Meta(trees.NewAttr("gu-app-name", app.attr.Name)))
+	head = append(head, elems.Meta(trees.NewAttr("gu-app-title", app.attr.Title)))
 
 	for _, def := range app.globalResources {
 		if def.body != nil || def.head != nil {
@@ -515,20 +518,18 @@ func (v *NView) UUID() string {
 // ViewJSON defines a struct which holds the giving sets of view changes to be
 // rendered.
 type ViewJSON struct {
-	AppID      string           `json:"AppID"`
-	ViewID     string           `json:"ViewID"`
-	ViewTarget int              `json:"ViewTarget"`
-	Tree       trees.MarkupJSON `json:"Tree"`
+	AppID  string           `json:"AppID"`
+	ViewID string           `json:"ViewID"`
+	Tree   trees.MarkupJSON `json:"Tree"`
 }
 
 // RenderJSON returns the ViewJSON for the provided View and its current events and
 // changes.
 func (v *NView) RenderJSON() ViewJSON {
 	return ViewJSON{
-		AppID:      v.appUUID,
-		ViewID:     v.uuid,
-		ViewTarget: int(v.attr.Target),
-		Tree:       v.Render().TreeJSON(),
+		AppID:  v.appUUID,
+		ViewID: v.uuid,
+		Tree:   v.Render().TreeJSON(),
 	}
 }
 

@@ -32,6 +32,7 @@ type Event struct {
 	Tree                     *Markup
 	Handle                   mque.End
 	eventSelector            string
+	peventSelector           string
 	secTarget                string
 }
 
@@ -59,6 +60,7 @@ func (e *Event) Target() string {
 // EventJSON defines a struct which contains the giving events and
 // and tree of the giving tree.
 type EventJSON struct {
+	ParentSelector           string `json:"ParentSelector"`
 	EventSelector            string `json:"EventSelector"`
 	EventName                string `json:"EventName"`
 	Event                    string `json:"Event"`
@@ -75,6 +77,7 @@ func (e *Event) EventJSON() EventJSON {
 		UseCapture:               e.UseCapture,
 		EventName:                e.EventName(),
 		EventSelector:            e.eventSelector,
+		ParentSelector:           e.peventSelector,
 		PreventDefault:           e.PreventDefault,
 		StopPropagation:          e.StopPropagation,
 		StopImmediatePropagation: e.StopImmediatePropagation,
@@ -116,6 +119,7 @@ func (e *Event) Apply(ex *Markup) {
 
 	e.Tree = ex
 	e.eventSelector = ex.IDSelector(false)
+	e.peventSelector = ex.IDSelector(true)
 
 	ex.AddEvent(*e)
 }
