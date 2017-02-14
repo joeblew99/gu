@@ -150,9 +150,6 @@ var GuJS = {};
 					headHTML.push(fragment)
 				})
 
-				head.innerHTML = ""
-				head.appendChild.apply(head, nonGuHead)
-				head.appendChild.apply(head, headHTML)
 
 
 				// Add the resource markup for the header.
@@ -195,9 +192,27 @@ var GuJS = {};
 					bodyHTML.push(fragment)
 				})
 
+				head.innerHTML = ""
+
+				if(nonGuHead.length){
+					head.appendChild.apply(head, nonGuHead)
+				}
+
+				if(headHTML.length){
+					head.appendChild.apply(head, headHTML)
+				}
+
 				body.innerHTML = ""
-				body.appendChild.apply(body, nonGuBody)
-				body.appendChild.apply(body, bodyHTML)
+
+				if(nonGuBody.length){
+					body.appendChild.apply(body, nonGuBody)
+				}
+
+				if(bodyHTML.length){
+					body.appendChild.apply(body, bodyHTML)
+				}
+
+				return
 
 			case "RenderView":
 				// Rendering the app response is to clear what is currently in the view.
@@ -240,8 +255,12 @@ var GuJS = {};
 					viewEvents.push(newEvent)
 				})
 
+				return
+
+			default:
+				console.log("Command not support: ", command);
 		}
-	}
+	};
 
 
 	// GuJS.PatchDOM patches the provided elements into the target from the current DOM.
@@ -485,6 +504,14 @@ var GuJS = {};
 
 	// each runs through all items in the provided list.
 	this.each = function(list, fn){
+		if('length' in list){
+			for(var i = 0; i < list.length; i++){
+				fn(list[i], i, list)
+			}
+
+			return
+		}
+
 		for(key in list){
 			fn(list[key], key, list)
 		}
