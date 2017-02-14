@@ -169,7 +169,7 @@ func App(attr AppAttr) *NApp {
 		app.active = true
 	})
 
-	notifications.Subscribe(func(directive router.PushDirectiveEvent) {
+	app.notifications.Subscribe(func(directive router.PushDirectiveEvent) {
 		if !app.active {
 			return
 		}
@@ -671,43 +671,19 @@ func (v *NView) Component(attr ComponentAttr) {
 	// format for the object.
 	{
 		switch mo := attr.Base.(type) {
-		case func(*notifications.AppNotification) *trees.Markup:
-			static := Static(mo(v.notifications))
-			static.Morph = true
-			c.Rendering = static
+		case func(Services) *trees.Markup:
+			static := Static(mo(Services{
+				Driver:        v.driver,
+				Fetch:         v.fetch,
+				Cache:         v.cache,
+				Router:        c.Router,
+				Mounted:       c.Mounted,
+				Updated:       c.Updated,
+				Unmounted:     c.Unmounted,
+				Rendered:      c.Rendered,
+				Notifications: v.notifications,
+			}))
 
-		case func(shell.Fetch) *trees.Markup:
-			static := Static(mo(v.fetch))
-			static.Morph = true
-			c.Rendering = static
-
-		case func(shell.Fetch, shell.Cache) *trees.Markup:
-			static := Static(mo(v.fetch, v.cache))
-			static.Morph = true
-			c.Rendering = static
-
-		case func(shell.Fetch, shell.Cache, *notifications.AppNotification) *trees.Markup:
-			static := Static(mo(v.fetch, v.cache, v.notifications))
-			static.Morph = true
-			c.Rendering = static
-
-		case func(shell.Fetch, shell.Cache, router.Resolver) *trees.Markup:
-			static := Static(mo(v.fetch, v.cache, c.Router))
-			static.Morph = true
-			c.Rendering = static
-
-		case func(shell.Fetch, shell.Cache, router.Resolver, *notifications.AppNotification) *trees.Markup:
-			static := Static(mo(v.fetch, v.cache, c.Router, v.notifications))
-			static.Morph = true
-			c.Rendering = static
-
-		case func(shell.Fetch, shell.Cache, router.Resolver, Driver) *trees.Markup:
-			static := Static(mo(v.fetch, v.cache, c.Router, v.driver))
-			static.Morph = true
-			c.Rendering = static
-
-		case func(shell.Fetch, shell.Cache, router.Resolver, Driver, *notifications.AppNotification) *trees.Markup:
-			static := Static(mo(v.fetch, v.cache, c.Router, v.driver, v.notifications))
 			static.Morph = true
 			c.Rendering = static
 
@@ -740,20 +716,18 @@ func (v *NView) Component(attr ComponentAttr) {
 			break
 
 		case Renderable:
-			if service, ok := mo.(AccessDriver); ok {
-				service.AccessDriver(v.driver)
-			}
-
 			if service, ok := mo.(RegisterService); ok {
-				service.RegisterService(v.fetch, v.cache, c.Router)
-			}
-
-			if service, ok := mo.(RegisterAppNotification); ok {
-				service.RegisterNotifications(v.notifications)
-			}
-
-			if service, ok := mo.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
+				service.RegisterService(Services{
+					Driver:        v.driver,
+					Fetch:         v.fetch,
+					Cache:         v.cache,
+					Router:        c.Router,
+					Mounted:       c.Mounted,
+					Updated:       c.Updated,
+					Unmounted:     c.Unmounted,
+					Rendered:      c.Rendered,
+					Notifications: v.notifications,
+				})
 			}
 
 			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(mo); err == nil {
@@ -766,91 +740,18 @@ func (v *NView) Component(attr ComponentAttr) {
 			c.Rendering = mo
 			break
 
-		case func(shell.Fetch) Renderable:
-			rc := mo(v.fetch)
-
-			if service, ok := rc.(AccessDriver); ok {
-				service.AccessDriver(v.driver)
-			}
-
-			if service, ok := rc.(RegisterAppNotification); ok {
-				service.RegisterNotifications(v.notifications)
-			}
-
-			if service, ok := rc.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
-			}
-
-			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
-				v.renderingData = append(v.renderingData, RenderableData{
-					Name: renderField.TypeName,
-					Pkg:  renderField.Pkg,
-				})
-			}
-
-			c.Rendering = rc
-			break
-
-		case func(shell.Fetch, shell.Cache) Renderable:
-			rc := mo(v.fetch, v.cache)
-
-			if service, ok := rc.(AccessDriver); ok {
-				service.AccessDriver(v.driver)
-			}
-
-			if service, ok := rc.(RegisterAppNotification); ok {
-				service.RegisterNotifications(v.notifications)
-			}
-
-			if service, ok := rc.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
-			}
-
-			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
-				v.renderingData = append(v.renderingData, RenderableData{
-					Name: renderField.TypeName,
-					Pkg:  renderField.Pkg,
-				})
-			}
-
-			c.Rendering = rc
-			break
-
-		case func(shell.Fetch, shell.Cache, router.Resolver) Renderable:
-			rc := mo(v.fetch, v.cache, c.Router)
-
-			if service, ok := rc.(AccessDriver); ok {
-				service.AccessDriver(v.driver)
-			}
-
-			if service, ok := rc.(RegisterAppNotification); ok {
-				service.RegisterNotifications(v.notifications)
-			}
-
-			if service, ok := rc.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
-			}
-
-			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
-				v.renderingData = append(v.renderingData, RenderableData{
-					Name: renderField.TypeName,
-					Pkg:  renderField.Pkg,
-				})
-			}
-
-			c.Rendering = rc
-			break
-
-		case func(shell.Fetch, shell.Cache, router.Resolver, *notifications.AppNotification) Renderable:
-			rc := mo(v.fetch, v.cache, c.Router, v.notifications)
-
-			if service, ok := rc.(AccessDriver); ok {
-				service.AccessDriver(v.driver)
-			}
-
-			if service, ok := rc.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
-			}
+		case func(Services) Renderable:
+			rc := mo(Services{
+				Driver:        v.driver,
+				Fetch:         v.fetch,
+				Cache:         v.cache,
+				Router:        c.Router,
+				Mounted:       c.Mounted,
+				Updated:       c.Updated,
+				Unmounted:     c.Unmounted,
+				Rendered:      c.Rendered,
+				Notifications: v.notifications,
+			})
 
 			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
 				v.renderingData = append(v.renderingData, RenderableData{
@@ -865,20 +766,18 @@ func (v *NView) Component(attr ComponentAttr) {
 		case func() Renderable:
 			rc := mo()
 
-			if service, ok := rc.(AccessDriver); ok {
-				service.AccessDriver(v.driver)
-			}
-
-			if service, ok := rc.(RegisterAppNotification); ok {
-				service.RegisterNotifications(v.notifications)
-			}
-
 			if service, ok := rc.(RegisterService); ok {
-				service.RegisterService(v.fetch, v.cache, c.Router)
-			}
-
-			if service, ok := rc.(RegisterSubscription); ok {
-				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
+				service.RegisterService(Services{
+					Driver:        v.driver,
+					Fetch:         v.fetch,
+					Cache:         v.cache,
+					Router:        c.Router,
+					Mounted:       c.Mounted,
+					Updated:       c.Updated,
+					Unmounted:     c.Unmounted,
+					Rendered:      c.Rendered,
+					Notifications: v.notifications,
+				})
 			}
 
 			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {

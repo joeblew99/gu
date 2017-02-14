@@ -44,3 +44,8 @@ func (app *AppNotification) Subscribe(q interface{}, end ...func()) mque.End {
 func (app *AppNotification) Dispatch(q interface{}) {
 	app.core.Run(q)
 }
+
+// GlobalDispatch emits a event to the global dispatch callback listeners.
+func (app *AppNotification) GlobalDispatch(q interface{}) {
+	dispatch.Run(q)
+}

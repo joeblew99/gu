@@ -40,30 +40,26 @@ type Identity interface {
 	UUID() string
 }
 
+// Services defines a struct which exposes certain fields to be accessible to
+// others.
+type Services struct {
+	Driver        Driver
+	Router        router.Resolver
+	Fetch         shell.Fetch
+	Cache         shell.Cache
+	Mounted       Subscriptions
+	Rendered      Subscriptions
+	Updated       Subscriptions
+	Unmounted     Subscriptions
+	Notifications *notifications.AppNotification
+}
+
 // RegisterService provides an interface which registers the provided fetcher,
 // caching and routing system for a component. This will be called before
 // any setup of the components structure to allow users set the system they needed
 // running.
 type RegisterService interface {
-	RegisterService(shell.Fetch, shell.Cache, router.Resolver)
-}
-
-// RegisterAppNotification registers for notifications which are local to the
-// app which this is called for.
-type RegisterAppNotification interface {
-	RegisterNotifications(*notifications.AppNotification)
-}
-
-// AccessDriver provides a interface which allows components to access the
-// provided driver.
-type AccessDriver interface {
-	AccessDriver(Driver)
-}
-
-// RegisterSubscription defines an interface for structures which expose a subscription
-// hooks to be used to register hooks for callers.
-type RegisterSubscription interface {
-	RegisterSubscription(mounts, renders, updated, unmount Subscriptions)
+	RegisterService(Services)
 }
 
 // Renderable provides a interface for a renderable type.
