@@ -1,6 +1,8 @@
 // Package core.js provides javascript functions which provide similar functionalities
 // to allow patching provided virtual DOM and query events and dom nodes as needed.
 
+// unwanted defines specific object functions we dont want passed in during
+// collection of object property names.
 var unwanted = {"constructor": true,"toString": true}
 
 // PatchDOM patches the provided elements into the target from the current DOM.

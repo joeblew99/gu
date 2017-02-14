@@ -7,6 +7,7 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"github.com/gu-io/gu/notifications"
 	"github.com/gu-io/gu/router"
 	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/trees"
@@ -45,6 +46,12 @@ type Identity interface {
 // running.
 type RegisterService interface {
 	RegisterService(shell.Fetch, shell.Cache, router.Resolver)
+}
+
+// RegisterAppNotification registers for notifications which are local to the
+// app which this is called for.
+type RegisterAppNotification interface {
+	RegisterNotifications(*notifications.AppNotification)
 }
 
 // AccessDriver provides a interface which allows components to access the

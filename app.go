@@ -93,12 +93,13 @@ type AppAttr struct {
 // NApp defines a struct which encapsulates all the core view management functions
 // for views.
 type NApp struct {
-	uuid   string
-	attr   AppAttr
-	driver Driver
-	cache  shell.Cache
-	fetch  shell.Fetch
-	active bool
+	uuid          string
+	attr          AppAttr
+	driver        Driver
+	cache         shell.Cache
+	fetch         shell.Fetch
+	notifications *notifications.AppNotification
+	active        bool
 
 	local       []shell.AppManifest
 	views       []NView
@@ -115,6 +116,9 @@ func App(attr AppAttr) *NApp {
 	app.attr = attr
 	app.uuid = NewKey()
 	app.driver = attr.Driver
+
+	// Add local notification channel for this giving app.
+	app.notifications = notifications.New(app.uuid)
 
 	fetch, cache := attr.Driver.Services(attr.Name, attr.InterceptRequests)
 	app.cache = cache
@@ -374,6 +378,7 @@ func (app *NApp) View(attr ViewAttr) *NView {
 	vw.Reactive = NewReactive()
 	vw.attr = attr
 	vw.driver = app.driver
+	vw.notifications = app.notifications
 	vw.uuid = NewKey()
 
 	vw.router = router.New(attr.Route)
@@ -414,14 +419,15 @@ type RenderableData struct {
 // view.
 type NView struct {
 	Reactive
-	uuid   string
-	active bool
-	cache  shell.Cache
-	fetch  shell.Fetch
-	title  *trees.Markup
-	router router.Resolver
-	driver Driver
-	attr   ViewAttr
+	uuid          string
+	active        bool
+	cache         shell.Cache
+	fetch         shell.Fetch
+	title         *trees.Markup
+	router        router.Resolver
+	driver        Driver
+	attr          ViewAttr
+	notifications *notifications.AppNotification
 
 	renderingData []RenderableData
 	local         []shell.AppManifest
@@ -665,22 +671,46 @@ func (v *NView) Component(attr ComponentAttr) {
 	// format for the object.
 	{
 		switch mo := attr.Base.(type) {
+		case func(*notifications.AppNotification) *trees.Markup:
+			static := Static(mo(v.notifications))
+			static.Morph = true
+			c.Rendering = static
+
 		case func(shell.Fetch) *trees.Markup:
 			static := Static(mo(v.fetch))
 			static.Morph = true
 			c.Rendering = static
+
 		case func(shell.Fetch, shell.Cache) *trees.Markup:
 			static := Static(mo(v.fetch, v.cache))
 			static.Morph = true
 			c.Rendering = static
+
+		case func(shell.Fetch, shell.Cache, *notifications.AppNotification) *trees.Markup:
+			static := Static(mo(v.fetch, v.cache, v.notifications))
+			static.Morph = true
+			c.Rendering = static
+
 		case func(shell.Fetch, shell.Cache, router.Resolver) *trees.Markup:
 			static := Static(mo(v.fetch, v.cache, c.Router))
 			static.Morph = true
 			c.Rendering = static
+
+		case func(shell.Fetch, shell.Cache, router.Resolver, *notifications.AppNotification) *trees.Markup:
+			static := Static(mo(v.fetch, v.cache, c.Router, v.notifications))
+			static.Morph = true
+			c.Rendering = static
+
 		case func(shell.Fetch, shell.Cache, router.Resolver, Driver) *trees.Markup:
 			static := Static(mo(v.fetch, v.cache, c.Router, v.driver))
 			static.Morph = true
 			c.Rendering = static
+
+		case func(shell.Fetch, shell.Cache, router.Resolver, Driver, *notifications.AppNotification) *trees.Markup:
+			static := Static(mo(v.fetch, v.cache, c.Router, v.driver, v.notifications))
+			static.Morph = true
+			c.Rendering = static
+
 		case func() *trees.Markup:
 			static := Static(mo())
 			static.Morph = true
@@ -718,6 +748,10 @@ func (v *NView) Component(attr ComponentAttr) {
 				service.RegisterService(v.fetch, v.cache, c.Router)
 			}
 
+			if service, ok := mo.(RegisterAppNotification); ok {
+				service.RegisterNotifications(v.notifications)
+			}
+
 			if service, ok := mo.(RegisterSubscription); ok {
 				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
 			}
@@ -737,6 +771,10 @@ func (v *NView) Component(attr ComponentAttr) {
 
 			if service, ok := rc.(AccessDriver); ok {
 				service.AccessDriver(v.driver)
+			}
+
+			if service, ok := rc.(RegisterAppNotification); ok {
+				service.RegisterNotifications(v.notifications)
 			}
 
 			if service, ok := rc.(RegisterSubscription); ok {
@@ -760,6 +798,10 @@ func (v *NView) Component(attr ComponentAttr) {
 				service.AccessDriver(v.driver)
 			}
 
+			if service, ok := rc.(RegisterAppNotification); ok {
+				service.RegisterNotifications(v.notifications)
+			}
+
 			if service, ok := rc.(RegisterSubscription); ok {
 				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
 			}
@@ -781,6 +823,31 @@ func (v *NView) Component(attr ComponentAttr) {
 				service.AccessDriver(v.driver)
 			}
 
+			if service, ok := rc.(RegisterAppNotification); ok {
+				service.RegisterNotifications(v.notifications)
+			}
+
+			if service, ok := rc.(RegisterSubscription); ok {
+				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
+			}
+
+			if renderField, _, err := reflection.StructAndEmbeddedTypeNames(rc); err == nil {
+				v.renderingData = append(v.renderingData, RenderableData{
+					Name: renderField.TypeName,
+					Pkg:  renderField.Pkg,
+				})
+			}
+
+			c.Rendering = rc
+			break
+
+		case func(shell.Fetch, shell.Cache, router.Resolver, *notifications.AppNotification) Renderable:
+			rc := mo(v.fetch, v.cache, c.Router, v.notifications)
+
+			if service, ok := rc.(AccessDriver); ok {
+				service.AccessDriver(v.driver)
+			}
+
 			if service, ok := rc.(RegisterSubscription); ok {
 				service.RegisterSubscription(c.Mounted, c.Rendered, c.Updated, c.Unmounted)
 			}
@@ -797,8 +864,13 @@ func (v *NView) Component(attr ComponentAttr) {
 
 		case func() Renderable:
 			rc := mo()
+
 			if service, ok := rc.(AccessDriver); ok {
 				service.AccessDriver(v.driver)
+			}
+
+			if service, ok := rc.(RegisterAppNotification); ok {
+				service.RegisterNotifications(v.notifications)
 			}
 
 			if service, ok := rc.(RegisterService); ok {

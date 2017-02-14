@@ -9,7 +9,7 @@ Which then allows an expressive and functional style in creating contents for co
 
 Using the DOM packages requires the following packages, with each providing different portions of the HTML/HTML5 API:
 
--	Trees Package(https://github.com/gu-io/gu/trees\) The `trees` package provides the central root structure for the GU DOM. It is the baseline package used in the creation of object instance to represent different tags, events, and attributes types.
+-	Trees Package(https://github.com/gu-io/gu/trees\) The `trees` package provides the central root structure for the GU DOM. The baseline package used in the creation of object instance to represent different tags, events, and attributes types.
 
 ```go
 
@@ -158,7 +158,7 @@ func main(){
 		div := elems.Div(
 		elems.Span(elems.Text("Click me")),
     events.ClickEvent(func(event trees.EventObject, root *trees.Markup){
-      event.PreventDefault()
+      mouseEvent := event.Underlying().(*events.MouseEvent)
       // do something.....
     })
   )
