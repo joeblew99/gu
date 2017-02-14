@@ -10,12 +10,14 @@ var GuJS = {};
 
 	// unwanted defines specific object functions we dont want passed in during
 	// collection of object property names.
-	var unwanted = {"constructor": true,"toString": true}
+	var unwanted = {"constructor": true,"toString": true};
 
-	this.eventsCore = {}
-	this.currentAppID = null
+	this.eventsCore = {};
+	this.currentAppID = null;
 
-	this.Dispatch = function(model){
+	// GuJS.Dispatch defines a function which dispatches event object to the external
+	// API.
+	this.Dispatch = function(model, meta){
 
 	};
 
@@ -46,8 +48,7 @@ var GuJS = {};
 				GuJS.Dispatch(GuJS.GetEvent(eventObj), eventMeta)
 			})
 		}
-
-	}
+	};
 
 
 	// JSONExecuteCommand executes the provided command received.
