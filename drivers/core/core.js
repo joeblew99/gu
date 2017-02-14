@@ -82,7 +82,7 @@ var GuJS = {};
 
 				// Retrieve events map related to the giving app.
 				var appEvents = GuJS.eventsCore[app.AppID] || { views:{}, base: { headEvents:[], bodyEvents: []}}
-				GuJS.eventsCore[app.ApppID] = appEvents
+				GuJS.eventsCore[app.AppID] = appEvents
 
 				var nonGuHead = head.querySelectorAll("*:not([data-gen='gu'])")
 				var nonGuBody = head.querySelectorAll("*:not([data-gen='gu'])")
@@ -236,7 +236,7 @@ var GuJS = {};
 
 				// Retrieve events map related to the giving app.
 				var appEvents = GuJS.eventsCore[view.AppID] || { views:{}, base: { headEvents:[], bodyEvents: []}}
-				GuJS.eventsCore[view.ApppID] = appEvents
+				GuJS.eventsCore[view.AppID] = appEvents
 
 				var viewEvents = appEvents.views[view.ViewID] || []
 				appEvents.views[view.ViewID] = viewEvents
