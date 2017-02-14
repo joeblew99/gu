@@ -51,8 +51,8 @@ var GuJS = {};
 	};
 
 
-	// JSONExecuteCommand executes the provided command received.
-	this.JSONExecuteCommand = function(co){
+	// GuJS.ExecuteCommand executes the provided command received.
+	this.ExecuteCommand = function(co){
 		if(co == null || co  === undefined){
 			return
 		}
