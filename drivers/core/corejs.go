@@ -610,21 +610,6 @@ var GuJS = {};
 		return keys
 	}
 
-	// ConstructorDeepClone returns the clone of the items prototype.
-	this.ConstructorDeepClone = function(item){
-		if(item.__proto__){
-			return GuJS.DeepClone(item.prototype)
-		}
-
-		if(item.prototype){
-			return GuJS.DeepClone(item.prototype)
-		}
-
-		if(item.constructor.prototype){
-			return GuJS.DeepClone(item.prototype)
-		}
-	}
-
 	// exceptObjects are objects which we dont want uncloned but kept intact.
 	// Also, these elements will lead to massive cyclic issues, keep them intact and deal
 	// in another approach.
@@ -1057,6 +1042,27 @@ var GuJS = {};
 		}
 
 		var dFiles = []
+
+		files = o.files
+		if(files != null && files != undefined){
+			for(i = 0; i < files.length; i++){
+				item = files[i]
+				dFiles.push({
+					Name: item.name,
+					Size: item.size.Int(),
+					Data: GuJS.fromFile(item),
+				})
+			}
+		}
+
+		dt.Items = {Items: dItems}
+		dt.Files = dFiles
+		return dt
+	}
+
+}).call(GuJS)
+`
+ dFiles = []
 
 		files = o.files
 		if(files != null && files != undefined){

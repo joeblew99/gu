@@ -598,21 +598,6 @@ var GuJS = {};
 		return keys
 	}
 
-	// ConstructorDeepClone returns the clone of the items prototype.
-	this.ConstructorDeepClone = function(item){
-		if(item.__proto__){
-			return GuJS.DeepClone(item.prototype)
-		}
-
-		if(item.prototype){
-			return GuJS.DeepClone(item.prototype)
-		}
-
-		if(item.constructor.prototype){
-			return GuJS.DeepClone(item.prototype)
-		}
-	}
-
 	// exceptObjects are objects which we dont want uncloned but kept intact.
 	// Also, these elements will lead to massive cyclic issues, keep them intact and deal
 	// in another approach.
