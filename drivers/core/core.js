@@ -163,13 +163,15 @@ function createDOMFragment(elemString){
 // GetEvent returns the event as a object which can be jsonified and
 // sent over the pipeline.
 function GetEvent(ev){
-	var eventObj = DeepClone(ev,{
-		Functions: false,
-	})
+	var eventObj
 
 	var c = ev.constructor
 	switch (c) {
 		case MutationRecord:
+			eventObj = DeepClone(ev,{
+				Functions: false,
+			})
+
 			var added = map(eventObj.addedNodes, function(elem){
 				return StringifyHTML(elem)
 			})
@@ -187,6 +189,12 @@ function GetEvent(ev){
 			eventObj.NextSibling = nextsib
 
 		case MediaStream:
+			eventObj = toMediaStream(ev)
+
+		default:
+			eventObj = DeepClone(ev,{
+				Functions: false,
+			})
 	}
 
 	return eventObj
@@ -428,11 +436,17 @@ function DeepClone(item, options){
 
 			return newArray
 
+		case TouchList:
+			return toTouches(item)
+
 		case MediaStream:
 			return toMediaStream(item)
 
 		case Gamepad:
 			return toGamepad(item)
+
+		case DataTransfer:
+			return toDataTransfer(item)
 
 		case Array:
 			var newArray = []
@@ -695,7 +709,7 @@ function toTouches(o) {
 	var touches = []
 
 	for(i = 0; i < o.length; i++){
-		var ev = o[i]
+		var ev = o.item(i)
 		touches.push({
 			ClientX:    ev.clientX,
 			ClientY:    ev.clientY,
@@ -766,7 +780,7 @@ function toDataTransfer(o) {
 	var items = o.items
 	if(items != null && items != undefined){
 		for(i = 0; i < items.length; i++ ){
-			item = items[i]
+			item = items.DataTransferItem(i)
 			dItems.push({
 				Name: item.name,
 				Size: item.size.Int(),
