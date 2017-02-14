@@ -151,8 +151,6 @@ var GuJS = {};
 					headHTML.push(fragment)
 				})
 
-
-
 				// Add the resource markup for the header.
 				GuJS.each(app.Body, function(item){
 					var viewEvents = appEvents.views[item.ViewID] || []
@@ -196,21 +194,29 @@ var GuJS = {};
 				head.innerHTML = ""
 
 				if(nonGuHead.length){
-					head.appendChild.apply(head, nonGuHead)
+					GuJS.each(nonGuHead, function(item){
+						head.appendChild(item)
+					})
 				}
 
 				if(headHTML.length){
-					head.appendChild.apply(head, headHTML)
+					GuJS.each(headHTML, function(item){
+						head.appendChild(item)
+					})
 				}
 
 				body.innerHTML = ""
 
 				if(nonGuBody.length){
-					body.appendChild.apply(body, nonGuBody)
+					GuJS.each(nonGuBody, function(item){
+						body.appendChild(item)
+					})
 				}
 
 				if(bodyHTML.length){
-					body.appendChild.apply(body, bodyHTML)
+					GuJS.each(bodyHTML, function(item){
+						body.appendChild(item)
+					})
 				}
 
 				return
