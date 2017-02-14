@@ -67,6 +67,10 @@ var GuJS = {};
 				command = co
 		}
 
+
+		var head = document.querySelector("head")
+		var body = document.querySelector("body")
+
 		switch(command.Command){
 			case "RenderApp":
 				// Rendering the app response is to clear what is currently in the view.
@@ -79,9 +83,6 @@ var GuJS = {};
 				// Retrieve events map related to the giving app.
 				var appEvents = GuJS.eventsCore[app.AppID] || { views:{}, base: { headEvents:[], bodyEvents: []}}
 				GuJS.eventsCore[app.ApppID] = appEvents
-
-				var head = document.querySelector("head")
-				var body = document.querySelector("body")
 
 				var nonGuHead = head.querySelectorAll("*:not([data-gen='gu'])")
 				var nonGuBody = head.querySelectorAll("*:not([data-gen='gu'])")
@@ -228,11 +229,11 @@ var GuJS = {};
 				}
 
 				// Retrieve events map related to the giving app.
-				var appEvents = GuJS.eventsCore[app.AppID] || { views:{}, base: { headEvents:[], bodyEvents: []}}
-				GuJS.eventsCore[app.ApppID] = appEvents
+				var appEvents = GuJS.eventsCore[view.AppID] || { views:{}, base: { headEvents:[], bodyEvents: []}}
+				GuJS.eventsCore[view.ApppID] = appEvents
 
 				var viewEvents = appEvents.views[view.ViewID] || []
-				appEvents.view[view.ViewID] = viewEvents
+				appEvents.views[view.ViewID] = viewEvents
 
 
 				// Deregister all view events.
@@ -264,23 +265,23 @@ var GuJS = {};
 
 
 	// GuJS.PatchDOM patches the provided elements into the target from the current DOM.
-	// It crawls a live version of the DOM, removing, replacing and adding node
+	// It crawls a liveDOM version of the DOM, removing, replacing and adding node
 	// changes as needed, until the dom resembles it's shadow/fragmentDOM.
 	this.PatchDOM = function(fragmentDOM, liveDOM, replace){
-		if(!live.hasChildNodes()){
-			live.appendChild(fragmentDOM)
+		if(!liveDOM.hasChildNodes()){
+			liveDOM.appendChild(fragmentDOM)
 			return
 		}
 
-		var shadowNodes = fragmentDOM.childNodes
-		var liveNodes = liveDOM.childNodes
+		var shadowNodes = fragmentDOM.childNodes || []
+		var liveNodes = liveDOM.childNodes || []
 
 		for(var index = 0; index < shadowNodes.length; index++){
 			var node = shadowNodes[index]
 
 			if(node.constructor === Text){
 				if(GuJS.isEmptyTextNode(node)){
-					live.appendChild(node)
+					liveDOM.appendChild(node)
 					continue
 				}
 
@@ -291,7 +292,7 @@ var GuJS = {};
 					continue
 				}
 
-				live.appendChild(node)
+				liveDOM.appendChild(node)
 				continue
 			}
 
@@ -305,27 +306,27 @@ var GuJS = {};
 			var nodeRemoved = node.hasAttribute("NodeRemoved")
 			var nodeHash = node.getAttribute("hash")
 
-			if(!nodeId && nodeUID && nodeHash){
-				GuJS.addIfNoEqual(live, node)
+			if(!nodeId && !nodeUID && !nodeHash){
+				GuJS.addIfNoEqual(liveDOM, node)
 				continue
 			}
 
 			if(!nodeUID && !nodeHash){
 				if(nodeId){
-					var found = live.querySelectorAll("#"+nodeId)
+					var found = liveDOM.querySelectorAll("#"+nodeId)
 					if(!found.length){
-						live.appendChild(node)
+						liveDOM.appendChild(node)
 						continue
 					}
 
-					live.replaceNode(found, node)
+					liveDOM.replaceNode(found, node)
 					continue
 				}
 			}
 
-			var allTargets = live.querySelectorAll(nodeSel)
+			var allTargets = liveDOM.querySelectorAll(nodeSel)
 			if(!allTargets.length){
-				live.appendChild(node)
+				liveDOM.appendChild(node)
 				continue
 			}
 
@@ -333,12 +334,12 @@ var GuJS = {};
 				var curTarget = allTargets[jindex]
 
 				if(nodeRemoved){
-					live.remove(curTarget)
+					liveDOM.remove(curTarget)
 					continue
 				}
 
 				if(replace){
-					live.replaceNode(curTarget, node)
+					liveDOM.replaceNode(curTarget, node)
 					continue
 				}
 
@@ -350,11 +351,11 @@ var GuJS = {};
 
 
 				if(!curTarget.childNodes.length){
-					live.replaceNode(curTarget, node)
+					liveDOM.replaceNode(curTarget, node)
 					continue
 				}
 
-				removeAllTextNodes(curTarget)
+				GuJS.removeAllTextNodes(curTarget)
 
 				for(var key in nodeAttr){
 					var attr = nodeAttr[key]
@@ -377,9 +378,10 @@ var GuJS = {};
 	// child nodes of the target and if one is found then that is replaced with the
 	// provided new node.
 	this.addIfNoEqual = function(target, node){
+		var list = target.childNodes
 		for(var i = 0; i < list.length; i++){
-			var against = target[i]
-			if(against.IsEqualNode(node)){
+			var against = list[i]
+			if(against.isEqualNode(node)){
 				target.replaceNode(against, node)
 				return
 			}
