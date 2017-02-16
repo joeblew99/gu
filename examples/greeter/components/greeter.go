@@ -1,6 +1,7 @@
-package app
+package components
 
 import (
+	"github.com/gu-io/gu"
 	"github.com/gu-io/gu/eventx"
 	"github.com/gu-io/gu/trees"
 	"github.com/gu-io/gu/trees/elems"
@@ -9,15 +10,16 @@ import (
 )
 
 // Greeter defines a component which greets the name from a input event.
-//
-// shell:component
-// Resource{
-//   Name: spacewall.png
-//   URL:
-//   Localize:true
-// }
 type Greeter struct {
+	gu.Reactive
 	Name string
+}
+
+// NewGreeter returns a new instance of a Greeter.
+func NewGreeter() *Greeter {
+	return &Greeter{
+		Reactive: gu.NewReactive(),
+	}
 }
 
 // Render returns the markup for the greeter.
@@ -71,6 +73,7 @@ func (g *Greeter) Render() *trees.Markup {
 				events.ChangeEvent(func(event trees.EventObject, _ *trees.Markup) {
 					if change, ok := event.Underlying().(*eventx.ChangeEvent); ok {
 						g.Name = change.Value
+						g.Publish()
 					}
 				}, ""),
 			),

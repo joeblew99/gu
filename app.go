@@ -14,33 +14,6 @@ import (
 	"github.com/influx6/faux/reflection"
 )
 
-// Mode defines a type to represent the mode which the library works under.
-type Mode int
-
-const (
-	// ProductionMode defines production mode for which defines how the context
-	// which it behaves as regards certain features.
-	ProductionMode Mode = iota
-
-	// DevelopmentMode defines production mode for which defines how the context
-	// which it behaves as regards certain features.
-	DevelopmentMode
-)
-
-// RenderingOrder defines a type used to define the order which rendering is to be done for a resource.
-type RenderingOrder int
-
-const (
-	// FirstOrder defines that rendering be first in order.
-	FirstOrder RenderingOrder = iota
-
-	// AnyOrder defines that rendering be middle in order.
-	AnyOrder
-
-	// LastOrder defines that rendering be last in order.
-	LastOrder
-)
-
 // Driver defines an interface which provides an Interface to render Apps and views
 // to a display system. eg. GopherJS, wkWebview.
 type Driver interface {
@@ -78,6 +51,19 @@ type Resource struct {
 	body     []*trees.Markup
 	head     []*trees.Markup
 }
+
+// Mode defines a type to represent the mode which the library works under.
+type Mode int
+
+const (
+	// ProductionMode defines production mode for which defines how the context
+	// which it behaves as regards certain features.
+	ProductionMode Mode = iota
+
+	// DevelopmentMode defines production mode for which defines how the context
+	// which it behaves as regards certain features.
+	DevelopmentMode
+)
 
 // AppAttr defines a struct for
 type AppAttr struct {
@@ -686,6 +672,20 @@ func (v *NView) Mounted() {
 	}
 }
 
+// RenderingOrder defines a type used to define the order which rendering is to be done for a resource.
+type RenderingOrder int
+
+const (
+	// FirstOrder defines that rendering be first in order.
+	FirstOrder RenderingOrder = iota
+
+	// AnyOrder defines that rendering be middle in order.
+	AnyOrder
+
+	// LastOrder defines that rendering be last in order.
+	LastOrder
+)
+
 // ComponentAttr defines a structure to define a component and its appropriate settings.
 type ComponentAttr struct {
 	Order     RenderingOrder `json:"order"`
@@ -756,6 +756,10 @@ func (v *NView) Component(attr ComponentAttr) {
 	c.Rendered = NewSubscriptions()
 	c.Updated = NewSubscriptions()
 
+	if attr.Tag == "" {
+		attr.Tag = "component-element"
+	}
+
 	// Transform the base argument into the acceptable
 	// format for the object.
 	{
@@ -791,7 +795,7 @@ func (v *NView) Component(attr ComponentAttr) {
 		case string:
 			parseTree := trees.ParseTree(mo)
 			if len(parseTree) != 1 {
-				section := trees.NewMarkup("section", false)
+				section := elems.CustomElement(attr.Tag)
 				section.AddChild(parseTree...)
 
 				static := Static(section)
