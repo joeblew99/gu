@@ -5,13 +5,13 @@ import (
 	"sync"
 
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/gu-io/gu/events"
+	"github.com/gu-io/gu/eventx"
 	"github.com/gu-io/gu/notifications/mque"
 	"github.com/gu-io/gu/shell"
 )
 
 // GetEvent returns the appropriate event from the provided structures.
-func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
+func GetEvent(ev *js.Object, handle mque.End) *eventx.BaseEvent {
 	if ev == nil || ev == js.Undefined {
 		return nil
 	}
@@ -20,69 +20,69 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 
 	switch c {
 	case js.Global.Get("AnimationEvent"):
-		return events.NewBaseEvent(&events.AnimationEvent{
+		return eventx.NewBaseEvent(&eventx.AnimationEvent{
 			Core:          ev,
 			AnimationName: ev.Get("animationName").String(),
 			ElapsedTime:   ev.Get("elapsedTime").Float(),
 		}, handle)
 	case js.Global.Get("AudioProcessingEvent"):
-		return events.NewBaseEvent(&events.AudioProcessingEvent{
+		return eventx.NewBaseEvent(&eventx.AudioProcessingEvent{
 			Core:         ev,
 			PlaybackTime: ev.Get("playbackTime").Float(),
 		}, handle)
 	case js.Global.Get("BeforeInputEvent"):
-		return events.NewBaseEvent(&events.BeforeInputEvent{
+		return eventx.NewBaseEvent(&eventx.BeforeInputEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("BeforeUnloadEvent"):
-		return events.NewBaseEvent(&events.BeforeUnloadEvent{
+		return eventx.NewBaseEvent(&eventx.BeforeUnloadEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("BlobEvent"):
-		return events.NewBaseEvent(&events.BlobEvent{
+		return eventx.NewBaseEvent(&eventx.BlobEvent{
 			Core: ev,
 			Data: fromBlob(ev.Get("data")),
 		}, handle)
 	case js.Global.Get("ChangeEvent"):
-		return events.NewBaseEvent(&events.ChangeEvent{
+		return eventx.NewBaseEvent(&eventx.ChangeEvent{
 			Core:  ev,
 			Value: ev.Get("target").Get("value").String(),
 		}, handle)
 	case js.Global.Get("ClipboardEvent"):
-		return events.NewBaseEvent(&events.ClipboardEvent{
+		return eventx.NewBaseEvent(&eventx.ClipboardEvent{
 			Core: ev,
 			Data: toDataTransfer(ev.Get("clipboardData")),
 		}, handle)
 	case js.Global.Get("CloseEvent"):
-		return events.NewBaseEvent(&events.CloseEvent{
+		return eventx.NewBaseEvent(&eventx.CloseEvent{
 			Core:     ev,
 			Code:     ev.Get("code").Int(),
 			Reason:   ev.Get("reason").String(),
 			WasClean: ev.Get("wasClean").Bool(),
 		}, handle)
 	case js.Global.Get("CompositionEvent"):
-		return events.NewBaseEvent(&events.CompositionEvent{
+		return eventx.NewBaseEvent(&eventx.CompositionEvent{
 			Core:   ev,
 			Text:   ev.Get("text").String(),
 			Data:   ev.Get("data").String(),
 			Locale: ev.Get("locale").String(),
 		}, handle)
 	case js.Global.Get("CSSFontFaceLoadEvent"):
-		return events.NewBaseEvent(&events.CSSFontFaceLoadEvent{
+		return eventx.NewBaseEvent(&eventx.CSSFontFaceLoadEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("CustomEvent"):
-		return events.NewBaseEvent(&events.CustomEvent{
+		return eventx.NewBaseEvent(&eventx.CustomEvent{
 			Core:   ev,
 			Detail: ev.Get("detail").Interface(),
 		}, handle)
 	case js.Global.Get("DeviceLightEvent"):
-		return events.NewBaseEvent(&events.DeviceLightEvent{
+		return eventx.NewBaseEvent(&eventx.DeviceLightEvent{
 			Core:  ev,
 			Value: ev.Get("value").Float(),
 		}, handle)
 	case js.Global.Get("DeviceMotionEvent"):
-		return events.NewBaseEvent(&events.DeviceMotionEvent{
+		return eventx.NewBaseEvent(&eventx.DeviceMotionEvent{
 			Core:                         ev,
 			Interval:                     ev.Get("interval").Float(),
 			Acceleration:                 toMotionData(ev.Get("acceleration")),
@@ -90,7 +90,7 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			RotationRate:                 toRotationData(ev.Get("rotationRate")),
 		}, handle)
 	case js.Global.Get("DeviceOrientationEvent"):
-		return events.NewBaseEvent(&events.DeviceOrientationEvent{
+		return eventx.NewBaseEvent(&eventx.DeviceOrientationEvent{
 			Core:     ev,
 			Absolute: ev.Get("absolute").Bool(),
 			Alpha:    ev.Get("alpha").Float(),
@@ -98,20 +98,20 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Gamma:    ev.Get("gamma").Float(),
 		}, handle)
 	case js.Global.Get("DeviceProximityEvent"):
-		return events.NewBaseEvent(&events.DeviceProximityEvent{
+		return eventx.NewBaseEvent(&eventx.DeviceProximityEvent{
 			Core:  ev,
 			Max:   ev.Get("max").Float(),
 			Min:   ev.Get("min").Float(),
 			Value: ev.Get("value").Float(),
 		}, handle)
 	case js.Global.Get("DOMTransactionEvent"):
-		return events.NewBaseEvent(&events.DOMTransactionEvent{
+		return eventx.NewBaseEvent(&eventx.DOMTransactionEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("DragStartEvent"):
-		return events.NewBaseEvent(&events.DragStartEvent{
-			MouseEvent: &events.MouseEvent{
-				UIEvent: &events.UIEvent{
+		return eventx.NewBaseEvent(&eventx.DragStartEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
 					Core:               ev,
 					IsChar:             ev.Get("isChar").Bool(),
 					LayerX:             ev.Get("layerX").Float(),
@@ -142,9 +142,9 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Core:         ev,
 		}, handle)
 	case js.Global.Get("DragExitEvent"):
-		return events.NewBaseEvent(&events.DragExitEvent{
-			MouseEvent: &events.MouseEvent{
-				UIEvent: &events.UIEvent{
+		return eventx.NewBaseEvent(&eventx.DragExitEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
 					Core:               ev,
 					IsChar:             ev.Get("isChar").Bool(),
 					LayerX:             ev.Get("layerX").Float(),
@@ -175,9 +175,9 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			DataTransfer: toDataTransfer(ev.Get("dataTransfer")),
 		}, handle)
 	case js.Global.Get("DragEndEvent"):
-		return events.NewBaseEvent(&events.DragEndEvent{
-			MouseEvent: &events.MouseEvent{
-				UIEvent: &events.UIEvent{
+		return eventx.NewBaseEvent(&eventx.DragEndEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
 					Core:               ev,
 					IsChar:             ev.Get("isChar").Bool(),
 					LayerX:             ev.Get("layerX").Float(),
@@ -208,9 +208,9 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Core:         ev,
 		}, handle)
 	case js.Global.Get("DragEnterEvent"):
-		return events.NewBaseEvent(&events.DragEnterEvent{
-			MouseEvent: &events.MouseEvent{
-				UIEvent: &events.UIEvent{
+		return eventx.NewBaseEvent(&eventx.DragEnterEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
 					Core:               ev,
 					IsChar:             ev.Get("isChar").Bool(),
 					LayerX:             ev.Get("layerX").Float(),
@@ -241,9 +241,9 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Core:         ev,
 		}, handle)
 	case js.Global.Get("DragLeaveEvent"):
-		return events.NewBaseEvent(&events.DragLeaveEvent{
-			MouseEvent: &events.MouseEvent{
-				UIEvent: &events.UIEvent{
+		return eventx.NewBaseEvent(&eventx.DragLeaveEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
 					Core:               ev,
 					IsChar:             ev.Get("isChar").Bool(),
 					LayerX:             ev.Get("layerX").Float(),
@@ -274,9 +274,9 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Core:         ev,
 		}, handle)
 	case js.Global.Get("DragOverEvent"):
-		return events.NewBaseEvent(&events.DragOverEvent{
-			MouseEvent: &events.MouseEvent{
-				UIEvent: &events.UIEvent{
+		return eventx.NewBaseEvent(&eventx.DragOverEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
 					Core:               ev,
 					IsChar:             ev.Get("isChar").Bool(),
 					LayerX:             ev.Get("layerX").Float(),
@@ -307,9 +307,9 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Core:         ev,
 		}, handle)
 	case js.Global.Get("DropEvent"):
-		return events.NewBaseEvent(&events.DropEvent{
-			MouseEvent: &events.MouseEvent{
-				UIEvent: &events.UIEvent{
+		return eventx.NewBaseEvent(&eventx.DropEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
 					Core:               ev,
 					IsChar:             ev.Get("isChar").Bool(),
 					LayerX:             ev.Get("layerX").Float(),
@@ -340,9 +340,9 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Core:         ev,
 		}, handle)
 	case js.Global.Get("DragEvent"):
-		return events.NewBaseEvent(&events.DragEvent{
-			MouseEvent: &events.MouseEvent{
-				UIEvent: &events.UIEvent{
+		return eventx.NewBaseEvent(&eventx.DragEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
 					Core:               ev,
 					IsChar:             ev.Get("isChar").Bool(),
 					LayerX:             ev.Get("layerX").Float(),
@@ -373,7 +373,7 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Core:         ev,
 		}, handle)
 	case js.Global.Get("EditingBeforeInputEvent"):
-		return events.NewBaseEvent(&events.EditingBeforeInputEvent{
+		return eventx.NewBaseEvent(&eventx.EditingBeforeInputEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("ErrorEvent"):
@@ -382,7 +382,7 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			err = errors.New(ev.Get("error").String())
 		}
 
-		return events.NewBaseEvent(&events.ErrorEvent{
+		return eventx.NewBaseEvent(&eventx.ErrorEvent{
 			Core:       ev,
 			Message:    ev.Get("message").String(),
 			Filename:   ev.Get("filename").String(),
@@ -391,28 +391,28 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Error:      err,
 		}, handle)
 	case js.Global.Get("FocusEvent"):
-		return events.NewBaseEvent(&events.FocusEvent{
+		return eventx.NewBaseEvent(&eventx.FocusEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("GamepadEvent"):
-		return events.NewBaseEvent(&events.GamepadEvent{
+		return eventx.NewBaseEvent(&eventx.GamepadEvent{
 			Core:    ev,
 			Gamepad: toGamepad(ev.Get("gamepad")),
 		}, handle)
 	case js.Global.Get("HashChangeEvent"):
-		return events.NewBaseEvent(&events.HashChangeEvent{
+		return eventx.NewBaseEvent(&eventx.HashChangeEvent{
 			Core: ev,
 			Old:  ev.Get("oldURL").String(),
 			New:  ev.Get("newURL").String(),
 		}, handle)
 	case js.Global.Get("IDBVersionChangeEvent"):
-		return events.NewBaseEvent(&events.IDBVersionChangeEvent{
+		return eventx.NewBaseEvent(&eventx.IDBVersionChangeEvent{
 			Core:       ev,
 			OldVersion: ev.Get("oldVersion").Int64(),
 			NewVersion: ev.Get("newVersion").Int64(),
 		}, handle)
 	case js.Global.Get("KeyboardEvent"):
-		return events.NewBaseEvent(&events.KeyboardEvent{
+		return eventx.NewBaseEvent(&eventx.KeyboardEvent{
 			Core:          ev,
 			CharCode:      ev.Get("charCode").Int(),
 			Key:           ev.Get("key").String(),
@@ -425,11 +425,11 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Location:      ev.Get("location").Int(),
 			ModifiedState: ev.Get("getModifierState").Bool(),
 			KeyIdentifier: ev.Get("keyIdentifier").String(),
-			KeyLocation:   events.KeyLocation(ev.Get("KeyLocation").Uint64()),
-			KeyCode:       events.KeyCode(ev.Get("keyCode").Uint64()),
+			KeyLocation:   eventx.KeyLocation(ev.Get("KeyLocation").Uint64()),
+			KeyCode:       eventx.KeyCode(ev.Get("keyCode").Uint64()),
 		}, handle)
 	case js.Global.Get("MediaStreamEvent"):
-		return events.NewBaseEvent(&events.MediaStreamEvent{
+		return eventx.NewBaseEvent(&eventx.MediaStreamEvent{
 			Core:   ev,
 			Stream: toMediaStream(ev.Get("stream")),
 		}, handle)
@@ -450,7 +450,7 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			}
 		}
 
-		return events.NewBaseEvent(&events.MessageEvent{
+		return eventx.NewBaseEvent(&eventx.MessageEvent{
 			Core:   ev,
 			Data:   data,
 			Origin: ev.Get("origin").String(),
@@ -458,8 +458,8 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Port:   ev.Get("port").Int(),
 		}, handle)
 	case js.Global.Get("MouseEvent"):
-		return events.NewBaseEvent(&events.MouseEvent{
-			UIEvent: &events.UIEvent{
+		return eventx.NewBaseEvent(&eventx.MouseEvent{
+			UIEvent: &eventx.UIEvent{
 				Core: ev,
 			},
 			ClientX:  ev.Get("clientX").Float(),
@@ -480,20 +480,20 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			ShiftKey: ev.Get("shiftKey").Bool(),
 		}, handle)
 	case js.Global.Get("MutationEvent"):
-		return events.NewBaseEvent(&events.MutationEvent{
+		return eventx.NewBaseEvent(&eventx.MutationEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("OfflineAudioCompletionEvent"):
-		return events.NewBaseEvent(&events.OfflineAudioCompletionEvent{
+		return eventx.NewBaseEvent(&eventx.OfflineAudioCompletionEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("PageTransitionEvent"):
-		return events.NewBaseEvent(&events.PageTransitionEvent{
+		return eventx.NewBaseEvent(&eventx.PageTransitionEvent{
 			Core:      ev,
 			Persisted: ev.Get("persisted").Bool(),
 		}, handle)
 	case js.Global.Get("PointerEvent"):
-		return events.NewBaseEvent(&events.PointerEvent{
+		return eventx.NewBaseEvent(&eventx.PointerEvent{
 			Core:        ev,
 			Width:       ev.Get("width").Int(),
 			Height:      ev.Get("height").Int(),
@@ -511,38 +511,38 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			req, _ = shell.ObjectToWebRequest(ro)
 		}
 
-		return events.NewBaseEvent(&events.FetchEvent{
+		return eventx.NewBaseEvent(&eventx.FetchEvent{
 			Core:     ev,
 			IsReload: ev.Get("isReload").Bool(),
 			ClientID: ev.Get("clientId").String(),
 			Request:  req,
 		}, handle)
 	case js.Global.Get("PopStateEvent"):
-		return events.NewBaseEvent(&events.PopStateEvent{
+		return eventx.NewBaseEvent(&eventx.PopStateEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("ProgressEvent"):
-		return events.NewBaseEvent(&events.ProgressEvent{
+		return eventx.NewBaseEvent(&eventx.ProgressEvent{
 			Core:             ev,
 			LengthComputable: ev.Get("lengthComputable").Bool(),
 			Loaded:           ev.Get("loaded").Uint64(),
 			Total:            ev.Get("total").Int(),
 		}, handle)
 	case js.Global.Get("RelatedEvent"):
-		return events.NewBaseEvent(&events.RelatedEvent{
+		return eventx.NewBaseEvent(&eventx.RelatedEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("RTCPeerConnectionIceEvent"):
-		return events.NewBaseEvent(&events.RTCPeerConnectionIceEvent{
+		return eventx.NewBaseEvent(&eventx.RTCPeerConnectionIceEvent{
 			Core:      ev,
 			Candidate: ev.Get("candidate").String(),
 		}, handle)
 	case js.Global.Get("SensorEvent"):
-		return events.NewBaseEvent(&events.SensorEvent{
+		return eventx.NewBaseEvent(&eventx.SensorEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("StorageEvent"):
-		return events.NewBaseEvent(&events.StorageEvent{
+		return eventx.NewBaseEvent(&eventx.StorageEvent{
 			Core:        ev,
 			Key:         ev.Get("key").String(),
 			NewValue:    ev.Get("newValue").String(),
@@ -551,19 +551,19 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			StorageArea: ev.Get("storageArea").Interface(),
 		}, handle)
 	case js.Global.Get("SVGEvent"):
-		return events.NewBaseEvent(&events.SVGEvent{
+		return eventx.NewBaseEvent(&eventx.SVGEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("SVGZoomEvent"):
-		return events.NewBaseEvent(&events.SVGZoomEvent{
+		return eventx.NewBaseEvent(&eventx.SVGZoomEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("TimeEvent"):
-		return events.NewBaseEvent(&events.TimeEvent{
+		return eventx.NewBaseEvent(&eventx.TimeEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("TouchEvent"):
-		return events.NewBaseEvent(&events.TouchEvent{
+		return eventx.NewBaseEvent(&eventx.TouchEvent{
 			Core:          ev,
 			AltKey:        ev.Get("altKey").Bool(),
 			CtrlKey:       ev.Get("ctrlKey").Bool(),
@@ -573,18 +573,18 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			Touches:       toTouches(ev.Get("targetTouches")),
 		}, handle)
 	case js.Global.Get("TrackEvent"):
-		return events.NewBaseEvent(&events.TrackEvent{
+		return eventx.NewBaseEvent(&eventx.TrackEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("TransitionEvent"):
-		return events.NewBaseEvent(&events.TransitionEvent{
+		return eventx.NewBaseEvent(&eventx.TransitionEvent{
 			Core:          ev,
 			ElapsedTime:   ev.Get("elapsedTime").Float(),
 			PropertyName:  ev.Get("propertyName").String(),
 			PseudoElement: ev.Get("pseudoElement").String(),
 		}, handle)
 	case js.Global.Get("UIEvent"):
-		return events.NewBaseEvent(&events.UIEvent{
+		return eventx.NewBaseEvent(&eventx.UIEvent{
 			Core:               ev,
 			IsChar:             ev.Get("isChar").Bool(),
 			LayerX:             ev.Get("layerX").Float(),
@@ -595,20 +595,20 @@ func GetEvent(ev *js.Object, handle mque.End) *events.BaseEvent {
 			SourceCapabilities: toInputSourceCapability(ev.Get("sourceCapabilities")),
 		}, handle)
 	case js.Global.Get("UserProximityEvent"):
-		return events.NewBaseEvent(&events.UserProximityEvent{
+		return eventx.NewBaseEvent(&eventx.UserProximityEvent{
 			Core: ev,
 		}, handle)
 	case js.Global.Get("WheelEvent"):
-		return events.NewBaseEvent(&events.WheelEvent{
+		return eventx.NewBaseEvent(&eventx.WheelEvent{
 			Core:      ev,
 			DeltaX:    ev.Get("deltaX").Float(),
 			DeltaY:    ev.Get("deltaX").Float(),
 			DeltaZ:    ev.Get("deltaX").Float(),
-			DeltaMode: events.DeltaMode(ev.Get("deltaMode").Uint64()),
+			DeltaMode: eventx.DeltaMode(ev.Get("deltaMode").Uint64()),
 		}, handle)
 	}
 
-	return events.NewBaseEvent(ev, handle)
+	return eventx.NewBaseEvent(ev, handle)
 }
 
 // fromBlob transform the providded js.Object blob into a byte slice.
@@ -656,20 +656,20 @@ func fromFile(o *js.Object) []byte {
 	return buf
 }
 
-// toInputSourceCapability returns the events.InputDeviceCapabilities from the js.object.
-func toInputSourceCapability(o *js.Object) *events.InputDeviceCapabilities {
+// toInputSourceCapability returns the eventx.InputDeviceCapabilities from the js.object.
+func toInputSourceCapability(o *js.Object) *eventx.InputDeviceCapabilities {
 	if o == nil || o == js.Undefined {
 		return nil
 	}
 
-	return &events.InputDeviceCapabilities{
+	return &eventx.InputDeviceCapabilities{
 		FiresTouchEvent: o.Get("firesTouchEvent").Bool(),
 	}
 }
 
 // toMotionData returns a motionData object from the js.Object.
-func toMotionData(o *js.Object) events.MotionData {
-	var md events.MotionData
+func toMotionData(o *js.Object) eventx.MotionData {
+	var md eventx.MotionData
 
 	if o == nil || o == js.Undefined {
 		return md
@@ -682,8 +682,8 @@ func toMotionData(o *js.Object) events.MotionData {
 }
 
 // toRotationData returns a RotationData object from the js.Object.
-func toRotationData(o *js.Object) events.RotationData {
-	var md events.RotationData
+func toRotationData(o *js.Object) eventx.RotationData {
+	var md eventx.RotationData
 	if o == nil || o == js.Undefined {
 		return md
 	}
@@ -693,9 +693,9 @@ func toRotationData(o *js.Object) events.RotationData {
 	return md
 }
 
-// toMediaStream returns a events.MediaStream object.
-func toMediaStream(o *js.Object) events.MediaStream {
-	var stream events.MediaStream
+// toMediaStream returns a eventx.MediaStream object.
+func toMediaStream(o *js.Object) eventx.MediaStream {
+	var stream eventx.MediaStream
 	if o == nil || o == js.Undefined {
 		return stream
 	}
@@ -710,7 +710,7 @@ func toMediaStream(o *js.Object) events.MediaStream {
 			track := audioTracks.Index(i)
 			settings := track.Call("getSettings", nil)
 
-			stream.Audios = append(stream.Audios, events.MediaStreamTrack{
+			stream.Audios = append(stream.Audios, eventx.MediaStreamTrack{
 				Core:       track,
 				Enabled:    track.Get("enabled").Bool(),
 				ID:         track.Get("id").String(),
@@ -719,14 +719,14 @@ func toMediaStream(o *js.Object) events.MediaStream {
 				Muted:      track.Get("muted").Bool(),
 				ReadyState: track.Get("readyState").Bool(),
 				Remote:     track.Get("remote").Bool(),
-				AudioSettings: &events.MediaAudioTrackSettings{
+				AudioSettings: &eventx.MediaAudioTrackSettings{
 					ChannelCount:     settings.Get("channelCount").Int(),
 					EchoCancellation: settings.Get("echoCancellation").Bool(),
 					Latency:          settings.Get("latency").Float(),
 					SampleRate:       settings.Get("sampleRate").Int64(),
 					SampleSize:       settings.Get("sampleSize").Int64(),
 					Volume:           settings.Get("volume").Float(),
-					MediaTrackSettings: events.MediaTrackSettings{
+					MediaTrackSettings: eventx.MediaTrackSettings{
 						DeviceID: settings.Get("deviceId").String(),
 						GroupID:  settings.Get("groupId").String(),
 					},
@@ -741,7 +741,7 @@ func toMediaStream(o *js.Object) events.MediaStream {
 			track := videosTracks.Index(i)
 			settings := track.Call("getSettings", nil)
 
-			stream.Videos = append(stream.Videos, events.MediaStreamTrack{
+			stream.Videos = append(stream.Videos, eventx.MediaStreamTrack{
 				Core:       track,
 				Enabled:    track.Get("enabled").Bool(),
 				ID:         track.Get("id").String(),
@@ -750,13 +750,13 @@ func toMediaStream(o *js.Object) events.MediaStream {
 				Muted:      track.Get("muted").Bool(),
 				ReadyState: track.Get("readyState").Bool(),
 				Remote:     track.Get("remote").Bool(),
-				VideoSettings: &events.MediaVideoTrackSettings{
+				VideoSettings: &eventx.MediaVideoTrackSettings{
 					AspectRatio: settings.Get("aspectRation").Float(),
 					FrameRate:   settings.Get("frameRate").Float(),
 					Height:      settings.Get("height").Int64(),
 					Width:       settings.Get("width").Int64(),
 					FacingMode:  settings.Get("facingMode").String(),
-					MediaTrackSettings: events.MediaTrackSettings{
+					MediaTrackSettings: eventx.MediaTrackSettings{
 						DeviceID: settings.Get("deviceId").String(),
 						GroupID:  settings.Get("groupId").String(),
 					},
@@ -768,18 +768,18 @@ func toMediaStream(o *js.Object) events.MediaStream {
 	return stream
 }
 
-func toTouches(o *js.Object) events.TouchList {
-	var th events.TouchList
+func toTouches(o *js.Object) eventx.TouchList {
+	var th eventx.TouchList
 
 	if o == nil || o == js.Undefined {
 		return th
 	}
 
-	var touches []events.Touch
+	var touches []eventx.Touch
 
 	for i := 0; i < o.Length(); i++ {
 		ev := o.Index(i)
-		touches = append(touches, events.Touch{
+		touches = append(touches, eventx.Touch{
 			ClientX:    ev.Get("clientX").Float(),
 			ClientY:    ev.Get("clientY").Float(),
 			OffsetX:    ev.Get("offsetX").Float(),
@@ -799,8 +799,8 @@ func toTouches(o *js.Object) events.TouchList {
 }
 
 // toGamepad returns a Gamepad struct from the js object.
-func toGamepad(o *js.Object) events.Gamepad {
-	var pad events.Gamepad
+func toGamepad(o *js.Object) eventx.Gamepad {
+	var pad eventx.Gamepad
 	if o == nil || o == js.Undefined {
 		return pad
 	}
@@ -823,7 +823,7 @@ func toGamepad(o *js.Object) events.Gamepad {
 	if buttons != nil && buttons != js.Undefined {
 		for i := 0; i < buttons.Length(); i++ {
 			button := buttons.Index(i)
-			pad.Buttons = append(pad.Buttons, events.Button{
+			pad.Buttons = append(pad.Buttons, eventx.Button{
 				Value:   button.Get("value").Float(),
 				Pressed: button.Get("pressed").Bool(),
 			})
@@ -834,8 +834,8 @@ func toGamepad(o *js.Object) events.Gamepad {
 }
 
 // toDataTransfer returns a transfer object from the js.Object.
-func toDataTransfer(o *js.Object) events.DataTransfer {
-	var dt events.DataTransfer
+func toDataTransfer(o *js.Object) eventx.DataTransfer {
+	var dt eventx.DataTransfer
 	if o == nil || o == js.Undefined {
 		return dt
 	}
@@ -847,13 +847,13 @@ func toDataTransfer(o *js.Object) events.DataTransfer {
 		dt.Types = shell.ObjectToStringList(types)
 	}
 
-	var dItems []events.DataTransferItem
+	var dItems []eventx.DataTransferItem
 
 	items := o.Get("items")
 	if items != nil && items != js.Undefined {
 		for i := 0; i < items.Length(); i++ {
 			item := items.Index(i)
-			dItems = append(dItems, events.DataTransferItem{
+			dItems = append(dItems, eventx.DataTransferItem{
 				Name: item.Get("name").String(),
 				Size: item.Get("size").Int(),
 				Data: fromFile(item),
@@ -861,13 +861,13 @@ func toDataTransfer(o *js.Object) events.DataTransfer {
 		}
 	}
 
-	var dFiles []events.DataTransferItem
+	var dFiles []eventx.DataTransferItem
 
 	files := o.Get("files")
 	if files != nil && files != js.Undefined {
 		for i := 0; i < files.Length(); i++ {
 			item := files.Index(i)
-			dFiles = append(dFiles, events.DataTransferItem{
+			dFiles = append(dFiles, eventx.DataTransferItem{
 				Name: item.Get("name").String(),
 				Size: item.Get("size").Int(),
 				Data: fromFile(item),
@@ -875,7 +875,7 @@ func toDataTransfer(o *js.Object) events.DataTransfer {
 		}
 	}
 
-	dt.Items = events.DataTransferItemList{Items: dItems}
+	dt.Items = eventx.DataTransferItemList{Items: dItems}
 	dt.Files = dFiles
 	return dt
 }

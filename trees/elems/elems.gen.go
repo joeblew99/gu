@@ -8,9 +8,42 @@
 package elems
 
 import (
+	"strings"
+
 	"github.com/gu-io/gu/trees"
 	"github.com/gu-io/gu/trees/css"
 )
+
+// SpaceCharacter provides text markup which contains the `&nbsp` text for
+// a space element.
+func SpaceCharacter(count int) *trees.Markup {
+	if count < 1 {
+		count = 0
+	}
+
+	var spaces []string
+
+	for i := 0; i < count; i++ {
+		spaces = append(spaces, "&nbsp;")
+	}
+
+	return trees.NewText(strings.Join(spaces, ""))
+}
+
+// CustomElement defines a type which returns a custom element type provided by
+// the tagname.
+func CustomElement(tag string, markup ...trees.Appliable) *trees.Markup {
+	e := trees.NewMarkup(tag, false)
+	trees.NewCSSStyle("display", "block").Apply(e)
+
+	for _, m := range markup {
+		if m == nil {
+			continue
+		}
+		m.Apply(e)
+	}
+	return e
+}
 
 // Guscript returns a script tag which ass specific attributes which is set with
 // specific attributes that identifies this script.

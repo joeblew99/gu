@@ -80,7 +80,7 @@ func AbortEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("abort", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -139,7 +139,7 @@ func AfterPrintEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("AfterPrint", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -198,7 +198,7 @@ func AfterScriptExecuteEvent(callback interface{}, sel string, states ...bool) *
 
 	ev := trees.NewEvent("AfterScriptExecute", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -257,7 +257,7 @@ func AlertActiveEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("AlertActive", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -316,7 +316,7 @@ func AlertCloseEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("AlertClose", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -375,7 +375,7 @@ func AlertingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("alerting", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -434,7 +434,7 @@ func AnimationEndEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("AnimationEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -493,7 +493,7 @@ func AnimationIterationEvent(callback interface{}, sel string, states ...bool) *
 
 	ev := trees.NewEvent("AnimationIteration", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -552,7 +552,7 @@ func AnimationStartEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("AnimationStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -611,7 +611,7 @@ func AppinstalledEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("appinstalled", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -670,7 +670,7 @@ func AudioProcessEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("AudioProcess", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -729,7 +729,7 @@ func AudioendEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("audioend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -788,7 +788,7 @@ func AudiostartEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("audiostart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -847,7 +847,7 @@ func BeforeInstallPromptEvent(callback interface{}, sel string, states ...bool) 
 
 	ev := trees.NewEvent("BeforeInstallPrompt", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -906,7 +906,7 @@ func BeforePrintEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("BeforePrint", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -965,7 +965,7 @@ func BeforeScriptExecuteEvent(callback interface{}, sel string, states ...bool) 
 
 	ev := trees.NewEvent("BeforeScriptExecute", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1024,7 +1024,7 @@ func BeforeUnloadEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("BeforeUnload", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1083,7 +1083,7 @@ func BeginEventEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("beginEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1142,7 +1142,7 @@ func BlockedEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("blocked", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1201,7 +1201,7 @@ func BlurEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("blur", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1260,7 +1260,7 @@ func BoundaryEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("boundary", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1319,7 +1319,7 @@ func BroadcastEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("broadcast", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1378,7 +1378,7 @@ func BusyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("busy", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1437,7 +1437,7 @@ func CSSRuleViewCSSLinkClickedEvent(callback interface{}, sel string, states ...
 
 	ev := trees.NewEvent("CSSRuleViewCSSLinkClicked", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1496,7 +1496,7 @@ func CSSRuleViewChangeEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("CSSRuleViewChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1555,7 +1555,7 @@ func CSSRuleViewRefreshedEvent(callback interface{}, sel string, states ...bool)
 
 	ev := trees.NewEvent("CSSRuleViewRefreshed", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1614,7 +1614,7 @@ func CachedEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("cached", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1673,7 +1673,7 @@ func CallschangedEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("callschanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1732,7 +1732,7 @@ func CanPlayEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("CanPlay", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1791,7 +1791,7 @@ func CanPlayThroughEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("CanPlayThrough", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1850,7 +1850,7 @@ func CardstatechangeEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("cardstatechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1909,7 +1909,7 @@ func CfstatechangeEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("cfstatechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -1968,7 +1968,7 @@ func ChangeEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("change", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2027,7 +2027,7 @@ func ChargingChangeEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("ChargingChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2086,7 +2086,7 @@ func ChargingTimeChangeEvent(callback interface{}, sel string, states ...bool) *
 
 	ev := trees.NewEvent("ChargingTimeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2145,7 +2145,7 @@ func CheckboxStateChangeEvent(callback interface{}, sel string, states ...bool) 
 
 	ev := trees.NewEvent("CheckboxStateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2204,7 +2204,7 @@ func CheckingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("checking", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2263,7 +2263,7 @@ func ClickEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("click", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2322,7 +2322,7 @@ func CloseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("close", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2381,7 +2381,7 @@ func CommandEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("command", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2440,7 +2440,7 @@ func CommandupdateEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("commandupdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2499,7 +2499,7 @@ func CompleteEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("complete", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2558,7 +2558,7 @@ func CompositionEndEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("CompositionEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2617,7 +2617,7 @@ func CompositionStartEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("CompositionStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2676,7 +2676,7 @@ func CompositionUpdateEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("CompositionUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2735,7 +2735,7 @@ func ConnectingEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("connecting", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2794,7 +2794,7 @@ func ConnectionInfoUpdateEvent(callback interface{}, sel string, states ...bool)
 
 	ev := trees.NewEvent("connectionInfoUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2853,7 +2853,7 @@ func ContextMenuEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("ContextMenu", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2912,7 +2912,7 @@ func CopyEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("copy", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -2971,7 +2971,7 @@ func CutEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("cut", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3030,7 +3030,7 @@ func DOMAutoCompleteEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("DOMAutoComplete", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3089,7 +3089,7 @@ func DOMContentLoadedEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("DOMContentLoaded", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3148,7 +3148,7 @@ func DOMFrameContentLoadedEvent(callback interface{}, sel string, states ...bool
 
 	ev := trees.NewEvent("DOMFrameContentLoaded", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3207,7 +3207,7 @@ func DOMLinkAddedEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("DOMLinkAdded", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3266,7 +3266,7 @@ func DOMLinkRemovedEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("DOMLinkRemoved", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3325,7 +3325,7 @@ func DOMMenuItemActiveEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("DOMMenuItemActive", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3384,7 +3384,7 @@ func DOMMenuItemInactiveEvent(callback interface{}, sel string, states ...bool) 
 
 	ev := trees.NewEvent("DOMMenuItemInactive", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3443,7 +3443,7 @@ func DOMMetaAddedEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("DOMMetaAdded", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3502,7 +3502,7 @@ func DOMMetaRemovedEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("DOMMetaRemoved", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3561,7 +3561,7 @@ func DOMModalDialogClosedEvent(callback interface{}, sel string, states ...bool)
 
 	ev := trees.NewEvent("DOMModalDialogClosed", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3620,7 +3620,7 @@ func DOMPopupBlockedEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("DOMPopupBlocked", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3679,7 +3679,7 @@ func DOMTitleChangedEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("DOMTitleChanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3738,7 +3738,7 @@ func DOMWillOpenModalDialogEvent(callback interface{}, sel string, states ...boo
 
 	ev := trees.NewEvent("DOMWillOpenModalDialog", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3797,7 +3797,7 @@ func DOMWindowCloseEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("DOMWindowClose", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3856,7 +3856,7 @@ func DOMWindowCreatedEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("DOMWindowCreated", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3915,7 +3915,7 @@ func DatachangeEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("datachange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -3974,7 +3974,7 @@ func DataerrorEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("dataerror", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4033,7 +4033,7 @@ func DblClickEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("DblClick", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4092,7 +4092,7 @@ func DeliveredEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("delivered", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4151,7 +4151,7 @@ func DeviceLightEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("DeviceLight", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4210,7 +4210,7 @@ func DeviceMotionEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("DeviceMotion", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4269,7 +4269,7 @@ func DeviceOrientationEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("DeviceOrientation", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4328,7 +4328,7 @@ func DeviceProximityEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("DeviceProximity", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4387,7 +4387,7 @@ func DevicechangeEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("devicechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4446,7 +4446,7 @@ func DialingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("dialing", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4505,7 +4505,7 @@ func DisabledEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("disabled", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4564,7 +4564,7 @@ func DischargingTimeChangeEvent(callback interface{}, sel string, states ...bool
 
 	ev := trees.NewEvent("DischargingTimeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4623,7 +4623,7 @@ func DisconnectedEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("disconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4682,7 +4682,7 @@ func DisconnectingEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("disconnecting", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4741,7 +4741,7 @@ func DownloadingEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("downloading", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4800,7 +4800,7 @@ func DragEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("drag", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4859,7 +4859,7 @@ func DragEndEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("DragEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4918,7 +4918,7 @@ func DragEnterEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("DragEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -4977,7 +4977,7 @@ func DragLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("DragLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5036,7 +5036,7 @@ func DragOverEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("DragOver", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5095,7 +5095,7 @@ func DragStartEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("DragStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5154,7 +5154,7 @@ func DropEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("drop", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5213,7 +5213,7 @@ func DurationChangeEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("DurationChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5272,7 +5272,7 @@ func EmptiedEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("emptied", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5331,7 +5331,7 @@ func EnabledEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("enabled", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5390,7 +5390,7 @@ func EndEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("end", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5449,7 +5449,7 @@ func EndEventEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("endEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5508,7 +5508,7 @@ func EndedEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("ended", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5567,7 +5567,7 @@ func FocusEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("focus", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5626,7 +5626,7 @@ func FocusInEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("FocusIn", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5685,7 +5685,7 @@ func FocusOutEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("FocusOut", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5744,7 +5744,7 @@ func FullScreenChangeEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("FullScreenChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5803,7 +5803,7 @@ func FullScreenErrorEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("FullScreenError", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5862,7 +5862,7 @@ func FullscreenEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("fullscreen", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5921,7 +5921,7 @@ func GamepadConnectedEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("GamepadConnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -5980,7 +5980,7 @@ func GamepadDisconnectedEvent(callback interface{}, sel string, states ...bool) 
 
 	ev := trees.NewEvent("GamepadDisconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6039,7 +6039,7 @@ func GotpointercaptureEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("gotpointercapture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6098,7 +6098,7 @@ func HashChangeEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("HashChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6157,7 +6157,7 @@ func HeldEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("held", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6216,7 +6216,7 @@ func HoldingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("holding", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6275,7 +6275,7 @@ func IcccardlockerrorEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("icccardlockerror", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6334,7 +6334,7 @@ func IccinfochangeEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("iccinfochange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6393,7 +6393,7 @@ func IncomingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("incoming", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6452,7 +6452,7 @@ func InputEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("input", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6511,7 +6511,7 @@ func InvalidEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("invalid", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6570,7 +6570,7 @@ func KeyDownEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("KeyDown", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6629,7 +6629,7 @@ func KeyPressEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("KeyPress", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6688,7 +6688,7 @@ func KeyUpEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("KeyUp", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6747,7 +6747,7 @@ func LanguageChangeEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("LanguageChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6806,7 +6806,7 @@ func LevelChangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("LevelChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6865,7 +6865,7 @@ func LoadEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("load", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6924,7 +6924,7 @@ func LoadEndEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("LoadEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -6983,7 +6983,7 @@ func LoadStartEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("LoadStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7042,7 +7042,7 @@ func LoadedDataEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("LoadedData", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7101,7 +7101,7 @@ func LoadedMetadataEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("LoadedMetadata", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7160,7 +7160,7 @@ func LocalizedEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("localized", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7219,7 +7219,7 @@ func LostpointercaptureEvent(callback interface{}, sel string, states ...bool) *
 
 	ev := trees.NewEvent("lostpointercapture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7278,7 +7278,7 @@ func MarkEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("mark", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7337,7 +7337,7 @@ func MessageEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("message", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7396,7 +7396,7 @@ func MouseDownEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("MouseDown", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7455,7 +7455,7 @@ func MouseEnterEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("MouseEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7514,7 +7514,7 @@ func MouseLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("MouseLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7573,7 +7573,7 @@ func MouseMoveEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("MouseMove", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7632,7 +7632,7 @@ func MouseOutEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("MouseOut", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7691,7 +7691,7 @@ func MouseOverEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("MouseOver", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7750,7 +7750,7 @@ func MouseUpEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("MouseUp", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7809,7 +7809,7 @@ func MozAfterPaintEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("MozAfterPaint", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7868,7 +7868,7 @@ func MozAudioAvailableEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("MozAudioAvailable", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7927,7 +7927,7 @@ func MozBeforeResizeEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("MozBeforeResize", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -7986,7 +7986,7 @@ func MozEdgeUIGestureEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("MozEdgeUIGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8045,7 +8045,7 @@ func MozEnteredDomFullscreenEvent(callback interface{}, sel string, states ...bo
 
 	ev := trees.NewEvent("MozEnteredDomFullscreen", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8104,7 +8104,7 @@ func MozGamepadButtonDownEvent(callback interface{}, sel string, states ...bool)
 
 	ev := trees.NewEvent("MozGamepadButtonDown", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8163,7 +8163,7 @@ func MozGamepadButtonUpEvent(callback interface{}, sel string, states ...bool) *
 
 	ev := trees.NewEvent("MozGamepadButtonUp", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8222,7 +8222,7 @@ func MozMagnifyGestureEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("MozMagnifyGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8281,7 +8281,7 @@ func MozMagnifyGestureStartEvent(callback interface{}, sel string, states ...boo
 
 	ev := trees.NewEvent("MozMagnifyGestureStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8340,7 +8340,7 @@ func MozMagnifyGestureUpdateEvent(callback interface{}, sel string, states ...bo
 
 	ev := trees.NewEvent("MozMagnifyGestureUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8399,7 +8399,7 @@ func MozPressTapGestureEvent(callback interface{}, sel string, states ...bool) *
 
 	ev := trees.NewEvent("MozPressTapGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8458,7 +8458,7 @@ func MozRotateGestureEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("MozRotateGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8517,7 +8517,7 @@ func MozRotateGestureStartEvent(callback interface{}, sel string, states ...bool
 
 	ev := trees.NewEvent("MozRotateGestureStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8576,7 +8576,7 @@ func MozRotateGestureUpdateEvent(callback interface{}, sel string, states ...boo
 
 	ev := trees.NewEvent("MozRotateGestureUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8635,7 +8635,7 @@ func MozScrolledAreaChangedEvent(callback interface{}, sel string, states ...boo
 
 	ev := trees.NewEvent("MozScrolledAreaChanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8694,7 +8694,7 @@ func MozSwipeGestureEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("MozSwipeGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8753,7 +8753,7 @@ func MozTapGestureEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("MozTapGesture", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8812,7 +8812,7 @@ func MozbrowseractivitydoneEvent(callback interface{}, sel string, states ...boo
 
 	ev := trees.NewEvent("mozbrowseractivitydone", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8871,7 +8871,7 @@ func MozbrowserasyncscrollEvent(callback interface{}, sel string, states ...bool
 
 	ev := trees.NewEvent("mozbrowserasyncscroll", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8930,7 +8930,7 @@ func MozbrowseraudioplaybackchangeEvent(callback interface{}, sel string, states
 
 	ev := trees.NewEvent("mozbrowseraudioplaybackchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -8989,7 +8989,7 @@ func MozbrowsercaretstatechangedEvent(callback interface{}, sel string, states .
 
 	ev := trees.NewEvent("mozbrowsercaretstatechanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9048,7 +9048,7 @@ func MozbrowsercloseEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("mozbrowserclose", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9107,7 +9107,7 @@ func MozbrowsercontextmenuEvent(callback interface{}, sel string, states ...bool
 
 	ev := trees.NewEvent("mozbrowsercontextmenu", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9166,7 +9166,7 @@ func MozbrowserdocumentfirstpaintEvent(callback interface{}, sel string, states 
 
 	ev := trees.NewEvent("mozbrowserdocumentfirstpaint", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9225,7 +9225,7 @@ func MozbrowsererrorEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("mozbrowsererror", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9284,7 +9284,7 @@ func MozbrowserfindchangeEvent(callback interface{}, sel string, states ...bool)
 
 	ev := trees.NewEvent("mozbrowserfindchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9343,7 +9343,7 @@ func MozbrowserfirstpaintEvent(callback interface{}, sel string, states ...bool)
 
 	ev := trees.NewEvent("mozbrowserfirstpaint", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9402,7 +9402,7 @@ func MozbrowsericonchangeEvent(callback interface{}, sel string, states ...bool)
 
 	ev := trees.NewEvent("mozbrowsericonchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9461,7 +9461,7 @@ func MozbrowserloadendEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("mozbrowserloadend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9520,7 +9520,7 @@ func MozbrowserloadstartEvent(callback interface{}, sel string, states ...bool) 
 
 	ev := trees.NewEvent("mozbrowserloadstart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9579,7 +9579,7 @@ func MozbrowserlocationchangeEvent(callback interface{}, sel string, states ...b
 
 	ev := trees.NewEvent("mozbrowserlocationchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9638,7 +9638,7 @@ func MozbrowsermanifestchangeEvent(callback interface{}, sel string, states ...b
 
 	ev := trees.NewEvent("mozbrowsermanifestchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9697,7 +9697,7 @@ func MozbrowsermetachangeEvent(callback interface{}, sel string, states ...bool)
 
 	ev := trees.NewEvent("mozbrowsermetachange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9756,7 +9756,7 @@ func MozbrowseropensearchEvent(callback interface{}, sel string, states ...bool)
 
 	ev := trees.NewEvent("mozbrowseropensearch", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9815,7 +9815,7 @@ func MozbrowseropentabEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("mozbrowseropentab", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9874,7 +9874,7 @@ func MozbrowseropenwindowEvent(callback interface{}, sel string, states ...bool)
 
 	ev := trees.NewEvent("mozbrowseropenwindow", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9933,7 +9933,7 @@ func MozbrowserresizeEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("mozbrowserresize", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -9992,7 +9992,7 @@ func MozbrowserscrollEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("mozbrowserscroll", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10051,7 +10051,7 @@ func MozbrowserscrollareachangedEvent(callback interface{}, sel string, states .
 
 	ev := trees.NewEvent("mozbrowserscrollareachanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10110,7 +10110,7 @@ func MozbrowserscrollviewchangeEvent(callback interface{}, sel string, states ..
 
 	ev := trees.NewEvent("mozbrowserscrollviewchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10169,7 +10169,7 @@ func MozbrowsersecuritychangeEvent(callback interface{}, sel string, states ...b
 
 	ev := trees.NewEvent("mozbrowsersecuritychange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10228,7 +10228,7 @@ func MozbrowserselectionstatechangedEvent(callback interface{}, sel string, stat
 
 	ev := trees.NewEvent("mozbrowserselectionstatechanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10287,7 +10287,7 @@ func MozbrowsershowmodalpromptEvent(callback interface{}, sel string, states ...
 
 	ev := trees.NewEvent("mozbrowsershowmodalprompt", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10346,7 +10346,7 @@ func MozbrowsertitlechangeEvent(callback interface{}, sel string, states ...bool
 
 	ev := trees.NewEvent("mozbrowsertitlechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10405,7 +10405,7 @@ func MozbrowserusernameandpasswordrequiredEvent(callback interface{}, sel string
 
 	ev := trees.NewEvent("mozbrowserusernameandpasswordrequired", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10464,7 +10464,7 @@ func MozbrowservisibilitychangeEvent(callback interface{}, sel string, states ..
 
 	ev := trees.NewEvent("mozbrowservisibilitychange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10523,7 +10523,7 @@ func MoztimechangeEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("moztimechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10582,7 +10582,7 @@ func NoUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("NoUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10641,7 +10641,7 @@ func NomatchEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("nomatch", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10700,7 +10700,7 @@ func NotificationclickEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("notificationclick", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10759,7 +10759,7 @@ func ObsoleteEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("obsolete", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10818,7 +10818,7 @@ func OfflineEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("offline", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10877,7 +10877,7 @@ func OnconnectedEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("onconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10936,7 +10936,7 @@ func OnlineEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("online", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -10995,7 +10995,7 @@ func OpenEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("open", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11054,7 +11054,7 @@ func OrientationChangeEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("OrientationChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11113,7 +11113,7 @@ func OverflowEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("overflow", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11172,7 +11172,7 @@ func PageHideEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("PageHide", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11231,7 +11231,7 @@ func PageShowEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("PageShow", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11290,7 +11290,7 @@ func PasteEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("paste", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11349,7 +11349,7 @@ func PauseEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("pause", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11408,7 +11408,7 @@ func PlayEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("play", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11467,7 +11467,7 @@ func PlayingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("playing", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11526,7 +11526,7 @@ func PointerLockChangeEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("PointerLockChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11585,7 +11585,7 @@ func PointerLockErrorEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("PointerLockError", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11644,7 +11644,7 @@ func PointercancelEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("pointercancel", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11703,7 +11703,7 @@ func PointerdownEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("pointerdown", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11762,7 +11762,7 @@ func PointerenterEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("pointerenter", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11821,7 +11821,7 @@ func PointerleaveEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("pointerleave", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11880,7 +11880,7 @@ func PointermoveEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("pointermove", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11939,7 +11939,7 @@ func PointeroutEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("pointerout", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -11998,7 +11998,7 @@ func PointeroverEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("pointerover", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12057,7 +12057,7 @@ func PointerupEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("pointerup", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12116,7 +12116,7 @@ func PopStateEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("PopState", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12175,7 +12175,7 @@ func PopuphiddenEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("popuphidden", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12234,7 +12234,7 @@ func PopuphidingEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("popuphiding", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12293,7 +12293,7 @@ func PopupshowingEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("popupshowing", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12352,7 +12352,7 @@ func PopupshownEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("popupshown", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12411,7 +12411,7 @@ func ProgressEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("progress", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12470,7 +12470,7 @@ func PushEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("push", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12529,7 +12529,7 @@ func PushsubscriptionchangeEvent(callback interface{}, sel string, states ...boo
 
 	ev := trees.NewEvent("pushsubscriptionchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12588,7 +12588,7 @@ func RadioStateChangeEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("RadioStateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12647,7 +12647,7 @@ func RateChangeEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("RateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12706,7 +12706,7 @@ func ReadystateChangeEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("ReadystateChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12765,7 +12765,7 @@ func ReceivedEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("received", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12824,7 +12824,7 @@ func RepeatEventEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("repeatEvent", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12883,7 +12883,7 @@ func ResetEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("reset", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -12942,7 +12942,7 @@ func ResizeEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("resize", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13001,7 +13001,7 @@ func ResourcetimingbufferfullEvent(callback interface{}, sel string, states ...b
 
 	ev := trees.NewEvent("resourcetimingbufferfull", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13060,7 +13060,7 @@ func ResultEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("result", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13119,7 +13119,7 @@ func ResumeEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("resume", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13178,7 +13178,7 @@ func ResumingEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("resuming", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13237,7 +13237,7 @@ func SSTabClosingEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("SSTabClosing", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13296,7 +13296,7 @@ func SSTabRestoredEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("SSTabRestored", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13355,7 +13355,7 @@ func SSTabRestoringEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("SSTabRestoring", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13414,7 +13414,7 @@ func SSWindowClosingEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("SSWindowClosing", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13473,7 +13473,7 @@ func SSWindowStateBusyEvent(callback interface{}, sel string, states ...bool) *t
 
 	ev := trees.NewEvent("SSWindowStateBusy", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13532,7 +13532,7 @@ func SSWindowStateReadyEvent(callback interface{}, sel string, states ...bool) *
 
 	ev := trees.NewEvent("SSWindowStateReady", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13591,7 +13591,7 @@ func SVGAbortEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("SVGAbort", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13650,7 +13650,7 @@ func SVGErrorEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("SVGError", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13709,7 +13709,7 @@ func SVGLoadEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("SVGLoad", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13768,7 +13768,7 @@ func SVGResizeEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("SVGResize", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13827,7 +13827,7 @@ func SVGScrollEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("SVGScroll", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13886,7 +13886,7 @@ func SVGUnloadEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("SVGUnload", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -13945,7 +13945,7 @@ func SVGZoomEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("SVGZoom", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14004,7 +14004,7 @@ func ScrollEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("scroll", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14063,7 +14063,7 @@ func SeekedEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("seeked", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14122,7 +14122,7 @@ func SeekingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("seeking", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14181,7 +14181,7 @@ func SelectEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("select", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14240,7 +14240,7 @@ func SelectionchangeEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("selectionchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14299,7 +14299,7 @@ func SelectstartEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("selectstart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14358,7 +14358,7 @@ func SentEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("sent", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14417,7 +14417,7 @@ func ShowEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("show", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14476,7 +14476,7 @@ func SizemodechangeEvent(callback interface{}, sel string, states ...bool) *tree
 
 	ev := trees.NewEvent("sizemodechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14535,7 +14535,7 @@ func SmartCardInsertEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("SmartCardInsert", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14594,7 +14594,7 @@ func SmartCardRemoveEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("SmartCardRemove", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14653,7 +14653,7 @@ func SoundendEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("soundend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14712,7 +14712,7 @@ func SoundstartEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("soundstart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14771,7 +14771,7 @@ func SpeechendEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("speechend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14830,7 +14830,7 @@ func SpeechstartEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("speechstart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14889,7 +14889,7 @@ func StalledEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("stalled", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -14948,7 +14948,7 @@ func StartEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("start", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15007,7 +15007,7 @@ func StatechangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("statechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15066,7 +15066,7 @@ func StatuschangeEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("statuschange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15125,7 +15125,7 @@ func StkcommandEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("stkcommand", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15184,7 +15184,7 @@ func StksessionendEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("stksessionend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15243,7 +15243,7 @@ func StorageEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("storage", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15302,7 +15302,7 @@ func SubmitEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("submit", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15361,7 +15361,7 @@ func SuccessEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("success", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15420,7 +15420,7 @@ func SuspendEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("suspend", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15479,7 +15479,7 @@ func TabCloseEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("TabClose", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15538,7 +15538,7 @@ func TabHideEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("TabHide", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15597,7 +15597,7 @@ func TabOpenEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("TabOpen", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15656,7 +15656,7 @@ func TabPinnedEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("TabPinned", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15715,7 +15715,7 @@ func TabSelectEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("TabSelect", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15774,7 +15774,7 @@ func TabShowEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("TabShow", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15833,7 +15833,7 @@ func TabUnpinnedEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("TabUnpinned", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15892,7 +15892,7 @@ func TimeUpdateEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("TimeUpdate", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -15951,7 +15951,7 @@ func TimeoutEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("timeout", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16010,7 +16010,7 @@ func TouchCancelEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("TouchCancel", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16069,7 +16069,7 @@ func TouchEndEvent(callback interface{}, sel string, states ...bool) *trees.Even
 
 	ev := trees.NewEvent("TouchEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16128,7 +16128,7 @@ func TouchEnterEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("TouchEnter", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16187,7 +16187,7 @@ func TouchLeaveEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("TouchLeave", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16246,7 +16246,7 @@ func TouchMoveEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("TouchMove", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16305,7 +16305,7 @@ func TouchStartEvent(callback interface{}, sel string, states ...bool) *trees.Ev
 
 	ev := trees.NewEvent("TouchStart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16364,7 +16364,7 @@ func TransitionEndEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("TransitionEnd", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16423,7 +16423,7 @@ func TransitionrunEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("transitionrun", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16482,7 +16482,7 @@ func TransitionstartEvent(callback interface{}, sel string, states ...bool) *tre
 
 	ev := trees.NewEvent("transitionstart", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16541,7 +16541,7 @@ func UnderflowEvent(callback interface{}, sel string, states ...bool) *trees.Eve
 
 	ev := trees.NewEvent("underflow", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16600,7 +16600,7 @@ func UnloadEvent(callback interface{}, sel string, states ...bool) *trees.Event 
 
 	ev := trees.NewEvent("unload", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16659,7 +16659,7 @@ func UpdateReadyEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("UpdateReady", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16718,7 +16718,7 @@ func UpgradeNeededEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("UpgradeNeeded", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16777,7 +16777,7 @@ func UserProximityEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("UserProximity", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16836,7 +16836,7 @@ func UssdreceivedEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("ussdreceived", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16895,7 +16895,7 @@ func ValueChangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("ValueChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -16954,7 +16954,7 @@ func VersionChangeEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("VersionChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -17013,7 +17013,7 @@ func VisibilityChangeEvent(callback interface{}, sel string, states ...bool) *tr
 
 	ev := trees.NewEvent("VisibilityChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -17072,7 +17072,7 @@ func VoicechangeEvent(callback interface{}, sel string, states ...bool) *trees.E
 
 	ev := trees.NewEvent("voicechange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -17131,7 +17131,7 @@ func VoiceschangedEvent(callback interface{}, sel string, states ...bool) *trees
 
 	ev := trees.NewEvent("voiceschanged", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -17190,7 +17190,7 @@ func VolumeChangeEvent(callback interface{}, sel string, states ...bool) *trees.
 
 	ev := trees.NewEvent("VolumeChange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -17249,7 +17249,7 @@ func VrdisplayconnectedEvent(callback interface{}, sel string, states ...bool) *
 
 	ev := trees.NewEvent("vrdisplayconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -17308,7 +17308,7 @@ func VrdisplaydisconnectedEvent(callback interface{}, sel string, states ...bool
 
 	ev := trees.NewEvent("vrdisplaydisconnected", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -17367,7 +17367,7 @@ func VrdisplaypresentchangeEvent(callback interface{}, sel string, states ...boo
 
 	ev := trees.NewEvent("vrdisplaypresentchange", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -17426,7 +17426,7 @@ func WaitingEvent(callback interface{}, sel string, states ...bool) *trees.Event
 
 	ev := trees.NewEvent("waiting", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 
@@ -17485,7 +17485,7 @@ func WheelEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("wheel", sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast) {
-		if ev.EventID != evm.EventID {
+		if ev.ID() != evm.EventID {
 			return
 		}
 

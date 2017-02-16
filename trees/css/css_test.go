@@ -3,8 +3,8 @@ package css_test
 import (
 	"testing"
 
-	"github.com/gu-io/gu/css"
 	"github.com/gu-io/gu/tests"
+	"github.com/gu-io/gu/trees/css"
 )
 
 func TestBasicCSS(t *testing.T) {
@@ -12,24 +12,24 @@ func TestBasicCSS(t *testing.T) {
 
 	csr := css.New(`
 
-    $:hover {
+    &:hover {
       color: red;
     }
 
-    $::before {
+    &::before {
       content: "bugger";
     }
 
-    $ div a {
+    & div a {
       color: black;
-      font-family: {{ .Font }}
+      font-family: {{ .Font }};
     }
 
     @media (max-width: 400px){
 
-      $:hover {
+      &:hover {
         color: blue;
-        font-family: {{ .Font }}
+        font-family: {{ .Font }};
       }
 
     }
@@ -53,12 +53,12 @@ func TestBasicCSS(t *testing.T) {
 }
 
 func TestLinkedCSS(t *testing.T) {
-	expected := "#galatica block {\n  Helvetica\n      color: Pink;\n}\n#galatica::before {\n  content: \"bugger\";\n}\n#galatica div a {\n  color: black;\n  font-family: Helvetica;\n}\n@media (max-width: 400px) {\n  #galatica:hover {\n    color: blue;\n    font-family: Helvetica;\n  }\n}"
+	expected := "block {\n  font-family: Helvetica;\n  color: Pink;\n}\n#galatica::before {\n  content: \"bugger\";\n}\ndiv a {\n  color: black;\n  font-family: Helvetica;\n}\n@media (max-width: 400px) {\n  #galatica:hover {\n    color: blue;\n    font-family: Helvetica;\n  }\n}"
 
 	csr := css.New(`
     block {
-      font-family: {{ .Font }}
-      color: {{ .Color }}
+      font-family: {{ .Font }};
+      color: {{ .Color }};
     }
   `)
 
@@ -70,14 +70,14 @@ func TestLinkedCSS(t *testing.T) {
 
     div a {
       color: black;
-      font-family: {{ .Font }}
+      font-family: {{ .Font }};
     }
 
     @media (max-width: 400px){
 
       :hover {
         color: blue;
-        font-family: {{ .Font }}
+        font-family: {{ .Font }};
       }
 
     }
@@ -96,8 +96,8 @@ func TestLinkedCSS(t *testing.T) {
 	}
 	tests.Passed(t, "Should have successfully processed stylesheet for rule")
 
-	if val := sheet.String(); val != expected {
-		t.Logf("\t\tRecieved: %q\n", val)
+	if res := sheet.String(); res != expected {
+		t.Logf("\t\tRecieved: %q\n", res)
 		t.Logf("\t\tExpected: %q\n", expected)
 		tests.Failed(t, "Should have rendered expected stylesheet")
 	}

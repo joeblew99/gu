@@ -1,8 +1,8 @@
-// Package events attempts to provide a concrete go type for different events
+// Package eventx attempts to provide a concrete go type for different events
 // related to the DOM. Not all the events and their functionality can be supported.
 // It exists has a package to allow access to this events without any tie into the
 // corresponding js primitive. If you prefer a fuller support. Use GopherJS (https://github.com/gopherjs/gopherjs).
-package events
+package eventx
 
 import (
 	"time"

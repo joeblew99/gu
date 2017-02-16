@@ -1,4 +1,4 @@
-package gkwebview
+package gtkwebview
 
 import (
 	"github.com/gu-io/gu"
@@ -13,7 +13,7 @@ type WebviewDriver struct {
 
 // Name returns the name of the driver.
 func (WebviewDriver) Name() string {
-	return "Gtk Webkit Webview()"
+	return "GtkWebkit"
 }
 
 // OnReady registers the giving handle function to be called when the giving

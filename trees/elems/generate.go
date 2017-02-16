@@ -151,10 +151,40 @@ func main() {
 package elems
 
 import (
-	"fmt"
+	"strings"
+
 	"github.com/gu-io/gu/trees"
 	"github.com/gu-io/gu/trees/css"
 )
+
+// SpaceCharacter provides text markup which contains the '&nbsp' text for
+// a space element.
+func SpaceCharacter(count int) *trees.Markup {
+	if count < 1 {
+		count = 0
+	}
+
+	var spaces []string
+
+	for i := 0; i < count; i++ {
+		spaces = append(spaces, "&nbsp;")
+	}
+
+	return trees.NewText(strings.Join(spaces, ""))
+}
+
+// CustomElement defines a type which returns a custom element type provided by
+// the tagname.
+func CustomElement(tag string, markup ...trees.Appliable) *trees.Markup {
+	e := trees.NewMarkup(tag,false)
+	trees.NewCSSStyle("display", "block").Apply(e)
+
+	for _, m := range markup {
+		if m == nil { continue }
+		m.Apply(e)
+	}
+	return e
+}
 
 // Text provides custom type for defining text nodes with the trees markup.
 func Text(content string, dl ...interface{}) *trees.Markup {

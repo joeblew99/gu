@@ -260,7 +260,7 @@ func %sEvent(callback interface{}, sel string, states ...bool) *trees.Event {
 
 	ev := trees.NewEvent("%s",sel, preventDefault, stopPropagation, stopImmediatePropagation, useCapture)
 	ev.Handle = notifications.Subscribe(func(evm trees.EventBroadcast){
-		if ev.EventID != evm.EventID{
+		if ev.ID() != evm.EventID{
 			return
 		}
 
