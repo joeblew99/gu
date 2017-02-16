@@ -10,7 +10,7 @@ func main() {
 	app := gu.App(AppSettings)
 
 	index := app.View(gu.ViewAttr{
-		Name:  "Greeter.Index",
+		Name:  "View.Greeter",
 		Route: "/",
 		Base: elems.Parse(`
       <div class="greeter-view view wrapper">
