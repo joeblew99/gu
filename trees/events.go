@@ -2,94 +2,49 @@ package trees
 
 import (
 	"fmt"
+	"strings"
 
-	"github.com/gopherjs/gopherjs/js"
-	"github.com/gu-io/gu/dispatch/mque"
+	"github.com/gu-io/gu/notifications/mque"
 )
+
+// EventBroadcast defines a struct which gets published for the events.
+type EventBroadcast struct {
+	EventName string      `json:"event"`
+	EventID   string      `json:"event_id"`
+	Event     EventObject `json:"event_object"`
+}
 
 // EventObject defines a interface for the basic methods which events needs
 // expose.
 type EventObject interface {
-	PreventDefault()
-	StopPropagation()
-	StopImmediatePropagation()
-	Underlying() *js.Object
+	RemoveEvent()
+	Underlying() interface{}
 }
-
-// EventBroadcast defines a struct which gets published for the events.
-type EventBroadcast struct {
-	EventID string
-	Event   EventObject
-}
-
-//==============================================================================
-
-// WrapperEvent implements the EventObject interface.
-type WrapperEvent struct {
-	dummy *js.Object
-	isDum bool
-}
-
-// NewWrapperEvent creates a new Event object useful to hold in place of a wrapper
-// object.
-func NewWrapperEvent(dm *js.Object) *WrapperEvent {
-	return &WrapperEvent{
-		dummy: dm,
-	}
-}
-
-// NewDummy returns a WrapperEvent instance wrapping a dummy object.
-func NewDummy() *WrapperEvent {
-	return &WrapperEvent{
-		dummy: js.Global.Get("Object").New(),
-		isDum: true,
-	}
-}
-
-// Underlying returns the internal wrapper object exposes by this event.
-func (d *WrapperEvent) Underlying() *js.Object {
-	return d.dummy
-}
-
-// PreventDefault implements the PreventDefault of the event object interface.
-func (d *WrapperEvent) PreventDefault() {
-	if !d.isDum {
-		d.dummy.Call("preventDefault")
-	}
-}
-
-// StopPropagation implements the StopPropagation of the event object interface.
-func (d *WrapperEvent) StopPropagation() {
-	if !d.isDum {
-		d.dummy.Call("stopPropagation")
-	}
-}
-
-// StopImmediatePropagation implements the StopPropagation of the event object interface.
-func (d *WrapperEvent) StopImmediatePropagation() {
-	if !d.isDum {
-		d.dummy.Call("stopImmediatePropagation")
-	}
-}
-
-//==============================================================================
 
 // Event provide a meta registry for helps in registering events for dom markups
 // which is translated to the nodes themselves
 type Event struct {
-	Type      string
-	EventID   string
+	Type                     string
+	PreventDefault           bool
+	StopPropagation          bool
+	UseCapture               bool
+	StopImmediatePropagation bool
+	Tree                     *Markup
+	Handle                   mque.End
+	// eventSelector            string
+	// peventSelector           string
 	secTarget string
-	Tree      *Markup
-	Handle    mque.End
-	Link      func(*js.Object)
 }
 
-// NewEvent returns a event object that allows registering events to eventlisteners
-func NewEvent(evtype string, evtarget string) *Event {
+// NewEvent returns a event object that allows registering events to eventlisteners.
+func NewEvent(evtype string, evtarget string, preventdef bool, stopPropagation bool, stopImmediate bool, useCapture bool) *Event {
 	return &Event{
-		Type:      evtype,
-		secTarget: evtarget,
+		Type:                     evtype,
+		PreventDefault:           preventdef,
+		StopPropagation:          stopPropagation,
+		StopImmediatePropagation: stopImmediate,
+		UseCapture:               useCapture,
+		secTarget:                evtarget,
 	}
 }
 
@@ -102,6 +57,61 @@ func (e *Event) Target() string {
 	return e.secTarget
 }
 
+// EventJSON defines a struct which contains the giving events and
+// and tree of the giving tree.
+type EventJSON struct {
+	ParentSelector           string `json:"ParentSelector"`
+	EventSelector            string `json:"EventSelector"`
+	EventName                string `json:"EventName"`
+	Event                    string `json:"Event"`
+	PreventDefault           bool   `json:"PreventDefault"`
+	StopPropagation          bool   `json:"StopPropagation"`
+	UseCapture               bool   `json:"UseCapture"`
+	StopImmediatePropagation bool   `json:"StopImmediatePropagation"`
+}
+
+// EventJSON returns the event json structure which represent the giving event.
+func (e *Event) EventJSON() EventJSON {
+	return EventJSON{
+		Event:                    e.Type,
+		UseCapture:               e.UseCapture,
+		EventName:                e.EventName(),
+		EventSelector:            e.EventSelector(),
+		ParentSelector:           e.ParentEventSelector(),
+		PreventDefault:           e.PreventDefault,
+		StopPropagation:          e.StopPropagation,
+		StopImmediatePropagation: e.StopImmediatePropagation,
+	}
+}
+
+// ParentEventSelector returns the parent selector for this events markup tree.
+func (e *Event) ParentEventSelector() string {
+	if e.Tree != nil {
+		return e.Tree.IDSelector(true)
+	}
+
+	return ""
+}
+
+// EventSelector returns the selector for this events tree.
+func (e *Event) EventSelector() string {
+	if e.Tree != nil {
+		return e.Tree.IDSelector(false)
+	}
+
+	return ""
+}
+
+// EventName returns the giving name of the event.
+func (e *Event) EventName() string {
+	eventName := strings.ToUpper(e.Type[:1]) + e.Type[1:]
+	if strings.HasSuffix(eventName, "Event") {
+		return eventName
+	}
+
+	return eventName + "Event"
+}
+
 // ID returns the uique event id string for the event.
 func (e *Event) ID() string {
 	return fmt.Sprintf("%s#%s", e.Target(), e.Type)
@@ -110,8 +120,12 @@ func (e *Event) ID() string {
 // Clone  returns a new Event object from this.
 func (e *Event) Clone() *Event {
 	return &Event{
-		Type:      e.Type,
-		secTarget: e.secTarget,
+		Type:                     e.Type,
+		secTarget:                e.secTarget,
+		PreventDefault:           e.PreventDefault,
+		UseCapture:               e.UseCapture,
+		StopPropagation:          e.StopPropagation,
+		StopImmediatePropagation: e.StopImmediatePropagation,
 	}
 }
 
@@ -122,9 +136,15 @@ func (e *Event) Apply(ex *Markup) {
 	}
 
 	e.Tree = ex
+	// e.eventSelector = ex.IDSelector(false)
+	// e.peventSelector = ex.IDSelector(true)
 
-	e.EventID = fmt.Sprintf("%s-%s", e.Type, ex.UID())
 	ex.AddEvent(*e)
+}
+
+// String returns the string representation of the giving event.
+func (e *Event) String() string {
+	return fmt.Sprintf("%#v", e.EventJSON())
 }
 
 //==============================================================================

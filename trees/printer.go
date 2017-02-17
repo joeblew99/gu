@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"strings"
 	"sync"
-
-	"github.com/go-humble/detect"
 )
 
 //==============================================================================
@@ -17,17 +15,13 @@ type Mode int
 
 const (
 	// Normal mode means all Ids, Hashes are printed and
-	// Removals are cleaned out.
+	// This allows us to see the state of a reconciled tree.
 	Normal Mode = iota
 
-	// Testing mode means all Ids and Hashes are not printed
-	// but all removals are cleaned out to allow a predictable output.
-	Testing
-
-	// Debugging mode means all Ids and Hashes are not printed and
-	// all removals are left behind to ensure deugging is possible.
-	// This allows us to see the state of a reconciled tree.
-	Debugging
+	// Pretty mode means all Ids and Hashes are not printed and
+	// all removals are left behind to ensure debugging is possible.
+	// Removals are cleaned out.
+	Pretty
 )
 
 // currentMode defines the struct which manages the
@@ -161,14 +155,8 @@ func (m *ElementWriter) Write(ma *Markup) (string, error) {
 
 // Print returns the string representation of the element
 func (m *ElementWriter) Print(e *Markup) string {
-	if detect.IsServer() {
-
-		// if we are on the server && is this element marked as removed,
-		// if so we skip and return an empty string
-		if e.Removed() && GetMode() < Debugging {
-			return ""
-		}
-
+	if e.Removed() && GetMode() > Normal {
+		return ""
 	}
 
 	//if we are dealing with a text type just return the content
@@ -176,21 +164,15 @@ func (m *ElementWriter) Print(e *Markup) string {
 		return m.text.Print(e)
 	}
 
-	//management attributes
+	// Management attributes.
 	var mido []Property
 
-	//collect uid and hash of the element so we can write them along
-	if GetMode() < Testing {
+	// Collect uid and hash of the element so we can write them along.
+	if GetMode() < Pretty {
 		hash := &Attribute{Name: "hash", Value: e.Hash()}
 		uid := &Attribute{Name: "uid", Value: e.UID()}
 		mido = append(mido, hash, uid)
 	}
-
-	// id, err := GetAttr(e, "id")
-	// if err != nil {
-	// 	id = Property(NewAttr("id", e.tagname+"-"+e.uid))
-	// 	id.Apply(e)
-	// }
 
 	//write out the hash and uid as attributes
 	hashes := m.attrWriter.Print(mido)

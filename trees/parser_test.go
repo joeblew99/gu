@@ -11,7 +11,7 @@ var success = "\u2713"
 var failed = "\u2717"
 
 func TestParser(t *testing.T) {
-	trees.SetMode(trees.Testing)
+	trees.SetMode(trees.Pretty)
 	defer trees.SetMode(trees.Normal)
 
 	result := trees.ParseTree(`

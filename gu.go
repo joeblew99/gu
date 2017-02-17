@@ -7,7 +7,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/gu-io/gu/dispatch"
+	"github.com/gu-io/gu/notifications"
+	"github.com/gu-io/gu/router"
 	"github.com/gu-io/gu/shell"
 	"github.com/gu-io/gu/trees"
 )
@@ -33,6 +34,34 @@ func NewKey() string {
 }
 
 //==============================================================================
+
+// Identity defines an interface which expoese the identity of a giving object.
+type Identity interface {
+	UUID() string
+}
+
+// Services defines a struct which exposes certain fields to be accessible to
+// others.
+type Services struct {
+	AppUUID       string
+	Driver        Driver
+	Router        router.Resolver
+	Fetch         shell.Fetch
+	Cache         shell.Cache
+	Mounted       Subscriptions
+	Rendered      Subscriptions
+	Updated       Subscriptions
+	Unmounted     Subscriptions
+	Notifications *notifications.AppNotification
+}
+
+// RegisterService provides an interface which registers the provided fetcher,
+// caching and routing system for a component. This will be called before
+// any setup of the components structure to allow users set the system they needed
+// running.
+type RegisterService interface {
+	RegisterService(Services)
+}
 
 // Renderable provides a interface for a renderable type.
 type Renderable interface {
@@ -79,6 +108,34 @@ type Reactive interface {
 	Reactor
 	Publish()
 }
+
+//==============================================================================
+
+// RenderCommand defines a struct to hold a giving command for the rendering
+// of a App or View using the JSON format.
+type RenderCommand struct {
+	Command string   `json:"Command"`
+	App     AppJSON  `json:"App,omitempty"`
+	View    ViewJSON `json:"View,omitempty"`
+}
+
+// AppRenderCommand returns a new RenderCommand for rendering a app.
+func AppRenderCommand(app *NApp, route interface{}) RenderCommand {
+	return RenderCommand{
+		Command: "RenderApp",
+		App:     app.RenderJSON(route),
+	}
+}
+
+// ViewRenderCommand returns a new RenderCommand for rendering a view.
+func ViewRenderCommand(view *NView) RenderCommand {
+	return RenderCommand{
+		Command: "RenderView",
+		View:    view.RenderJSON(),
+	}
+}
+
+//==============================================================================
 
 // NewReactive returns an instance of a Reactive struct.
 func NewReactive() Reactive {
@@ -134,24 +191,6 @@ func (r *Subscription) Publish() {
 	for _, sub := range r.subs {
 		sub()
 	}
-}
-
-//==============================================================================
-
-// AttachURL attaches the view to the provided Route pattern,
-// Using the internal route pattern, it matches all route changes
-// and checks against the full URL(Path+Hash).
-// failFn must either be a FailNormal, FailPath or nil.
-func AttachURL(pattern string, activeFn, inactiveFn func(dispatch.Path)) {
-	dispatch.ResolveAttachURL(pattern, activeFn, inactiveFn)
-}
-
-// AttachHash attaches the view to the provided Route pattern,
-// Using the internal route pattern, it matches all route changes
-// and checks against the URL hash.
-// failFn must either be a FailNormal, FailPath or nil.
-func AttachHash(pattern string, activeFn, inactiveFn func(dispatch.Path)) {
-	dispatch.ResolveAttachHash(pattern, activeFn, inactiveFn)
 }
 
 //==============================================================================

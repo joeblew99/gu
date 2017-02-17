@@ -146,20 +146,82 @@ func main() {
 //go:generate go run generate.go
 
 // Documentation source: "HTML element reference" by Mozilla Contributors, https://developer.mozilla.org/en-US/docs/Web/HTML/Element, licensed under CC-BY-SA 2.5.
-
 // Documentation for custom types lies within the  "github.com/influx6/faux/domtrees" package
 
 package elems
 
 import (
-	"fmt"
+	"strings"
+
 	"github.com/gu-io/gu/trees"
-	"github.com/gu-io/gu/css"
+	"github.com/gu-io/gu/trees/css"
 )
+
+// SpaceCharacter provides text markup which contains the '&nbsp' text for
+// a space element.
+func SpaceCharacter(count int) *trees.Markup {
+	if count < 1 {
+		count = 0
+	}
+
+	var spaces []string
+
+	for i := 0; i < count; i++ {
+		spaces = append(spaces, "&nbsp;")
+	}
+
+	return trees.NewText(strings.Join(spaces, ""))
+}
+
+// CustomElement defines a type which returns a custom element type provided by
+// the tagname.
+func CustomElement(tag string, markup ...trees.Appliable) *trees.Markup {
+	e := trees.NewMarkup(tag,false)
+	trees.NewCSSStyle("display", "block").Apply(e)
+
+	for _, m := range markup {
+		if m == nil { continue }
+		m.Apply(e)
+	}
+	return e
+}
 
 // Text provides custom type for defining text nodes with the trees markup.
 func Text(content string, dl ...interface{}) *trees.Markup {
 	return trees.NewText(content, dl...)
+}
+
+// ParseTemplate returns the giving markup structure generated from the string
+// through the template used with the binding provided.
+func ParseTemplate(markup string, bind interface{}, ms ...trees.Appliable) *trees.Markup {
+	tms := trees.ParseTemplate(markup, bind)
+	if len(tms) > 1 {
+		sec := trees.NewMarkup("section", false)
+		for _, el := range tms {
+			el.Apply(sec)
+		}
+
+		for _, m := range ms {
+			if m == nil {
+				continue
+			}
+
+			m.Apply(sec)
+		}
+
+		return sec
+	}
+
+	root := tms[0]
+
+	for _, m := range ms {
+		if m == nil {
+			continue
+		}
+		m.Apply(root)
+	}
+
+	return root
 }
 
 // Parse returns the giving markup structure generated from the string.
@@ -199,6 +261,17 @@ func ParseIn(root string,markup string, mo ...trees.Appliable) *trees.Markup {
 	}
 
 	return mroot
+}
+
+// Guscript returns a script tag which ass specific attributes which is set with
+// specific attributes that identifies this script.
+func Guscript(path string) *trees.Markup {
+	script := trees.NewMarkup("script", false)
+	trees.NewAttr("src", path).Apply(script)
+	trees.NewAttr("gu-resource", "true").Apply(script)
+	trees.NewAttr("gu-resource-root", "true").Apply(script)
+
+	return script
 }
 
 // CSS provides a function that takes style rules which returns a stylesheet embeded into
