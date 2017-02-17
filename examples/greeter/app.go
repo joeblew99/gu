@@ -13,13 +13,13 @@ func main() {
 		Name:  "View.Greeter",
 		Route: "/*",
 		Base: elems.Parse(`
-      <div class="greeter-view view wrapper">
-        <h1 class="view-header">Greeter App</h1>
+			<div class="greeter-view view wrapper">
+				<h1 class="view-header">Greeter App</h1>
 
-        <div class="greeter-app" id="greeter-app-component">
-        </div>
-      </div>
-    `, elems.CSS(`
+				<div class="greeter-app" id="greeter-app-component">
+				</div>
+			</div>
+		`, elems.CSS(`
 				html *{
 					padding: 0;
 					margin: 0;

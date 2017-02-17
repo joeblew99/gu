@@ -29,41 +29,41 @@ func (g *Greeter) Render() *trees.Markup {
 	return elems.CustomElement("greeter",
 		property.ClassAttr("greeter"),
 		elems.CSS(`
-      &{
-        width: 100%;
-        height: auto;
+			&{
+				width: 100%;
+				height: auto;
 				margin: 0px auto;
 				font-size: 100%;
-      }
+			}
 
 
-      & div.intro{
-        width: 90%;
-        padding: 10px;
+			& div.intro{
+				width: 90%;
+				padding: 10px;
 				font-size: 3.0em;
-      }
+			}
 
-      & div.intro span.person{
+			& div.intro span.person{
 				text-align: center;
 			}
 
-      & div.receiver{
-        width: 80%;
-        height: 40px;
-        padding: 10px;
+			& div.receiver{
+				width: 80%;
+				height: 40px;
+				padding: 10px;
 				font-size: 1.0em;
-      }
+			}
 
-      & div.receiver input{
-        display: block;
-        padding: 10px;
-        border: none;
-        outline: none;
+			& div.receiver input{
+				display: block;
+				padding: 10px;
+				border: none;
+				outline: none;
 				background: none;
-        border-bottom:5px solid rgba(255,255,255,0.3);
-      }
+				border-bottom:5px solid rgba(255,255,255,0.3);
+			}
 
-    `, nil),
+		`, nil),
 		elems.Div(
 			property.ClassAttr("intro"),
 			elems.Text("Welcome "),
