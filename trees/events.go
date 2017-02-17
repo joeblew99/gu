@@ -31,9 +31,9 @@ type Event struct {
 	StopImmediatePropagation bool
 	Tree                     *Markup
 	Handle                   mque.End
-	eventSelector            string
-	peventSelector           string
-	secTarget                string
+	// eventSelector            string
+	// peventSelector           string
+	secTarget string
 }
 
 // NewEvent returns a event object that allows registering events to eventlisteners.
@@ -76,12 +76,30 @@ func (e *Event) EventJSON() EventJSON {
 		Event:                    e.Type,
 		UseCapture:               e.UseCapture,
 		EventName:                e.EventName(),
-		EventSelector:            e.eventSelector,
-		ParentSelector:           e.peventSelector,
+		EventSelector:            e.EventSelector(),
+		ParentSelector:           e.ParentEventSelector(),
 		PreventDefault:           e.PreventDefault,
 		StopPropagation:          e.StopPropagation,
 		StopImmediatePropagation: e.StopImmediatePropagation,
 	}
+}
+
+// ParentEventSelector returns the parent selector for this events markup tree.
+func (e *Event) ParentEventSelector() string {
+	if e.Tree != nil {
+		return e.Tree.IDSelector(true)
+	}
+
+	return ""
+}
+
+// EventSelector returns the selector for this events tree.
+func (e *Event) EventSelector() string {
+	if e.Tree != nil {
+		return e.Tree.IDSelector(false)
+	}
+
+	return ""
 }
 
 // EventName returns the giving name of the event.
@@ -118,10 +136,15 @@ func (e *Event) Apply(ex *Markup) {
 	}
 
 	e.Tree = ex
-	e.eventSelector = ex.IDSelector(false)
-	e.peventSelector = ex.IDSelector(true)
+	// e.eventSelector = ex.IDSelector(false)
+	// e.peventSelector = ex.IDSelector(true)
 
 	ex.AddEvent(*e)
+}
+
+// String returns the string representation of the giving event.
+func (e *Event) String() string {
+	return fmt.Sprintf("%#v", e.EventJSON())
 }
 
 //==============================================================================

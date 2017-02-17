@@ -18,24 +18,28 @@ import (
 func ListenForHistory(behaviour func(router.PushEvent)) {
 	if BrowserSupportsPushState() {
 		js.Global.Set("onpopstate", func() {
-			host, path, hash := GetLocation()
+			host, path, hash, location := GetLocation()
 			behaviour(router.PushEvent{
-				Host: host,
-				Path: path,
-				Hash: hash,
-				Rem:  hash,
+				Host:   host,
+				Path:   path,
+				Hash:   hash,
+				Rem:    hash,
+				From:   location,
+				Params: make(map[string]string),
 			})
 		})
 		return
 	}
 
 	js.Global.Set("onhashchange", func() {
-		host, path, hash := GetLocation()
+		host, path, hash, location := GetLocation()
 		behaviour(router.PushEvent{
-			Host: host,
-			Path: path,
-			Hash: hash,
-			Rem:  hash,
+			Host:   host,
+			Path:   path,
+			Hash:   hash,
+			Rem:    hash,
+			From:   location,
+			Params: make(map[string]string),
 		})
 	})
 }
@@ -54,7 +58,7 @@ func BrowserSupportsPushState() bool {
 // SetLocationByPushEvent defines a function to set the current location using
 // the provided PushDirective.
 func SetLocationByPushEvent(ev router.PushDirectiveEvent) {
-	_, path, hash := GetLocation()
+	_, path, hash, _ := GetLocation()
 
 	if strings.HasPrefix(ev.To, "#") {
 		hash = ev.To
@@ -90,7 +94,7 @@ func PushDOMState(path string, hash string) {
 	panicBrowserDetect()
 
 	if path == "" {
-		_, path, _ = GetLocation()
+		_, path, _, _ = GetLocation()
 	}
 
 	if !strings.HasPrefix(hash, "#") {
@@ -118,7 +122,7 @@ func SetDOMHash(path string, hash string) {
 
 // GetLocation returns the path and hash of the browsers location api else
 // panics if not in a browser.
-func GetLocation() (host string, path string, hash string) {
+func GetLocation() (host string, path string, hash string, location string) {
 	if !detect.IsBrowser() {
 		return
 	}
@@ -132,6 +136,12 @@ func GetLocation() (host string, path string, hash string) {
 	host = ups.Host
 	path = ups.Path
 	hash = ups.Fragment
+	location = loc
+
+	if hash == "" {
+		hash = "/#"
+	}
+
 	return
 }
 

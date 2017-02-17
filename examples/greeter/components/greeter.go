@@ -1,6 +1,8 @@
 package components
 
 import (
+	"fmt"
+
 	"github.com/gu-io/gu"
 	"github.com/gu-io/gu/eventx"
 	"github.com/gu-io/gu/trees"
@@ -30,38 +32,46 @@ func (g *Greeter) Render() *trees.Markup {
       &{
         width: 100%;
         height: auto;
+				margin: 0px auto;
+				font-size: 100%;
       }
 
 
       & div.intro{
         width: 90%;
         padding: 10px;
+				font-size: 3.0em;
       }
 
+      & div.intro span.person{
+				text-align: center;
+			}
+
       & div.receiver{
-        width: 50%;
+        width: 80%;
         height: 40px;
         padding: 10px;
+				font-size: 1.0em;
       }
 
       & div.receiver input{
         display: block;
-        width: 100%;
-        height: 100%;
+        padding: 10px;
         border: none;
         outline: none;
-        border-bottom:5px solid #fff;
+				background: none;
+        border-bottom:5px solid rgba(255,255,255,0.3);
       }
 
     `, nil),
 		elems.Div(
 			property.ClassAttr("intro"),
-			elems.Text("Welcome to the Club"),
+			elems.Text("Welcome "),
 			elems.Span(
 				property.ClassAttr("person"),
 				trees.MarkupWhen(g.Name == "",
 					elems.SpaceCharacter(3),
-					elems.Text("%s", g.Name),
+					elems.Text("%q, Great Explorer!", g.Name),
 				),
 			),
 		),
@@ -69,9 +79,11 @@ func (g *Greeter) Render() *trees.Markup {
 			property.ClassAttr("receiver"),
 			elems.Input(
 				property.TypeAttr("text"),
+				property.ValueAttr(g.Name),
 				property.PlaceholderAttr("Enter your Name"),
 				events.ChangeEvent(func(event trees.EventObject, _ *trees.Markup) {
 					if change, ok := event.Underlying().(*eventx.ChangeEvent); ok {
+						fmt.Printf("Changed Occured: %#v\n", change)
 						g.Name = change.Value
 						g.Publish()
 					}

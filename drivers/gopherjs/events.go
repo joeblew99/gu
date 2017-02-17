@@ -2,6 +2,7 @@ package gopherjs
 
 import (
 	"errors"
+	"strings"
 	"sync"
 
 	"github.com/gopherjs/gopherjs/js"
@@ -10,6 +11,609 @@ import (
 	"github.com/gu-io/gu/shell"
 )
 
+// GetEventByType returns the appropriate event from the provided js.Object, by
+// introspectign the `type` field of the event. This is fallback for when constructor
+// returns `Event`.
+func GetEventByType(ev *js.Object, handle mque.End) *eventx.BaseEvent {
+	if ev == nil || ev == js.Undefined {
+		return nil
+	}
+
+	c := prepareEventName(ev.Get("type").String())
+
+	switch c {
+	case strings.ToLower("Animation"):
+		return eventx.NewBaseEvent(&eventx.AnimationEvent{
+			Core:          ev,
+			AnimationName: ev.Get("animationName").String(),
+			ElapsedTime:   ev.Get("elapsedTime").Float(),
+		}, handle)
+	case strings.ToLower("AudioProcessing"):
+		return eventx.NewBaseEvent(&eventx.AudioProcessingEvent{
+			Core:         ev,
+			PlaybackTime: ev.Get("playbackTime").Float(),
+		}, handle)
+	case strings.ToLower("BeforeInput"):
+		return eventx.NewBaseEvent(&eventx.BeforeInputEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("BeforeUnload"):
+		return eventx.NewBaseEvent(&eventx.BeforeUnloadEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("Blob"):
+		return eventx.NewBaseEvent(&eventx.BlobEvent{
+			Core: ev,
+			Data: fromBlob(ev.Get("data")),
+		}, handle)
+	case strings.ToLower("Change"):
+		return eventx.NewBaseEvent(&eventx.ChangeEvent{
+			Core:  ev,
+			Value: ev.Get("target").Get("value").String(),
+		}, handle)
+	case strings.ToLower("Clipboard"):
+		return eventx.NewBaseEvent(&eventx.ClipboardEvent{
+			Core: ev,
+			Data: toDataTransfer(ev.Get("clipboardData")),
+		}, handle)
+	case strings.ToLower("Close"):
+		return eventx.NewBaseEvent(&eventx.CloseEvent{
+			Core:     ev,
+			Code:     ev.Get("code").Int(),
+			Reason:   ev.Get("reason").String(),
+			WasClean: ev.Get("wasClean").Bool(),
+		}, handle)
+	case strings.ToLower("Composition"):
+		return eventx.NewBaseEvent(&eventx.CompositionEvent{
+			Core:   ev,
+			Text:   ev.Get("text").String(),
+			Data:   ev.Get("data").String(),
+			Locale: ev.Get("locale").String(),
+		}, handle)
+	case strings.ToLower("CSSFontFaceLoad"):
+		return eventx.NewBaseEvent(&eventx.CSSFontFaceLoadEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("Custom"):
+		return eventx.NewBaseEvent(&eventx.CustomEvent{
+			Core:   ev,
+			Detail: ev.Get("detail").Interface(),
+		}, handle)
+	case strings.ToLower("DeviceLight"):
+		return eventx.NewBaseEvent(&eventx.DeviceLightEvent{
+			Core:  ev,
+			Value: ev.Get("value").Float(),
+		}, handle)
+	case strings.ToLower("DeviceMotion"):
+		return eventx.NewBaseEvent(&eventx.DeviceMotionEvent{
+			Core:                         ev,
+			Interval:                     ev.Get("interval").Float(),
+			Acceleration:                 toMotionData(ev.Get("acceleration")),
+			AccelerationIncludingGravity: toMotionData(ev.Get("accelerationIncludingGravity")),
+			RotationRate:                 toRotationData(ev.Get("rotationRate")),
+		}, handle)
+	case strings.ToLower("DeviceOrientation"):
+		return eventx.NewBaseEvent(&eventx.DeviceOrientationEvent{
+			Core:     ev,
+			Absolute: ev.Get("absolute").Bool(),
+			Alpha:    ev.Get("alpha").Float(),
+			Beta:     ev.Get("beta").Float(),
+			Gamma:    ev.Get("gamma").Float(),
+		}, handle)
+	case strings.ToLower("DeviceProximity"):
+		return eventx.NewBaseEvent(&eventx.DeviceProximityEvent{
+			Core:  ev,
+			Max:   ev.Get("max").Float(),
+			Min:   ev.Get("min").Float(),
+			Value: ev.Get("value").Float(),
+		}, handle)
+	case strings.ToLower("DOMTransaction"):
+		return eventx.NewBaseEvent(&eventx.DOMTransactionEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("DragStart"):
+		return eventx.NewBaseEvent(&eventx.DragStartEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
+					Core:               ev,
+					IsChar:             ev.Get("isChar").Bool(),
+					LayerX:             ev.Get("layerX").Float(),
+					LayerY:             ev.Get("layerY").Float(),
+					PageX:              ev.Get("pageX").Float(),
+					PageY:              ev.Get("pageY").Float(),
+					Detail:             ev.Get("detail").Int(),
+					SourceCapabilities: toInputSourceCapability(ev.Get("sourceCapabilities")),
+				},
+				ClientX:  ev.Get("clientX").Float(),
+				ClientY:  ev.Get("clientY").Float(),
+				OffsetX:  ev.Get("offsetX").Float(),
+				OffsetY:  ev.Get("offsetY").Float(),
+				PageX:    ev.Get("pageX").Float(),
+				PageY:    ev.Get("pageY").Float(),
+				ScreenX:  ev.Get("screenX").Float(),
+				ScreenY:  ev.Get("screenY").Float(),
+				MovemenX: ev.Get("movementX").Float(),
+				MovemenY: ev.Get("movementY").Float(),
+				Button:   ev.Get("button").Int(),
+				Detail:   ev.Get("clientX").Int(),
+				AltKey:   ev.Get("altKey").Bool(),
+				CtrlKey:  ev.Get("ctrlKey").Bool(),
+				MetaKey:  ev.Get("metaKey").Bool(),
+				ShiftKey: ev.Get("shiftKey").Bool(),
+			},
+			DataTransfer: toDataTransfer(ev.Get("dataTransfer")),
+			Core:         ev,
+		}, handle)
+	case strings.ToLower("DragExit"):
+		return eventx.NewBaseEvent(&eventx.DragExitEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
+					Core:               ev,
+					IsChar:             ev.Get("isChar").Bool(),
+					LayerX:             ev.Get("layerX").Float(),
+					LayerY:             ev.Get("layerY").Float(),
+					PageX:              ev.Get("pageX").Float(),
+					PageY:              ev.Get("pageY").Float(),
+					Detail:             ev.Get("detail").Int(),
+					SourceCapabilities: toInputSourceCapability(ev.Get("sourceCapabilities")),
+				},
+				ClientX:  ev.Get("clientX").Float(),
+				ClientY:  ev.Get("clientY").Float(),
+				OffsetX:  ev.Get("offsetX").Float(),
+				OffsetY:  ev.Get("offsetY").Float(),
+				PageX:    ev.Get("pageX").Float(),
+				PageY:    ev.Get("pageY").Float(),
+				ScreenX:  ev.Get("screenX").Float(),
+				ScreenY:  ev.Get("screenY").Float(),
+				MovemenX: ev.Get("movementX").Float(),
+				MovemenY: ev.Get("movementY").Float(),
+				Button:   ev.Get("button").Int(),
+				Detail:   ev.Get("clientX").Int(),
+				AltKey:   ev.Get("altKey").Bool(),
+				CtrlKey:  ev.Get("ctrlKey").Bool(),
+				MetaKey:  ev.Get("metaKey").Bool(),
+				ShiftKey: ev.Get("shiftKey").Bool(),
+			},
+			Core:         ev,
+			DataTransfer: toDataTransfer(ev.Get("dataTransfer")),
+		}, handle)
+	case strings.ToLower("DragEnd"):
+		return eventx.NewBaseEvent(&eventx.DragEndEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
+					Core:               ev,
+					IsChar:             ev.Get("isChar").Bool(),
+					LayerX:             ev.Get("layerX").Float(),
+					LayerY:             ev.Get("layerY").Float(),
+					PageX:              ev.Get("pageX").Float(),
+					PageY:              ev.Get("pageY").Float(),
+					Detail:             ev.Get("detail").Int(),
+					SourceCapabilities: toInputSourceCapability(ev.Get("sourceCapabilities")),
+				},
+				ClientX:  ev.Get("clientX").Float(),
+				ClientY:  ev.Get("clientY").Float(),
+				OffsetX:  ev.Get("offsetX").Float(),
+				OffsetY:  ev.Get("offsetY").Float(),
+				PageX:    ev.Get("pageX").Float(),
+				PageY:    ev.Get("pageY").Float(),
+				ScreenX:  ev.Get("screenX").Float(),
+				ScreenY:  ev.Get("screenY").Float(),
+				MovemenX: ev.Get("movementX").Float(),
+				MovemenY: ev.Get("movementY").Float(),
+				Button:   ev.Get("button").Int(),
+				Detail:   ev.Get("clientX").Int(),
+				AltKey:   ev.Get("altKey").Bool(),
+				CtrlKey:  ev.Get("ctrlKey").Bool(),
+				MetaKey:  ev.Get("metaKey").Bool(),
+				ShiftKey: ev.Get("shiftKey").Bool(),
+			},
+			DataTransfer: toDataTransfer(ev.Get("dataTransfer")),
+			Core:         ev,
+		}, handle)
+	case strings.ToLower("DragEnter"):
+		return eventx.NewBaseEvent(&eventx.DragEnterEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
+					Core:               ev,
+					IsChar:             ev.Get("isChar").Bool(),
+					LayerX:             ev.Get("layerX").Float(),
+					LayerY:             ev.Get("layerY").Float(),
+					PageX:              ev.Get("pageX").Float(),
+					PageY:              ev.Get("pageY").Float(),
+					Detail:             ev.Get("detail").Int(),
+					SourceCapabilities: toInputSourceCapability(ev.Get("sourceCapabilities")),
+				},
+				ClientX:  ev.Get("clientX").Float(),
+				ClientY:  ev.Get("clientY").Float(),
+				OffsetX:  ev.Get("offsetX").Float(),
+				OffsetY:  ev.Get("offsetY").Float(),
+				PageX:    ev.Get("pageX").Float(),
+				PageY:    ev.Get("pageY").Float(),
+				ScreenX:  ev.Get("screenX").Float(),
+				ScreenY:  ev.Get("screenY").Float(),
+				MovemenX: ev.Get("movementX").Float(),
+				MovemenY: ev.Get("movementY").Float(),
+				Button:   ev.Get("button").Int(),
+				Detail:   ev.Get("clientX").Int(),
+				AltKey:   ev.Get("altKey").Bool(),
+				CtrlKey:  ev.Get("ctrlKey").Bool(),
+				MetaKey:  ev.Get("metaKey").Bool(),
+				ShiftKey: ev.Get("shiftKey").Bool(),
+			},
+			DataTransfer: toDataTransfer(ev.Get("dataTransfer")),
+			Core:         ev,
+		}, handle)
+	case strings.ToLower("DragLeave"):
+		return eventx.NewBaseEvent(&eventx.DragLeaveEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
+					Core:               ev,
+					IsChar:             ev.Get("isChar").Bool(),
+					LayerX:             ev.Get("layerX").Float(),
+					LayerY:             ev.Get("layerY").Float(),
+					PageX:              ev.Get("pageX").Float(),
+					PageY:              ev.Get("pageY").Float(),
+					Detail:             ev.Get("detail").Int(),
+					SourceCapabilities: toInputSourceCapability(ev.Get("sourceCapabilities")),
+				},
+				ClientX:  ev.Get("clientX").Float(),
+				ClientY:  ev.Get("clientY").Float(),
+				OffsetX:  ev.Get("offsetX").Float(),
+				OffsetY:  ev.Get("offsetY").Float(),
+				PageX:    ev.Get("pageX").Float(),
+				PageY:    ev.Get("pageY").Float(),
+				ScreenX:  ev.Get("screenX").Float(),
+				ScreenY:  ev.Get("screenY").Float(),
+				MovemenX: ev.Get("movementX").Float(),
+				MovemenY: ev.Get("movementY").Float(),
+				Button:   ev.Get("button").Int(),
+				Detail:   ev.Get("clientX").Int(),
+				AltKey:   ev.Get("altKey").Bool(),
+				CtrlKey:  ev.Get("ctrlKey").Bool(),
+				MetaKey:  ev.Get("metaKey").Bool(),
+				ShiftKey: ev.Get("shiftKey").Bool(),
+			},
+			DataTransfer: toDataTransfer(ev.Get("dataTransfer")),
+			Core:         ev,
+		}, handle)
+	case strings.ToLower("DragOver"):
+		return eventx.NewBaseEvent(&eventx.DragOverEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
+					Core:               ev,
+					IsChar:             ev.Get("isChar").Bool(),
+					LayerX:             ev.Get("layerX").Float(),
+					LayerY:             ev.Get("layerY").Float(),
+					PageX:              ev.Get("pageX").Float(),
+					PageY:              ev.Get("pageY").Float(),
+					Detail:             ev.Get("detail").Int(),
+					SourceCapabilities: toInputSourceCapability(ev.Get("sourceCapabilities")),
+				},
+				ClientX:  ev.Get("clientX").Float(),
+				ClientY:  ev.Get("clientY").Float(),
+				OffsetX:  ev.Get("offsetX").Float(),
+				OffsetY:  ev.Get("offsetY").Float(),
+				PageX:    ev.Get("pageX").Float(),
+				PageY:    ev.Get("pageY").Float(),
+				ScreenX:  ev.Get("screenX").Float(),
+				ScreenY:  ev.Get("screenY").Float(),
+				MovemenX: ev.Get("movementX").Float(),
+				MovemenY: ev.Get("movementY").Float(),
+				Button:   ev.Get("button").Int(),
+				Detail:   ev.Get("clientX").Int(),
+				AltKey:   ev.Get("altKey").Bool(),
+				CtrlKey:  ev.Get("ctrlKey").Bool(),
+				MetaKey:  ev.Get("metaKey").Bool(),
+				ShiftKey: ev.Get("shiftKey").Bool(),
+			},
+			DataTransfer: toDataTransfer(ev.Get("dataTransfer")),
+			Core:         ev,
+		}, handle)
+	case strings.ToLower("Drop"):
+		return eventx.NewBaseEvent(&eventx.DropEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
+					Core:               ev,
+					IsChar:             ev.Get("isChar").Bool(),
+					LayerX:             ev.Get("layerX").Float(),
+					LayerY:             ev.Get("layerY").Float(),
+					PageX:              ev.Get("pageX").Float(),
+					PageY:              ev.Get("pageY").Float(),
+					Detail:             ev.Get("detail").Int(),
+					SourceCapabilities: toInputSourceCapability(ev.Get("sourceCapabilities")),
+				},
+				ClientX:  ev.Get("clientX").Float(),
+				ClientY:  ev.Get("clientY").Float(),
+				OffsetX:  ev.Get("offsetX").Float(),
+				OffsetY:  ev.Get("offsetY").Float(),
+				PageX:    ev.Get("pageX").Float(),
+				PageY:    ev.Get("pageY").Float(),
+				ScreenX:  ev.Get("screenX").Float(),
+				ScreenY:  ev.Get("screenY").Float(),
+				MovemenX: ev.Get("movementX").Float(),
+				MovemenY: ev.Get("movementY").Float(),
+				Button:   ev.Get("button").Int(),
+				Detail:   ev.Get("clientX").Int(),
+				AltKey:   ev.Get("altKey").Bool(),
+				CtrlKey:  ev.Get("ctrlKey").Bool(),
+				MetaKey:  ev.Get("metaKey").Bool(),
+				ShiftKey: ev.Get("shiftKey").Bool(),
+			},
+			DataTransfer: toDataTransfer(ev.Get("dataTransfer")),
+			Core:         ev,
+		}, handle)
+	case strings.ToLower("Drag"):
+		return eventx.NewBaseEvent(&eventx.DragEvent{
+			MouseEvent: &eventx.MouseEvent{
+				UIEvent: &eventx.UIEvent{
+					Core:               ev,
+					IsChar:             ev.Get("isChar").Bool(),
+					LayerX:             ev.Get("layerX").Float(),
+					LayerY:             ev.Get("layerY").Float(),
+					PageX:              ev.Get("pageX").Float(),
+					PageY:              ev.Get("pageY").Float(),
+					Detail:             ev.Get("detail").Int(),
+					SourceCapabilities: toInputSourceCapability(ev.Get("sourceCapabilities")),
+				},
+				ClientX:  ev.Get("clientX").Float(),
+				ClientY:  ev.Get("clientY").Float(),
+				OffsetX:  ev.Get("offsetX").Float(),
+				OffsetY:  ev.Get("offsetY").Float(),
+				PageX:    ev.Get("pageX").Float(),
+				PageY:    ev.Get("pageY").Float(),
+				ScreenX:  ev.Get("screenX").Float(),
+				ScreenY:  ev.Get("screenY").Float(),
+				MovemenX: ev.Get("movementX").Float(),
+				MovemenY: ev.Get("movementY").Float(),
+				Button:   ev.Get("button").Int(),
+				Detail:   ev.Get("clientX").Int(),
+				AltKey:   ev.Get("altKey").Bool(),
+				CtrlKey:  ev.Get("ctrlKey").Bool(),
+				MetaKey:  ev.Get("metaKey").Bool(),
+				ShiftKey: ev.Get("shiftKey").Bool(),
+			},
+			DataTransfer: toDataTransfer(ev.Get("dataTransfer")),
+			Core:         ev,
+		}, handle)
+	case strings.ToLower("EditingBeforeInput"):
+		return eventx.NewBaseEvent(&eventx.EditingBeforeInputEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("Error"):
+		var err error
+		if evx := ev.Get("error"); evx != nil && evx != js.Undefined {
+			err = errors.New(ev.Get("error").String())
+		}
+
+		return eventx.NewBaseEvent(&eventx.ErrorEvent{
+			Core:       ev,
+			Message:    ev.Get("message").String(),
+			Filename:   ev.Get("filename").String(),
+			LineNumber: ev.Get("lineno").Int(),
+			ColNumber:  ev.Get("colno").Int(),
+			Error:      err,
+		}, handle)
+	case strings.ToLower("Focus"):
+		return eventx.NewBaseEvent(&eventx.FocusEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("Gamepad"):
+		return eventx.NewBaseEvent(&eventx.GamepadEvent{
+			Core:    ev,
+			Gamepad: toGamepad(ev.Get("gamepad")),
+		}, handle)
+	case strings.ToLower("HashChange"):
+		return eventx.NewBaseEvent(&eventx.HashChangeEvent{
+			Core: ev,
+			Old:  ev.Get("oldURL").String(),
+			New:  ev.Get("newURL").String(),
+		}, handle)
+	case strings.ToLower("IDBVersionChange"):
+		return eventx.NewBaseEvent(&eventx.IDBVersionChangeEvent{
+			Core:       ev,
+			OldVersion: ev.Get("oldVersion").Int64(),
+			NewVersion: ev.Get("newVersion").Int64(),
+		}, handle)
+	case strings.ToLower("Keyboard"):
+		return eventx.NewBaseEvent(&eventx.KeyboardEvent{
+			Core:          ev,
+			CharCode:      ev.Get("charCode").Int(),
+			Key:           ev.Get("key").String(),
+			Locale:        ev.Get("locale").String(),
+			AltKey:        ev.Get("altKey").Bool(),
+			CtrlKey:       ev.Get("ctrlKey").Bool(),
+			MetaKey:       ev.Get("metaKey").Bool(),
+			ShiftKey:      ev.Get("shiftKey").Bool(),
+			Repeat:        ev.Get("repeat").Bool(),
+			Location:      ev.Get("location").Int(),
+			ModifiedState: ev.Get("getModifierState").Bool(),
+			KeyIdentifier: ev.Get("keyIdentifier").String(),
+			KeyLocation:   eventx.KeyLocation(ev.Get("KeyLocation").Uint64()),
+			KeyCode:       eventx.KeyCode(ev.Get("keyCode").Uint64()),
+		}, handle)
+	case strings.ToLower("MediaStream"):
+		return eventx.NewBaseEvent(&eventx.MediaStreamEvent{
+			Core:   ev,
+			Stream: toMediaStream(ev.Get("stream")),
+		}, handle)
+	case strings.ToLower("Message"):
+		var data []byte
+
+		if so := ev.Get("data"); so != nil && so != js.Undefined {
+			switch so {
+			case js.Global.Get("String"):
+				data = []byte(so.String())
+				break
+			case js.Global.Get("Blob"):
+				data = fromBlob(so)
+				break
+			case js.Global.Get("ArrayBuffer"):
+				data = fromFile(so)
+				break
+			}
+		}
+
+		return eventx.NewBaseEvent(&eventx.MessageEvent{
+			Core:   ev,
+			Data:   data,
+			Origin: ev.Get("origin").String(),
+			Source: ev.Get("source").String(),
+			Port:   ev.Get("port").Int(),
+		}, handle)
+	case strings.ToLower("Mouse"):
+		return eventx.NewBaseEvent(&eventx.MouseEvent{
+			UIEvent: &eventx.UIEvent{
+				Core: ev,
+			},
+			ClientX:  ev.Get("clientX").Float(),
+			ClientY:  ev.Get("clientY").Float(),
+			OffsetX:  ev.Get("offsetX").Float(),
+			OffsetY:  ev.Get("offsetY").Float(),
+			PageX:    ev.Get("pageX").Float(),
+			PageY:    ev.Get("pageY").Float(),
+			ScreenX:  ev.Get("screenX").Float(),
+			ScreenY:  ev.Get("screenY").Float(),
+			MovemenX: ev.Get("movementX").Float(),
+			MovemenY: ev.Get("movementY").Float(),
+			Button:   ev.Get("button").Int(),
+			Detail:   ev.Get("clientX").Int(),
+			AltKey:   ev.Get("altKey").Bool(),
+			CtrlKey:  ev.Get("ctrlKey").Bool(),
+			MetaKey:  ev.Get("metaKey").Bool(),
+			ShiftKey: ev.Get("shiftKey").Bool(),
+		}, handle)
+	case strings.ToLower("Mutation"):
+		return eventx.NewBaseEvent(&eventx.MutationEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("OfflineAudioCompletion"):
+		return eventx.NewBaseEvent(&eventx.OfflineAudioCompletionEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("PageTransition"):
+		return eventx.NewBaseEvent(&eventx.PageTransitionEvent{
+			Core:      ev,
+			Persisted: ev.Get("persisted").Bool(),
+		}, handle)
+	case strings.ToLower("Pointer"):
+		return eventx.NewBaseEvent(&eventx.PointerEvent{
+			Core:        ev,
+			Width:       ev.Get("width").Int(),
+			Height:      ev.Get("height").Int(),
+			TiltX:       ev.Get("tiltX").Float(),
+			TiltY:       ev.Get("tiltY").Float(),
+			Pressure:    ev.Get("pressure").Float(),
+			IsPrimary:   ev.Get("isPrimary").Bool(),
+			PointerID:   ev.Get("pointerId").Int(),
+			PointerType: ev.Get("pointerType").String(),
+		}, handle)
+	case strings.ToLower("Fetch"):
+		var req shell.WebRequest
+
+		if ro := ev.Get("request"); ro != nil && ro != js.Undefined {
+			req, _ = shell.ObjectToWebRequest(ro)
+		}
+
+		return eventx.NewBaseEvent(&eventx.FetchEvent{
+			Core:     ev,
+			IsReload: ev.Get("isReload").Bool(),
+			ClientID: ev.Get("clientId").String(),
+			Request:  req,
+		}, handle)
+	case strings.ToLower("PopState"):
+		return eventx.NewBaseEvent(&eventx.PopStateEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("Progress"):
+		return eventx.NewBaseEvent(&eventx.ProgressEvent{
+			Core:             ev,
+			LengthComputable: ev.Get("lengthComputable").Bool(),
+			Loaded:           ev.Get("loaded").Uint64(),
+			Total:            ev.Get("total").Int(),
+		}, handle)
+	case strings.ToLower("Related"):
+		return eventx.NewBaseEvent(&eventx.RelatedEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("RTCPeerConnectionIce"):
+		return eventx.NewBaseEvent(&eventx.RTCPeerConnectionIceEvent{
+			Core:      ev,
+			Candidate: ev.Get("candidate").String(),
+		}, handle)
+	case strings.ToLower("Sensor"):
+		return eventx.NewBaseEvent(&eventx.SensorEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("Storage"):
+		return eventx.NewBaseEvent(&eventx.StorageEvent{
+			Core:        ev,
+			Key:         ev.Get("key").String(),
+			NewValue:    ev.Get("newValue").String(),
+			OldValue:    ev.Get("oldValue").String(),
+			URL:         ev.Get("url").String(),
+			StorageArea: ev.Get("storageArea").Interface(),
+		}, handle)
+	case strings.ToLower("SVG"):
+		return eventx.NewBaseEvent(&eventx.SVGEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("SVGZoom"):
+		return eventx.NewBaseEvent(&eventx.SVGZoomEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("Time"):
+		return eventx.NewBaseEvent(&eventx.TimeEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("Touch"):
+		return eventx.NewBaseEvent(&eventx.TouchEvent{
+			Core:          ev,
+			AltKey:        ev.Get("altKey").Bool(),
+			CtrlKey:       ev.Get("ctrlKey").Bool(),
+			MetaKey:       ev.Get("metaKey").Bool(),
+			ShiftKey:      ev.Get("shiftKey").Bool(),
+			TargetTouches: toTouches(ev.Get("touches")),
+			Touches:       toTouches(ev.Get("targetTouches")),
+		}, handle)
+	case strings.ToLower("Track"):
+		return eventx.NewBaseEvent(&eventx.TrackEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("Transition"):
+		return eventx.NewBaseEvent(&eventx.TransitionEvent{
+			Core:          ev,
+			ElapsedTime:   ev.Get("elapsedTime").Float(),
+			PropertyName:  ev.Get("propertyName").String(),
+			PseudoElement: ev.Get("pseudoElement").String(),
+		}, handle)
+	case strings.ToLower("UI"):
+		return eventx.NewBaseEvent(&eventx.UIEvent{
+			Core:               ev,
+			IsChar:             ev.Get("isChar").Bool(),
+			LayerX:             ev.Get("layerX").Float(),
+			LayerY:             ev.Get("layerY").Float(),
+			PageX:              ev.Get("pageX").Float(),
+			PageY:              ev.Get("pageY").Float(),
+			Detail:             ev.Get("detail").Int(),
+			SourceCapabilities: toInputSourceCapability(ev.Get("sourceCapabilities")),
+		}, handle)
+	case strings.ToLower("UserProximity"):
+		return eventx.NewBaseEvent(&eventx.UserProximityEvent{
+			Core: ev,
+		}, handle)
+	case strings.ToLower("Wheel"):
+		return eventx.NewBaseEvent(&eventx.WheelEvent{
+			Core:      ev,
+			DeltaX:    ev.Get("deltaX").Float(),
+			DeltaY:    ev.Get("deltaX").Float(),
+			DeltaZ:    ev.Get("deltaX").Float(),
+			DeltaMode: eventx.DeltaMode(ev.Get("deltaMode").Uint64()),
+		}, handle)
+	}
+
+	return eventx.NewBaseEvent(ev, handle)
+}
+
 // GetEvent returns the appropriate event from the provided structures.
 func GetEvent(ev *js.Object, handle mque.End) *eventx.BaseEvent {
 	if ev == nil || ev == js.Undefined {
@@ -17,6 +621,12 @@ func GetEvent(ev *js.Object, handle mque.End) *eventx.BaseEvent {
 	}
 
 	c := ev.Get("constructor")
+
+	// If we recieve a EventObject type whoes constructor is the base Event
+	// type then we have to use the `type` field.
+	if c == js.Global.Get("Event") {
+		return GetEventByType(ev, handle)
+	}
 
 	switch c {
 	case js.Global.Get("AnimationEvent"):
@@ -878,4 +1488,13 @@ func toDataTransfer(o *js.Object) eventx.DataTransfer {
 	dt.Items = eventx.DataTransferItemList{Items: dItems}
 	dt.Files = dFiles
 	return dt
+}
+
+// prepareEventName lowers the event name into lowercase and removes all non string
+// characters.
+func prepareEventName(name string) string {
+	name = strings.ToLower(name)
+	name = strings.Replace(name, "-", "", -1)
+	name = strings.Replace(name, "_", "", -1)
+	return name
 }

@@ -27,16 +27,22 @@ func NewJSDriver() *JSDriver {
 		doc:    win.Document(),
 	}
 
-	DOMReady(driver.init)
-
 	return driver
+}
+
+// Ready is called to intialize the driver and load the page.
+func (driver *JSDriver) Ready() {
+	DOMReady(driver.init)
 }
 
 func (driver *JSDriver) init() {
 	fmt.Printf("Initializing Driver(%q)\n", driver.Name())
+	fmt.Printf("Running Initial Handlers (Total: %d)\n", len(driver.readyHandlers))
 	for _, ready := range driver.readyHandlers {
 		ready()
 	}
+
+	fmt.Printf("Running Initial Handlers Ended (Total: %d)\n", len(driver.readyHandlers))
 }
 
 // Name returns the name of the driver.
@@ -52,12 +58,15 @@ func (driver *JSDriver) OnReady(handle func()) {
 
 // Location returns the current location of the browser.
 func (driver *JSDriver) Location() router.PushEvent {
-	host, path, hash := GetLocation()
+	host, path, hash, location := GetLocation()
+
 	return router.PushEvent{
-		Host: host,
-		Path: path,
-		Hash: hash,
-		Rem:  hash,
+		Host:   host,
+		Path:   path,
+		Hash:   hash,
+		Rem:    hash,
+		From:   location,
+		Params: make(map[string]string),
 	}
 }
 
@@ -71,7 +80,7 @@ func (driver *JSDriver) Navigate(route router.PushDirectiveEvent) {
 func (driver *JSDriver) OnRoute(app *gu.NApp) {
 	ListenForHistory(func(ev router.PushEvent) {
 		app.ActivateRoute(ev)
-		driver.Render(app)
+		go driver.Render(app)
 	})
 }
 
@@ -80,6 +89,7 @@ func (driver *JSDriver) OnRoute(app *gu.NApp) {
 func (driver *JSDriver) Render(app *gu.NApp) {
 	head := driver.doc.QuerySelector("head")
 	body := driver.doc.QuerySelector("body")
+	htmlTag := driver.doc.QuerySelector("html")
 
 	// clear all children of head and body if the belong to us.
 	for _, item := range head.QuerySelectorAll("[data-gen*='gu']") {
@@ -95,8 +105,24 @@ func (driver *JSDriver) Render(app *gu.NApp) {
 	}
 
 	renderTree := app.Render(nil)
+
 	headTree := trees.Query.Query(renderTree, "head")
 	bodyTree := trees.Query.Query(renderTree, "body")
+
+	for _, attr := range renderTree.Attributes() {
+		name, value := attr.Render()
+		htmlTag.SetAttribute(name, value)
+	}
+
+	for _, attr := range headTree.Attributes() {
+		name, value := attr.Render()
+		head.SetAttribute(name, value)
+	}
+
+	for _, attr := range bodyTree.Attributes() {
+		name, value := attr.Render()
+		body.SetAttribute(name, value)
+	}
 
 	head.SetInnerHTML(headTree.HTML())
 	body.SetInnerHTML(bodyTree.HTML())
@@ -129,19 +155,32 @@ func (driver *JSDriver) Update(app *gu.NApp, view *gu.NView) {
 		// TODO: Do we wish to call this here?
 		// view.Unmounted()
 
-		Patch(CreateFragment(renderTree.HTML()), head.Underlying(), false)
+		go func() {
+			Patch(CreateFragment(renderTree.HTML()), head.Underlying(), false)
 
-		// TODO: Do we wish to call this here?
-		view.Updated()
+			renderTree.EachEvent(func(ev *trees.Event, root *trees.Markup) {
+				BindEvent(ev, head.Underlying())
+			})
+
+			// TODO: Do we wish to call this here?
+			view.Updated()
+		}()
 		return
 	}
 
 	body := driver.doc.QuerySelector("body")
-	renderTree := view.Render()
-	Patch(CreateFragment(renderTree.HTML()), body.Underlying(), false)
 
-	// TODO: Do we wish to call this here?
-	view.Updated()
+	go func() {
+		renderTree := view.Render()
+		Patch(CreateFragment(renderTree.HTML()), body.Underlying(), false)
+
+		renderTree.EachEvent(func(ev *trees.Event, root *trees.Markup) {
+			BindEvent(ev, body.Underlying())
+		})
+
+		// TODO: Do we wish to call this here?
+		view.Updated()
+	}()
 }
 
 // Services returns the Fetcher and Cache associated with the provided cacheName.

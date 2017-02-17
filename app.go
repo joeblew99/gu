@@ -20,6 +20,9 @@ type Driver interface {
 	// Method to subscribe to ready state for the driver.
 	OnReady(func())
 
+	// Ready is called to initialize the driver and begin operation.
+	Ready()
+
 	// Name of the driver.
 	Name() string
 
@@ -37,7 +40,7 @@ type Driver interface {
 	Render(*NApp)
 
 	// Update app's view and it's target content.
-	Update(*NApp, ...*NView)
+	Update(*NApp, *NView)
 
 	// Services returns a new resource fetcher which can be used to retrieve Resources.
 	// Fetcher requires the cacheName and a boolean indicating if it should intercept
@@ -88,8 +91,8 @@ type NApp struct {
 	active        bool
 
 	local       []shell.AppManifest
-	views       []NView
-	activeViews []NView
+	views       []*NView
+	activeViews []*NView
 
 	globalResources []Resource
 
@@ -150,9 +153,16 @@ func App(attr AppAttr) *NApp {
 	}
 
 	app.driver.OnReady(func() {
+		fmt.Printf("Running App: %q\n", app.attr.Name)
+		fmt.Printf("Running App Title: %q\n", app.attr.Name)
+
 		app.active = false
+		app.ActivateRoute(app.driver.Location())
+
 		app.driver.Render(&app)
 		app.active = true
+
+		fmt.Printf("Ending App Run: %q\n", app.attr.Name)
 	})
 
 	app.notifications.Subscribe(func(directive router.PushDirectiveEvent) {
@@ -165,6 +175,7 @@ func App(attr AppAttr) *NApp {
 
 	app.driver.OnRoute(&app)
 
+	app.driver.Ready()
 	return &app
 }
 
@@ -315,11 +326,15 @@ func (app *NApp) Render(es interface{}) *trees.Markup {
 }
 
 // PushViews returns a slice of  views that match and pass the provided path.
-func (app *NApp) PushViews(event router.PushEvent) []NView {
-	var active []NView
+func (app *NApp) PushViews(event router.PushEvent) []*NView {
+	// fmt.Printf("Routing Path: %s\n", event.Rem)
+	var active []*NView
 
 	for _, view := range app.views {
-		if _, _, ok := view.router.Test(event.String()); ok {
+		// _, rem, ok := view.router.Test(event.Rem)
+		// fmt.Printf("Routing View: %s : %s -> %t -> %s\n", view.Attr().Name, view.router.Pattern(), ok, rem)
+
+		if _, _, ok := view.router.Test(event.Rem); !ok {
 			// Notify view to appropriate proper action when view does not match.
 			view.router.Resolve(event)
 			continue
@@ -431,11 +446,12 @@ func (app *NApp) View(attr ViewAttr) *NView {
 	}
 
 	var vw NView
-	vw.Reactive = NewReactive()
 	vw.attr = attr
+	vw.root = app
+	vw.uuid = NewKey()
 	vw.driver = app.driver
 	vw.notifications = app.notifications
-	vw.uuid = NewKey()
+	vw.Reactive = NewReactive()
 	vw.appUUID = app.uuid
 
 	vw.router = router.New(attr.Route)
@@ -460,7 +476,7 @@ func (app *NApp) View(attr ViewAttr) *NView {
 
 	vw.attr.Base.SwapUID(vw.uuid)
 
-	app.views = append(app.views, vw)
+	app.views = append(app.views, &vw)
 
 	return &vw
 }
@@ -476,6 +492,7 @@ type RenderableData struct {
 // view.
 type NView struct {
 	Reactive
+	root          *NApp
 	uuid          string
 	appUUID       string
 	active        bool
@@ -491,14 +508,19 @@ type NView struct {
 
 	localResources []Resource
 
-	beginComponents []Component
-	anyComponents   []Component
-	lastComponents  []Component
+	beginComponents []*Component
+	anyComponents   []*Component
+	lastComponents  []*Component
 }
 
 // UUID returns the uuid specific to the giving view.
 func (v *NView) UUID() string {
 	return v.uuid
+}
+
+// totalComponents returns the total component list.
+func (v *NView) totalComponents() int {
+	return len(v.beginComponents) + len(v.anyComponents) + len(v.lastComponents)
 }
 
 // ViewJSON defines a struct which holds the giving sets of view changes to be
@@ -521,13 +543,16 @@ func (v *NView) RenderJSON() ViewJSON {
 
 // Render returns the markup for the giving views.
 func (v *NView) Render() *trees.Markup {
+	fmt.Printf("Rendering View: %q Total Components: %d\n", v.attr.Name, v.totalComponents())
+
 	base := v.attr.Base.Clone()
+
 	// Update the base hash.
 	base.UpdateHash()
 
 	// Process the begin components and immediately add appropriately into base.
 	for _, component := range v.beginComponents {
-		if component.attr.Target != "" {
+		if component.attr.Target == "" {
 			component.Render().ApplyMorphers().Apply(base)
 			continue
 		}
@@ -536,12 +561,13 @@ func (v *NView) Render() *trees.Markup {
 		targets := trees.Query.QueryAll(base, component.attr.Target)
 		for _, target := range targets {
 			target.AddChild(render)
+			target.UpdateHash()
 		}
 	}
 
 	// Process the middle components and immediately add appropriately into base.
 	for _, component := range v.anyComponents {
-		if component.attr.Target != "" {
+		if component.attr.Target == "" {
 			component.Render().ApplyMorphers().Apply(base)
 			continue
 		}
@@ -550,12 +576,13 @@ func (v *NView) Render() *trees.Markup {
 		targets := trees.Query.QueryAll(base, component.attr.Target)
 		for _, target := range targets {
 			target.AddChild(render)
+			target.UpdateHash()
 		}
 	}
 
 	// Process the last components and immediately add appropriately into base.
 	for _, component := range v.lastComponents {
-		if component.attr.Target != "" {
+		if component.attr.Target == "" {
 			component.Render().ApplyMorphers().Apply(base)
 			continue
 		}
@@ -564,6 +591,7 @@ func (v *NView) Render() *trees.Markup {
 		targets := trees.Query.QueryAll(base, component.attr.Target)
 		for _, target := range targets {
 			target.AddChild(render)
+			target.UpdateHash()
 		}
 	}
 
@@ -696,50 +724,6 @@ type ComponentAttr struct {
 	Relations []string       `json:"relations"`
 }
 
-// Component defines a struct which
-type Component struct {
-	Reactive
-	uuid      string
-	attr      ComponentAttr
-	Rendering Renderable
-	Router    router.Resolver
-
-	Mounted   Subscriptions
-	Unmounted Subscriptions
-	Rendered  Subscriptions
-	Updated   Subscriptions
-	live      *trees.Markup
-}
-
-// UUID returns the identification for the giving component.
-func (c Component) UUID() string {
-	return c.uuid
-}
-
-// Render returns the markup corresponding to the internal Renderable.
-func (c *Component) Render() *trees.Markup {
-	newTree := c.Rendering.Render()
-	newTree.SwapUID(c.uuid)
-
-	if c.live != nil {
-		live := c.live
-		live.EachEvent(func(e *trees.Event, _ *trees.Markup) {
-			if e.Handle != nil {
-				e.Handle.End()
-			}
-		})
-
-		newTree.Reconcile(live)
-		live.Empty()
-	}
-
-	c.live = newTree
-
-	c.Rendered.Publish()
-
-	return c.live.ApplyMorphers()
-}
-
 // Component adds the provided component into the selected view.
 func (v *NView) Component(attr ComponentAttr) {
 	if strings.TrimSpace(attr.Route) == "" {
@@ -749,12 +733,12 @@ func (v *NView) Component(attr ComponentAttr) {
 	var c Component
 	c.attr = attr
 	c.uuid = NewKey()
-	c.Router = router.New(attr.Route)
 	c.Reactive = NewReactive()
 	c.Mounted = NewSubscriptions()
 	c.Unmounted = NewSubscriptions()
 	c.Rendered = NewSubscriptions()
 	c.Updated = NewSubscriptions()
+	c.Router = router.New(attr.Route)
 
 	if attr.Tag == "" {
 		attr.Tag = "component-element"
@@ -905,21 +889,21 @@ func (v *NView) Component(attr ComponentAttr) {
 		}
 	}
 
-	// Connect the component into the rendering reactor if it has one.
-	if rc, ok := c.Rendering.(Reactor); ok {
-		rc.React(c.Reactive.Publish)
-	}
-
 	// Add the component into the right order.
 	{
 		switch attr.Order {
 		case FirstOrder:
-			v.beginComponents = append(v.beginComponents, c)
+			v.beginComponents = append(v.beginComponents, &c)
 		case LastOrder:
-			v.lastComponents = append(v.lastComponents, c)
+			v.lastComponents = append(v.lastComponents, &c)
 		case AnyOrder:
-			v.anyComponents = append(v.anyComponents, c)
+			v.anyComponents = append(v.anyComponents, &c)
 		}
+	}
+
+	// Connect the component into the rendering reactor if it has one.
+	if rc, ok := c.Rendering.(Reactor); ok {
+		rc.React(c.Reactive.Publish)
 	}
 
 	// Connect the view to react to a change from the component.
@@ -944,6 +928,54 @@ func (v *NView) Component(attr ComponentAttr) {
 			}
 		}
 	}
+
+	// Send call for view update.
+	v.driver.Update(v.root, v)
+}
+
+// Component defines a struct which
+type Component struct {
+	Reactive
+	uuid      string
+	attr      ComponentAttr
+	Rendering Renderable
+	Router    router.Resolver
+
+	Mounted   Subscriptions
+	Unmounted Subscriptions
+	Rendered  Subscriptions
+	Updated   Subscriptions
+	live      *trees.Markup
+}
+
+// UUID returns the identification for the giving component.
+func (c Component) UUID() string {
+	return c.uuid
+}
+
+// Render returns the markup corresponding to the internal Renderable.
+func (c *Component) Render() *trees.Markup {
+	newTree := c.Rendering.Render()
+	newTree.SwapUID(c.uuid)
+
+	if c.live != nil {
+		live := c.live
+		live.EachEvent(func(e *trees.Event, _ *trees.Markup) {
+			if e.Handle != nil {
+				e.Handle.End()
+			}
+		})
+
+		newTree.Reconcile(live)
+		live.Empty()
+	}
+
+	c.live = newTree.ApplyMorphers()
+	// fmt.Printf("Live: %s\n", c.live.HTML())
+
+	c.Rendered.Publish()
+
+	return c.live
 }
 
 // Disabled returns true/false if the giving view is disabled.

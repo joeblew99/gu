@@ -33,6 +33,21 @@ func TestResolver(t *testing.T) {
 	rx.Resolve(router.UseLocation("/12"))
 }
 
+func TestRootRoute(t *testing.T) {
+	home := router.New("/*")
+
+	home.Done(func(px router.PushEvent) {
+		tests.Passed(t, "Should have notified with PushEvent %#v", px)
+	})
+
+	home.Failed(func(px router.PushEvent) {
+		tests.Failed(t, "Should have notified with PushEvent %#v", px)
+	})
+
+	home.Resolve(router.UseLocationHash("/"))
+	home.Resolve(router.UseLocationHash("/#home"))
+}
+
 func TestResolverLevels(t *testing.T) {
 	home := router.New("/home/*")
 	rx := router.New("/:id")

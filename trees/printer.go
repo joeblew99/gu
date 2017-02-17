@@ -168,7 +168,7 @@ func (m *ElementWriter) Print(e *Markup) string {
 	var mido []Property
 
 	// Collect uid and hash of the element so we can write them along.
-	if GetMode() > Normal {
+	if GetMode() < Pretty {
 		hash := &Attribute{Name: "hash", Value: e.Hash()}
 		uid := &Attribute{Name: "uid", Value: e.UID()}
 		mido = append(mido, hash, uid)

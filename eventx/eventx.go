@@ -152,7 +152,7 @@ const (
 // ChangeEvent represents the data passed in a onchange event.
 type ChangeEvent struct {
 	Core  interface{} `json:"-"`
-	Value string      `json:"-"`
+	Value string
 }
 
 // InputDeviceCapabilities defines a struct to contain input capbilities for a
@@ -165,16 +165,16 @@ type InputDeviceCapabilities struct {
 // event fired from a giving DOM.
 type IDBVersionChangeEvent struct {
 	Core       interface{} `json:"-"`
-	OldVersion int64       `js:"oldVersion"`
-	NewVersion int64       `js:"newVersion"`
+	OldVersion int64
+	NewVersion int64
 }
 
 // HashChangeEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type HashChangeEvent struct {
 	Core interface{} `json:"-"`
-	Old  string      `json:"oldURL"`
-	New  string      `json:"newURL"`
+	Old  string
+	New  string
 }
 
 // Button defines a struct which holds button information as
@@ -186,8 +186,8 @@ type Button struct {
 
 // Gamepad defines a struct which holds the gamepad object porperties.
 type Gamepad struct {
-	DisplayID string `js:"displayId"`
-	ID        string `js:"id"`
+	DisplayID string
+	ID        string
 	Index     int
 	Mapping   string
 	Connected bool
@@ -437,10 +437,10 @@ type DeviceProximityEvent struct {
 // FetchEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type FetchEvent struct {
-	Core     interface{}      `json:"-"`
-	IsReload bool             `js:"isReload"`
-	Request  shell.WebRequest `js:"request"`
-	ClientID string           `js:"clientId"`
+	Core     interface{} `json:"-"`
+	IsReload bool
+	Request  shell.WebRequest
+	ClientID string
 }
 
 // DOMTransactionEvent defines a struct to contain the values of a promiximity
@@ -461,8 +461,8 @@ type ErrorEvent struct {
 	Core       interface{} `json:"-"`
 	Message    string
 	Filename   string
-	LineNumber int `js:"lineno"`
-	ColNumber  int `js:"colno"`
+	LineNumber int
+	ColNumber  int
 	Error      error
 }
 
@@ -525,7 +525,7 @@ type MouseEvent struct {
 // WebGLContextEvent represents data fired when a wheel button of a
 // pointing device (usually a mouse) is rotated.
 type WebGLContextEvent struct {
-	StatusMessage string `js:"statusMessage"`
+	StatusMessage string
 }
 
 // WheelEvent represents data fired when a wheel button of a
@@ -574,14 +574,14 @@ type PageTransitionEvent struct {
 // event fired from a giving DOM.
 type PointerEvent struct {
 	Core        interface{} `json:"-"`
-	PointerID   int         `js:"pointerId"`
+	PointerID   int
 	Width       int
 	Height      int
 	Pressure    float64
 	TiltX       float64
 	TiltY       float64
-	IsPrimary   bool   `js:"isPrimary"`
-	PointerType string `js:"pointerType"`
+	IsPrimary   bool
+	PointerType string
 }
 
 // PopStateEvent defines a struct to contain the values of a promiximity
@@ -658,16 +658,16 @@ type TransitionEvent struct {
 // event fired from a giving DOM.
 type UserProximityEvent struct {
 	Core interface{} `json:"-"`
-	Near bool        `js:"near"`
+	Near bool
 }
 
 // UIEvent defines a struct to contain the values of a promiximity
 // event fired from a giving DOM.
 type UIEvent struct {
 	Core               interface{} `json:"-"`
-	IsChar             bool        `js:"isChar"`
-	LayerX             float64     `js:"layerX"`
-	LayerY             float64     `js:"layerY"`
+	IsChar             bool
+	LayerX             float64
+	LayerY             float64
 	PageX              float64
 	PageY              float64
 	Detail             int
@@ -738,9 +738,9 @@ type MessageEvent struct {
 // API: MediaStream.onaddtrack, MediaStream.onremovetrack.
 // API: MediaStream.getTracks, MediaStream.getAudioTracks, MediaStream.getVideoTracks.
 type MediaStream struct {
-	Active bool   `js:"active"`
-	Ended  bool   `js:"ended"`
-	ID     string `js:"id"`
+	Active bool
+	Ended  bool
+	ID     string
 	Audios []MediaStreamTrack
 	Videos []MediaStreamTrack
 }
@@ -794,7 +794,7 @@ type MediaStreamTrack struct {
 // When using this combine them with the MediaStreamTrack.
 type MediaStreamEvent struct {
 	Core   interface{} `json:"-"`
-	Stream MediaStream `js:"stream"`
+	Stream MediaStream
 }
 
 // BasicEventMap defines a event type which defines a event type which is not
